@@ -79,7 +79,7 @@ export class EventService {
                             updated_at: convertFromRFC3339(eventShort.updated_at),
                             // Assuming this is a constant value
                             is_deleted: false,
-                            audiences: eventShort.audiences === null ? [] : eventShort.audiences,
+                            audiences: eventShort.audiences,
                             organizers: eventShort.organizers,
                         };
 
@@ -111,11 +111,11 @@ export class EventService {
             if (resData) {
                 const newEvent: EventData = resData;
 
-                const audienceRequests: Observable<any>[] = event.audience.map(audience => {
+                /*const audienceRequests: Observable<any>[] = event.audience.map(audience => {
                 return this.createAudience(newEvent.id, audience)
-                })
+                })*/
 
-                return forkJoin([...audienceRequests]).pipe(map(() => newEvent));
+                return forkJoin().pipe(map(() => newEvent)); //forkJoin([...audienceRequests]).pipe(map(() => newEvent));
             }
             throw new Error('Failed to create event');
             })
