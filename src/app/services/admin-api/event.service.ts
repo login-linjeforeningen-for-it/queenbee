@@ -111,8 +111,8 @@ export class EventService {
             if (resData) {
                 const newEvent: EventData = resData;
 
-                const audienceRequests: Observable<any>[] = event.audience.map(audience => {
-                return this.createAudience(newEvent.id, audience)
+                const audienceRequests: Observable<any>[] = (event.audience || []).map(audience => {
+                    return this.createAudience(newEvent.id, audience)
                 })
 
                 return forkJoin([...audienceRequests]).pipe(map(() => newEvent));
