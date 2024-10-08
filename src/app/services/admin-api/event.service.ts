@@ -111,7 +111,7 @@ export class EventService {
             if (resData) {
                 const newEvent: EventData = resData;
 
-                const audienceRequests: Observable<any>[] = (Array.isArray(event.audience) ? event.audience : []).map(audience => {
+                const audienceRequests: Observable<any>[] = (Array.isArray(event.audience) ? event.audience : [1]).map(audience => {
                     return this.createAudience(newEvent.id, audience)
                 })
 
