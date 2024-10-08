@@ -105,21 +105,22 @@ export class EventService {
         console.log("Audience: ", event.audience)
 
         return this.http
-        .post<EventData>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, {...event, audience: event.audience || [1]}, options)
-        .pipe(
-            mergeMap(resData => {
-            if (resData) {
-                const newEvent: EventData = resData;
+            .post<EventData>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, {...event, audience: event.audience || [1]}, options)
+            .pipe(
+                mergeMap(resData => {
+                    if (resData) {
+                        const newEvent: EventData = resData;
 
-                const audienceRequests: Observable<any>[] = (event.audience || [1]).map(audience => {
-                    return this.createAudience(newEvent.id, audience)
+                        const audienceRequests: Observable<any>[] = (event.audience || [1]).map(audience => {
+                            return this.createAudience(newEvent.id, audience)
+                        })
+
+                        return forkJoin([...audienceRequests]).pipe(map(() => newEvent));
+                    }
+
+                    throw new Error('Failed to create event');
                 })
-
-                return forkJoin([...audienceRequests]).pipe(map(() => newEvent));
-            }
-            throw new Error('Failed to create event');
-            })
-        );
+            );
     }
 
     /**
