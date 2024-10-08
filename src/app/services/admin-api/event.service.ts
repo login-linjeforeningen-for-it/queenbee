@@ -111,11 +111,11 @@ export class EventService {
             if (resData) {
                 const newEvent: EventData = resData;
 
-                /*const audienceRequests: Observable<any>[] = event.audience.map(audience => {
+                const audienceRequests: Observable<any>[] = event.audience.map(audience => {
                 return this.createAudience(newEvent.id, audience)
-                })*/
+                })
 
-                return forkJoin().pipe(map(() => newEvent)); //forkJoin([...audienceRequests]).pipe(map(() => newEvent));
+                return forkJoin([...audienceRequests]).pipe(map(() => newEvent));
             }
             throw new Error('Failed to create event');
             })
