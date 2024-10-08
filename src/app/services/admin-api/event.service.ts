@@ -5,11 +5,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import {Observable, map, mergeMap, forkJoin} from 'rxjs'
 import { BeehiveAPI } from '@env';
-import { 
-    EventTableItem, 
-    EventShort, 
-    FullEvent, 
-    EventData 
+import {
+    EventTableItem,
+    EventShort,
+    FullEvent,
+    EventData
 } from 'src/app/models/dataInterfaces.model'
 import { convertFromRFC3339 } from 'src/app/utils/time'
 import Auth from '../auth/auth';
@@ -79,7 +79,7 @@ export class EventService {
                             updated_at: convertFromRFC3339(eventShort.updated_at),
                             // Assuming this is a constant value
                             is_deleted: false,
-                            audiences: eventShort.audiences,
+                            audiences: eventShort.audiences === null ? [] : eventShort.audiences,
                             organizers: eventShort.organizers,
                         };
 
