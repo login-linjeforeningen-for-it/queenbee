@@ -24,7 +24,8 @@ export interface EventShort {
 export interface EventTableItem {
   id: number;
   visible: boolean;
-  name: string;
+  name_no: string;
+  name_en: string;
   time_type: string;
   time_start: string;
   time_end: string;

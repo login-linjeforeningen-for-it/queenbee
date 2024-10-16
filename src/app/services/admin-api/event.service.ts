@@ -62,7 +62,8 @@ export class EventService {
                         const event: EventTableItem = {
                             id: eventShort.id,
                             visible: eventShort.visible,
-                            name: eventShort.name_en || eventShort.name_no,
+                            name_no: eventShort.name_no,
+                            name_en: eventShort.name_en,
                             // Set name to name_en if it exists, else set to name_no
                             time_type: eventShort.time_type,
                             time_start: convertFromRFC3339(eventShort.time_start),

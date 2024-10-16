@@ -29,7 +29,8 @@ export class DataTableEventComponent implements OnInit, AfterViewInit {
   displayedColumns = [
     'actions',
     'id',
-    'name',
+    'name_no',
+    'name_en',
     'category_name',
     'location_name',
     'time_type',
