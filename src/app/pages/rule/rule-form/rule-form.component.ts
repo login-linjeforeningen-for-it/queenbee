@@ -39,9 +39,9 @@ export class RuleFormComponent {
     })
 
     // Subscribe to value changes for a specific form control
-    this.ruleForm?.valueChanges.subscribe((value) => {
-      console.log('ruleform value changed:', value);
-    });
+    // this.ruleForm?.valueChanges.subscribe((value) => {
+    //   console.log('ruleform value changed:', value);
+    // });
   }
 
   getFormValues(): Rule {

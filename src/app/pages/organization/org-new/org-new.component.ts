@@ -35,7 +35,6 @@ export class OrgNewComponent {
         });
       },
       error: (error) => {
-        console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {
             title: "Error: " + error.status + " " + error.statusText,

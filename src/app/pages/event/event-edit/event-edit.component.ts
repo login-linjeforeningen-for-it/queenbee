@@ -40,9 +40,8 @@ export class EventEditComponent {
 
         // Fetch the event
         this.eventService.fetchEvent(this.eventID).subscribe((fe: FullEvent) => {
-            this.timeUpdated = convertFromRFC3339(fe.event.updated_at);
-            this.event = fe;
-            console.log(this.event)
+            this.timeUpdated = convertFromRFC3339(fe.event.updated_at)
+            this.event = fe
         })
     }
 
@@ -59,7 +58,6 @@ export class EventEditComponent {
             });
         },
         error: (error) => {
-            console.log("Erroring")
             this.dialog.open(ErrorComponent, {
                 data: {
                     title: "Error: " + error.status + " " + error.statusText,
@@ -81,34 +79,31 @@ export class EventEditComponent {
 
         dialogRef.afterClosed().subscribe(result => {
         if (result === true) {
-            console.log("User confirmed");
-
             const formValues = this.eventFormComponent.getFormValues();
             formValues.canceled = true;
 
             this.eventService.patchEvent(formValues).subscribe({
-            next: () => {
-                console.log("Event created successfully");
-                // here you could navigate to another page, or show a success message, etc.
-            },
-            error: (error) => {
-                console.log("Erroring")
-                this.dialog.open(ErrorComponent, {
-                data: {
-                    title: "Error: " + error.status + " " + error.statusText,
-                    details: error.error.error,
-                    autoFocus: false
+                next: () => {
+                    console.log("Event created successfully");
+                    // here you could navigate to another page, or show a success message, etc.
                 },
-                });
+                error: (error) => {
+                    this.dialog.open(ErrorComponent, {
+                    data: {
+                        title: "Error: " + error.status + " " + error.statusText,
+                        details: error.error.error,
+                        autoFocus: false
+                    },
+                    });
 
-            }
+                }
             });
         } else if (result === false) {
             // User clicked "Close"
-            console.log("User closed");
+            // console.log("User closed");
         } else {
             // Dialog was dismissed without user action
-            console.log("Dialog dismissed");
+            // console.log("Dialog dismissed");
         }
         });
     }

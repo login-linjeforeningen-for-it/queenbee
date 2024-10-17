@@ -80,9 +80,9 @@ export class LocationFormComponent {
       });
     }
 
-    this.locationForm.valueChanges.subscribe(x => {
-      console.log(x)
-    })
+    // this.locationForm.valueChanges.subscribe(x => {
+    //   console.log(x)
+    // })
   }
 
   private clearTypes() {

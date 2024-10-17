@@ -44,7 +44,6 @@ export class LocationEditComponent {
 
   updateLoc() {
     const formValues = this.locFormComponent.getFormValues();
-    console.log(formValues)
     //formValues.shortname = this.shortname;
 
     this.locService.patchLoc(formValues).subscribe({
@@ -56,7 +55,6 @@ export class LocationEditComponent {
         });
       },
       error: (error) => {
-        console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {
             title: "Error: " + error.status + " " + error.statusText,

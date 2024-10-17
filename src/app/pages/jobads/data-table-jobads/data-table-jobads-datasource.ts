@@ -10,14 +10,12 @@ import { JobadTableItem } from 'src/app/models/dataInterfaces.model';
  */
 export class DataTableJobadsDataSource extends BaseDataSource<JobadTableItem> {
   constructor(private jobadService: JobadService) {
-    console.log("Constructing")
     super();
   }
 
   public fetchJobads() {
     this.jobadService.fetchJobads().subscribe((jobads) => {
       this.updateData(jobads);
-      console.log(jobads);
       this.refresh();
     })
   }

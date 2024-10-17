@@ -6,7 +6,6 @@ import { Component } from '@angular/core';
 })
 export class EventsComponent {
     scrollToTop() {
-        console.log("Triggered scroll")
         window.scrollTo({
             top: 0,
             behavior: 'auto',

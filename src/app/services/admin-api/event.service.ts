@@ -35,10 +35,7 @@ export class EventService {
         .pipe(
             map(resData => {
                 if (resData) {
-                    console.log("ResData: ", resData)
-                    console.log("Audience from service (resData): ", resData.audiences)
-                    const event: FullEvent = resData;
-                    console.log("Audience from service: ", event.audiences)
+                    const event: FullEvent = resData
                     return event;
                 }
                 throw new Error('No event found with id ' + eventId);
@@ -101,9 +98,6 @@ export class EventService {
     createEvent(event: EventData) {
         const auth = Auth()
         const options = { headers: new HttpHeaders(auth) }
-
-        console.log("Creating: ", event)
-        console.log("Audience: ", event.audience)
 
         return this.http
             .post<EventData>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, {...event, audience: event.audience || [1]}, options)

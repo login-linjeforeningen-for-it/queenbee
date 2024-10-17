@@ -248,9 +248,9 @@ export class EventFormComponent implements OnInit{
         })
 
         // Subscribe to value changes for a specific form control
-        this.eventForm?.valueChanges.subscribe((value) => {
-            console.log('eventName value changed:', value);
-        })
+        // this.eventForm?.valueChanges.subscribe((value) => {
+        //     console.log('eventName value changed:', value);
+        // })
 
         // Subscribe to value changes for time_start form control
         // _ = value but unused
@@ -362,8 +362,6 @@ export class EventFormComponent implements OnInit{
                 location: this.fe.location?.id || 0,
                 audience: this.fe.audiences || []
             })
-
-            console.log("Is this audience:", this.eventForm.get('audience')?.value)
         } else {
             // Reset the form fields when the event is undefined
             this.initForm();

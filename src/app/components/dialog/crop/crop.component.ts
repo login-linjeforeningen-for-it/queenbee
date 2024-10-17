@@ -13,53 +13,52 @@ import { ImageCroppedEvent } from 'src/app/components/image-cropper/interfaces';
  * The 'CropComponent' is a dialog that is used to crop images.
  */
 export class CropComponent {
-  imageChangedEvent: any = '';
-  croppedImage: any = '';
-  showCropper = false;
+    imageChangedEvent: any = '';
+    croppedImage: any = '';
+    showCropper = false;
 
-  @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
+    @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
 
-  constructor(private dialogRef: MatDialogRef<CropComponent>){}
+    constructor(private dialogRef: MatDialogRef<CropComponent>){}
 
-  fileChangeEvent(event: any): void {
-      this.imageChangedEvent = event;
-  }
+    fileChangeEvent(event: any): void {
+        this.imageChangedEvent = event;
+    }
 
-  imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.base64;
-    console.log(event);
-  }
+    imageCropped(event: ImageCroppedEvent) {
+        this.croppedImage = event.base64;
+    }
 
-  imageLoaded() {
-    this.showCropper = true;
-     console.log('Image loaded')
-  }
+    imageLoaded() {
+        this.showCropper = true;
+        console.log('Image loaded')
+    }
 
-  cropperReady() {
-    console.log('Cropper ready')
-  }
+    cropperReady() {
+        console.log('Cropper ready')
+    }
 
-  loadImageFailed () {
-    console.log('Load failed');
-  }
+    loadImageFailed () {
+        console.log('Load failed');
+    }
 
-  rotateLeft() {
-    this.imageCropper.rotateLeft();
-  }
+    rotateLeft() {
+        this.imageCropper.rotateLeft();
+    }
 
-  rotateRight() {
-    this.imageCropper.rotateRight();
-  }
+    rotateRight() {
+        this.imageCropper.rotateRight();
+    }
 
-  flipHorizontal() {
-    this.imageCropper.flipHorizontal();
-  }
+    flipHorizontal() {
+        this.imageCropper.flipHorizontal();
+    }
 
-  flipVertical() {
-    this.imageCropper.flipVertical();
-  }
+    flipVertical() {
+        this.imageCropper.flipVertical();
+    }
 
-  onClose(): void {
-    this.dialogRef.close(false);
-  }
+    onClose(): void {
+        this.dialogRef.close(false);
+    }
 }

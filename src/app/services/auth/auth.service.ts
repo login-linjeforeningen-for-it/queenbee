@@ -35,7 +35,6 @@ export class AuthService {
             // Redirect to dashboard after storing data
             this.router.navigate(['dashboard'])
         } else {
-            console.log("missing params")
             // Redirects to login if any query params are missing
             this.router.navigate(['login'])
         }

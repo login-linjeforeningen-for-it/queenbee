@@ -45,7 +45,6 @@ export class OrgEditComponent {
 
   updateOrg() {
     const formValues = this.orgFormComponent.getFormValues();
-    console.log(formValues)
     //formValues.shortname = this.shortname;
 
     this.orgService.patchOrg(formValues).subscribe({
@@ -57,7 +56,6 @@ export class OrgEditComponent {
         });
       },
       error: (error) => {
-        console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {
             title: "Error: " + error.status + " " + error.statusText,

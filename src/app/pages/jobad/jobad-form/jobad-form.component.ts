@@ -147,9 +147,9 @@ export class JobadFormComponent {
             visible: true
         })
 
-        this.jobAdForm?.valueChanges.subscribe((value) => {
-            console.log('jobadform value changed:', value);
-        });
+        // this.jobAdForm?.valueChanges.subscribe((value) => {
+        //     console.log('jobadform value changed:', value);
+        // });
     }
 
     private updateFormFields() {
