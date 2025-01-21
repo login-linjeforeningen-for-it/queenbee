@@ -1,5 +1,13 @@
+import dotenv from 'dotenv'
+
+dotenv.config()
+
+const { BASE_URL } = process.env
+
+export const API = BASE_URL || 'https://queenbee-api.login.no/v1'
+
 export const BeehiveAPI = {
-    BASE_URL: '__BASE_URL_PLACEHOLDER__',
+    BASE_URL: API,
     EVENTS_PATH: '/events/',
     JOBADS_PATH: '/jobs/',
     CATEGORIES_PATH: '/categories/',
