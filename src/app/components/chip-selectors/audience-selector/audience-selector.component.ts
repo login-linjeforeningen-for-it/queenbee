@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
-import { AudienceService } from 'src/app/services/admin-api/audience.service';
-import { AudienceChip } from 'src/app/models/dataInterfaces.model';
-import { BaseChipSelectorComponent } from '../base-chip-selector/base-chip-selector.component';
+import {Component} from '@angular/core'
+import { AudienceService } from 'src/app/services/admin-api/audience.service'
+import { AudienceChip } from 'src/app/models/dataInterfaces.model'
+import { BaseChipSelectorComponent } from '../base-chip-selector/base-chip-selector.component'
 
 @Component({
-  selector: 'app-audience-selector',
-  templateUrl: './audience-selector.component.html'
+    selector: 'app-audience-selector',
+    templateUrl: './audience-selector.component.html'
 })
 
 /**
@@ -19,34 +19,34 @@ import { BaseChipSelectorComponent } from '../base-chip-selector/base-chip-selec
  * </app-chip-selector>
  */
 export class AudienceSelectorComponent extends BaseChipSelectorComponent {
-  constructor(private audienceService: AudienceService) {
-    super();
-    this.fetchAudience();
-    setTimeout(() => {
-      this.updateChips();  
-    }, 1)
-  }
+    constructor(private audienceService: AudienceService) {
+        super()
+        this.fetchAudience()
+        setTimeout(() => {
+            this.updateChips()  
+        }, 1)
+    }
 
   /**
    * Simply used to fetch all the audiences from the Admin API
    */
   private fetchAudience() {
-    this.audienceService.fetchAudiences().subscribe((a: AudienceChip[]) => {
-      this.chipItems = a;
-    });
+      this.audienceService.fetchAudiences().subscribe((a: AudienceChip[]) => {
+          this.chipItems = a
+      })
   }
 
   
   override updateChips() {
-    if (this.values && this.values.length > 0) {
-      this.chips = this.values.map((element: any) => {
-        return {
-          id: element.id,
-          name: element.name_en
-        }
-      });
-    } else {
-      this.chips = [];
-    }
+      if (this.values && this.values.length > 0) {
+          this.chips = this.values.map((element: any) => {
+              return {
+                id: element.id,
+                name: element.name_en
+              }
+          })
+      } else {
+          this.chips = []
+      }
   }
 }
