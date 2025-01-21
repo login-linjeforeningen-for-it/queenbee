@@ -1,13 +1,13 @@
 {
   "name": "queenbee",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "scripts": {
     "start": "./serve.sh",
     "ng": "ng",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "prod": "http-server-spa dist/queenbee/ index.html 4200"
+    "prod": "http-server-spa dist/queenbee/ index.html 4200 -a 0.0.0.0"
   },
   "private": true,
   "dependencies": {
