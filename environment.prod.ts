@@ -1,7 +1,3 @@
-import dotenv from 'dotenv'
-
-dotenv.config()
-
 const { BASE_URL } = process.env
 
 export const API = BASE_URL || 'https://queenbee-api.login.no/v1'
