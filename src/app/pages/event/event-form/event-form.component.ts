@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core'
+import { Component, Input, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable, map, startWith } from 'rxjs'
 import { NoDecimalValidator } from 'src/app/common/validators'
@@ -9,9 +9,9 @@ import { CategoryService } from 'src/app/services/admin-api/category.service'
 import { LocationService } from 'src/app/services/admin-api/location.service'
 import { OrganizationService } from 'src/app/services/admin-api/organizations.service'
 import { RulesService } from 'src/app/services/admin-api/rules.service'
-import {convertDateToRFC3339, convertToRFC3339, isDatetimeUnset} from 'src/app/utils/time'
-import { MatDialog } from "@angular/material/dialog"
-import { ImageManagerComponent } from "../../../components/dialog/image-manager/image-manager.component"
+import { convertDateToRFC3339, convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time'
+import { MatDialog } from "@angular/material/dialog"
+import { ImageManagerComponent } from "../../../components/dialog/image-manager/image-manager.component"
 
 export interface TimeTypeSelect {
   type: string;
@@ -78,8 +78,8 @@ export class EventFormComponent implements OnInit{
         this.fetchLocations()
         this.fetchRules()
 
-        if (this.fe.event) {
-            this.updateFormFields();
+        if (this.fe?.event) {
+            this.updateFormFields()
         }
     }
 
@@ -165,22 +165,24 @@ export class EventFormComponent implements OnInit{
     }
 
     imageManagerBanner() {
+        console.log("opening banner dialog")
         this.dialog.open(ImageManagerComponent, {
-        data: {
-            title: "Banner",
-            path: "/events/banner",
-            aspectRatio: 10 / 4
-        }
+            data: {
+                title: "Banner",
+                path: "/events/banner",
+                aspectRatio: 10 / 4
+            }
         })
     }
 
     imageManagerSmall() {
+        console.log("opening small dialog")
         this.dialog.open(ImageManagerComponent, {
-        data: {
-            title: "Small",
-            path: "/events/small",
-            aspectRatio: 10 / 4
-        }
+            data: {
+                title: "Small",
+                path: "/events/small",
+                aspectRatio: 10 / 4
+            }
         })
     }
 
@@ -189,52 +191,28 @@ export class EventFormComponent implements OnInit{
    */
   private initForm() {
         const datetimeNow = convertDateToRFC3339(new Date());
+        const now = new Date()
+        now.setDate(now.getDate() + 1)
+        const datetimeTomorrow = convertDateToRFC3339(now);
 
         this.eventForm = this.fb.group({
-            /*name_no: ['', Validators.required],
-            name_en: '',
-            description_no: '',
-            description_en: '',
-            informational_no: '',
-            informational_en: '',
-            time_type: [TIME_TYPE.TO_BE_DETERMINED, Validators.required],
-            time_start: null,
-            time_end: null,
-            time_publish: datetimeNow,
-            time_signup_release: '',
-            time_signup_deadline: '',
-            link_signup: '',
-            capacity: [null, [Validators.min(0), NoDecimalValidator()]],
-            full: false,
-            image_small: '',
-            image_banner: '',
-            link_facebook: '',
-            link_discord: '',
-            digital: false,
-            canceled: false,
-            link_stream: '',
-            category: [0, Validators.required],
-            organization: ['', Validators.required],
-            location: [0],
-            rule: [0],
-            audience: []*/
             name_no: ['test123', Validators.required],
-            name_en: 'test321',
-            description_no: 'Hei på deg!',
-            description_en: '',
+            name_en: ['test123', Validators.required],
+            description_no: ['Hei på deg!', Validators.required],
+            description_en: ['Hello you!', Validators.required],
             informational_no: '',
             informational_en: '',
             time_type: [TIME_TYPE.TO_BE_DETERMINED, Validators.required],
-            time_start: '2024-11-11T01:00:00Z',
-            time_end: '2024-11-11T15:00:00Z',
-            time_publish: datetimeNow,
+            time_start: [datetimeNow, Validators.required],
+            time_end: [datetimeTomorrow, Validators.required],
+            time_publish: [datetimeNow, Validators.required],
             time_signup_release: '',
             time_signup_deadline: '',
             link_signup: '',
             capacity: [null, [Validators.min(0), NoDecimalValidator()]],
             full: false,
-            image_small: '',
-            image_banner: '',
+            image_small: ['', Validators.required],
+            image_banner: ['', Validators.required],
             link_facebook: '',
             link_discord: '',
             digital: false,
@@ -242,7 +220,7 @@ export class EventFormComponent implements OnInit{
             link_stream: '',
             category: [0, Validators.required],
             organization: ['', Validators.required],
-            location: [0],
+            location: [0, Validators.required],
             rule: [0],
             audience: []
         })

@@ -8,7 +8,7 @@
           <input matInput formControlName="name_no" maxlength="50">
           <mat-label>Location Nickname NOR</mat-label>
         </mat-form-field>
-        <app-tooltip tip="F.ex 'Login Lounge' instead of 'A155' or 'Heim' instead of 'Elvegata 6'. Enter adress bellow!"></app-tooltip>
+        <app-tooltip tip="For example 'Login Lounge' instead of 'A155' or 'Heim' instead of 'Elvegata 6'."></app-tooltip>
       </div>
 
       <div class="row row-with-tooltip">
@@ -48,7 +48,7 @@
             formControlName="type"
             (ngModelChange)="onTypeChange()">
             <!-- Hardcoded radio button value types. Acceptable because they are unlikely to be changed, and if so easy to refactor -->
-            <mat-radio-button [value]="'none'">None</mat-radio-button>
+            <mat-radio-button [value]="'digital'">Digital</mat-radio-button>
             <mat-radio-button [value]="'address'">Address</mat-radio-button>
             <mat-radio-button [value]="'mazemap'">MazeMap</mat-radio-button>
             <mat-radio-button [value]="'coords'">Coordinates</mat-radio-button>

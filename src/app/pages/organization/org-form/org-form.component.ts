@@ -6,7 +6,8 @@ import { Organization } from 'src/app/models/dataInterfaces.model';
 
 @Component({
   selector: 'app-org-form',
-  templateUrl: './org-form.component.html'
+  templateUrl: './org-form.component.html',
+  styleUrls: ['./org-form.component.css']
 })
 export class OrgFormComponent {
   @Input() org!: Organization;
@@ -62,29 +63,30 @@ export class OrgFormComponent {
   private initForm() {
     if(this.disableShortnameInput) {
       this.orgForm = this.fb.group({
-        shortname: [{value: '', disabled: true}], // Disable to communicate that it cannot be edited
+        // Disabled to communicate that it cannot be edited
+        shortname: [{value: '', disabled: true}],
         name_no: ['', Validators.required],
         name_en: ['', Validators.required],
-        description_no: '',
-        description_en: '',
-        link_homepage: '',
+        description_no: ['', Validators.required],
+        description_en: ['', Validators.required],
+        link_homepage: ['', Validators.required],
         link_linkedin: '',
         link_facebook: '',
         link_instagram: '',
-        logo: ''
+        logo: ['', Validators.required],
       })
     } else {
       this.orgForm = this.fb.group({
         shortname: [{value: '', disabled: false}],
         name_no: ['', Validators.required],
         name_en: ['', Validators.required],
-        description_no: '',
-        description_en: '',
-        link_homepage: '',
+        description_no: ['', Validators.required],
+        description_en: ['', Validators.required],
+        link_homepage: ['', Validators.required],
         link_linkedin: '',
         link_facebook: '',
         link_instagram: '',
-        logo: ''
+        logo: ['', Validators.required],
       })
     }
 

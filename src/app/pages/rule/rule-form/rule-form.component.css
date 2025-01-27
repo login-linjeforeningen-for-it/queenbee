@@ -1,0 +1,8 @@
+.general-grid {
+    display: grid;
+    grid-template: repeat(5, min-content) / repeat(2, 1fr);
+    grid-template-areas:
+        "rule rule";
+    column-gap: 3rem;
+    width: 100%;
+}

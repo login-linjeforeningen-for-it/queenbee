@@ -28,7 +28,7 @@ export class LoginComponent {
     redirectToOauth() {
         const recentLogout = sessionStorage.getItem('logout')
         if (!this.authService.isAuthenticated() && !recentLogout) {
-            window.location.href = `${BASE_URL === '__BASE_URL_PLACEHOLDER__' ? 'https://queenbee-api-dev.login.no/v1' : BASE_URL}/oauth2/login`
+            window.location.href = `${BASE_URL}/oauth2/login`
         }
     }
 }

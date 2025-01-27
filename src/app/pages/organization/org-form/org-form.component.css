@@ -1,0 +1,8 @@
+.general-grid {
+    width: 100%;
+    display: grid;
+    grid-template: repeat(5, min-content) / repeat(2, 1fr);
+    grid-template-areas:
+        "org org";
+    column-gap: 3rem;
+}

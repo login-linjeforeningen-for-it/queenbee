@@ -4,7 +4,7 @@
     grid-template-rows: 4rem 1fr;
     grid-template-areas:
         "topbar topbar topbar"
-        "sidebar main log";
+        "sidebar main main";
     height: 100%;
 }
 
@@ -22,6 +22,6 @@
 
 .main {
     grid-area: main;
-    padding: 0.5rem;
+    padding: 2rem;
     overflow-y: scroll;
 }

@@ -11,9 +11,10 @@
             <app-tooltip tip="Shortname is the primary key of this object, it will not be displayed on Beehive. Also it cannot be edited!"></app-tooltip>
         </div>
 
-        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
-            <mat-tab label="🇳🇴 NOR">
-                <div class="outline">
+        <div class="general-grid">
+            <section id="org">
+                <h2>🇳🇴 NOR</h2>
+                <div>
                     <div class="row row-with-tooltip">
                         <mat-form-field class="input-field">
                             <input matInput formControlName="name_no" required>
@@ -21,25 +22,30 @@
                         </mat-form-field>
                         <app-tooltip tip="Norwegian name of the organization."></app-tooltip>
                     </div>
-
-                    <app-markdown-textfield (newMdText)=onDescriptionNoChange($event) [placeholder]="'Description NOR'" class="row"></app-markdown-textfield>
+                    <app-markdown-textfield (newMdText)=onDescriptionNoChange($event) [placeholder]="'Description NOR'" class="row" />
+                    <mat-error *ngIf="orgForm.controls['description_no'].hasError('required')">
+                        This field is <strong>required</strong>
+                    </mat-error>
                 </div>
-            </mat-tab>
+            </section>
             
-            <mat-tab label="🇺🇸 ENG">
-                <div class="outline">
+            <section id="org">
+                <h2>🇺🇸 ENG</h2>
+                <div>
                     <div class="row row-with-tooltip">
                         <mat-form-field class="input-field">
                             <input matInput formControlName="name_en" required>
                             <mat-label>Name ENG</mat-label>
                         </mat-form-field>
-                        <app-tooltip tip="If left blank, the norwegian name will be used on Beehive."></app-tooltip>
+                        <app-tooltip tip="English name of the organization."></app-tooltip>
                     </div>
-
-                    <app-markdown-textfield (newMdText)=onDescriptionEnChange($event) [placeholder]="'Description ENG'" class="row"></app-markdown-textfield>
+                    <app-markdown-textfield (newMdText)=onDescriptionEnChange($event) [placeholder]="'Description ENG'" class="row" />
+                    <mat-error *ngIf="orgForm.controls['description_en'].hasError('required')">
+                        This field is <strong>required</strong>
+                    </mat-error>
                 </div>
-            </mat-tab>
-        </mat-tab-group>
+            </section>
+        </div>
     </div>
   
     <div class="block">
@@ -49,8 +55,11 @@
         </div>
         
         <mat-form-field class="row">
-            <input matInput formControlName="link_homepage">
+            <input matInput formControlName="link_homepage" required>
             <mat-label>Link Homepage</mat-label>
+            <mat-error *ngIf="orgForm.controls['link_homepage'].hasError('required')">
+                This field is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field class="row">
@@ -85,5 +94,8 @@
             ></app-image-selector>
             <app-tooltip tip="Select this organizations logo. Please upload if not present in th dropdown."></app-tooltip>
         </div>
+        <mat-error *ngIf="orgForm.controls['logo'].hasError('required')">
+            Logo is <strong>required</strong>
+        </mat-error>
     </div>
   </form>

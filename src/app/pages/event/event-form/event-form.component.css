@@ -2,12 +2,17 @@
   display: grid;
   grid-template: repeat(5, min-content) / repeat(2, 1fr);
   grid-template-areas:
+    "event event"
     "category timeType"
     "organization timeStart"
     "rule timeEnd"
     "location timePublish"
     "audience .";
   column-gap: 3rem;
+}
+
+.intro {
+  margin-bottom: 2rem;
 }
 
 #selectorCategory {

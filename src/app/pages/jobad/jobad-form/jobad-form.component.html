@@ -3,9 +3,10 @@
       <hr>
       <div class="block">
       <h2>General Information</h2>
-      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
-          <mat-tab label="🇳🇴 NOR">
-            <div class="outline">
+      <div class="general-grid">
+          <section class="intro">
+            <h2>🇳🇴 NOR</h2>
+            <div>
               <div class="row row-with-tooltip">
                 <mat-form-field class="input-field">
                     <input matInput formControlName="title_no" required>
@@ -13,7 +14,6 @@
                 </mat-form-field>
                 <app-tooltip tip="Norwegian title of the ad. Should concise and reasonably short."></app-tooltip>
               </div>
-
 
               <div class="row row-with-tooltip">
                 <mat-form-field class="input-field">
@@ -37,11 +37,15 @@
                 [placeholder]="'Long Description NOR'" 
                 class="row">
               </app-markdown-textfield>
+              <mat-error *ngIf="jobAdForm.controls['description_long_no'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
             </div>
-          </mat-tab>
+          </section>
 
-          <mat-tab label="🇺🇸 ENG">
-            <div class="outline">
+          <section class="intro">
+            <h2>🇺🇸 ENG</h2>
+            <div>
               <div class="row row-with-tooltip">
                 <mat-form-field class="input-field">
                   <input matInput formControlName="title_en">
@@ -72,9 +76,12 @@
                 [placeholder]="'Long Description ENG'" 
                 class="row">
               </app-markdown-textfield>
+              <mat-error *ngIf="jobAdForm.controls['description_long_en'].hasError('required')">
+                This field is <strong>required</strong>
+            </mat-error>
             </div>
-          </mat-tab>
-      </mat-tab-group>
+          </section>
+      </div>
 
       <div class="general-grid">
         <!-- Drop Down menu with Autocomplete capabilities for organizations -->
@@ -83,11 +90,11 @@
             <mat-form-field class="row" *ngIf="organizations.length > 0; else elseOrgBlock">
               <mat-label>Organization</mat-label>
               <input
-                type="text"
-                matInput
-                [formControl]="autoControlOrgs"
-                [matAutocomplete]="autoOrg"
-                required
+                  type="text"
+                  matInput
+                  [formControl]="autoControlOrgs"
+                  [matAutocomplete]="autoOrg"
+                  required
               />
 
               <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
@@ -159,20 +166,23 @@
         </div>
 
         <div class="row row-with-tooltip" id="citySelector">
-          <app-input-selector
-            class="input-field"
-            #citySelector
-            [values]="cities"
-            [label]="'Cities'"
-            [placeholder]="'Enter city'">
-          </app-input-selector>
-          <app-tooltip tip="Enter cities where THIS job is offered. Do NOT enter all cities a company has offices in, that is irrelevant for the ad!"></app-tooltip>
+          <div>
+            <app-input-selector
+              class="input-field"
+              #citySelector
+              [values]="cities"
+              [label]="'Cities'"
+              [placeholder]="'Enter city'">
+            </app-input-selector>
+          </div>
+          <app-tooltip tip="Enter cities where THIS job is offered. Do NOT enter all cities a company has offices in, that is irrelevant for the ad!" />
         </div>
 
         <div class="row row-with-tooltip" id="highlight" style="align-items: center;">
           <mat-slide-toggle 
             style="margin-left: 1rem; padding-right: 1rem;"
-            formControlName="highlight">
+            formControlName="highlight"
+          >
             Highlight Ad
           </mat-slide-toggle>
           <app-tooltip tip="Use this with CAUTION! Companies must pay extra for getting their ad highlighted!"></app-tooltip>
@@ -187,7 +197,7 @@
               <input matInput formControlName="application_url">
               <mat-label>Application URL</mat-label>
           </mat-form-field>
-          <app-tooltip tip="Link to the application."></app-tooltip>
+          <app-tooltip tip="Link to the application. NB: You can use mailto:example@gmail.com if there is just an email."></app-tooltip>
         </div>
         
         <div class="row row-with-tooltip">
@@ -209,9 +219,12 @@
     <div class="block">
         <h2>Image</h2>
         <button class="img-manager-btn" (click)="imageManager()" mat-raised-button color="primary">
-          <span class="material-symbols-sharp">upload</span>Job Ad Images
+          <span class="material-symbols-sharp">upload</span>Job Ad Image
         </button>
-        
+
+        <mat-error *ngIf="jobAdForm.controls['banner_image'].hasError('required')">
+          Banner image is <strong>required</strong>
+        </mat-error>
         <div class="row row-with-tooltip">
           <app-image-selector
             class="input-field"

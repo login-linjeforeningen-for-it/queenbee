@@ -6,6 +6,11 @@
     "jobType skill"
     "timePublish high";
     column-gap: 3rem;
+    width: 100%;
+}
+
+.intro {
+    margin-bottom: 2rem;
 }
 
 #selectorOrganization {

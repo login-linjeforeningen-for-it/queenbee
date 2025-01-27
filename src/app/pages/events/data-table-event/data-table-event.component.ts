@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy, OnInit, Output, EventEmitter } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, ChangeDetectorRef, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
@@ -6,7 +6,6 @@ import { DataTableEventDataSource } from './data-table-event-datasource';
 import { TableConstants } from 'src/app/pages/pages.constants';
 import { EventService } from 'src/app/services/admin-api/event.service';
 import { EventTableItem } from 'src/app/models/dataInterfaces.model';
-import { isDatetimeUnset } from 'src/app/utils/time';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
 
