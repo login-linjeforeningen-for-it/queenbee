@@ -1,31 +1,31 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import {AppRoutingModule, routingComponents} from "./app-routing.module";
+import { AppRoutingModule, routingComponents } from "./app-routing.module";
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DataTableEventComponent } from './pages/events/data-table-event/data-table-event.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import {MatInputModule} from "@angular/material/input";
-import {MatSelectModule} from "@angular/material/select";
-import {MatButtonModule} from "@angular/material/button";
-import {MatCheckboxModule} from "@angular/material/checkbox";
+import { MatInputModule } from "@angular/material/input";
+import { MatSelectModule } from "@angular/material/select";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import {MatChipsModule} from "@angular/material/chips";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { MatDatepickerModule} from "@angular/material/datepicker";
-import {MatNativeDateModule} from "@angular/material/core";
+import { MatChipsModule } from "@angular/material/chips";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { MatFormFieldModule} from "@angular/material/form-field";
-import {MatRadioModule} from "@angular/material/radio";
+import { MatRadioModule } from "@angular/material/radio";
 import { DatetimeComponent } from './components/datetime/datetime.component';
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {MatTabsModule} from "@angular/material/tabs";
-import {MatMenuModule} from "@angular/material/menu";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MatMenuModule } from "@angular/material/menu";
 import { OrganizationsComponent } from './pages/organizations/organizations.component';
 import { DataTableOrganizationComponent } from "./pages/organizations/data-table-organization/data-table-organization.component";
 import { DataTableAddressComponent } from './pages/locations/data-table-address/data-table-address.component';
@@ -72,8 +72,8 @@ import { LocationEditComponent } from './pages/location/location-edit/location-e
 import { InputSelectorComponent } from './components/chip-selectors/input-selector/input-selector.component';
 import { TopbarComponent } from './layout/topbar/topbar.component';
 import { NavBtnComponent } from './layout/nav-btn/nav-btn.component';
-import {MatSidenavModule} from "@angular/material/sidenav";
-import {MatSliderModule} from "@angular/material/slider";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatSliderModule } from "@angular/material/slider";
 import { ImageManagerComponent } from './components/dialog/image-manager/image-manager.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -129,48 +129,48 @@ import { TooltipComponent } from './components/tooltip/tooltip.component';
         LoginComponent,
         TooltipComponent
     ],
-        imports: [
-            BrowserModule,
-            HttpClientModule,
-            AppRoutingModule,
-            NoopAnimationsModule,
-            MatTableModule,
-            MatPaginatorModule,
-            MatSortModule,
-            MatInputModule,
-            MatSelectModule,
-            MatButtonModule,
-            MatCheckboxModule,
-            MatChipsModule,
-            MatDatepickerModule,
-            MatNativeDateModule,
-            MatFormFieldModule,
-            MatSlideToggleModule,
-            MatRadioModule,
-            ReactiveFormsModule,
-            FormsModule,
-            MatTabsModule,
-            MatMenuModule,
-            MatTooltipModule,
-            MarkdownModule.forRoot({
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        NoopAnimationsModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatInputModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatChipsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatFormFieldModule,
+        MatSlideToggleModule,
+        MatRadioModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatTabsModule,
+        MatMenuModule,
+        MatTooltipModule,
+        MarkdownModule.forRoot({
             markedOptions: {
                 provide: MARKED_OPTIONS,
                 useValue: {
-                mangle: false,
-                headerIds: false,
+                    mangle: false,
+                    headerIds: false,
                 },
             },
-            }),
-            MatSidenavModule,
-            MatSliderModule,
-            MatSlideToggleModule,
-            PickerComponent,
-            MatDialogModule,
-            MatAutocompleteModule,
-            ImageCropperModule,
-            MatIconModule,
-            MatSnackBarModule
-        ],
+        }),
+        MatSidenavModule,
+        MatSliderModule,
+        MatSlideToggleModule,
+        PickerComponent,
+        MatDialogModule,
+        MatAutocompleteModule,
+        ImageCropperModule,
+        MatIconModule,
+        MatSnackBarModule
+    ],
     providers: [],
     bootstrap: [AppComponent]
 })
