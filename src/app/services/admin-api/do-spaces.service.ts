@@ -16,7 +16,6 @@ export class DoSpacesService {
     fetchImageList(path: string): Observable<DropDownFileItem[]> {
         const auth = Auth()
         const options = { headers: new HttpHeaders(auth) }
-
         return this.http.get<DropDownFileItem[]>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.IMAGES_PATH}${path}`, options)
     }
 
