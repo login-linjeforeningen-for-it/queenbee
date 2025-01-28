@@ -141,7 +141,7 @@ export class JobadFormComponent {
             time_expire: ['', Validators.required],
             application_deadline: ['', Validators.required],
             application_url: ['', Validators.required],
-            banner_image: ['', Validators.required],
+            banner_image: '', // ['', Validators.required],
             job_type: ['', Validators.required],
             highlight: false,
             visible: true
