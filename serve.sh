@@ -21,7 +21,7 @@ INPUT_FILE="./environment.prod.ts"
 ORIGINAL_CONTENT=$(cat "$INPUT_FILE")
 
 # Edits file
-sed -i '' "s|__BASE_URL_PLACEHOLDER__|$BASE_URL|g" "$INPUT_FILE"
+sed -i'' "s|__BASE_URL_PLACEHOLDER__|$BASE_URL|g" "$INPUT_FILE"
 
 # Starts the dev server and captures the process ID
 ng serve &
