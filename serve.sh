@@ -21,7 +21,11 @@ INPUT_FILE="./environment.prod.ts"
 ORIGINAL_CONTENT=$(cat "$INPUT_FILE")
 
 # Edits file
-sed -i'' "s|__BASE_URL_PLACEHOLDER__|$BASE_URL|g" "$INPUT_FILE"
+if sed --version 2>/dev/null | grep -q GNU; then
+  sed -i "s|__BASE_URL_PLACEHOLDER__|$BASE_URL|g" "$INPUT_FILE"
+else
+  sed -i '' "s|__BASE_URL_PLACEHOLDER__|$BASE_URL|g" "$INPUT_FILE"
+fi
 
 # Starts the dev server and captures the process ID
 ng serve &
