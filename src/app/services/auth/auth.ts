@@ -1,5 +1,5 @@
 type Auth = {
-    'Content-Type': 'application/json'
+    'Content-Type'?: 'application/json'
     'Authorization': string
     'X-Refresh-Token': string
 }
@@ -11,6 +11,17 @@ export default function auth(): Auth {
 
     return {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+        'X-Refresh-Token': refreshToken || ''
+    }
+}
+
+export function authFormData(): Auth {
+    // Retrieve the access token and refresh token from sessionStorage
+    const accessToken = sessionStorage.getItem('access_token');
+    const refreshToken = sessionStorage.getItem('refresh_token');
+
+    return {
         'Authorization': `Bearer ${accessToken}`,
         'X-Refresh-Token': refreshToken || ''
     }

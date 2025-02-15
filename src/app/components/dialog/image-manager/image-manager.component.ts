@@ -3,7 +3,8 @@ import { ImageCropperComponent } from "../../image-cropper/component/image-cropp
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog"
 import { ImageCroppedEvent } from "../../image-cropper/interfaces"
 import { CropComponent } from "../crop/crop.component"
-import { DoSpacesService } from 'src/app/services/admin-api/do-spaces.service'
+import { BeehiveAPI } from '@env'
+import { authFormData } from 'src/app/services/auth/auth'
 
 @Component({
     selector: 'app-image-manager',
@@ -29,8 +30,8 @@ export class ImageManagerComponent {
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private dialogRef: MatDialogRef<CropComponent>, 
-        private s3Service: DoSpacesService){
+        private dialogRef: MatDialogRef<CropComponent>,
+        ){
             if (data) {
                 this.title = data.title
                 this.path = data.path
@@ -41,7 +42,7 @@ export class ImageManagerComponent {
     fileChangeEvent(event: any): void {
         // Store the original file when a new file is selected
         this.originalFile = event?.target?.files[0] || null
-        
+
         if(this.originalFile) {
             this.imageChangedEvent = event
 
@@ -93,22 +94,23 @@ export class ImageManagerComponent {
 
     onUpload() {
         if (this.imageToUpload) {
-        // Assuming you have an s3Service.uploadImage function
-        this.s3Service.uploadImage(this.imageToUpload, this.path).subscribe(
-            (success) => {
-                if (success) {
+            let form = new FormData()
+            form.append('file', this.imageToUpload)
+            fetch(BeehiveAPI.BASE_URL + BeehiveAPI.IMAGES_PATH + this.path, {
+                headers: authFormData(),
+                method: 'POST',
+                body: form
+            }).then(res => {
+                if (res.ok) {
                     // Handle successful upload
                     console.log('Image upload successful');
                 } else {
                     // Handle upload failure
                     console.error('Image upload failed');
                 }
-            },
-            (error) => {
-                // Handle any errors that occur during the upload process
-                console.error('Error occurred during image upload:', error)
-            }
-        )
+            }).catch(err => {
+                console.error('Error occurred during image upload:', err)
+            })
         }
 
         this.onClose()

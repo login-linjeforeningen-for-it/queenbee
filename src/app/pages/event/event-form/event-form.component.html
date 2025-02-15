@@ -17,7 +17,7 @@
                   This field is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
-              
+
               <app-tooltip tip="This is the Norwegian title for the event."></app-tooltip>
             </div>
 
@@ -32,9 +32,9 @@
             </div>
 
             <app-markdown-textfield
-              class="row" 
+              class="row"
               (newMdText)="onDescriptionNoChange($event)"
-              [placeholder]="'Description NOR'" 
+              [placeholder]="'Description NOR'"
               [value]="eventForm.get('description_no')?.value">
             </app-markdown-textfield>
             <mat-error *ngIf="eventForm.controls['description_no'].hasError('required')">
@@ -55,7 +55,7 @@
                   This field is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
-              
+
               <app-tooltip tip="This is the English title for the event."></app-tooltip>
             </div>
 
@@ -70,10 +70,10 @@
             </div>
 
 
-            <app-markdown-textfield 
-              class="row" 
-              (newMdText)=onDescriptionEnChange($event) 
-              [placeholder]="'Description ENG'" 
+            <app-markdown-textfield
+              class="row"
+              (newMdText)=onDescriptionEnChange($event)
+              [placeholder]="'Description ENG'"
               [value]="eventForm.get('description_en')?.value">
             </app-markdown-textfield>
             <mat-error *ngIf="eventForm.controls['description_en'].hasError('required')">
@@ -212,7 +212,7 @@
             </mat-form-field>
             <ng-template #elseRuleBlock>Could not fetch rules input!</ng-template>
           </div>
-        
+
           <app-tooltip tip="Select an appropriate rule object."></app-tooltip>
         </div>
 
@@ -301,7 +301,7 @@
             <input matInput formControlName="link_signup">
             <mat-label>Signup Link</mat-label>
           </mat-form-field>
-          
+
           <app-tooltip tip="Enter primary signup link. This will allways be accesible on Beehive, regardless of set release time."></app-tooltip>
         </div>
 
@@ -355,7 +355,7 @@
       </div>
     </div>
 
-    <!-- <div class="block">
+    <div class="block">
       <h2>Image</h2>
       <button class="img-manager-btn" (click)="imageManagerBanner()" mat-raised-button color="primary">
         <span class="material-symbols-sharp">upload</span>Banner Image
@@ -378,7 +378,7 @@
       <button class="img-manager-btn" (click)="imageManagerSmall()" mat-raised-button color="primary">
         <span class="material-symbols-sharp">upload</span>Small Image
       </button>
-      
+
       <mat-error *ngIf="eventForm.controls['image_small'].hasError('required')">
         Small image is <strong>required</strong>
       </mat-error>
@@ -392,7 +392,7 @@
         />
         <app-tooltip tip="The small image is used in the image list on the page '/events'."></app-tooltip>
       </div>
-    </div> -->
+    </div>
 
     <div class="block">
       <h2>Social Links</h2>
@@ -401,7 +401,7 @@
           <input matInput formControlName="link_facebook">
           <mat-label>Facebook Link</mat-label>
         </mat-form-field>
-        
+
         <app-tooltip tip="Used to link to other post about this event on Facebook. F.ex if this is a UKA event, this can be used to refer to them."></app-tooltip>
       </div>
 

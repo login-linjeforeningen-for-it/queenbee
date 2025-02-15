@@ -8,7 +8,7 @@ import Auth from '../auth/auth';
 @Injectable({
     providedIn: 'root'
 })
-export class DoSpacesService {
+export class DoSpacesService { // TODO: Remove
     s3Client: any;
 
     constructor(private http: HttpClient) {}
