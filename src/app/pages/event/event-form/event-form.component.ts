@@ -217,6 +217,7 @@ export class EventFormComponent implements OnInit{
             link_discord: '',
             digital: false,
             canceled: false,
+            visible: true,
             link_stream: '',
             category: [0, Validators.required],
             organization: ['', Validators.required],
