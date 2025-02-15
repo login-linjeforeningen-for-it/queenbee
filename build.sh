@@ -9,8 +9,8 @@ fi
 
 # Checks for BASE_URL
 if [ -z "$BASE_URL" ]; then
-    echo "Error: BASE_URL is not set."
-    exit 1
+    echo "Error: BASE_URL is not set, defaulting to https://queenbee-api.login.no/v1."
+    export BASE_URL=https://queenbee-api.login.no/v1
 fi
 
 # Defines file to read
