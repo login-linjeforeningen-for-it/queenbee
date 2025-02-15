@@ -4,7 +4,6 @@
   "scripts": {
     "start": "chmod +x serve.sh; ./serve.sh",
     "ng": "ng",
-    "build": "chmod +x build.sh; ./build.sh",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "prod": "http-server-spa dist/queenbee/ index.html 4200"

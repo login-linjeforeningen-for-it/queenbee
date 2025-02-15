@@ -21,17 +21,20 @@ INPUT_FILE="./environment.prod.ts"
 ORIGINAL_CONTENT=$(cat "$INPUT_FILE")
 
 # Edits file
-sed -i '' "s|__BASE_URL_PLACEHOLDER__|$BASE_URL|g" "$INPUT_FILE"
+if sed --version 2>/dev/null | grep -q GNU; then
+  sed -i "s|__BASE_URL_PLACEHOLDER__|$BASE_URL|g" "$INPUT_FILE"
+else
+  sed -i '' "s|__BASE_URL_PLACEHOLDER__|$BASE_URL|g" "$INPUT_FILE"
+fi
 
 # Starts the dev server and captures the process ID
-ng build --configuration production &
+npx ng build --configuration production &
 
 NG_PID=$!
 
 # Restores the original file after serving
 restore_file() {
     echo "$ORIGINAL_CONTENT" > "$INPUT_FILE"
-    # echo "Original file restored: $INPUT_FILE"
 }
 
 # Traps the script / termination signals to restore the file
