@@ -218,9 +218,17 @@
 
     <div class="block">
         <h2>Image</h2>
-        <button class="img-manager-btn" (click)="imageManager()" mat-raised-button color="primary">
-          <span class="material-symbols-sharp">upload</span>Job Ad Image
-        </button>
+        <div class="upload">
+          <button class="img-manager-btn" (click)="imageManager()" mat-raised-button color="primary">
+            <span class="material-symbols-sharp">upload</span>Job Ad Image
+          </button>
+          <div *ngIf="uploadStatus === 'success'" class="upload-message success">
+            ✅ Image uploaded successfully!
+          </div>
+          <div *ngIf="uploadStatus !== 'success' && uploadStatus" class="upload-message error">
+            ❌ {{ uploadStatus }}
+          </div>
+        </div>
 
         <mat-error *ngIf="jobAdForm.controls['banner_image'].hasError('required')">
           Banner image is <strong>required</strong>

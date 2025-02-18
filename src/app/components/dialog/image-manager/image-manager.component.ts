@@ -1,10 +1,11 @@
-import { Component, Inject, ViewChild } from '@angular/core'
+import { Component, Inject, Output, ViewChild } from '@angular/core'
 import { ImageCropperComponent } from "../../image-cropper/component/image-cropper.component"
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog"
 import { ImageCroppedEvent } from "../../image-cropper/interfaces"
 import { CropComponent } from "../crop/crop.component"
 import { BeehiveAPI } from '@env'
 import { authFormData } from 'src/app/services/auth/auth'
+import { EventEmitter } from '@angular/core'
 
 @Component({
     selector: 'app-image-manager',
@@ -15,6 +16,7 @@ export class ImageManagerComponent {
     title!: string
     path!: string
     aspectRatio!: number
+    type!: string
 
     originalFile: any = ''
     imageChangedEvent: any = ''
@@ -27,6 +29,8 @@ export class ImageManagerComponent {
     imageToUpload: File | null = null
 
     @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent
+    @Output() uploadStatusBannerEmitter = new EventEmitter<string>();
+    @Output() uploadStatusSmallEmitter = new EventEmitter<string>();
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -65,15 +69,6 @@ export class ImageManagerComponent {
 
     imageLoaded() {
         this.showCropper = true;
-        console.log('Image loaded')
-    }
-
-    cropperReady() {
-        console.log('Cropper ready')
-    }
-
-    loadImageFailed () {
-        console.log('Load failed')
     }
 
     rotateLeft() {
@@ -102,18 +97,18 @@ export class ImageManagerComponent {
                 body: form
             }).then(res => {
                 if (res.ok) {
-                    // Handle successful upload
-                    console.log('Image upload successful');
+                    this.onClose('success')
                 } else {
-                    // Handle upload failure
-                    console.error('Image upload failed');
+                    res.json().then((data) => {
+                        console.error(`Image upload failed: ${'error' in data ? data.error : JSON.stringify(data)}`)
+                        this.onClose(`Image upload failed: ${'error' in data ? data.error : JSON.stringify(data)}`)
+                    })
                 }
             }).catch(err => {
-                console.error('Error occurred during image upload:', err)
+                console.error(`Error occurred during image upload: ${err}`)
+                this.onClose(`Error occurred during image upload: ${err}`)
             })
         }
-
-        this.onClose()
     }
 
     base64toBlob(base64Data: string) {
@@ -128,8 +123,8 @@ export class ImageManagerComponent {
         return new Blob([arrayBuffer], { type: 'image/png' })
     }
 
-    onClose(): void {
-        this.dialogRef.close(false);
+    onClose(res: string): void {
+        this.dialogRef.close(res);
     }
 
     cropperConfirm(): void {

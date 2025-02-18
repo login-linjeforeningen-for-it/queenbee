@@ -53,6 +53,8 @@ export class JobadFormComponent {
         {"id": "verv", "name":"Verv"},
     ]
 
+    uploadStatus: string = '';
+
     constructor(
         private fb: FormBuilder,
         private orgService: OrganizationService,
@@ -116,11 +118,19 @@ export class JobadFormComponent {
     }
 
     imageManager() {
-        this.dialog.open(ImageManagerComponent, {
+        const dialogRef = this.dialog.open(ImageManagerComponent, {
             data: {
                 title: "Job Ads",
                 path: "/jobs",
                 aspectRatio: 3 / 2
+            }
+        })
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === 'success') {
+                this.uploadStatus = 'success'
+            } else {
+                this.uploadStatus = result
             }
         })
     }

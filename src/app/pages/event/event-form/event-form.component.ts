@@ -60,6 +60,9 @@ export class EventFormComponent implements OnInit{
     autoControlRules = new FormControl<string | DropDownItem>('');
     filteredRules!: Observable<DropDownItem[]>
 
+    uploadStatusBanner: string = '';
+    uploadStatusSmall: string = '';
+
     constructor(
         private fb: FormBuilder,
         private categoryService: CategoryService,
@@ -165,23 +168,39 @@ export class EventFormComponent implements OnInit{
     }
 
     imageManagerBanner() {
-        console.log("opening banner dialog")
-        this.dialog.open(ImageManagerComponent, {
+        const dialogRef = this.dialog.open(ImageManagerComponent, {
             data: {
                 title: "Banner",
                 path: "/events/banner",
-                aspectRatio: 10 / 4
+                aspectRatio: 10 / 4,
+                type: 'banner'
+            }
+        })
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === 'success') {
+                this.uploadStatusBanner = 'success'
+            } else {
+                this.uploadStatusBanner = result
             }
         })
     }
 
     imageManagerSmall() {
-        console.log("opening small dialog")
-        this.dialog.open(ImageManagerComponent, {
+        const dialogRef = this.dialog.open(ImageManagerComponent, {
             data: {
                 title: "Small",
                 path: "/events/small",
-                aspectRatio: 10 / 4
+                aspectRatio: 10 / 4,
+                type: 'small'
+            }
+        })
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === 'success') {
+                this.uploadStatusSmall = 'success'
+            } else {
+                this.uploadStatusSmall = result
             }
         })
     }
@@ -226,13 +245,6 @@ export class EventFormComponent implements OnInit{
             audience: []
         })
 
-        // Subscribe to value changes for a specific form control
-        // this.eventForm?.valueChanges.subscribe((value) => {
-        //     console.log('eventName value changed:', value);
-        // })
-
-        // Subscribe to value changes for time_start form control
-        // _ = value but unused
         this.eventForm.get('time_type')?.valueChanges.subscribe((_) => {
             this.updateTimeRequirements();
         })

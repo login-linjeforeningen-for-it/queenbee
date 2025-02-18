@@ -357,9 +357,17 @@
 
     <div class="block">
       <h2>Image</h2>
-      <button class="img-manager-btn" (click)="imageManagerBanner()" mat-raised-button color="primary">
-        <span class="material-symbols-sharp">upload</span>Banner Image
-      </button>
+      <div class="upload">
+        <button class="img-manager-btn" (click)="imageManagerBanner()" mat-raised-button color="primary">
+          <span class="material-symbols-sharp">upload</span>Banner Image
+        </button>
+        <div *ngIf="uploadStatusBanner === 'success'" class="upload-message success">
+          ✅ Image uploaded successfully!
+        </div>
+        <div *ngIf="uploadStatusBanner !== 'success' && uploadStatusBanner" class="upload-message error">
+          ❌ {{ uploadStatusBanner }}
+        </div>
+      </div>
 
       <mat-error *ngIf="eventForm.controls['image_banner'].hasError('required')">
         Banner image is <strong>required</strong>
@@ -375,9 +383,17 @@
         <app-tooltip tip="The banner image is used on the event page for this specific event."></app-tooltip>
       </div>
 
-      <button class="img-manager-btn" (click)="imageManagerSmall()" mat-raised-button color="primary">
-        <span class="material-symbols-sharp">upload</span>Small Image
-      </button>
+      <div class="upload">
+        <button class="img-manager-btn" (click)="imageManagerSmall()" mat-raised-button color="primary">
+          <span class="material-symbols-sharp">upload</span>Small Image
+        </button>
+        <div *ngIf="uploadStatusSmall === 'success'" class="upload-message success">
+          ✅ Image uploaded successfully!
+        </div>
+        <div *ngIf="uploadStatusSmall !== 'success' && uploadStatusSmall" class="upload-message error">
+          ❌ {{ uploadStatusSmall }}
+        </div>
+      </div>
 
       <mat-error *ngIf="eventForm.controls['image_small'].hasError('required')">
         Small image is <strong>required</strong>
