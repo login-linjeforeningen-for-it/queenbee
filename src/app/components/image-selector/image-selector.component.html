@@ -11,7 +11,7 @@
         <div class="dropdown-item">
           <img alt="" [src]="'https://cdn.login.no/' + img.filepath + img.name" height="25">
           <span>{{img.name}}</span> |
-          <small>{{img.size}}</small>
+          <small>{{ (+img.size / 1000) | number:'1.0-0' }} KB</small>
         </div>
       </mat-option>
     </mat-autocomplete>
