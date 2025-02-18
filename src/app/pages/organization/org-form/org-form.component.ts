@@ -89,11 +89,6 @@ export class OrgFormComponent {
         logo: ['', Validators.required],
       })
     }
-
-    // Subscribe to value changes for a specific form control
-    // this.orgForm?.valueChanges.subscribe((value) => {
-    //   console.log('orgform value changed:', value);
-    // });
   }
 
   private updateFormFields() {

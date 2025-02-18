@@ -54,7 +54,6 @@ export class RuleEditComponent {
 
     this.ruleService.patchRule(formValues).subscribe({
       next: () => {
-        // console.log("Rule updated successfully");
         this.router.navigate([BeehiveAPI.RULES_PATH]).then((navigated: boolean) => {
           if(navigated) {
             this.snackbarService.openSnackbar("Successfully updated rule", "OK", 2.5)
@@ -62,7 +61,6 @@ export class RuleEditComponent {
         });
       },
       error: (error) => {
-        // console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {
             title: "Error: " + error.status + " " + error.statusText,

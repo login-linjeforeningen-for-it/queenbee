@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DoSpacesService } from 'src/app/services/admin-api/do-spaces.service';
-import {FormBuilder, FormControl} from "@angular/forms";
-import {Observable, startWith} from "rxjs";
-import {map} from "rxjs/operators";
-import {DropDownFileItem} from "../../models/dataInterfaces.model";
-import { CropComponent } from '../dialog/crop/crop.component';
+import { FormControl } from "@angular/forms";
+import { Observable, startWith } from "rxjs";
+import { map } from "rxjs/operators";
+import { DropDownFileItem } from "../../models/dataInterfaces.model";
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({

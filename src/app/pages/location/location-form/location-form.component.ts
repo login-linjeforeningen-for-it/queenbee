@@ -79,10 +79,6 @@ export class LocationFormComponent {
         url: ''
       });
     }
-
-    // this.locationForm.valueChanges.subscribe(x => {
-    //   console.log(x)
-    // })
   }
 
   private clearTypes() {

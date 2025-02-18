@@ -78,33 +78,26 @@ export class EventEditComponent {
         })
 
         dialogRef.afterClosed().subscribe(result => {
-        if (result === true) {
-            const formValues = this.eventFormComponent.getFormValues();
-            formValues.canceled = true;
+            if (result === true) {
+                const formValues = this.eventFormComponent.getFormValues();
+                formValues.canceled = true;
 
-            this.eventService.patchEvent(formValues).subscribe({
-                next: () => {
-                    console.log("Event created successfully");
-                    // here you could navigate to another page, or show a success message, etc.
-                },
-                error: (error) => {
-                    this.dialog.open(ErrorComponent, {
-                    data: {
-                        title: "Error: " + error.status + " " + error.statusText,
-                        details: error.error.error,
-                        autoFocus: false
+                this.eventService.patchEvent(formValues).subscribe({
+                    next: () => {
+                        console.log("Event created successfully");
                     },
-                    });
+                    error: (error) => {
+                        this.dialog.open(ErrorComponent, {
+                        data: {
+                            title: `Error: ${error.status} ${error.statusText}`,
+                            details: error.error.error,
+                            autoFocus: false
+                        },
+                        });
 
-                }
-            });
-        } else if (result === false) {
-            // User clicked "Close"
-            // console.log("User closed");
-        } else {
-            // Dialog was dismissed without user action
-            // console.log("Dialog dismissed");
-        }
+                    }
+                });
+            }
         });
     }
 }

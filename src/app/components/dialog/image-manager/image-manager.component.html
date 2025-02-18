@@ -23,9 +23,7 @@
           outputType="base64"
           (imageCropped)="imageCropped($event)"
           (imageLoaded)="imageLoaded()"
-          (cropperReady)="cropperReady()"
           (confirmed)="cropperConfirm()"
-          (loadImageFailed)="loadImageFailed()"
           [style.display]="showCropper ? null : 'none'"
         ></image-cropper>
       </div>
