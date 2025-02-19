@@ -1,14 +1,14 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DoSpacesService } from 'src/app/services/admin-api/do-spaces.service';
-import { FormControl } from "@angular/forms";
-import { Observable, startWith } from "rxjs";
-import { map } from "rxjs/operators";
-import { DropDownFileItem } from "../../models/dataInterfaces.model";
-import { MatDialog } from '@angular/material/dialog';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core'
+import { DoSpacesService } from 'src/app/services/admin-api/do-spaces.service'
+import { FormControl } from "@angular/forms"
+import { Observable, startWith } from "rxjs"
+import { map } from "rxjs/operators"
+import { DropDownFileItem } from "../../models/dataInterfaces.model"
+import { MatDialog } from '@angular/material/dialog'
 
 @Component({
-  selector: 'app-image-selector',
-  templateUrl: './image-selector.component.html'
+    selector: 'app-image-selector',
+    templateUrl: './image-selector.component.html'
 })
 
 /**
@@ -21,48 +21,75 @@ import { MatDialog } from '@angular/material/dialog';
  *         (valEmitter)="onImageBannerChange($event)">
  * </app-image-selector>
  */
-export class ImageSelectorComponent {
-  @Input() title: string = '';
-  @Input() value!: string;
-  @Input() path!: string;
-  @Output() valEmitter = new EventEmitter<{val: string}>();
+export class ImageSelectorComponent implements OnChanges {
+    @Input() title: string = ''
+    @Input() value!: string
+    @Input() path!: string
+    @Output() valEmitter = new EventEmitter<{val: string}>()
 
-  selectedImg = new FormControl('');
-  s3Client: any;
-  images: DropDownFileItem[] = [];
-  filteredOptions!: Observable<DropDownFileItem[]>;
+    selectedImg = new FormControl('')
+    s3Client: any
+    images: DropDownFileItem[] = []
+    filteredOptions!: Observable<DropDownFileItem[]>
 
-  constructor(private doService: DoSpacesService, private dialog: MatDialog) {}
+    constructor(private doService: DoSpacesService, private dialog: MatDialog) {}
 
-  ngOnInit() {
-    if(this.value) {
-      this.selectedImg.patchValue(this.value);
+    ngOnInit() {
+        if(this.value) {
+            this.selectedImg.patchValue(this.value)
+        }
+
+        this.filteredOptions = this.selectedImg.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter(value || '')),
+        )
+
+        this.doService.fetchImageList(this.path).subscribe(
+            (array: DropDownFileItem[]) => {
+                this.images = array
+            },
+            (error: any) => {
+                console.error('Error occurred:', error)
+            }
+        )
+
+        this.selectedImg?.valueChanges.subscribe((value) => {
+            if(value) {
+                this.valEmitter.emit({val: value})
+            }
+        })
     }
 
-    this.filteredOptions = this.selectedImg.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
+    fetchImages() {
+        this.doService.fetchImageList(this.path).subscribe(
+            (array: DropDownFileItem[]) => {
+                this.images = array
+                this.filteredOptions = this.selectedImg.valueChanges.pipe(
+                    startWith(this.selectedImg.value || ''),  
+                    map(value => this._filter(value || ''))
+                )
+            },
+            (error: any) => {
+                console.error('Error fetching images:', error)
+            }
+        )
+    }
 
-    this.doService.fetchImageList(this.path).subscribe(
-      (array: DropDownFileItem[]) => {
-        this.images = array;
-      },
-      (error: any) => {
-        console.error('Error occurred:', error);
-      }
-    );
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['value'] && changes['value'].currentValue !== this.selectedImg.value) {
+            this.selectedImg.patchValue(changes['value'].currentValue)
+        }
 
-    this.selectedImg?.valueChanges.subscribe((value) => {
-      if(value) {
-        this.valEmitter.emit({val: value})
-      }
-    })
-  }
+        this.fetchImages()
+        this.filteredOptions = this.selectedImg.valueChanges.pipe(
+            startWith(this.selectedImg.value || ''),
+            map(value => this._filter(value || ''))
+        )
+    }
 
-  private _filter(value: string): DropDownFileItem[] {
-    const filterValue = value.toLowerCase();
+    private _filter(value: string): DropDownFileItem[] {
+        const filterValue = value.toLowerCase()
 
-    return this.images.filter(image => image.name.toLowerCase().includes(filterValue));
-  }
+        return this.images.filter(image => image.name.toLowerCase().includes(filterValue))
+    }
 }

@@ -7,6 +7,11 @@ import { BeehiveAPI } from '@env'
 import { authFormData } from 'src/app/services/auth/auth'
 import { EventEmitter } from '@angular/core'
 
+type OnCloseProps = {
+    result: string
+    name?: string
+}
+
 @Component({
     selector: 'app-image-manager',
     templateUrl: './image-manager.component.html',
@@ -97,16 +102,19 @@ export class ImageManagerComponent {
                 body: form
             }).then(res => {
                 if (res.ok) {
-                    this.onClose('success')
+                    this.onClose({
+                        result: 'success',
+                        name: this.filename
+                    })
                 } else {
                     res.json().then((data) => {
                         console.error(`Image upload failed: ${'error' in data ? data.error : JSON.stringify(data)}`)
-                        this.onClose(`Image upload failed: ${'error' in data ? data.error : JSON.stringify(data)}`)
+                        this.onClose({ result: `Image upload failed: ${'error' in data ? data.error : JSON.stringify(data)}` })
                     })
                 }
             }).catch(err => {
                 console.error(`Error occurred during image upload: ${err}`)
-                this.onClose(`Error occurred during image upload: ${err}`)
+                this.onClose({ result: `Error occurred during image upload: ${err}` })
             })
         }
     }
@@ -123,8 +131,8 @@ export class ImageManagerComponent {
         return new Blob([arrayBuffer], { type: 'image/png' })
     }
 
-    onClose(res: string): void {
-        this.dialogRef.close(res);
+    onClose({result, name}: OnCloseProps): void {
+        this.dialogRef.close({result, name});
     }
 
     cropperConfirm(): void {

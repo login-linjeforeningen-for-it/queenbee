@@ -12,11 +12,12 @@ import { RulesService } from 'src/app/services/admin-api/rules.service'
 import { convertDateToRFC3339, convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time'
 import { MatDialog } from "@angular/material/dialog"
 import { ImageManagerComponent } from "../../../components/dialog/image-manager/image-manager.component"
+import { ChangeDetectorRef } from '@angular/core'
 
 export interface TimeTypeSelect {
-  type: string;
-  name: string;
-  show: boolean;
+  type: string
+  name: string
+  show: boolean
 }
 
 @Component({
@@ -51,17 +52,19 @@ export class EventFormComponent implements OnInit{
     isEndTimeDisabled: boolean = false
 
     // Variables used by autocomplete
-    autoControlCats = new FormControl<string | Category>('');
+    autoControlCats = new FormControl<string | Category>('')
     filteredCats!: Observable<Category[]>
-    autoControlOrgs = new FormControl<string | OrgTableItem>('');
+    autoControlOrgs = new FormControl<string | OrgTableItem>('')
     filteredOrgs!: Observable<OrgTableItem[]>
-    autoControlLocs = new FormControl<string | DropDownItem>('');
+    autoControlLocs = new FormControl<string | DropDownItem>('')
     filteredLocs!: Observable<DropDownItem[]>
-    autoControlRules = new FormControl<string | DropDownItem>('');
+    autoControlRules = new FormControl<string | DropDownItem>('')
     filteredRules!: Observable<DropDownItem[]>
 
-    uploadStatusBanner: string = '';
-    uploadStatusSmall: string = '';
+    uploadStatusBanner: string = ''
+    uploadedBanner: string = ''
+    uploadStatusSmall: string = ''
+    uploadedSmall: string = ''
 
     constructor(
         private fb: FormBuilder,
@@ -69,7 +72,8 @@ export class EventFormComponent implements OnInit{
         private orgService: OrganizationService,
         private locService: LocationService,
         private ruleService: RulesService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private cdr: ChangeDetectorRef
     ) {}
 
     ngOnInit() {
@@ -91,48 +95,48 @@ export class EventFormComponent implements OnInit{
      * @returns The whole form
      */
     getFormValues(): EventData {
-        return this.eventForm.value;
+        return this.eventForm.value
     }
 
     // The following functions is used to update various variables
     onTimeStartChange(newVal: {dt: string} | null) {
-        newVal && this.eventForm.get('time_start')?.setValue(convertToRFC3339(newVal.dt));
+        newVal && this.eventForm.get('time_start')?.setValue(convertToRFC3339(newVal.dt))
     }
 
     onTimeEndChange(newVal: {dt: string} | null) {
-        newVal && this.eventForm.get('time_end')?.setValue(convertToRFC3339(newVal.dt));
+        newVal && this.eventForm.get('time_end')?.setValue(convertToRFC3339(newVal.dt))
     }
 
     onTimePublishChange(newVal: {dt: string} | null) {
-        newVal && this.eventForm.get('time_publish')?.setValue(convertToRFC3339(newVal.dt));
+        newVal && this.eventForm.get('time_publish')?.setValue(convertToRFC3339(newVal.dt))
     }
 
     onSignupReleaseChange(newVal: { dt: string } | null) {
-        newVal && this.eventForm.get('time_signup_release')?.setValue(convertToRFC3339(newVal.dt));
+        newVal && this.eventForm.get('time_signup_release')?.setValue(convertToRFC3339(newVal.dt))
     }
 
     onSignupDeadlineChange(newVal: { dt: string } | null) {
-        newVal && this.eventForm.get('time_signup_deadline')?.setValue(convertToRFC3339(newVal.dt));
+        newVal && this.eventForm.get('time_signup_deadline')?.setValue(convertToRFC3339(newVal.dt))
     }
 
     onDescriptionNoChange(newVal: { md: string }) {
-        this.eventForm.get('description_no')?.setValue(newVal.md);
+        this.eventForm.get('description_no')?.setValue(newVal.md)
     }
 
     onDescriptionEnChange(newVal: { md: string }) {
-        this.eventForm.get('description_en')?.setValue(newVal.md);
+        this.eventForm.get('description_en')?.setValue(newVal.md)
     }
 
     onImageBannerChange(newVal: {val: string}) {
-        this.eventForm.get('image_banner')?.setValue(newVal.val);
+        this.eventForm.get('image_banner')?.setValue(newVal.val)
     }
 
     onImageSmallChange(newVal: {val: string}) {
-        this.eventForm.get('image_small')?.setValue(newVal.val);
+        this.eventForm.get('image_small')?.setValue(newVal.val)
     }
 
     onAudienceSetChange(newVal: {as: number[]}) {
-        this.eventForm.get('audience')?.setValue(newVal.as);
+        this.eventForm.get('audience')?.setValue(newVal.as)
     }
 
     displayCategoryFn(category: Category): string {
@@ -177,11 +181,13 @@ export class EventFormComponent implements OnInit{
             }
         })
 
-        dialogRef.afterClosed().subscribe(result => {
-            if (result === 'success') {
+        dialogRef.afterClosed().subscribe(dialog => {
+            if (dialog.result === 'success') {
                 this.uploadStatusBanner = 'success'
+                this.uploadedBanner = dialog.name
+                this.eventForm.patchValue({ image_banner: dialog.name })
             } else {
-                this.uploadStatusBanner = result
+                this.uploadStatusBanner = dialog.result
             }
         })
     }
@@ -196,11 +202,13 @@ export class EventFormComponent implements OnInit{
             }
         })
 
-        dialogRef.afterClosed().subscribe(result => {
-            if (result === 'success') {
+        dialogRef.afterClosed().subscribe(dialog => {
+            if (dialog.result === 'success') {
                 this.uploadStatusSmall = 'success'
+                this.uploadedSmall = dialog.name
+                this.eventForm.patchValue({ image_small: dialog.name })
             } else {
-                this.uploadStatusSmall = result
+                this.uploadStatusSmall = dialog.result
             }
         })
     }
@@ -209,16 +217,16 @@ export class EventFormComponent implements OnInit{
    * Initialize the form, alongside corresponding validators
    */
   private initForm() {
-        const datetimeNow = convertDateToRFC3339(new Date());
+        const datetimeNow = convertDateToRFC3339(new Date())
         const now = new Date()
         now.setDate(now.getDate() + 1)
-        const datetimeTomorrow = convertDateToRFC3339(now);
+        const datetimeTomorrow = convertDateToRFC3339(now)
 
         this.eventForm = this.fb.group({
-            name_no: ['test123', Validators.required],
-            name_en: ['test123', Validators.required],
-            description_no: ['Hei på deg!', Validators.required],
-            description_en: ['Hello you!', Validators.required],
+            name_no: ['', Validators.required],
+            name_en: ['', Validators.required],
+            description_no: ['', Validators.required],
+            description_en: ['', Validators.required],
             informational_no: '',
             informational_en: '',
             time_type: [TIME_TYPE.TO_BE_DETERMINED, Validators.required],
@@ -246,7 +254,7 @@ export class EventFormComponent implements OnInit{
         })
 
         this.eventForm.get('time_type')?.valueChanges.subscribe((_) => {
-            this.updateTimeRequirements();
+            this.updateTimeRequirements()
         })
     }
 
@@ -257,64 +265,64 @@ export class EventFormComponent implements OnInit{
         this.filteredOrgs = this.autoControlOrgs.valueChanges.pipe(
             startWith(''),
             map(value => {
-                const viewValue = typeof value === 'string' ? value : value?.name;
-                return viewValue ? this._filterOrganizations(viewValue as string) : this.organizations.slice();
+                const viewValue = typeof value === 'string' ? value : value?.name
+                return viewValue ? this._filterOrganizations(viewValue as string) : this.organizations.slice()
             })
         )
 
         this.filteredCats = this.autoControlCats.valueChanges.pipe(
             startWith(''),
             map(value => {
-                const viewValue = typeof value === 'string' ? value : value?.name_no;
-                return viewValue ? this._filterCategories(viewValue as string) : this.categories.slice();
+                const viewValue = typeof value === 'string' ? value : value?.name_no
+                return viewValue ? this._filterCategories(viewValue as string) : this.categories.slice()
             })
         )
 
         this.filteredLocs = this.autoControlLocs.valueChanges.pipe(
             startWith(''),
             map(value => {
-                const viewValue = typeof value === 'string' ? value : value?.name;
-                return viewValue ? this._filterLocations(viewValue as string) : this.locations.slice();
+                const viewValue = typeof value === 'string' ? value : value?.name
+                return viewValue ? this._filterLocations(viewValue as string) : this.locations.slice()
             })
         )
 
         this.filteredRules = this.autoControlRules.valueChanges.pipe(
             startWith(''),
             map(value => {
-                const viewValue = typeof value === 'string' ? value : value?.name;
-                return viewValue ? this._filterRules(viewValue as string) : this.rules.slice();
+                const viewValue = typeof value === 'string' ? value : value?.name
+                return viewValue ? this._filterRules(viewValue as string) : this.rules.slice()
             })
         )
 
         this.autoControlOrgs.valueChanges.subscribe(value => {
             if (value && typeof value === 'object') {
-                this.eventForm.get('organization')?.setValue(value.id);
+                this.eventForm.get('organization')?.setValue(value.id)
             } else {
-                this.eventForm.get('organization')?.setValue(value);
+                this.eventForm.get('organization')?.setValue(value)
             }
         })
 
         this.autoControlCats.valueChanges.subscribe(value => {
             if (value && typeof value === 'object') {
-                this.eventForm.get('category')?.setValue(value.id);
+                this.eventForm.get('category')?.setValue(value.id)
             } else {
-                this.eventForm.get('category')?.setValue(value);
+                this.eventForm.get('category')?.setValue(value)
             }
         })
 
         this.autoControlLocs.valueChanges.subscribe(value => {
             if (value && typeof value === 'object') {
-                this.eventForm.get('location')?.setValue(value.id);
+                this.eventForm.get('location')?.setValue(value.id)
             } else {
-                this.eventForm.get('location')?.setValue(value);
+                this.eventForm.get('location')?.setValue(value)
             }
         })
 
         this.autoControlRules.valueChanges.subscribe(value => {
             if (value && typeof value === 'object') {
-                this.eventForm.get('rule')?.setValue(value.id);
+                this.eventForm.get('rule')?.setValue(value.id)
             } else {
-                this.eventForm.get('rule')?.setValue(value);
+                this.eventForm.get('rule')?.setValue(value)
             }
         })
     }
@@ -355,117 +363,117 @@ export class EventFormComponent implements OnInit{
             })
         } else {
             // Reset the form fields when the event is undefined
-            this.initForm();
+            this.initForm()
         }
     }
 
     private fetchCategories() {
         this.categoryService.fetchCategories().subscribe((c: Category[]) => {
-        this.categories = c;
+        this.categories = c
 
-        const categoryID = this.eventForm.get('category')?.value;
+        const categoryID = this.eventForm.get('category')?.value
         if (categoryID) {
-            const matchingCat = this.categories.find(val => val.id === categoryID);
+            const matchingCat = this.categories.find(val => val.id === categoryID)
             if (matchingCat) {
-                this.autoControlCats.setValue(matchingCat);
+                this.autoControlCats.setValue(matchingCat)
             }
         }
-        });
+        })
     }
 
     private fetchOrganizations() {
         this.orgService.fetchOrganizations().subscribe((o: OrgTableItem[]) => {
-        this.organizations = o;
+        this.organizations = o
 
-        const orgID = this.eventForm.get('organization')?.value;
+        const orgID = this.eventForm.get('organization')?.value
         if (orgID) {
-            const matchingOrg = this.organizations.find(val => val.id === orgID);
+            const matchingOrg = this.organizations.find(val => val.id === orgID)
             if (matchingOrg) {
-                this.autoControlOrgs.setValue(matchingOrg);
+                this.autoControlOrgs.setValue(matchingOrg)
             }
         }
-        });
+        })
     }
 
     private fetchLocations() {
         this.locService.fetchDropDown().subscribe((l: DropDownItem[]) => {
-        this.locations = l;
+        this.locations = l
 
-        const locID = this.eventForm.get('location')?.value;
+        const locID = this.eventForm.get('location')?.value
         if (locID) {
-            const matchingLoc = this.locations.find(val => val.id === locID);
+            const matchingLoc = this.locations.find(val => val.id === locID)
             if(matchingLoc) {
-                this.autoControlLocs.setValue(matchingLoc);
+                this.autoControlLocs.setValue(matchingLoc)
             }
         }
-        });
+        })
     }
 
     private fetchRules() {
         this.ruleService.fetchDropDown().subscribe((r: DropDownItem[]) => {
-        this.rules = r;
+        this.rules = r
 
-        const ruleID = this.eventForm.get('rule')?.value;
+        const ruleID = this.eventForm.get('rule')?.value
         if (ruleID) {
-            const matchingRule = this.rules.find(val => val.id === ruleID);
+            const matchingRule = this.rules.find(val => val.id === ruleID)
             if (matchingRule) {
-                this.autoControlRules.setValue(matchingRule);
+                this.autoControlRules.setValue(matchingRule)
             }
         }
-        });
+        })
     }
 
     // Function for filtering category dropdown
     private _filterCategories(value: string): Category[] {
-        const filterValue = value.toLowerCase();
+        const filterValue = value.toLowerCase()
         return this.categories.filter(category =>
             category.name_en.toLowerCase().includes(filterValue) ||
             category.name_no.toLowerCase().includes(filterValue)
-        );
+        )
     }
 
     // Function for filtering organization dropdown
     private _filterOrganizations(value: string): OrgTableItem[] {
-        const filterValue = value.toLowerCase();
+        const filterValue = value.toLowerCase()
         return this.organizations.filter(organization =>
             organization.name.toLowerCase().includes(filterValue)
-        );
+        )
     }
 
     // Function for filtering location dropdown
     private _filterLocations(value: string): DropDownItem[] {
-        const filterValue = value.toLowerCase();
+        const filterValue = value.toLowerCase()
         return this.locations.filter(loc =>
             loc.name.toLowerCase().includes(filterValue) ||
             loc.details.toLowerCase().includes(filterValue)
-        );
+        )
     }
 
     // Function for filtering rule dropdown
     private _filterRules(value: string): DropDownItem[] {
-        const filterValue = value.toLowerCase();
+        const filterValue = value.toLowerCase()
         return this.rules.filter(rule =>
             rule.name.toLowerCase().includes(filterValue)
-        );
+        )
     }
 
     private updateTimeRequirements() {
         switch(this.eventForm.get('time_type')?.value) {
         case TIME_TYPE.TO_BE_DETERMINED:
-            this.isStartTimeDisabled = true;
-            this.isEndTimeDisabled = true;
-            break;
+            this.isStartTimeDisabled = true
+            this.isEndTimeDisabled = true
+            break
         case TIME_TYPE.WHOLE_DAY:
-            this.isStartTimeDisabled = true;
-            this.isEndTimeDisabled = true;
-            break;
+            this.isStartTimeDisabled = true
+            this.isEndTimeDisabled = true
+            break
         case TIME_TYPE.NO_END:
-            this.isStartTimeDisabled = false;
-            this.isEndTimeDisabled = true;
-            break;
+            this.isStartTimeDisabled = false
+            this.isEndTimeDisabled = true
+            break
         default:
-            this.isStartTimeDisabled = false;
-            this.isEndTimeDisabled = false;
+            this.isStartTimeDisabled = false
+            this.isEndTimeDisabled = false
         }
     }
 
