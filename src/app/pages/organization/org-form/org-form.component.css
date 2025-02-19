@@ -6,3 +6,23 @@
         "org org";
     column-gap: 3rem;
 }
+
+.upload {
+    display: flex;
+}
+
+.upload-message {
+    padding: 6.5px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}

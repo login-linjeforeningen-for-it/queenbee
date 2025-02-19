@@ -79,10 +79,18 @@
     </div>
 
     <div class="block">
-        <h2>Image Link</h2>
-        <button class="img-manager-btn" (click)="imageManager()" mat-raised-button color="primary">
-            <span class="material-symbols-sharp">upload</span>Organization Images 
-          </button>
+        <h2>Logo</h2>
+        <div class="upload">
+            <button class="img-manager-btn" (click)="imageManager()" mat-raised-button color="primary">
+                <span class="material-symbols-sharp">upload</span>Upload Logo 
+            </button>
+            <div *ngIf="uploadStatus === 'success'" class="upload-message success">
+                ✅ Logo uploaded successfully!
+            </div>
+            <div *ngIf="uploadStatus !== 'success' && uploadStatus" class="upload-message error">
+                ❌ {{ uploadStatus }}
+            </div>
+        </div>
 
           <div class="row row-with-tooltip">
             <app-image-selector 

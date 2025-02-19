@@ -13,6 +13,7 @@ export class OrgFormComponent {
   @Input() org!: Organization;
   @Input() disableShortnameInput!: boolean;
   orgForm!: FormGroup;
+  uploadStatus: string = ''
 
   constructor(private fb: FormBuilder, private dialog: MatDialog) {}
 
@@ -51,13 +52,22 @@ export class OrgFormComponent {
   }
 
   imageManager() {
-    this.dialog.open(ImageManagerComponent, {
+    const dialogRef = this.dialog.open(ImageManagerComponent, {
       data: {
         title: "Organizations",
         path: "/organizations",
         aspectRatio: 3 / 2
       }
-    });
+    })
+    
+    dialogRef.afterClosed().subscribe(dialog => {
+      if (dialog.result === 'success') {
+          this.uploadStatus = 'success'
+          this.orgForm.patchValue({ logo: dialog.name })
+      } else {
+          this.uploadStatus = dialog.result
+      }
+  })
   }
 
   private initForm() {
