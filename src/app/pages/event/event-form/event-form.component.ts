@@ -62,9 +62,7 @@ export class EventFormComponent implements OnInit{
     filteredRules!: Observable<DropDownItem[]>
 
     uploadStatusBanner: string = ''
-    uploadedBanner: string = ''
     uploadStatusSmall: string = ''
-    uploadedSmall: string = ''
 
     constructor(
         private fb: FormBuilder,
@@ -184,7 +182,6 @@ export class EventFormComponent implements OnInit{
         dialogRef.afterClosed().subscribe(dialog => {
             if (dialog.result === 'success') {
                 this.uploadStatusBanner = 'success'
-                this.uploadedBanner = dialog.name
                 this.eventForm.patchValue({ image_banner: dialog.name })
             } else {
                 this.uploadStatusBanner = dialog.result
@@ -205,7 +202,6 @@ export class EventFormComponent implements OnInit{
         dialogRef.afterClosed().subscribe(dialog => {
             if (dialog.result === 'success') {
                 this.uploadStatusSmall = 'success'
-                this.uploadedSmall = dialog.name
                 this.eventForm.patchValue({ image_small: dialog.name })
             } else {
                 this.uploadStatusSmall = dialog.result

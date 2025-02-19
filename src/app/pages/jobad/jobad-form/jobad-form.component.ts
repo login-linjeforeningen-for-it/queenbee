@@ -53,7 +53,7 @@ export class JobadFormComponent {
         {"id": "verv", "name":"Verv"},
     ]
 
-    uploadStatus: string = '';
+    uploadStatus: string = ''
 
     constructor(
         private fb: FormBuilder,
@@ -126,11 +126,12 @@ export class JobadFormComponent {
             }
         })
 
-        dialogRef.afterClosed().subscribe(result => {
-            if (result === 'success') {
+        dialogRef.afterClosed().subscribe(dialog => {
+            if (dialog.result === 'success') {
                 this.uploadStatus = 'success'
+                this.jobAdForm.patchValue({ banner_image: dialog.name })
             } else {
-                this.uploadStatus = result
+                this.uploadStatus = dialog.result
             }
         })
     }
