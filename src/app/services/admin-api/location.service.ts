@@ -73,7 +73,7 @@ export class LocationService {
             const locArray: LocationTableItem[] = [];
             for (const shortname in resData) {
                 const locDefault: Location = resData[shortname]
-                
+
                 const loc: LocationTableItem = {
                 id: locDefault.id,
                 name: locDefault.name_en || locDefault.name_no,
@@ -104,14 +104,14 @@ export class LocationService {
         const options = { headers: new HttpHeaders(auth) }
 
         return this.http
-        .get<{ [id: number]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, options)
+        .get<{ [id: number]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}?limit=1000`, options)
         .pipe(
             map(resData => {
             const locArray: DropDownItem[] = [];
-            
+
             for (const i in resData) {
                 const resObj: Location = resData[i]
-                
+
                 const loc: DropDownItem = {
                 id: resObj.id,
                 name: resObj.name_en || resObj.name_no,
@@ -128,15 +128,15 @@ export class LocationService {
                 case 'coords':
                     loc.details = 'COORDS ' + resObj.coordinate_lat.toFixed(4).toString() + ', ' + resObj.coordinate_long.toFixed(4).toString();
                     break;
-                
+
                 default:
                     loc.details = 'NONE';
                     break;
                 }
 
-                locArray.push(loc);   
+                locArray.push(loc);
             };
-            
+
             return locArray;
             })
         );
