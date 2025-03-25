@@ -5,3 +5,5 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4200:4200"
+    environment:
+      BASE_URL: "${BASE_URL}" 
