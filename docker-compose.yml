@@ -1,7 +1,8 @@
 services:
   queenbee:
+    container_name: queenbee
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "4200:4200"
+      - "3000:3000"

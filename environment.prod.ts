@@ -25,11 +25,11 @@ export const TIME_TYPE = {
     NO_END: 'no_end',
     WHOLE_DAY: 'whole_day',
     TO_BE_DETERMINED: 'tbd'
-  } as const;
+}
 
 export const JOB_TYPE = {
-  FULL_TIME: 'full',
-  PART_TIME: 'part',
-  SUMMER: 'summer',
-  VERV: 'verv'
-} as const;
+    FULL_TIME: 'full',
+    PART_TIME: 'part',
+    SUMMER: 'summer',
+    VERV: 'verv'
+}
