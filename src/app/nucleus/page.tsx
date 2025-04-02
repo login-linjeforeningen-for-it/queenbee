@@ -1,7 +1,7 @@
 export default function page() {
     return (
         <div>
-            <h1>Jobs</h1>
+            <h1>Nucleus</h1>
         </div>
     )
 }
