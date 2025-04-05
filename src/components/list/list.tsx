@@ -40,7 +40,7 @@ export default function List({list, sticky, visible}: ListProps) {
 
 function Header({keys, sticky, visible}: HeaderProps) {
     return (
-        <div className="flex gap-4 bg-grey-800 p-2">
+        <div className="flex gap-4 bg-light p-2">
             {keys.map((key) => {
                 let value = key.length < 3 ? key.toUpperCase() : `${key[0].toUpperCase()}${key.slice(1).replaceAll('_', ' ')}`
                 if (!visible.includes(key)) {
@@ -66,8 +66,8 @@ function Body({list, sticky, visible}: BodyProps) {
 function Entry({list, sticky, visible, index}: EntryProps) {
     const entries = Object.entries(list[index])
     return (
-        <div className="bg-grey-800">
-            <div className="bg-[#141414] h-[1px] w-full" />
+        <div className="bg-light">
+            <div className="bg-dark h-[1px] w-full" />
             <div className="flex p-2 gap-4">
                 {entries.map(([key, value]) => {
                     if (!visible.includes(key)) {

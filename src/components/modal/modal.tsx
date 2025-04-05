@@ -7,7 +7,7 @@ export default function Modal({ children, close }: { children: React.ReactNode; 
                close()
             }
          }}>
-         <div className="bg-background">
+         <div className="bg-normal">
             {children}
          </div>
       </div>

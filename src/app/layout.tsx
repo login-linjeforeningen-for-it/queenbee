@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import Sidebar from '@components/sidebar/Sidebar'
+import Sidebar from '@components/sidebar/sidebar'
 import { cookies } from 'next/headers'
 import Nav from '@/components/navbar/nav'
 
@@ -15,13 +15,13 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
 
     return (
         <html lang='en' className={`${theme} h-full`}>
-            <body className='bg-background h-full flex flex-col'>
+            <body className='bg-dark h-full flex flex-col'>
                 <header className='h-[45px]'>
                     <Nav />
                 </header>
                 <main className='flex flex-1 overflow-hidden'>
                     <Sidebar />
-                    <div className='p-4 w-full'>
+                    <div className='p-4 w-full bg-normal'>
                         {children}
                     </div>
                 </main>

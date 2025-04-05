@@ -12,8 +12,8 @@ export default function TextInput({width, placeholder, required}: {width: string
     let placeholderStyle = labelClassNameBase+`top-0 h-full content-center text-gray-300`
     function select(){
         if(labelRef.current && inputRef.current){
-            labelRef.current.className = labelClassNameBase+`top-2 text-xs text-primary-500`
-            inputRef.current.className = inputClassNameBase+`border-(--color-primary)`
+            labelRef.current.className = labelClassNameBase+`top-2 text-xs text-login`
+            inputRef.current.className = inputClassNameBase+`border-(--color-login)`
         }
     }
     function blur(){

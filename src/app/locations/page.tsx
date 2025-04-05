@@ -48,7 +48,7 @@ export default function Page() {
     return (
         <div>
             <h1 className="font-semibold text-lg">Locations</h1>
-            <div className="flex justify-between pb-4 h-[6vh]">
+            <div className="flex justify-between pb-4 min-h-[5vh] max-h-[6vh]">
                 <h1>Filter (for text only)</h1>
                 <div className="flex gap-4">
                     <Option value={Location.Address} active={active} setActive={setActive} />
@@ -72,14 +72,14 @@ function Option ({value, active, setActive}: OptionProps) {
     }
 
     return (
-        <div className={`${isActive ? 'bg-primary-500/20' : ''} rounded-lg`}>
+        <div className={`${isActive ? 'bg-login/20' : ''} rounded-lg`}>
             <h1 
-                className={`cursor-pointer px-2 p-1 ${isActive ? 'text-primary-500' : 'text-grey-500'}`} 
+                className={`cursor-pointer px-2 p-1 ${isActive ? 'text-login' : 'text-extralight'}`} 
                 onClick={(() => handleClick(value))}
             >
                 {`${value[0].toUpperCase()}${value.slice(1)}`}
             </h1>
-            <div className={`w-full ${isActive ? 'bg-primary-500' : ''} h-[1px]`} />
+            <div className={`w-full ${isActive ? 'bg-login' : ''} h-[1px]`} />
         </div>
     )
 }
