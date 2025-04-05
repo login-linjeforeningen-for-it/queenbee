@@ -1,4 +1,5 @@
 import BeeHive from '@components/svg/beehive'
+import Dashboard from '@components/svg/dashboad'
 import Events from '@components/svg/events'
 import Jobs from '@components/svg/jobs'
 import Locations from '@components/svg/locations'
@@ -10,6 +11,11 @@ import Link from 'next/link'
 export default function Sidebar() {
 
     const paths = {
+        dashboard: {
+            name: 'Dashboard',
+            path: '/',
+            image: <Dashboard className='fill-white w-[1.5rem]'/>
+        },
         beehive: {
             name: 'BeeHive',
             path: '/beehive',
