@@ -21,7 +21,7 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
                 </header>
                 <main className='flex h-full'>
                     <Sidebar />
-                    <div className='p-4'>
+                    <div className='p-4 w-full'>
                         {children}
                     </div>
                 </main>
