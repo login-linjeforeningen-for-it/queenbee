@@ -3,6 +3,8 @@ import Link from 'next/link'
 export default function Sidebar() {
 
     const paths = {
+        'BeeHive': '/beehive', 
+        'Nucleus': '/nucleus',
         'Events': '/events', 
         'Jobs': '/jobs',
         'Organizations': '/organizations',
@@ -16,6 +18,7 @@ export default function Sidebar() {
                 <Link 
                     key={index}
                     href={path}
+                    className='text-white'
                 >
                     {name}
                 </Link>
