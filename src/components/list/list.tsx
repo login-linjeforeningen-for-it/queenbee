@@ -1,4 +1,5 @@
 type ListProps = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     list: any[]
     sticky: string[]
     visible: string[]
@@ -11,6 +12,7 @@ type HeaderProps = {
 }
 
 type BodyProps = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     list: any[]
     sticky: string[]
     visible: string[]
@@ -27,7 +29,6 @@ export default function List({list, sticky, visible}: ListProps) {
     const keys = Object.keys(list[0])
 
     return (
-    
         <div className="max-w-[calc(100vw-var(--w-sidebar))] resize-x">
             <Header keys={keys} sticky={sticky} visible={visible} />
             <Body list={list} sticky={sticky} visible={visible} />
@@ -69,12 +70,17 @@ function Entry({list, sticky, visible, index}: EntryProps) {
             <div className="flex p-2 gap-4">
                 {entries.map(([key, value]) => {
                     if (!visible.includes(key)) {
-                        return
+                        return null
                     }
 
                     return (
-                        <div className='relative hover:after:absolute hover:after:content-[_attr(data-value)] hover:after:h-[10rem] hover:after:w-[15rem] hover:after:inline-block hover:after:top-0 hover:after:bg-black hover:after:z-999' data-value={String(value)}>
-                            <h1 className="w-[10vw] overflow-hidden" key={key}>{String(value).length < maxChars ? String(value) : String(value).slice(0,maxChars-3)+'...' }</h1>
+                        <div className="relative group w-[10vw]" key={key}>
+                            <h1 className="overflow-hidden text-ellipsis whitespace-nowrap">{String(value)}</h1>
+                            {String(value).length > maxChars && (
+                                <div className="absolute left-0 z-[1000] hidden group-hover:block bg-[var(--color-bg-surface)] p-2 rounded max-w-xs break-words whitespace-normal border border-white">
+                                    {String(value)}
+                                </div>
+                            )}
                         </div>
                     )
                 })}
