@@ -57,7 +57,7 @@ function Header({keys, sticky, visible}: HeaderProps) {
 
 function Body({list, sticky, visible}: BodyProps) {
     return (
-        <div className="h-[70vh] overflow-auto">
+        <div className="h-[77.5vh] overflow-auto">
             {list.map((entry, index) => <Entry key={index} list={list} sticky={[]} visible={visible} index={index} />)}
         </div>
     )
