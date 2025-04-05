@@ -16,6 +16,7 @@ export default function Sidebar() {
                 <Link 
                     key={index}
                     href={path}
+                    className='text-white'
                 >
                     {name}
                 </Link>
