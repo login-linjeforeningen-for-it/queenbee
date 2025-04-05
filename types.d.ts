@@ -19,23 +19,13 @@ type PostJobProps = {
 }
 
 type PostCityProps = {
-    application_deadline: string
-    application_url: string
-    banner_image: string
-    description_long_en: string
-    description_long_no: string
-    description_short_en: string
-    description_short_no: string
-    highlight: boolean
-    job_type: string
-    organization: string
-    position_title_en: string
-    position_title_no: string
-    time_expire: string
-    time_publish: string
-    title_en: string
-    title_no: string
-    visible: boolean
+    city: string
+    id: number
+}
+
+type DeleteCityProps = {
+    city: string
+    id: number
 }
 
 type PostSkillProps = {
@@ -79,7 +69,17 @@ type PostAudienceProps = {
     event: number
 }
 
+type DeleteAudienceProps = {
+    audience: number
+    event: number
+}
+
 type PostOrganizationEventProps = {
+    event: number
+    organization: string
+}
+
+type DeleteOrganizationEventProps = {
     event: number
     organization: string
 }
