@@ -7,12 +7,12 @@ export async function getJobs(limit: number | number = 20, offset: number | numb
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
     
     const path = `${config.beehiveApi.JOBADS_PATH}?${queryParts.toString()}`
-    return await fetchWrapper(path)
+    return await getWrapper(path)
 }
 
 export async function getJob(id: number) {
     const path = `${config.beehiveApi.JOBADS_PATH}${id}`
-    return await fetchWrapper(path)
+    return await getWrapper(path)
 }
 
 export async function postJob(body: PostJobProps) {
@@ -27,7 +27,7 @@ export async function postSkill(body: PostSkillProps) {
 // Cities
 export async function getCities() {
     const path = `${config.beehiveApi.CITIES_PATH}`
-    return await fetchWrapper(path)
+    return await getWrapper(path)
 }
 
 export async function postCity(body: PostCityProps) {
@@ -39,12 +39,12 @@ export async function getEvents(limit: number | number = 20, offset: number | nu
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
     
     const path = `${config.beehiveApi.EVENTS_PATH}?${queryParts.toString()}`
-    return await fetchWrapper(path)
+    return await getWrapper(path)
 }
 
 export async function getEvent(id: number) {
     const path = `${config.beehiveApi.EVENTS_PATH}${id}`
-    return await fetchWrapper(path)
+    return await getWrapper(path)
 }
 
 export async function postEvent(body: PostEventProps) {
@@ -54,17 +54,17 @@ export async function postEvent(body: PostEventProps) {
 // Events - Categories
 export async function getCategories() {
     const path = `${config.beehiveApi.CATEGORIES_PATH}`
-    return await fetchWrapper(path)
+    return await getWrapper(path)
 }
 
 export async function getAudiences() {
     const path = `${config.beehiveApi.AUDIENCES_PATH}`
-    return await fetchWrapper(path)
+    return await getWrapper(path)
 }
 
 export async function getAudience(id: number) {
     const path = `${config.beehiveApi.AUDIENCES_PATH}${id}`
-    return await fetchWrapper(path)
+    return await getWrapper(path)
 }
 
 export async function postAudience(body: PostAudienceProps) {
@@ -81,12 +81,12 @@ export async function getLocations(type: string | null = null, limit: number | n
     if (type) queryParts.append('type', type)
 
     const path = `${config.beehiveApi.LOCATIONS_PATH}?${queryParts.toString()}`
-    return await fetchWrapper(path)
+    return await getWrapper(path)
 }
 
 export async function getLocation(id: number) {
     const path = `${config.beehiveApi.LOCATIONS_PATH}${id}`
-    return await fetchWrapper(path)
+    return await getWrapper(path)
 }
 
 export async function postLocation(body: PostLocationProps) {
@@ -98,7 +98,7 @@ export async function getOrganizations(limit: number | number = 20, offset: numb
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
 
     const path = `${config.beehiveApi.ORGANIZATIONS_PATH}?${queryParts.toString()}`
-    return await fetchWrapper(path)
+    return await getWrapper(path)
 }
 
 export async function getOrganization(shortname: string | null = null) {
@@ -107,7 +107,7 @@ export async function getOrganization(shortname: string | null = null) {
     if(shortname) queryParts.append('shortname', shortname)
 
     const path = `${config.beehiveApi.ORGANIZATIONS_PATH}?${queryParts.toString()}`
-    return await fetchWrapper(path)
+    return await getWrapper(path)
 }
 
 export async function postOrganization(body: PostOrganizationProps) {
@@ -119,19 +119,19 @@ export async function getRules(limit: number | number = 20, offset: number | num
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
 
     const path = `${config.beehiveApi.RULES_PATH}?${queryParts.toString()}`
-    return await fetchWrapper(path)
+    return await getWrapper(path)
 }
 
 export async function getRule(id: number) {
     const path = `${config.beehiveApi.RULES_PATH}?${id}`
-    return await fetchWrapper(path)
+    return await getWrapper(path)
 }
 
 export async function postRule(body: PostRuleProps) {
     return await postWrapper(config.beehiveApi.RULES_PATH, body)
 }
 
-async function fetchWrapper(path: string, options = {}) {
+async function getWrapper(path: string, options = {}) {
     const defaultOptions = {
         method: 'GET',
         headers: {
