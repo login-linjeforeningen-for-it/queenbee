@@ -1,21 +1,30 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Sidebar from '@components/sidebar/Sidebar'
+import { cookies } from 'next/headers'
+import Nav from '@/components/navbar/nav'
 
 export const metadata: Metadata = {
     title: 'QueenBee',
     description: 'Queenbee - Admintool',
 }
 
-export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children, }: Readonly<{ children: React.ReactNode }>) {
+    const Cookies = await cookies()
+    const theme = Cookies.get('theme')?.value || 'dark'
+
     return (
-        <html lang='en'>
-            <body className='h-[100vh] w-[100vw] bg-[var(--color-bg-body)]'>
-                <Sidebar />
-                <main className='absolute top-0 left-[var(--sidebar-width)] w-full mx-auto'>
-                    {children}
+        <html lang='en' className={`${theme} h-full`}>
+            <body className='bg-background h-full'>
+                <header>
+                    <Nav />
+                </header>
+                <main className='flex h-full'>
+                    <Sidebar />
+                    <div className='p-4'>
+                        {children}
+                    </div>
                 </main>
-                
             </body>
         </html>
     )
