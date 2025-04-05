@@ -4,6 +4,7 @@ export default function Sidebar() {
 
     const paths = {
         'BeeHive': '/beehive', 
+        'Nucleus': '/nucleus',
         'Events': '/events', 
         'Jobs': '/jobs',
         'Organizations': '/organizations',
