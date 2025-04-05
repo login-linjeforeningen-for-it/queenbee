@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const { API_URL, CDN_URL } = process.env
-const { version } = require('package.json')
+const { version } = require('./package.json')
 
 const config = {
     url: {

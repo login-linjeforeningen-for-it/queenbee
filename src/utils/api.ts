@@ -189,16 +189,17 @@ async function getWrapper(path: string, options = {}) {
     const finalOptions = { ...defaultOptions, ...options }
 
     try {
+        console.log(`${baseUrl}${path}`, finalOptions)
         const response = await fetch(`${baseUrl}${path}`, finalOptions)
-        const data = await response.json()
-
         if (!response.ok) {
-            return null
+            throw new Error(await response.json())
         }
-
+        
+        const data = await response.json()
         return data
     // eslint-disable-next-line
     } catch (error: any) {
+        console.error(JSON.stringify(error))
         return JSON.stringify(error.message) || 'Unknown error! Please contact TekKom'
     }
 }
@@ -214,15 +215,15 @@ async function postWrapper(path: string, data = {}) {
 
     try {
         const response = await fetch(`${baseUrl}${path}`, defaultOptions)
-        const data = await response.json()
-
         if (!response.ok) {
-            return null
+            throw new Error(await response.json())
         }
-
+        
+        const data = await response.json()
         return data
     // eslint-disable-next-line
     } catch (error: any) {
+        console.error(JSON.stringify(error))
         return JSON.stringify(error.message) || 'Unknown error! Please contact TekKom'
     }
 }
