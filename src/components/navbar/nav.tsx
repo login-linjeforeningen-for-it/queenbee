@@ -7,7 +7,7 @@ import Logout from '@components/svg/logout'
 
 export default function Nav() {
     return (
-        <nav className='relative w-full bg-black h-[45px] flex justify-between'>
+        <nav className='relative w-full bg-black flex justify-between'>
             <LeftSide />
             <RightSide />
         </nav>

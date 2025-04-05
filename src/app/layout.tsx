@@ -15,11 +15,11 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
 
     return (
         <html lang='en' className={`${theme} h-full`}>
-            <body className='bg-background h-full'>
-                <header>
+            <body className='bg-background h-full flex flex-col'>
+                <header className='h-[45px]'>
                     <Nav />
                 </header>
-                <main className='flex h-full'>
+                <main className='flex flex-1 overflow-hidden'>
                     <Sidebar />
                     <div className='p-4 w-full'>
                         {children}

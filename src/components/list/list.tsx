@@ -31,7 +31,7 @@ export default function List({list, sticky, visible}: ListProps) {
     const keys = Object.keys(list[0])
 
     return (
-        <div>
+        <div className="h-full pb-2">
             <Header keys={keys} sticky={sticky} visible={visible} />
             <Body list={list} sticky={sticky} visible={visible} />
         </div>
@@ -57,7 +57,7 @@ function Header({keys, sticky, visible}: HeaderProps) {
 
 function Body({list, sticky, visible}: BodyProps) {
     return (
-        <div>
+        <div className="h-[70vh] overflow-auto">
             {list.map((entry, index) => <Entry key={index} list={list} sticky={[]} visible={visible} index={index} />)}
         </div>
     )

@@ -54,7 +54,7 @@ export default function Sidebar() {
     }
 
     return (
-        <div className='h-full w-[var(--w-sidebar)] flex flex-col overflow-hidden bg-[#141414] p-[1rem] gap-[1rem]'>
+        <div className='h-full min-w-[var(--w-sidebar)] flex flex-col overflow-hidden bg-[#141414] p-[1rem] gap-[1rem]'>
             {Object.entries(paths).map(([, value], index) => (
                 <Link 
                     key={index}

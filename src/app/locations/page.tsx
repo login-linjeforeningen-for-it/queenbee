@@ -48,7 +48,7 @@ export default function Page() {
     return (
         <div>
             <h1 className="font-semibold text-lg">Locations</h1>
-            <div className="flex justify-between pb-4">
+            <div className="flex justify-between pb-4 h-[6vh]">
                 <h1>Filter (for text only)</h1>
                 <div className="flex gap-4">
                     <Option value={Location.Address} active={active} setActive={setActive} />
