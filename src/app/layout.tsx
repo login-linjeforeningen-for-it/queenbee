@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { cookies } from 'next/headers'
+import Nav from '@/components/navbar/nav'
 
 export const metadata: Metadata = {
     title: 'QueenBee',
@@ -14,7 +15,12 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
     return (
         <html lang='en' className={theme}>
             <body className='bg-background'>
-                {children}
+                <header>
+                    <Nav />
+                </header>
+                <main>
+                    {children}
+                </main>
             </body>
         </html>
     )
