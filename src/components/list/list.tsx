@@ -27,7 +27,8 @@ export default function List({list, sticky, visible}: ListProps) {
     const keys = Object.keys(list[0])
 
     return (
-        <div>
+    
+        <div className="max-w-[calc(100vw-var(--w-sidebar))] resize-x">
             <Header keys={keys} sticky={sticky} visible={visible} />
             <Body list={list} sticky={sticky} visible={visible} />
         </div>
@@ -53,7 +54,7 @@ function Header({keys, sticky, visible}: HeaderProps) {
 
 function Body({list, sticky, visible}: BodyProps) {
     return (
-        <div>
+        <div className="flex flex-col h-96">
             {list.map((entry, index) => <Entry key={index} list={list} sticky={[]} visible={visible} index={index} />)}
         </div>
     )
@@ -62,7 +63,7 @@ function Body({list, sticky, visible}: BodyProps) {
 function Entry({list, sticky, visible, index}: EntryProps) {
     const entries = Object.entries(list[index])
     return (
-        <div className="bg-grey-800">
+            <div className="bg-grey-800">
             <div className="bg-[#141414] h-[1px] w-full" />
             <div className="flex p-2 gap-4">
                 {entries.map(([key, value]) => {
@@ -70,7 +71,8 @@ function Entry({list, sticky, visible, index}: EntryProps) {
                         return
                     }
 
-                    return <h1 className="w-[10vw]" key={key}>{String(value)}</h1>
+ 
+                    return <h1 className="w-[10vw] overflow-hidden" key={key}>{String(value)}</h1>
                 })}
             </div>
         </div>
