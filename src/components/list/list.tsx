@@ -62,6 +62,7 @@ function Body({list, sticky, visible}: BodyProps) {
 
 function Entry({list, sticky, visible, index}: EntryProps) {
     const entries = Object.entries(list[index])
+    const maxChars = 18
     return (
         <div className="bg-grey-800">
             <div className="bg-[#141414] h-[1px] w-full" />
@@ -73,7 +74,7 @@ function Entry({list, sticky, visible, index}: EntryProps) {
 
                     return (
                         <div className='relative hover:after:absolute hover:after:content-[_attr(data-value)] hover:after:h-[10rem] hover:after:w-[15rem] hover:after:inline-block hover:after:top-0 hover:after:bg-black hover:after:z-999' data-value={String(value)}>
-                            <h1 className="w-[10vw] overflow-hidden" key={key}>{String(value)}</h1>
+                            <h1 className="w-[10vw] overflow-hidden" key={key}>{String(value).length < maxChars ? String(value) : String(value).slice(0,maxChars-3)+'...' }</h1>
                         </div>
                     )
                 })}
