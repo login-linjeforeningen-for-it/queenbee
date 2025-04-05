@@ -13,16 +13,18 @@ const config = {
     beehiveApi: {
         EVENTS_PATH: '/events/',
         JOBADS_PATH: '/jobs/',
+        SKILLS_PATH: '/jobs/skills/',
+        CITIES_PATH: '/cities/',
+        CITIES_PATH_2: '/jobs/cities/',
         CATEGORIES_PATH: '/categories/',
+        AUDIENCES_PATH_2: '/events/audiences/',
+        ORGANIZATIONS_PATH_2: '/events/organizations/',
         AUDIENCES_PATH: '/audiences/',
         ORGANIZATIONS_PATH: '/organizations/',
         RULES_PATH: '/rules/',
         LOCATIONS_PATH: '/locations/',
-        SKILLS_PATH: 'skills',
-        CITIES_PATH: 'cities',
         IMAGES_PATH: '/images',
         SECRET: 'secret', // Cosmic secret, quite strong password
-        AUDIENCES_PATH_2: 'audiences',
     },
     time: {
         TIME_UNSET: '0001-01-01T00:00:00Z',
