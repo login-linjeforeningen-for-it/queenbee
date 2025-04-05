@@ -3,6 +3,7 @@ import Link from 'next/link'
 export default function Sidebar() {
 
     const paths = {
+        'BeeHive': '/beehive', 
         'Events': '/events', 
         'Jobs': '/jobs',
         'Organizations': '/organizations',
