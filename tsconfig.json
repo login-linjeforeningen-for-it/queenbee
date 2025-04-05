@@ -23,6 +23,7 @@
       "@app/*": ["./src/app/*"],
       "@assets/*": ["./public/assets/*"],
       "@utils/*": ["./src/utils/*"],
+      "@config": ["./constants.ts"],
       "@/*": ["./src/*"]
     }
   },

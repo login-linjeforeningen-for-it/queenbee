@@ -8,7 +8,7 @@ const { version } = require('package.json')
 const config = {
     url: {
         API_URL: API_URL || 'https://queenbee-api.login.no/v1',
-        CDN_URL: CDN_URL || "https://cdn.login.no"
+        CDN_URL: CDN_URL || 'https://cdn.login.no'
     },
     beehiveApi: {
         EVENTS_PATH: '/events/',
