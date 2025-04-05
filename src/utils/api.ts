@@ -15,7 +15,7 @@ export async function getJob(id: number) {
     return await getWrapper(path)
 }
 
-export async function postJob(body: PostJobProps) {
+export async function postJob(body: JobProps) {
     return await postWrapper(config.beehiveApi.JOBADS_PATH, body)
 }
 
@@ -24,8 +24,13 @@ export async function deleteJob(id: number) {
     return await deleteWrapper(path)
 }
 
+export async function patchJob(id: number, body: JobProps) {
+    const path = `${config.beehiveApi.JOBADS_PATH}${id}`
+    return await patchWrapper(path,body)
+}
+
 // Jobs - Skill
-export async function postSkill(body: PostSkillProps) {
+export async function postSkill(body: SkillProps) {
     return await postWrapper(config.beehiveApi.SKILLS_PATH, body)
 }
 
@@ -35,11 +40,11 @@ export async function getCities() {
     return await getWrapper(path)
 }
 
-export async function postCity(body: PostCityProps) {
+export async function postCity(body: CityProps) {
     return await postWrapper(config.beehiveApi.CITIES_PATH_2, body)
 }
 
-export async function deleteCity(body: DeleteCityProps) {
+export async function deleteCity(body: CityProps) {
     return await deleteWrapper(config.beehiveApi.CITIES_PATH_2,body)
 }
 
@@ -56,7 +61,7 @@ export async function getEvent(id: number) {
     return await getWrapper(path)
 }
 
-export async function postEvent(body: PostEventProps) {
+export async function postEvent(body: EventProps) {
     return await postWrapper(config.beehiveApi.EVENTS_PATH, body)
 }
 
@@ -65,6 +70,10 @@ export async function deleteEvent(id: number) {
     return await deleteWrapper(path)
 }
 
+export async function patchEvent(body: EventProps) {
+    const path = `${config.beehiveApi.EVENTS_PATH}`
+    return await patchWrapper(path,body)
+}
 
 // Events - Categories
 export async function getCategories() {
@@ -82,19 +91,19 @@ export async function getAudience(id: number) {
     return await getWrapper(path)
 }
 
-export async function postAudience(body: PostAudienceProps) {
+export async function postAudience(body: AudienceProps) {
     return await postWrapper(config.beehiveApi.AUDIENCES_PATH_2, body)
 }
 
-export async function deleteAudience(body: DeleteAudienceProps) {
+export async function deleteAudience(body: AudienceProps) {
     return await deleteWrapper(config.beehiveApi.AUDIENCES_PATH_2, body)
 }
 
-export async function postOrganizationEvent(body: PostOrganizationEventProps) {
+export async function postOrganizationEvent(body: OrganizationEventProps) {
     return await postWrapper(config.beehiveApi.ORGANIZATIONS_PATH_2, body)
 }
 
-export async function deleteOrganizationEvent(body: DeleteOrganizationEventProps) {
+export async function deleteOrganizationEvent(body: OrganizationEventProps) {
     return await deleteWrapper(config.beehiveApi.ORGANIZATIONS_PATH_2, body)
 }
 
@@ -112,13 +121,18 @@ export async function getLocation(id: number) {
     return await getWrapper(path)
 }
 
-export async function postLocation(body: PostLocationProps) {
+export async function postLocation(body: LocationProps) {
     return await postWrapper(config.beehiveApi.LOCATIONS_PATH, body)
 }
 
 export async function deleteLocation(id: number) {
     const path = `${config.beehiveApi.LOCATIONS_PATH}${id}`
     return await deleteWrapper(path)
+}
+
+export async function patchLocation(id: number, body: LocationProps) {
+    const path = `${config.beehiveApi.LOCATIONS_PATH}${id}`
+    return await patchWrapper(path,body)
 }
 
 // Organizations
@@ -134,13 +148,18 @@ export async function getOrganization(shortname: string) {
     return await getWrapper(path)
 }
 
-export async function postOrganization(body: PostOrganizationProps) {
+export async function postOrganization(body: OrganizationProps) {
     return await postWrapper(config.beehiveApi.ORGANIZATIONS_PATH, body)
 }
 
 export async function deleteOrganization(shortname: string) {
     const path = `${config.beehiveApi.ORGANIZATIONS_PATH}${shortname}`
     return await deleteWrapper(path)
+}
+
+export async function patchOrganization(shortname: string, body: LocationProps) {
+    const path = `${config.beehiveApi.ORGANIZATIONS_PATH}${shortname}`
+    return await patchWrapper(path,body)
 }
 
 // Rules
@@ -156,7 +175,7 @@ export async function getRule(id: number) {
     return await getWrapper(path)
 }
 
-export async function postRule(body: PostRuleProps) {
+export async function postRule(body: RuleProps) {
     return await postWrapper(config.beehiveApi.RULES_PATH, body)
 }
 
@@ -211,6 +230,30 @@ async function postWrapper(path: string, data = {}) {
 async function deleteWrapper(path: string, options = {}) {
     const defaultOptions = {
         method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }
+    const finalOptions = { ...defaultOptions, ...options }
+
+    try {
+        const response = await fetch(`${baseUrl}${path}`, finalOptions)
+        const data = await response.json()
+
+        if (!response.ok) {
+            return null
+        }
+
+        return data
+    // eslint-disable-next-line
+    } catch (error: any) {
+        return JSON.stringify(error.message) || 'Unknown error! Please contact TekKom'
+    }
+}
+
+async function patchWrapper(path: string, options = {}) {
+    const defaultOptions = {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },

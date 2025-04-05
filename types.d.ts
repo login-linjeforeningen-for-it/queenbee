@@ -1,4 +1,4 @@
-type PostJobProps = {
+type JobProps = {
     application_deadline: string
     application_url: string
     banner_image: string
@@ -18,22 +18,17 @@ type PostJobProps = {
     visible: boolean
 }
 
-type PostCityProps = {
+type CityProps = {
     city: string
     id: number
 }
 
-type DeleteCityProps = {
-    city: string
-    id: number
-}
-
-type PostSkillProps = {
+type SkillProps = {
     id: number
     skill: string
 }
 
-type PostEventProps = {
+type EventProps = {
     canceled: boolean
     capacity: number
     category: number
@@ -64,27 +59,17 @@ type PostEventProps = {
     visible: boolean
 }
 
-type PostAudienceProps = {
+type AudienceProps = {
     audience: number
     event: number
 }
 
-type DeleteAudienceProps = {
-    audience: number
-    event: number
-}
-
-type PostOrganizationEventProps = {
+type OrganizationEventProps = {
     event: number
     organization: string
 }
 
-type DeleteOrganizationEventProps = {
-    event: number
-    organization: string
-}
-
-type PostLocationProps = {
+type LocationProps = {
     address_postcode: number
     address_street: string
     city_name: string
@@ -98,7 +83,7 @@ type PostLocationProps = {
     url: string
 }
 
-type PostOrganizationProps = {
+type OrganizationProps = {
     description_en: string
     description_no: string
     link_facebook: string
@@ -112,7 +97,7 @@ type PostOrganizationProps = {
     type: number
 }
 
-type PostRuleProps = {
+type RuleProps = {
     description_en: string
     description_no: string
     name_en: string
