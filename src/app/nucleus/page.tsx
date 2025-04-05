@@ -15,16 +15,6 @@ export default function page() {
     const [description, setDescription] = useState("")
     const [topic, setTopic] = useState("")
     const [screen, setScreen] = useState("")
-    // --background: #0a0a0a;
-	// --foreground: #ededed;
-	// --color-dark: #1a1a1a;
-	// --color-sidebar: #121212;
-	// --color-normal: #171717;
-	// --color-light: #212121;
-	// --color-extralight: #323232;
-	// --color-superlight: #424242;
-	// --color-bright: white;
-	// --color-login: #fd8738;
     return (
         <div className="h-full">
             <h1 className="font-semibold text-lg">Nucleus</h1>

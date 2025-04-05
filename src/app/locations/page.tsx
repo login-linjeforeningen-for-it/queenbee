@@ -1,8 +1,8 @@
 'use client'
-import List from "@components/list/list"
-import { getLocations } from "@utils/api"
-import { getCookie, setCookie } from "@utils/cookies"
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import List from '@components/list/list'
+import { getLocations } from '@utils/api'
+import { getCookie, setCookie } from '@utils/cookies'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 enum Location {
     Address = 'address',
@@ -18,6 +18,7 @@ type OptionProps = {
 
 export default function Page() {
     const [active, setActive] = useState<Location>(Location.Address)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [locations, setLocations] = useState<any[]>([])
     const [list, setList] = useState(locations.filter((location) => location.type === active))
     const addressVisible = ['id', 'name_no', 'address_street', 'address_postcode', 'city_name', 'url', 'updated_at']
@@ -29,6 +30,7 @@ export default function Page() {
 
     useEffect(() => {
         (async() => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const response: any[] = await getLocations(null, 200)
             if (response) {
                 setLocations(response)
@@ -50,7 +52,7 @@ export default function Page() {
             <h1 className="font-semibold text-lg">Locations</h1>
             <div className="flex justify-between pb-4 min-h-[5vh] max-h-[6vh]">
                 <h1>Filter (for text only)</h1>
-                <div className="flex gap-4">
+                <div className='flex gap-4'>
                     <Option value={Location.Address} active={active} setActive={setActive} />
                     <Option value={Location.Coordinate} active={active} setActive={setActive} />
                     <Option value={Location.Mazemap} active={active} setActive={setActive} />
