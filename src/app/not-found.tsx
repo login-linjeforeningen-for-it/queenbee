@@ -7,7 +7,7 @@ export default function page(){
                 src='/images/notFound.gif'
                 width={500}
                 height={500}
-                alt="Picture of the author"
+                alt='Not found - Breaking Bad Gif'
             />
             <p className='p-[2rem]'>Denne siden finnes ikke. Dette blir ikke fikset før TekKom har fått mer pizza...</p>
         </div>
