@@ -17,8 +17,12 @@ export default function page() {
                     </div>
                 </Modal>
             )}
-            <div className='w-full relative'>
-                <button onClick={()=>{setShowModal(true)}}>New rule</button>
+            <div className='h-[var(--h-pageInfo)]'>
+                <h1 className="font-semibold text-lg">Rules</h1>
+                <div className='flex justify-between'>
+                    <h1>Filter Input</h1>
+                    <button onClick={()=>{setShowModal(true)}}>New rule</button>
+                </div>
             </div>
         </>
     )
