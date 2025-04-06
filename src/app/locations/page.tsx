@@ -28,40 +28,43 @@ export default function Page() {
     const coordinateVisible = ['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']
     const coordinateSticky = ['id']
 
-    useEffect(() => {
-        (async() => {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const response: any[] = await getLocations(null, 200)
-            if (response) {
-                setLocations(response)
-            }
+    // useEffect(() => {
+    //     (async() => {
+    //         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    //         const response: any[] = await getLocations(null, 200)
+    //         if (response) {
+    //             setLocations(response)
+    //         }
 
-            const activeResponse = getCookie('location') as Location || Location.Address
-            if (activeResponse) {
-                setActive(activeResponse)
-            }
-        })()
-    }, [])
+    //         const activeResponse = getCookie('location') as Location || Location.Address
+    //         if (activeResponse) {
+    //             setActive(activeResponse)
+    //         }
+    //     })()
+    // }, [])
 
-    useEffect(() => {
-        setList(locations.filter((location) => active === Location.Coordinate ? location.type === 'coords' : location.type === active))
-    }, [locations, active])
-    
+    // useEffect(() => {
+    //     setList(locations.filter((location) => active === Location.Coordinate ? location.type === 'coords' : location.type === active))
+    // }, [locations, active])
+
     return (
-        <div className='h-[var(--h-pageInfo)]'>
+        <div className={`h-[var(--h-pageInfo)] ${list.length ? '' : 'h-full'}`}>
             <h1 className="font-semibold text-lg">Locations</h1>
             <div className="flex justify-between pb-4 min-h-[5vh] max-h-[6vh]">
-                <h1>Filter (for text only)</h1>
-                <div className='flex gap-4'>
+                {list.length > 0 && <h1>Filter (for text only)</h1>}
+                {list.length > 0 && <div className='flex gap-4'>
                     <Option value={Location.Address} active={active} setActive={setActive} />
                     <Option value={Location.Coordinate} active={active} setActive={setActive} />
                     <Option value={Location.Mazemap} active={active} setActive={setActive} />
-                </div>
+                </div>}
                 <h1>Create new button</h1>
             </div>
-            {active === Location.Address && <List sticky={addressSticky} list={list} visible={addressVisible} />}
-            {active === Location.Mazemap && <List sticky={mazemapSticky} list={list} visible={mazemapVisible} />}
-            {active === Location.Coordinate && <List sticky={coordinateSticky} list={list} visible={coordinateVisible} />}
+            {list.length > 0 && active === Location.Address && <List sticky={addressSticky} list={list} visible={addressVisible} />}
+            {list.length > 0 && active === Location.Mazemap && <List sticky={mazemapSticky} list={list} visible={mazemapVisible} />}
+            {list.length > 0 && active === Location.Coordinate && <List sticky={coordinateSticky} list={list} visible={coordinateVisible} />}
+            {list.length <= 0 && <div className="grid place-items-center self-center h-full">
+                <h1>Fant ingen jobber.</h1>
+            </div>}
         </div>
     )
 }
