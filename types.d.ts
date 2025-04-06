@@ -144,3 +144,8 @@ type DetailedEvent = {
     category_name_no: string
     category_name_en: string
 }
+
+type SendResponseClient = {
+    status: number
+    message: string
+}

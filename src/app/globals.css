@@ -20,7 +20,9 @@
 }
 
 :root {
-	--w-sidebar: 13rem;
+	--w-sidebar:  13rem;
+	--h-navbar:   2.8rem;
+	--h-pageInfo: 7rem;
 	transition: background 0.4s, color 0.4s;
 }
 

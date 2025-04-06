@@ -17,9 +17,9 @@ export default function Nav() {
 function LeftSide() {
     return (
         <div className='flex gap-4'>
-            <div className='relative h-[45px] w-[45px]'>
+            <div className='relative h-[var(--h-navbar)] w-[45px]'>
                 <Link
-                    href={'/'}    
+                    href={'/'}
                 >
                     <Image alt='Logo' src='/images/queenbee-logo.png' fill={true} quality={100} />
                 </Link>
@@ -35,7 +35,7 @@ function RightSide() {
     return (
         <div className='flex gap-[1rem] items-center pr-[1rem]'>
             <ThemeSwitch />
-            <Link className='flex gap-[0.5rem] hover:*:text-[var(--color-login)] hover:*:fill-[var(--color-login)]' href={loggedIn ? '/logout' : '/login'}>
+            <Link className='flex gap-[0.5rem] hover:*:text-login hover:*:fill-login' href={loggedIn ? '/logout' : '/login'}>
                 {loggedIn ? <h1>Logg ut</h1> : <h1 className='text-white'>Logg inn</h1>}
                 {loggedIn ? <Logout className='fill-white w-[1.5rem]' /> : <Login className='fill-white w-[1.5rem]'/>}
             </Link>
