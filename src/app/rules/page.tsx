@@ -1,7 +1,8 @@
-"use client"
-import Modal from "@components/modal/modal";
-import TextInput from "@components/userInput/textInput";
-import { useState } from "react";
+'use client'
+import Modal from '@components/modal/modal'
+import TextArea from "@components/userInput/textArea";
+import TextInput from '@components/userInput/textInput'
+import { useState } from 'react'
 
 export default function page() {
     const [showModal, setShowModal] = useState(false);
@@ -18,9 +19,13 @@ export default function page() {
                     </div>
                 </Modal>
             )}
-            <div className="w-full relative">
-                <button onClick={()=>{setShowModal(true)}}>New rule</button>
-            </div>
+            <form>
+                <TextArea width={"50%"} height={"50%"} placeholder="hello" required={true}></TextArea>
+                <div className="w-full relative">
+                    <button onClick={()=>{setShowModal(true)}}>New rule</button>
+                </div>
+                <input type="submit"/>
+            </form>
         </>
     )
 }
