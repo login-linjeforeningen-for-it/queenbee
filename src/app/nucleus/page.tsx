@@ -20,6 +20,10 @@ export default function page() {
 
     async function handleSend() {
         const response = await sendNotificationClient({title, description, screen, topic})
+        setTitle('')
+        setDescription('')
+        setTopic('')
+        setScreen('')
         if (response) {
             setResult(response)
             if (response.status === 200) {
@@ -37,20 +41,28 @@ export default function page() {
                 <div>
                     <h1 className="rounded-lg pb-4 text-center">Send a notification to the Login App</h1>
                     {result?.status && <h1 className={`rounded-md text-center mb-4 py-1 ${result.status === 200 ? 'bg-green-500' : 'bg-red-500'}`}>{result?.message}</h1>}
-                    <div className="flex flex-col w-[40vw] h-[40vh] bg-sidebar p-4 rounded-md relative gap-2">
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleSend();
+                        }}
+                        className="flex flex-col w-[40vw] h-[40vh] bg-sidebar p-4 rounded-md relative gap-2">
                         <Bar title="Title" placeholder="Viktig beskjed til alle i Login..." content={title} setContent={setTitle} />
                         <Bar title="Description" placeholder="Event ... har blitt flyttet frem en time!" content={description} setContent={setDescription} />
                         <Bar title="Topic" placeholder="nTEKKOM / n191w" content={topic} setContent={setTopic} />
                         <Bar title="Screen" placeholder="191" content={screen} setContent={setScreen} />
                         <Link
+                            target="_blank"
                             href={`${config.url.CDN_URL}/files/misc/push_notifications.pdf`}
                             className="absolute bottom-4 bg-light px-6 rounded-lg py-1"
                         >Documentation</Link>
-                        <h1 
-                            className="absolute bottom-4 right-4 bg-login rounded-lg px-8 py-1"
-                            onClick={(() => handleSend())}
-                        >Send</h1>
-                    </div>
+                        <input 
+                            type="submit"
+                            className="absolute bottom-4 right-4 bg-login rounded-lg px-8 py-1 cursor-pointer"
+                            onSubmit={(() => handleSend())}
+                            value="Send"
+                        />
+                    </form>
                 </div>
             </div>
         </div>
