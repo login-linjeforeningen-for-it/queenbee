@@ -20,10 +20,6 @@ export default function page() {
 
     async function handleSend() {
         const response = await sendNotificationClient({title, description, screen, topic})
-        setTitle('')
-        setDescription('')
-        setTopic('')
-        setScreen('')
         if (response) {
             setResult(response)
             if (response.status === 200) {
@@ -46,7 +42,8 @@ export default function page() {
                             e.preventDefault();
                             handleSend();
                         }}
-                        className="flex flex-col w-[40vw] h-[40vh] bg-sidebar p-4 rounded-md relative gap-2">
+                        className="flex flex-col w-[35rem] h-[40vh] bg-sidebar p-4 rounded-md relative gap-2"
+                    >
                         <Bar title="Title" placeholder="Viktig beskjed til alle i Login..." content={title} setContent={setTitle} />
                         <Bar title="Description" placeholder="Event ... har blitt flyttet frem en time!" content={description} setContent={setDescription} />
                         <Bar title="Topic" placeholder="nTEKKOM / n191w" content={topic} setContent={setTopic} />
@@ -71,14 +68,14 @@ export default function page() {
 
 function Bar({title, content, setContent, placeholder}: BarProps) {
     return (
-        <div className="flex h-8 w-full">
-            <h1 className="min-w-[7vw] max-w-[6vw] flex items-center">{title}</h1>
+        <label className="flex h-8 w-full">
+            <h1 className="w-[10rem] flex items-center">{title}</h1>
             <input 
                 placeholder={placeholder}
                 onChange={(event) => setContent(event.target.value)}
                 className="w-full align-center bg-light rounded-md px-2" 
                 value={content} 
             />
-        </div>
+        </label>
     )
 }
