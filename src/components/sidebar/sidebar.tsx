@@ -1,3 +1,6 @@
+'use client'
+
+import { usePathname } from 'next/navigation'
 import BeeHive from '@components/svg/beehive'
 import Dashboard from '@components/svg/dashboad'
 import Events from '@components/svg/events'
@@ -9,6 +12,8 @@ import Rules from '@components/svg/rules'
 import Link from 'next/link'
 
 export default function Sidebar() {
+    
+    const path = usePathname()
 
     const paths = {
         dashboard: {
@@ -59,7 +64,7 @@ export default function Sidebar() {
                 <Link 
                     key={index}
                     href={value.path}
-                    className='flex flex-row items-center gap-[1rem] py-[0.25rem] hover:*:fill-login hover:text-[var(--color-text-login)] font-medium'
+                    className={`flex flex-row items-center gap-[1rem] py-[0.25rem] hover:pl-[0.5rem] duration-[500ms] transition-[padding] ${path === value.path ? '*:fill-login text-login' : '' } hover:*:fill-login hover:text-login font-medium`}
                 >
                     {value.image}
                     {value.name}
