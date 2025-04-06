@@ -64,7 +64,7 @@ export default function Sidebar() {
                 <Link 
                     key={index}
                     href={value.path}
-                    className={`flex flex-row px-[1rem] items-center gap-[0.5rem] py-[0.8rem] hover:pl-[1.5rem] duration-[500ms] transition-[padding] ${path === value.path ? '*:fill-login text-login pl-[1.2rem] bg-dark border-l-[0.3rem]' : '' } hover:*:fill-login hover:text-login font-medium`}
+                    className={`flex flex-row px-[1rem] items-center gap-[0.5rem] py-[0.8rem] hover:pl-[1.5rem] duration-[500ms] transition-[padding] ${path === value.path ? '*:fill-login text-login pl-[1.2rem] bg-normal border-l-[0.3rem]' : '' } hover:*:fill-login hover:text-login font-medium`}
                 >
                     {value.image}
                     {value.name}
