@@ -29,8 +29,8 @@ export default function List({list, sticky, visible}: ListProps) {
     const keys = Object.keys(list[0])
 
     return (
-        <div className='max-w-[calc(100vw-var(--w-sidebar))] overflow-x-auto'>
-            <table className='w-full border-collapse table-auto'>
+        <div className='relativ overflow-visible max-w-[calc(100vw-var(--w-sidebar))]'>
+            <table className='w-full border-collapse table-auto '>
                 <Header keys={keys} sticky={sticky} visible={visible} />
                 <Body list={list} sticky={sticky} visible={visible} />
             </table>
@@ -75,7 +75,6 @@ function Entry({list, sticky, visible, index}: EntryProps) {
             <tr>
                 {entries.map(([key, value]) => {
                     if (!visible.includes(key)) return null
-
                     return (
                         <td key={key} className={`p-[0.5rem] bg-normal ${sticky.includes(key) ? 'font-bold sticky left-0 z-10' : 'font-normal'}`}>
                             <div className='relative group'>
