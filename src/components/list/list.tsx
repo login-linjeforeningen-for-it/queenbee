@@ -29,7 +29,7 @@ export default function List({list, sticky, visible}: ListProps) {
     const keys = Object.keys(list[0])
 
     return (
-        <div className='max-w-[calc(100vw-var(--w-sidebar))] pb-[10rem] overflow-x-auto'>
+        <div className='max-w-[calc(100vw-var(--w-sidebar))] overflow-x-auto'>
             <table className='w-full border-collapse table-auto'>
                 <Header keys={keys} sticky={sticky} visible={visible} />
                 <Body list={list} sticky={sticky} visible={visible} />
@@ -72,22 +72,24 @@ function Entry({list, sticky, visible, index}: EntryProps) {
     const maxChars = 18
     return (
         <tbody className='bg-normal'>
-            {entries.map(([key, value]) => {
-                if (!visible.includes(key)) return null
+            <tr>
+                {entries.map(([key, value]) => {
+                    if (!visible.includes(key)) return null
 
-                return (
-                    <td key={key} className={`p-[0.5rem] bg-normal ${sticky.includes(key) ? 'font-bold sticky left-0 z-10' : 'font-normal'}`}>
-                        <div className='relative group'>
-                            <h1 className='overflow-hidden text-ellipsis whitespace-nowrap max-w-[10rem]'>{String(value)}</h1>
-                            {String(value).length > maxChars && (
-                                <div className='absolute left-0 z-[1000] hidden group-hover:block bg-normal p-2 rounded max-w-xs break-words whitespace-normal border border-white'>
-                                    {String(value)}
-                                </div>
-                            )}
-                        </div>
-                    </td>
-                )
-            })}
+                    return (
+                        <td key={key} className={`p-[0.5rem] bg-normal ${sticky.includes(key) ? 'font-bold sticky left-0 z-10' : 'font-normal'}`}>
+                            <div className='relative group'>
+                                <h1 className='overflow-hidden text-ellipsis whitespace-nowrap max-w-[10rem]'>{String(value)}</h1>
+                                {String(value).length > maxChars && (
+                                    <div className='absolute left-0 z-[1000] hidden group-hover:block bg-normal p-2 rounded max-w-xs break-words whitespace-normal border border-white'>
+                                        {String(value)}
+                                    </div>
+                                )}
+                            </div>
+                        </td>
+                    )
+                })}
+            </tr>
         </tbody>
     )
 }
