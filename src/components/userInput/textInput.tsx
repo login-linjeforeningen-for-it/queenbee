@@ -26,7 +26,7 @@ export default function TextInput({width, onchange, placeholder, required}: {wid
             else{
                 labelRef.current.className = labelClassNameBase+'top-2 text-xs'
                 labelRef.current.style.color = "color-mix(in oklab, currentColor 50%, transparent)"
-                inputRef.current.className = inputClassNameBase+'border-superlight'
+                inputRef.current.className = inputClassNameBase+'border-almostbright'
             }
         }
     }
