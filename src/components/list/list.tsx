@@ -56,6 +56,8 @@ function Body({list, sticky, visible}: BodyProps) {
     return list.map((_, index) => {
         const entries = Object.entries(list[index])
         const maxChars = 18
+        let end = false
+        if(list.length > 8) end = index >= list.length - 4
         return (
             <tbody key={index} className='bg-extralight'>
                 <tr>
@@ -71,7 +73,7 @@ function Body({list, sticky, visible}: BodyProps) {
                                         {String(value)}
                                     </h1>
                                     {String(value).length > maxChars && (
-                                        <div className='absolute left-0 z-[1000] hidden group-hover:block bg-normal p-2 rounded max-w-xs break-words whitespace-normal border border-foreground'>
+                                        <div className={`absolute left-0 z-[1000] hidden group-hover:block bg-normal p-2 rounded max-w-xs break-words whitespace-normal border border-foreground ${(end) ? "bottom-full" : ""}`}>
                                             {String(value)}
                                         </div>
                                     )}
