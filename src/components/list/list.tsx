@@ -18,13 +18,6 @@ type BodyProps = {
     visible: string[]
 }
 
-type EntryProps = {
-    list: string[]
-    sticky: string[]
-    visible: string[]
-    index: number
-}
-
 export default function List({list, sticky, visible}: ListProps) {
     const keys = Object.keys(list[0])
 
