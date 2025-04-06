@@ -2,7 +2,7 @@ import List from '@components/list/list'
 import { getEvents } from '@utils/api'
 
 export default async function page() {
-    const events = await getEvents()
+    const list = await getEvents()
     const visible = ['id', 'name_no', 'name_en', 'category', 'location', 'time_type', 'start_time', 'end_time', 'publish_time', 'capacity', 'full', 'canceled', 'updated_at']
     return (
         <div className='w-full h-[var(--h-pageInfo)]'>
