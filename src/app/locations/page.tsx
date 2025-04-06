@@ -31,6 +31,12 @@ export default function page() {
     const coordinateVisible = ['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']
     const coordinateSticky = ['id']
     const [filterText, setFilterText] = useState('')
+    const [filteredList, setFilteredList] = useState<any[]>(list)
+
+    useEffect(() => {
+        if (filterText !== '') setFilteredList(FilterList({ list, filterText }))
+        else setFilteredList(list)
+    }, [list,filterText])
 
     useEffect(() => {
         (async() => {
