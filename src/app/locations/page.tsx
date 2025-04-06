@@ -1,4 +1,5 @@
 'use client'
+import FilterList from '@components/filterList/filterList'
 import List from '@components/list/list'
 import Modal from '@components/modal/modal'
 import Button from '@components/userInput/button'
@@ -32,6 +33,12 @@ export default function page() {
     const coordinateSticky = ['id']
     const [filterText, setFilterText] = useState('')
     const [modal, setModal] = useState(false)
+    const [filteredList, setFilteredList] = useState<any[]>(list)
+
+    useEffect(() => {
+        if (filterText !== '') setFilteredList(FilterList({ list, filterText }))
+        else setFilteredList(list)
+    }, [list,filterText])
 
     useEffect(() => {
         (async() => {
@@ -53,23 +60,22 @@ export default function page() {
     }, [locations, active])
 
     return (
-        <div className={`max-w-[calc(100vw-var(--w-sidebar)-2rem)] h-[var(--h-pageInfo)] ${list.length ? '' : 'h-full'}`}>
+        <div className={`max-w-[calc(100vw-var(--w-sidebar)-2rem)] h-[var(--h-pageInfo)] ${filteredList.length ? '' : 'h-full'}`}>
             <h1 className="font-semibold text-lg">Locations</h1>
             <div className="flex justify-between pb-4 min-h-[5vh] max-h-[6vh]">
-                {list.length <= 0 && <div></div>}
-                {list.length > 0 && <Filter text={filterText} setText={setFilterText} />}
-                {list.length > 0 && <div className='flex gap-4'>
+                <Filter text={filterText} setText={setFilterText} />
+                {filteredList.length > 0 && <div className='flex gap-4'>
                     <Option value={Location.Address} active={active} setActive={setActive} />
                     <Option value={Location.Coordinate} active={active} setActive={setActive} />
                     <Option value={Location.Mazemap} active={active} setActive={setActive} />
                 </div>}
                 <Button text="Create New" icon='+' handleClick={() => setModal(true)} />
             </div>
-            {list.length > 0 && active === Location.Address && <List sticky={addressSticky} list={list} visible={addressVisible} />}
-            {list.length > 0 && active === Location.Mazemap && <List sticky={mazemapSticky} list={list} visible={mazemapVisible} />}
-            {list.length > 0 && active === Location.Coordinate && <List sticky={coordinateSticky} list={list} visible={coordinateVisible} />}
-            {list.length <= 0 && <div className="grid place-items-center self-center h-full">
-                <h1>Fant ingen jobber.</h1>
+            {filteredList.length > 0 && active === Location.Address && <List sticky={addressSticky} list={filteredList} visible={addressVisible} />}
+            {filteredList.length > 0 && active === Location.Mazemap && <List sticky={mazemapSticky} list={filteredList} visible={mazemapVisible} />}
+            {filteredList.length > 0 && active === Location.Coordinate && <List sticky={coordinateSticky} list={filteredList} visible={coordinateVisible} />}
+            {filteredList.length <= 0 && <div className="grid place-items-center self-center h-full">
+                <h1>Did not find any location.</h1>
             </div>}
             <Modal display={modal} close={() => setModal(false)}>
                 <div className='w-full h-full'>
