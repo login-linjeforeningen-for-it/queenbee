@@ -5,6 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "4200:4200"
+      - "3001:3000"
     environment:
-      BASE_URL: "${BASE_URL}" 
+      - BASE_URL=https://queenbee-api.login.no/v1
+      - CDN_URL=https://cdn.login.no
