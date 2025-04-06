@@ -26,10 +26,6 @@ type EntryProps = {
 }
 
 export default function List({list, sticky, visible}: ListProps) {
-    if (!Array.isArray(list) || list.length <= 0) {
-        return
-    }
-
     const keys = Object.keys(list[0])
 
     return (
