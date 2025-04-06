@@ -9,7 +9,7 @@ export default function page(){
                 height={500}
                 alt='Not found - Breaking Bad Gif'
             />
-            <p className='p-[2rem]'>Denne siden finnes ikke. Dette blir ikke fikset før TekKom har fått mer pizza...</p>
+            <p className='p-[2rem]'>This site does not exist. This will not be fixed until TekKom gets more pizza...</p>
         </div>
     )
 }
