@@ -1,9 +1,8 @@
 import Image from 'next/image'
 import ThemeSwitch from '../theme/themeSwitch'
 import Link from 'next/link'
-import Login from '@components/svg/login'
 import Logout from '@components/svg/logout'
-
+import { cookies } from 'next/headers'
 
 export default function Nav() {
     return (
@@ -18,9 +17,7 @@ function LeftSide() {
     return (
         <div className='flex gap-4'>
             <div className='relative h-[var(--h-navbar)] w-[45px]'>
-                <Link
-                    href={'/'}
-                >
+                <Link href='/'>
                     <Image alt='Logo' src='/images/queenbee-logo.png' fill={true} quality={100} />
                 </Link>
             </div>
@@ -29,16 +26,16 @@ function LeftSide() {
     )
 }
 
-function RightSide() {
-    const loggedIn = false 
-
+async function RightSide() {
+    const Cookies = await cookies()
+    const token = Cookies.get('access_token')?.value || undefined
     return (
         <div className='flex gap-[1rem] items-center pr-[1rem]'>
             <ThemeSwitch />
-            <Link className='flex gap-[0.5rem] hover:*:text-login hover:*:fill-login' href={loggedIn ? '/logout' : '/login'}>
-                {loggedIn ? <h1>Logout</h1> : <h1 className='text-white'>Login</h1>}
-                {loggedIn ? <Logout className='fill-white w-[1.5rem]' /> : <Login className='fill-white w-[1.5rem]'/>}
-            </Link>
+            {token ? <Link className='flex gap-[0.5rem] hover:*:text-login hover:*:fill-login' href={token ? '/logout' : '/login'}>
+                <h1>Logout</h1>
+                <Logout className='fill-white w-[1.5rem]' />
+            </Link> : <></>}
         </div>
     )
 }

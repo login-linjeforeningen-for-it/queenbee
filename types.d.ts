@@ -149,3 +149,13 @@ type SendResponseClient = {
     status: number
     message: string
 }
+
+type User = {
+    access_token: string
+    access_token_expires: string
+    refresh_token: string
+    refresh_token_expires: string
+    user_id: string
+    user_name: string
+    user_roles: string
+}

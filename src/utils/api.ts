@@ -189,7 +189,6 @@ async function getWrapper(path: string, options = {}) {
     const finalOptions = { ...defaultOptions, ...options }
 
     try {
-        console.log(`${baseUrl}${path}`, finalOptions)
         const response = await fetch(`${baseUrl}${path}`, finalOptions)
         if (!response.ok) {
             throw new Error(await response.json())
