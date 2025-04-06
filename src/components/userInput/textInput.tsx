@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 
-export default function TextInput({width, placeholder, required}: {width: string | number, placeholder: string, required?: boolean}) {
+export default function TextInput({width, onchange, placeholder, required}: {width: string | number, onchange?: (e: React.ChangeEvent<HTMLInputElement>)=>void, placeholder: string, required?: boolean}) {
     const labelRef = useRef<HTMLDivElement | null>(null)
     const inputRef = useRef<HTMLInputElement | null>(null)
     const [isEmpty, setIsempty] = useState(false)
@@ -33,7 +33,7 @@ export default function TextInput({width, placeholder, required}: {width: string
     return (
         <div style={{width}}>
             <div className='relative rounded-t-sm overflow-hidden'>
-                <input  
+                <input
                     ref={inputRef}
                     required={required}
                     onSelect={select}
@@ -41,6 +41,7 @@ export default function TextInput({width, placeholder, required}: {width: string
                     onChange={(e)=>{
                         setInputLen(e.target.value.length)
                         setIsempty(false)
+                        if(onchange) onchange(e)
                     }}
                     onInvalid={(e)=>{setIsempty(true)}}
                     type='text'
