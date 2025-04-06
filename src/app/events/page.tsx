@@ -11,9 +11,7 @@ export default async function page() {
                 <h1>Filter (for text only)</h1>
                 <h1>Create new button</h1>
             </div>
-            <div>
-                <List sticky={['id']} list={events} visible={visible} />
-            </div>
+            <List sticky={['id']} list={list} visible={visible}/>
         </div>
     )
 }
