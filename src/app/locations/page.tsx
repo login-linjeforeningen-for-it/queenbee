@@ -1,5 +1,7 @@
 'use client'
 import List from '@components/list/list'
+import Button from '@components/userInput/button'
+import Filter from '@components/userInput/filter'
 import { getLocations } from '@utils/api'
 import { getCookie, setCookie } from '@utils/cookies'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
@@ -16,7 +18,7 @@ type OptionProps = {
     setActive: Dispatch<SetStateAction<Location>>
 }
 
-export default function Page() {
+export default function page() {
     const [active, setActive] = useState<Location>(Location.Address)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [locations, setLocations] = useState<any[]>([])
@@ -27,6 +29,12 @@ export default function Page() {
     const mazemapSticky = ['id']
     const coordinateVisible = ['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']
     const coordinateSticky = ['id']
+    const [filterText, setFilterText] = useState('')
+
+    function handleClick() {
+        // new event modal
+    }
+
 
     useEffect(() => {
         (async() => {
@@ -52,13 +60,13 @@ export default function Page() {
             <h1 className="font-semibold text-lg">Locations</h1>
             <div className="flex justify-between pb-4 min-h-[5vh] max-h-[6vh]">
                 {list.length <= 0 && <div></div>}
-                {list.length > 0 && <h1>Filter (for text only)</h1>}
+                {list.length > 0 && <Filter text={filterText} setText={setFilterText} />}
                 {list.length > 0 && <div className='flex gap-4'>
                     <Option value={Location.Address} active={active} setActive={setActive} />
                     <Option value={Location.Coordinate} active={active} setActive={setActive} />
                     <Option value={Location.Mazemap} active={active} setActive={setActive} />
                 </div>}
-                <h1>Create new button</h1>
+                <Button text="Create New" icon='+' handleClick={handleClick} />
             </div>
             {list.length > 0 && active === Location.Address && <List sticky={addressSticky} list={list} visible={addressVisible} />}
             {list.length > 0 && active === Location.Mazemap && <List sticky={mazemapSticky} list={list} visible={mazemapVisible} />}
