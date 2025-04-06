@@ -17,7 +17,6 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
     const referer = Headers.get('referer')
     const url = new URL(referer || 'http://localhost:3000/')
     const path = url.pathname
-    console.log("path", path)
     return (
         <html lang='en' className={`${theme} h-full`}>
             <body className='bg-dark h-full flex flex-col'>
