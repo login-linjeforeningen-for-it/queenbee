@@ -20,8 +20,8 @@ export default function TextArea({width, height, onchange, placeholder, required
 
     return (
         <div style={{width, height}} className="flex flex-col gap-1">
-            <div className="grid grid-cols-2 gap-x-3">
-                    <button style={{background: "red"}} className="border rounded-sm aspect-square"><b>B</b></button>
+            <div className="grid grid-cols-2 gap-x-3 gap-y-1">
+                    <button className="bg-light border border-login rounded-sm aspect-square size-[1.5rem]"><b>B</b></button>
                     <div>Preview:</div>
                     <textarea   className="focus:outline-none w-full focus:ring-0 bg-light resize-none p-2 rounded-sm"
                                 placeholder={placeholder+(required?'*':'')}
