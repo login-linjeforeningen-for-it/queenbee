@@ -29,7 +29,7 @@ export default function List({list, sticky, visible}: ListProps) {
     const keys = Object.keys(list[0])
 
     return (
-        <div className='relativ overflow-visible overflow-y-auto max-h-[calc(100vh-(2.8rem+10rem))] noscroll w-fullo max-p-100 max-w-[calc(100vw-var(--w-sidebar))]'>
+        <div className='relativ overflow-visible overflow-y-auto max-h-[calc(100vh-var(--h-navbar)-var(--h-pageInfo))] noscroll w-fullo max-p-100 max-w-[calc(100vw-var(--w-sidebar))]'>
             <table className='w-full border-collapse table-auto '>
                 <Header keys={keys} sticky={sticky} visible={visible} />
                 <Body list={list} sticky={sticky} visible={visible} />

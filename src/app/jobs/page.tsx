@@ -1,13 +1,8 @@
-"use client"
 import { getJobs } from '@utils/api'
-import Modal from '@components/modal/modal'
-import React, { useState } from 'react' 
+import React from 'react' 
 import List from '@components/list/list'
 
-// Your previously provided getJobs function
-
 export default async function JobsPage() {
-    const [showModal, setModal] = useState(false)
     const jobs = await getJobs()
       
     const show = ['id', 'name_no', 'title_no', 'job_type', 'time_publish', 'application_deadline', 'application_url', 'updated_at', 'visible']
