@@ -49,7 +49,7 @@ export default function JobsPage() {
 
     return (
         <>
-            <div>
+            <div className='max-w-[calc(100vw-var(--w-sidebar)-2rem)]'>
                 <h1 className="font-semibold text-lg">Jobs</h1>
                 <div className='flex justify-between'>
                     <h1>Filter (only text atm)</h1>
