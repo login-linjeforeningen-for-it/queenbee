@@ -24,7 +24,7 @@ export default function ClientPage({list, visible}: ClientPageProps) {
             <h1 className="font-semibold text-lg">Jobs</h1>
             <div className='flex justify-between pb-4'>
                 <Filter text={filterText} setText={setFilterText} />
-                <Button text='New location' icon='+' path='jobs/0' />
+                <Button text='New job' icon='+' path='jobs/0' />
             </div>
             {filteredList.length > 0 && <List sticky={['id']} list={filteredList} visible={visible}/> }
             {filteredList.length <= 0 && 

@@ -67,7 +67,7 @@ export default function page() {
                     <Option value={Location.Coordinate} active={active} setActive={setActive} />
                     <Option value={Location.Mazemap} active={active} setActive={setActive} />
                 </div>}
-                <Button text="Create New" icon='+' path='locations/0' />
+                <Button text="New location" icon='+' path='locations/0' />
             </div>
             {filteredList.length > 0 && active === Location.Address && <List sticky={addressSticky} list={filteredList} visible={addressVisible} />}
             {filteredList.length > 0 && active === Location.Mazemap && <List sticky={mazemapSticky} list={filteredList} visible={mazemapVisible} />}
