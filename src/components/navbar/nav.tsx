@@ -36,7 +36,7 @@ function RightSide() {
         <div className='flex gap-[1rem] items-center pr-[1rem]'>
             <ThemeSwitch />
             <Link className='flex gap-[0.5rem] hover:*:text-login hover:*:fill-login' href={loggedIn ? '/logout' : '/login'}>
-                {loggedIn ? <h1>Logg ut</h1> : <h1 className='text-white'>Logg inn</h1>}
+                {loggedIn ? <h1>Logout</h1> : <h1 className='text-white'>Login</h1>}
                 {loggedIn ? <Logout className='fill-white w-[1.5rem]' /> : <Login className='fill-white w-[1.5rem]'/>}
             </Link>
         </div>
