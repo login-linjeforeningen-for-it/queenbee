@@ -17,9 +17,9 @@ export default function Nav() {
 function LeftSide() {
     return (
         <div className='flex gap-4'>
-            <div className='relative h-[45px] w-[45px]'>
+            <div className='relative h-[var(--h-navbar)] w-[45px]'>
                 <Link
-                    href={'/'}    
+                    href={'/'}
                 >
                     <Image alt='Logo' src='/images/queenbee-logo.png' fill={true} quality={100} />
                 </Link>
