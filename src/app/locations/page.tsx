@@ -1,6 +1,5 @@
 'use client'
 import List from '@components/list/list'
-import Modal from '@components/modal/modal'
 import Button from '@components/userInput/button'
 import Filter from '@components/userInput/filter'
 import { getLocations } from '@utils/api'
@@ -31,7 +30,6 @@ export default function page() {
     const coordinateVisible = ['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']
     const coordinateSticky = ['id']
     const [filterText, setFilterText] = useState('')
-    const [modal, setModal] = useState(false)
 
     useEffect(() => {
         (async() => {
@@ -63,7 +61,7 @@ export default function page() {
                     <Option value={Location.Coordinate} active={active} setActive={setActive} />
                     <Option value={Location.Mazemap} active={active} setActive={setActive} />
                 </div>}
-                <Button text="Create New" icon='+' handleClick={() => setModal(true)} />
+                <Button text="Create New" icon='+' path='locations/0' />
             </div>
             {list.length > 0 && active === Location.Address && <List sticky={addressSticky} list={list} visible={addressVisible} />}
             {list.length > 0 && active === Location.Mazemap && <List sticky={mazemapSticky} list={list} visible={mazemapVisible} />}
@@ -71,11 +69,6 @@ export default function page() {
             {list.length <= 0 && <div className="grid place-items-center self-center h-full">
                 <h1>Fant ingen jobber.</h1>
             </div>}
-            <Modal display={modal} close={() => setModal(false)}>
-                <div className='w-full h-full'>
-                    <h1>lager nytt location...</h1>
-                </div>
-            </Modal>
         </div>
     )
 }

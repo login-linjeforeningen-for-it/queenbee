@@ -42,7 +42,7 @@ export default function page() {
                             e.preventDefault();
                             handleSend();
                         }}
-                        className="flex flex-col w-[35rem] h-[40vh] bg-sidebar p-4 rounded-md relative gap-2"
+                        className="flex flex-col w-[35rem] h-[35vh] bg-sidebar p-4 rounded-md relative gap-2"
                     >
                         <Bar title="Title" placeholder="Viktig beskjed til alle i Login..." content={title} setContent={setTitle} />
                         <Bar title="Description" placeholder="Event ... har blitt flyttet frem en time!" content={description} setContent={setDescription} />

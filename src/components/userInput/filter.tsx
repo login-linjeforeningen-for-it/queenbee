@@ -7,7 +7,7 @@ type FilterProps = {
 
 export default function Filter({text, setText}: FilterProps) {
     return (
-        <div className="cursor-pointer bg-extralight rounded-md h-8 p-1 flex justify-evenly items-center gap-2 select-none">
+        <div className="cursor-pointer bg-extralight rounded-md h-8 p-1 ml-1 flex justify-evenly items-center gap-2 select-none">
             <input 
                 className="px-2" 
                 placeholder='Filter' 
