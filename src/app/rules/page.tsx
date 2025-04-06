@@ -11,7 +11,7 @@ export default function page() {
     const [modal, setModal] = useState(false)
     const [filterText, setFilterText] = useState('')
     return (
-        <div className='h-[var(--h-pageInfo)]'>
+        <div className='h-[var(--h-pageInfo)] max-w-[calc(100vw-var(--w-sidebar)-2rem)]'>
             <RuleModal modal={modal} setModal={setModal} />
             <h1 className="font-semibold text-lg">Organizations</h1>
             <div className='flex justify-between pb-4'>

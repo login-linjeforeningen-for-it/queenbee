@@ -53,7 +53,7 @@ export default function page() {
     }, [locations, active])
 
     return (
-        <div className={`h-[var(--h-pageInfo)] ${list.length ? '' : 'h-full'}`}>
+        <div className={`max-w-[calc(100vw-var(--w-sidebar)-2rem)] h-[var(--h-pageInfo)] ${list.length ? '' : 'h-full'}`}>
             <h1 className="font-semibold text-lg">Locations</h1>
             <div className="flex justify-between pb-4 min-h-[5vh] max-h-[6vh]">
                 {list.length <= 0 && <div></div>}

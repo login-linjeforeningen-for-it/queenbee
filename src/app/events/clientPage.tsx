@@ -15,7 +15,7 @@ export default function ClientPage({list, visible}: ClientPageProps) {
     const [modal, displayModal] = useState<boolean>(false)
 
     return (
-        <div className='w-full h-[var(--h-pageInfo)]'>
+        <div className='h-[var(--h-pageInfo)] max-w-[calc(100vw-var(--w-sidebar)-2rem)]'>
             <h1 className="font-semibold text-lg">Events</h1>
             <div className='flex justify-between pb-4'>
                 <Filter text={filterText} setText={setFilterText} />
