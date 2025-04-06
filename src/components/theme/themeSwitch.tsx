@@ -1,12 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { getCookie, setCookie } from '@/utils/cookies'
 import './toggle.css'
 
 export default function ThemeSwitch() {
     const [theme, setTheme] = useState<'dark' | 'light'>('dark')
     const [showConfirmation, setShowConfirmation] = useState(false)
+    const [showExitPopup, setShowExitPopup] = useState(false)
+    const [pendingTheme, setPendingTheme] = useState<'dark' | 'light' | null>(null)
 
     useEffect(() => {
         const savedTheme = getCookie('theme') as 'dark' | 'light'
@@ -20,6 +23,7 @@ export default function ThemeSwitch() {
 
     function toggleTheme() {
         if (theme === 'dark') {
+            setPendingTheme('light')
             setShowConfirmation(true)
         } else {
             confirmToggle('dark')
@@ -27,13 +31,26 @@ export default function ThemeSwitch() {
     }
 
     function confirmToggle(newTheme: 'dark' | 'light') {
-        setCookie('theme', newTheme)
-        setTheme(newTheme)
         setShowConfirmation(false)
+        if (newTheme === 'light') {
+            setShowExitPopup(true)
+        }else{
+            setCookie('theme', 'dark')
+            setTheme('dark')
+        }
     }
 
     function cancelToggle() {
         setShowConfirmation(false)
+    }
+
+    function closeExitPopup() {
+        setShowExitPopup(false)
+        if (pendingTheme) {
+            setCookie('theme', pendingTheme)
+            setTheme(pendingTheme)
+            setPendingTheme(null)
+        }
     }
 
     return (
@@ -51,24 +68,58 @@ export default function ThemeSwitch() {
             {showConfirmation && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-dark p-6 rounded-lg shadow-lg w-80 text-center">
-                        <p className="mb-4 text-lg font-semibold">Har du tatt på solbrillene?</p>
-                        <div className="flex justify-around">
+                        <p className="mb-4 text-lg font-semibold">Have you put on your sunglasses?</p>
+                        <div className="flex items-center justify-around">
                             <button
                                 onClick={() => confirmToggle(theme === 'dark' ? 'light' : 'dark')}
-                                className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+                                className="bg-red-500 text-white before:content-['Yes'] w-[2rem] h-[2rem] text-xs  rounded-sm hover:bg-red-600 hover:before:content-['Sure?']"
                             >
-                                Ja
                             </button>
                             <button
                                 onClick={cancelToggle}
-                                className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+                                className="bg-gray-500 text-white py-2 px-4 w-[14rem] rounded-lg hover:bg-gray-600"
                             >
-                                Nei
+                                No
                             </button>
                         </div>
                     </div>
                 </div>
             )}
+
+            {showExitPopup && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                    <div className="bg-dark p-6 rounded-lg shadow-lg w-80 text-center">
+                        <Image 
+                            src={'/images/lightTheme.gif'}
+                            width={500}
+                            height={500}
+                            alt='blind'
+                        />
+                        <p className="mb-4 text-red-500 text-lg font-semibold">Proceed with extreme caution!</p>
+                        <div className='flex flex-row items-center gap-[1rem]'>
+                            <button
+                                onClick={() => {
+                                    closeExitPopup()
+                                }}
+                                className="bg-red-500 text-white w-[2rem] h-[2rem] rounded-sm text-sm hover:bg-red-600"
+                            >
+                                Exit
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setCookie('theme', 'dark')
+                                    setTheme('dark')
+                                    setShowExitPopup(false)
+                                }}
+                                className="bg-green-500 text-white py-2 px-4 w-[14rem] rounded-lg hover:bg-green-600"
+                            >
+                                GO BACK!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     )
 }
