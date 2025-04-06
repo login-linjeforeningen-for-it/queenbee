@@ -42,7 +42,7 @@ function Header({keys, sticky, visible}: HeaderProps) {
                     }
 
                     return (
-                        <th key={key} className={`max-w-[10rem] p-2 text-left ${sticky.includes(key) ? 'font-bold sticky left-0 z-10' : 'font-normal'}`}>
+                        <th key={key} className={`max-w-[10rem] p-2 text-left ${sticky.includes(key) ? 'shadow-[1px_0_0_0_var(--color-dark)] font-bold sticky left-0 z-10 bg-extralight' : 'font-normal'}`}>
                             {value}
                         </th>
                     )
@@ -65,14 +65,14 @@ function Body({list, sticky, visible}: BodyProps) {
                         return (
                             <td 
                                 key={key} 
-                                className={`p-[0.5rem] ${sticky.includes(key) ? 'font-bold sticky left-0 z-10' : 'font-normal'}`}
+                                className={`p-[0.5rem] ${sticky.includes(key) ? 'shadow-[1px_0_0_0_var(--color-dark)] font-bold sticky left-0 z-10 bg-extralight' : 'font-normal'}`}
                             >
                                 <div className='relative group'>
                                     <h1 className='overflow-hidden text-ellipsis whitespace-nowrap max-w-[10rem]'>
                                         {String(value)}
                                     </h1>
                                     {String(value).length > maxChars && (
-                                        <div className={`absolute left-0 z-[1000] hidden group-hover:block bg-normal p-2 rounded max-w-xs break-words whitespace-normal border border-foreground ${(end) ? 'bottom-full' : ""}`}>
+                                        <div className={`absolute left-0 z-999 hidden group-hover:block bg-normal p-2 rounded max-w-xs break-words whitespace-normal border border-foreground ${(end) ? 'bottom-full' : ""}`}>
                                             {String(value)}
                                         </div>
                                     )}
