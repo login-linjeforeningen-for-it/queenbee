@@ -28,29 +28,30 @@ export default function Page() {
     const coordinateVisible = ['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']
     const coordinateSticky = ['id']
 
-    // useEffect(() => {
-    //     (async() => {
-    //         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //         const response: any[] = await getLocations(null, 200)
-    //         if (response) {
-    //             setLocations(response)
-    //         }
+    useEffect(() => {
+        (async() => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const response: any[] = await getLocations(null, 200)
+            if (response) {
+                setLocations(response)
+            }
 
-    //         const activeResponse = getCookie('location') as Location || Location.Address
-    //         if (activeResponse) {
-    //             setActive(activeResponse)
-    //         }
-    //     })()
-    // }, [])
+            const activeResponse = getCookie('location') as Location || Location.Address
+            if (activeResponse) {
+                setActive(activeResponse)
+            }
+        })()
+    }, [])
 
-    // useEffect(() => {
-    //     setList(locations.filter((location) => active === Location.Coordinate ? location.type === 'coords' : location.type === active))
-    // }, [locations, active])
+    useEffect(() => {
+        setList(locations.filter((location) => active === Location.Coordinate ? location.type === 'coords' : location.type === active))
+    }, [locations, active])
 
     return (
         <div className={`h-[var(--h-pageInfo)] ${list.length ? '' : 'h-full'}`}>
             <h1 className="font-semibold text-lg">Locations</h1>
             <div className="flex justify-between pb-4 min-h-[5vh] max-h-[6vh]">
+                {list.length <= 0 && <div></div>}
                 {list.length > 0 && <h1>Filter (for text only)</h1>}
                 {list.length > 0 && <div className='flex gap-4'>
                     <Option value={Location.Address} active={active} setActive={setActive} />
@@ -79,7 +80,7 @@ function Option ({value, active, setActive}: OptionProps) {
     return (
         <div className={`${isActive ? 'bg-login/20' : ''} rounded-lg`}>
             <h1 
-                className={`cursor-pointer px-2 p-1 ${isActive ? 'text-login' : 'text-extralight'}`} 
+                className={`cursor-pointer px-2 p-1 ${isActive ? 'text-login' : 'text-superlight'}`} 
                 onClick={(() => handleClick(value))}
             >
                 {`${value[0].toUpperCase()}${value.slice(1)}`}
