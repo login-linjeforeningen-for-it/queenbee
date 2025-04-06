@@ -18,42 +18,42 @@ export default function Sidebar() {
     const paths = {
         dashboard: {
             name: 'Dashboard',
-            path: '/',
+            path: '/dashboard',
             image: <Dashboard className='fill-[var(--foreground)] w-[1.5rem]'/>
         },
         beehive: {
             name: 'BeeHive',
-            path: '/beehive',
+            path: '/dashboard/beehive',
             image: <BeeHive className='fill-[var(--foreground)] w-[1.5rem]'/>
         },
         nucleus: {
             name: 'Nucleus',
-            path: '/nucleus',
+            path: '/dashboard/nucleus',
             image: <Nucleus className='fill-[var(--foreground)] w-[1.5rem]'/>
         },
         events: {
             name: 'Events',
-            path: '/events',
+            path: '/dashboard/events',
             image: <Events className='fill-[var(--foreground)] w-[1.5rem]'/>
         },
         jobs: {
             name: 'Jobs',
-            path: '/jobs',
+            path: '/dashboard/jobs',
             image: <Jobs className='fill-[var(--foreground)] w-[1.5rem]'/>
         },
         organizations: {
             name: 'Organizations',
-            path: '/organizations',
+            path: '/dashboard/organizations',
             image: <Organizations className='fill-[var(--foreground)] w-[1.5rem]'/>
         },
         locations: {
             name: 'Locations',
-            path: '/locations',
+            path: '/dashboard/locations',
             image: <Locations className='fill-[var(--foreground)] w-[1.5rem]'/>
         },
         rules: {
             name: 'Rules',
-            path: '/rules',
+            path: '/dashboard/rules',
             image: <Rules className='fill-[var(--foreground)] w-[1.5rem]'/>
         },
     }
