@@ -1,6 +1,5 @@
 'use client'
 import Modal from '@components/modal/modal'
-import TextInput from '@components/userInput/textInput'
 import { useState } from 'react'
 
 export default function page() {

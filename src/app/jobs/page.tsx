@@ -3,7 +3,7 @@ import React from 'react'
 import List from '@components/list/list'
 
 export default async function JobsPage() {
-    const jobs = await getJobs()
+    const list = await getJobs()
       
     const show = ['id', 'name_no', 'title_no', 'job_type', 'time_publish', 'application_deadline', 'application_url', 'updated_at', 'visible']
 
@@ -15,7 +15,7 @@ export default async function JobsPage() {
                     <h1>Filter (only text atm)</h1>
                     <h1>new job</h1>
                 </div>
-                <List sticky={['id']} list={jobs} visible={show}/>
+                <List sticky={['id']} list={list} visible={show}/>
             </div>
         </>
     )
