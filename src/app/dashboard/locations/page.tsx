@@ -28,7 +28,7 @@ export default function page() {
     const addressSticky = ['id']
     const mazemapVisible = ['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']
     const mazemapSticky = ['id']
-    const coordinateVisible = ['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']
+    const coordinateVisible = ['id', 'name_no', 'coordinate_lat', 'coordinate_long', 'url', 'updated_at']
     const coordinateSticky = ['id']
     const [filterText, setFilterText] = useState('')
     const [filteredList, setFilteredList] = useState<any[]>(list)
