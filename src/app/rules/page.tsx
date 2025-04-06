@@ -1,5 +1,7 @@
 'use client'
 import Modal from '@components/modal/modal'
+import TextInput from '@components/userInput/textInput'
+import TextArea from '@components/userInput/textArea'
 import { useState } from 'react'
 
 export default function page() {
@@ -17,13 +19,14 @@ export default function page() {
                     </div>
                 </Modal>
             )}
-            <div className='h-[var(--h-pageInfo)]'>
-                <h1 className="font-semibold text-lg">Rules</h1>
-                <div className='flex justify-between'>
-                    <h1>Filter Input</h1>
+            <form>
+                <TextArea width={"50%"} height={"50%"} placeholder="hello" required={true}></TextArea>
+                <TextInput width={"50%"} placeholder="hello" required={true}></TextInput>
+                <div className="w-full relative">
                     <button onClick={()=>{setShowModal(true)}}>New rule</button>
                 </div>
-            </div>
+                <input type="submit"/>
+            </form>
         </>
     )
 }

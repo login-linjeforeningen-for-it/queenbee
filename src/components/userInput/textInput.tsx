@@ -6,26 +6,27 @@ export default function TextInput({width, onchange, placeholder, required}: {wid
     const [isEmpty, setIsempty] = useState(false)
     const [inputLen, setInputLen] = useState(0)
     const labelClassNameBase = 'absolute left-3 '
-    const inputClassNameBase = 'bg-grey-800 p-3 pt-6 border-b focus:outline-none focus:ring-0 '
+    const inputClassNameBase = 'bg-light p-3 pt-6 border-b focus:outline-none focus:ring-0 w-full '
 
-
-    const placeholderStyle = labelClassNameBase+'top-0 h-full content-center text-gray-300'
     function select(){
         if(labelRef.current && inputRef.current){
             labelRef.current.className = labelClassNameBase+`top-2 text-xs text-login`
-            inputRef.current.className = inputClassNameBase+`border-(--color-login)`
+            labelRef.current.style.color = ""
+            inputRef.current.className = inputClassNameBase+`border-login`
         }
     }
     function blur(){
         if (labelRef.current && inputRef.current && document.hasFocus()) {
             if (inputRef.current?.value.length === 0){
                 labelRef.current.className = labelClassNameBase+'top-0 h-full content-center text-red-500'
+                labelRef.current.style.color = ""
                 inputRef.current.className = inputClassNameBase+'border-red-500'
                 setIsempty(true)
             }
             else{
-                labelRef.current.className = labelClassNameBase+'top-2 text-xs text-gray-300'
-                inputRef.current.className = inputClassNameBase+'border-gray-300'
+                labelRef.current.className = labelClassNameBase+'top-2 text-xs'
+                labelRef.current.style.color = "color-mix(in oklab, currentColor 50%, transparent)"
+                inputRef.current.className = inputClassNameBase+'border-almostbright'
             }
         }
     }
@@ -46,14 +47,13 @@ export default function TextInput({width, onchange, placeholder, required}: {wid
                     onInvalid={(e)=>{setIsempty(true)}}
                     type='text'
                     maxLength={50}
-                    className={inputClassNameBase}
-                    style={{width}}>
+                    className={inputClassNameBase+'border-almostbright'}>
                 </input>
-                <div ref={labelRef} className={placeholderStyle}>{placeholder+(required?'*':'')}</div>
+                <div ref={labelRef} style={{color: "color-mix(in oklab, currentColor 50%, transparent)"}} className={labelClassNameBase+'top-0 h-full content-center'}>{placeholder+(required?'*':'')}</div>
             </div>
             <div className='flex'>
                 {isEmpty && <div className='text-red-500 text-xs'>This field is <b className='text-inherit'>requred</b></div>}
-                <div className='text-xs ml-auto text-(--color-text-regular)'>{inputLen}/50</div>
+                <div className='text-xs ml-auto text-forground text-almostbright'>{inputLen}/50</div>
             </div>
         </div>
     )
