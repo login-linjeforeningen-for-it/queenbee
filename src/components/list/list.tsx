@@ -20,7 +20,6 @@ type BodyProps = {
 
 export default function List({list, sticky, visible}: ListProps) {
     const keys = Object.keys(list[0])
-        {/*return should wrap if the elements dont have too many elements on hover*/}
     return (
         <div className='relative overflow-y-auto max-h-[calc(100vh-var(--h-navbar)-var(--h-pageInfo))] min-h-[calc(100vh-var(--h-navbar)-var(--h-pageInfo))] noscroll w-fullo max-p-100 max-w-[calc(100vw-var(--w-sidebar))]'>
             <table className='w-full border-separate border-spacing-[1px] table-auto rounded-lg overflow-hidden'>
