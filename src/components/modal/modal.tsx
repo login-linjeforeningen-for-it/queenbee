@@ -1,9 +1,14 @@
 type ModalProps = { 
-    children: React.ReactNode
-    close: () => void
+   display: boolean
+   children: React.ReactNode
+   close: () => void
 }
 
-export default function Modal({ children, close }: ModalProps) {
+export default function Modal({ display, children, close }: ModalProps) {
+   if (!display) {
+      return <></>
+   }
+
    return (
       <div className="absolute w-full h-full justify-center flex z-100"
          onClick={(e) => {
