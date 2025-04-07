@@ -1,4 +1,5 @@
 'use client'
+import Alert from '@components/alert/alert'
 import FilterList from '@components/filterList/filterList'
 import List from '@components/list/list'
 import Button from '@components/userInput/button'
@@ -34,8 +35,8 @@ export default function page() {
     const [filteredList, setFilteredList] = useState<any[]>(list)
 
     useEffect(() => {
-        if (filterText !== '') setFilteredList(FilterList({ list, filterText }))
-        else setFilteredList(list)
+        if (filterText !== '') setFilteredList(FilterList({ list, filterText }).slice(0,10))
+        else setFilteredList(list.slice(0,10))
     }, [list,filterText])
 
     useEffect(() => {
@@ -58,23 +59,29 @@ export default function page() {
     }, [locations, active])
 
     return (
-        <div className={`max-w-[calc(100vw-var(--w-sidebar)-2rem)] h-[var(--h-pageInfo)] ${filteredList.length ? '' : 'h-full'}`}>
-            <h1 className="font-semibold text-lg">Locations</h1>
-            <div className="flex justify-between pb-4 min-h-[5vh] max-h-[6vh]">
-                <Filter text={filterText} setText={setFilterText} />
-                {filteredList.length > 0 && <div className='flex gap-4'>
-                    <Option value={Location.Address} active={active} setActive={setActive} />
-                    <Option value={Location.Coordinate} active={active} setActive={setActive} />
-                    <Option value={Location.Mazemap} active={active} setActive={setActive} />
-                </div>}
-                <Button text="New location" icon='+' path='locations/0' />
+        <div className={'h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden'}>
+            <div className='h-[var(--h-pageInfo)]'>
+                <h1 className="font-semibold text-lg">Locations</h1>
+                <div className="flex justify-between pb-4 min-h-[5vh] max-h-[6vh]">
+                    <Filter text={filterText} setText={setFilterText} />
+                    {filteredList.length > 0 && <div className='flex gap-4'>
+                        <Option value={Location.Address} active={active} setActive={setActive} />
+                        <Option value={Location.Coordinate} active={active} setActive={setActive} />
+                        <Option value={Location.Mazemap} active={active} setActive={setActive} />
+                    </div>}
+                    <Button text="New location" icon='+' path='locations/0' />
+                </div>
             </div>
             {filteredList.length > 0 && active === Location.Address && <List sticky={addressSticky} list={filteredList} visible={addressVisible} />}
             {filteredList.length > 0 && active === Location.Mazemap && <List sticky={mazemapSticky} list={filteredList} visible={mazemapVisible} />}
             {filteredList.length > 0 && active === Location.Coordinate && <List sticky={coordinateSticky} list={filteredList} visible={coordinateVisible} />}
-            {filteredList.length <= 0 && <div className="grid place-items-center self-center h-full">
-                <h1>Did not find any location.</h1>
-            </div>}
+            {filteredList.length <= 0 && 
+            <div className='w-full h-full flex items-center justify-center'>
+                <Alert>
+                    Could not find locations
+                </Alert>
+            </div>
+            }
         </div>
     )
 }

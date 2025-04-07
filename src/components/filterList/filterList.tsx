@@ -10,6 +10,5 @@ export default function FilterList({ list, filterText }: FilterListProps) {
             String(value).toLowerCase().includes(filterText.toLowerCase())
         )
     )
-
     return newList
 }

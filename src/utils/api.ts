@@ -3,7 +3,7 @@ import config from '@config'
 const baseUrl = config.url.API_URL
 
 // Jobs
-export async function getJobs(limit: number | number = 20, offset: number | number = 0) {
+export async function getJobs(limit: number | number = 10, offset: number | number = 0) {
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
     
     const path = `${config.beehiveApi.JOBADS_PATH}?${queryParts.toString()}`
@@ -49,7 +49,7 @@ export async function deleteCity(body: CityProps) {
 }
 
 // Events
-export async function getEvents(limit: number | number = 20, offset: number | number = 0) {
+export async function getEvents(limit: number | number = 10, offset: number | number = 0) {
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
     
     const path = `${config.beehiveApi.EVENTS_PATH}?${queryParts.toString()}`
@@ -108,7 +108,7 @@ export async function deleteOrganizationEvent(body: OrganizationEventProps) {
 }
 
 // Locations
-export async function getLocations(type: string | null = null, limit: number | number = 20, offset: number | number = 0) {
+export async function getLocations(type: string | null = null, limit: number | number = 10, offset: number | number = 0) {
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
     if (type) queryParts.append('type', type)
 
@@ -136,7 +136,7 @@ export async function patchLocation(id: number, body: LocationProps) {
 }
 
 // Organizations
-export async function getOrganizations(limit: number | number = 20, offset: number | number = 0) {
+export async function getOrganizations(limit: number | number = 10, offset: number | number = 0) {
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
 
     const path = `${config.beehiveApi.ORGANIZATIONS_PATH}?${queryParts.toString()}`
@@ -163,7 +163,7 @@ export async function patchOrganization(shortname: string, body: LocationProps) 
 }
 
 // Rules
-export async function getRules(limit: number | number = 20, offset: number | number = 0) {
+export async function getRules(limit: number | number = 10, offset: number | number = 0) {
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
 
     const path = `${config.beehiveApi.RULES_PATH}?${queryParts.toString()}`

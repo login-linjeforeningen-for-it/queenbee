@@ -21,8 +21,8 @@ type BodyProps = {
 export default function List({list, sticky, visible}: ListProps) {
     const keys = Object.keys(list[0])
     return (
-        <div className='relative overflow-y-auto max-h-[calc(100vh-var(--h-navbar)-var(--h-pageInfo))] min-h-[calc(100vh-var(--h-navbar)-var(--h-pageInfo))] noscroll w-fullo max-p-100 max-w-[calc(100vw-var(--w-sidebar))]'>
-            <table className='w-full border-separate border-spacing-[1px] table-auto rounded-lg overflow-hidden'>
+        <div className='relative h-fit w-full max-h-[calc(((100vh-var(--h-navbar))-var(--h-pageInfo))-2rem)] noscroll overflow-scroll'>
+            <table className='relative h-full w-full border-separate border-spacing-[1px] rounded-lg'>
                 <Header keys={keys} sticky={sticky} visible={visible} />
                 <Body list={list} sticky={sticky} visible={visible} />
             </table>
@@ -33,7 +33,7 @@ export default function List({list, sticky, visible}: ListProps) {
 
 function Header({keys, sticky, visible}: HeaderProps) {
     return (
-        <thead className='bg-extralight'>
+        <thead className='bg-extralight h-[2rem]'>
             <tr>
                 {keys.map((key) => {
                     const value = key.length < 3 ? key.toUpperCase() : `${key[0].toUpperCase()}${key.slice(1).replaceAll('_', ' ')}`
@@ -58,7 +58,7 @@ function Body({list, sticky, visible}: BodyProps) {
         const maxChars = 18
         const end = index >= list.length - 3
         return (
-            <tbody key={index} className='bg-extralight'>
+            <tbody key={index} className='bg-extralight h-[2rem]'>
                 <tr>
                     {entries.map(([key, value]) => {
                         if (!visible.includes(key)) return null
@@ -82,5 +82,5 @@ function Body({list, sticky, visible}: BodyProps) {
                     })}
                 </tr>
             </tbody>
-    )})
+        )})
 }
