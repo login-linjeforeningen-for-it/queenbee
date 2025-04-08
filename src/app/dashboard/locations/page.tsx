@@ -1,12 +1,11 @@
-'use client'
+import { getLocations } from '@utils/api'
 import Alert from '@components/alert/alert'
 import FilterList from '@components/filterList/filterList'
 import List from '@components/list/list'
 import Button from '@components/userInput/button'
 import Filter from '@components/userInput/filter'
-import { getLocations } from '@utils/api'
-import { getCookie, setCookie } from '@utils/cookies'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import LocationOption from '@components/locationOption/locationOption'
+import { cookies } from 'next/headers'
 
 enum Location {
     Address = 'address',
@@ -14,67 +13,63 @@ enum Location {
     Coordinate = 'coordinate'
 }
 
-type OptionProps = {
-    value: Location
-    active: Location
-    setActive: Dispatch<SetStateAction<Location>>
+enum LocationAPI {
+    address = 'address',
+    mazemap ='mazemap',
+    coordinate = 'coords'
 }
 
-export default function page() {
-    const [active, setActive] = useState<Location>(Location.Address)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [locations, setLocations] = useState<any[]>([])
-    const [list, setList] = useState(locations.filter((location) => location.type === active))
-    const addressVisible = ['id', 'name_no', 'address_street', 'address_postcode', 'city_name', 'url', 'updated_at']
-    const addressSticky = ['id']
-    const mazemapVisible = ['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']
-    const mazemapSticky = ['id']
+export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
+    const cookieStore = await cookies()
+    
+    const filters = await searchParams
+    const filterText = typeof filters.q === 'string' ? filters.q : ''
+    const pageNumber = typeof filters.p === 'string' ? Number(filters.p) : 0
+    const cookieLocation = cookieStore.get('location')?.value
+    const activeType = 
+        typeof cookieLocation === 'string' && Object.values(Location).includes(cookieLocation as Location)
+            ? cookieLocation as Location
+            : typeof filters.t === 'string' && Object.values(Location).includes(filters.t as Location)
+                ? filters.t as Location
+                : Location.Address
+
+    const limit = 200
+    const listLimit = 10
+    const list = await getLocations(LocationAPI[activeType],limit)
+
+    if(typeof list === 'string') return (
+        <div className='w-full h-full flex items-center justify-center'>
+            <Alert>
+                Error loading locations
+            </Alert>
+        </div>
+    )
+
+    const filteredList = filterText !== '' ? FilterList({ list, filterText }).splice(0,listLimit) : list.splice(0,listLimit)
+    const addressVisible    = ['id', 'name_no', 'address_street', 'address_postcode', 'city_name', 'url', 'updated_at']
+    const addressSticky     = ['id']
+    const mazemapVisible    = ['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']
+    const mazemapSticky     = ['id']
     const coordinateVisible = ['id', 'name_no', 'coordinate_lat', 'coordinate_long', 'url', 'updated_at']
-    const coordinateSticky = ['id']
-    const [filterText, setFilterText] = useState('')
-    const [filteredList, setFilteredList] = useState<any[]>(list)
-
-    useEffect(() => {
-        if (filterText !== '') setFilteredList(FilterList({ list, filterText }).slice(0,10))
-        else setFilteredList(list.slice(0,10))
-    }, [list,filterText])
-
-    useEffect(() => {
-        (async() => {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const response: any[] = await getLocations(null, 200)
-            if (response) {
-                setLocations(response)
-            }
-
-            const activeResponse = getCookie('location') as Location || Location.Address
-            if (activeResponse) {
-                setActive(activeResponse)
-            }
-        })()
-    }, [])
-
-    useEffect(() => {
-        setList(locations.filter((location) => active === Location.Coordinate ? location.type === 'coords' : location.type === active))
-    }, [locations, active])
+    const coordinateSticky  = ['id']
 
     return (
-        <div className={'h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden'}>
+        <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden'>
             <div className='h-[var(--h-pageInfo)]'>
-                <h1 className="font-semibold text-lg">Locations</h1>
-                <div className="flex justify-between pb-4 min-h-[5vh] max-h-[6vh]">
-                    <Filter text={filterText} setText={setFilterText} />
-                    {filteredList.length > 0 && <div className='flex gap-4'>
-                        <Option value={Location.Address} active={active} setActive={setActive} />
-                        <Option value={Location.Coordinate} active={active} setActive={setActive} />
-                        <Option value={Location.Mazemap} active={active} setActive={setActive} />
-                    </div>}
-                    <Button text="New location" icon='+' path='locations/0' />
+                <h1 className='font-semibold text-lg'>Locations</h1>
+                <div className='flex justify-between pb-4'>
+                    <Filter/>
+                    <div className='flex gap-4'>
+                        <LocationOption value={Location.Address} active={activeType}/>
+                        <LocationOption value={Location.Coordinate} active={activeType}/>
+                        <LocationOption value={Location.Mazemap} active={activeType}/>
+                    </div>
+                    <Button text='New organization' icon='+' path='locations/0' />
                 </div>
             </div>
-            {filteredList.length > 0 && active === Location.Address && <List sticky={addressSticky} list={filteredList} visible={addressVisible} />}
-            {filteredList.length > 0 && active === Location.Mazemap && <List sticky={mazemapSticky} list={filteredList} visible={mazemapVisible} />}
-            {filteredList.length > 0 && active === Location.Coordinate && <List sticky={coordinateSticky} list={filteredList} visible={coordinateVisible} />}
+            {filteredList.length > 0 && activeType === Location.Address && <List sticky={addressSticky} list={filteredList} visible={addressVisible} />}
+            {filteredList.length > 0 && activeType === Location.Mazemap && <List sticky={mazemapSticky} list={filteredList} visible={mazemapVisible} />}
+            {filteredList.length > 0 && activeType === Location.Coordinate && <List sticky={coordinateSticky} list={filteredList} visible={coordinateVisible} />}
             {filteredList.length <= 0 && 
             <div className='w-full h-full flex items-center justify-center'>
                 <Alert>
@@ -82,26 +77,6 @@ export default function page() {
                 </Alert>
             </div>
             }
-        </div>
-    )
-}
-
-function Option ({value, active, setActive}: OptionProps) {
-    const isActive = value === active
-    function handleClick(value: Location) {
-        setActive(value)
-        setCookie('location', value)
-    }
-
-    return (
-        <div className={`${isActive ? 'bg-login/20' : ''} rounded-lg`}>
-            <h1 
-                className={`cursor-pointer px-2 p-1 ${isActive ? 'text-login' : 'text-superlight'}`} 
-                onClick={(() => handleClick(value))}
-            >
-                {`${value[0].toUpperCase()}${value.slice(1)}`}
-            </h1>
-            <div className={`w-full ${isActive ? 'bg-login' : ''} h-[1px]`} />
         </div>
     )
 }
