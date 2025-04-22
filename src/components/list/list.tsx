@@ -3,6 +3,7 @@
 import ArrowDown from '@components/svg/arrowDown'
 import ArrowUp from '@components/svg/arrowUp'
 import Link from 'next/link'
+import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 type ListProps = {
@@ -57,6 +58,9 @@ function Header({keys, sticky, visible}: HeaderProps) {
     return (
         <thead className='bg-extralight h-[2rem]'>
             <tr>
+                <th className={'whitespace-nowrap text-left shadow-[1px_0_0_0_var(--color-dark)] font-bold sticky left-0 z-10 bg-extralight px-2'}>
+                    <h1>Select</h1>
+                </th>
                 {keys.map((key) => {
                     const value = key.length < 3 ? key.toUpperCase() : `${key[0].toUpperCase()}${key.slice(1).replaceAll('_', ' ')}`
                     if (!visible.includes(key)) {
@@ -64,7 +68,7 @@ function Header({keys, sticky, visible}: HeaderProps) {
                     }
 
                     return (
-                        <th key={key} className={`whitespace-nowrap text-left ${sticky.includes(key) ? 'shadow-[1px_0_0_0_var(--color-dark)] font-bold sticky left-0 z-10 bg-extralight' : 'font-normal'}`}>
+                        <th key={key} className={`whitespace-nowrap text-left px-2 ${sticky.includes(key) ? 'shadow-[1px_0_0_0_var(--color-dark)] font-bold sticky left-[4rem] z-10 bg-extralight' : 'font-normal'}`}>
                             <Link
                                 href=''
                                 className='w-full h-full p-[0.5rem] flex flex-row items-center justify-between group'
@@ -89,7 +93,23 @@ function Header({keys, sticky, visible}: HeaderProps) {
     )
 }
 
+
+
 function Body({list, sticky, visible}: BodyProps) {
+    const [selected, setSelected] = useState<string[]>([])
+    const searchParams = useSearchParams()
+    const pathname = usePathname()
+    const router = useRouter()
+
+    function handleCheck(e: React.MouseEvent<HTMLInputElement>) {
+        const id = (e.target as HTMLInputElement).id
+        const newSelected = selected.includes(id) ? selected.filter(item => item !== id) : [...selected, id] 
+        setSelected(newSelected)
+        const params = new URLSearchParams(searchParams.toString())
+        params.set('selected', newSelected.join(','))
+        router.push(`${pathname}?${params.toString()}`)
+    }
+
     return list.map((_, index) => {
         const entries = Object.entries(list[index])
         const maxChars = 18
@@ -97,12 +117,26 @@ function Body({list, sticky, visible}: BodyProps) {
         return (
             <tbody key={index} className='bg-extralight h-[2rem]'>
                 <tr>
+                    <td className={'p-[0.5rem] shadow-[1px_0_0_0_var(--color-dark)] font-bold sticky left-0 z-10 bg-extralight'}
+                    >
+                        <div className='flex w-full justify-center'>
+                            <label className='group w-fit cursor-pointer grid grid-cols-[fit]'>
+                                <input
+                                    id={String(index)}
+                                    type='checkbox'
+                                    className='peer absolute cursor-pointer opacity-0 h-0 w-0'
+                                    onClick={(e) => handleCheck(e)}
+                                />
+                                <span className='group-hover:bg-superlight peer-checked:bg-login peer-checked:border-login peer-checked:after:block relative inline-block align-middle transition-all duration-[0.1s] ease-[ease-in] w-[1.4rem] h-[1.4rem] border-[color:var(--color-checkbox-outline)] rounded-[0.1rem] border-[0.13rem] border-solid after:content-[""] after:absolute after:hidden after:w-[0.4rem] after:h-[0.8rem] after:-translate-x-2/4 after:-translate-y-2/4 after:rotate-45 after:border-[solid] after:border-[0_0.18rem_0.18rem_0] after:left-2/4 after:top-[45%]' />
+                            </label>
+                        </div>
+                    </td>
                     {entries.map(([key, value]) => {
                         if (!visible.includes(key)) return null
                         return (
                             <td 
                                 key={key} 
-                                className={`p-[0.5rem] ${sticky.includes(key) ? 'shadow-[1px_0_0_0_var(--color-dark)] font-bold sticky left-0 z-10 bg-extralight' : 'font-normal'}`}
+                                className={`p-[0.5rem] ${sticky.includes(key) ? 'shadow-[1px_0_0_0_var(--color-dark)] font-bold sticky left-[4rem] z-10 bg-extralight' : 'font-normal'}`}
                             >
                                 <div className='relative group'>
                                     <h1 className='overflow-hidden text-ellipsis whitespace-nowrap max-w-[10rem]'>
