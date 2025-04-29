@@ -6,6 +6,8 @@ import Button from '@components/userInput/button'
 import Filter from '@components/userInput/filter'
 import LocationOption from '@components/locationOption/locationOption'
 import { cookies } from 'next/headers'
+import Link from 'next/link'
+import Delete from '@components/svg/delete'
 
 enum Location {
     Address = 'address',
@@ -64,7 +66,13 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                         <LocationOption value={Location.Coordinate} active={activeType}/>
                         <LocationOption value={Location.Mazemap} active={activeType}/>
                     </div>
-                    <Button text='New organization' icon='+' path='locations/0' />
+                    <div className='flex flex-row gap-[1rem]'>
+                        <Button text='New organization' icon='+' path='locations/0' />
+                        <Link href='' className='bg-red-900 cursor-pointer px-4 rounded-md h-8 flex justify-evenly items-center gap-2 select-none'>
+                            <Delete className='fill-bright'/>
+                            Delete
+                        </Link>
+                    </div>
                 </div>
             </div>
             {filteredList.length > 0 && activeType === Location.Address && <List sticky={addressSticky} list={filteredList} visible={addressVisible} />}

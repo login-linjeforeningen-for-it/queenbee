@@ -4,6 +4,8 @@ import FilterList from '@components/filterList/filterList'
 import List from '@components/list/list'
 import Button from '@components/userInput/button'
 import Filter from '@components/userInput/filter'
+import Delete from '@components/svg/delete'
+import Link from 'next/link'
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
     const filters = await searchParams
@@ -31,7 +33,13 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                 <h1 className='font-semibold text-lg'>Events</h1>
                 <div className='flex justify-between pb-4'>
                     <Filter/>
-                    <Button text='New event' icon='+' path='events/0' />
+                    <div className='flex flex-row gap-[1rem]'>
+                        <Button text='New event' icon='+' path='events/0' />
+                        <Link href='' className='bg-red-900 cursor-pointer px-4 rounded-md h-8 flex justify-evenly items-center gap-2 select-none'>
+                            <Delete className='fill-bright'/>
+                            Delete
+                        </Link>
+                    </div>
                 </div>
             </div>
             {filteredList.length > 0 && <List sticky={['id']} list={filteredList} visible={visible}/> }
