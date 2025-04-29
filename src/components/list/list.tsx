@@ -101,7 +101,7 @@ function Body({list, sticky, visible}: BodyProps) {
     const pathname = usePathname()
     const router = useRouter()
 
-    function handleCheck(e: React.MouseEvent<HTMLInputElement>) {
+    function handleCheck(e: React.ChangeEvent<HTMLInputElement>) {
         const id = (e.target as HTMLInputElement).id
         const newSelected = selected.includes(id) ? selected.filter(item => item !== id) : [...selected, id] 
         setSelected(newSelected)
@@ -122,10 +122,11 @@ function Body({list, sticky, visible}: BodyProps) {
                         <div className='flex w-full justify-center'>
                             <label className='group w-fit cursor-pointer grid grid-cols-[fit]'>
                                 <input
-                                    id={String(index)}
+                                    id={String(entries[0][1])}
                                     type='checkbox'
+                                    checked={searchParams.get('selected')?.split(',').includes(String(entries[0][1])) || false}
                                     className='peer absolute cursor-pointer opacity-0 h-0 w-0'
-                                    onClick={(e) => handleCheck(e)}
+                                    onChange={(e) => handleCheck(e)}
                                 />
                                 <span className='group-hover:bg-superlight peer-checked:bg-login peer-checked:border-login peer-checked:after:block relative inline-block align-middle transition-all duration-[0.1s] ease-[ease-in] w-[1.4rem] h-[1.4rem] border-[color:var(--color-checkbox-outline)] rounded-[0.1rem] border-[0.13rem] border-solid after:content-[""] after:absolute after:hidden after:w-[0.4rem] after:h-[0.8rem] after:-translate-x-2/4 after:-translate-y-2/4 after:rotate-45 after:border-[solid] after:border-[0_0.18rem_0.18rem_0] after:left-2/4 after:top-[45%]' />
                             </label>
