@@ -106,7 +106,8 @@ function Body({list, sticky, visible}: BodyProps) {
         const newSelected = selected.includes(id) ? selected.filter(item => item !== id) : [...selected, id] 
         setSelected(newSelected)
         const params = new URLSearchParams(searchParams.toString())
-        params.set('selected', newSelected.join(','))
+        if (newSelected.length > 0) params.set('selected', newSelected.join(','))
+        else params.delete('selected')
         router.push(`${pathname}?${params.toString()}`)
     }
 

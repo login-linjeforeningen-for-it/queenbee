@@ -26,6 +26,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     
     const filters = await searchParams
     const filterText = typeof filters.q === 'string' ? filters.q : ''
+    const hasSelectedItems = typeof filters.selected === 'string' ? filters.selected?.split(',').length > 0 : false
     const pageNumber = typeof filters.p === 'string' ? Number(filters.p) : 0
     const cookieLocation = cookieStore.get('location')?.value
     const activeType = 
@@ -68,10 +69,12 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     </div>
                     <div className='flex flex-row gap-[1rem]'>
                         <Button text='New organization' icon='+' path='locations/0' />
-                        <Link href='' className='bg-red-900 cursor-pointer px-4 rounded-md h-8 flex justify-evenly items-center gap-2 select-none'>
-                            <Delete className='fill-bright'/>
-                            Delete
-                        </Link>
+                        {hasSelectedItems &&
+                            <Link href='' className='bg-red-900 cursor-pointer px-4 rounded-md h-8 flex justify-evenly items-center gap-2 select-none'>
+                                <Delete className='fill-bright'/>
+                                Delete selected
+                            </Link>
+                        }
                     </div>
                 </div>
             </div>
