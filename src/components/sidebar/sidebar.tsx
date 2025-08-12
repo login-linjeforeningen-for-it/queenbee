@@ -1,15 +1,9 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import BeeHive from '@components/svg/beehive'
-import Dashboard from '@components/svg/dashboad'
-import Events from '@components/svg/events'
-import Jobs from '@components/svg/jobs'
-import Locations from '@components/svg/locations'
-import Nucleus from '@components/svg/nucleus'
-import Organizations from '@components/svg/organizations'
-import Rules from '@components/svg/rules'
 import Link from 'next/link'
+import { BriefcaseBusiness, Building2, Calendar, Gavel, Icon, LayoutDashboard, MapPin, Smartphone } from 'lucide-react'
+import { hexagons7 } from '@lucide/lab'
 
 export default function Sidebar() {
     
@@ -19,42 +13,42 @@ export default function Sidebar() {
         dashboard: {
             name: 'Dashboard',
             path: '/dashboard',
-            image: <Dashboard className='fill-[var(--foreground)] w-[1.5rem]'/>
+            image: <LayoutDashboard className='w-6'/>
         },
         beehive: {
             name: 'BeeHive',
             path: '/dashboard/beehive',
-            image: <BeeHive className='fill-[var(--foreground)] w-[1.5rem]'/>
+            image: <Icon iconNode={hexagons7} className='w-6'/>
         },
         nucleus: {
             name: 'Nucleus',
             path: '/dashboard/nucleus',
-            image: <Nucleus className='fill-[var(--foreground)] w-[1.5rem]'/>
+            image: <Smartphone className='w-6'/>
         },
         events: {
             name: 'Events',
             path: '/dashboard/events',
-            image: <Events className='fill-[var(--foreground)] w-[1.5rem]'/>
+            image: <Calendar className='w-6'/>
         },
         jobs: {
             name: 'Jobs',
             path: '/dashboard/jobs',
-            image: <Jobs className='fill-[var(--foreground)] w-[1.5rem]'/>
+            image: <BriefcaseBusiness className='w-6'/>
         },
         organizations: {
             name: 'Organizations',
             path: '/dashboard/organizations',
-            image: <Organizations className='fill-[var(--foreground)] w-[1.5rem]'/>
+            image: <Building2 className='w-6'/>
         },
         locations: {
             name: 'Locations',
             path: '/dashboard/locations',
-            image: <Locations className='fill-[var(--foreground)] w-[1.5rem]'/>
+            image: <MapPin className='w-6'/>
         },
         rules: {
             name: 'Rules',
             path: '/dashboard/rules',
-            image: <Rules className='fill-[var(--foreground)] w-[1.5rem]'/>
+            image: <Gavel className='w-6'/>
         },
     }
 
@@ -64,7 +58,7 @@ export default function Sidebar() {
                 <Link 
                     key={index}
                     href={value.path}
-                    className={`flex flex-row px-[1rem] items-center gap-[0.5rem] py-[0.8rem] hover:pl-[1.5rem] duration-[500ms] transition-[padding] ${path === value.path ? '*:fill-login text-login pl-[1.2rem] bg-normal border-l-[0.3rem]' : '' } hover:*:fill-login hover:text-login font-medium`}
+                    className={`flex flex-row px-[1rem] items-center gap-[0.5rem] py-[0.8rem] hover:pl-[1.5rem] duration-[500ms] transition-[padding] ${path === value.path ? '*:stroke-login text-login pl-[1.2rem] bg-normal border-l-[0.3rem]' : '' } hover:*:stroke-login hover:text-login font-medium`}
                 >
                     {value.image}
                     {value.name}

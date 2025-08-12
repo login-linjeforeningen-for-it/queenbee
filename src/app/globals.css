@@ -1,64 +1,64 @@
 @import 'tailwindcss';
 
 @theme {
-	--color-dark: red;
-	--color-normal: red;
-	--color-light: red;
-	--color-extralight: red;
-	--color-superlight: red;
-  --color-almostbright: red;
-	--color-bright: red;
-	--color-sidebar: red;
-	--color-login: red;
+    --color-dark: red;
+    --color-normal: red;
+    --color-light: red;
+    --color-extralight: red;
+    --color-superlight: red;
+    --color-almostbright: red;
+    --color-bright: red;
+    --color-sidebar: red;
+    --color-login: red;
 }
 
 @utility noscroll {
-	-ms-overflow-style: none;
-	scrollbar-width: none;
-	&::-webkit-scrollbar {
-		display: none;
-	}
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 :root {
-	--w-sidebar:  13rem;
-	--h-navbar:   2.8rem;
-	--h-pageInfo: 5rem;
-	transition: background 0.4s, color 0.4s;
+    --w-sidebar:  13rem;
+    --h-navbar:   2.8rem;
+    --h-pageInfo: 5rem;
+    transition: background 0.4s, color 0.4s;
 }
 
 .dark {
-	--background: #0a0a0a;
-	--foreground: #ededed;
-	--color-dark: #1a1a1a;
-	--color-sidebar: #121212;
-	--color-normal: #171717;
-	--color-light: #212121;
-	--color-extralight: #323232;
-	--color-superlight: #424242;
-	--color-almostbright: #6b6b6b;
-	--color-bright: white;
-	--color-login: #fd8738;
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --color-dark: #1a1a1a;
+    --color-sidebar: #121212;
+    --color-normal: #171717;
+    --color-light: #212121;
+    --color-extralight: #323232;
+    --color-superlight: #424242;
+    --color-almostbright: #6b6b6b;
+    --color-bright: white;
+    --color-login: #fd8738;
 }
 
 .light {
-	--background: #ffffff;
-	--foreground: #171717;
-	--color-dark: #e7e5dd;
-	--color-sidebar: #d6d6d6;
-	--color-normal: #fafdf3;
-	--color-light: #f0efe0;
-	--color-extralight: #d6d6d6;
-	--color-superlight: #b0b0b0;
-  --color-almostbright: #bdbdbd;
-	--color-bright: black;
-	--color-login: #fd8738;
+    --background: #ffffff;
+    --foreground: #171717;
+    --color-dark: #e7e5dd;
+    --color-sidebar: #d6d6d6;
+    --color-normal: #fafdf3;
+    --color-light: #f0efe0;
+    --color-extralight: #d6d6d6;
+    --color-superlight: #b0b0b0;
+    --color-almostbright: #bdbdbd;
+    --color-bright: black;
+    --color-login: #fd8738;
 }
 
 body {
-	color: var(--foreground);
-	background: var(--background);
-	font-family: Arial, Helvetica, sans-serif;
-	transition: background 0.4s, color 0.4s;
+    color: var(--foreground);
+    background: var(--background);
+    font-family: Arial, Helvetica, sans-serif;
+    transition: background 0.4s, color 0.4s;
 }
 

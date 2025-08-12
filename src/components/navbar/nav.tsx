@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import ThemeSwitch from '../theme/themeSwitch'
 import Link from 'next/link'
-import Logout from '@components/svg/logout'
 import { cookies } from 'next/headers'
+import { LogOut } from 'lucide-react'
 
 export default function Nav() {
     return (
@@ -32,9 +32,9 @@ async function RightSide() {
     return (
         <div className='flex gap-[1rem] items-center pr-[1rem]'>
             <ThemeSwitch />
-            {token ? <Link className='flex gap-[0.5rem] text-white hover:*:text-login hover:*:fill-login' href={token ? '/logout' : '/login'}>
+            {token ? <Link className='flex align-middle gap-[0.5rem] text-white hover:*:text-login hover:*:stroke-login' href={token ? '/logout' : '/login'}>
                 <h1>Logout</h1>
-                <Logout className='fill-white w-[1.5rem]' />
+                <LogOut className='w-5'/>
             </Link> : <></>}
         </div>
     )

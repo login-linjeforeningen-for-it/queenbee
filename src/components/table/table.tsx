@@ -1,7 +1,6 @@
 'use client'
 
-import ArrowDown from '@components/svg/arrowDown'
-import ArrowUp from '@components/svg/arrowUp'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -71,11 +70,11 @@ function Header({keys, headers}: HeaderProps) {
                                 <h1>{value}</h1>
                                 {column === key ? (
                                     order === 'asc' ? (
-                                        <ArrowUp className='h-[1.5rem] fill-bright' />
+                                        <ChevronUp className='h-[1.5rem]' />
                                     ) : (
-                                        <ArrowDown className='h-[1.5rem] fill-bright' />
+                                        <ChevronDown className='h-[1.5rem]' />
                                     )
-                                ) : <ArrowUp className='h-[1.5rem] fill-almostbright opacity-0 group-hover:opacity-100' />
+                                ) : <ChevronUp className='h-[1.5rem] stroke-almostbright opacity-0 group-hover:opacity-100' />
                                 }
                             </button>
                         </th>
