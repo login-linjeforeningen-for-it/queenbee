@@ -32,9 +32,13 @@ export default [
                 'error',
                 'never'
             ],
+            'jsx-quotes': [
+                'error',
+                'prefer-single'
+            ],
             '@typescript-eslint/no-unused-vars': 'error',
             '@typescript-eslint/ban-ts-comment': 'off',
             '@typescript-eslint/no-non-null-assertion': 'off'
         }
     }
-];
+]

@@ -1,32 +1,27 @@
 import { getJobs } from '@utils/api'
 import Alert from '@components/alert/alert'
-import FilterList from '@components/filterList/filterList'
-import List from '@components/list/list'
 import Button from '@components/userInput/button'
 import Filter from '@components/userInput/filter'
-import Link from 'next/link'
-import Delete from '@components/svg/delete'
+import Table from '@components/table/table'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
-    const filters = await searchParams
-    const filterText = typeof filters.q === 'string' ? filters.q : ''
-    const hasSelectedItems = typeof filters.selected === 'string' ? filters.selected?.split(',').length > 0 : false
-    const pageNumber = typeof filters.p === 'string' ? Number(filters.p) : 0
+    // const filters = await searchParams
+    // const search = typeof filters.q === 'string' ? filters.q : ''
+    // const page = typeof filters.page === 'string' ? Number(filters.page) : 0
+    // const offset = typeof filters.offset === 'string' ? Number(filters.offset) : 0
 
-    const limit = 200
-    const listLimit = 10
-    const list = await getJobs(limit)
+    const list = await getJobs()
 
-    if(typeof list === 'string') return (
-        <div className='w-full h-full flex items-center justify-center'>
-            <Alert>
-                Error loading jobs
-            </Alert>
-        </div>
-    )
-
-    const filteredList = filterText !== '' ? FilterList({ list, filterText }).splice(0,listLimit) : list.splice(0,listLimit)
-    const visible = ['id', 'name_no', 'title_no', 'job_type', 'time_publish', 'application_deadline', 'application_url', 'updated_at', 'visible']
+    if ( typeof list === 'string' || list.length <= 0 ) {
+        return (
+            <div className='w-full h-full flex items-center justify-center'>
+                <Alert>
+                    {typeof list === 'string' ? list : 'No jobs found'}
+                </Alert>
+            </div>
+        )
+    }
 
     return (
         <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden'>
@@ -35,24 +30,11 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                 <div className='flex justify-between pb-4'>
                     <Filter/>
                     <div className='flex flex-row gap-[1rem]'>
-                        <Button text='New job' icon='+' path='jobs/0' />
-                        {hasSelectedItems &&
-                            <Link href='' className='bg-red-900 cursor-pointer px-4 rounded-md h-8 flex justify-evenly items-center gap-2 select-none'>
-                                <Delete className='fill-bright'/>
-                                Delete selected
-                            </Link>
-                        }
+                        <Button text='New job' icon='+' path='jobs/create' />
                     </div>
                 </div>
             </div>
-            {filteredList.length > 0 && <List sticky={['id']} list={filteredList} visible={visible}/> }
-            {filteredList.length <= 0 && 
-            <div className='w-full h-full flex items-center justify-center'>
-                <Alert>
-                    Could not find jobs
-                </Alert>
-            </div>
-            }
+            <Table list={list} headers={['id', 'name_no', 'title_no', 'job_type', 'time_publish', 'application_deadline', 'application_url', 'updated_at', 'visible']}/>
         </div>
     )
 }

@@ -44,14 +44,16 @@ type sendNotificationProps = {
 }
 
 // A new type that is the same as DetailedEvent, but with id as a string
-interface DetailedEventStr extends Omit<DetailedEvent, "id"> {
+interface DetailedEventStr extends Omit<DetailedEvent, 'id'> {
     id: string
 }
 
 // Data in the message cannot be undefined so it is defined as an empty object or a DetailedEventStr
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 type Data = {} | DetailedEventStr
 
 // Initialize the Firebase Admin SDK with the service account
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const app = initializeApp({
     credential: admin.credential.cert({
         type: TYPE,
@@ -78,7 +80,7 @@ const app = initializeApp({
 export default async function sendNotification({title, description, screen, topic}: sendNotificationProps): Promise<boolean> {
     // Sets the topic to maintenance if the topic is not available
     if (!topic) {
-        topic = "maintenance"
+        topic = 'maintenance'
     }
 
     // Provide screen as data parameter if the id is defined
@@ -101,6 +103,7 @@ export default async function sendNotification({title, description, screen, topi
         if (notification) {
             return true
         }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return false
     }
@@ -111,4 +114,4 @@ export default async function sendNotification({title, description, screen, topi
 // Examples of direct notifications that can be sent by node sendNotifications.ts
 // Topics: norwegianTOPIC, englishTOPIC, ...
 
-// sendNotification({title: "Tittel", description: "Beskrivelse", topic: "maintenance"})
+// sendNotification({title: 'Tittel', description: 'Beskrivelse', topic: 'maintenance'})

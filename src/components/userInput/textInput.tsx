@@ -12,22 +12,22 @@ export default function TextInput({width, onchange, placeholder, required}: {wid
 
     function select(){
         if(labelRef.current && inputRef.current){
-            labelRef.current.className = labelClassNameBase+`top-2 text-xs text-login`
-            labelRef.current.style.color = ""
-            inputRef.current.className = inputClassNameBase+`border-login`
+            labelRef.current.className = labelClassNameBase+'top-2 text-xs text-login'
+            labelRef.current.style.color = ''
+            inputRef.current.className = inputClassNameBase+'border-login'
         }
     }
     function blur(){
         if (labelRef.current && inputRef.current && document.hasFocus()) {
             if (inputRef.current?.value.length === 0){
                 labelRef.current.className = labelClassNameBase+'top-0 h-full content-center text-red-500'
-                labelRef.current.style.color = ""
+                labelRef.current.style.color = ''
                 inputRef.current.className = inputClassNameBase+'border-red-500'
                 setIsempty(true)
             }
             else{
                 labelRef.current.className = labelClassNameBase+'top-2 text-xs'
-                labelRef.current.style.color = "color-mix(in oklab, currentColor 50%, transparent)"
+                labelRef.current.style.color = 'color-mix(in oklab, currentColor 50%, transparent)'
                 inputRef.current.className = inputClassNameBase+'border-almostbright'
             }
         }
@@ -46,12 +46,12 @@ export default function TextInput({width, onchange, placeholder, required}: {wid
                         setIsempty(false)
                         if(onchange) onchange(e)
                     }}
-                    onInvalid={(e)=>{setIsempty(true)}}
+                    onInvalid={()=>{setIsempty(true)}}
                     type='text'
                     maxLength={50}
                     className={inputClassNameBase+'border-almostbright'}>
                 </input>
-                <div ref={labelRef} style={{color: "color-mix(in oklab, currentColor 50%, transparent)"}} className={labelClassNameBase+'top-0 h-full content-center'}>{placeholder+(required?'*':'')}</div>
+                <div ref={labelRef} style={{color: 'color-mix(in oklab, currentColor 50%, transparent)'}} className={labelClassNameBase+'top-0 h-full content-center'}>{placeholder+(required?'*':'')}</div>
             </div>
             <div className='flex'>
                 {isEmpty && <div className='text-red-500 text-xs'>This field is <b className='text-inherit'>requred</b></div>}

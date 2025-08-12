@@ -1,4 +1,4 @@
-import sendNotification from "@utils/notification/sendNotification"
+import sendNotification from '@utils/notification/sendNotification'
 
 export async function POST(req: Request) {
     try {
@@ -8,13 +8,14 @@ export async function POST(req: Request) {
     
         return new Response(JSON.stringify({ success: true }), {
             status: 200,
-            headers: { "Content-Type": "application/json" },
+            headers: { 'Content-Type': 'application/json' },
         })
-    } catch (error: any) {
+    } catch (error) {
         console.error(`API Error: ${JSON.stringify(error)}`)
-        return new Response(JSON.stringify({ success: false, error: error.message }), {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+        return new Response(JSON.stringify({ success: false, error: errorMessage }), {
             status: 500,
-            headers: { "Content-Type": "application/json" },
+            headers: { 'Content-Type': 'application/json' },
         })
     }
 }

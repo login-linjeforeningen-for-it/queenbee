@@ -1,32 +1,27 @@
 import { getOrganizations } from '@utils/api'
 import Alert from '@components/alert/alert'
-import FilterList from '@components/filterList/filterList'
-import List from '@components/list/list'
 import Button from '@components/userInput/button'
 import Filter from '@components/userInput/filter'
-import Link from 'next/link'
-import Delete from '@components/svg/delete'
+import Table from '@components/table/table'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
-    const filters = await searchParams
-    const filterText = typeof filters.q === 'string' ? filters.q : ''
-    const hasSelectedItems = typeof filters.selected === 'string' ? filters.selected?.split(',').length > 0 : false
-    const pageNumber = typeof filters.p === 'string' ? Number(filters.p) : 0
+    // const filters = await searchParams
+    // const search = typeof filters.q === 'string' ? filters.q : ''
+    // const page = typeof filters.page === 'string' ? Number(filters.page) : 0
+    // const offset = typeof filters.offset === 'string' ? Number(filters.offset) : 0
 
-    const limit = 200
-    const listLimit = 10
-    const list = await getOrganizations(limit)
+    const list = await getOrganizations()
 
-    if(typeof list === 'string') return (
-        <div className='w-full h-full flex items-center justify-center'>
-            <Alert>
-                Error loading organizations
-            </Alert>
-        </div>
-    )
-
-    const filteredList = filterText !== '' ? FilterList({ list, filterText }).splice(0,listLimit) : list.splice(0,listLimit)
-    const visible =  ['description_en', 'description_no', 'link_facebook', 'link_homepage', 'link_instagram', 'link_linkedin', 'logo', 'name_en', 'name_no', 'shortname']
+    if ( typeof list === 'string' || list.length <= 0 ) {
+        return (
+            <div className='w-full h-full flex items-center justify-center'>
+                <Alert>
+                    {typeof list === 'string' ? list : 'No organizations found'}
+                </Alert>
+            </div>
+        )
+    }
 
     return (
         <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden'>
@@ -36,23 +31,10 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     <Filter/>
                     <div className='flex flex-row gap-[1rem]'>
                         <Button text='New organization' icon='+' path='organizations/0' />
-                        {hasSelectedItems &&
-                            <Link href='' className='bg-red-900 cursor-pointer px-4 rounded-md h-8 flex justify-evenly items-center gap-2 select-none'>
-                                <Delete className='fill-bright'/>
-                                Delete selected
-                            </Link>
-                        }
                     </div>
                 </div>
             </div>
-            {filteredList.length > 0 && <List sticky={['shortname']} list={filteredList} visible={visible}/> }
-            {filteredList.length <= 0 && 
-            <div className='w-full h-full flex items-center justify-center'>
-                <Alert>
-                    Could not find organizations
-                </Alert>
-            </div>
-            }
+            <Table list={list} headers={['description_en', 'description_no', 'link_facebook', 'link_homepage', 'link_instagram', 'link_linkedin', 'logo', 'name_en', 'name_no', 'shortname']} />
         </div>
     )
 }
