@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import '../globals.css'
 import Sidebar from '@components/sidebar/sidebar'
+import { Toaster } from 'sonner'
 
 export const metadata: Metadata = {
     title: 'QueenBee',
@@ -14,6 +15,14 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             <div className='p-4 w-full h-full bg-normal'>
                 {children}
             </div>
+            <Toaster 
+                position='bottom-right'
+                style={{
+                    '--normal-bg': '#121212',
+                    '--normal-text': 'white',
+                    '--normal-border': '#6b6b6b',
+                } as React.CSSProperties}
+            />
         </main>
     )
 }

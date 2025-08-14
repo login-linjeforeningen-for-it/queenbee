@@ -13,16 +13,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     
     const list = await getEvents()
 
-    if ( typeof list === 'string' || list.length <= 0 ) {
-        return (
-            <div className='w-full h-full flex items-center justify-center'>
-                <Alert>
-                    {typeof list === 'string' ? list : 'No events found'}
-                </Alert>
-            </div>
-        )
-    }
-
     return (
         <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden'>
             <div className='h-[var(--h-pageInfo)]'>
@@ -30,11 +20,19 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                 <div className='flex justify-between pb-4'>
                     <Filter/>
                     <div className='flex flex-row gap-[1rem]'>
-                        <Button text='New event' icon='+' path='events/0' />
+                        <Button text='New event' icon='+' path='events/create' />
                     </div>
                 </div>
             </div>
-            <Table list={list} headers={['id', 'name_no', 'name_en', 'category', 'location', 'time_type', 'start_time', 'end_time', 'publish_time', 'capacity', 'full', 'canceled', 'updated_at']} />
+            {typeof list === 'string' || list.length <= 0 ?
+                <div className='w-full h-full flex items-center justify-center'>
+                    <Alert>
+                        {typeof list === 'string' ? list : 'No events found'}
+                    </Alert>
+                </div> 
+                :
+                <Table list={list} headers={['id', 'name_no', 'name_en', 'category', 'location', 'time_type', 'start_time', 'end_time', 'publish_time', 'capacity', 'full', 'canceled', 'updated_at']} />
+            }
         </div>
     )
 }

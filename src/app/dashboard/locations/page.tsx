@@ -36,16 +36,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
 
     const list = await getLocations(LocationAPI[activeType])
 
-    if ( typeof list === 'string' || list.length <= 0 ) {
-        return (
-            <div className='w-full h-full flex items-center justify-center'>
-                <Alert>
-                    {typeof list === 'string' ? list : 'No organizations found'}
-                </Alert>
-            </div>
-        )
-    }
-
     return (
         <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden'>
             <div className='h-[var(--h-pageInfo)]'>
@@ -58,13 +48,23 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                         <LocationOption value={Location.Mazemap} active={activeType}/>
                     </div>
                     <div className='flex flex-row gap-[1rem]'>
-                        <Button text='New organization' icon='+' path='locations/0' />
+                        <Button text='New organization' icon='+' path='locations/create' />
                     </div>
                 </div>
             </div>
-            {activeType === Location.Address        && <Table list={list} headers={['id', 'name_no', 'address_street', 'address_postcode', 'city_name', 'url', 'updated_at']} />}
-            {activeType === Location.Mazemap        && <Table list={list} headers={['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']} />}
-            {activeType === Location.Coordinate     && <Table list={list} headers={['id', 'name_no', 'coordinate_lat', 'coordinate_long', 'url', 'updated_at']} />}
+            {typeof list === 'string' || list.length <= 0 ?
+                <div className='w-full h-full flex items-center justify-center'>
+                    <Alert>
+                        {typeof list === 'string' ? list : 'No locations found'}
+                    </Alert>
+                </div> 
+                :
+                <>
+                    {activeType === Location.Address        && <Table list={list} headers={['id', 'name_no', 'address_street', 'address_postcode', 'city_name', 'url', 'updated_at']} />}
+                    {activeType === Location.Mazemap        && <Table list={list} headers={['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']} />}
+                    {activeType === Location.Coordinate     && <Table list={list} headers={['id', 'name_no', 'coordinate_lat', 'coordinate_long', 'url', 'updated_at']} />}
+                </>
+            }
         </div>
     )
 }

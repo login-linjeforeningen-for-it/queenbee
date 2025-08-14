@@ -13,16 +13,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
 
     const list = await getOrganizations()
 
-    if ( typeof list === 'string' || list.length <= 0 ) {
-        return (
-            <div className='w-full h-full flex items-center justify-center'>
-                <Alert>
-                    {typeof list === 'string' ? list : 'No organizations found'}
-                </Alert>
-            </div>
-        )
-    }
-
     return (
         <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden'>
             <div className='h-[var(--h-pageInfo)]'>
@@ -30,11 +20,19 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                 <div className='flex justify-between pb-4'>
                     <Filter/>
                     <div className='flex flex-row gap-[1rem]'>
-                        <Button text='New organization' icon='+' path='organizations/0' />
+                        <Button text='New organization' icon='+' path='organizations/create' />
                     </div>
                 </div>
             </div>
-            <Table list={list} headers={['description_en', 'description_no', 'link_facebook', 'link_homepage', 'link_instagram', 'link_linkedin', 'logo', 'name_en', 'name_no', 'shortname']} />
+            {typeof list === 'string' || list.length <= 0 ?
+                <div className='w-full h-full flex items-center justify-center'>
+                    <Alert>
+                        {typeof list === 'string' ? list : 'No organizations found'}
+                    </Alert>
+                </div> 
+                :
+                <Table list={list} headers={['description_en', 'description_no', 'link_facebook', 'link_homepage', 'link_instagram', 'link_linkedin', 'logo', 'name_en', 'name_no', 'shortname']} />
+            }
         </div>
     )
 }
