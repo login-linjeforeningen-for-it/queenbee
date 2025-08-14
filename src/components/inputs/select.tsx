@@ -36,7 +36,7 @@ export default function Select({name, label, options, className, tooltip, requir
                     ))}
                 </select>
                 <label
-                    className={`pointer-events-none absolute text-sm duration-300 transform ${selectedValue ? '-translate-y-4 scale-75 top-2' : '-translate-y-1/2 scale-100 top-1/2'} origin-[0] bg-normal px-2 peer-focus:px-2 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-2 ${required && !selectedValue && hasBlured ? 'text-red-500/50 after:content-["_*"]' : ''}`}
+                    className={`pointer-events-none absolute text-sm duration-300 transform ${selectedValue ? '-translate-y-4 scale-75 top-2' : '-translate-y-1/2 scale-100 top-1/2'} origin-[0] bg-normal px-2 peer-focus:px-2 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-2 ${required && !selectedValue && hasBlured ? 'text-red-500/50 after:content-["_*"]' : ''} group-[.submitted]:text-red-500/50 group-[.submitted]:after:content-["_*"]`}
                 >
                     {label}
                 </label>
@@ -49,7 +49,7 @@ export default function Select({name, label, options, className, tooltip, requir
                 </button>}
                 {!selectedValue && tooltip && <ToolTip info={tooltip} />}
             </div>
-            {required && !selectedValue && hasBlured && <Error message='This field is required' />}
+            {required && !selectedValue && <Error message='This field is required' className={`${hasBlured ? '' : 'hidden group-[.submitted]:flex'}`} />}
         </div>
     )
 }

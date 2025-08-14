@@ -15,7 +15,7 @@ export async function getJob(id: number) {
     return await getWrapper(path)
 }
 
-export async function postJob(body: JobProps) {
+export async function postJob(body: PostJobProps): Promise<JobPostResponseProps> {
     return await postWrapper(config.beehiveApi.JOBADS_PATH, body)
 }
 
@@ -24,8 +24,8 @@ export async function deleteJob(id: number) {
     return await deleteWrapper(path)
 }
 
-export async function patchJob(id: number, body: JobProps) {
-    const path = `${config.beehiveApi.JOBADS_PATH}${id}`
+export async function patchJob(body: PatchJobProps): Promise<JobPatchResponseProps> {
+    const path = `${config.beehiveApi.JOBADS_PATH}`
     return await patchWrapper(path,body)
 }
 
@@ -61,7 +61,7 @@ export async function getEvent(id: number) {
     return await getWrapper(path)
 }
 
-export async function postEvent(body: EventProps) {
+export async function postEvent(body: PostEventProps): Promise<EventPostResponseProps> {
     return await postWrapper(config.beehiveApi.EVENTS_PATH, body)
 }
 
@@ -70,7 +70,7 @@ export async function deleteEvent(id: number) {
     return await deleteWrapper(path)
 }
 
-export async function patchEvent(body: EventProps) {
+export async function patchEvent(body: PatchEventProps): Promise<EventPatchResponseProps> {
     const path = `${config.beehiveApi.EVENTS_PATH}`
     return await patchWrapper(path,body)
 }
@@ -99,7 +99,7 @@ export async function deleteAudience(body: AudienceProps) {
     return await deleteWrapper(config.beehiveApi.AUDIENCES_PATH_2, body)
 }
 
-export async function postOrganizationEvent(body: OrganizationEventProps) {
+export async function postOrganizationEvent(body: PostOrganizationProps): Promise<OrganizationPostResponseProps> {
     return await postWrapper(config.beehiveApi.ORGANIZATIONS_PATH_2, body)
 }
 
@@ -121,7 +121,7 @@ export async function getLocation(id: number) {
     return await getWrapper(path)
 }
 
-export async function postLocation(body: LocationProps) {
+export async function postLocation(body: PostLocationProps): Promise<LocationPostResponseProps> {
     return await postWrapper(config.beehiveApi.LOCATIONS_PATH, body)
 }
 
@@ -130,8 +130,8 @@ export async function deleteLocation(id: number) {
     return await deleteWrapper(path)
 }
 
-export async function patchLocation(id: number, body: LocationProps) {
-    const path = `${config.beehiveApi.LOCATIONS_PATH}${id}`
+export async function patchLocation(body: PatchLocationProps): Promise<LocationPatchResponseProps> {
+    const path = `${config.beehiveApi.LOCATIONS_PATH}`
     return await patchWrapper(path,body)
 }
 
@@ -148,7 +148,7 @@ export async function getOrganization(shortname: string) {
     return await getWrapper(path)
 }
 
-export async function postOrganization(body: OrganizationProps) {
+export async function postOrganization(body: PostOrganizationProps): Promise<OrganizationPostResponseProps> {
     return await postWrapper(config.beehiveApi.ORGANIZATIONS_PATH, body)
 }
 
@@ -157,7 +157,7 @@ export async function deleteOrganization(shortname: string) {
     return await deleteWrapper(path)
 }
 
-export async function patchOrganization(shortname: string, body: LocationProps) {
+export async function patchOrganization(shortname: string, body: PatchOrganizationProps): Promise<OrganizationPatchResponseProps> {
     const path = `${config.beehiveApi.ORGANIZATIONS_PATH}${shortname}`
     return await patchWrapper(path,body)
 }
@@ -175,8 +175,12 @@ export async function getRule(id: number) {
     return await getWrapper(path)
 }
 
-export async function postRule(body: RuleProps) {
+export async function postRule(body: PostRuleProps): Promise<RulePostResponseProps> {
     return await postWrapper(config.beehiveApi.RULES_PATH, body)
+}
+
+export async function patchRule(body: PatchRuleProps): Promise<RulePatchResponseProps> {
+    return await patchWrapper(config.beehiveApi.RULES_PATH, body)
 }
 
 async function getWrapper(path: string, options = {}) {
@@ -215,7 +219,7 @@ async function postWrapper(path: string, data = {}) {
     try {
         const response = await fetch(`${baseUrl}${path}`, defaultOptions)
         if (!response.ok) {
-            throw new Error(await response.json())
+            return await response.json()
         }
         
         const data = await response.json()

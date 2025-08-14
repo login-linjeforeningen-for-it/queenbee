@@ -29,7 +29,7 @@ export default function TimeInput({ name, label, className, tooltip, required }:
                     onBlur={() => setHasBlured(true)}
                 />
                 <label
-                    className={`pointer-events-none absolute text-sm duration-300 transform peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:top-2 ${timeValue ? '-translate-y-4 scale-75 top-2' : '-translate-y-1/2 scale-100 top-1/2'} origin-[0] bg-normal px-2 peer-focus:px-2 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-2 ${required && !timeValue && hasBlured ? 'text-red-500/50 after:content-["_*"]' : ''}`}
+                    className={`pointer-events-none absolute text-sm duration-300 transform peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:top-2 ${timeValue ? '-translate-y-4 scale-75 top-2' : '-translate-y-1/2 scale-100 top-1/2'} origin-[0] bg-normal px-2 peer-focus:px-2 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-2 ${required && !timeValue && hasBlured ? 'text-red-500/50 after:content-["_*"]' : ''} group-[.submitted]:text-red-500/50 group-[.submitted]:after:content-["_*"]`}
                 >
                     {label}
                 </label>
@@ -42,7 +42,7 @@ export default function TimeInput({ name, label, className, tooltip, required }:
                 </button>}
                 {!timeValue && tooltip && <ToolTip info={tooltip} />}
             </div>
-            {required && !timeValue && hasBlured && <Error message='This field is required' /> }
+            {required && !timeValue && <Error message='This field is required' className={`${hasBlured ? '' : 'hidden group-[.submitted]:flex'}`} />}
         </div>
     )
 }
