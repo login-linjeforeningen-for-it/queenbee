@@ -14,7 +14,7 @@ export default function Switch({ name, label, className, tooltip }: SwitchProps)
     const [isChecked, setIsChecked] = useState(false)
 
     return (
-        <div className={`relative w-3xs flex items-center p-2 border-almostbright rounded-lg border-[0.10rem] ${className}`}>
+        <div className={`relative w-full flex items-center p-2 border-almostbright rounded-lg border-[0.10rem] ${className}`}>
             <label className='flex items-center cursor-pointer'>
                 <input
                     type='checkbox'

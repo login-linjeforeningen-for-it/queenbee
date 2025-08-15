@@ -134,6 +134,12 @@ function Body({list, headers}: BodyProps) {
                                         Edit
                                     </button>
                                     <button
+                                        className='w-full text-left px-3 py-1.5 text-sm hover:bg-superlight'
+                                        onClick={() => { setOpenMenuId(null); router.push(`${pathname}/create/${id}`) }}
+                                    >
+                                        Duplicate
+                                    </button>
+                                    <button
                                         className='w-full text-left px-3 py-1.5 text-sm text-[color:var(--color-delete)] hover:bg-superlight'
                                         onClick={() => { setOpenMenuId(null); console.log('Delete', id) }}
                                     >

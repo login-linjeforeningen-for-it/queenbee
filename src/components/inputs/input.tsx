@@ -3,6 +3,7 @@
 import { HTMLInputTypeAttribute, useState } from 'react'
 import ToolTip from './tooltip'
 import Error from '@components/inputs/error'
+import Label from './label'
 
 type InputProps = {
     name: string
@@ -18,8 +19,8 @@ export default function Input({name, type, label, className, tooltip, required}:
     const [hasBlured, setHasBlured] = useState(false)
 
     return (
-        <div>
-            <div className={`relative w-3xs flex items-center ${className}`}>
+        <div className={`w-full ${className}`}>
+            <div className='relative flex items-center'>
                 <input
                     name={name}
                     value={value}
@@ -29,11 +30,7 @@ export default function Input({name, type, label, className, tooltip, required}:
                     className='block px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-almostbright focus:outline-none focus:ring-0 focus:border-bright peer' 
                     placeholder=''
                 />
-                <label
-                    className={`pointer-events-none absolute text-sm duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-normal px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-2 ${required && !value && hasBlured ? 'text-red-500/50 after:content-["_*"]' : ''} group-[.submitted]:text-red-500/50 group-[.submitted]:after:content-["_*"]`}
-                >
-                    {label}
-                </label>
+                <Label label={label} value={value} required={required} showRequired={required && !value && hasBlured} />
                 {tooltip && <ToolTip info={tooltip} />}
             </div>
             {required && !value && <Error message='This field is required' className={`${hasBlured ? '' : 'hidden group-[.submitted]:flex'}`} />}

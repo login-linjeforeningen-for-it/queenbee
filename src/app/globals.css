@@ -20,6 +20,12 @@
     }
 }
 
+@utility no-calendar {
+    &::-webkit-calendar-picker-indicator {
+        -webkit-appearance: textfield;
+    }
+}
+
 :root {
     --w-sidebar:  13rem;
     --h-navbar:   2.8rem;

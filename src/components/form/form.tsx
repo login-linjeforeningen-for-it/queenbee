@@ -28,7 +28,7 @@ export default function CustomForm({ name, type, formAction, children }: Content
 
     return (
         <Form action={action} className={`group ${'error' in state && state.error ? 'submitted' : ''}`}>
-            <div className='flex flex-col gap-6'>
+            <div className='flex flex-col gap-12'>
                 <div>
                     {children}
                 </div>
