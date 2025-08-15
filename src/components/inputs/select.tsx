@@ -20,7 +20,7 @@ export default function Select({name, label, options, className, tooltip, requir
     const [hasBlured, setHasBlured] = useState(false)
 
     return (
-        <div className={`w-3xs ${className}`}>
+        <div className={`w-full ${className}`}>
             <div className='relative flex items-center'>
                 <select
                     name={name}
