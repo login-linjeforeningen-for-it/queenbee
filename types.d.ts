@@ -2,7 +2,7 @@ type time_type = 'default' | 'no_end' | 'whole_day' | 'tbd'
 type job_type = 'full' | 'part' | 'summer' | 'verv'
 type location_type = 'mazemap' | 'coords' | 'address' | 'digital'
 
-
+// Events
 type PostEventProps = {
     canceled: boolean
     capacity: number
@@ -38,6 +38,27 @@ type PatchEventProps = PostEventProps & {
     id: number
 }
 
+type GetAudienceProps = {
+    id: number,
+    is_deleted: boolean,
+    name_en: string,
+    name_no: string
+}[]
+
+type GetImageProps = {
+    filepath: string,
+    name: string,
+    size: number
+}[]
+
+type GetCategoriesProps = {
+    color: string,
+    id: number,
+    name_en: string,
+    name_no: string
+}[]
+
+// Jobs
 type PostJobProps = {
     application_deadline: string
     application_url: string
@@ -62,6 +83,17 @@ type PatchJobProps = PostJobProps & {
     id: number
 }
 
+// Organizations
+type GetOrganizationProps = {
+    is_deleted: boolean,
+    link_homepage: string,
+    logo: string,
+    name_en: string,
+    name_no: string,
+    shortname: string,
+    updated_at: string
+}[]
+
 type PostOrganizationProps = {
     description_en: string
     description_no: string
@@ -77,6 +109,26 @@ type PostOrganizationProps = {
 }
 
 type PatchOrganizationProps = PostOrganizationProps
+
+// Locations
+type GetLocationsProps = {
+    address_postcode: number,
+    address_street: string,
+    city_name: string,
+    coordinate_lat: number,
+    coordinate_long: number,
+    created_at: string,
+    deleted_at: string,
+    id: number,
+    is_deleted: boolean,
+    mazemap_campus_id: number,
+    mazemap_poi_id: number,
+    name_en: string,
+    name_no: string,
+    type: location_type,
+    updated_at: string,
+    url: string
+}[]
 
 type PostLocationProps = {
   address_postcode: number
@@ -96,6 +148,14 @@ type PatchLocationProps = PostLocationProps & {
   id: number
 }
 
+// Rules
+type GetRuleProps = {
+    id: number,
+    is_deleted: boolean,
+    name_en: string,
+    name_no: string
+}[]
+
 type PostRuleProps = {
     description_en: string
     description_no: string
@@ -107,6 +167,7 @@ type PatchRuleProps = PostRuleProps & {
     id: number
 }
 
+// API Responses
 type ErrorResponse = {
     error: string
     status: number
@@ -116,17 +177,25 @@ type ErrorResponse = {
 type EventPostResponseProps  = ErrorResponse | PostEventProps
 type EventPatchResponseProps = ErrorResponse | PatchEventProps
 
+type CategoriesGetResponseProps = ErrorResponse | GetCategoriesProps
+type AudienceGetResponseProps = ErrorResponse | GetAudienceProps
+
 type JobPostResponseProps  = ErrorResponse | PostJobProps
 type JobPatchResponseProps = ErrorResponse | PatchJobProps
 
+type OrganizationGetResponseProps   = ErrorResponse | GetOrganizationProps
 type OrganizationPostResponseProps  = ErrorResponse | PostOrganizationProps
 type OrganizationPatchResponseProps = ErrorResponse | PatchOrganizationProps
 
+type LocationGetResponseProps     = ErrorResponse | GetLocationsProps
 type LocationPostResponseProps    = ErrorResponse | PostLocationProps
 type LocationPatchResponseProps   = ErrorResponse | PatchLocationProps
 
+type RuleGetResponseProps   = ErrorResponse | GetRuleProps
 type RulePostResponseProps  = ErrorResponse | PostRuleProps
 type RulePatchResponseProps = ErrorResponse | PatchRuleProps
+
+type ImageGetResponseProps = ErrorResponse | GetImageProps
 
 type JobProps = {
     application_deadline: string

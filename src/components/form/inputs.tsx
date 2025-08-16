@@ -1,10 +1,77 @@
 import DateInput from '@components/inputs/date'
 import Input from '@components/inputs/input'
+import Markdown from '@components/inputs/markdown'
 import Select from '@components/inputs/select'
 import Switch from '@components/inputs/switch'
 import TimeInput from '@components/inputs/time'
+import { getAudiences, getCategories, getEventBannerImages, getEventSmallImages, getJobImages, getLocations, getOrganizationImages, getOrganizations, getRules } from '@utils/api'
 
-export function EventFormInputs() {
+export async function EventFormInputs() {
+    const bannerImagesResponse = await getEventBannerImages()
+    const bannerImages = Array.isArray(bannerImagesResponse)
+        ? bannerImagesResponse.map((image) => ({
+            label: image.name,
+            value: `${image.filepath}${image.name}`,
+            image: `${image.filepath}${image.name}`,
+        }))
+        : []
+
+    const smallImagesResponse = await getEventSmallImages()
+    const smallImages = Array.isArray(smallImagesResponse)
+        ? smallImagesResponse.map((image) => ({
+            label: image.name,
+            value: `${image.filepath}${image.name}`,
+            image: `${image.filepath}${image.name}`,
+        }))
+        : []
+
+    const categoriesResponse = await getCategories()
+    const categories = Array.isArray(categoriesResponse)
+        ? categoriesResponse.map((category) => ({
+            label: category.name_en,
+            value: category.id,
+        }))
+        : []
+
+    const organizationsResponse = await getOrganizations()
+    const organizations = Array.isArray(organizationsResponse)
+        ? organizationsResponse.map((organization) => ({
+            label: organization.name_en,
+            value: organization.shortname,
+        }))
+        : []
+
+    const rulesResponse = await getRules()
+    const rules = Array.isArray(rulesResponse)
+        ? rulesResponse.map((rule) => ({
+            label: rule.name_en,
+            value: rule.id,
+        }))
+        : []
+
+    const locationsResponse = await getLocations()
+    const locations = Array.isArray(locationsResponse)
+        ? locationsResponse.map((location) => ({
+            label: location.name_en,
+            value: location.id,
+        }))
+        : []
+
+    const audiencesResponse = await getAudiences()
+    const audiences = Array.isArray(audiencesResponse)
+        ? audiencesResponse.map((audience) => ({
+            label: audience.name_en,
+            value: audience.id,
+        }))
+        : []
+
+    const timeTypes: { label: string; value: time_type }[] = [
+        { label: 'Default', value: 'default' },
+        { label: 'No end', value: 'no_end' },
+        { label: 'Whole day', value: 'whole_day' },
+        { label: 'To Be Determined', value: 'tbd' },
+    ]
+
     return (
         <div className='flex flex-col gap-12'>
             <div className='flex flex-col gap-4'>
@@ -13,19 +80,21 @@ export function EventFormInputs() {
                     <Input name='titleEng' type='text' label='Title (English)' required />
                     <Input name='informationalNor' type='text' label='Informational (Norwegian)' />
                     <Input name='informationalEng' type='text' label='Informational (English)' />
-                    {/* Markdown description */}
+                    <Markdown name='descriptionNor' label='Description (Norwegian)' required />
+                    <Markdown name='descriptionEng' label='Description (English)' required />
                 </div>
             </div>
             <div className='flex flex-row gap-8'>
                 <div className='flex flex-col gap-4 w-full'>
-                    <Select name='category' label='Category' options={[]} required />
-                    <Select name='organization' label='Organization' options={[]} />
-                    <Select name='rule' label='Rule' options={[]} />
-                    <Select name='location' label='Location' options={[]} />
-                    <Select name='audiences' label='Audiences' options={[]} />
+                    <Select name='category' label='Category' options={categories} required />
+                    <Select name='organization' label='Organization' options={organizations} />
+                    <Select name='rule' label='Rule' options={rules} />
+                    <Select name='location' label='Location' options={locations} />
+                    <Select name='audiences' label='Audiences' options={audiences} />
                 </div>
                 <div className='flex flex-col gap-4 w-full'>
-                    <Select name='timeType' label='Time Type' options={[]} required />
+                    <Select name='timeType' label='Time Type' options={timeTypes} required />
+                    {/* Date and time inputs based on different timeType */}
                     <div className='flex flex-row gap-4 w-full'>
                         <div className='flex flex-col gap-4 w-full'>
                             <DateInput name='startDate' label='Start Date' required />
@@ -59,8 +128,8 @@ export function EventFormInputs() {
             </div>
             <div className='flex flex-col gap-4'>
                 <h1 className='text-xl'>Image</h1>
-                <Select name='bannerImage' label='Banner Image' options={[]} />
-                <Select name='smallImage' label='Small Image' options={[]} />
+                <Select name='bannerImage' label='Banner Image' options={bannerImages} />
+                <Select name='smallImage' label='Small Image' options={smallImages} />
             </div>
             <div className='flex flex-col gap-4'>
                 <h1 className='text-xl'>Social Links</h1>
@@ -72,7 +141,31 @@ export function EventFormInputs() {
     )
 }
 
-export function JobFormInputs() {
+export async function JobFormInputs() {
+    const organizationsResponse = await getOrganizations()
+    const organizations = Array.isArray(organizationsResponse)
+        ? organizationsResponse.map((organization) => ({
+            label: organization.name_en,
+            value: organization.shortname,
+        }))
+        : []
+
+    const applicationTypes: { label: string; value: job_type }[] = [
+        { label: 'Full-time', value: 'full' },
+        { label: 'Part-time', value: 'part' },
+        { label: 'Summer', value: 'summer' },
+        { label: 'Verv', value: 'verv' },
+    ]
+
+    const jobImagesResponse = await getJobImages()
+    const jobImages = Array.isArray(jobImagesResponse)
+        ? jobImagesResponse.map((image) => ({
+            label: image.name,
+            value: `${image.filepath}${image.name}`,
+            image: `${image.filepath}${image.name}`,
+        }))
+        : []
+
     return (
         <div className='flex flex-col gap-12'>
             <div className='flex flex-col gap-8'>
@@ -83,12 +176,13 @@ export function JobFormInputs() {
                     <Input name='positionEng' type='text' label='Position (English)' required />
                     <Input name='shortDescriptionNor' type='text' label='Short Description (Norwegian)' required />
                     <Input name='shortDescriptionEng' type='text' label='Short Description (English)' required />
-                    {/* Markdown description */}
+                    <Markdown name='descriptionNor' label='Description (Norwegian)' required />
+                    <Markdown name='descriptionEng' label='Description (English)' required />
                 </div>
                 <div className='grid grid-cols-2 gap-x-8 gap-y-4 justify-between w-full'>
-                    <Select name='organization' label='Organization' options={[]} required />
+                    <Select name='organization' label='Organization' options={organizations} required />
                     <Input name='cities' type='text' label='Cities' />
-                    <Select name='applicationType' label='Application Type' options={[]} required />
+                    <Select name='applicationType' label='Application Type' options={applicationTypes} required />
                     <Input name='skills' type='text' label='Skills' />
                     <div className='grid grid-cols-2 gap-x-4 gap-y-4 w-full'>
                         <DateInput name='publishDate' label='Release Date' />
@@ -112,22 +206,32 @@ export function JobFormInputs() {
             </div>
             <div className='flex flex-col gap-4'>
                 <h1 className='text-xl'>Image</h1>
-                <Select name='bannerImage' label='Banner Image' options={[]} required />
+                <Select name='bannerImage' label='Banner Image' options={jobImages} required />
             </div>
         </div>
     )
 }
 
-export function OrganizationFormInputs() {
+export async function OrganizationFormInputs() {
+    const imagesResponse = await getOrganizationImages()
+    const images = Array.isArray(imagesResponse)
+        ? imagesResponse.map((image) => ({
+            label: image.name,
+            value: `${image.filepath}${image.name}`,
+            image: `${image.filepath}${image.name}`,
+        }))
+        : []
+
     return (
         <div className='flex flex-col gap-12'>
             <div className='flex flex-col gap-4'>
                 <Input name='shortName' type='text' label='Short Name' required />
-                <div className='flex flex-row gap-8 justify-between w-full'>
+                <div className='grid grid-cols-2 gap-y-4 gap-x-8  w-full'>
                     <Input name='nameNor' type='text' label='Name (Norwegian)' required />
                     <Input name='nameEng' type='text' label='Name (English)' required />
+                    <Markdown name='descriptionNor' label='Description (Norwegian)' required />
+                    <Markdown name='descriptionEng' label='Description (English)' required />
                 </div>
-                {/* Markdown description */}
             </div>
             <div className='flex flex-col gap-4'>
                 <h1 className='text-xl'>Social Links</h1>
@@ -138,7 +242,7 @@ export function OrganizationFormInputs() {
             </div>
             <div className='flex flex-col gap-4'>
                 <h1 className='text-xl'>Logo</h1>
-                <Select name='logo' label='Organization Logo' options={[]} required />
+                <Select name='logo' label='Organization Logo' options={images} required />
             </div>
         </div>
     )
@@ -163,7 +267,8 @@ export function RuleFormInputs() {
                 <Input name='nameEng' type='text' label='Name (English)' required />
             </div>
             <div className='flex flex-row gap-8 justify-between w-full'>
-                {/* Markdown description */}
+                <Markdown name='descriptionNor' label='Description (Norwegian)' required />
+                <Markdown name='descriptionEng' label='Description (English)' required />
             </div>
         </div>
     )

@@ -2,52 +2,6 @@ import config from '@config'
 
 const baseUrl = config.url.API_URL
 
-// Jobs
-export async function getJobs(limit: number | number = 10, offset: number | number = 0) {
-    const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
-    
-    const path = `${config.beehiveApi.JOBADS_PATH}?${queryParts.toString()}`
-    return await getWrapper(path)
-}
-
-export async function getJob(id: number) {
-    const path = `${config.beehiveApi.JOBADS_PATH}${id}`
-    return await getWrapper(path)
-}
-
-export async function postJob(body: PostJobProps): Promise<JobPostResponseProps> {
-    return await postWrapper(config.beehiveApi.JOBADS_PATH, body)
-}
-
-export async function deleteJob(id: number) {
-    const path = `${config.beehiveApi.JOBADS_PATH}${id}`
-    return await deleteWrapper(path)
-}
-
-export async function patchJob(body: PatchJobProps): Promise<JobPatchResponseProps> {
-    const path = `${config.beehiveApi.JOBADS_PATH}`
-    return await patchWrapper(path,body)
-}
-
-// Jobs - Skill
-export async function postSkill(body: SkillProps) {
-    return await postWrapper(config.beehiveApi.SKILLS_PATH, body)
-}
-
-// Cities
-export async function getCities() {
-    const path = `${config.beehiveApi.CITIES_PATH}`
-    return await getWrapper(path)
-}
-
-export async function postCity(body: CityProps) {
-    return await postWrapper(config.beehiveApi.CITIES_PATH_2, body)
-}
-
-export async function deleteCity(body: CityProps) {
-    return await deleteWrapper(config.beehiveApi.CITIES_PATH_2,body)
-}
-
 // Events
 export async function getEvents(limit: number | number = 10, offset: number | number = 0) {
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
@@ -76,12 +30,12 @@ export async function patchEvent(body: PatchEventProps): Promise<EventPatchRespo
 }
 
 // Events - Categories
-export async function getCategories() {
+export async function getCategories(): Promise<CategoriesGetResponseProps> {
     const path = `${config.beehiveApi.CATEGORIES_PATH}`
     return await getWrapper(path)
 }
 
-export async function getAudiences() {
+export async function getAudiences(): Promise<AudienceGetResponseProps> {
     const path = `${config.beehiveApi.AUDIENCES_PATH}`
     return await getWrapper(path)
 }
@@ -107,8 +61,73 @@ export async function deleteOrganizationEvent(body: OrganizationEventProps) {
     return await deleteWrapper(config.beehiveApi.ORGANIZATIONS_PATH_2, body)
 }
 
+// Event - Images
+export async function getEventBannerImages(): Promise<ImageGetResponseProps> {
+    const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.EVENTS_PATH}banner`
+    console.log('Fetching event banner images from:', path)
+    return await getWrapper(path)
+}
+
+export async function getEventSmallImages(): Promise<ImageGetResponseProps> {
+    const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.EVENTS_PATH}small`
+    return await getWrapper(path)
+}
+
+
+// Jobs
+export async function getJobs(limit: number | number = 10, offset: number | number = 0) {
+    const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
+    
+    const path = `${config.beehiveApi.JOBADS_PATH}?${queryParts.toString()}`
+    return await getWrapper(path)
+}
+
+export async function getJob(id: number) {
+    const path = `${config.beehiveApi.JOBADS_PATH}${id}`
+    return await getWrapper(path)
+}
+
+export async function postJob(body: PostJobProps): Promise<JobPostResponseProps> {
+    return await postWrapper(config.beehiveApi.JOBADS_PATH, body)
+}
+
+export async function deleteJob(id: number) {
+    const path = `${config.beehiveApi.JOBADS_PATH}${id}`
+    return await deleteWrapper(path)
+}
+
+export async function patchJob(body: PatchJobProps): Promise<JobPatchResponseProps> {
+    const path = `${config.beehiveApi.JOBADS_PATH}`
+    return await patchWrapper(path,body)
+}
+
+// Jobs - Images
+export async function getJobImages(): Promise<ImageGetResponseProps> {
+    const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.JOBADS_PATH}`
+    return await getWrapper(path)
+}
+
+// Jobs - Skill
+export async function postSkill(body: SkillProps) {
+    return await postWrapper(config.beehiveApi.SKILLS_PATH, body)
+}
+
+// Cities
+export async function getCities() {
+    const path = `${config.beehiveApi.CITIES_PATH}`
+    return await getWrapper(path)
+}
+
+export async function postCity(body: CityProps) {
+    return await postWrapper(config.beehiveApi.CITIES_PATH_2, body)
+}
+
+export async function deleteCity(body: CityProps) {
+    return await deleteWrapper(config.beehiveApi.CITIES_PATH_2,body)
+}
+
 // Locations
-export async function getLocations(type: string | null = null, limit: number | number = 10, offset: number | number = 0) {
+export async function getLocations(type: string | null = null, limit: number | number = 10, offset: number | number = 0): Promise<LocationGetResponseProps> {
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
     if (type) queryParts.append('type', type)
 
@@ -136,7 +155,7 @@ export async function patchLocation(body: PatchLocationProps): Promise<LocationP
 }
 
 // Organizations
-export async function getOrganizations(limit: number | number = 10, offset: number | number = 0) {
+export async function getOrganizations(limit: number | number = 10, offset: number | number = 0): Promise<OrganizationGetResponseProps> {
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
 
     const path = `${config.beehiveApi.ORGANIZATIONS_PATH}?${queryParts.toString()}`
@@ -162,6 +181,12 @@ export async function patchOrganization(shortname: string, body: PatchOrganizati
     return await patchWrapper(path,body)
 }
 
+// Organizations - Images
+export async function getOrganizationImages(): Promise<ImageGetResponseProps> {
+    const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.ORGANIZATIONS_PATH}`
+    return await getWrapper(path)
+}
+
 // Rules
 export async function getRules(limit: number | number = 10, offset: number | number = 0) {
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
@@ -170,7 +195,7 @@ export async function getRules(limit: number | number = 10, offset: number | num
     return await getWrapper(path)
 }
 
-export async function getRule(id: number) {
+export async function getRule(id: number): Promise<RuleGetResponseProps> {
     const path = `${config.beehiveApi.RULES_PATH}?${id}`
     return await getWrapper(path)
 }
