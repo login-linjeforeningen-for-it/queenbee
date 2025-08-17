@@ -12,7 +12,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     return (
         <main className='flex flex-1 h-full'>
             <Sidebar />
-            <div className='p-4 w-full h-full bg-normal overflow-scroll'>
+            <div className='relative p-4 w-full h-full bg-normal overflow-scroll'>
                 {children}
             </div>
             <Toaster 

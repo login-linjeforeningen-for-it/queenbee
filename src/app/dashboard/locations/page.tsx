@@ -1,10 +1,11 @@
 import { deleteLocation, getLocations } from '@utils/api'
 import Alert from '@components/alert/alert'
 import Button from '@components/userInput/button'
-import Filter from '@components/userInput/filter'
+import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import LocationOption from '@components/locationOption/locationOption'
 import { cookies } from 'next/headers'
+import Pagination from '@components/table/pagination'
 
 enum Location {
     Address = 'address',
@@ -28,8 +29,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
 
     const filters = await searchParams
     // const search = typeof filters.q === 'string' ? filters.q : ''
-    // const page = typeof filters.page === 'string' ? Number(filters.page) : 0
-    // const offset = typeof filters.offset === 'string' ? Number(filters.offset) : 0
+    // const page = typeof filters.page === 'string' ? Number(filters.page) : 1
     
     const cookieLocation = cookieStore.get('location')?.value
     const activeType = 
@@ -42,11 +42,11 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     const list = await getLocations(LocationAPI[activeType])
 
     return (
-        <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden'>
-            <div className='h-[var(--h-pageInfo)]'>
+        <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden flex flex-col'>
+            <div className='h-[var(--h-pageInfo)] flex-none'>
                 <h1 className='font-semibold text-lg'>Locations</h1>
                 <div className='flex justify-between pb-4'>
-                    <Filter/>
+                    <Search />
                     <div className='flex gap-4'>
                         <LocationOption value={Location.Address} active={activeType}/>
                         <LocationOption value={Location.Coordinate} active={activeType}/>
@@ -64,11 +64,15 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     </Alert>
                 </div> 
                 :
-                <>
+                <div className='flex-1 pb-4 flex flex-col overflow-hidden'>
                     {activeType === Location.Address        && <Table list={list.filter(item => !item.is_deleted)} headers={['id', 'name_no', 'address_street', 'address_postcode', 'city_name', 'url', 'updated_at']} deleteAction={deleteAction} />}
                     {activeType === Location.Mazemap        && <Table list={list.filter(item => !item.is_deleted)} headers={['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']} deleteAction={deleteAction} />}
                     {activeType === Location.Coordinate     && <Table list={list.filter(item => !item.is_deleted)} headers={['id', 'name_no', 'coordinate_lat', 'coordinate_long', 'url', 'updated_at']} deleteAction={deleteAction} />}
-                </>
+                    <Pagination
+                        pageSize={10}
+                        totalRows={list.length}
+                    />
+                </div>
             }
         </div>
     )

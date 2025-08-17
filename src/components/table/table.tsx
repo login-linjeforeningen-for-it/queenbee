@@ -25,8 +25,8 @@ export default function Table({list, headers, deleteAction}: TableProps) {
     const keys = Object.keys(list[0])
     headers = headers || keys
     return (
-        <div className='relative h-full noscroll w-full max-h-[calc(((100vh-var(--h-navbar))-var(--h-pageInfo))-2rem)] overflow-scroll'>
-            <table className='w-full relative h-fit border-collapse rounded-lg'>
+        <div className='relative flex-1 noscroll w-full overflow-auto'>
+            <table className='w-full relative border-collapse rounded-lg'>
                 <Header keys={keys} headers={headers} />
                 <Body list={list} headers={headers} deleteAction={deleteAction} />
             </table>
@@ -44,9 +44,12 @@ function Header({keys, headers}: HeaderProps) {
 
     useEffect(() => {
         const params = new URLSearchParams(searchParams.toString())
-        params.set('order', order)
-        params.set('column', column)
-        router.push(`${pathname}?${params.toString()}`)
+        if (searchParams.get('order') !== order || searchParams.get('column') !== column) {
+            params.set('order', order)
+            params.set('column', column)
+            params.set('page', '1')
+            router.push(`${pathname}?${params.toString()}`)
+        }
     }, [order, column, pathname, router, searchParams])
 
     function handleChange(key: string) {

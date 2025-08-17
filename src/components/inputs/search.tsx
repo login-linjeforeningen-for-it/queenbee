@@ -4,22 +4,22 @@ import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 
-export default function Filter() {
-    const [text, setText] = useState('')
+export default function Search() {
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
+
+    const [text, setText] = useState(() => searchParams?.get('q') ?? '')
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setText(e.target.value)
 
         const params = new URLSearchParams(searchParams.toString())
         params.set('q', e.target.value)
+        params.set('page', '1')
 
         router.push(pathname + '?' + params.toString())
     }
-
-    
 
     return (
         <div className='cursor-pointer bg-extralight rounded-md h-8 p-1 ml-1 flex justify-evenly items-center gap-2 select-none'>

@@ -4,7 +4,7 @@ export default function page() {
     return (
         <div className='h-full overflow-hidden'>
             <div className='h-[var(--h-pageInfo)]'>
-                <h1 className='font-semibold text-lg'>Events</h1>
+                <h1 className='font-semibold text-lg'>Beehive</h1>
             </div>
             <div className='w-full h-full flex items-center justify-center'>
                 <Alert>
