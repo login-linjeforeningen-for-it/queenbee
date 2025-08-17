@@ -64,7 +64,6 @@ export async function deleteOrganizationEvent(body: OrganizationEventProps) {
 // Event - Images
 export async function getEventBannerImages(): Promise<ImageGetResponseProps> {
     const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.EVENTS_PATH}banner`
-    console.log('Fetching event banner images from:', path)
     return await getWrapper(path)
 }
 
