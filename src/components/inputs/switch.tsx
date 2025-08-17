@@ -6,12 +6,13 @@ import ToolTip from './tooltip'
 type SwitchProps = {
     name: string
     label: string
+    defaultValue?: boolean
     className?: string
     tooltip?: string
 }
 
-export default function Switch({ name, label, className, tooltip }: SwitchProps) {
-    const [isChecked, setIsChecked] = useState(false)
+export default function Switch({ name, label, defaultValue, className, tooltip }: SwitchProps) {
+    const [isChecked, setIsChecked] = useState(defaultValue || false)
 
     return (
         <div className={`relative w-full flex items-center p-2 border-almostbright rounded-lg border-[0.10rem] ${className}`}>

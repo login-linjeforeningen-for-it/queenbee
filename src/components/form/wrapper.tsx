@@ -7,7 +7,7 @@ import CustomForm from './form'
 
 type FormWrapperProps = {
     name: 'event' | 'job' | 'organization' | 'location' | 'rule'
-    type: 'create' | 'update' | 'duplicate'
+    type: 'create' | 'update'
     id?: string
     formAction: (prevState: FormState, formData: FormData) => FormState | Promise<FormState>
     children: React.ReactNode

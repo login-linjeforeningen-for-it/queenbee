@@ -4,7 +4,7 @@ import { patchEvent, patchJob, postEvent, postJob, postOrganization, patchOrgani
 import { patchEventSchema, patchJobSchema, patchLocationSchema, patchOrganizationSchema, patchRuleSchema, postEventSchema, postJobSchema, postLocationSchema, postOrganizationSchema, postRuleSchema } from './schemas'
 import z from 'zod'
 
-export type FormState = null | ErrorResponse | RulePostResponseProps | EventPostResponseProps | JobPostResponseProps | OrganizationPostResponseProps | LocationPostResponseProps | RulePatchResponseProps | EventPatchResponseProps | JobPatchResponseProps | OrganizationPatchResponseProps | LocationPatchResponseProps
+export type FormState = null | string | PostRuleProps | PostEventProps | PostJobProps | PostOrganizationProps | PostLocationProps | PatchRuleProps | PatchEventProps | PatchJobProps | PatchOrganizationProps | PatchLocationProps
 
 export async function createEvent(prevState: FormState, formData: FormData): Promise<FormState> {
     try {
@@ -41,11 +41,7 @@ export async function createEvent(prevState: FormState, formData: FormData): Pro
 
         const result = postEventSchema.safeParse(eventProps)
         if (!result.success) {
-            return { 
-                error: z.prettifyError(result.error),
-                type: 'validation',
-                status: 400
-            }
+            return z.prettifyError(result.error)
         }
         
         const response = await postEvent(eventProps)
@@ -92,11 +88,7 @@ export async function updateEvent(prevState: FormState, formData: FormData): Pro
 
         const result = patchEventSchema.safeParse(eventProps)
         if (!result.success) {
-            return { 
-                error: z.prettifyError(result.error),
-                type: 'validation',
-                status: 400
-            }
+            return z.prettifyError(result.error)
         }
         
         const response = await patchEvent(eventProps)
@@ -131,11 +123,7 @@ export async function createJob(prevState: FormState, formData: FormData): Promi
 
         const result = postJobSchema.safeParse(jobProps)
         if (!result.success) {
-            return { 
-                error: z.prettifyError(result.error),
-                type: 'validation',
-                status: 400
-            }
+            return z.prettifyError(result.error)
         }
 
         const response = await postJob(jobProps)
@@ -171,11 +159,7 @@ export async function updateJob(prevState: FormState, formData: FormData): Promi
 
         const result = patchJobSchema.safeParse(jobProps)
         if (!result.success) {
-            return { 
-                error: z.prettifyError(result.error),
-                type: 'validation',
-                status: 400
-            }
+            return z.prettifyError(result.error)
         }
 
         const response = await patchJob(jobProps)
@@ -204,11 +188,7 @@ export async function createOrganization(prevState: FormState, formData: FormDat
 
         const result = postOrganizationSchema.safeParse(organizationProps)
         if (!result.success) {
-            return { 
-                error: z.prettifyError(result.error),
-                type: 'validation',
-                status: 400
-            }
+            return z.prettifyError(result.error)
         }
 
         const response = await postOrganization(organizationProps)
@@ -237,11 +217,7 @@ export async function updateOrganization(prevState: FormState, formData: FormDat
 
         const result = patchOrganizationSchema.safeParse(organizationProps)
         if (!result.success) {
-            return { 
-                error: z.prettifyError(result.error),
-                type: 'validation',
-                status: 400
-            }
+            return z.prettifyError(result.error)
         }
 
         const response = await patchOrganization(organizationProps.shortname, organizationProps)
@@ -270,11 +246,7 @@ export async function createLocation(prevState: FormState, formData: FormData): 
 
         const result = postLocationSchema.safeParse(locationProps)
         if (!result.success) {
-            return { 
-                error: z.prettifyError(result.error),
-                type: 'validation',
-                status: 400
-            }
+            return z.prettifyError(result.error)
         }
 
         const response = await postLocation(locationProps)
@@ -304,11 +276,7 @@ export async function updateLocation(prevState: FormState, formData: FormData): 
 
         const result = patchLocationSchema.safeParse(locationProps)
         if (!result.success) {
-            return { 
-                error: z.prettifyError(result.error),
-                type: 'validation',
-                status: 400
-            }
+            return z.prettifyError(result.error)
         }
 
         const response = await patchLocation(locationProps)
@@ -330,11 +298,7 @@ export async function createRule(prevState: FormState, formData: FormData): Prom
 
         const result = postRuleSchema.safeParse(ruleProps)
         if (!result.success) {
-            return { 
-                error: z.prettifyError(result.error),
-                type: 'validation',
-                status: 400
-            }
+            return z.prettifyError(result.error)
         }
 
         const response = await postRule(ruleProps)
@@ -357,11 +321,7 @@ export async function updateRule(prevState: FormState, formData: FormData): Prom
 
         const result = patchRuleSchema.safeParse(ruleProps)
         if (!result.success) {
-            return { 
-                error: z.prettifyError(result.error),
-                type: 'validation',
-                status: 400
-            }
+            return z.prettifyError(result.error)
         }
 
         const response = await patchRule(ruleProps)

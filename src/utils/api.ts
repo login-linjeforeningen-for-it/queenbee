@@ -3,7 +3,7 @@ import config from '@config'
 const baseUrl = config.url.API_URL
 
 // Events
-export async function getEvents(limit: number | number = 10, offset: number | number = 0) {
+export async function getEvents(limit: number | number = 10, offset: number | number = 0): Promise<GetEventsProps | string> {
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
     
     const path = `${config.beehiveApi.EVENTS_PATH}?${queryParts.toString()}`
@@ -15,7 +15,7 @@ export async function getEvent(id: number) {
     return await getWrapper(path)
 }
 
-export async function postEvent(body: PostEventProps): Promise<EventPostResponseProps> {
+export async function postEvent(body: PostEventProps): Promise<PostEventProps | string> {
     return await postWrapper(config.beehiveApi.EVENTS_PATH, body)
 }
 
@@ -24,18 +24,18 @@ export async function deleteEvent(id: number) {
     return await deleteWrapper(path)
 }
 
-export async function patchEvent(body: PatchEventProps): Promise<EventPatchResponseProps> {
+export async function patchEvent(body: PatchEventProps): Promise<PatchEventProps | string> {
     const path = `${config.beehiveApi.EVENTS_PATH}`
     return await patchWrapper(path,body)
 }
 
 // Events - Categories
-export async function getCategories(): Promise<CategoriesGetResponseProps> {
+export async function getCategories(): Promise<GetCategoriesProps | string> {
     const path = `${config.beehiveApi.CATEGORIES_PATH}`
     return await getWrapper(path)
 }
 
-export async function getAudiences(): Promise<AudienceGetResponseProps> {
+export async function getAudiences(): Promise<GetAudiencesProps | string> {
     const path = `${config.beehiveApi.AUDIENCES_PATH}`
     return await getWrapper(path)
 }
@@ -53,7 +53,7 @@ export async function deleteAudience(body: AudienceProps) {
     return await deleteWrapper(config.beehiveApi.AUDIENCES_PATH_2, body)
 }
 
-export async function postOrganizationEvent(body: PostOrganizationProps): Promise<OrganizationPostResponseProps> {
+export async function postOrganizationEvent(body: PostOrganizationProps): Promise<PostOrganizationProps | string> {
     return await postWrapper(config.beehiveApi.ORGANIZATIONS_PATH_2, body)
 }
 
@@ -62,12 +62,12 @@ export async function deleteOrganizationEvent(body: OrganizationEventProps) {
 }
 
 // Event - Images
-export async function getEventBannerImages(): Promise<ImageGetResponseProps> {
+export async function getEventBannerImages(): Promise<GetImageProps | string> {
     const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.EVENTS_PATH}banner`
     return await getWrapper(path)
 }
 
-export async function getEventSmallImages(): Promise<ImageGetResponseProps> {
+export async function getEventSmallImages(): Promise<GetImageProps | string> {
     const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.EVENTS_PATH}small`
     return await getWrapper(path)
 }
@@ -86,7 +86,7 @@ export async function getJob(id: number) {
     return await getWrapper(path)
 }
 
-export async function postJob(body: PostJobProps): Promise<JobPostResponseProps> {
+export async function postJob(body: PostJobProps): Promise<PostJobProps | string> {
     return await postWrapper(config.beehiveApi.JOBADS_PATH, body)
 }
 
@@ -95,13 +95,13 @@ export async function deleteJob(id: number) {
     return await deleteWrapper(path)
 }
 
-export async function patchJob(body: PatchJobProps): Promise<JobPatchResponseProps> {
+export async function patchJob(body: PatchJobProps): Promise<PatchJobProps | string> {
     const path = `${config.beehiveApi.JOBADS_PATH}`
     return await patchWrapper(path,body)
 }
 
 // Jobs - Images
-export async function getJobImages(): Promise<ImageGetResponseProps> {
+export async function getJobImages(): Promise<GetImageProps | string> {
     const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.JOBADS_PATH}`
     return await getWrapper(path)
 }
@@ -126,7 +126,7 @@ export async function deleteCity(body: CityProps) {
 }
 
 // Locations
-export async function getLocations(type: string | null = null, limit: number | number = 10, offset: number | number = 0): Promise<LocationGetResponseProps> {
+export async function getLocations(type: string | null = null, limit: number | number = 10, offset: number | number = 0): Promise<GetLocationsProps | string> {
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
     if (type) queryParts.append('type', type)
 
@@ -139,7 +139,7 @@ export async function getLocation(id: number) {
     return await getWrapper(path)
 }
 
-export async function postLocation(body: PostLocationProps): Promise<LocationPostResponseProps> {
+export async function postLocation(body: PostLocationProps): Promise<PostLocationProps | string> {
     return await postWrapper(config.beehiveApi.LOCATIONS_PATH, body)
 }
 
@@ -148,13 +148,13 @@ export async function deleteLocation(id: number) {
     return await deleteWrapper(path)
 }
 
-export async function patchLocation(body: PatchLocationProps): Promise<LocationPatchResponseProps> {
+export async function patchLocation(body: PatchLocationProps): Promise<PatchLocationProps | string> {
     const path = `${config.beehiveApi.LOCATIONS_PATH}`
     return await patchWrapper(path,body)
 }
 
 // Organizations
-export async function getOrganizations(limit: number | number = 10, offset: number | number = 0): Promise<OrganizationGetResponseProps> {
+export async function getOrganizations(limit: number | number = 10, offset: number | number = 0) {
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
 
     const path = `${config.beehiveApi.ORGANIZATIONS_PATH}?${queryParts.toString()}`
@@ -166,7 +166,7 @@ export async function getOrganization(shortname: string) {
     return await getWrapper(path)
 }
 
-export async function postOrganization(body: PostOrganizationProps): Promise<OrganizationPostResponseProps> {
+export async function postOrganization(body: PostOrganizationProps): Promise<PostOrganizationProps | string> {
     return await postWrapper(config.beehiveApi.ORGANIZATIONS_PATH, body)
 }
 
@@ -175,13 +175,13 @@ export async function deleteOrganization(shortname: string) {
     return await deleteWrapper(path)
 }
 
-export async function patchOrganization(shortname: string, body: PatchOrganizationProps): Promise<OrganizationPatchResponseProps> {
+export async function patchOrganization(shortname: string, body: PatchOrganizationProps): Promise<PatchOrganizationProps | string> {
     const path = `${config.beehiveApi.ORGANIZATIONS_PATH}${shortname}`
     return await patchWrapper(path,body)
 }
 
 // Organizations - Images
-export async function getOrganizationImages(): Promise<ImageGetResponseProps> {
+export async function getOrganizationImages(): Promise<GetImageProps | string> {
     const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.ORGANIZATIONS_PATH}`
     return await getWrapper(path)
 }
@@ -194,16 +194,16 @@ export async function getRules(limit: number | number = 10, offset: number | num
     return await getWrapper(path)
 }
 
-export async function getRule(id: number): Promise<RuleGetResponseProps> {
-    const path = `${config.beehiveApi.RULES_PATH}?${id}`
+export async function getRule(id: number): Promise<GetRuleProps | string> {
+    const path = `${config.beehiveApi.RULES_PATH}${id}`
     return await getWrapper(path)
 }
 
-export async function postRule(body: PostRuleProps): Promise<RulePostResponseProps> {
+export async function postRule(body: PostRuleProps): Promise<PostRuleProps | string> {
     return await postWrapper(config.beehiveApi.RULES_PATH, body)
 }
 
-export async function patchRule(body: PatchRuleProps): Promise<RulePatchResponseProps> {
+export async function patchRule(body: PatchRuleProps): Promise<PatchRuleProps | string> {
     return await patchWrapper(config.beehiveApi.RULES_PATH, body)
 }
 
@@ -232,7 +232,7 @@ async function getWrapper(path: string, options = {}) {
     // eslint-disable-next-line
     } catch (error: any) {
         console.error(JSON.stringify(error))
-        return JSON.stringify(error.message) || 'Unknown error! Please contact TekKom'
+        return JSON.stringify(error.error) || 'Unknown error! Please contact TekKom'
     }
 }
 
@@ -248,7 +248,7 @@ async function postWrapper(path: string, data = {}) {
     try {
         const response = await fetch(`${baseUrl}${path}`, defaultOptions)
         if (!response.ok) {
-            return await response.json()
+            throw new Error(await response.json())
         }
         
         const data = await response.json()
@@ -256,7 +256,7 @@ async function postWrapper(path: string, data = {}) {
     // eslint-disable-next-line
     } catch (error: any) {
         console.error(JSON.stringify(error))
-        return JSON.stringify(error.message) || 'Unknown error! Please contact TekKom'
+        return JSON.stringify(error.error) || 'Unknown error! Please contact TekKom'
     }
 }
 
@@ -274,13 +274,13 @@ async function deleteWrapper(path: string, options = {}) {
         const data = await response.json()
 
         if (!response.ok) {
-            return null
+            throw new Error(await response.json())
         }
 
         return data
     // eslint-disable-next-line
     } catch (error: any) {
-        return JSON.stringify(error.message) || 'Unknown error! Please contact TekKom'
+        return JSON.stringify(error.error) || 'Unknown error! Please contact TekKom'
     }
 }
 
@@ -298,12 +298,12 @@ async function patchWrapper(path: string, options = {}) {
         const data = await response.json()
 
         if (!response.ok) {
-            return null
+            throw new Error(await response.json())
         }
 
         return data
     // eslint-disable-next-line
     } catch (error: any) {
-        return JSON.stringify(error.message) || 'Unknown error! Please contact TekKom'
+        return JSON.stringify(error.error) || 'Unknown error! Please contact TekKom'
     }
 }

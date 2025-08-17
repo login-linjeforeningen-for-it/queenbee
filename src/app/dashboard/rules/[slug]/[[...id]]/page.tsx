@@ -10,16 +10,17 @@ export default async function Page({ params }: { params: Promise<{ slug: string,
     if (id) {
         const rule = await getRule(Number(id[0]))
         if (typeof rule === 'object' && Object.keys(rule).length > 0) {
+            console.log(rule)
             if(slug === 'create') {
                 return (
                     <FormWrapper name='rule' type='create' formAction={createRule}>
-                        <RuleFormInputs />
+                        <RuleFormInputs defaultValues={rule} />
                     </FormWrapper>
                 )
             } else if (slug === 'update') {
                 return (
                     <FormWrapper name='rule' type='update' id={id[0]} formAction={updateRule}>
-                        <RuleFormInputs />
+                        <RuleFormInputs defaultValues={rule} />
                     </FormWrapper>
                 )
             }

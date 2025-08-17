@@ -3,6 +3,132 @@ type job_type = 'full' | 'part' | 'summer' | 'verv'
 type location_type = 'mazemap' | 'coords' | 'address' | 'digital'
 
 // Events
+type GetEventsProps = {
+    id: number,
+    visible: boolean,
+    name_no: string,
+    name_en: string,
+    time_type: time_type,
+    time_start: string,
+    time_end: string,
+    time_publish: string,
+    canceled: boolean,
+    link_signup: string,
+    capacity: number,
+    full: boolean,
+    category_name_no: string,
+    category_name_en: string,
+    location_name_no: string,
+    location_name_en: string,
+    updated_at: string,
+    is_deleted: boolean,
+    audiences: string[],
+    organizers: string[]
+}[]
+
+type GetEventProps = {
+    audiences: [
+        {
+        created_at: string,
+        deleted_at: string,
+        description_en: string,
+        description_no: string,
+        id: number,
+        name_en: string,
+        name_no: string,
+        updated_at: string
+        }
+    ],
+    category: {
+        color: string,
+        created_at: string,
+        description_en: string,
+        description_no: string,
+        id: number,
+        name_en: string,
+        name_no: string,
+        updated_at: string
+    },
+    event: {
+        canceled: boolean,
+        capacity: number,
+        category: number,
+        created_at: string,
+        deleted_at: string,
+        description_en: string,
+        description_no: string,
+        digital: boolean,
+        full: boolean,
+        highlight: boolean,
+        id: number,
+        image_banner: string,
+        image_small: string,
+        informational_en: string,
+        informational_no: string,
+        link_discord: string,
+        link_facebook: string,
+        link_signup: string,
+        link_stream: string,
+        location: number,
+        name_en: string,
+        name_no: string,
+        parent: number,
+        rule: number,
+        time_end: string,
+        time_publish: string,
+        time_signup_deadline: string,
+        time_signup_release: string,
+        time_start: string,
+        time_type: time_type,
+        updated_at: string,
+        visible: boolean
+    },
+    location: {
+        address_postcode: number,
+        address_street: string,
+        city_name: string,
+        coordinate_lat: number,
+        coordinate_long: number,
+        created_at: string,
+        deleted_at: string,
+        id: number,
+        mazemap_campus_id: number,
+        mazemap_poi_id: number,
+        name_en: string,
+        name_no: string,
+        type: location_type,
+        updated_at: string,
+        url: string
+    },
+    organizations:{
+        created_at: string,
+        deleted_at: string,
+        description_en: string,
+        description_no: string,
+        is_deleted: boolean,
+        link_facebook: string,
+        link_homepage: string,
+        link_instagram: string,
+        link_linkedin: string,
+        logo: string,
+        name_en: string,
+        name_no: string,
+        shortname: string,
+        type: number,
+        updated_at: string
+    }[],
+    rule: {
+        created_at: string,
+        deleted_at: string,
+        description_en: string,
+        description_no: string,
+        id: number,
+        name_en: string,
+        name_no: string,
+        updated_at: string
+  }
+}
+
 type PostEventProps = {
     canceled: boolean
     capacity: number
@@ -38,17 +164,11 @@ type PatchEventProps = PostEventProps & {
     id: number
 }
 
-type GetAudienceProps = {
+type GetAudiencesProps = {
     id: number,
     is_deleted: boolean,
     name_en: string,
     name_no: string
-}[]
-
-type GetImageProps = {
-    filepath: string,
-    name: string,
-    size: number
 }[]
 
 type GetCategoriesProps = {
@@ -59,6 +179,35 @@ type GetCategoriesProps = {
 }[]
 
 // Jobs
+type GetJobProps = {
+    application_deadline: string,
+    application_url: string,
+    banner_image: string,
+    cities: string[],
+    created_at: string,
+    deleted_at: string,
+    description_long_en: string,
+    description_long_no: string,
+    description_short_en: string,
+    description_short_no: string,
+    highlight: boolean,
+    id: number,
+    job_type: job_type,
+    name_en: string,
+    name_no: string,
+    organization: string,
+    position_title_en: string,
+    position_title_no: string,
+    shortname: string,
+    skills: string[],
+    time_expire: string,
+    time_publish: string,
+    title_en: string,
+    title_no: string,
+    updated_at: string,
+    visible: boolean
+}
+
 type PostJobProps = {
     application_deadline: string
     application_url: string
@@ -84,7 +233,7 @@ type PatchJobProps = PostJobProps & {
 }
 
 // Organizations
-type GetOrganizationProps = {
+type GetOrganizationsProps = {
     is_deleted: boolean,
     link_homepage: string,
     logo: string,
@@ -93,6 +242,23 @@ type GetOrganizationProps = {
     shortname: string,
     updated_at: string
 }[]
+
+type GetOrganizationProps = {
+    created_at: string,
+    deleted_at: string,
+    description_en: string,
+    description_no: string,
+    link_facebook: string,
+    link_homepage: string,
+    link_instagram: string,
+    link_linkedin: string,
+    logo: string,
+    name_en: string,
+    name_no: string,
+    shortname: string,
+    type: number,
+    updated_at: string
+}
 
 type PostOrganizationProps = {
     description_en: string
@@ -130,6 +296,24 @@ type GetLocationsProps = {
     url: string
 }[]
 
+type GetLocationProps = {
+  address_postcode: number,
+  address_street: string,
+  city_name: string,
+  coordinate_lat: number,
+  coordinate_long: number,
+  created_at: string,
+  deleted_at: string,
+  id: number,
+  mazemap_campus_id: number,
+  mazemap_poi_id: number,
+  name_en: string,
+  name_no: string,
+  type: location_type,
+  updated_at: string,
+  url: string
+}
+
 type PostLocationProps = {
   address_postcode: number
   address_street: string
@@ -149,12 +333,23 @@ type PatchLocationProps = PostLocationProps & {
 }
 
 // Rules
-type GetRuleProps = {
+type GetRulesProps = {
     id: number,
     is_deleted: boolean,
     name_en: string,
     name_no: string
 }[]
+
+type GetRuleProps = {
+    created_at: string,
+    deleted_at: string,
+    description_en: string,
+    description_no: string,
+    id: number,
+    name_en: string,
+    name_no: string,
+    updated_at: string
+}
 
 type PostRuleProps = {
     description_en: string
@@ -167,36 +362,14 @@ type PatchRuleProps = PostRuleProps & {
     id: number
 }
 
-// API Responses
-type ErrorResponse = {
-    error: string
-    status: number
-    type: string
-}
+// Images
+type GetImageProps = {
+    filepath: string,
+    name: string,
+    size: number
+}[]
 
-type EventPostResponseProps  = ErrorResponse | PostEventProps
-type EventPatchResponseProps = ErrorResponse | PatchEventProps
-
-type CategoriesGetResponseProps = ErrorResponse | GetCategoriesProps
-type AudienceGetResponseProps = ErrorResponse | GetAudienceProps
-
-type JobPostResponseProps  = ErrorResponse | PostJobProps
-type JobPatchResponseProps = ErrorResponse | PatchJobProps
-
-type OrganizationGetResponseProps   = ErrorResponse | GetOrganizationProps
-type OrganizationPostResponseProps  = ErrorResponse | PostOrganizationProps
-type OrganizationPatchResponseProps = ErrorResponse | PatchOrganizationProps
-
-type LocationGetResponseProps     = ErrorResponse | GetLocationsProps
-type LocationPostResponseProps    = ErrorResponse | PostLocationProps
-type LocationPatchResponseProps   = ErrorResponse | PatchLocationProps
-
-type RuleGetResponseProps   = ErrorResponse | GetRuleProps
-type RulePostResponseProps  = ErrorResponse | PostRuleProps
-type RulePatchResponseProps = ErrorResponse | PatchRuleProps
-
-type ImageGetResponseProps = ErrorResponse | GetImageProps
-
+// Other
 type JobProps = {
     application_deadline: string
     application_url: string

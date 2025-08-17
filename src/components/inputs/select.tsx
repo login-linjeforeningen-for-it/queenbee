@@ -11,14 +11,15 @@ import config from '../../../constants'
 type SelectProps = {
     name: string
     label: string
+    defaultValue?: string | number
     options: { value: string | number, label: string, image?: string }[]
     className?: string
     tooltip?: string
     required?: boolean
 }
 
-export default function Select({ name, label, options, className, tooltip, required }: SelectProps) {
-    const [selectedValue, setSelectedValue] = useState<string | number>('')
+export default function Select({ name, label, defaultValue, options, className, tooltip, required }: SelectProps) {
+    const [selectedValue, setSelectedValue] = useState<string | number>(defaultValue || '')
     const [hasBlured, setHasBlured] = useState(false)
     const selectRef = useRef<HTMLSelectElement | null>(null)
     const selectedOption = options.find(o => o.value === selectedValue)

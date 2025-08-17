@@ -10,14 +10,15 @@ import MarkdownRender from '../userInput/markdownRender'
 type MarkdownProps = {
     name: string
     label: string
+    defaultValue?: string
     className?: string
     tooltip?: string
     required?: boolean
     rows?: number
 }
 
-export default function Markdown({ name, label, className, tooltip, required, rows = 6 }: MarkdownProps) {
-    const [value, setValue] = useState('')
+export default function Markdown({ name, label, defaultValue, className, tooltip, required, rows = 6 }: MarkdownProps) {
+    const [value, setValue] = useState(defaultValue || '')
     const [mode, setMode] = useState<'edit' | 'preview'>('edit')
     const [hasBlured, setHasBlured] = useState(false)
     const textareaRef = useRef<HTMLTextAreaElement | null>(null)

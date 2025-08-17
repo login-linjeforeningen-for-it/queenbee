@@ -9,13 +9,14 @@ type InputProps = {
     name: string
     type: HTMLInputTypeAttribute
     label: string
+    defaultValue?: string | number
     className?: string
     tooltip?: string
     required?: boolean
 }
 
-export default function Input({name, type, label, className, tooltip, required}: InputProps) {
-    const [value, setValue] = useState('')
+export default function Input({name, type, label, defaultValue, className, tooltip, required}: InputProps) {
+    const [value, setValue] = useState(defaultValue || '')
     const [hasBlured, setHasBlured] = useState(false)
 
     return (

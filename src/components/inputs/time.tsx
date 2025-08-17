@@ -9,13 +9,14 @@ import EraseButton from './erase'
 type TimeProps = {
     name: string
     label: string
+    defaultValue?: string
     className?: string
     tooltip?: string
     required?: boolean
 }
 
-export default function TimeInput({ name, label, className, tooltip, required }: TimeProps) {
-    const [timeValue, setTimeValue] = useState('')
+export default function TimeInput({ name, label, defaultValue, className, tooltip, required }: TimeProps) {
+    const [timeValue, setTimeValue] = useState(defaultValue || '')
     const [hasBlured, setHasBlured] = useState(false)
 
     return (

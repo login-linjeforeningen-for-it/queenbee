@@ -13,13 +13,13 @@ export default async function Page({ params }: { params: Promise<{ slug: string,
             if(slug === 'create') {
                 return (
                     <FormWrapper name='organization' type='create' formAction={createOrganization}>
-                        <OrganizationFormInputs />
+                        <OrganizationFormInputs defaultValues={organization} />
                     </FormWrapper>
                 )
             } else if (slug === 'update') {
                 return (
                     <FormWrapper name='organization' type='update' id={id[0]} formAction={updateOrganization}>
-                        <OrganizationFormInputs />
+                        <OrganizationFormInputs defaultValues={organization} />
                     </FormWrapper>
                 )
             }

@@ -9,7 +9,7 @@ import { usePathname, useRouter } from 'next/navigation'
 
 type ContentFormProps = {
     name: 'event' | 'job' | 'organization' | 'location' | 'rule'
-    type: 'create' | 'update' | 'duplicate'
+    type: 'create' | 'update'
     id?: string
     formAction: (prevState: FormState, formData: FormData) => FormState | Promise<FormState>
     children: React.ReactNode
@@ -23,24 +23,19 @@ export default function CustomForm({ name, type, id, formAction, children }: Con
     const pathname = usePathname()
 
     useEffect(() => {
-        if (state != null && typeof state === 'object' && Object.keys(state).length > 0 && !('error' in state)) {
+        if (typeof state !== 'string' && state !== null) {
             toast.success(`${name} ${type}d successfully!`)
             const basePath = pathname.split('/').slice(0, 3).join('/')
             router.push(basePath)
-        } else if (
-            state != null &&
-            'error' in state &&
-            typeof (state as Record<string, unknown>).error === 'string' &&
-            (state as Record<string, unknown>).error
-        ) {
-            toast.error(`Error: ${(state as Record<string, unknown>).error as string}`)
+        } else if (typeof state === 'string') {
+            toast.error(`Error: ${state}`)
         }
     }, [state])
 
     return (
         <Form
             action={action}
-            className={`group ${state != null && 'error' in state && Boolean((state as Record<string, unknown>).error) ? 'submitted' : ''}`}>
+            className={`group ${state != null ? 'submitted' : ''}`}>
             <div className='flex flex-col gap-12'>
                 <div>
                     {type === 'update' && id != null && (

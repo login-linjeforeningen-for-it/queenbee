@@ -25,8 +25,8 @@ export default function Table({list, headers, deleteAction}: TableProps) {
     const keys = Object.keys(list[0])
     headers = headers || keys
     return (
-        <div className='relative h-fit w-full max-h-[calc(((100vh-var(--h-navbar))-var(--h-pageInfo))-2rem)] overflow-scroll'>
-            <table className='relative h-full border-collapse rounded-lg'>
+        <div className='relative h-full noscroll w-full max-h-[calc(((100vh-var(--h-navbar))-var(--h-pageInfo))-2rem)] overflow-scroll'>
+            <table className='w-full relative h-fit border-collapse rounded-lg'>
                 <Header keys={keys} headers={headers} />
                 <Body list={list} headers={headers} deleteAction={deleteAction} />
             </table>
@@ -111,7 +111,7 @@ function Body({list, headers, deleteAction}: BodyProps) {
                                 className='p-[0.5rem]'
                             >
                                 <div className='relative group'>
-                                    <h1 className='overflow-hidden text-ellipsis whitespace-nowrap max-w-[10rem]'>
+                                    <h1 className='overflow-hidden text-ellipsis whitespace-nowrap max-w-[15rem]'>
                                         {String(value)}
                                     </h1>
                                 </div>
@@ -121,7 +121,7 @@ function Body({list, headers, deleteAction}: BodyProps) {
                     <td className='p-[0.5rem]'>
                         <button
                             type='button'
-                            className={`px-3 py-1.5 rounded hover:bg-superlight ${openMenuId === id ? 'bg-superlight' : ''}`}
+                            className={`mx-auto px-3 py-1.5 rounded hover:bg-superlight flex items-start justify-center ${openMenuId === id ? 'bg-superlight' : ''}`}
                             onClick={() => setOpenMenuId(openMenuId === id ? null : id)}
                         >
                             <span className={`text-xl leading-none select-none ${openMenuId === id ? 'text-white/50' : ''}`}>⋮</span>

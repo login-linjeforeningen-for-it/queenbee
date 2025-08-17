@@ -9,13 +9,14 @@ import EraseButton from './erase'
 type DateProps = {
     name: string
     label: string
+    defaultValue?: string
     className?: string
     tooltip?: string
     required?: boolean
 }
 
-export default function DateInput({ name, label, className, tooltip, required }: DateProps) {
-    const [selectedDate, setSelectedDate] = useState('')
+export default function DateInput({ name, label, defaultValue, className, tooltip, required }: DateProps) {
+    const [selectedDate, setSelectedDate] = useState(defaultValue || '')
     const [hasBlured, setHasBlured] = useState(false)
 
     return (
