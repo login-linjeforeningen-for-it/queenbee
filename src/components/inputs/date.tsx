@@ -29,6 +29,7 @@ export default function DateInput({ name, label, className, tooltip, required }:
                     onChange={(e) => setSelectedDate(e.target.value)}
                     onFocus={(e) => e.target.showPicker()}
                     onBlur={() => setHasBlured(true)}
+                    required={required}
                 />
                 <Label label={label} value={selectedDate} required={required} showRequired={required && !selectedDate && hasBlured} />
                 {selectedDate && <EraseButton setData={setSelectedDate} />}

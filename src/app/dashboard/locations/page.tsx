@@ -1,4 +1,4 @@
-import { getLocations } from '@utils/api'
+import { deleteLocation, getLocations } from '@utils/api'
 import Alert from '@components/alert/alert'
 import Button from '@components/userInput/button'
 import Filter from '@components/userInput/filter'
@@ -16,6 +16,11 @@ enum LocationAPI {
     address = 'address',
     mazemap ='mazemap',
     coordinate = 'coords'
+}
+
+async function deleteAction(id: string) {
+    'use server'
+    await deleteLocation(Number(id))
 }
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
@@ -52,7 +57,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     </div>
                 </div>
             </div>
-            {typeof list === 'string' || list.length <= 0 ?
+            {typeof list === 'string' || !Array.isArray(list) || list.length < 1 ?
                 <div className='w-full h-full flex items-center justify-center'>
                     <Alert>
                         {typeof list === 'string' ? list : 'No locations found'}
@@ -60,9 +65,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                 </div> 
                 :
                 <>
-                    {activeType === Location.Address        && <Table list={list} headers={['id', 'name_no', 'address_street', 'address_postcode', 'city_name', 'url', 'updated_at']} />}
-                    {activeType === Location.Mazemap        && <Table list={list} headers={['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']} />}
-                    {activeType === Location.Coordinate     && <Table list={list} headers={['id', 'name_no', 'coordinate_lat', 'coordinate_long', 'url', 'updated_at']} />}
+                    {activeType === Location.Address        && <Table list={list.filter(item => !item.is_deleted)} headers={['id', 'name_no', 'address_street', 'address_postcode', 'city_name', 'url', 'updated_at']} deleteAction={deleteAction} />}
+                    {activeType === Location.Mazemap        && <Table list={list.filter(item => !item.is_deleted)} headers={['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']} deleteAction={deleteAction} />}
+                    {activeType === Location.Coordinate     && <Table list={list.filter(item => !item.is_deleted)} headers={['id', 'name_no', 'coordinate_lat', 'coordinate_long', 'url', 'updated_at']} deleteAction={deleteAction} />}
                 </>
             }
         </div>

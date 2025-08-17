@@ -1,8 +1,13 @@
-import { getJobs } from '@utils/api'
+import { deleteJob, getJobs } from '@utils/api'
 import Alert from '@components/alert/alert'
 import Button from '@components/userInput/button'
 import Filter from '@components/userInput/filter'
 import Table from '@components/table/table'
+
+async function deleteAction(id: string) {
+    'use server'
+    await deleteJob(Number(id))
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
@@ -24,14 +29,18 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     </div>
                 </div>
             </div>
-            {typeof list === 'string' || list.length <= 0 ?
+            {typeof list === 'string' || !Array.isArray(list) || list.length < 1 ?
                 <div className='w-full h-full flex items-center justify-center'>
                     <Alert>
                         {typeof list === 'string' ? list : 'No jobs found'}
                     </Alert>
                 </div> 
                 :
-                <Table list={list} headers={['id', 'name_no', 'title_no', 'job_type', 'time_publish', 'application_deadline', 'application_url', 'updated_at', 'visible']}/>
+                <Table 
+                    list={list.filter(item => !item.is_deleted)} 
+                    headers={['id', 'name_no', 'title_no', 'job_type', 'time_publish', 'application_deadline', 'application_url', 'updated_at', 'visible']}
+                    deleteAction={deleteAction}
+                />
             }
         </div>
     )

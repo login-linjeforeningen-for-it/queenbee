@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string,
                 )
             } else if (slug === 'update') {
                 return (
-                    <FormWrapper name='event' type='update' formAction={updateEvent}>
+                    <FormWrapper name='event' type='update' id={id[0]} formAction={updateEvent}>
                         <EventFormInputs />
                     </FormWrapper>
                 )

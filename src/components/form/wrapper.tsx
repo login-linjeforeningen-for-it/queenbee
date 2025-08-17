@@ -8,11 +8,12 @@ import CustomForm from './form'
 type FormWrapperProps = {
     name: 'event' | 'job' | 'organization' | 'location' | 'rule'
     type: 'create' | 'update' | 'duplicate'
+    id?: string
     formAction: (prevState: FormState, formData: FormData) => FormState | Promise<FormState>
     children: React.ReactNode
 }
 
-export default function FormWrapper({ name, type, formAction, children }: FormWrapperProps ) {
+export default function FormWrapper({ name, type, id, formAction, children }: FormWrapperProps ) {
     const router = useRouter()
 
     return (
@@ -31,7 +32,7 @@ export default function FormWrapper({ name, type, formAction, children }: FormWr
                     <h1 className='font-semibold text-2xl capitalize'>{type} {name}</h1>
                 </div>
                 <div className='flex flex-col gap-4 mt-4'></div>
-                <CustomForm name={name} type={type} formAction={formAction}>
+                <CustomForm name={name} type={type} id={id} formAction={formAction}>
                     {children}
                 </CustomForm>
             </div>

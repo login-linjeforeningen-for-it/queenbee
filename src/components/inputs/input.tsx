@@ -29,6 +29,7 @@ export default function Input({name, type, label, className, tooltip, required}:
                     type={type}
                     className='block px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-almostbright focus:outline-none focus:ring-0 focus:border-bright peer' 
                     placeholder=''
+                    required={required}
                 />
                 <Label label={label} value={value} required={required} showRequired={required && !value && hasBlured} />
                 {tooltip && <ToolTip info={tooltip} />}

@@ -28,6 +28,7 @@ export default function TimeInput({ name, label, className, tooltip, required }:
                     value={timeValue}
                     onChange={(e) => setTimeValue(e.target.value)}
                     onBlur={() => setHasBlured(true)}
+                    required={required}
                 />
                 <Label label={label} required={required} value={timeValue} showRequired={required && !timeValue && hasBlured} />
                 {timeValue && <EraseButton setData={setTimeValue} />}

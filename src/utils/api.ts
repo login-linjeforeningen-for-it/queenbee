@@ -208,6 +208,11 @@ export async function patchRule(body: PatchRuleProps): Promise<RulePatchResponse
     return await patchWrapper(config.beehiveApi.RULES_PATH, body)
 }
 
+export async function deleteRule(id: number) {
+    const path = `${config.beehiveApi.RULES_PATH}${id}`
+    return await deleteWrapper(path)
+}
+
 async function getWrapper(path: string, options = {}) {
     const defaultOptions = {
         method: 'GET',

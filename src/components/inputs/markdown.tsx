@@ -48,6 +48,7 @@ export default function Markdown({ name, label, className, tooltip, required, ro
                         onChange={(e) => setValue(e.target.value)}
                         onBlur={() => setHasBlured(true)}
                         rows={rows}
+                        required={required}
                         className='block px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-almostbright focus:outline-none focus:ring-0 focus:border-bright peer resize-vertical bg-normal'
                     />
                 ) : (

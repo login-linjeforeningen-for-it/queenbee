@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 type TableProps = {
     list: object[]
     headers?: string[]
+    deleteAction: (id: string) => void
 }
 
 type HeaderProps = {
@@ -17,16 +18,17 @@ type HeaderProps = {
 type BodyProps = {
     list: object[]
     headers: string[]
+    deleteAction: (id: string) => void
 }
 
-export default function Table({list, headers}: TableProps) {
+export default function Table({list, headers, deleteAction}: TableProps) {
     const keys = Object.keys(list[0])
     headers = headers || keys
     return (
         <div className='relative h-fit w-full max-h-[calc(((100vh-var(--h-navbar))-var(--h-pageInfo))-2rem)] overflow-scroll'>
             <table className='relative h-full border-collapse rounded-lg'>
                 <Header keys={keys} headers={headers} />
-                <Body list={list} headers={headers} />
+                <Body list={list} headers={headers} deleteAction={deleteAction} />
             </table>
         </div>
     )
@@ -88,7 +90,7 @@ function Header({keys, headers}: HeaderProps) {
 
 
 
-function Body({list, headers}: BodyProps) {
+function Body({list, headers, deleteAction}: BodyProps) {
     const [openMenuId, setOpenMenuId] = useState<string | null>(null)
     const pathname = usePathname()
     const router = useRouter()
@@ -96,7 +98,7 @@ function Body({list, headers}: BodyProps) {
     return list.map((_, index) => {
         const entries = Object.entries(list[index])
         const id = String(entries[0][1])
-        
+
         return (
             <tbody key={index} className='bg-extralight h-[2rem]'>
                 <tr className='border-y-1 border-dark'>
@@ -141,7 +143,7 @@ function Body({list, headers}: BodyProps) {
                                     </button>
                                     <button
                                         className='w-full text-left px-3 py-1.5 text-sm text-[color:var(--color-delete)] hover:bg-superlight'
-                                        onClick={() => { setOpenMenuId(null); console.log('Delete', id) }}
+                                        onClick={() => { setOpenMenuId(null); deleteAction(id); router.refresh() }}
                                     >
                                         Delete
                                     </button>

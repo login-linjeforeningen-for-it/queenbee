@@ -1,8 +1,13 @@
-import { getEvents } from '@utils/api'
+import { deleteEvent, getEvents } from '@utils/api'
 import Alert from '@components/alert/alert'
 import Button from '@components/userInput/button'
 import Filter from '@components/userInput/filter'
 import Table from '@components/table/table'
+
+async function deleteAction(id: string) {
+    'use server'
+    await deleteEvent(Number(id))
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
@@ -24,14 +29,18 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     </div>
                 </div>
             </div>
-            {typeof list === 'string' || list.length <= 0 ?
+            {typeof list === 'string' || !Array.isArray(list) || list.length < 1 ?
                 <div className='w-full h-full flex items-center justify-center'>
                     <Alert>
                         {typeof list === 'string' ? list : 'No events found'}
                     </Alert>
                 </div> 
                 :
-                <Table list={list} headers={['id', 'name_no', 'name_en', 'category', 'location', 'time_type', 'start_time', 'end_time', 'publish_time', 'capacity', 'full', 'canceled', 'updated_at']} />
+                <Table 
+                    list={list.filter(item => !item.is_deleted)}
+                    headers={['id', 'name_no', 'name_en', 'category', 'location', 'time_type', 'start_time', 'end_time', 'publish_time', 'capacity', 'full', 'canceled', 'updated_at']}
+                    deleteAction={deleteAction}
+                />
             }
         </div>
     )

@@ -11,7 +11,7 @@ export async function EventFormInputs() {
     const bannerImages = Array.isArray(bannerImagesResponse)
         ? bannerImagesResponse.map((image) => ({
             label: image.name,
-            value: `${image.filepath}${image.name}`,
+            value: image.name,
             image: `${image.filepath}${image.name}`,
         }))
         : []
@@ -20,7 +20,7 @@ export async function EventFormInputs() {
     const smallImages = Array.isArray(smallImagesResponse)
         ? smallImagesResponse.map((image) => ({
             label: image.name,
-            value: `${image.filepath}${image.name}`,
+            value: image.name,
             image: `${image.filepath}${image.name}`,
         }))
         : []
@@ -76,12 +76,12 @@ export async function EventFormInputs() {
         <div className='flex flex-col gap-12'>
             <div className='flex flex-col gap-4'>
                 <div className='grid grid-cols-2 gap-x-8 gap-y-4 justify-between w-full'>
-                    <Input name='titleNor' type='text' label='Title (Norwegian)' required />
-                    <Input name='titleEng' type='text' label='Title (English)' required />
-                    <Input name='informationalNor' type='text' label='Informational (Norwegian)' />
-                    <Input name='informationalEng' type='text' label='Informational (English)' />
-                    <Markdown name='descriptionNor' label='Description (Norwegian)' required />
-                    <Markdown name='descriptionEng' label='Description (English)' required />
+                    <Input name='name_no' type='text' label='Name (Norwegian)' required />
+                    <Input name='name_en' type='text' label='Name (English)' required />
+                    <Input name='informational_no' type='text' label='Informational (Norwegian)' />
+                    <Input name='informational_en' type='text' label='Informational (English)' />
+                    <Markdown name='description_no' label='Description (Norwegian)' required />
+                    <Markdown name='description_en' label='Description (English)' required />
                 </div>
             </div>
             <div className='flex flex-row gap-8'>
@@ -93,49 +93,50 @@ export async function EventFormInputs() {
                     <Select name='audiences' label='Audiences' options={audiences} />
                 </div>
                 <div className='flex flex-col gap-4 w-full'>
-                    <Select name='timeType' label='Time Type' options={timeTypes} required />
+                    <Select name='time_type' label='Time Type' options={timeTypes} required />
                     {/* Date and time inputs based on different timeType */}
                     <div className='flex flex-row gap-4 w-full'>
                         <div className='flex flex-col gap-4 w-full'>
-                            <DateInput name='startDate' label='Start Date' required />
-                            <DateInput name='endDate' label='End Date' required />
-                            <DateInput name='publishDate' label='Publish Date' required />
+                            <DateInput name='start_date' label='Start Date' required />
+                            <DateInput name='end_date' label='End Date' required />
+                            <DateInput name='publish_date' label='Publish Date' required />
                         </div>
                         <div className='flex flex-col gap-4 w-full'>
-                            <TimeInput name='startTime' label='Start Time' required />
-                            <TimeInput name='endTime' label='End Time' required />
-                            <TimeInput name='publishTime' label='Publish Time' required />
+                            <TimeInput name='start_time' label='Start Time' required />
+                            <TimeInput name='end_time' label='End Time' required />
+                            <TimeInput name='publish_time' label='Publish Time' required />
                         </div>
                     </div>
+                    <Switch name='highlight' label='Highlight' />
                 </div>
             </div>
             
             <div className='flex flex-col gap-4'>
                 <h1 className='text-xl'>Signup</h1>
                 <div className='grid grid-cols-2 gap-x-8 gap-y-4'>
-                    <Input name='signupLink' type='text' label='Signup Link' />
+                    <Input name='link_signup' type='text' label='Signup Link' />
                     <div className='grid grid-cols-2 gap-x-4 gap-y-4'>
-                        <DateInput name='releaseDate' label='Release Date' />
-                        <TimeInput name='releaseTime' label='Release Time' />
+                        <DateInput name='release_date' label='Release Date' />
+                        <TimeInput name='release_time' label='Release Time' />
                     </div>
                     <Input name='capacity' type='number' label='Capacity' />
                     <div className='grid grid-cols-2 gap-x-4 gap-y-4'>
-                        <DateInput name='deadlineDate' label='Deadline Date' />
-                        <TimeInput name='deadlineTime' label='Deadline Time' />
+                        <DateInput name='deadline_date' label='Deadline Date' />
+                        <TimeInput name='deadline_time' label='Deadline Time' />
                     </div>
                     <Switch name='isFull' label='Is Full' />
                 </div>
             </div>
             <div className='flex flex-col gap-4'>
                 <h1 className='text-xl'>Image</h1>
-                <Select name='bannerImage' label='Banner Image' options={bannerImages} />
-                <Select name='smallImage' label='Small Image' options={smallImages} />
+                <Select name='image_banner' label='Banner Image' options={bannerImages} />
+                <Select name='image_small' label='Small Image' options={smallImages} />
             </div>
             <div className='flex flex-col gap-4'>
                 <h1 className='text-xl'>Social Links</h1>
-                <Input name='facebookLink' type='text' label='Facebook Link' />
-                <Input name='discordLink' type='text' label='Discord Link' />
-                <Input name='streamLink' type='text' label='Stream Link' />
+                <Input name='link_facebook' type='text' label='Facebook Link' />
+                <Input name='link_discord' type='text' label='Discord Link' />
+                <Input name='link_stream' type='text' label='Stream Link' />
             </div>
         </div>
     )
@@ -161,7 +162,7 @@ export async function JobFormInputs() {
     const jobImages = Array.isArray(jobImagesResponse)
         ? jobImagesResponse.map((image) => ({
             label: image.name,
-            value: `${image.filepath}${image.name}`,
+            value: image.name,
             image: `${image.filepath}${image.name}`,
         }))
         : []
@@ -170,43 +171,43 @@ export async function JobFormInputs() {
         <div className='flex flex-col gap-12'>
             <div className='flex flex-col gap-8'>
                 <div className='grid grid-cols-2 gap-x-8 gap-y-4 justify-between w-full'>
-                    <Input name='titleNor' type='text' label='Title (Norwegian)' required />
-                    <Input name='titleEng' type='text' label='Title (English)' required />
-                    <Input name='positionNor' type='text' label='Position (Norwegian)' required />
-                    <Input name='positionEng' type='text' label='Position (English)' required />
-                    <Input name='shortDescriptionNor' type='text' label='Short Description (Norwegian)' required />
-                    <Input name='shortDescriptionEng' type='text' label='Short Description (English)' required />
-                    <Markdown name='descriptionNor' label='Description (Norwegian)' required />
-                    <Markdown name='descriptionEng' label='Description (English)' required />
+                    <Input name='title_no' type='text' label='Title (Norwegian)' required />
+                    <Input name='title_en' type='text' label='Title (English)' required />
+                    <Input name='position_title_no' type='text' label='Position (Norwegian)' required />
+                    <Input name='position_title_en' type='text' label='Position (English)' required />
+                    <Input name='description_short_no' type='text' label='Short Description (Norwegian)' required />
+                    <Input name='description_short_en' type='text' label='Short Description (English)' required />
+                    <Markdown name='description_long_no' label='Description (Norwegian)' required />
+                    <Markdown name='description_long_en' label='Description (English)' required />
                 </div>
                 <div className='grid grid-cols-2 gap-x-8 gap-y-4 justify-between w-full'>
                     <Select name='organization' label='Organization' options={organizations} required />
                     <Input name='cities' type='text' label='Cities' />
-                    <Select name='applicationType' label='Application Type' options={applicationTypes} required />
+                    <Select name='job_type' label='Application Type' options={applicationTypes} required />
                     <Input name='skills' type='text' label='Skills' />
                     <div className='grid grid-cols-2 gap-x-4 gap-y-4 w-full'>
-                        <DateInput name='publishDate' label='Release Date' />
-                        <TimeInput name='releaseTime' label='Release Time' />
+                        <DateInput name='publish_date' label='Publish Date' required />
+                        <TimeInput name='publish_time' label='Publish Time' required />
                     </div>
-                    <Switch name='highlightAd' label='Highlight Ad' />
+                    <Switch name='highlight' label='Highlight Ad' />
                     <div className='grid grid-cols-2 gap-x-4 gap-y-4 w-full'>
-                        <DateInput name='deadlineDate' label='Deadline Date' />
-                        <TimeInput name='deadlineTime' label='Deadline Time' />
+                        <DateInput name='expire_date' label='Expire Date' required />
+                        <TimeInput name='expire_time' label='Expire Time' required />
                     </div>
                     
                 </div>
             </div>
             <div className='flex flex-col gap-4'>
                 <h1 className='text-xl'>Application</h1>
-                <Input name='applicationLink' type='text' label='Application URL' required />
+                <Input name='application_url' type='text' label='Application URL' required />
                 <div className='flex flex-row gap-4'>
-                    <DateInput name='deadlineDate' label='Deadline Date' required />
-                    <TimeInput name='deadlineTime' label='Deadline Time' required />
+                    <DateInput name='deadline_date' label='Deadline Date' required />
+                    <TimeInput name='deadline_time' label='Deadline Time' required />
                 </div>
             </div>
             <div className='flex flex-col gap-4'>
                 <h1 className='text-xl'>Image</h1>
-                <Select name='bannerImage' label='Banner Image' options={jobImages} required />
+                <Select name='banner_image' label='Banner Image' options={jobImages} required />
             </div>
         </div>
     )
@@ -217,7 +218,7 @@ export async function OrganizationFormInputs() {
     const images = Array.isArray(imagesResponse)
         ? imagesResponse.map((image) => ({
             label: image.name,
-            value: `${image.filepath}${image.name}`,
+            value: image.name,
             image: `${image.filepath}${image.name}`,
         }))
         : []
@@ -225,20 +226,20 @@ export async function OrganizationFormInputs() {
     return (
         <div className='flex flex-col gap-12'>
             <div className='flex flex-col gap-4'>
-                <Input name='shortName' type='text' label='Short Name' required />
+                <Input name='shortname' type='text' label='Short Name' required />
                 <div className='grid grid-cols-2 gap-y-4 gap-x-8  w-full'>
-                    <Input name='nameNor' type='text' label='Name (Norwegian)' required />
-                    <Input name='nameEng' type='text' label='Name (English)' required />
-                    <Markdown name='descriptionNor' label='Description (Norwegian)' required />
-                    <Markdown name='descriptionEng' label='Description (English)' required />
+                    <Input name='name_no' type='text' label='Name (Norwegian)' required />
+                    <Input name='name_en' type='text' label='Name (English)' required />
+                    <Markdown name='description_no' label='Description (Norwegian)' required />
+                    <Markdown name='description_en' label='Description (English)' required />
                 </div>
             </div>
             <div className='flex flex-col gap-4'>
                 <h1 className='text-xl'>Social Links</h1>
-                <Input name='linkHomepage' type='text' label='Homepage Link' required />
-                <Input name='linkLinkedin' type='text' label='Linkedin Link' />
-                <Input name='linkFacebook' type='text' label='Facebook Link' />
-                <Input name='linkInstagram' type='text' label='Instagram Link' />
+                <Input name='link_homepage' type='text' label='Homepage Link' required />
+                <Input name='link_linkedin' type='text' label='Linkedin Link' />
+                <Input name='link_facebook' type='text' label='Facebook Link' />
+                <Input name='link_instagram' type='text' label='Instagram Link' />
             </div>
             <div className='flex flex-col gap-4'>
                 <h1 className='text-xl'>Logo</h1>
@@ -251,8 +252,8 @@ export async function OrganizationFormInputs() {
 export function LocationFormInputs() {
     return (
         <div className='flex flex-col gap-4'>
-            <Input name='nameNor' type='text' label='Name (Norwegian)' required />
-            <Input name='nameEng' type='text' label='Name (English)' required />
+            <Input name='name_no' type='text' label='Name (Norwegian)' required />
+            <Input name='name_en' type='text' label='Name (English)' required />
             <Input name='url' type='text' label='URL' />
             {/* Location Select with different options */}
         </div>
@@ -263,12 +264,12 @@ export function RuleFormInputs() {
     return (
         <div className='flex flex-col gap-4'>
             <div className='flex flex-row gap-8 justify-between w-full'>
-                <Input name='nameNor' type='text' label='Name (Norwegian)' required />
-                <Input name='nameEng' type='text' label='Name (English)' required />
+                <Input name='name_no' type='text' label='Name (Norwegian)' required />
+                <Input name='name_en' type='text' label='Name (English)' required />
             </div>
             <div className='flex flex-row gap-8 justify-between w-full'>
-                <Markdown name='descriptionNor' label='Description (Norwegian)' required />
-                <Markdown name='descriptionEng' label='Description (English)' required />
+                <Markdown name='description_no' label='Description (Norwegian)' required />
+                <Markdown name='description_en' label='Description (English)' required />
             </div>
         </div>
     )

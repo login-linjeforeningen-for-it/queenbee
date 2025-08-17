@@ -1,8 +1,13 @@
-import { getOrganizations } from '@utils/api'
+import { deleteOrganization, getOrganizations } from '@utils/api'
 import Alert from '@components/alert/alert'
 import Button from '@components/userInput/button'
 import Filter from '@components/userInput/filter'
 import Table from '@components/table/table'
+
+async function deleteAction(id: string) {
+    'use server'
+    await deleteOrganization(id)
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
@@ -24,14 +29,18 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     </div>
                 </div>
             </div>
-            {typeof list === 'string' || list.length <= 0 ?
+            {typeof list === 'string' || !Array.isArray(list) || list.length < 1 ?
                 <div className='w-full h-full flex items-center justify-center'>
                     <Alert>
                         {typeof list === 'string' ? list : 'No organizations found'}
                     </Alert>
                 </div> 
                 :
-                <Table list={list} headers={['description_en', 'description_no', 'link_facebook', 'link_homepage', 'link_instagram', 'link_linkedin', 'logo', 'name_en', 'name_no', 'shortname']} />
+                <Table 
+                    list={list.filter(item => !item.is_deleted)}
+                    headers={['description_en', 'description_no', 'link_facebook', 'link_homepage', 'link_instagram', 'link_linkedin', 'logo', 'name_en', 'name_no', 'shortname']}
+                    deleteAction={deleteAction}
+                />
             }
         </div>
     )

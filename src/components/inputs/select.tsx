@@ -43,6 +43,7 @@ export default function Select({ name, label, options, className, tooltip, requi
                     onChange={(e) => { setSelectedValue(e.target.value); setHasBlured(true) }}
                     onBlur={() => setHasBlured(true)}
                     onMouseDown={(e) => { e.preventDefault(); selectRef.current?.focus() }}
+                    required={required}
                 >
                     <option value='' hidden />
                     {options.map((option) => (
