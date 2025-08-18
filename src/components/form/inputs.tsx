@@ -1,7 +1,7 @@
 import DateInput from '@components/inputs/date'
 import Input from '@components/inputs/input'
 import Markdown from '@components/inputs/markdown'
-import Select from '@components/inputs/select'
+import Select, { SelectOption } from '@components/inputs/select'
 import Switch from '@components/inputs/switch'
 import TimeInput from '@components/inputs/time'
 import { getAudiences, getCategories, getEventBannerImages, getEventSmallImages, getJobImages, getLocations, getOrganizationImages, getOrganizations, getRules } from '@utils/api'
@@ -93,20 +93,37 @@ export async function EventFormInputs({ defaultValues }: { defaultValues?: GetEv
                     <Select name='audiences' label='Audiences' options={audiences} defaultValue={Array.isArray(defaultValues?.audiences) && defaultValues.audiences.length > 0 ? defaultValues.audiences[0].id : undefined} />
                 </div>
                 <div className='flex flex-col gap-4 w-full'>
-                    <Select name='time_type' label='Time Type' options={timeTypes} defaultValue={defaultValues?.event.time_type} required />
-                    {/* Date and time inputs based on different timeType */}
-                    <div className='flex flex-row gap-4 w-full'>
-                        <div className='flex flex-col gap-4 w-full'>
-                            <DateInput name='start_date' label='Start Date' defaultValue={defaultValues?.event.time_start.split('T')[0]} required />
-                            <DateInput name='end_date' label='End Date' defaultValue={defaultValues?.event.time_end.split('T')[0]} required />
-                            <DateInput name='publish_date' label='Publish Date' defaultValue={defaultValues?.event.time_publish.split('T')[0]} required />
+                    <Select name='time_type' label='Time Type' options={timeTypes} defaultValue={defaultValues?.event.time_type} required >
+                        <div className='flex flex-row gap-4 w-full'>
+                            <div className='flex flex-col gap-4 w-full pt-4'>
+                                <DateInput name='start_date' label='Start Date' defaultValue={defaultValues?.event.time_start.split('T')[0]} required />
+                                <DateInput name='end_date' label='End Date' defaultValue={defaultValues?.event.time_end.split('T')[0]} required />
+                                <DateInput name='publish_date' label='Publish Date' defaultValue={defaultValues?.event.time_publish.split('T')[0]} required />
+                            </div>
+                            <div className='flex flex-col gap-4 w-full'>
+                                <SelectOption value='' className='grid grid-flow-row gap-y-4 pt-4'>
+                                    <TimeInput name='start_time' label='Start Time' defaultValue={defaultValues?.event.time_start.split('T')[1].split('Z')[0]} required />
+                                    <TimeInput name='end_time' label='End Time' defaultValue={defaultValues?.event.time_end.split('T')[1].split('Z')[0]} required />
+                                </SelectOption>
+                                <SelectOption value='default' className='grid grid-flow-row gap-y-4 pt-4'>
+                                    <TimeInput name='start_time' label='Start Time' defaultValue={defaultValues?.event.time_start.split('T')[1].split('Z')[0]} required />
+                                    <TimeInput name='end_time' label='End Time' defaultValue={defaultValues?.event.time_end.split('T')[1].split('Z')[0]} required />
+                                </SelectOption>
+                                <SelectOption value='no_end' className='grid grid-flow-row gap-y-4 pt-4'>
+                                    <TimeInput name='start_time' label='Start Time' defaultValue={defaultValues?.event.time_start.split('T')[1].split('Z')[0]} required />
+                                    <TimeInput name='end_time' label='End Time' defaultValue='23:00' disabled />
+                                </SelectOption>
+                                <SelectOption value='whole_day' className='grid grid-flow-row gap-y-4 pt-4'>
+                                    <TimeInput name='start_time' label='Start Time' defaultValue='00:00' disabled />
+                                    <TimeInput name='end_time' label='End Time' defaultValue='23:59' disabled />                                </SelectOption>
+                                <SelectOption value='tbd' className='grid grid-flow-row gap-y-4 pt-4'>
+                                    <TimeInput name='start_time' label='Start Time' defaultValue='00:00' disabled />
+                                    <TimeInput name='end_time' label='End Time' defaultValue='23:59' disabled />
+                                </SelectOption>
+                                <TimeInput name='publish_time' label='Publish Time' defaultValue={defaultValues?.event.time_publish.split('T')[1].split('Z')[0]} required />
+                            </div>
                         </div>
-                        <div className='flex flex-col gap-4 w-full'>
-                            <TimeInput name='start_time' label='Start Time' defaultValue={defaultValues?.event.time_start.split('T')[1].split('Z')[0]} required />
-                            <TimeInput name='end_time' label='End Time' defaultValue={defaultValues?.event.time_end.split('T')[1].split('Z')[0]} required />
-                            <TimeInput name='publish_time' label='Publish Time' defaultValue={defaultValues?.event.time_publish.split('T')[1].split('Z')[0]} required />
-                        </div>
-                    </div>
+                    </Select>
                     <Switch name='highlight' label='Highlight' defaultValue={defaultValues?.event.highlight} />
                 </div>
             </div>
@@ -250,12 +267,35 @@ export async function OrganizationFormInputs({ defaultValues }: { defaultValues?
 }
 
 export function LocationFormInputs({ defaultValues }: { defaultValues?: GetLocationProps }) {
+
+    const locationTypes: { label: string; value: location_type }[] = [
+        { label: 'Mazemap',     value: 'mazemap' },
+        { label: 'Coordinates', value: 'coords' },
+        { label: 'Address',     value: 'address' },
+        { label: 'Digital',     value: 'digital' }
+    ]
+
+
     return (
         <div className='flex flex-col gap-4'>
             <Input name='name_no' type='text' label='Name (Norwegian)' defaultValue={defaultValues?.name_no} required />
             <Input name='name_en' type='text' label='Name (English)' defaultValue={defaultValues?.name_en} required />
             <Input name='url' type='text' label='URL' defaultValue={defaultValues?.url} />
-            {/* Location Select with different options */}
+            <Select name='location' label='Location' options={locationTypes} defaultValue={defaultValues?.type} required>
+                <SelectOption value='mazemap' className='grid grid-flow-col gap-x-8 pt-4'>
+                    <Input name='mazemap_campus_id' type='number' label='Campus ID' defaultValue={defaultValues?.mazemap_campus_id} required />
+                    <Input name='mazemap_poi_id' type='number' label='POI ID' defaultValue={defaultValues?.mazemap_poi_id} required />
+                </SelectOption>
+                <SelectOption value='coords' className='grid grid-flow-col gap-x-8 pt-4'>
+                    <Input name='coordinate_lat' type='text' label='Latitude' defaultValue={defaultValues?.coordinate_lat} required />
+                    <Input name='coordinate_long' type='number' label='Longitude' defaultValue={defaultValues?.coordinate_long} required />
+                </SelectOption>
+                <SelectOption value='address' className='grid grid-flow-col gap-x-8 pt-4'>
+                    <Input name='address_street' type='text' label='Address' defaultValue={defaultValues?.address_street} required />
+                    <Input name='address_postcode' type='number' label='Postal Code' defaultValue={defaultValues?.address_postcode} required />
+                    <Input name='city_name' type='text' label='City' defaultValue={defaultValues?.city_name} required />
+                </SelectOption>
+            </Select>
         </div>
     )
 }

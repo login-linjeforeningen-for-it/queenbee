@@ -53,7 +53,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                         <LocationOption value={Location.Mazemap} active={activeType}/>
                     </div>
                     <div className='flex flex-row gap-[1rem]'>
-                        <Button text='New organization' icon='+' path='locations/create' />
+                        <Button text='New location' icon='+' path='locations/create' />
                     </div>
                 </div>
             </div>

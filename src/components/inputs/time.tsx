@@ -13,9 +13,10 @@ type TimeProps = {
     className?: string
     tooltip?: string
     required?: boolean
+    disabled?: boolean
 }
 
-export default function TimeInput({ name, label, defaultValue, className, tooltip, required }: TimeProps) {
+export default function TimeInput({ name, label, defaultValue, className, tooltip, required, disabled }: TimeProps) {
     const [timeValue, setTimeValue] = useState(defaultValue || '')
     const [hasBlured, setHasBlured] = useState(false)
 
@@ -30,9 +31,10 @@ export default function TimeInput({ name, label, defaultValue, className, toolti
                     onChange={(e) => setTimeValue(e.target.value)}
                     onBlur={() => setHasBlured(true)}
                     required={required}
+                    disabled={disabled}
                 />
                 <Label label={label} required={required} value={timeValue} showRequired={required && !timeValue && hasBlured} />
-                {timeValue && <EraseButton setData={setTimeValue} />}
+                {!disabled && timeValue && <EraseButton setData={setTimeValue} />}
                 {!timeValue && tooltip && <ToolTip info={tooltip} />}
             </div>
             {required && !timeValue && <Error message='This field is required' className={`${hasBlured ? '' : 'hidden group-[.submitted]:flex'}`} />}
