@@ -3,7 +3,6 @@
 import { useRef, useState, createContext, useContext } from 'react'
 import Image from 'next/image'
 import ToolTip from './tooltip'
-import Error from '@components/inputs/error'
 import Label from './label'
 import EraseButton from './erase'
 import config from '../../../constants'
@@ -122,8 +121,6 @@ export default function Select({ name, label, defaultValue, options, className, 
                     </div>
                 </div>
                 {children}
-
-                {required && !selectedValue && <Error message='This field is required' className={`${hasBlured ? '' : 'hidden group-[.submitted]:flex'}`} />}
             </div>
         </SelectContext.Provider>
     )

@@ -3,6 +3,7 @@ import Input from '@components/inputs/input'
 import Markdown from '@components/inputs/markdown'
 import Select, { SelectOption } from '@components/inputs/select'
 import Switch from '@components/inputs/switch'
+import TagInput from '@components/inputs/tag'
 import TimeInput from '@components/inputs/time'
 import { getAudiences, getCategories, getEventBannerImages, getEventSmallImages, getJobImages, getLocations, getOrganizationImages, getOrganizations, getRules } from '@utils/api'
 
@@ -199,9 +200,9 @@ export async function JobFormInputs({ defaultValues }: { defaultValues?: GetJobP
                 </div>
                 <div className='grid grid-cols-2 gap-x-8 gap-y-4 justify-between w-full'>
                     <Select name='organization' label='Organization' options={organizations} defaultValue={defaultValues?.organization} required />
-                    <Input name='cities' type='text' label='Cities' />
+                    <TagInput name='cities' label='Cities' defaultValue={defaultValues?.cities} />
                     <Select name='job_type' label='Application Type' options={applicationTypes} defaultValue={defaultValues?.job_type} required />
-                    <Input name='skills' type='text' label='Skills' />
+                    <TagInput name='skills' label='Skills' defaultValue={defaultValues?.skills} />
                     <div className='grid grid-cols-2 gap-x-4 gap-y-4 w-full'>
                         <DateInput name='publish_date' label='Publish Date' defaultValue={defaultValues?.time_publish.split('T')[0]} required />
                         <TimeInput name='publish_time' label='Publish Time' defaultValue={defaultValues?.time_publish.split('T')[1].split('Z')[0]} required />

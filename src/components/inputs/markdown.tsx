@@ -3,7 +3,6 @@
 
 import { useRef, useState } from 'react'
 import Label from './label'
-import Error from './error'
 import ToolTip from './tooltip'
 import MarkdownRender from '../userInput/markdownRender'
 
@@ -79,8 +78,6 @@ export default function Markdown({ name, label, defaultValue, className, tooltip
                     <button type='button' onClick={() => setMode('preview')} className={`px-2 py-1 rounded ${mode === 'preview' ? 'bg-light' : 'hover:bg-light'}`}>Preview</button>
                 </div>
             </div>
-
-            {required && !value && <Error message='This field is required' className={`${hasBlured ? '' : 'hidden group-[.submitted]:flex'}`} />}
         </div>
     )
 }

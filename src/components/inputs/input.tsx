@@ -2,7 +2,6 @@
 
 import { HTMLInputTypeAttribute, useState } from 'react'
 import ToolTip from './tooltip'
-import Error from '@components/inputs/error'
 import Label from './label'
 
 type InputProps = {
@@ -35,7 +34,6 @@ export default function Input({name, type, label, defaultValue, className, toolt
                 <Label label={label} value={value} required={required} showRequired={required && !value && hasBlured} />
                 {tooltip && <ToolTip info={tooltip} />}
             </div>
-            {required && !value && <Error message='This field is required' className={`${hasBlured ? '' : 'hidden group-[.submitted]:flex'}`} />}
         </div>
     )
 }

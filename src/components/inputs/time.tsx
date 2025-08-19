@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import ToolTip from './tooltip'
-import Error from '@components/inputs/error'
 import Label from './label'
 import EraseButton from './erase'
 
@@ -37,7 +36,6 @@ export default function TimeInput({ name, label, defaultValue, className, toolti
                 {!disabled && timeValue && <EraseButton setData={setTimeValue} />}
                 {!timeValue && tooltip && <ToolTip info={tooltip} />}
             </div>
-            {required && !timeValue && <Error message='This field is required' className={`${hasBlured ? '' : 'hidden group-[.submitted]:flex'}`} />}
         </div>
     )
 }

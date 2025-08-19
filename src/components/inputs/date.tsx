@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import ToolTip from './tooltip'
-import Error from '@components/inputs/error'
 import Label from './label'
 import EraseButton from './erase'
 
@@ -36,7 +35,6 @@ export default function DateInput({ name, label, defaultValue, className, toolti
                 {selectedDate && <EraseButton setData={setSelectedDate} />}
                 {!selectedDate && tooltip && <ToolTip info={tooltip} />}
             </div>
-            {required && !selectedDate && <Error message='This field is required' className={`${hasBlured ? '' : 'hidden group-[.submitted]:flex'}`} />}
         </div>
     )
 }
