@@ -232,7 +232,7 @@ async function getWrapper(path: string, options = {}) {
     // eslint-disable-next-line
     } catch (error: any) {
         console.error(JSON.stringify(error))
-        return JSON.stringify(error.error) || 'Unknown error! Please contact TekKom'
+        return JSON.stringify(error.error) || JSON.stringify(error.message) || 'Unknown error! Please contact TekKom'
     }
 }
 
@@ -256,7 +256,7 @@ async function postWrapper(path: string, data = {}) {
     // eslint-disable-next-line
     } catch (error: any) {
         console.error(JSON.stringify(error))
-        return JSON.stringify(error.error) || 'Unknown error! Please contact TekKom'
+        return JSON.stringify(error.error) || JSON.stringify(error.message) || 'Unknown error! Please contact TekKom'
     }
 }
 
@@ -280,16 +280,17 @@ async function deleteWrapper(path: string, options = {}) {
         return data
     // eslint-disable-next-line
     } catch (error: any) {
-        return JSON.stringify(error.error) || 'Unknown error! Please contact TekKom'
+        return JSON.stringify(error.error) || JSON.stringify(error.message) || 'Unknown error! Please contact TekKom'
     }
 }
 
-async function patchWrapper(path: string, options = {}) {
+async function patchWrapper(path: string, data = {}, options = {}) {
     const defaultOptions = {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify(data),
     }
     const finalOptions = { ...defaultOptions, ...options }
 
@@ -304,6 +305,6 @@ async function patchWrapper(path: string, options = {}) {
         return data
     // eslint-disable-next-line
     } catch (error: any) {
-        return JSON.stringify(error.error) || 'Unknown error! Please contact TekKom'
+        return JSON.stringify(error.error) || JSON.stringify(error.message) || 'Unknown error! Please contact TekKom'
     }
 }

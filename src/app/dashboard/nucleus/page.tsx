@@ -2,24 +2,21 @@
 import config from '@config'
 import sendNotificationClient from '@utils/notification/sendNotificationClient'
 import Link from 'next/link'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { useState } from 'react'
+import Input from '@components/inputs/input'
+import { Send } from 'lucide-react'
 
-type BarProps = {
-    title: string
-    content: string
-    placeholder: string
-    setContent: Dispatch<SetStateAction<string>>
-}
+
 
 export default function page() {
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
-    const [topic, setTopic] = useState('')
-    const [screen, setScreen] = useState('')
     const [result, setResult] = useState<SendResponseClient | null>()
 
-    async function handleSend() {
-        const response = await sendNotificationClient({title, description, screen, topic})
+    async function handleSend(formData: FormData) {
+        const title = formData.get('title') as string
+        const description = formData.get('description') as string
+        const topic = formData.get('topic') as string
+        const screen = formData.get('screen') as string
+        const response = await sendNotificationClient({ title, description, screen, topic })
         if (response) {
             setResult(response)
             if (response.status === 200) {
@@ -31,51 +28,41 @@ export default function page() {
     }
 
     return (
-        <div className='h-full'>
-            <h1 className='font-semibold text-lg'>Nucleus</h1>
-            <div className='grid place-items-center self-center h-full'>
-                <div>
-                    <h1 className='rounded-lg pb-4 text-center'>Send a notification to the Login App</h1>
-                    {result?.status && <h1 className={`rounded-md text-center mb-4 py-1 ${result.status === 200 ? 'bg-green-500' : 'bg-red-500'}`}>{result?.message}</h1>}
-                    <form
-                        onSubmit={(e) => {
-                            e.preventDefault()
-                            handleSend()
-                        }}
-                        className='flex flex-col w-[35rem] h-[35vh] bg-sidebar p-4 rounded-md relative gap-2'
-                    >
-                        <Bar title='Title' placeholder='Viktig beskjed til alle i Login...' content={title} setContent={setTitle} />
-                        <Bar title='Description' placeholder='Event ... har blitt flyttet frem en time!' content={description} setContent={setDescription} />
-                        <Bar title='Topic' placeholder='nTEKKOM / n191w' content={topic} setContent={setTopic} />
-                        <Bar title='Screen' placeholder='191' content={screen} setContent={setScreen} />
-                        <Link
-                            target='_blank'
-                            href={`${config.url.CDN_URL}/files/misc/push_notifications.pdf`}
-                            className='absolute bottom-4 bg-light px-6 rounded-lg py-1'
-                        >Documentation</Link>
-                        <input 
-                            type='submit'
-                            className='absolute bottom-4 right-4 bg-login rounded-lg px-8 py-1 cursor-pointer'
-                            onSubmit={(() => handleSend())}
-                            value='Send'
-                        />
-                    </form>
-                </div>
+        <div className='flex flex-col h-full w-full'>
+            <div className='mb-8'>
+                <h1 className='text-2xl font-bold tracking-tight text-foreground'>Nucleus</h1>
+                <p className='text-muted-foreground text-base mt-1'>Send a notification to the Login App</p>
             </div>
+            {result?.status && (
+                <div className={`rounded-md text-center mb-4 py-2 font-medium text-white ${result.status === 200 ? 'bg-green-500' : 'bg-red-500'}`}>
+                    {result?.message}
+                </div>
+            )}
+            <form
+                onSubmit={e => {
+                    e.preventDefault()
+                    const formData = new FormData(e.currentTarget)
+                    handleSend(formData)
+                }}
+                className='flex flex-col gap-4 max-w-xl'
+            >
+                <Input name='title' type='text' label='Title' required className='' defaultValue='' />
+                <Input name='description' type='text' label='Description' required className='' defaultValue='' />
+                <Input name='topic' type='text' label='Topic' required className='' defaultValue='' />
+                <Input name='screen' type='text' label='Screen' required className='' defaultValue='' />
+                <div className='flex items-center justify-between pt-2'>
+                    <button type='submit' className='flex flex-row w-fit gap-2 capitalize cursor-pointer bg-login/90 hover:bg-login/80 rounded-md px-4 py-1.5'>
+                        <Send className='w-5' /> Send
+                    </button>
+                    <Link
+                        target='_blank'
+                        href={`${config.url.CDN_URL}/files/misc/push_notifications.pdf`}
+                        className='bg-light text-foreground px-6 py-2 rounded-lg font-medium hover:bg-light/80 transition'
+                    >
+                        Documentation
+                    </Link>
+                </div>
+            </form>
         </div>
-    )
-}
-
-function Bar({title, content, setContent, placeholder}: BarProps) {
-    return (
-        <label className='flex h-8 w-full'>
-            <h1 className='w-[10rem] flex items-center'>{title}</h1>
-            <input 
-                placeholder={placeholder}
-                onChange={(event) => setContent(event.target.value)}
-                className='w-full align-center bg-light rounded-md px-2' 
-                value={content} 
-            />
-        </label>
     )
 }

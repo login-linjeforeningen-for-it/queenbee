@@ -103,15 +103,15 @@ export async function EventFormInputs({ defaultValues }: { defaultValues?: GetEv
                             </div>
                             <div className='flex flex-col gap-4 w-full'>
                                 <SelectOption value='' className='grid grid-flow-row gap-y-4 pt-4'>
-                                    <TimeInput name='start_time' label='Start Time' defaultValue={defaultValues?.event.time_start.split('T')[1].split('Z')[0]} required />
-                                    <TimeInput name='end_time' label='End Time' defaultValue={defaultValues?.event.time_end.split('T')[1].split('Z')[0]} required />
+                                    <TimeInput name='start_time' label='Start Time' defaultValue={defaultValues?.event.time_start.split('T')[1]?.slice(0, 5)} required />
+                                    <TimeInput name='end_time' label='End Time' defaultValue={defaultValues?.event.time_end.split('T')[1]?.slice(0, 5)} required />
                                 </SelectOption>
                                 <SelectOption value='default' className='grid grid-flow-row gap-y-4 pt-4'>
-                                    <TimeInput name='start_time' label='Start Time' defaultValue={defaultValues?.event.time_start.split('T')[1].split('Z')[0]} required />
-                                    <TimeInput name='end_time' label='End Time' defaultValue={defaultValues?.event.time_end.split('T')[1].split('Z')[0]} required />
+                                    <TimeInput name='start_time' label='Start Time' defaultValue={defaultValues?.event.time_start.split('T')[1]?.slice(0, 5)} required />
+                                    <TimeInput name='end_time' label='End Time' defaultValue={defaultValues?.event.time_end.split('T')[1]?.slice(0, 5)} required />
                                 </SelectOption>
                                 <SelectOption value='no_end' className='grid grid-flow-row gap-y-4 pt-4'>
-                                    <TimeInput name='start_time' label='Start Time' defaultValue={defaultValues?.event.time_start.split('T')[1].split('Z')[0]} required />
+                                    <TimeInput name='start_time' label='Start Time' defaultValue={defaultValues?.event.time_start.split('T')[1]?.slice(0, 5)} required />
                                     <TimeInput name='end_time' label='End Time' defaultValue='23:00' disabled />
                                 </SelectOption>
                                 <SelectOption value='whole_day' className='grid grid-flow-row gap-y-4 pt-4'>
@@ -121,7 +121,7 @@ export async function EventFormInputs({ defaultValues }: { defaultValues?: GetEv
                                     <TimeInput name='start_time' label='Start Time' defaultValue='00:00' disabled />
                                     <TimeInput name='end_time' label='End Time' defaultValue='23:59' disabled />
                                 </SelectOption>
-                                <TimeInput name='publish_time' label='Publish Time' defaultValue={defaultValues?.event.time_publish.split('T')[1].split('Z')[0]} required />
+                                <TimeInput name='publish_time' label='Publish Time' defaultValue={defaultValues?.event.time_publish.split('T')[1]?.slice(0, 5)} required />
                             </div>
                         </div>
                     </Select>
@@ -135,12 +135,12 @@ export async function EventFormInputs({ defaultValues }: { defaultValues?: GetEv
                     <Input name='link_signup' type='text' label='Signup Link' defaultValue={defaultValues?.event.link_signup} />
                     <div className='grid grid-cols-2 gap-x-4 gap-y-4'>
                         <DateInput name='release_date' label='Release Date' defaultValue={defaultValues?.event.time_signup_release.split('T')[0]} />
-                        <TimeInput name='release_time' label='Release Time' defaultValue={defaultValues?.event.time_signup_release.split('T')[1].split('Z')[0]} />
+                        <TimeInput name='release_time' label='Release Time' defaultValue={defaultValues?.event.time_signup_release.split('T')[1]?.slice(0, 5)} />
                     </div>
                     <Input name='capacity' type='number' label='Capacity' defaultValue={defaultValues?.event.capacity} />
                     <div className='grid grid-cols-2 gap-x-4 gap-y-4'>
                         <DateInput name='deadline_date' label='Deadline Date' defaultValue={defaultValues?.event.time_signup_deadline.split('T')[0]} />
-                        <TimeInput name='deadline_time' label='Deadline Time' defaultValue={defaultValues?.event.time_signup_deadline.split('T')[1].split('Z')[0]} />
+                        <TimeInput name='deadline_time' label='Deadline Time' defaultValue={defaultValues?.event.time_signup_deadline.split('T')[1]?.slice(0, 5)} />
                     </div>
                     <Switch name='isFull' label='Is Full' defaultValue={defaultValues?.event.full} />
                 </div>
@@ -205,12 +205,12 @@ export async function JobFormInputs({ defaultValues }: { defaultValues?: GetJobP
                     <TagInput name='skills' label='Skills' defaultValue={defaultValues?.skills} />
                     <div className='grid grid-cols-2 gap-x-4 gap-y-4 w-full'>
                         <DateInput name='publish_date' label='Publish Date' defaultValue={defaultValues?.time_publish.split('T')[0]} required />
-                        <TimeInput name='publish_time' label='Publish Time' defaultValue={defaultValues?.time_publish.split('T')[1].split('Z')[0]} required />
+                        <TimeInput name='publish_time' label='Publish Time' defaultValue={defaultValues?.time_publish.split('T')[1]?.slice(0, 5)} required />
                     </div>
                     <Switch name='highlight' label='Highlight Ad' defaultValue={defaultValues?.highlight} />
-                    <div className='grid grid-cols-2 gap-x-4 gap-y-4 w-full'>
+                    <div className='grid grid-cols-2 gap-4 w-full'>
                         <DateInput name='expire_date' label='Expire Date' defaultValue={defaultValues?.time_expire.split('T')[0]} required />
-                        <TimeInput name='expire_time' label='Expire Time' defaultValue={defaultValues?.time_expire.split('T')[1].split('Z')[0]} required />
+                        <TimeInput name='expire_time' label='Expire Time' defaultValue={defaultValues?.time_expire.split('T')[1]?.slice(0, 5)} required />
                     </div>
                     
                 </div>
@@ -220,7 +220,7 @@ export async function JobFormInputs({ defaultValues }: { defaultValues?: GetJobP
                 <Input name='application_url' type='text' label='Application URL' defaultValue={defaultValues?.application_url} required />
                 <div className='flex flex-row gap-4'>
                     <DateInput name='deadline_date' label='Deadline Date' defaultValue={defaultValues?.application_deadline.split('T')[0]} required />
-                    <TimeInput name='deadline_time' label='Deadline Time' defaultValue={defaultValues?.application_deadline.split('T')[1].split('Z')[0]} required />
+                    <TimeInput name='deadline_time' label='Deadline Time' defaultValue={defaultValues?.application_deadline.split('T')[1]?.slice(0, 5)} required />
                 </div>
             </div>
             <div className='flex flex-col gap-4'>

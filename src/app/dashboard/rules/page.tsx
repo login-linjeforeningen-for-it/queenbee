@@ -20,9 +20,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
 
     return (
         <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden flex flex-col'>
-            <div className='h-[var(--h-pageInfo)] flex-none'>
+            <div className='flex-none'>
                 <h1 className='font-semibold text-lg'>Rules</h1>
-                <div className='flex justify-between pb-4'>
+                <div className='flex items-center justify-between py-3'>
                     <Search />
                     <div className='flex flex-row gap-[1rem]'>
                         <Button text='New rule' icon='+' path='rules/create' />
@@ -36,7 +36,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     </Alert>
                 </div> 
                 :
-                <div className='flex-1 pb-4 flex flex-col overflow-hidden'>
+                <div className='flex-1 flex flex-col overflow-hidden'>
                     <Table 
                         list={list.filter(item => !item.is_deleted)}
                         headers={['id', 'name_no', 'name_en']}

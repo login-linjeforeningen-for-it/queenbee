@@ -2,33 +2,33 @@
 
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
+import Label from './label'
 
 
 export default function Search() {
-    const router = useRouter()
-    const pathname = usePathname()
-    const searchParams = useSearchParams()
+    const router = useRouter(), pathname = usePathname(), searchParams = useSearchParams()
+    const [text, setText] = useState(searchParams?.get('q') ?? '')
 
-    const [text, setText] = useState(() => searchParams?.get('q') ?? '')
-
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setText(e.target.value)
-
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const val = e.target.value
+        setText(val)
         const params = new URLSearchParams(searchParams.toString())
-        params.set('q', e.target.value)
+        params.set('q', val)
         params.set('page', '1')
-
         router.push(pathname + '?' + params.toString())
     }
 
     return (
-        <div className='cursor-pointer bg-extralight rounded-md h-8 p-1 ml-1 flex justify-evenly items-center gap-2 select-none'>
-            <input 
-                className='px-2' 
-                placeholder='Filter' 
-                value={text} 
+        <div className='relative flex items-center'>
+            <input
+                name='search'
+                value={text}
                 onChange={handleChange}
+                type='text'
+                className='block px-2.5 pb-2 pt-3 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-almostbright focus:outline-none focus:ring-0 focus:border-bright peer' 
+                placeholder=''
             />
+            <Label label='Filter' value={text} required={false} showRequired={false} />
         </div>
     )
 }
