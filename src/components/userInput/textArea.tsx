@@ -21,9 +21,9 @@ export default function TextArea({width, height, onchange, placeholder, required
     return (
         <div style={{width, height}} className='flex flex-col gap-1'>
             <div className='grid grid-cols-2 gap-x-3 gap-y-1'>
-                <button className='bg-light border border-login rounded-sm aspect-square size-[1.5rem]'><b>B</b></button>
+                <button className='bg-login-600 border border-login rounded-sm aspect-square size-[1.5rem]'><b>B</b></button>
                 <div>Preview:</div>
-                <textarea   className='focus:outline-none w-full focus:ring-0 bg-light resize-none p-2 rounded-sm'
+                <textarea   className='focus:outline-none w-full focus:ring-0 bg-login-600 resize-none p-2 rounded-sm'
                     placeholder={placeholder+(required?'*':'')}
                     required={required}
                     onChange={(e)=>{
@@ -34,7 +34,7 @@ export default function TextArea({width, height, onchange, placeholder, required
                     onBlur={blur}
                     ref={inputRef}
                 />
-                <div className='bg-light p-2 rounded-sm'>
+                <div className='bg-login-600 p-2 rounded-sm'>
                     <MarkdownRender MDstr={markdown} />
                 </div>
             </div>

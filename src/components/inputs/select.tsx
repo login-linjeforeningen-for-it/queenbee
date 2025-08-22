@@ -49,7 +49,7 @@ export default function Select({ name, label, defaultValue, options, className, 
                     <select
                         ref={selectRef}
                         name={name}
-                        className='peer bg-normal block px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-almostbright focus:outline-none focus:ring-0 focus:border-bright cursor-pointer'
+                        className='peer bg-login-800 block px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-login-200 focus:outline-none focus:ring-0 focus:border-login-50 cursor-pointer'
                         value={selectedValue}
                         onChange={(e) => { setSelectedValue(e.target.value); setHasBlured(true) }}
                         onBlur={() => setHasBlured(true)}
@@ -70,10 +70,10 @@ export default function Select({ name, label, defaultValue, options, className, 
                     {!selectedValue && tooltip && <ToolTip info={tooltip} />}
 
                     <div className='hidden peer-focus:block absolute left-0 right-0 top-full mt-1 z-50'>
-                        <div className='bg-normal border-[0.10rem] border-almostbright rounded-lg shadow-lg p-0 max-h-72 overflow-hidden'>
+                        <div className='bg-login-800 border-[0.10rem] border-login-200 rounded-lg shadow-lg p-0 max-h-72 overflow-hidden'>
                             <div className='max-h-72 overflow-auto'>
                                 {selectedValue && (
-                                    <div className='sticky top-0 bg-surface px-2 py-2 z-10 border-b border-almostbright bg-light'>
+                                    <div className='sticky top-0 bg-surface px-2 py-2 z-10 border-b border-login-200 bg-login-600'>
                                         <div className='flex items-center gap-3'>
                                             {selectedOption?.image && (
                                                 <div className='overflow-hidden rounded w-24 h-10'>
@@ -97,7 +97,7 @@ export default function Select({ name, label, defaultValue, options, className, 
                                         <button
                                             key={opt.value}
                                             type='button'
-                                            className='cursor-pointer w-full flex items-center gap-3 px-2 py-2 text-sm hover:bg-surface rounded hover:bg-light'
+                                            className='cursor-pointer w-full flex items-center gap-3 px-2 py-2 text-sm hover:bg-surface rounded hover:bg-login-600'
                                             onMouseDown={(e) => { e.preventDefault(); handleChoose(opt.value) }}
                                         >
                                             {opt.image && (

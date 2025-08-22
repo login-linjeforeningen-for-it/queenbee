@@ -34,7 +34,7 @@ export default function page() {
                 <p className='text-muted-foreground text-base mt-1'>Send a notification to the Login App</p>
             </div>
             {result?.status && (
-                <div className={`rounded-md text-center mb-4 py-2 font-medium text-white ${result.status === 200 ? 'bg-green-500' : 'bg-red-500'}`}>
+                <div className={`rounded-md text-center mb-4 py-2 font-medium  ${result.status === 200 ? 'bg-green-500' : 'bg-red-500'}`}>
                     {result?.message}
                 </div>
             )}
@@ -57,7 +57,7 @@ export default function page() {
                     <Link
                         target='_blank'
                         href={`${config.url.CDN_URL}/files/misc/push_notifications.pdf`}
-                        className='bg-light text-foreground px-6 py-2 rounded-lg font-medium hover:bg-light/80 transition'
+                        className='bg-login-600 text-foreground px-6 py-2 rounded-lg font-medium hover:bg-login-600/80 transition'
                     >
                         Documentation
                     </Link>

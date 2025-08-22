@@ -67,17 +67,17 @@ export default function ThemeSwitch() {
 
             {showConfirmation && (
                 <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50'>
-                    <div className='bg-dark p-6 rounded-lg shadow-lg w-80 text-center'>
+                    <div className='bg-login-700 p-6 rounded-lg shadow-lg w-80 text-center'>
                         <p className='mb-4 text-lg font-semibold'>Have you put on your sunglasses?</p>
                         <div className='flex items-center justify-around'>
                             <button
                                 onClick={() => confirmToggle(theme === 'dark' ? 'light' : 'dark')}
-                                className='bg-red-500 text-white before:content-["Yes"] w-[2rem] h-[2rem] text-xs  rounded-sm hover:bg-red-600 hover:before:content-["Sure?"]'
+                                className='bg-red-500  before:content-["Yes"] w-[2rem] h-[2rem] text-xs  rounded-sm hover:bg-red-600 hover:before:content-["Sure?"]'
                             >
                             </button>
                             <button
                                 onClick={cancelToggle}
-                                className='bg-gray-500 text-white py-2 px-4 w-[14rem] rounded-lg hover:bg-gray-600'
+                                className='bg-gray-500  py-2 px-4 w-[14rem] rounded-lg hover:bg-gray-600'
                             >
                                 No
                             </button>
@@ -88,7 +88,7 @@ export default function ThemeSwitch() {
 
             {showExitPopup && (
                 <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50'>
-                    <div className='bg-dark p-6 rounded-lg shadow-lg w-80 text-center'>
+                    <div className='bg-login-700 p-6 rounded-lg shadow-lg w-80 text-center'>
                         <Image 
                             src={'/images/lightTheme.gif'}
                             width={500}
@@ -101,7 +101,7 @@ export default function ThemeSwitch() {
                                 onClick={() => {
                                     closeExitPopup()
                                 }}
-                                className='bg-red-500 text-white w-[2rem] h-[2rem] rounded-sm text-sm hover:bg-red-600'
+                                className='bg-red-500  w-[2rem] h-[2rem] rounded-sm text-sm hover:bg-red-600'
                             >
                                 Exit
                             </button>
@@ -111,7 +111,7 @@ export default function ThemeSwitch() {
                                     setTheme('dark')
                                     setShowExitPopup(false)
                                 }}
-                                className='bg-green-500 text-white py-2 px-4 w-[14rem] rounded-lg hover:bg-green-600'
+                                className='bg-green-500  py-2 px-4 w-[14rem] rounded-lg hover:bg-green-600'
                             >
                                 GO BACK!
                             </button>

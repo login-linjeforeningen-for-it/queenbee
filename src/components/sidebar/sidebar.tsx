@@ -53,12 +53,12 @@ export default function Sidebar() {
     }
 
     return (
-        <div className='h-full min-w-[var(--w-sidebar)] bg-sidebar flex flex-col pt-[0.5rem] overflow-hidden gap-[0.2rem]'>
+        <div className='h-full min-w-[var(--w-sidebar)] bg-login-900 flex flex-col pt-[0.5rem] overflow-hidden gap-[0.2rem]'>
             {Object.entries(paths).map(([, value], index) => (
                 <Link 
                     key={index}
                     href={value.path}
-                    className={`flex flex-row px-[1rem] items-center gap-[0.5rem] py-[0.8rem] hover:pl-[1.5rem] duration-[500ms] transition-[padding] ${path === value.path ? '*:stroke-login text-login pl-[1.2rem] bg-normal border-l-[0.3rem]' : '' } hover:*:stroke-login hover:text-login font-medium`}
+                    className={`flex flex-row px-[1rem] items-center gap-[0.5rem] py-[0.8rem] hover:pl-[1.5rem] duration-[500ms] transition-[padding] ${path === value.path ? '*:stroke-login text-login pl-[1.2rem] bg-login-800 border-l-[0.3rem]' : '' } hover:*:stroke-login hover:text-login font-medium`}
                 >
                     {value.image}
                     {value.name}

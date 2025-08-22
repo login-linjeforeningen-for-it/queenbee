@@ -24,7 +24,7 @@ export default function DateInput({ name, label, defaultValue, className, toolti
                 <input
                     type='date'
                     name={name}
-                    className='peer no-calendar bg-normal block px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-almostbright focus:outline-none focus:ring-0 focus:border-bright cursor-pointer'
+                    className='peer no-calendar bg-login-800 block px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-login-200 focus:outline-none focus:ring-0 focus:border-login-50 cursor-pointer'
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
                     onFocus={(e) => e.target.showPicker()}

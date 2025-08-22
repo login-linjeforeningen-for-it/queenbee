@@ -8,7 +8,7 @@ export default function TextInput({width, onchange, placeholder, required}: {wid
     const [isEmpty, setIsempty] = useState(false)
     const [inputLen, setInputLen] = useState(0)
     const labelClassNameBase = 'absolute left-3 '
-    const inputClassNameBase = 'bg-light p-3 pt-6 border-b focus:outline-none focus:ring-0 w-full '
+    const inputClassNameBase = 'bg-login-600 p-3 pt-6 border-b focus:outline-none focus:ring-0 w-full '
 
     function select(){
         if(labelRef.current && inputRef.current){
@@ -28,7 +28,7 @@ export default function TextInput({width, onchange, placeholder, required}: {wid
             else{
                 labelRef.current.className = labelClassNameBase+'top-2 text-xs'
                 labelRef.current.style.color = 'color-mix(in oklab, currentColor 50%, transparent)'
-                inputRef.current.className = inputClassNameBase+'border-almostbright'
+                inputRef.current.className = inputClassNameBase+'border-login-200'
             }
         }
     }
@@ -49,13 +49,13 @@ export default function TextInput({width, onchange, placeholder, required}: {wid
                     onInvalid={()=>{setIsempty(true)}}
                     type='text'
                     maxLength={50}
-                    className={inputClassNameBase+'border-almostbright'}>
+                    className={inputClassNameBase+'border-login-200'}>
                 </input>
                 <div ref={labelRef} style={{color: 'color-mix(in oklab, currentColor 50%, transparent)'}} className={labelClassNameBase+'top-0 h-full content-center'}>{placeholder+(required?'*':'')}</div>
             </div>
             <div className='flex'>
                 {isEmpty && <div className='text-red-500 text-xs'>This field is <b className='text-inherit'>requred</b></div>}
-                <div className='text-xs ml-auto text-forground text-almostbright'>{inputLen}/50</div>
+                <div className='text-xs ml-auto text-forground text-login-200'>{inputLen}/50</div>
             </div>
         </div>
     )

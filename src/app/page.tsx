@@ -18,7 +18,7 @@ export default async function Home() {
                 <p className='mt-2 text-foreground'>Queenbee - Admintool</p>
                 
                 <Link href={`${config.url.API_URL}/oauth2/login`} className='grid place-items-center'>
-                    <button className='flex align-middle gap-2 mt-2 rounded-lg bg-login px-8 py-1 text-white hover:bg-orange-500 mb-2'>
+                    <button className='flex align-middle gap-2 mt-2 rounded-lg bg-login px-8 py-1  hover:bg-orange-500 mb-2'>
                         Login
                         <LogIn className='w-5' />
                     </button>

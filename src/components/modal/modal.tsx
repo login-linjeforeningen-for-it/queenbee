@@ -16,7 +16,7 @@ export default function Modal({ display, children, close }: ModalProps) {
                     close()
                 }
             }}>
-            <div className='absolute bg-superlight bottom-[19.5px] right-4 h-[90.5vh] w-[84.1vw]'>
+            <div className='absolute bg-login-400 bottom-[19.5px] right-4 h-[90.5vh] w-[84.1vw]'>
                 {children}
             </div>
         </div>

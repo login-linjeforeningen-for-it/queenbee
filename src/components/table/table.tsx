@@ -58,7 +58,7 @@ function Header({keys, headers}: HeaderProps) {
     }
 
     return (
-        <thead className='bg-extralight h-[2rem]'>
+        <thead className='bg-login-500 h-[2rem]'>
             <tr>
                 {keys.map((key) => {
                     const value = key.length < 3 ? key.toUpperCase() : `${key[0].toUpperCase()}${key.slice(1).replaceAll('_', ' ')}`
@@ -79,7 +79,7 @@ function Header({keys, headers}: HeaderProps) {
                                     ) : (
                                         <ChevronDown className='h-[1.5rem]' />
                                     )
-                                ) : <ChevronUp className='h-[1.5rem] stroke-almostbright opacity-0 group-hover:opacity-100' />
+                                ) : <ChevronUp className='h-[1.5rem] stroke-login-200 opacity-0 group-hover:opacity-100' />
                                 }
                             </button>
                         </th>
@@ -103,8 +103,8 @@ function Body({list, headers, deleteAction}: BodyProps) {
         const id = String(entries[0][1])
 
         return (
-            <tbody key={index} className='bg-extralight h-[2rem]'>
-                <tr className='border-y-1 border-dark'>
+            <tbody key={index} className='bg-login-500 h-[2rem]'>
+                <tr className='border-y-1 border-login-900 '>
                     
                     {entries.map(([key, value]) => {
                         if (!headers.includes(key)) return null
@@ -124,28 +124,28 @@ function Body({list, headers, deleteAction}: BodyProps) {
                     <td className='p-[0.5rem]'>
                         <button
                             type='button'
-                            className={`mx-auto px-3 py-1.5 rounded hover:bg-superlight flex items-start justify-center ${openMenuId === id ? 'bg-superlight' : ''}`}
+                            className={`mx-auto px-3 py-1.5 rounded hover:bg-login-400 flex items-start justify-center ${openMenuId === id ? 'bg-login-400' : ''}`}
                             onClick={() => setOpenMenuId(openMenuId === id ? null : id)}
                         >
-                            <span className={`text-xl leading-none select-none ${openMenuId === id ? 'text-white/50' : ''}`}>⋮</span>
+                            <span className={`text-xl leading-none select-none ${openMenuId === id ? 'text-login-300' : ''}`}>⋮</span>
                         </button>
                         {openMenuId === id && (
-                            <div className='absolute right-0 mt-1 w-28 origin-top-right rounded-md bg-extralight border border-[color:var(--color-dark)] shadow-lg z-20'>
+                            <div className='absolute right-0 mt-1 w-28 origin-top-right rounded-md bg-login-500 border border-[color:var(--color-login-900 )] shadow-lg z-20'>
                                 <div className='py-1'>
                                     <button
-                                        className='w-full text-left px-3 py-1.5 text-sm hover:bg-superlight'
+                                        className='w-full text-left px-3 py-1.5 text-sm hover:bg-login-400'
                                         onClick={() => { setOpenMenuId(null); router.push(`${pathname}/update/${id}`) }}
                                     >
                                         Edit
                                     </button>
                                     <button
-                                        className='w-full text-left px-3 py-1.5 text-sm hover:bg-superlight'
+                                        className='w-full text-left px-3 py-1.5 text-sm hover:bg-login-400'
                                         onClick={() => { setOpenMenuId(null); router.push(`${pathname}/create/${id}`) }}
                                     >
                                         Duplicate
                                     </button>
                                     <button
-                                        className='w-full text-left px-3 py-1.5 text-sm text-[color:var(--color-delete)] hover:bg-superlight'
+                                        className='w-full text-left px-3 py-1.5 text-sm text-[color:var(--color-delete)] hover:bg-login-400'
                                         onClick={() => { setOpenMenuId(null); deleteAction(id); router.refresh() }}
                                     >
                                         Delete

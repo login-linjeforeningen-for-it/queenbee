@@ -84,7 +84,7 @@ export default function Pagination({ pageSize = 10, totalRows }: PaginationProps
 
     return (
         <div className='flex items-center justify-between w-full'>
-            <div className='text-sm text-bright/70'>
+            <div className='text-sm /70'>
                 {typeof totalRows === 'number' ? (
                     totalRows === 0 ? (
                         <span>Showing 0 results</span>
@@ -101,7 +101,7 @@ export default function Pagination({ pageSize = 10, totalRows }: PaginationProps
                     type='button'
                     onClick={goPrevious}
                     disabled={current <= 1}
-                    className='flex items-center gap-2 p-1 rounded-lg bg-light hover:bg-extralight disabled:opacity-50 border-[0.10rem] border-almostbright text-sm'
+                    className='flex items-center gap-2 p-1 rounded-lg bg-login-600 hover:bg-login-500 disabled:opacity-50 border-[0.10rem] border-login-200 text-sm'
                 >
                     <ChevronLeft className='h-5 w-5' />
                 </button>
@@ -120,8 +120,8 @@ export default function Pagination({ pageSize = 10, totalRows }: PaginationProps
                                 aria-current={p === current ? 'page' : undefined}
                                 className={`px-3 py-1 rounded-lg text-sm border-[0.10rem] ${
                                     p === current
-                                        ? 'bg-light border-bright'
-                                        : 'bg-white/0 border-almostbright hover:bg-superlight'
+                                        ? 'bg-login-600 border-login-50'
+                                        : 'bg-white/0 border-login-200 hover:bg-login-400'
                                 }`}
                             >
                                 {p}
@@ -134,7 +134,7 @@ export default function Pagination({ pageSize = 10, totalRows }: PaginationProps
                     type='button'
                     onClick={goNext}
                     disabled={current >= totalPages}
-                    className='flex items-center gap-2 p-1 rounded-lg bg-light hover:bg-extralight disabled:opacity-50 border-[0.10rem] border-almostbright text-sm'
+                    className='flex items-center gap-2 p-1 rounded-lg bg-login-600 hover:bg-login-500 disabled:opacity-50 border-[0.10rem] border-login-200 text-sm'
                 >
                     <ChevronRight className='h-5 w-5' />
                 </button>

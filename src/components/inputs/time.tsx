@@ -25,7 +25,7 @@ export default function TimeInput({ name, label, defaultValue, className, toolti
                 <input
                     type='time'
                     name={name}
-                    className='peer block px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-almostbright focus:outline-none focus:ring-0 focus:border-bright peer'
+                    className='peer block px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-login-200 focus:outline-none focus:ring-0 focus:border-login-50 peer'
                     value={timeValue}
                     onChange={(e) => setTimeValue(e.target.value)}
                     onBlur={() => setHasBlured(true)}

@@ -13,12 +13,12 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
     const theme = Cookies.get('theme')?.value || 'dark'
     return (
         <html lang='en' className={`${theme} h-full`}>
-            <body className='bg-dark h-full flex flex-col'>
+            <body className='bg-login-700 h-full flex flex-col'>
                 <header className='h-[var(--h-navbar)]'>
                     <Nav />
                 </header>
                 <main className='flex flex-1 overflow-hidden'>
-                    <div className='w-full bg-normal'>
+                    <div className='w-full bg-login-800'>
                         {children}
                     </div>
                 </main>

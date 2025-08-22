@@ -56,10 +56,10 @@ export default function TagInput({ name, label, defaultValue = [], className, to
 
     return (
         <div className={`w-full ${className}`}>
-            <div className='relative flex items-center flex-wrap gap-1 min-h-[3rem] border-[0.10rem] border-almostbright rounded-lg px-2.5 pt-4 pb-2.5 bg-normal'>
+            <div className='relative flex items-center flex-wrap gap-1 min-h-[3rem] border-[0.10rem] border-login-200 rounded-lg px-2.5 pt-4 pb-2.5 bg-login-800'>
                 <div className='flex flex-wrap gap-1 items-center w-full'>
                     {tags.map((tag, idx) => (
-                        <span key={tag + idx} className='bg-light text-sm rounded px-2 py-0.75 flex items-center gap-0.5'>
+                        <span key={tag + idx} className='bg-login-600 text-sm rounded px-2 py-0.75 flex items-center gap-0.5'>
                             {tag}
                             <button type='button' className='ml-1 text-red-700 hover:text-red-800' onClick={() => removeTag(idx)}><X className='h-4 stroke-3' /></button>
                         </span>

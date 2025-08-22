@@ -25,7 +25,7 @@ export default function Search() {
                 value={text}
                 onChange={handleChange}
                 type='text'
-                className='block px-2.5 pb-2 pt-3 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-almostbright focus:outline-none focus:ring-0 focus:border-bright peer' 
+                className='block px-2.5 pb-2 pt-3 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-login-200 focus:outline-none focus:ring-0 focus:border-login-50 peer' 
                 placeholder=''
             />
             <Label label='Filter' value={text} required={false} showRequired={false} />
