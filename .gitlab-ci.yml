@@ -12,6 +12,18 @@ build:
     - |
       if [[ "$CI_COMMIT_TAG" =~ -dev$ ]]; then
         BASE_URL="https://queenbee-api-dev.login.no/v1"
+        TYPE="testgitlab"
+        PROJECT_ID="testgitlab"
+        PRIVATE_KEY_ID="testgitlab"
+        PRIVATE_KEY="testgitlab"
+        CLIENT_EMAIL="testgitlab"
+        CLIENT_ID="testgitlab"
+        AUTH_URI="testgitlab"
+        TOKEN_URI="testgitlab"
+        AUTH_CERT_URL="testgitlab"
+        CLIENT_CERT_URL="testgitlab"
+        UNIVERSE_DOMAIN="testgitlab"
+        GITLAB_MESSAGE="This variable is defined in the Gitlab Pipeline editor for QueenBee. Whatever is missing must be audited there."
         echo "Building in development environment"
       else
         BUILD_ENV="https://queenbee-api.login.no/v1"
