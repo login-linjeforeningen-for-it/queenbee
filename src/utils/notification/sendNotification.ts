@@ -21,19 +21,32 @@ const {
 } = process.env
 
 if (
-    !TYPE 
-    || !PROJECT_ID 
-    || !PRIVATE_KEY_ID 
-    || !PRIVATE_KEY 
-    || !CLIENT_EMAIL
-    || !CLIENT_ID
-    || !AUTH_URI 
-    || !TOKEN_URI 
-    || !AUTH_CERT_URL 
-    || !CLIENT_CERT_URL
-    || !UNIVERSE_DOMAIN
+    !TYPE ||
+    !PROJECT_ID ||
+    !PRIVATE_KEY_ID ||
+    !PRIVATE_KEY ||
+    !CLIENT_EMAIL ||
+    !CLIENT_ID ||
+    !AUTH_URI ||
+    !TOKEN_URI ||
+    !AUTH_CERT_URL ||
+    !CLIENT_CERT_URL ||
+    !UNIVERSE_DOMAIN
 ) {
-    throw new Error('Missing essential environment variables in serviceAccount.')
+    throw new Error(
+        'Missing essential environment variables in serviceAccount:\n' +
+        `TYPE: ${TYPE}\n` +
+        `PROJECT_ID: ${PROJECT_ID}\n` +
+        `PRIVATE_KEY_ID: ${PRIVATE_KEY_ID}\n` +
+        `PRIVATE_KEY: ${PRIVATE_KEY}\n` +
+        `CLIENT_EMAIL: ${CLIENT_EMAIL}\n` +
+        `CLIENT_ID: ${CLIENT_ID}\n` +
+        `AUTH_URI: ${AUTH_URI}\n` +
+        `TOKEN_URI: ${TOKEN_URI}\n` +
+        `AUTH_CERT_URL: ${AUTH_CERT_URL}\n` +
+        `CLIENT_CERT_URL: ${CLIENT_CERT_URL}\n` +
+        `UNIVERSE_DOMAIN: ${UNIVERSE_DOMAIN}\n`
+    )
 }
 
 type sendNotificationProps = {
