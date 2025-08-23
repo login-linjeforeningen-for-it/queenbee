@@ -1,10 +1,6 @@
-import dotenv from 'dotenv'
 import { ServiceAccount, initializeApp } from 'firebase-admin/app'
 import admin from 'firebase-admin'
 import { Message, getMessaging } from 'firebase-admin/messaging'
-
-// Configures the environment variables
-dotenv.config()
 
 const { 
     TYPE,
