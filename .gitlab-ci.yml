@@ -23,10 +23,11 @@ build:
         AUTH_CERT_URL="testgitlab"
         CLIENT_CERT_URL="testgitlab"
         UNIVERSE_DOMAIN="testgitlab"
-        GITLAB_MESSAGE="This variable is defined in the Gitlab Pipeline editor for QueenBee. Whatever is missing must be audited there."
+        GITLAB_MESSAGE="This variable is defined in the Gitlab Pipeline editor for QueenBee. Whatever is missing must be audited there. (dev env)"
         echo "Building in development environment"
       else
         BUILD_ENV="https://queenbee-api.login.no/v1"
+        GITLAB_MESSAGE="This variable is defined in the Gitlab Pipeline editor for QueenBee. Whatever is missing must be audited there. (prod env)"
         echo "Building in production environment"
       fi
     - /kaniko/executor
