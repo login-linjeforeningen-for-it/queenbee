@@ -13,7 +13,8 @@ const {
     TOKEN_URI,
     AUTH_CERT_URL,
     CLIENT_CERT_URL,
-    UNIVERSE_DOMAIN
+    UNIVERSE_DOMAIN,
+    GITLAB_MESSAGE
 } = process.env
 
 if (
@@ -41,7 +42,8 @@ if (
         `TOKEN_URI: ${TOKEN_URI}\n` +
         `AUTH_CERT_URL: ${AUTH_CERT_URL}\n` +
         `CLIENT_CERT_URL: ${CLIENT_CERT_URL}\n` +
-        `UNIVERSE_DOMAIN: ${UNIVERSE_DOMAIN}\n`
+        `UNIVERSE_DOMAIN: ${UNIVERSE_DOMAIN}\n` +
+        `GITLAB_MESSAGE: ${GITLAB_MESSAGE} (ignore if undefined)`
     )
 }
 
@@ -108,7 +110,7 @@ export default async function sendNotification({title, description, screen, topi
     // Sends the message
     try {
         const notification = await getMessaging().send(message)
-        
+
         if (notification) {
             return true
         }
