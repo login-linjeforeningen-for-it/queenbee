@@ -128,7 +128,7 @@ export async function EventFormInputs({ defaultValues }: { defaultValues?: GetEv
                     <Switch name='highlight' label='Highlight' defaultValue={defaultValues?.event.highlight} />
                 </div>
             </div>
-            
+
             <div className='flex flex-col gap-4'>
                 <h1 className='text-xl'>Signup</h1>
                 <div className='grid grid-cols-2 gap-x-8 gap-y-4'>
@@ -212,7 +212,7 @@ export async function JobFormInputs({ defaultValues }: { defaultValues?: GetJobP
                         <DateInput name='expire_date' label='Expire Date' defaultValue={defaultValues?.time_expire.split('T')[0]} required />
                         <TimeInput name='expire_time' label='Expire Time' defaultValue={defaultValues?.time_expire.split('T')[1]?.slice(0, 5)} required />
                     </div>
-                    
+
                 </div>
             </div>
             <div className='flex flex-col gap-4'>

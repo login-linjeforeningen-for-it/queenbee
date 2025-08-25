@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react'
 
-export default function TextInput({width, onchange, placeholder, required}: {width: string | number, onchange?: (e: React.ChangeEvent<HTMLInputElement>)=>void, placeholder: string, required?: boolean}) {
+export default function TextInput({width, onchange, placeholder, required}: {width: string | number, onchange?: (e: React.ChangeEvent<HTMLInputElement>) => void, placeholder: string, required?: boolean}) {
     const labelRef = useRef<HTMLDivElement | null>(null)
     const inputRef = useRef<HTMLInputElement | null>(null)
     const [isEmpty, setIsempty] = useState(false)

@@ -5,7 +5,7 @@ const baseUrl = config.url.API_URL
 // Events
 export async function getEvents(limit: number | number = 10, offset: number | number = 0): Promise<GetEventsProps | string> {
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
-    
+
     const path = `${config.beehiveApi.EVENTS_PATH}?${queryParts.toString()}`
     return await getWrapper(path)
 }
@@ -76,7 +76,7 @@ export async function getEventSmallImages(): Promise<GetImageProps | string> {
 // Jobs
 export async function getJobs(limit: number | number = 10, offset: number | number = 0) {
     const queryParts = new URLSearchParams({ limit: String(limit), offset: String(offset) })
-    
+
     const path = `${config.beehiveApi.JOBADS_PATH}?${queryParts.toString()}`
     return await getWrapper(path)
 }
@@ -226,7 +226,7 @@ async function getWrapper(path: string, options = {}) {
         if (!response.ok) {
             throw new Error(await response.json())
         }
-        
+
         const data = await response.json()
         return data
     // eslint-disable-next-line
@@ -250,7 +250,7 @@ async function postWrapper(path: string, data = {}) {
         if (!response.ok) {
             throw new Error(await response.json())
         }
-        
+
         const data = await response.json()
         return data
     // eslint-disable-next-line

@@ -17,7 +17,7 @@ export default function Pagination({ pageSize = 10, totalRows }: PaginationProps
     const rawPage = parseInt(searchParams.get('page') || '1', 10)
     const initialPage = Math.max(1, Number.isNaN(rawPage) ? 1 : rawPage)
     const [current, setCurrent] = useState<number>(initialPage)
-    
+
 
     useEffect(() => {
         const raw = parseInt(searchParams.get('page') || '1', 10)

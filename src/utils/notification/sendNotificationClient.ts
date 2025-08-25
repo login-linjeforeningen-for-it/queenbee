@@ -29,7 +29,7 @@ export default async function sendNotificationClient({title, description, screen
                 message: `Error sending notification: ${JSON.stringify(data.error)}`
             }
         }
-    } catch (err) {
+    } catch(err) {
         return {
             status: 500,
             message: `Request failed: ${JSON.stringify(err)}`

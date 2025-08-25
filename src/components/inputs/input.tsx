@@ -27,7 +27,7 @@ export default function Input({name, type, label, defaultValue, className, toolt
                     onChange={(e) => setValue(e.target.value)}
                     onBlur={() => setHasBlured(true)}
                     type={type}
-                    className='block px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-login-200 focus:outline-none focus:ring-0 focus:border-login-50 peer' 
+                    className='block px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-login-200 focus:outline-none focus:ring-0 focus:border-login-50 peer'
                     placeholder=''
                     required={required}
                 />

@@ -30,9 +30,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     const filters = await searchParams
     // const search = typeof filters.q === 'string' ? filters.q : ''
     // const page = typeof filters.page === 'string' ? Number(filters.page) : 1
-    
+
     const cookieLocation = cookieStore.get('location')?.value
-    const activeType = 
+    const activeType =
         typeof cookieLocation === 'string' && Object.values(Location).includes(cookieLocation as Location)
             ? cookieLocation as Location
             : typeof filters.t === 'string' && Object.values(Location).includes(filters.t as Location)
@@ -62,7 +62,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     <Alert>
                         {typeof list === 'string' ? list : 'No locations found'}
                     </Alert>
-                </div> 
+                </div>
                 :
                 <div className='flex-1 flex flex-col overflow-hidden'>
                     {activeType === Location.Address        && <Table list={list.filter(item => !item.is_deleted)} headers={['id', 'name_no', 'address_street', 'address_postcode', 'city_name', 'url', 'updated_at']} deleteAction={deleteAction} />}

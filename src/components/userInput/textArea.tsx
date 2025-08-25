@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import MarkdownRender from './markdownRender'
 
-export default function TextArea({width, height, onchange, placeholder, required}: {width: string | number, height: string | number, onchange?: (e: React.ChangeEvent<HTMLTextAreaElement>)=>void, placeholder: string, required?: boolean}) {
+export default function TextArea({width, height, onchange, placeholder, required}: {width: string | number, height: string | number, onchange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void, placeholder: string, required?: boolean}) {
     const [markdown, setMarkdown] = useState('')
     const [isEmpty, setIsempty] = useState(false)
     const inputRef = useRef<HTMLTextAreaElement | null>(null)

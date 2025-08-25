@@ -15,7 +15,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     // const filters = await searchParams
     // const search = typeof filters.q === 'string' ? filters.q : ''
     // const page = typeof filters.page === 'string' ? Number(filters.page) : 1
-    
+
     const list = await getEvents()
 
     return (
@@ -34,10 +34,10 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     <Alert>
                         {typeof list === 'string' ? list : 'No events found'}
                     </Alert>
-                </div> 
+                </div>
                 :
                 <div className='flex-1 flex flex-col overflow-hidden'>
-                    <Table 
+                    <Table
                         list={list.filter(item => !item.is_deleted)}
                         headers={['id', 'name_no', 'name_en', 'category', 'location', 'time_type', 'start_time', 'end_time', 'publish_time', 'capacity', 'full', 'canceled', 'updated_at']}
                         deleteAction={deleteAction}

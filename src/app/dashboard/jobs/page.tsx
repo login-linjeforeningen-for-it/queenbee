@@ -34,11 +34,11 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     <Alert>
                         {typeof list === 'string' ? list : 'No jobs found'}
                     </Alert>
-                </div> 
+                </div>
                 :
                 <div className='flex-1 flex flex-col overflow-hidden'>
-                    <Table 
-                        list={list.filter(item => !item.is_deleted)} 
+                    <Table
+                        list={list.filter(item => !item.is_deleted)}
                         headers={['id', 'name_no', 'title_no', 'job_type', 'time_publish', 'application_deadline', 'application_url', 'updated_at', 'visible']}
                         deleteAction={deleteAction}
                     />

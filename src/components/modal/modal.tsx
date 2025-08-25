@@ -1,7 +1,7 @@
-type ModalProps = { 
-   display: boolean
-   children: React.ReactNode
-   close: () => void
+type ModalProps = {
+    display: boolean
+    children: React.ReactNode
+    close: () => void
 }
 
 export default function Modal({ display, children, close }: ModalProps) {

@@ -43,10 +43,10 @@ export async function createEvent(prevState: FormState, formData: FormData): Pro
         if (!result.success) {
             return z.prettifyError(result.error)
         }
-        
+
         const response = await postEvent(eventProps)
         return response
-    } catch (error) {
+    } catch(error) {
         console.error('Error creating event:', error)
         throw error
     }
@@ -90,16 +90,16 @@ export async function updateEvent(prevState: FormState, formData: FormData): Pro
         if (!result.success) {
             return z.prettifyError(result.error)
         }
-        
+
         const response = await patchEvent(eventProps)
         return response
-    } catch (error) {
+    } catch(error) {
         console.error('Error updating event:', error)
         throw error
     }
 }
 
-export async function createJob(prevState: FormState, formData: FormData): Promise<FormState> { 
+export async function createJob(prevState: FormState, formData: FormData): Promise<FormState> {
     try {
         const jobProps: PostJobProps = {
             application_deadline: formData.get('deadline_date') && formData.get('deadline_time') ? `${formData.get('deadline_date')}T${formData.get('deadline_time')}:00Z` : '',
@@ -128,7 +128,7 @@ export async function createJob(prevState: FormState, formData: FormData): Promi
 
         const response = await postJob(jobProps)
         return response
-    } catch (error) {
+    } catch(error) {
         console.error('Error creating job:', error)
         throw error
     }
@@ -164,7 +164,7 @@ export async function updateJob(prevState: FormState, formData: FormData): Promi
 
         const response = await patchJob(jobProps)
         return response
-    } catch (error) {
+    } catch(error) {
         console.error('Error updating job:', error)
         throw error
     }
@@ -193,7 +193,7 @@ export async function createOrganization(prevState: FormState, formData: FormDat
 
         const response = await postOrganization(organizationProps)
         return response
-    } catch (error) {
+    } catch(error) {
         console.error('Error creating organization:', error)
         throw error
     }
@@ -222,7 +222,7 @@ export async function updateOrganization(prevState: FormState, formData: FormDat
 
         const response = await patchOrganization(organizationProps.shortname, organizationProps)
         return response
-    } catch (error) {
+    } catch(error) {
         console.error('Error updating organization:', error)
         throw error
     }
@@ -251,7 +251,7 @@ export async function createLocation(prevState: FormState, formData: FormData): 
 
         const response = await postLocation(locationProps)
         return response
-    } catch (error) {
+    } catch(error) {
         console.error('Error creating location:', error)
         throw error
     }
@@ -281,7 +281,7 @@ export async function updateLocation(prevState: FormState, formData: FormData): 
 
         const response = await patchLocation(locationProps)
         return response
-    } catch (error) {
+    } catch(error) {
         console.error('Error updating location:', error)
         throw error
     }
@@ -303,7 +303,7 @@ export async function createRule(prevState: FormState, formData: FormData): Prom
 
         const response = await postRule(ruleProps)
         return response
-    } catch (error) {
+    } catch(error) {
         console.error('Error creating rule:', error)
         throw error
     }
@@ -326,7 +326,7 @@ export async function updateRule(prevState: FormState, formData: FormData): Prom
 
         const response = await patchRule(ruleProps)
         return response
-    } catch (error) {
+    } catch(error) {
         console.error('Error updating rule:', error)
         throw error
     }

@@ -12,7 +12,7 @@ type TableProps = {
 
 type HeaderProps = {
     keys: string[]
-    headers : string[]
+    headers: string[]
 }
 
 type BodyProps = {
@@ -105,12 +105,12 @@ function Body({list, headers, deleteAction}: BodyProps) {
         return (
             <tbody key={index} className='bg-login-500 h-[2rem]'>
                 <tr className='border-y-1 border-login-900 '>
-                    
+
                     {entries.map(([key, value]) => {
                         if (!headers.includes(key)) return null
                         return (
-                            <td 
-                                key={key} 
+                            <td
+                                key={key}
                                 className='p-[0.5rem]'
                             >
                                 <div className='relative group'>

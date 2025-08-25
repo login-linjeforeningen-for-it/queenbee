@@ -34,10 +34,10 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     <Alert>
                         {typeof list === 'string' ? list : 'No rules found'}
                     </Alert>
-                </div> 
+                </div>
                 :
                 <div className='flex-1 flex flex-col overflow-hidden'>
-                    <Table 
+                    <Table
                         list={list.filter(item => !item.is_deleted)}
                         headers={['id', 'name_no', 'name_en']}
                         deleteAction={deleteAction}

@@ -2,7 +2,7 @@ import { ServiceAccount, initializeApp } from 'firebase-admin/app'
 import admin from 'firebase-admin'
 import { Message, getMessaging } from 'firebase-admin/messaging'
 
-const { 
+const {
     TYPE,
     PROJECT_ID,
     PRIVATE_KEY_ID,
@@ -96,7 +96,7 @@ export default async function sendNotification({title, description, screen, topi
 
     // Provide screen as data parameter if the id is defined
     const data: Data = screen && screen.id ? screen : {}
-    
+
     // Defines the message to be sent
     const message: Message = {
         topic: topic,
@@ -106,7 +106,7 @@ export default async function sendNotification({title, description, screen, topi
         },
         data: data
     }
-    
+
     // Sends the message
     try {
         const notification = await getMessaging().send(message)
@@ -115,7 +115,7 @@ export default async function sendNotification({title, description, screen, topi
             return true
         }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
+    } catch(error) {
         return false
     }
 

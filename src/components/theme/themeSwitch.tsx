@@ -89,7 +89,7 @@ export default function ThemeSwitch() {
             {showExitPopup && (
                 <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50'>
                     <div className='bg-login-700 p-6 rounded-lg shadow-lg w-80 text-center'>
-                        <Image 
+                        <Image
                             src={'/images/lightTheme.gif'}
                             width={500}
                             height={500}

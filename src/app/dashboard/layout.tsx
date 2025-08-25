@@ -15,7 +15,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             <div className='relative p-4 w-full h-full bg-login-800 overflow-scroll'>
                 {children}
             </div>
-            <Toaster 
+            <Toaster
                 position='bottom-right'
                 style={{
                     '--normal-bg': '#121212',
