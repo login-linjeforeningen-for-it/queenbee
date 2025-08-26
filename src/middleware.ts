@@ -44,6 +44,7 @@ async function tokenIsValid(req: NextRequest, token: string): Promise<boolean> {
     })
 
     if (!authResponse.ok) {
+        console.error(await authResponse.text())
         NextResponse.redirect(new URL('/logout', req.url))
         return false
     }
