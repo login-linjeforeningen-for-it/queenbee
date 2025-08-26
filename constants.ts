@@ -1,5 +1,6 @@
+import packageInfo from './package.json'
+
 const { API_URL, CDN_URL } = process.env
-const { version } = require('./package.json')
 
 const config = {
     url: {
@@ -20,7 +21,6 @@ const config = {
         RULES_PATH: '/rules/',
         LOCATIONS_PATH: '/locations/',
         IMAGES_PATH: '/images',
-        SECRET: 'secret', // Cosmic secret, quite strong password
     },
     time: {
         TIME_UNSET: '0001-01-01T00:00:00Z',
@@ -39,7 +39,6 @@ const config = {
         SUMMER: 'summer',
         VERV: 'verv'
     },
-    version
+    version: packageInfo.version
 }
-
 export default config
