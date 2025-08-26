@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string,
     if (id) {
         const organization = await getOrganization(id[0])
         if (typeof organization === 'object' && Object.keys(organization).length > 0) {
-            if(slug === 'create') {
+            if (slug === 'create') {
                 return (
                     <FormWrapper name='organization' type='create' formAction={createOrganization}>
                         <OrganizationFormInputs defaultValues={organization} />

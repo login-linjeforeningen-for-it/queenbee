@@ -11,7 +11,7 @@ export default function TextInput({width, onchange, placeholder, required}: {wid
     const inputClassNameBase = 'bg-login-600 p-3 pt-6 border-b focus:outline-none focus:ring-0 w-full '
 
     function select(){
-        if(labelRef.current && inputRef.current){
+        if (labelRef.current && inputRef.current){
             labelRef.current.className = labelClassNameBase+'top-2 text-xs text-login'
             labelRef.current.style.color = ''
             inputRef.current.className = inputClassNameBase+'border-login'
@@ -44,7 +44,9 @@ export default function TextInput({width, onchange, placeholder, required}: {wid
                     onChange={(e)=>{
                         setInputLen(e.target.value.length)
                         setIsempty(false)
-                        if(onchange) onchange(e)
+                        if (onchange) {
+                            onchange(e)
+                        }
                     }}
                     onInvalid={()=>{setIsempty(true)}}
                     type='text'

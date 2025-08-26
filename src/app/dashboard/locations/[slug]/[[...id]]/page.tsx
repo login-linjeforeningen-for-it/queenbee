@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string,
     if (id) {
         const location = await getLocation(Number(id[0]))
         if (typeof location === 'object' && Object.keys(location).length > 0) {
-            if(slug === 'create') {
+            if (slug === 'create') {
                 return (
                     <FormWrapper name='location' type='create' formAction={createLocation}>
                         <LocationFormInputs defaultValues={location} />

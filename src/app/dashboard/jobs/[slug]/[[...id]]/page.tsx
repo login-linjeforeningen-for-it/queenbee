@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string,
     if (id) {
         const job = await getJob(Number(id[0]))
         if (typeof job === 'object' && Object.keys(job).length > 0) {
-            if(slug === 'create') {
+            if (slug === 'create') {
                 return (
                     <FormWrapper name='job' type='create' formAction={createJob}>
                         <JobFormInputs defaultValues={job} />

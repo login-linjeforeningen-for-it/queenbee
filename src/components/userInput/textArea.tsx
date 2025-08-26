@@ -27,9 +27,13 @@ export default function TextArea({width, height, onchange, placeholder, required
                     placeholder={placeholder+(required?'*':'')}
                     required={required}
                     onChange={(e)=>{
-                        if(e.target.value.length != 0) setIsempty(false)
+                        if (e.target.value.length != 0) {
+                            setIsempty(false)
+                        }
                         setMarkdown(e.target.value)
-                        if(onchange) onchange(e)
+                        if (onchange) {
+                            onchange(e)
+                        }
                     }}
                     onBlur={blur}
                     ref={inputRef}

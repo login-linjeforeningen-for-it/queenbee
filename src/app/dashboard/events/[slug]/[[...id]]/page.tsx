@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string,
     if (id) {
         const event = await getEvent(Number(id[0]))
         if (typeof event === 'object' && Object.keys(event).length > 0) {
-            if(slug === 'create') {
+            if (slug === 'create') {
                 return (
                     <FormWrapper name='event' type='create' formAction={createEvent}>
                         <EventFormInputs defaultValues={event} />
