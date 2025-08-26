@@ -1,8 +1,0 @@
-/* Styles for the sidebar */
-
-.sidebar {
-  padding-top: 0.5rem;
-  background-color: var(--color-navbar);
-  width: 100%;
-  height: 100%;
-}
