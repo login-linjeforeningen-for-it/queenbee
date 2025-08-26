@@ -1,9 +1,10 @@
 import packageInfo from './package.json'
 
-const { API_URL, CDN_URL } = process.env
+const { API_URL, NEXT_PUBLIC_BROWSER_API, CDN_URL } = process.env
 
 const config = {
     url: {
+        NEXT_PUBLIC_BROWSER_API: NEXT_PUBLIC_BROWSER_API || 'https://queenbee-api.login.no/v1',
         API_URL: API_URL || 'https://queenbee-api.login.no/v1',
         CDN_URL: CDN_URL || 'https://cdn.login.no'
     },
