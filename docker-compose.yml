@@ -7,8 +7,8 @@ services:
     ports:
       - "3001:3000"
     environment:
-      BASE_URL: "https://queenbee-api.login.no/v1"
-      TYPE: "test"
+      API_URL: ${API_URL}
+      TYPE: ${TYPE}
       PROJECT_ID: ${PROJECT_ID}
       PRIVATE_KEY_ID: ${PRIVATE_KEY_ID}
       PRIVATE_KEY: ${PRIVATE_KEY}

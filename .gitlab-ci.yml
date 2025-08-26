@@ -11,7 +11,7 @@ build:
   script:
     - |
       if [[ "$CI_COMMIT_TAG" =~ -dev$ ]]; then
-        BASE_URL="https://queenbee-api-dev.login.no/v1"
+        API_URL$API_URL
         TYPE=$TYPE
         PROJECT_ID=$PROJECT_ID
         PRIVATE_KEY_ID=$PRIVATE_KEY_ID
