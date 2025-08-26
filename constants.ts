@@ -1,12 +1,55 @@
 import packageInfo from './package.json'
 
-const { API_URL, NEXT_PUBLIC_BROWSER_API, CDN_URL } = process.env
+const requiredEnvironmentVariables = [
+    'API_URL',
+    'NEXT_PUBLIC_BROWSER_API',
+    'CDN_URL',
+    'TYPE',
+    'PROJECT_ID',
+    'PRIVATE_KEY_ID',
+    'PRIVATE_KEY',
+    'CLIENT_EMAIL',
+    'CLIENT_ID',
+    'AUTH_URI',
+    'TOKEN_URI',
+    'AUTH_CERT_URL',
+    'CLIENT_CERT_URL',
+    'UNIVERSE_DOMAIN',
+    'GITLAB_MESSAGE'
+]
+
+const missingVariables = requiredEnvironmentVariables.filter(key => !process.env[key])
+
+if (missingVariables.length > 0) {
+    throw new Error(
+        'Missing essential environment variables:\n' +
+        missingVariables.map(key => `${key}: ${process.env[key] || 'undefined'}`).join('\n')
+    )
+}
+
+const env = Object.fromEntries(
+    requiredEnvironmentVariables.map(key => [key, process.env[key]])
+)
 
 const config = {
     url: {
-        NEXT_PUBLIC_BROWSER_API: NEXT_PUBLIC_BROWSER_API || 'https://queenbee-api.login.no/v1',
-        API_URL: API_URL || 'https://queenbee-api.login.no/v1',
-        CDN_URL: CDN_URL || 'https://cdn.login.no'
+        NEXT_PUBLIC_BROWSER_API: env.NEXT_PUBLIC_BROWSER_API || 'https://queenbee-api.login.no/v1',
+        API_URL: env.API_URL || 'https://queenbee-api.login.no/v1',
+        CDN_URL: env.CDN_URL || 'https://cdn.login.no'
+    },
+    firebase: {
+        TYPE: env.TYPE,
+        PROJECT_ID: env.PROJECT_ID,
+        PRIVATE_KEY_ID: env.PRIVATE_KEY_ID,
+        PRIVATE_KEY: env.PRIVATE_KEY,
+        CLIENT_EMAIL: env.CLIENT_EMAIL,
+        CLIENT_ID: env.CLIENT_ID,
+        AUTH_URI: env.AUTH_URI,
+        TOKEN_URI: env.TOKEN_URI,
+        AUTH_CERT_URL: env.AUTH_CERT_URL,
+        CLIENT_CERT_URL: env.CLIENT_CERT_URL,
+        UNIVERSE_DOMAIN: env.UNIVERSE_DOMAIN,
+        GITLAB_MESSAGE: env.GITLAB_MESSAGE
     },
     beehiveApi: {
         EVENTS_PATH: '/events/',
@@ -42,4 +85,5 @@ const config = {
     },
     version: packageInfo.version
 }
+
 export default config

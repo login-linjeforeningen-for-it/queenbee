@@ -1,51 +1,7 @@
 import { ServiceAccount, initializeApp } from 'firebase-admin/app'
 import admin from 'firebase-admin'
 import { Message, getMessaging } from 'firebase-admin/messaging'
-
-const {
-    TYPE,
-    PROJECT_ID,
-    PRIVATE_KEY_ID,
-    PRIVATE_KEY,
-    CLIENT_EMAIL,
-    CLIENT_ID,
-    AUTH_URI,
-    TOKEN_URI,
-    AUTH_CERT_URL,
-    CLIENT_CERT_URL,
-    UNIVERSE_DOMAIN,
-    GITLAB_MESSAGE
-} = process.env
-
-if (
-    !TYPE ||
-    !PROJECT_ID ||
-    !PRIVATE_KEY_ID ||
-    !PRIVATE_KEY ||
-    !CLIENT_EMAIL ||
-    !CLIENT_ID ||
-    !AUTH_URI ||
-    !TOKEN_URI ||
-    !AUTH_CERT_URL ||
-    !CLIENT_CERT_URL ||
-    !UNIVERSE_DOMAIN
-) {
-    throw new Error(
-        'Missing essential environment variables in serviceAccount:\n' +
-        `TYPE: ${TYPE}\n` +
-        `PROJECT_ID: ${PROJECT_ID}\n` +
-        `PRIVATE_KEY_ID: ${PRIVATE_KEY_ID}\n` +
-        `PRIVATE_KEY: ${PRIVATE_KEY}\n` +
-        `CLIENT_EMAIL: ${CLIENT_EMAIL}\n` +
-        `CLIENT_ID: ${CLIENT_ID}\n` +
-        `AUTH_URI: ${AUTH_URI}\n` +
-        `TOKEN_URI: ${TOKEN_URI}\n` +
-        `AUTH_CERT_URL: ${AUTH_CERT_URL}\n` +
-        `CLIENT_CERT_URL: ${CLIENT_CERT_URL}\n` +
-        `UNIVERSE_DOMAIN: ${UNIVERSE_DOMAIN}\n` +
-        `GITLAB_MESSAGE: ${GITLAB_MESSAGE} (ignore if undefined)`
-    )
-}
+import config from '@config'
 
 type sendNotificationProps = {
     title: string
@@ -66,19 +22,7 @@ type Data = {} | DetailedEventStr
 // Initialize the Firebase Admin SDK with the service account
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const app = initializeApp({
-    credential: admin.credential.cert({
-        type: TYPE,
-        project_id: PROJECT_ID,
-        private_key_id: PRIVATE_KEY_ID,
-        private_key: PRIVATE_KEY,
-        client_email: CLIENT_EMAIL,
-        client_id: CLIENT_ID,
-        auth_uri: AUTH_URI,
-        token_uri: TOKEN_URI,
-        auth_provider_x509_cert_url: AUTH_CERT_URL,
-        client_x509_cert_url: CLIENT_CERT_URL,
-        universe_domain: UNIVERSE_DOMAIN
-    } as ServiceAccount)
+    credential: admin.credential.cert({ ...config.firebase } as ServiceAccount)
 })
 
 /**
@@ -88,7 +32,7 @@ const app = initializeApp({
  * @param screen   Event to navigate to in the app, give the full object.
  * @param topic    Notification topic
  */
-export default async function sendNotification({title, description, screen, topic}: sendNotificationProps): Promise<boolean> {
+export default async function sendNotification({ title, description, screen, topic }: sendNotificationProps): Promise<boolean> {
     // Sets the topic to maintenance if the topic is not available
     if (!topic) {
         topic = 'maintenance'
@@ -114,8 +58,8 @@ export default async function sendNotification({title, description, screen, topi
         if (notification) {
             return true
         }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch(error) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
         return false
     }
 
