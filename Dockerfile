@@ -1,6 +1,12 @@
 # Node image with Alpine Linux
 FROM node:20-alpine
 
+# Arguments
+ARG GITLAB_MESSAGE
+
+# Env
+ENV GITLAB_MESSAGE=$GITLAB_MESSAGE
+
 # Workdir
 WORKDIR /app
 
