@@ -12,7 +12,6 @@ build:
     - |
       if [[ "$CI_COMMIT_TAG" =~ -dev$ ]]; then
         BASE_URL="https://queenbee-api-dev.login.no/v1"
-        INFO="This variable is defined in the Gitlab Pipeline editor for QueenBee. This value is only used to pass the pipeline. The real value is defined in Kubernetes"
         TYPE=$INFO
         PROJECT_ID=$INFO
         PRIVATE_KEY_ID=$INFO
@@ -27,8 +26,8 @@ build:
         GITLAB_MESSAGE="This variable is defined in the Gitlab Pipeline editor for QueenBee. Whatever is missing must be audited there. (dev env)"
         echo "Building in development environment"
       else
-        export BUILD_ENV="https://queenbee-api.login.no/v1"
-        export GITLAB_MESSAGE="This variable is defined in the Gitlab Pipeline editor for QueenBee. Whatever is missing must be audited there. (prod env)"
+        BUILD_ENV="https://queenbee-api.login.no/v1"
+        GITLAB_MESSAGE="This variable is defined in the Gitlab Pipeline editor for QueenBee. Whatever is missing must be audited there. (prod env)"
         echo "Building in production environment"
       fi
     - /kaniko/executor
