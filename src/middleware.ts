@@ -1,3 +1,4 @@
+import config from '@config'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(req: NextRequest) {
@@ -39,7 +40,7 @@ function pathIsAllowedWhileUnauthenticated(path: string) {
 }
 
 async function tokenIsValid(req: NextRequest, token: string): Promise<boolean> {
-    const authResponse = await fetch('http://128.39.140.118:8080/v1/events', {
+    const authResponse = await fetch(`${config.url.API_URL}/events`, {
         headers: { Authorization: `Bearer ${token}` }
     })
 
