@@ -12,21 +12,32 @@ build:
     - |
       if [[ "$CI_COMMIT_TAG" =~ -dev$ ]]; then
         BASE_URL="https://queenbee-api-dev.login.no/v1"
-        TYPE=$INFO
-        PROJECT_ID=$INFO
-        PRIVATE_KEY_ID=$INFO
-        PRIVATE_KEY=$INFO
-        CLIENT_EMAIL=$INFO
-        CLIENT_ID=$INFO
-        AUTH_URI=$INFO
-        TOKEN_URI=$INFO
-        AUTH_CERT_URL=$INFO
-        CLIENT_CERT_URL=$INFO
-        UNIVERSE_DOMAIN=$INFO
+        TYPE=$TYPE
+        PROJECT_ID=$PROJECT_ID
+        PRIVATE_KEY_ID=$PRIVATE_KEY_ID
+        PRIVATE_KEY=$PRIVATE_KEY
+        CLIENT_EMAIL=$CLIENT_EMAIL
+        CLIENT_ID=$CLIENT_ID
+        AUTH_URI=$AUTH_URI
+        TOKEN_URI=$TOKEN_URI
+        AUTH_CERT_URL=$AUTH_CERT_URL
+        CLIENT_CERT_URL=$CLIENT_CERT_URL
+        UNIVERSE_DOMAIN=$UNIVERSE_DOMAIN
         GITLAB_MESSAGE="This variable is defined in the Gitlab Pipeline editor for QueenBee. Whatever is missing must be audited there. (dev env)"
         echo "Building in development environment"
       else
         BUILD_ENV="https://queenbee-api.login.no/v1"
+        TYPE=$TYPE
+        PROJECT_ID=$PROJECT_ID
+        PRIVATE_KEY_ID=$PRIVATE_KEY_ID
+        PRIVATE_KEY=$PRIVATE_KEY
+        CLIENT_EMAIL=$CLIENT_EMAIL
+        CLIENT_ID=$CLIENT_ID
+        AUTH_URI=$AUTH_URI
+        TOKEN_URI=$TOKEN_URI
+        AUTH_CERT_URL=$AUTH_CERT_URL
+        CLIENT_CERT_URL=$CLIENT_CERT_URL
+        UNIVERSE_DOMAIN=$UNIVERSE_DOMAIN
         GITLAB_MESSAGE="This variable is defined in the Gitlab Pipeline editor for QueenBee. Whatever is missing must be audited there. (prod env)"
         echo "Building in production environment"
       fi
