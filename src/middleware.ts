@@ -1,3 +1,4 @@
+import { tokenIsValidNode } from '@app/api/middleware/route'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(req: NextRequest) {
@@ -7,7 +8,7 @@ export async function middleware(req: NextRequest) {
             return NextResponse.redirect(new URL('/', req.url))
         }
         const token = tokenCookie.value
-        const validToken = await tokenIsValid(req, token as unknown as string)
+        const validToken = await tokenIsValid(token)
         if (!validToken && !pathIsAllowedWhileUnauthenticated(req.nextUrl.pathname)) {
             return NextResponse.redirect(new URL('/logout', req.url))
         }
@@ -37,23 +38,6 @@ function pathIsAllowedWhileUnauthenticated(path: string) {
     return false
 }
 
-async function tokenIsValid(req: NextRequest, token: string): Promise<boolean> {
-    try {
-        const url = new URL('/api/middleware', req.url)
-        const res = await fetch(url.toString(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token })
-        })
-
-        const data = await res.json()
-        if (!data.success) {
-            return false
-        }
-
-        return true
-    } catch (error) {
-        console.error(error)
-        return false
-    }
+async function tokenIsValid(token: string): Promise<boolean> {
+    return await tokenIsValidNode(token)
 }
