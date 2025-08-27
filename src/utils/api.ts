@@ -224,7 +224,7 @@ async function getWrapper(path: string, options = {}) {
     try {
         const response = await fetch(`${baseUrl}${path}`, finalOptions)
         if (!response.ok) {
-            throw new Error(await response.json())
+            throw new Error(await response.text())
         }
 
         const data = await response.json()
@@ -248,7 +248,7 @@ async function postWrapper(path: string, data = {}) {
     try {
         const response = await fetch(`${baseUrl}${path}`, defaultOptions)
         if (!response.ok) {
-            throw new Error(await response.json())
+            throw new Error(await response.text())
         }
 
         const data = await response.json()
@@ -274,7 +274,7 @@ async function deleteWrapper(path: string, options = {}) {
         const data = await response.json()
 
         if (!response.ok) {
-            throw new Error(await response.json())
+            throw new Error(await response.text())
         }
 
         return data
@@ -299,7 +299,7 @@ async function patchWrapper(path: string, data = {}, options = {}) {
         const data = await response.json()
 
         if (!response.ok) {
-            throw new Error(await response.json())
+            throw new Error(await response.text())
         }
 
         return data
