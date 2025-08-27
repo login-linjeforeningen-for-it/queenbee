@@ -38,18 +38,17 @@ const config = {
         CDN_URL: env.CDN_URL || 'https://cdn.login.no'
     },
     firebase: {
-        TYPE: env.TYPE,
-        PROJECT_ID: env.PROJECT_ID,
-        PRIVATE_KEY_ID: env.PRIVATE_KEY_ID,
-        PRIVATE_KEY: env.PRIVATE_KEY,
-        CLIENT_EMAIL: env.CLIENT_EMAIL,
-        CLIENT_ID: env.CLIENT_ID,
-        AUTH_URI: env.AUTH_URI,
-        TOKEN_URI: env.TOKEN_URI,
-        AUTH_CERT_URL: env.AUTH_CERT_URL,
-        CLIENT_CERT_URL: env.CLIENT_CERT_URL,
-        UNIVERSE_DOMAIN: env.UNIVERSE_DOMAIN,
-        GITLAB_MESSAGE: env.GITLAB_MESSAGE
+        type: env.TYPE,
+        project_id: env.PROJECT_ID,
+        private_key_id: env.PRIVATE_KEY_ID,
+        private_key: env.PRIVATE_KEY,
+        client_email: env.CLIENT_EMAIL,
+        client_id: env.CLIENT_ID,
+        auth_uri: env.AUTH_URI,
+        token_uri: env.TOKEN_URI,
+        auth_provider_x509_cert_url: env.AUTH_CERT_URL,
+        client_x509_cert_url: env.CLIENT_CERT_URL,
+        universe_domain: env.UNIVERSE_DOMAIN
     },
     beehiveApi: {
         EVENTS_PATH: '/events/',
