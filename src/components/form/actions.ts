@@ -1,7 +1,29 @@
 'use server'
 
-import { patchEvent, patchJob, postEvent, postJob, postOrganization, patchOrganization, postLocation, patchLocation, postRule, patchRule } from '@/utils/api'
-import { patchEventSchema, patchJobSchema, patchLocationSchema, patchOrganizationSchema, patchRuleSchema, postEventSchema, postJobSchema, postLocationSchema, postOrganizationSchema, postRuleSchema } from './schemas'
+import {
+    patchEvent,
+    patchJob,
+    postEvent,
+    postJob,
+    postOrganization,
+    patchOrganization,
+    postLocation,
+    patchLocation,
+    postRule,
+    patchRule
+} from '@/utils/api'
+import {
+    patchEventSchema,
+    patchJobSchema,
+    patchLocationSchema,
+    patchOrganizationSchema,
+    patchRuleSchema,
+    postEventSchema,
+    postJobSchema,
+    postLocationSchema,
+    postOrganizationSchema,
+    postRuleSchema
+} from './schemas'
 import z from 'zod'
 
 export type FormState = null | string | PostRuleProps | PostEventProps | PostJobProps | PostOrganizationProps | PostLocationProps | PatchRuleProps | PatchEventProps | PatchJobProps | PatchOrganizationProps | PatchLocationProps
@@ -46,7 +68,7 @@ export async function createEvent(prevState: FormState, formData: FormData): Pro
 
         const response = await postEvent(eventProps)
         return response
-    } catch(error) {
+    } catch (error) {
         console.error('Error creating event:', error)
         throw error
     }
@@ -93,7 +115,7 @@ export async function updateEvent(prevState: FormState, formData: FormData): Pro
 
         const response = await patchEvent(eventProps)
         return response
-    } catch(error) {
+    } catch (error) {
         console.error('Error updating event:', error)
         throw error
     }
@@ -128,7 +150,7 @@ export async function createJob(prevState: FormState, formData: FormData): Promi
 
         const response = await postJob(jobProps)
         return response
-    } catch(error) {
+    } catch (error) {
         console.error('Error creating job:', error)
         throw error
     }
@@ -164,7 +186,7 @@ export async function updateJob(prevState: FormState, formData: FormData): Promi
 
         const response = await patchJob(jobProps)
         return response
-    } catch(error) {
+    } catch (error) {
         console.error('Error updating job:', error)
         throw error
     }
@@ -193,7 +215,7 @@ export async function createOrganization(prevState: FormState, formData: FormDat
 
         const response = await postOrganization(organizationProps)
         return response
-    } catch(error) {
+    } catch (error) {
         console.error('Error creating organization:', error)
         throw error
     }
@@ -222,7 +244,7 @@ export async function updateOrganization(prevState: FormState, formData: FormDat
 
         const response = await patchOrganization(organizationProps.shortname, organizationProps)
         return response
-    } catch(error) {
+    } catch (error) {
         console.error('Error updating organization:', error)
         throw error
     }
@@ -251,7 +273,7 @@ export async function createLocation(prevState: FormState, formData: FormData): 
 
         const response = await postLocation(locationProps)
         return response
-    } catch(error) {
+    } catch (error) {
         console.error('Error creating location:', error)
         throw error
     }
@@ -281,7 +303,7 @@ export async function updateLocation(prevState: FormState, formData: FormData): 
 
         const response = await patchLocation(locationProps)
         return response
-    } catch(error) {
+    } catch (error) {
         console.error('Error updating location:', error)
         throw error
     }
@@ -303,7 +325,7 @@ export async function createRule(prevState: FormState, formData: FormData): Prom
 
         const response = await postRule(ruleProps)
         return response
-    } catch(error) {
+    } catch (error) {
         console.error('Error creating rule:', error)
         throw error
     }
@@ -326,7 +348,7 @@ export async function updateRule(prevState: FormState, formData: FormData): Prom
 
         const response = await patchRule(ruleProps)
         return response
-    } catch(error) {
+    } catch (error) {
         console.error('Error updating rule:', error)
         throw error
     }
