@@ -1,5 +1,10 @@
 import config from '@config'
 import { NextRequest, NextResponse } from 'next/server'
+import { Agent, Dispatcher } from "undici"
+
+type FetchOptions = RequestInit & {
+    dispatcher?: Dispatcher
+}
 
 export async function middleware(req: NextRequest) {
     const tokenCookie = req.cookies.get('access_token')
@@ -39,12 +44,19 @@ function pathIsAllowedWhileUnauthenticated(path: string) {
 }
 
 async function tokenIsValid(req: NextRequest, token: string): Promise<boolean> {
-    const authResponse = await fetch(`${config.url.API_URL}/events`, {
-        headers: { Authorization: `Bearer ${token}` }
+    const agent = new Agent({
+        connect: {
+            rejectUnauthorized: false
+        }
     })
 
-    if (!authResponse.ok) {
-        console.error('Failed connection to:', `${config.url.API_URL}/events`, await authResponse.text())
+    const response = await fetch(`${config.url.API_URL}/events`, {
+        headers: { Authorization: `Bearer ${token}` },
+        dispatcher: agent
+    } as FetchOptions)
+
+    if (!response.ok) {
+        console.error('Failed connection to:', `${config.url.API_URL}/events`, await response.text())
         NextResponse.redirect(new URL('/logout', req.url))
         return false
     }
