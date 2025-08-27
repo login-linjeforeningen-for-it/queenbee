@@ -13,17 +13,17 @@ type FetchWrapperProps = {
     options?: object
 }
 
-export default async function fetchWrapper({url, options}: FetchWrapperProps) {
+export default async function fetchWrapper({ url, options }: FetchWrapperProps) {
     const agent = new Agent({
-            connect: {
-                rejectUnauthorized: false
-            }
-        })
+        connect: {
+            rejectUnauthorized: false
+        }
+    })
 
-        const response = await fetch(url, {
-            ...options,
-            dispatcher: agent
-        } as FetchOptions)
+    const response = await fetch(url, {
+        ...options,
+        dispatcher: agent
+    } as FetchOptions)
 
-        return response
+    return response
 }
