@@ -1,5 +1,6 @@
 import packageInfo from './package.json'
 
+const isServer = typeof window === 'undefined'
 const requiredEnvironmentVariables = [
     'API_URL',
     'NEXT_PUBLIC_BROWSER_API',
@@ -20,7 +21,7 @@ const requiredEnvironmentVariables = [
 
 const missingVariables = requiredEnvironmentVariables.filter(key => !process.env[key])
 
-if (missingVariables.length > 0) {
+if (isServer && missingVariables.length > 0) {
     throw new Error(
         'Missing essential environment variables:\n' +
         missingVariables.map(key => `${key}: ${process.env[key] || 'undefined'}`).join('\n')
