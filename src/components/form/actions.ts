@@ -54,8 +54,8 @@ export async function createEvent(prevState: FormState, formData: FormData): Pro
             rule: Number(formData.get('rule')),
             time_end: formData.get('end_date') && formData.get('end_time') ? `${formData.get('end_date')}T${formData.get('end_time')}:00Z` : '',
             time_publish: formData.get('publish_date') && formData.get('publish_time') ? `${formData.get('publish_date')}T${formData.get('publish_time')}:00Z` : '',
-            time_signup_deadline: formData.get('link_signup') ? formData.get('deadline_date') && formData.get('deadline_time') ? `${formData.get('deadline_date')}T${formData.get('deadline_time')}:00Z` : formData.get('end_date') && formData.get('end_time') ? `${formData.get('end_date')}T${formData.get('end_time')}:00Z` : '' : '',
-            time_signup_release: formData.get('link_signup') ? formData.get('release_date') && formData.get('release_time') ? `${formData.get('release_date')}T${formData.get('release_time')}:00Z` : formData.get('publish_date') && formData.get('publish_time') ? `${formData.get('publish_date')}T${formData.get('publish_time')}:00Z` : '' : '',
+            time_signup_deadline: formData.get('link_signup') ? formData.get('deadline_date') && formData.get('deadline_time') ? `${formData.get('deadline_date')}T${formData.get('deadline_time')}:00Z` : formData.get('end_date') && formData.get('end_time') ? `${formData.get('end_date')}T${formData.get('end_time')}:00Z` : undefined : undefined,
+            time_signup_release: formData.get('link_signup') ? formData.get('release_date') && formData.get('release_time') ? `${formData.get('release_date')}T${formData.get('release_time')}:00Z` : formData.get('publish_date') && formData.get('publish_time') ? `${formData.get('publish_date')}T${formData.get('publish_time')}:00Z` : undefined : undefined,
             time_start: formData.get('start_date') && formData.get('start_time') ? `${formData.get('start_date')}T${formData.get('start_time')}:00Z` : '',
             time_type: formData.get('time_type') as time_type,
             visible: true

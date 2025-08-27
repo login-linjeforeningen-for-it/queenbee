@@ -17,6 +17,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     // const page = typeof filters.page === 'string' ? Number(filters.page) : 1
 
     const list = await getOrganizations()
+    const tempSort = Array.isArray(list) ? list.filter(item => !item.is_deleted) : []
 
     return (
         <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden flex flex-col'>
@@ -29,22 +30,22 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     </div>
                 </div>
             </div>
-            {typeof list === 'string' || !Array.isArray(list) || list.length < 1 ?
+            {typeof tempSort === 'string' || !Array.isArray(tempSort) || tempSort.length < 1 ?
                 <div className='w-full h-full flex items-center justify-center'>
                     <Alert>
-                        {typeof list === 'string' ? list : 'No organizations found'}
+                        {typeof tempSort === 'string' ? tempSort : 'No organizations found'}
                     </Alert>
                 </div>
                 :
                 <div className='flex-1 flex flex-col overflow-hidden'>
                     <Table
-                        list={list.filter(item => !item.is_deleted)}
+                        list={tempSort}
                         headers={['description_en', 'description_no', 'link_facebook', 'link_homepage', 'link_instagram', 'link_linkedin', 'logo', 'name_en', 'name_no', 'shortname']}
                         deleteAction={deleteAction}
                     />
                     <Pagination
                         pageSize={10}
-                        totalRows={list.length}
+                        totalRows={tempSort.length}
                     />
                 </div>
             }

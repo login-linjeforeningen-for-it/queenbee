@@ -40,6 +40,8 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                 : Location.Address
 
     const list = await getLocations(LocationAPI[activeType])
+    const tempSort = Array.isArray(list) ? list.filter(item => !item.is_deleted) : []
+
 
     return (
         <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden flex flex-col'>
@@ -57,20 +59,20 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     </div>
                 </div>
             </div>
-            {typeof list === 'string' || !Array.isArray(list) || list.length < 1 ?
+            {typeof tempSort === 'string' || !Array.isArray(tempSort) || tempSort.length < 1 ?
                 <div className='w-full h-full flex items-center justify-center'>
                     <Alert>
-                        {typeof list === 'string' ? list : 'No locations found'}
+                        {typeof tempSort === 'string' ? tempSort : 'No locations found'}
                     </Alert>
                 </div>
                 :
                 <div className='flex-1 flex flex-col overflow-hidden'>
-                    {activeType === Location.Address        && <Table list={list.filter(item => !item.is_deleted)} headers={['id', 'name_no', 'address_street', 'address_postcode', 'city_name', 'url', 'updated_at']} deleteAction={deleteAction} />}
-                    {activeType === Location.Mazemap        && <Table list={list.filter(item => !item.is_deleted)} headers={['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']} deleteAction={deleteAction} />}
-                    {activeType === Location.Coordinate     && <Table list={list.filter(item => !item.is_deleted)} headers={['id', 'name_no', 'coordinate_lat', 'coordinate_long', 'url', 'updated_at']} deleteAction={deleteAction} />}
+                    {activeType === Location.Address        && <Table list={tempSort} headers={['id', 'name_no', 'address_street', 'address_postcode', 'city_name', 'url', 'updated_at']} deleteAction={deleteAction} />}
+                    {activeType === Location.Mazemap        && <Table list={tempSort} headers={['id', 'name_no', 'mazemap_campus_id', 'mazemap_poi_id', 'url', 'updated_at']} deleteAction={deleteAction} />}
+                    {activeType === Location.Coordinate     && <Table list={tempSort} headers={['id', 'name_no', 'coordinate_lat', 'coordinate_long', 'url', 'updated_at']} deleteAction={deleteAction} />}
                     <Pagination
                         pageSize={10}
-                        totalRows={list.length}
+                        totalRows={tempSort.length}
                     />
                 </div>
             }

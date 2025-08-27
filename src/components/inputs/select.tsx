@@ -43,7 +43,7 @@ export default function Select({ name, label, defaultValue, options, className, 
     }
 
     return (
-        <SelectContext.Provider value={{ selectedValue, options }}>
+        <SelectContext value={{ selectedValue, options }}>
             <div className={`w-full ${className}`}>
                 <div className='relative flex items-center'>
                     <select
@@ -122,7 +122,7 @@ export default function Select({ name, label, defaultValue, options, className, 
                 </div>
                 {children}
             </div>
-        </SelectContext.Provider>
+        </SelectContext>
     )
 }
 

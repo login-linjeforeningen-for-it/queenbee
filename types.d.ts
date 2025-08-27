@@ -29,14 +29,14 @@ type GetEventsProps = {
 type GetEventProps = {
     audiences: [
         {
-        created_at: string,
-        deleted_at: string,
-        description_en: string,
-        description_no: string,
-        id: number,
-        name_en: string,
-        name_no: string,
-        updated_at: string
+            created_at: string,
+            deleted_at: string,
+            description_en: string,
+            description_no: string,
+            id: number,
+            name_en: string,
+            name_no: string,
+            updated_at: string
         }
     ],
     category: {
@@ -100,7 +100,7 @@ type GetEventProps = {
         updated_at: string,
         url: string
     },
-    organizations:{
+    organizations: {
         created_at: string,
         deleted_at: string,
         description_en: string,
@@ -126,7 +126,7 @@ type GetEventProps = {
         name_en: string,
         name_no: string,
         updated_at: string
-  }
+    }
 }
 
 type PostEventProps = {
@@ -153,8 +153,8 @@ type PostEventProps = {
     rule: number
     time_end: string
     time_publish: string
-    time_signup_deadline: string
-    time_signup_release: string
+    time_signup_deadline: string | undefined
+    time_signup_release: string | undefined
     time_start: string
     time_type: time_type
     visible: boolean
@@ -297,39 +297,39 @@ type GetLocationsProps = {
 }[]
 
 type GetLocationProps = {
-  address_postcode: number,
-  address_street: string,
-  city_name: string,
-  coordinate_lat: number,
-  coordinate_long: number,
-  created_at: string,
-  deleted_at: string,
-  id: number,
-  mazemap_campus_id: number,
-  mazemap_poi_id: number,
-  name_en: string,
-  name_no: string,
-  type: location_type,
-  updated_at: string,
-  url: string
+    address_postcode: number,
+    address_street: string,
+    city_name: string,
+    coordinate_lat: number,
+    coordinate_long: number,
+    created_at: string,
+    deleted_at: string,
+    id: number,
+    mazemap_campus_id: number,
+    mazemap_poi_id: number,
+    name_en: string,
+    name_no: string,
+    type: location_type,
+    updated_at: string,
+    url: string
 }
 
 type PostLocationProps = {
-  address_postcode: number
-  address_street: string
-  city_name: string
-  coordinate_lat: number
-  coordinate_long: number
-  mazemap_campus_id: number
-  mazemap_poi_id: number
-  name_en: string
-  name_no: string
-  type: location_type
-  url: string
+    address_postcode: number
+    address_street: string
+    city_name: string
+    coordinate_lat: number
+    coordinate_long: number
+    mazemap_campus_id: number
+    mazemap_poi_id: number
+    name_en: string
+    name_no: string
+    type: location_type
+    url: string
 }
 
 type PatchLocationProps = PostLocationProps & {
-  id: number
+    id: number
 }
 
 // Rules
