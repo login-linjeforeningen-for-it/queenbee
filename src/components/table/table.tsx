@@ -24,9 +24,10 @@ type BodyProps = {
 export default function Table({list, headers, deleteAction}: TableProps) {
     const keys = Object.keys(list[0])
     headers = headers || keys
+
     return (
         <div className='relative flex-1 noscroll w-full overflow-auto'>
-            <table className='w-full relative border-collapse rounded-lg'>
+            <table className='w-full relative border-collapse rounded-lg pl-2'>
                 <Header keys={keys} headers={headers} />
                 <Body list={list} headers={headers} deleteAction={deleteAction} />
             </table>
@@ -37,7 +38,6 @@ export default function Table({list, headers, deleteAction}: TableProps) {
 function Header({keys, headers}: HeaderProps) {
     const [column, setColumn] = useState(keys[0])
     const [order, setOrder] = useState<'asc'|'desc'>('asc')
-
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
@@ -67,7 +67,7 @@ function Header({keys, headers}: HeaderProps) {
                     }
 
                     return (
-                        <th key={key} className='whitespace-nowrap text-left px-2'>
+                        <th key={key} className='whitespace-nowrap text-left'>
                             <button
                                 className='w-full h-full p-[0.5rem] flex flex-row items-center justify-between group'
                                 onClick={() => handleChange(key)}
@@ -104,9 +104,10 @@ function Body({list, headers, deleteAction}: BodyProps) {
 
         return (
             <tbody key={index} className='bg-login-500 h-[2rem]'>
-                <tr className='border-y-1 border-login-900 '>
+                <tr className='border-y-1 border-login-900'>
 
                     {entries.map(([key, value]) => {
+                        const renderedValue = formatValue(key, value)
                         if (!headers.includes(key)) return null
                         return (
                             <td
@@ -115,7 +116,7 @@ function Body({list, headers, deleteAction}: BodyProps) {
                             >
                                 <div className='relative group'>
                                     <h1 className='overflow-hidden text-ellipsis whitespace-nowrap max-w-[15rem]'>
-                                        {String(value)}
+                                        {renderedValue}
                                     </h1>
                                 </div>
                             </td>
@@ -157,4 +158,16 @@ function Body({list, headers, deleteAction}: BodyProps) {
                 </tr>
             </tbody>
         )})
+}
+
+function formatValue(key: string, value: string | number) {
+    if (key.includes('date')) {
+        return new Date(value).toLocaleString("nb-NO", { timeZone: "Europe/Oslo" })
+    }
+
+    if (key.includes('capacity')) {
+        return value === 0 ? 'Unlimited' : value
+    }
+
+    return value
 }
