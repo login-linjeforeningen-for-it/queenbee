@@ -49,10 +49,10 @@ async function tokenIsValid(req: NextRequest, token: string): Promise<boolean> {
         const data = await res.json()
         if (!data.success) {
             return false
-        } 
-        
+        }
+
         return true
-    } catch(error) {
+    } catch (error) {
         console.error(error)
         return false
     }
