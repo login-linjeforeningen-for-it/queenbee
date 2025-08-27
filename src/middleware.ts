@@ -57,7 +57,7 @@ async function tokenIsValid(token: string): Promise<boolean> {
 
         const response = await fetch(`${appConfig.url.API_URL}/events`, {
             headers: { Authorization: `Bearer ${token}` },
-            agent
+            dispatcher: agent
         } as FetchOptions)
 
         if (!response.ok) {
