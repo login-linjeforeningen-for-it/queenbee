@@ -10,7 +10,7 @@ export async function POST(req: Request) {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
         })
-    } catch(error) {
+    } catch (error) {
         console.error(`API Error (route.ts): ${error}`)
         const errorMessage = error instanceof Error ? error.message : 'Unknown error'
         return new Response(JSON.stringify({ success: false, error: errorMessage }), {
