@@ -68,7 +68,7 @@ async function tokenIsValid(token: string): Promise<boolean> {
 
         return true
     } catch (error) {
-        console.error(`API Error: ${JSON.stringify(error)}`)
+        console.error(`API Error: ${error}`)
         return false
     }
 }

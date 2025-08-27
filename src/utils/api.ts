@@ -231,7 +231,7 @@ async function getWrapper(path: string, options = {}) {
         return data
     // eslint-disable-next-line
     } catch (error: any) {
-        console.error(JSON.stringify(error))
+        console.error(error)
         return JSON.stringify(error.error) || JSON.stringify(error.message) || 'Unknown error! Please contact TekKom'
     }
 }
@@ -255,7 +255,7 @@ async function postWrapper(path: string, data = {}) {
         return data
     // eslint-disable-next-line
     } catch (error: any) {
-        console.error(JSON.stringify(error))
+        console.error(error)
         return JSON.stringify(error.error) || JSON.stringify(error.message) || 'Unknown error! Please contact TekKom'
     }
 }
