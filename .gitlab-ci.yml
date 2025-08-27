@@ -24,7 +24,7 @@ build:
         AUTH_CERT_URL=$AUTH_CERT_URL
         CLIENT_CERT_URL=$CLIENT_CERT_URL
         UNIVERSE_DOMAIN=$UNIVERSE_DOMAIN
-        GITLAB_MESSAGE="This variable is defined in the Gitlab Pipeline editor for QueenBee. Whatever is missing must be audited there. (dev env)"
+        GITLAB_MESSAGE="This variable is defined in the .gitlab-ci.yml file, then overridden by Kubernetes. Whatever is missing must be audited in both of those locations. (dev env)"
         echo "Building in development environment"
       else
         API_URL="https://queenbee-api.login.no/v1"
@@ -40,7 +40,7 @@ build:
         AUTH_CERT_URL=$AUTH_CERT_URL
         CLIENT_CERT_URL=$CLIENT_CERT_URL
         UNIVERSE_DOMAIN=$UNIVERSE_DOMAIN
-        GITLAB_MESSAGE="This variable is defined in the Gitlab Pipeline editor for QueenBee. Whatever is missing must be audited there. (prod env)"
+        GITLAB_MESSAGE="This variable is defined in the .gitlab-ci.yml file, then overridden by Kubernetes. Whatever is missing must be audited in both of those locations. (prod env)"
         echo "Building in production environment"
       fi
     - /kaniko/executor
