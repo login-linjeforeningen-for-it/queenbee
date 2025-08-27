@@ -1,4 +1,5 @@
 import config from '@config'
+import { cookies } from 'next/headers'
 
 const baseUrl = config.url.API_URL
 
@@ -213,10 +214,14 @@ export async function deleteRule(id: number) {
 }
 
 async function getWrapper(path: string, options = {}) {
+    const Cookies = await cookies()
+    const token = Cookies.get('access_token')?.value || ''
+
     const defaultOptions = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
     }
     const finalOptions = { ...defaultOptions, ...options }
@@ -237,10 +242,14 @@ async function getWrapper(path: string, options = {}) {
 }
 
 async function postWrapper(path: string, data = {}) {
+    const Cookies = await cookies()
+    const token = Cookies.get('access_token')?.value || ''
+
     const defaultOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(data)
     }
@@ -261,10 +270,14 @@ async function postWrapper(path: string, data = {}) {
 }
 
 async function deleteWrapper(path: string, options = {}) {
+    const Cookies = await cookies()
+    const token = Cookies.get('access_token')?.value || ''
+
     const defaultOptions = {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
     }
     const finalOptions = { ...defaultOptions, ...options }
@@ -285,10 +298,14 @@ async function deleteWrapper(path: string, options = {}) {
 }
 
 async function patchWrapper(path: string, data = {}, options = {}) {
+    const Cookies = await cookies()
+    const token = Cookies.get('access_token')?.value || ''
+
     const defaultOptions = {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(data),
     }
