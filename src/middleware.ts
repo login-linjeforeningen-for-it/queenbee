@@ -68,7 +68,10 @@ async function tokenIsValid(token: string): Promise<boolean> {
 
         return true
     } catch (error) {
-        console.error(`API Error (middleware.ts): ${error}`)
+        console.error(`API Error (middleware.ts): ${error}`, {
+            message: (error as Error).message,
+            stack: (error as Error).stack
+        })
         return false
     }
 }
