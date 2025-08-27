@@ -1,4 +1,5 @@
 import config from '@config'
+import fetchWrapper from './fetchWrapper'
 
 const baseUrl = config.url.API_URL
 
@@ -222,7 +223,7 @@ async function getWrapper(path: string, options = {}) {
     const finalOptions = { ...defaultOptions, ...options }
 
     try {
-        const response = await fetch(`${baseUrl}${path}`, finalOptions)
+        const response = await fetchWrapper({url: `${baseUrl}${path}`, options: finalOptions})
         if (!response.ok) {
             throw new Error(await response.json())
         }
@@ -246,7 +247,7 @@ async function postWrapper(path: string, data = {}) {
     }
 
     try {
-        const response = await fetch(`${baseUrl}${path}`, defaultOptions)
+        const response = await fetchWrapper({url: `${baseUrl}${path}`, options: defaultOptions})
         if (!response.ok) {
             throw new Error(await response.json())
         }
@@ -270,7 +271,7 @@ async function deleteWrapper(path: string, options = {}) {
     const finalOptions = { ...defaultOptions, ...options }
 
     try {
-        const response = await fetch(`${baseUrl}${path}`, finalOptions)
+        const response = await fetchWrapper({url: `${baseUrl}${path}`, options: finalOptions})
         const data = await response.json()
 
         if (!response.ok) {
@@ -295,7 +296,7 @@ async function patchWrapper(path: string, data = {}, options = {}) {
     const finalOptions = { ...defaultOptions, ...options }
 
     try {
-        const response = await fetch(`${baseUrl}${path}`, finalOptions)
+        const response = await fetchWrapper({url: `${baseUrl}${path}`, options: finalOptions})
         const data = await response.json()
 
         if (!response.ok) {

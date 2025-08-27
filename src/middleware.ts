@@ -1,14 +1,6 @@
 import appConfig from '@config'
+import fetchWrapper from '@utils/fetchWrapper'
 import { NextRequest, NextResponse } from 'next/server'
-import { Agent, Dispatcher } from 'undici'
-
-type FetchOptions = RequestInit & {
-    dispatcher?: Dispatcher
-}
-
-export const config = {
-    runtime: 'nodejs'
-}
 
 export async function middleware(req: NextRequest) {
     const tokenCookie = req.cookies.get('access_token')
@@ -49,16 +41,8 @@ function pathIsAllowedWhileUnauthenticated(path: string) {
 
 async function tokenIsValid(token: string): Promise<boolean> {
     try {
-        const agent = new Agent({
-            connect: {
-                rejectUnauthorized: false
-            }
-        })
-
-        const response = await fetch(`${appConfig.url.API_URL}/events`, {
-            headers: { Authorization: `Bearer ${token}` },
-            dispatcher: agent
-        } as FetchOptions)
+        const options = { headers: { Authorization: `Bearer ${token}` } }
+        const response = await fetchWrapper({url: `${appConfig.url.API_URL}/events`, options})
 
         if (!response.ok) {
             const errorDescription = `Failed connection to: ${appConfig.url.API_URL}/events: ${await response.text()}`
