@@ -1,5 +1,14 @@
-import { tokenIsValidNode } from '@app/api/middleware/route'
+import appConfig from '@config'
 import { NextRequest, NextResponse } from 'next/server'
+import { Agent, Dispatcher } from 'undici'
+
+type FetchOptions = RequestInit & {
+    dispatcher?: Dispatcher
+}
+
+export const config = {
+    runtime: 'nodejs'
+}
 
 export async function middleware(req: NextRequest) {
     const tokenCookie = req.cookies.get('access_token')
@@ -9,7 +18,7 @@ export async function middleware(req: NextRequest) {
         }
         const token = tokenCookie.value
         const validToken = await tokenIsValid(token)
-        if (!validToken && !pathIsAllowedWhileUnauthenticated(req.nextUrl.pathname)) {
+        if (!validToken) {
             return NextResponse.redirect(new URL('/logout', req.url))
         }
     }
@@ -39,5 +48,27 @@ function pathIsAllowedWhileUnauthenticated(path: string) {
 }
 
 async function tokenIsValid(token: string): Promise<boolean> {
-    return await tokenIsValidNode(token)
+    try {
+        const agent = new Agent({
+            connect: {
+                rejectUnauthorized: false
+            }
+        })
+
+        const response = await fetch(`${appConfig.url.API_URL}/events`, {
+            headers: { Authorization: `Bearer ${token}` },
+            agent
+        } as FetchOptions)
+
+        if (!response.ok) {
+            const errorDescription = `Failed connection to: ${appConfig.url.API_URL}/events: ${await response.text()}`
+            console.error(errorDescription)
+            return false
+        }
+
+        return true
+    } catch (error) {
+        console.error(`API Error: ${JSON.stringify(error)}`)
+        return false
+    }
 }
