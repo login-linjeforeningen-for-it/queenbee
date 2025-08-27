@@ -72,6 +72,7 @@ async function tokenIsValid(token: string): Promise<boolean> {
             message: (error as Error).message,
             stack: (error as Error).stack
         })
+
         return false
     }
 }
