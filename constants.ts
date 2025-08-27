@@ -34,8 +34,8 @@ const env = Object.fromEntries(
 
 const config = {
     url: {
-        NEXT_PUBLIC_BROWSER_API: env.NEXT_PUBLIC_BROWSER_API || 'https://queenbee-api.login.no/v1',
-        API_URL: env.API_URL || 'https://queenbee-api.login.no/v1',
+        NEXT_PUBLIC_BROWSER_API: env.NEXT_PUBLIC_BROWSER_API || 'https://api.queenbee.login.no/v1',
+        API_URL: env.API_URL || 'https://api.queenbee.login.no/v1',
         CDN_URL: env.CDN_URL || 'https://cdn.login.no'
     },
     firebase: {
