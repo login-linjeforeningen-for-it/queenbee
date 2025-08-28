@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 
 @theme {
+    --breakpoint-xs: 30rem;
+    --breakpoint-lg75: 75rem;
+    --breakpoint-2xl: 100rem;
+    --breakpoint-3xl: 120rem;
     --color-login: #fd8738;
     --color-login-950: #0e0e0e;
     --color-login-900: #121212;

@@ -1,6 +1,6 @@
 'use client'
 
-import { HTMLInputTypeAttribute, useState } from 'react'
+import { Dispatch, HTMLInputTypeAttribute, useState } from 'react'
 import ToolTip from './tooltip'
 import Label from './label'
 
@@ -8,14 +8,14 @@ type InputProps = {
     name: string
     type: HTMLInputTypeAttribute
     label: string
-    defaultValue?: string | number
+    value?: string | number
+    setValue: (value: string | number) => void
     className?: string
     tooltip?: string
     required?: boolean
 }
 
-export default function Input({name, type, label, defaultValue, className, tooltip, required}: InputProps) {
-    const [value, setValue] = useState(defaultValue || '')
+export default function Input({name, type, label, className, tooltip, required, value, setValue}: InputProps) {
     const [hasBlured, setHasBlured] = useState(false)
 
     return (
