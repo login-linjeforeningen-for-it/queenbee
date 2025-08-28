@@ -33,8 +33,8 @@ async function RightSide() {
         <div className='flex gap-[1rem] items-center pr-[1rem]'>
             <ThemeSwitch />
             {token ? <Link className='flex align-middle gap-[0.5rem]  hover:*:text-login hover:*:stroke-login' href={token ? '/logout' : '/login'}>
-                <h1>Logout</h1>
                 <LogOut className='w-5'/>
+                <h1>Logout</h1>
             </Link> : <></>}
         </div>
     )

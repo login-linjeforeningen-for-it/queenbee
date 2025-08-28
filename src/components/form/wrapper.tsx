@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import { FormState } from './actions'
 import CustomForm from './form'
-import Button from '@components/userInput/button'
 
 type FormWrapperProps = {
     name: 'event' | 'job' | 'organization' | 'location' | 'rule'
@@ -14,7 +13,7 @@ type FormWrapperProps = {
     children: React.ReactNode
 }
 
-export default function FormWrapper({ name, type, id, formAction, children, onExample }: FormWrapperProps & { onExample?: () => void } ) {
+export default function FormWrapper({ name, type, id, formAction, children }: FormWrapperProps ) {
     const router = useRouter()
 
     return (

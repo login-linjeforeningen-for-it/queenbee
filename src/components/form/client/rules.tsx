@@ -63,7 +63,7 @@ export default function RuleFormInputsClient({ defaultValues }: { defaultValues?
 const sampleRule = {
     name_no: '📋 Deltakerretningslinjer',
     name_en: '📋 Participant Guidelines',
-    description_no: `✨ Vennligst følg disse retningslinjene under arrangementet:  
+    description_no: `✨ Vennligst følg disse retningslinjene under arrangementet:
 - Møt opp til avtalt tid ⏰  
 - Respekter andre deltakere og arrangører 🤝  
 - Følg sikkerhetsinstruksjoner ⚠️  

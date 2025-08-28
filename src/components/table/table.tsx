@@ -162,7 +162,7 @@ function Body({list, headers, deleteAction}: BodyProps) {
 
 function formatValue(key: string, value: string | number) {
     if (key.includes('date')) {
-        return new Date(value).toLocaleString("nb-NO", { timeZone: "Europe/Oslo" })
+        return new Date(value).toLocaleString('nb-NO', { timeZone: 'Europe/Oslo' })
     }
 
     if (key.includes('capacity')) {

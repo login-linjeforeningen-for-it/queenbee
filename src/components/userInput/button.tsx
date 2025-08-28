@@ -14,11 +14,11 @@ export default function Button({text, icon, path, color, onClick}: ButtonProps) 
     if (!path) {
         return (
             <button
-                type="button"
+                type='button'
                 onClick={onClick}
                 className={`${bg} cursor-pointer px-4 rounded-md h-8 flex justify-evenly items-center gap-2 select-none focus:outline-none border-0`}
             >
-                <h1 className="font-bold">{icon ? icon : ''}</h1>
+                <h1 className='font-bold'>{icon ? icon : ''}</h1>
                 <h1>{text}</h1>
             </button>
         )

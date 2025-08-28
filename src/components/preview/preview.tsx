@@ -1,5 +1,5 @@
-import Image from "next/image"
-import Notification from "./notification"
+import Image from 'next/image'
+import Notification from './notification'
 
 type PreviewProps = {
     title: string

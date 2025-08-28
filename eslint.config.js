@@ -32,7 +32,8 @@ export default [
             '@stylistic/no-trailing-spaces': 'error',
             '@typescript-eslint/no-unused-vars': 'error',
             '@typescript-eslint/ban-ts-comment': 'off',
-            '@typescript-eslint/no-non-null-assertion': 'off'
+            '@typescript-eslint/no-non-null-assertion': 'off',
+            'max-len': ['error', { code: 80, ignoreComments: true, ignoreUrls: true }]
         }
     }
 ]

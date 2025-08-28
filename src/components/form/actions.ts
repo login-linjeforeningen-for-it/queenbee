@@ -266,8 +266,6 @@ export async function createLocation(_: FormState, formData: FormData): Promise<
             url: formData.get('url') as string
         }
 
-        console.log("parsing", locationProps)
-
         const result = postLocationSchema.safeParse(locationProps)
         if (!result.success) {
             return z.prettifyError(result.error)
