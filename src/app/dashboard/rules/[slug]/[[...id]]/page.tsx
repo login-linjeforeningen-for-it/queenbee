@@ -1,8 +1,8 @@
 import { getRule } from '@utils/api'
 import { createRule, updateRule } from '@components/form/actions'
 import FormWrapper from '@components/form/wrapper'
-import { RuleFormInputs } from '@components/form/inputs'
 import { notFound } from 'next/navigation'
+import RuleFormInputs from '@components/form/server/rules'
 
 export default async function Page({ params }: { params: Promise<{ slug: string, id?: string[] }> }) {
     const { id, slug } = await params

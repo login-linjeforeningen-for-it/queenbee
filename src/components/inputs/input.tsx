@@ -1,6 +1,6 @@
 'use client'
 
-import { Dispatch, HTMLInputTypeAttribute, useState } from 'react'
+import { HTMLInputTypeAttribute, useState } from 'react'
 import ToolTip from './tooltip'
 import Label from './label'
 

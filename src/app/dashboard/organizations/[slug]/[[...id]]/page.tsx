@@ -1,8 +1,8 @@
 import { getOrganization } from '@utils/api'
 import { createOrganization, updateOrganization } from '@components/form/actions'
 import FormWrapper from '@components/form/wrapper'
-import { OrganizationFormInputs } from '@components/form/inputs'
 import { notFound } from 'next/navigation'
+import OrganizationFormInputs from '@components/form/server/organizations'
 
 export default async function Page({ params }: { params: Promise<{ slug: string, id?: string[] }> }) {
     const { id, slug } = await params

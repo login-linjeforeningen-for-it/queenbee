@@ -1,7 +1,7 @@
 import { getJob } from '@utils/api'
 import { createJob, updateJob } from '@components/form/actions'
 import FormWrapper from '@components/form/wrapper'
-import { JobFormInputs } from '@components/form/inputs'
+import JobFormInputs from '@components/form/server/jobs'
 import { notFound } from 'next/navigation'
 
 export default async function Page({ params }: { params: Promise<{ slug: string, id?: string[] }> }) {

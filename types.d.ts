@@ -531,3 +531,24 @@ type User = {
     user_name: string
     user_roles: string
 }
+
+type Organization = {
+    label: string
+    value: string
+}
+
+type Application = {
+    label: string
+    value: job_type
+}
+
+type LoginImage = {
+    label: string
+    value: string
+    image: string
+}
+
+type LocationTypes = {
+    label: string
+    value: location_type
+}

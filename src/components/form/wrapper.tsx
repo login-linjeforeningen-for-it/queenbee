@@ -14,7 +14,7 @@ type FormWrapperProps = {
     children: React.ReactNode
 }
 
-export default function FormWrapper({ name, type, id, formAction, children }: FormWrapperProps ) {
+export default function FormWrapper({ name, type, id, formAction, children, onExample }: FormWrapperProps & { onExample?: () => void } ) {
     const router = useRouter()
 
     return (
@@ -30,12 +30,7 @@ export default function FormWrapper({ name, type, id, formAction, children }: Fo
                         <ArrowLeft className='size-4.5' />
                         <span>Back</span>
                     </button>
-                    <div className='flex justify-between w-full'>
-                        <h1 className='font-semibold text-2xl capitalize'>{type} {name}</h1>
-                        <div className='flex flex-row gap-[1rem]'>
-                            <Button color="secondary" text='Example' icon='+' path='events/create' />
-                        </div>
-                    </div>
+                    <h1 className='font-semibold text-2xl capitalize'>{type} {name}</h1>
                 </div>
                 <div className='flex flex-col gap-4 mt-4'></div>
                 <CustomForm name={name} type={type} id={id} formAction={formAction}>
