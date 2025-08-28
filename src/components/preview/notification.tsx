@@ -21,14 +21,14 @@ export default function Notification({title, description, small}: NotificationPr
 
     if (small) {
         return (
-            <div className="absolute w-[20rem] p-2 px-3 rounded-xl backdrop-blur-md bg-black/10 z-100">
+            <div className="absolute w-[19rem] p-2 px-3 rounded-xl backdrop-blur-md bg-black/10 z-100">
                 <Content title={formattedTitle} description={formattedDescription} />
             </div>
         )  
     }
 
     return (
-        <div className="absolute w-[20rem] p-2 px-3 rounded-xl backdrop-blur-md bg-black/10 z-100 left-1/2 -translate-x-1/2 mt-21 -mt-10 -ml-10">
+        <div className="absolute w-[19rem] p-2 px-3 rounded-xl backdrop-blur-md bg-black/10 z-100 left-1/2 -translate-x-1/2 mt-21 -mt-10 -ml-9.5">
             <Content title={formattedTitle} description={formattedDescription} />
         </div>
     )    
