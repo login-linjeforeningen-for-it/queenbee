@@ -5,10 +5,10 @@ import Select, { SelectOption } from '@components/inputs/select'
 import Button from '@components/userInput/button'
 import { useState } from 'react'
 
-export default function LocationFormInputsClient({ 
-    defaultValues, 
-    locationTypes 
-}: { 
+export default function LocationFormInputsClient({
+    defaultValues,
+    locationTypes,
+}: {
     defaultValues?: GetLocationProps
     locationTypes: LocationTypes[]
 }) {
@@ -32,15 +32,30 @@ export default function LocationFormInputsClient({
 
     return (
         <div className='flex flex-col gap-4 relative'>
-            <div className='absolute flex flex-row gap-[1rem] -mt-13 w-full justify-end'>
-                <Button color="secondary" text='Example' icon='+' onClick={example} />
+            <div
+                className={
+                    'absolute flex flex-row gap-[1rem] -mt-13 w-full ' +
+                    'justify-end'
+                }
+            >
+                <Button
+                    color='secondary'
+                    text='Example'
+                    icon='+'
+                    onClick={example}
+                />
             </div>
             <Input
                 name='name_no'
                 type='text'
                 label='Name (Norwegian)'
                 value={formValues.name_no}
-                setValue={(input) => setFormValues({ ...formValues, name_no: input as string })}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        name_no: input as string,
+                    })
+                }
                 required
             />
             <Input
@@ -48,7 +63,12 @@ export default function LocationFormInputsClient({
                 type='text'
                 label='Name (English)'
                 value={formValues.name_en}
-                setValue={(input) => setFormValues({ ...formValues, name_en: input as string })}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        name_en: input as string,
+                    })
+                }
                 required
             />
             <Input
@@ -56,14 +76,24 @@ export default function LocationFormInputsClient({
                 type='text'
                 label='URL'
                 value={formValues.url}
-                setValue={(input) => setFormValues({ ...formValues, url: input as string })}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        url: input as string,
+                    })
+                }
             />
             <Select
-                name='location'
+                name='type'
                 label='Location'
                 options={locationTypes}
                 value={formValues.type || ''}
-                setValue={(input) => setFormValues({ ...formValues, type: input as location_type })}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        type: input as location_type,
+                    })
+                }
                 required
             >
                 <SelectOption
@@ -75,7 +105,12 @@ export default function LocationFormInputsClient({
                         type='number'
                         label='Campus ID'
                         value={formValues.mazemap_campus_id}
-                        setValue={(input) => setFormValues({ ...formValues, mazemap_campus_id: Number(input) })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                mazemap_campus_id: Number(input),
+                            })
+                        }
                         required
                     />
                     <Input
@@ -83,7 +118,12 @@ export default function LocationFormInputsClient({
                         type='number'
                         label='POI ID'
                         value={formValues.mazemap_poi_id}
-                        setValue={(input) => setFormValues({ ...formValues, mazemap_poi_id: Number(input) })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                mazemap_poi_id: Number(input),
+                            })
+                        }
                         required
                     />
                 </SelectOption>
@@ -96,7 +136,12 @@ export default function LocationFormInputsClient({
                         type='text'
                         label='Latitude'
                         value={formValues.coordinate_lat}
-                        setValue={(input) => setFormValues({ ...formValues, coordinate_lat: Number(input) })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                coordinate_lat: Number(input),
+                            })
+                        }
                         required
                     />
                     <Input
@@ -104,18 +149,30 @@ export default function LocationFormInputsClient({
                         type='number'
                         label='Longitude'
                         value={formValues.coordinate_long}
-                        setValue={(input) => setFormValues({ ...formValues, coordinate_long: Number(input) })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                coordinate_long: Number(input),
+                            })
+                        }
                         required
                     />
                 </SelectOption>
-                <SelectOption value='address'
+                <SelectOption
+                    value='address'
                     className='grid grid-flow-col gap-x-8 pt-4'
                 >
                     <Input
                         name='address_street'
-                        type='text' label='Address'
+                        type='text'
+                        label='Address'
                         value={formValues.address_street}
-                        setValue={(input) => setFormValues({ ...formValues, address_street: input as string })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                address_street: input as string,
+                            })
+                        }
                         required
                     />
                     <Input
@@ -123,7 +180,12 @@ export default function LocationFormInputsClient({
                         type='number'
                         label='Postal Code'
                         value={formValues.address_postcode}
-                        setValue={(input) => setFormValues({ ...formValues, address_postcode: Number(input) })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                address_postcode: Number(input),
+                            })
+                        }
                         required
                     />
                     <Input
@@ -131,7 +193,12 @@ export default function LocationFormInputsClient({
                         type='text'
                         label='City'
                         value={formValues.city_name}
-                        setValue={(input) => setFormValues({ ...formValues, city_name: input as string })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                city_name: input as string,
+                            })
+                        }
                         required
                     />
                 </SelectOption>
@@ -147,7 +214,7 @@ const sampleEventLocation = {
     type: 'coords' as location_type,
     mazemap_campus_id: 0,
     mazemap_poi_id: 0,
-    coordinate_lat: 60.7870,
+    coordinate_lat: 60.787,
     coordinate_long: 10.6815,
     address_street: 'Teknologivegen 22',
     address_postcode: 2815,

@@ -4,7 +4,11 @@ import FormWrapper from '@components/form/wrapper'
 import LocationFormInputs from '@components/form/server/locations'
 import { notFound } from 'next/navigation'
 
-export default async function Page({ params }: { params: Promise<{ slug: string, id?: string[] }> }) {
+export default async function Page({
+    params,
+}: {
+    params: Promise<{ slug: string; id?: string[] }>
+}) {
     const { id, slug } = await params
 
     if (id) {
@@ -12,13 +16,22 @@ export default async function Page({ params }: { params: Promise<{ slug: string,
         if (typeof location === 'object' && Object.keys(location).length > 0) {
             if (slug === 'create') {
                 return (
-                    <FormWrapper name='location' type='create' formAction={createLocation}>
+                    <FormWrapper
+                        name='location'
+                        type='create'
+                        formAction={createLocation}
+                    >
                         <LocationFormInputs defaultValues={location} />
                     </FormWrapper>
                 )
             } else if (slug === 'update') {
                 return (
-                    <FormWrapper name='location' type='update' id={id[0]} formAction={updateLocation}>
+                    <FormWrapper
+                        name='location'
+                        type='update'
+                        id={id[0]}
+                        formAction={updateLocation}
+                    >
                         <LocationFormInputs defaultValues={location} />
                     </FormWrapper>
                 )
@@ -26,7 +39,11 @@ export default async function Page({ params }: { params: Promise<{ slug: string,
         }
     } else if (slug === 'create') {
         return (
-            <FormWrapper name='location' type='create' formAction={createLocation}>
+            <FormWrapper
+                name='location'
+                type='create'
+                formAction={createLocation}
+            >
                 <LocationFormInputs />
             </FormWrapper>
         )

@@ -4,127 +4,127 @@ type location_type = 'mazemap' | 'coords' | 'address' | 'digital'
 
 // Events
 type GetEventsProps = {
-    id: number,
-    visible: boolean,
-    name_no: string,
-    name_en: string,
-    time_type: time_type,
-    time_start: string,
-    time_end: string,
-    time_publish: string,
-    canceled: boolean,
-    link_signup: string,
-    capacity: number,
-    full: boolean,
-    category_name_no: string,
-    category_name_en: string,
-    location_name_no: string,
-    location_name_en: string,
-    updated_at: string,
-    is_deleted: boolean,
-    audiences: string[],
+    id: number
+    visible: boolean
+    name_no: string
+    name_en: string
+    time_type: time_type
+    time_start: string
+    time_end: string
+    time_publish: string
+    canceled: boolean
+    link_signup: string
+    capacity: number
+    full: boolean
+    category_name_no: string
+    category_name_en: string
+    location_name_no: string
+    location_name_en: string
+    updated_at: string
+    is_deleted: boolean
+    audiences: string[]
     organizers: string[]
 }[]
 
 type GetEventProps = {
     audiences: [
         {
-            created_at: string,
-            deleted_at: string,
-            description_en: string,
-            description_no: string,
-            id: number,
-            name_en: string,
-            name_no: string,
+            created_at: string
+            deleted_at: string
+            description_en: string
+            description_no: string
+            id: number
+            name_en: string
+            name_no: string
             updated_at: string
-        }
-    ],
+        },
+    ]
     category: {
-        color: string,
-        created_at: string,
-        description_en: string,
-        description_no: string,
-        id: number,
-        name_en: string,
-        name_no: string,
+        color: string
+        created_at: string
+        description_en: string
+        description_no: string
+        id: number
+        name_en: string
+        name_no: string
         updated_at: string
-    },
+    }
     event: {
-        canceled: boolean,
-        capacity: number,
-        category: number,
-        created_at: string,
-        deleted_at: string,
-        description_en: string,
-        description_no: string,
-        digital: boolean,
-        full: boolean,
-        highlight: boolean,
-        id: number,
-        image_banner: string,
-        image_small: string,
-        informational_en: string,
-        informational_no: string,
-        link_discord: string,
-        link_facebook: string,
-        link_signup: string,
-        link_stream: string,
-        location: number,
-        name_en: string,
-        name_no: string,
-        parent: number,
-        rule: number,
-        time_end: string,
-        time_publish: string,
-        time_signup_deadline: string,
-        time_signup_release: string,
-        time_start: string,
-        time_type: time_type,
-        updated_at: string,
-        visible: boolean
-    },
-    location: {
-        address_postcode: number,
-        address_street: string,
-        city_name: string,
-        coordinate_lat: number,
-        coordinate_long: number,
-        created_at: string,
-        deleted_at: string,
-        id: number,
-        mazemap_campus_id: number,
-        mazemap_poi_id: number,
-        name_en: string,
-        name_no: string,
-        type: location_type,
-        updated_at: string,
-        url: string
-    },
-    organizations: {
-        created_at: string,
-        deleted_at: string,
-        description_en: string,
-        description_no: string,
-        is_deleted: boolean,
-        link_facebook: string,
-        link_homepage: string,
-        link_instagram: string,
-        link_linkedin: string,
-        logo: string,
-        name_en: string,
-        name_no: string,
-        shortname: string,
-        type: number,
+        canceled: boolean
+        capacity: number
+        category: number
+        created_at: string
+        deleted_at: string
+        description_en: string
+        description_no: string
+        digital: boolean
+        full: boolean
+        highlight: boolean
+        id: number
+        image_banner: string
+        image_small: string
+        informational_en: string
+        informational_no: string
+        link_discord: string
+        link_facebook: string
+        link_signup: string
+        link_stream: string
+        location: number
+        name_en: string
+        name_no: string
+        parent: number
+        rule: number
+        time_end: string
+        time_publish: string
+        time_signup_deadline: string
+        time_signup_release: string
+        time_start: string
+        time_type: time_type
         updated_at: string
-    }[],
+        visible: boolean
+    }
+    location: {
+        address_postcode: number
+        address_street: string
+        city_name: string
+        coordinate_lat: number
+        coordinate_long: number
+        created_at: string
+        deleted_at: string
+        id: number
+        mazemap_campus_id: number
+        mazemap_poi_id: number
+        name_en: string
+        name_no: string
+        type: location_type
+        updated_at: string
+        url: string
+    }
+    organizations: {
+        created_at: string
+        deleted_at: string
+        description_en: string
+        description_no: string
+        is_deleted: boolean
+        link_facebook: string
+        link_homepage: string
+        link_instagram: string
+        link_linkedin: string
+        logo: string
+        name_en: string
+        name_no: string
+        shortname: string
+        type: number
+        updated_at: string
+    }[]
     rule: {
-        created_at: string,
-        deleted_at: string,
-        description_en: string,
-        description_no: string,
-        id: number,
-        name_en: string,
-        name_no: string,
+        created_at: string
+        deleted_at: string
+        description_en: string
+        description_no: string
+        id: number
+        name_en: string
+        name_no: string
         updated_at: string
     }
 }
@@ -165,46 +165,46 @@ type PatchEventProps = PostEventProps & {
 }
 
 type GetAudiencesProps = {
-    id: number,
-    is_deleted: boolean,
-    name_en: string,
+    id: number
+    is_deleted: boolean
+    name_en: string
     name_no: string
 }[]
 
 type GetCategoriesProps = {
-    color: string,
-    id: number,
-    name_en: string,
+    color: string
+    id: number
+    name_en: string
     name_no: string
 }[]
 
 // Jobs
 type GetJobProps = {
-    application_deadline: string,
-    application_url: string,
-    banner_image: string,
-    cities: string[],
-    created_at: string,
-    deleted_at: string,
-    description_long_en: string,
-    description_long_no: string,
-    description_short_en: string,
-    description_short_no: string,
-    highlight: boolean,
-    id: number,
-    job_type: job_type,
-    name_en: string,
-    name_no: string,
-    organization: string,
-    position_title_en: string,
-    position_title_no: string,
-    shortname: string,
-    skills: string[],
-    time_expire: string,
-    time_publish: string,
-    title_en: string,
-    title_no: string,
-    updated_at: string,
+    application_deadline: string
+    application_url: string
+    banner_image: string
+    cities: string[]
+    created_at: string
+    deleted_at: string
+    description_long_en: string
+    description_long_no: string
+    description_short_en: string
+    description_short_no: string
+    highlight: boolean
+    id: number
+    job_type: job_type
+    name_en: string
+    name_no: string
+    organization: string
+    position_title_en: string
+    position_title_no: string
+    shortname: string
+    skills: string[]
+    time_expire: string
+    time_publish: string
+    title_en: string
+    title_no: string
+    updated_at: string
     visible: boolean
 }
 
@@ -234,29 +234,29 @@ type PatchJobProps = PostJobProps & {
 
 // Organizations
 type GetOrganizationsProps = {
-    is_deleted: boolean,
-    link_homepage: string,
-    logo: string,
-    name_en: string,
-    name_no: string,
-    shortname: string,
+    is_deleted: boolean
+    link_homepage: string
+    logo: string
+    name_en: string
+    name_no: string
+    shortname: string
     updated_at: string
 }[]
 
 type GetOrganizationProps = {
-    created_at: string,
-    deleted_at: string,
-    description_en: string,
-    description_no: string,
-    link_facebook: string,
-    link_homepage: string,
-    link_instagram: string,
-    link_linkedin: string,
-    logo: string,
-    name_en: string,
-    name_no: string,
-    shortname: string,
-    type: number,
+    created_at: string
+    deleted_at: string
+    description_en: string
+    description_no: string
+    link_facebook: string
+    link_homepage: string
+    link_instagram: string
+    link_linkedin: string
+    logo: string
+    name_en: string
+    name_no: string
+    shortname: string
+    type: number
     updated_at: string
 }
 
@@ -278,39 +278,39 @@ type PatchOrganizationProps = PostOrganizationProps
 
 // Locations
 type GetLocationsProps = {
-    address_postcode: number,
-    address_street: string,
-    city_name: string,
-    coordinate_lat: number,
-    coordinate_long: number,
-    created_at: string,
-    deleted_at: string,
-    id: number,
-    is_deleted: boolean,
-    mazemap_campus_id: number,
-    mazemap_poi_id: number,
-    name_en: string,
-    name_no: string,
-    type: location_type,
-    updated_at: string,
+    address_postcode: number
+    address_street: string
+    city_name: string
+    coordinate_lat: number
+    coordinate_long: number
+    created_at: string
+    deleted_at: string
+    id: number
+    is_deleted: boolean
+    mazemap_campus_id: number
+    mazemap_poi_id: number
+    name_en: string
+    name_no: string
+    type: location_type
+    updated_at: string
     url: string
 }[]
 
 type GetLocationProps = {
-    address_postcode: number,
-    address_street: string,
-    city_name: string,
-    coordinate_lat: number,
-    coordinate_long: number,
-    created_at: string,
-    deleted_at: string,
-    id: number,
-    mazemap_campus_id: number,
-    mazemap_poi_id: number,
-    name_en: string,
-    name_no: string,
-    type: location_type,
-    updated_at: string,
+    address_postcode: number
+    address_street: string
+    city_name: string
+    coordinate_lat: number
+    coordinate_long: number
+    created_at: string
+    deleted_at: string
+    id: number
+    mazemap_campus_id: number
+    mazemap_poi_id: number
+    name_en: string
+    name_no: string
+    type: location_type
+    updated_at: string
     url: string
 }
 
@@ -334,20 +334,20 @@ type PatchLocationProps = PostLocationProps & {
 
 // Rules
 type GetRulesProps = {
-    id: number,
-    is_deleted: boolean,
-    name_en: string,
+    id: number
+    is_deleted: boolean
+    name_en: string
     name_no: string
 }[]
 
 type GetRuleProps = {
-    created_at: string,
-    deleted_at: string,
-    description_en: string,
-    description_no: string,
-    id: number,
-    name_en: string,
-    name_no: string,
+    created_at: string
+    deleted_at: string
+    description_en: string
+    description_no: string
+    id: number
+    name_en: string
+    name_no: string
     updated_at: string
 }
 
@@ -364,8 +364,8 @@ type PatchRuleProps = PostRuleProps & {
 
 // Images
 type GetImageProps = {
-    filepath: string,
-    name: string,
+    filepath: string
+    name: string
     size: number
 }[]
 
@@ -552,3 +552,5 @@ type LocationTypes = {
     label: string
     value: location_type
 }
+
+type Option = { value: string | number; label: string; image?: string }

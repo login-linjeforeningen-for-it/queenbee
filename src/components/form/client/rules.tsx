@@ -5,12 +5,16 @@ import Markdown from '@components/inputs/markdown'
 import Button from '@components/userInput/button'
 import { useState } from 'react'
 
-export default function RuleFormInputsClient({ defaultValues }: { defaultValues?: GetRuleProps }) {
+export default function RuleFormInputsClient({
+    defaultValues,
+}: {
+    defaultValues?: GetRuleProps
+}) {
     const [formValues, setFormValues] = useState({
         name_no: defaultValues?.name_no ?? '',
         name_en: defaultValues?.name_en ?? '',
         description_no: defaultValues?.description_no ?? '',
-        description_en: defaultValues?.description_en ?? ''
+        description_en: defaultValues?.description_en ?? '',
     })
 
     function example() {
@@ -19,8 +23,16 @@ export default function RuleFormInputsClient({ defaultValues }: { defaultValues?
 
     return (
         <div className='flex flex-col gap-4 relative'>
-            <div className='absolute flex flex-row gap-[1rem] -mt-13 w-full justify-end'>
-                <Button color="secondary" text='Example' icon='+' onClick={example} />
+            {/* prettier-ignore */}
+            <div className={
+                'absolute flex flex-row gap-[1rem] -mt-13 w-full justify-end'
+            }>
+                <Button
+                    color='secondary'
+                    text='Example'
+                    icon='+'
+                    onClick={example}
+                />
             </div>
             <div className='flex flex-row gap-8 justify-between w-full'>
                 <Input
@@ -29,7 +41,12 @@ export default function RuleFormInputsClient({ defaultValues }: { defaultValues?
                     label='Name (Norwegian)'
                     required
                     value={formValues.name_no}
-                    setValue={(input) => setFormValues({ ...formValues, name_no: input as string })}
+                    setValue={(input) =>
+                        setFormValues({
+                            ...formValues,
+                            name_no: input as string,
+                        })
+                    }
                 />
                 <Input
                     name='name_en'
@@ -37,7 +54,12 @@ export default function RuleFormInputsClient({ defaultValues }: { defaultValues?
                     label='Name (English)'
                     required
                     value={formValues.name_en}
-                    setValue={(input) => setFormValues({ ...formValues, name_en: input as string })}
+                    setValue={(input) =>
+                        setFormValues({
+                            ...formValues,
+                            name_en: input as string,
+                        })
+                    }
                 />
             </div>
             <div className='flex flex-row gap-8 justify-between w-full'>
@@ -46,14 +68,24 @@ export default function RuleFormInputsClient({ defaultValues }: { defaultValues?
                     label='Description (Norwegian)'
                     required
                     value={formValues.description_no}
-                    setValue={(input) => setFormValues({ ...formValues, description_no: input as string })}
+                    setValue={(input) =>
+                        setFormValues({
+                            ...formValues,
+                            description_no: input as string,
+                        })
+                    }
                 />
                 <Markdown
                     name='description_en'
                     label='Description (English)'
                     required
                     value={formValues.description_en}
-                    setValue={(input) => setFormValues({ ...formValues, description_en: input as string })}
+                    setValue={(input) =>
+                        setFormValues({
+                            ...formValues,
+                            description_en: input as string,
+                        })
+                    }
                 />
             </div>
         </div>
@@ -74,5 +106,5 @@ const sampleRule = {
 - Respect other participants and organizers 🤝  
 - Follow safety instructions ⚠️  
 - Keep the area tidy 🧹  
-- Ask questions ✅`
+- Ask questions ✅`,
 }

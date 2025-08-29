@@ -21,7 +21,7 @@ type BodyProps = {
     deleteAction: (id: string) => void
 }
 
-export default function Table({list, headers, deleteAction}: TableProps) {
+export default function Table({ list, headers, deleteAction }: TableProps) {
     const keys = Object.keys(list[0])
     headers = headers || keys
 
@@ -29,22 +29,29 @@ export default function Table({list, headers, deleteAction}: TableProps) {
         <div className='relative flex-1 noscroll w-full overflow-auto'>
             <table className='w-full relative border-collapse rounded-lg pl-2'>
                 <Header keys={keys} headers={headers} />
-                <Body list={list} headers={headers} deleteAction={deleteAction} />
+                <Body
+                    list={list}
+                    headers={headers}
+                    deleteAction={deleteAction}
+                />
             </table>
         </div>
     )
 }
 
-function Header({keys, headers}: HeaderProps) {
+function Header({ keys, headers }: HeaderProps) {
     const [column, setColumn] = useState(keys[0])
-    const [order, setOrder] = useState<'asc'|'desc'>('asc')
+    const [order, setOrder] = useState<'asc' | 'desc'>('asc')
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
 
     useEffect(() => {
         const params = new URLSearchParams(searchParams.toString())
-        if (searchParams.get('order') !== order || searchParams.get('column') !== column) {
+        if (
+            searchParams.get('order') !== order ||
+            searchParams.get('column') !== column
+        ) {
             params.set('order', order)
             params.set('column', column)
             params.set('page', '1')
@@ -54,14 +61,20 @@ function Header({keys, headers}: HeaderProps) {
 
     function handleChange(key: string) {
         setColumn(key)
-        setOrder(prev => (key === column && prev === 'asc' ? 'desc' : 'asc'))
+        setOrder((prev) => (key === column && prev === 'asc' ? 'desc' : 'asc'))
     }
 
     return (
         <thead className='bg-login-500 h-[2rem]'>
             <tr>
                 {keys.map((key) => {
-                    const value = key.length < 3 ? key.toUpperCase() : `${key[0].toUpperCase()}${key.slice(1).replaceAll('_', ' ')}`
+                    // prettier-ignore
+                    const value =
+                        key.length < 3
+                            ? key.toUpperCase()
+                            : `${key[0].toUpperCase()}${key
+                                .slice(1)
+                                .replaceAll('_', ' ')}`
                     if (!headers.includes(key)) {
                         return null
                     }
@@ -69,7 +82,10 @@ function Header({keys, headers}: HeaderProps) {
                     return (
                         <th key={key} className='whitespace-nowrap text-left'>
                             <button
-                                className='w-full h-full p-[0.5rem] flex flex-row items-center justify-between group'
+                                className={
+                                    'w-full h-full p-[0.5rem] flex flex-row ' +
+                                    'items-center justify-between group'
+                                }
                                 onClick={() => handleChange(key)}
                             >
                                 <h1>{value}</h1>
@@ -79,21 +95,25 @@ function Header({keys, headers}: HeaderProps) {
                                     ) : (
                                         <ChevronDown className='h-[1.5rem]' />
                                     )
-                                ) : <ChevronUp className='h-[1.5rem] stroke-login-200 opacity-0 group-hover:opacity-100' />
-                                }
+                                ) : (
+                                    <ChevronUp
+                                        className={
+                                            'h-[1.5rem] stroke-login-200 ' +
+                                            'opacity-0 group-hover:opacity-100'
+                                        }
+                                    />
+                                )}
                             </button>
                         </th>
                     )
                 })}
-                <th/>
+                <th />
             </tr>
         </thead>
     )
 }
 
-
-
-function Body({list, headers, deleteAction}: BodyProps) {
+function Body({ list, headers, deleteAction }: BodyProps) {
     const [openMenuId, setOpenMenuId] = useState<string | null>(null)
     const pathname = usePathname()
     const router = useRouter()
@@ -105,17 +125,18 @@ function Body({list, headers, deleteAction}: BodyProps) {
         return (
             <tbody key={index} className='bg-login-500 h-[2rem]'>
                 <tr className='border-y-1 border-login-900'>
-
                     {entries.map(([key, value]) => {
                         const renderedValue = formatValue(key, value)
                         if (!headers.includes(key)) return null
                         return (
-                            <td
-                                key={key}
-                                className='p-[0.5rem]'
-                            >
+                            <td key={key} className='p-[0.5rem]'>
                                 <div className='relative group'>
-                                    <h1 className='overflow-hidden text-ellipsis whitespace-nowrap max-w-[15rem]'>
+                                    <h1
+                                        className={
+                                            'overflow-hidden text-ellipsis ' +
+                                            'whitespace-nowrap max-w-[15rem]'
+                                        }
+                                    >
                                         {renderedValue}
                                     </h1>
                                 </div>
@@ -125,29 +146,74 @@ function Body({list, headers, deleteAction}: BodyProps) {
                     <td className='p-[0.5rem]'>
                         <button
                             type='button'
-                            className={`mx-auto px-3 py-1.5 rounded hover:bg-login-400 flex items-start justify-center ${openMenuId === id ? 'bg-login-400' : ''}`}
-                            onClick={() => setOpenMenuId(openMenuId === id ? null : id)}
+                            className={
+                                'mx-auto px-3 py-1.5 rounded ' +
+                                'hover:bg-login-400 ' +
+                                ' flex items-start justify-center ' +
+                                `${openMenuId === id ? 'bg-login-400' : ''}`
+                            }
+                            onClick={() =>
+                                setOpenMenuId(openMenuId === id ? null : id)
+                            }
                         >
-                            <span className={`text-xl leading-none select-none ${openMenuId === id ? 'text-login-300' : ''}`}>⋮</span>
+                            {/* prettier-ignore */}
+                            <span className={'text-xl leading-none select-none '
+                                + `${openMenuId === id ? 'text-login-300' : ''}`
+                            }
+                            >
+                                ⋮
+                            </span>
                         </button>
                         {openMenuId === id && (
-                            <div className='absolute right-0 mt-1 w-28 origin-top-right rounded-md bg-login-500 border border-[color:var(--color-login-900 )] shadow-lg z-20'>
+                            <div
+                                className={
+                                    'absolute right-0 mt-1 w-28 ' +
+                                    'origin-top-right rounded-md ' +
+                                    'bg-login-500 border ' +
+                                    'border-[color:var(--color-login-900 )] ' +
+                                    'shadow-lg z-20'
+                                }
+                            >
                                 <div className='py-1'>
                                     <button
-                                        className='w-full text-left px-3 py-1.5 text-sm hover:bg-login-400'
-                                        onClick={() => { setOpenMenuId(null); router.push(`${pathname}/update/${id}`) }}
+                                        className={
+                                            'w-full text-left px-3 py-1.5 ' +
+                                            'text-sm hover:bg-login-400'
+                                        }
+                                        onClick={() => {
+                                            setOpenMenuId(null)
+                                            router.push(
+                                                `${pathname}/update/${id}`
+                                            )
+                                        }}
                                     >
                                         Edit
                                     </button>
                                     <button
-                                        className='w-full text-left px-3 py-1.5 text-sm hover:bg-login-400'
-                                        onClick={() => { setOpenMenuId(null); router.push(`${pathname}/create/${id}`) }}
+                                        className={
+                                            'w-full text-left px-3 py-1.5 ' +
+                                            'text-sm hover:bg-login-400'
+                                        }
+                                        onClick={() => {
+                                            setOpenMenuId(null)
+                                            router.push(
+                                                `${pathname}/create/${id}`
+                                            )
+                                        }}
                                     >
                                         Duplicate
                                     </button>
                                     <button
-                                        className='w-full text-left px-3 py-1.5 text-sm text-[color:var(--color-delete)] hover:bg-login-400'
-                                        onClick={() => { setOpenMenuId(null); deleteAction(id); router.refresh() }}
+                                        className={
+                                            'w-full text-left px-3 py-1.5 ' +
+                                            'text-sm hover:bg-login-400 ' +
+                                            'text-[color:var(--color-delete)]'
+                                        }
+                                        onClick={() => {
+                                            setOpenMenuId(null)
+                                            deleteAction(id)
+                                            router.refresh()
+                                        }}
                                     >
                                         Delete
                                     </button>
@@ -157,12 +223,15 @@ function Body({list, headers, deleteAction}: BodyProps) {
                     </td>
                 </tr>
             </tbody>
-        )})
+        )
+    })
 }
 
 function formatValue(key: string, value: string | number) {
     if (key.includes('date')) {
-        return new Date(value).toLocaleString('nb-NO', { timeZone: 'Europe/Oslo' })
+        return new Date(value).toLocaleString('nb-NO', {
+            timeZone: 'Europe/Oslo',
+        })
     }
 
     if (key.includes('capacity')) {

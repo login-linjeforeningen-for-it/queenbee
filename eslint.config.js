@@ -10,19 +10,19 @@ export default [
     {
         plugins: {
             '@stylistic': stylistic,
-            '@next/next': pluginNext
+            '@next/next': pluginNext,
         },
         languageOptions: {
             sourceType: 'module',
             ecmaVersion: 2024,
-            parser: typescriptParser
+            parser: typescriptParser,
         },
         rules: {
             ...pluginNext.configs.recommended.rules,
-            'strict': 'error',
+            strict: 'error',
             'no-var': 'error',
             'array-callback-return': 'error',
-            'yoda': 'error',
+            yoda: 'error',
             '@stylistic/indent': ['error', 4],
             '@stylistic/quotes': ['error', 'single'],
             '@stylistic/semi': ['error', 'never'],
@@ -33,7 +33,14 @@ export default [
             '@typescript-eslint/no-unused-vars': 'error',
             '@typescript-eslint/ban-ts-comment': 'off',
             '@typescript-eslint/no-non-null-assertion': 'off',
-            'max-len': ['error', { code: 80, ignoreComments: true, ignoreUrls: true }]
-        }
-    }
+            'max-len': [
+                'error',
+                {
+                    code: 80,
+                    ignoreComments: true,
+                    ignoreUrls: true,
+                },
+            ],
+        },
+    },
 ]

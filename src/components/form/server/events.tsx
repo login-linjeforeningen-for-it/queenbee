@@ -9,8 +9,13 @@ import {
 } from '@utils/api'
 import { EventFormInputsClient } from '../client/events'
 
-export default async function EventFormInputs({ defaultValues }: { defaultValues?: GetEventProps }) {
+export default async function EventFormInputs({
+    defaultValues,
+}: {
+    defaultValues?: GetEventProps
+}) {
     const bannerImagesResponse = await getEventBannerImages()
+    // prettier-ignore
     const bannerImages = Array.isArray(bannerImagesResponse)
         ? bannerImagesResponse.map((image) => ({
             label: image.name,
@@ -20,6 +25,7 @@ export default async function EventFormInputs({ defaultValues }: { defaultValues
         : []
 
     const smallImagesResponse = await getEventSmallImages()
+    // prettier-ignore
     const smallImages = Array.isArray(smallImagesResponse)
         ? smallImagesResponse.map((image) => ({
             label: image.name,
@@ -29,6 +35,7 @@ export default async function EventFormInputs({ defaultValues }: { defaultValues
         : []
 
     const categoriesResponse = await getCategories()
+    // prettier-ignore
     const categories = Array.isArray(categoriesResponse)
         ? categoriesResponse.map((category) => ({
             label: category.name_en,
@@ -37,6 +44,7 @@ export default async function EventFormInputs({ defaultValues }: { defaultValues
         : []
 
     const organizationsResponse = await getOrganizations()
+    // prettier-ignore
     const organizations = Array.isArray(organizationsResponse)
         ? organizationsResponse.map((organization) => ({
             label: organization.name_en,
@@ -45,6 +53,7 @@ export default async function EventFormInputs({ defaultValues }: { defaultValues
         : []
 
     const rulesResponse = await getRules()
+    // prettier-ignore
     const rules = Array.isArray(rulesResponse)
         ? rulesResponse.map((rule) => ({
             label: rule.name_en,
@@ -53,6 +62,7 @@ export default async function EventFormInputs({ defaultValues }: { defaultValues
         : []
 
     const locationsResponse = await getLocations()
+    // prettier-ignore
     const locations = Array.isArray(locationsResponse)
         ? locationsResponse.map((location) => ({
             label: location.name_en,
@@ -61,6 +71,7 @@ export default async function EventFormInputs({ defaultValues }: { defaultValues
         : []
 
     const audiencesResponse = await getAudiences()
+    // prettier-ignore
     const audiences = Array.isArray(audiencesResponse)
         ? audiencesResponse.map((audience) => ({
             label: audience.name_en,

@@ -8,7 +8,9 @@ export const metadata: Metadata = {
     description: 'Queenbee - Admintool',
 }
 
-export default async function RootLayout({ children, }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({
+    children,
+}: Readonly<{ children: React.ReactNode }>) {
     const Cookies = await cookies()
     const theme = Cookies.get('theme')?.value || 'dark'
     return (
@@ -18,9 +20,7 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
                     <Nav />
                 </header>
                 <main className='flex flex-1 overflow-hidden'>
-                    <div className='w-full bg-login-800'>
-                        {children}
-                    </div>
+                    <div className='w-full bg-login-800'>{children}</div>
                 </main>
             </body>
         </html>

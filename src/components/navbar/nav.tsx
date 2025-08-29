@@ -6,7 +6,12 @@ import { LogOut } from 'lucide-react'
 
 export default function Nav() {
     return (
-        <nav className='relative h-[var(--h-navbar)] w-full bg-login-950 flex justify-between'>
+        <nav
+            className={
+                'relative h-[var(--h-navbar)] w-full ' +
+                'bg-login-950 flex justify-between'
+            }
+        >
             <LeftSide />
             <RightSide />
         </nav>
@@ -18,7 +23,12 @@ function LeftSide() {
         <div className='flex gap-4'>
             <div className='relative h-[var(--h-navbar)] w-[45px]'>
                 <Link href='/'>
-                    <Image alt='Logo' src='/images/queenbee-logo.png' fill={true} quality={100} />
+                    <Image
+                        alt='Logo'
+                        src='/images/queenbee-logo.png'
+                        fill={true}
+                        quality={100}
+                    />
                 </Link>
             </div>
             <h1 className='self-center font-semibold '>QUEENBEE - Admintool</h1>
@@ -32,10 +42,20 @@ async function RightSide() {
     return (
         <div className='flex gap-[1rem] items-center pr-[1rem]'>
             <ThemeSwitch />
-            {token ? <Link className='flex align-middle gap-[0.5rem]  hover:*:text-login hover:*:stroke-login' href={token ? '/logout' : '/login'}>
-                <LogOut className='w-5'/>
-                <h1>Logout</h1>
-            </Link> : <></>}
+            {token ? (
+                <Link
+                    className={
+                        'flex align-middle gap-[0.5rem] ' +
+                        'hover:*:text-login hover:*:stroke-login'
+                    }
+                    href={token ? '/logout' : '/login'}
+                >
+                    <LogOut className='w-5' />
+                    <h1>Logout</h1>
+                </Link>
+            ) : (
+                <></>
+            )}
         </div>
     )
 }

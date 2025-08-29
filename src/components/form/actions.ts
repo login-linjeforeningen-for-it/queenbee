@@ -10,7 +10,7 @@ import {
     postLocation,
     patchLocation,
     postRule,
-    patchRule
+    patchRule,
 } from '@/utils/api'
 import {
     patchEventSchema,
@@ -22,13 +22,28 @@ import {
     postJobSchema,
     postLocationSchema,
     postOrganizationSchema,
-    postRuleSchema
+    postRuleSchema,
 } from './schemas'
 import z from 'zod'
 
-export type FormState = null | string | PostRuleProps | PostEventProps | PostJobProps | PostOrganizationProps | PostLocationProps | PatchRuleProps | PatchEventProps | PatchJobProps | PatchOrganizationProps | PatchLocationProps
+export type FormState =
+    | null
+    | string
+    | PostRuleProps
+    | PostEventProps
+    | PostJobProps
+    | PostOrganizationProps
+    | PostLocationProps
+    | PatchRuleProps
+    | PatchEventProps
+    | PatchJobProps
+    | PatchOrganizationProps
+    | PatchLocationProps
 
-export async function createEvent(_: FormState, formData: FormData): Promise<FormState> {
+export async function createEvent(
+    _: FormState,
+    formData: FormData
+): Promise<FormState> {
     try {
         const eventProps: PostEventProps = {
             canceled: false,
@@ -52,13 +67,45 @@ export async function createEvent(_: FormState, formData: FormData): Promise<For
             name_no: formData.get('name_no') as string,
             parent: Number(formData.get('parent')),
             rule: Number(formData.get('rule')),
-            time_end: formData.get('end_date') && formData.get('end_time') ? `${formData.get('end_date')}T${formData.get('end_time')}:00Z` : '',
-            time_publish: formData.get('publish_date') && formData.get('publish_time') ? `${formData.get('publish_date')}T${formData.get('publish_time')}:00Z` : '',
-            time_signup_deadline: formData.get('link_signup') ? formData.get('deadline_date') && formData.get('deadline_time') ? `${formData.get('deadline_date')}T${formData.get('deadline_time')}:00Z` : formData.get('end_date') && formData.get('end_time') ? `${formData.get('end_date')}T${formData.get('end_time')}:00Z` : undefined : undefined,
-            time_signup_release: formData.get('link_signup') ? formData.get('release_date') && formData.get('release_time') ? `${formData.get('release_date')}T${formData.get('release_time')}:00Z` : formData.get('publish_date') && formData.get('publish_time') ? `${formData.get('publish_date')}T${formData.get('publish_time')}:00Z` : undefined : undefined,
-            time_start: formData.get('start_date') && formData.get('start_time') ? `${formData.get('start_date')}T${formData.get('start_time')}:00Z` : '',
+            time_end:
+                formData.get('end_date') && formData.get('end_time')
+                    ? `${formData.get('end_date')}T` +
+                      `${formData.get('end_time')}:00Z`
+                    : '',
+            time_publish:
+                formData.get('publish_date') && formData.get('publish_time')
+                    ? `${formData.get('publish_date')}T` +
+                      `${formData.get('publish_time')}:00Z`
+                    : '',
+            // prettier-ignore
+            time_signup_deadline: formData.get('link_signup')
+                ? formData.get('deadline_date') && formData.get('deadline_time')
+                    ? `${formData.get('deadline_date')}T` +
+                    `${formData.get('deadline_time')}:00Z`
+                    : formData.get('end_date') && formData.get('end_time')
+                        ? `${formData.get('end_date')}T` +
+                        `${formData.get('end_time')}:00Z`
+                        : undefined
+                : undefined,
+            // prettier-ignore
+            time_signup_release: formData.get('link_signup')
+                ? formData.get('release_date') && formData.get('release_time')
+                    ? `${formData.get('release_date')}T` +
+                    `${formData.get('release_time')}:00Z`
+                    : formData.get('publish_date') &&
+                        formData.get('publish_time')
+                        ? `${formData.get('publish_date')}T` +
+                        `${formData.get('publish_time')}:00Z`
+                        : undefined
+                : undefined,
+            // prettier-ignore
+            time_start:
+                formData.get('start_date') && formData.get('start_time')
+                    ? `${formData.get('start_date')}T` +
+                    `${formData.get('start_time')}:00Z`
+                    : '',
             time_type: formData.get('time_type') as time_type,
-            visible: true
+            visible: true,
         }
 
         const result = postEventSchema.safeParse(eventProps)
@@ -74,7 +121,10 @@ export async function createEvent(_: FormState, formData: FormData): Promise<For
     }
 }
 
-export async function updateEvent(_: FormState, formData: FormData): Promise<FormState> {
+export async function updateEvent(
+    _: FormState,
+    formData: FormData
+): Promise<FormState> {
     try {
         const eventProps: PatchEventProps = {
             id: Number(formData.get('id')),
@@ -99,13 +149,44 @@ export async function updateEvent(_: FormState, formData: FormData): Promise<For
             name_no: formData.get('name_no') as string,
             parent: Number(formData.get('parent')),
             rule: Number(formData.get('rule')),
-            time_end: formData.get('end_date') && formData.get('end_time') ? `${formData.get('end_date')}T${formData.get('end_time')}:00Z` : '',
-            time_publish: formData.get('publish_date') && formData.get('publish_time') ? `${formData.get('publish_date')}T${formData.get('publish_time')}:00Z` : '',
-            time_signup_deadline: formData.get('link_signup') ? formData.get('deadline_date') && formData.get('deadline_time') ? `${formData.get('deadline_date')}T${formData.get('deadline_time')}:00Z` : formData.get('end_date') && formData.get('end_time') ? `${formData.get('end_date')}T${formData.get('end_time')}:00Z` : '' : '',
-            time_signup_release: formData.get('link_signup') ? formData.get('release_date') && formData.get('release_time') ? `${formData.get('release_date')}T${formData.get('release_time')}:00Z` : formData.get('publish_date') && formData.get('publish_time') ? `${formData.get('publish_date')}T${formData.get('publish_time')}:00Z` : '' : '',
-            time_start: formData.get('start_date') && formData.get('start_time') ? `${formData.get('start_date')}T${formData.get('start_time')}:00Z` : '',
+            time_end:
+                formData.get('end_date') && formData.get('end_time')
+                    ? `${formData.get('end_date')}T` +
+                      `${formData.get('end_time')}:00Z`
+                    : '',
+            time_publish:
+                formData.get('publish_date') && formData.get('publish_time')
+                    ? `${formData.get('publish_date')}T` +
+                      `${formData.get('publish_time')}:00Z`
+                    : '',
+            // prettier-ignore
+            time_signup_deadline: formData.get('link_signup')
+                ? formData.get('deadline_date') && formData.get('deadline_time')
+                    ? `${formData.get('deadline_date')}T` +
+                    `${formData.get('deadline_time')}:00Z`
+                    : formData.get('end_date') && formData.get('end_time')
+                        ? `${formData.get('end_date')}T` +
+                        `${formData.get('end_time')}:00Z`
+                        : ''
+                : '',
+            // prettier-ignore
+            time_signup_release: formData.get('link_signup')
+                ? formData.get('release_date') && formData.get('release_time')
+                    ? `${formData.get('release_date')}T` +
+                    `${formData.get('release_time')}:00Z`
+                    : formData.get('publish_date') &&
+                        formData.get('publish_time')
+                        ? `${formData.get('publish_date')}` +
+                        `T${formData.get('publish_time')}:00Z`
+                        : ''
+                : '',
+            time_start:
+                formData.get('start_date') && formData.get('start_time')
+                    ? `${formData.get('start_date')}T` +
+                      `${formData.get('start_time')}:00Z`
+                    : '',
             time_type: formData.get('time_type') as time_type,
-            visible: true
+            visible: true,
         }
 
         const result = patchEventSchema.safeParse(eventProps)
@@ -121,26 +202,45 @@ export async function updateEvent(_: FormState, formData: FormData): Promise<For
     }
 }
 
-export async function createJob(_: FormState, formData: FormData): Promise<FormState> {
+export async function createJob(
+    _: FormState,
+    formData: FormData
+): Promise<FormState> {
     try {
         const jobProps: PostJobProps = {
-            application_deadline: formData.get('deadline_date') && formData.get('deadline_time') ? `${formData.get('deadline_date')}T${formData.get('deadline_time')}:00Z` : '',
+            application_deadline:
+                formData.get('deadline_date') && formData.get('deadline_time')
+                    ? `${formData.get('deadline_date')}T` +
+                      `${formData.get('deadline_time')}:00Z`
+                    : '',
             application_url: formData.get('application_url') as string,
             banner_image: formData.get('banner_image') as string,
             description_long_en: formData.get('description_long_en') as string,
             description_long_no: formData.get('description_long_no') as string,
-            description_short_en: formData.get('description_short_en') as string,
-            description_short_no: formData.get('description_short_no') as string,
+            description_short_en: formData.get(
+                'description_short_en'
+            ) as string,
+            description_short_no: formData.get(
+                'description_short_no'
+            ) as string,
             highlight: formData.get('highlight') === 'true',
             job_type: formData.get('job_type') as job_type,
             organization: formData.get('organization') as string,
             position_title_en: formData.get('position_title_en') as string,
             position_title_no: formData.get('position_title_no') as string,
-            time_expire: formData.get('expire_date') && formData.get('expire_time') ? `${formData.get('expire_date')}T${formData.get('expire_time')}:00Z` : '',
-            time_publish: formData.get('publish_date') && formData.get('publish_time') ? `${formData.get('publish_date')}T${formData.get('publish_time')}:00Z` : '',
+            time_expire:
+                formData.get('expire_date') && formData.get('expire_time')
+                    ? `${formData.get('expire_date')}T` +
+                      `${formData.get('expire_time')}:00Z`
+                    : '',
+            time_publish:
+                formData.get('publish_date') && formData.get('publish_time')
+                    ? `${formData.get('publish_date')}T` +
+                      `${formData.get('publish_time')}:00Z`
+                    : '',
             title_en: formData.get('title_en') as string,
             title_no: formData.get('title_no') as string,
-            visible: true
+            visible: true,
         }
 
         const result = postJobSchema.safeParse(jobProps)
@@ -156,27 +256,46 @@ export async function createJob(_: FormState, formData: FormData): Promise<FormS
     }
 }
 
-export async function updateJob(_: FormState, formData: FormData): Promise<FormState> {
+export async function updateJob(
+    _: FormState,
+    formData: FormData
+): Promise<FormState> {
     try {
         const jobProps: PatchJobProps = {
             id: Number(formData.get('id')),
-            application_deadline: formData.get('deadline_date') && formData.get('deadline_time') ? `${formData.get('deadline_date')}T${formData.get('deadline_time')}:00Z` : '',
+            application_deadline:
+                formData.get('deadline_date') && formData.get('deadline_time')
+                    ? `${formData.get('deadline_date')}T` +
+                      `${formData.get('deadline_time')}:00Z`
+                    : '',
             application_url: formData.get('application_url') as string,
             banner_image: formData.get('banner_image') as string,
             description_long_en: formData.get('description_long_en') as string,
             description_long_no: formData.get('description_long_no') as string,
-            description_short_en: formData.get('description_short_en') as string,
-            description_short_no: formData.get('description_short_no') as string,
+            description_short_en: formData.get(
+                'description_short_en'
+            ) as string,
+            description_short_no: formData.get(
+                'description_short_no'
+            ) as string,
             highlight: formData.get('highlight') === 'true',
             job_type: formData.get('job_type') as job_type,
             organization: formData.get('organization') as string,
             position_title_en: formData.get('position_title_en') as string,
             position_title_no: formData.get('position_title_no') as string,
-            time_expire: formData.get('expire_date') && formData.get('expire_time') ? `${formData.get('expire_date')}T${formData.get('expire_time')}:00Z` : '',
-            time_publish: formData.get('publish_date') && formData.get('publish_time') ? `${formData.get('publish_date')}T${formData.get('publish_time')}:00Z` : '',
+            time_expire:
+                formData.get('expire_date') && formData.get('expire_time')
+                    ? `${formData.get('expire_date')}T` +
+                      `${formData.get('expire_time')}:00Z`
+                    : '',
+            time_publish:
+                formData.get('publish_date') && formData.get('publish_time')
+                    ? `${formData.get('publish_date')}T` +
+                      `${formData.get('publish_time')}:00Z`
+                    : '',
             title_en: formData.get('title_en') as string,
             title_no: formData.get('title_no') as string,
-            visible: true
+            visible: true,
         }
 
         const result = patchJobSchema.safeParse(jobProps)
@@ -192,7 +311,10 @@ export async function updateJob(_: FormState, formData: FormData): Promise<FormS
     }
 }
 
-export async function createOrganization(_: FormState, formData: FormData): Promise<FormState> {
+export async function createOrganization(
+    _: FormState,
+    formData: FormData
+): Promise<FormState> {
     try {
         const organizationProps: PostOrganizationProps = {
             description_en: formData.get('description_en') as string,
@@ -205,7 +327,7 @@ export async function createOrganization(_: FormState, formData: FormData): Prom
             name_en: formData.get('name_en') as string,
             name_no: formData.get('name_no') as string,
             shortname: formData.get('shortname') as string,
-            type: Number(formData.get('type'))
+            type: Number(formData.get('type')),
         }
 
         const result = postOrganizationSchema.safeParse(organizationProps)
@@ -221,7 +343,10 @@ export async function createOrganization(_: FormState, formData: FormData): Prom
     }
 }
 
-export async function updateOrganization(_: FormState, formData: FormData): Promise<FormState> {
+export async function updateOrganization(
+    _: FormState,
+    formData: FormData
+): Promise<FormState> {
     try {
         const organizationProps: PatchOrganizationProps = {
             description_en: formData.get('description_en') as string,
@@ -234,7 +359,7 @@ export async function updateOrganization(_: FormState, formData: FormData): Prom
             name_en: formData.get('name_en') as string,
             name_no: formData.get('name_no') as string,
             shortname: formData.get('shortname') as string,
-            type: Number(formData.get('type'))
+            type: Number(formData.get('type')),
         }
 
         const result = patchOrganizationSchema.safeParse(organizationProps)
@@ -242,7 +367,10 @@ export async function updateOrganization(_: FormState, formData: FormData): Prom
             return z.prettifyError(result.error)
         }
 
-        const response = await patchOrganization(organizationProps.shortname, organizationProps)
+        const response = await patchOrganization(
+            organizationProps.shortname,
+            organizationProps
+        )
         return response
     } catch (error) {
         console.error('Error updating organization:', error)
@@ -250,7 +378,10 @@ export async function updateOrganization(_: FormState, formData: FormData): Prom
     }
 }
 
-export async function createLocation(_: FormState, formData: FormData): Promise<FormState> {
+export async function createLocation(
+    _: FormState,
+    formData: FormData
+): Promise<FormState> {
     try {
         const locationProps: PostLocationProps = {
             address_postcode: Number(formData.get('address_postcode')),
@@ -263,7 +394,7 @@ export async function createLocation(_: FormState, formData: FormData): Promise<
             name_en: formData.get('name_en') as string,
             name_no: formData.get('name_no') as string,
             type: formData.get('type') as location_type,
-            url: formData.get('url') as string
+            url: formData.get('url') as string,
         }
 
         const result = postLocationSchema.safeParse(locationProps)
@@ -279,7 +410,10 @@ export async function createLocation(_: FormState, formData: FormData): Promise<
     }
 }
 
-export async function updateLocation(_: FormState, formData: FormData): Promise<FormState> {
+export async function updateLocation(
+    _: FormState,
+    formData: FormData
+): Promise<FormState> {
     try {
         const locationProps: PatchLocationProps = {
             id: Number(formData.get('id')),
@@ -293,7 +427,7 @@ export async function updateLocation(_: FormState, formData: FormData): Promise<
             name_en: formData.get('name_en') as string,
             name_no: formData.get('name_no') as string,
             type: formData.get('type') as location_type,
-            url: formData.get('url') as string
+            url: formData.get('url') as string,
         }
 
         const result = patchLocationSchema.safeParse(locationProps)
@@ -309,13 +443,16 @@ export async function updateLocation(_: FormState, formData: FormData): Promise<
     }
 }
 
-export async function createRule(_: FormState, formData: FormData): Promise<FormState> {
+export async function createRule(
+    _: FormState,
+    formData: FormData
+): Promise<FormState> {
     try {
         const ruleProps: PostRuleProps = {
             name_en: formData.get('name_en') as string,
             name_no: formData.get('name_no') as string,
             description_en: formData.get('description_en') as string,
-            description_no: formData.get('description_no') as string
+            description_no: formData.get('description_no') as string,
         }
 
         const result = postRuleSchema.safeParse(ruleProps)
@@ -331,14 +468,17 @@ export async function createRule(_: FormState, formData: FormData): Promise<Form
     }
 }
 
-export async function updateRule(_: FormState, formData: FormData): Promise<FormState> {
+export async function updateRule(
+    _: FormState,
+    formData: FormData
+): Promise<FormState> {
     try {
         const ruleProps: PatchRuleProps = {
             id: Number(formData.get('id')),
             name_en: formData.get('name_en') as string,
             name_no: formData.get('name_no') as string,
             description_en: formData.get('description_en') as string,
-            description_no: formData.get('description_no') as string
+            description_no: formData.get('description_no') as string,
         }
 
         const result = patchRuleSchema.safeParse(ruleProps)

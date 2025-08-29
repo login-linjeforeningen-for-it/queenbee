@@ -9,7 +9,10 @@ type PaginationProps = {
     totalRows?: number
 }
 
-export default function Pagination({ pageSize = 10, totalRows }: PaginationProps) {
+export default function Pagination({
+    pageSize = 10,
+    totalRows,
+}: PaginationProps) {
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
@@ -18,11 +21,17 @@ export default function Pagination({ pageSize = 10, totalRows }: PaginationProps
     const initialPage = Math.max(1, Number.isNaN(rawPage) ? 1 : rawPage)
     const [current, setCurrent] = useState<number>(initialPage)
 
-
     useEffect(() => {
         const raw = parseInt(searchParams.get('page') || '1', 10)
         const p = Math.max(1, Number.isNaN(raw) ? 1 : raw)
-        const computedTotalPages = Math.max(1, Math.ceil((typeof totalRows === 'number' && pageSize > 0) ? totalRows / pageSize : 1))
+        const computedTotalPages = Math.max(
+            1,
+            Math.ceil(
+                typeof totalRows === 'number' && pageSize > 0
+                    ? totalRows / pageSize
+                    : 1
+            )
+        )
         setCurrent(Math.max(1, Math.min(computedTotalPages, p)))
     }, [searchParams, totalRows, pageSize])
 
@@ -39,7 +48,14 @@ export default function Pagination({ pageSize = 10, totalRows }: PaginationProps
         updateQuery(next)
     }
 
-    const totalPages = Math.max(1, Math.ceil((typeof totalRows === 'number' && pageSize > 0) ? totalRows / pageSize : 1))
+    const totalPages = Math.max(
+        1,
+        Math.ceil(
+            typeof totalRows === 'number' && pageSize > 0
+                ? totalRows / pageSize
+                : 1
+        )
+    )
 
     function goNext() {
         if (current >= totalPages) return
@@ -68,7 +84,6 @@ export default function Pagination({ pageSize = 10, totalRows }: PaginationProps
 
         for (let i = left; i <= right; i++) pages.push(i)
 
-
         if (right < total) {
             if (right < total - 1) pages.push('...')
             pages.push(total)
@@ -80,7 +95,10 @@ export default function Pagination({ pageSize = 10, totalRows }: PaginationProps
     const pages = getPages(current, totalPages)
 
     const start = Math.max(1, (current - 1) * pageSize + 1)
-    const end = Math.min(current * pageSize, typeof totalRows === 'number' ? totalRows : current * pageSize)
+    const end = Math.min(
+        current * pageSize,
+        typeof totalRows === 'number' ? totalRows : current * pageSize
+    )
 
     return (
         <div className='flex items-center justify-between w-full'>
@@ -101,12 +119,19 @@ export default function Pagination({ pageSize = 10, totalRows }: PaginationProps
                     type='button'
                     onClick={goPrevious}
                     disabled={current <= 1}
-                    className='flex items-center gap-2 p-1 rounded-lg bg-login-600 hover:bg-login-500 disabled:opacity-50 border-[0.10rem] border-login-200 text-sm'
+                    className={
+                        'flex items-center gap-2 p-1 rounded-lg ' +
+                        'bg-login-600 hover:bg-login-500 disabled:opacity-50 ' +
+                        'border-[0.10rem] border-login-200 text-sm'
+                    }
                 >
                     <ChevronLeft className='h-5 w-5' />
                 </button>
 
-                <nav className='flex items-center gap-1' aria-label='Pagination'>
+                <nav
+                    className='flex items-center gap-1'
+                    aria-label='Pagination'
+                >
                     {pages.map((p, i) =>
                         typeof p === 'string' ? (
                             <span key={`e-${i}`} className='px-3 py-1 text-sm'>
@@ -117,12 +142,18 @@ export default function Pagination({ pageSize = 10, totalRows }: PaginationProps
                                 key={p}
                                 type='button'
                                 onClick={() => setPage(p)}
-                                aria-current={p === current ? 'page' : undefined}
-                                className={`px-3 py-1 rounded-lg text-sm border-[0.10rem] ${
-                                    p === current
-                                        ? 'bg-login-600 border-login-50'
-                                        : 'bg-white/0 border-login-200 hover:bg-login-400'
-                                }`}
+                                aria-current={
+                                    p === current ? 'page' : undefined
+                                }
+                                className={
+                                    'px-3 py-1 rounded-lg text-sm ' +
+                                    `border-[0.10rem] ${
+                                        p === current
+                                            ? 'bg-login-600 border-login-50'
+                                            : 'bg-white/0 border-login-200 ' +
+                                              'hover:bg-login-400'
+                                    }`
+                                }
                             >
                                 {p}
                             </button>
@@ -134,7 +165,11 @@ export default function Pagination({ pageSize = 10, totalRows }: PaginationProps
                     type='button'
                     onClick={goNext}
                     disabled={current >= totalPages}
-                    className='flex items-center gap-2 p-1 rounded-lg bg-login-600 hover:bg-login-500 disabled:opacity-50 border-[0.10rem] border-login-200 text-sm'
+                    className={
+                        'flex items-center gap-2 p-1 rounded-lg bg-login-600 ' +
+                        'hover:bg-login-500 disabled:opacity-50 ' +
+                        'border-[0.10rem] border-login-200 text-sm'
+                    }
                 >
                     <ChevronRight className='h-5 w-5' />
                 </button>

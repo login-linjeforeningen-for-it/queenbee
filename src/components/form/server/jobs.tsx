@@ -1,9 +1,13 @@
-
 import { getJobImages, getOrganizations } from '@utils/api'
-import JobFormInputsClient from '../client/jobs';
+import JobFormInputsClient from '../client/jobs'
 
-export default async function JobFormInputs({ defaultValues }: { defaultValues?: GetJobProps }) {
+export default async function JobFormInputs({
+    defaultValues,
+}: {
+    defaultValues?: GetJobProps
+}) {
     const organizationsResponse = await getOrganizations()
+    // prettier-ignore
     const organizations = Array.isArray(organizationsResponse)
         ? organizationsResponse.map((organization) => ({
             label: organization.name_en,
@@ -19,6 +23,7 @@ export default async function JobFormInputs({ defaultValues }: { defaultValues?:
     ]
 
     const jobImagesResponse = await getJobImages()
+    // prettier-ignore
     const jobImages = Array.isArray(jobImagesResponse)
         ? jobImagesResponse.map((image) => ({
             label: image.name,
@@ -28,11 +33,11 @@ export default async function JobFormInputs({ defaultValues }: { defaultValues?:
         : []
 
     return (
-            <JobFormInputsClient
-                defaultValues={defaultValues}
-                organizations={organizations}
-                applicationTypes={applicationTypes}
-                jobImages={jobImages}
-            />
-        )
+        <JobFormInputsClient
+            defaultValues={defaultValues}
+            organizations={organizations}
+            applicationTypes={applicationTypes}
+            jobImages={jobImages}
+        />
+    )
 }

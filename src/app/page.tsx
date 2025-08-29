@@ -14,11 +14,21 @@ export default async function Home() {
     return (
         <main className='h-full grid place-items-center p-4'>
             <div>
-                <h1 className='text-2xl font-bold text-login text-center'>QueenBee</h1>
+                <h1 className='text-2xl font-bold text-login text-center'>
+                    QueenBee
+                </h1>
                 <p className='mt-2 text-foreground'>Queenbee - Admintool</p>
 
-                <Link href={`${config.url.NEXT_PUBLIC_BROWSER_API}/oauth2/login`} className='grid place-items-center'>
-                    <button className='flex align-middle gap-2 mt-2 rounded-lg bg-login px-8 py-1  hover:bg-orange-500 mb-2'>
+                <Link
+                    href={`${config.url.NEXT_PUBLIC_BROWSER_API}/oauth2/login`}
+                    className='grid place-items-center'
+                >
+                    <button
+                        className={
+                            'flex align-middle gap-2 mt-2 rounded-lg ' +
+                            'bg-login px-8 py-1  hover:bg-orange-500 mb-2'
+                        }
+                    >
                         Login
                         <LogIn className='w-5' />
                     </button>

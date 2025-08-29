@@ -21,15 +21,47 @@ export function EventFormInputsClient({
     locations,
 }: {
     defaultValues?: GetEventProps
-    bannerImages: any[]
-    smallImages: any[]
-    categories: any[]
-    audiences: any[]
-    organizations: any[]
-    timeTypes: any[]
-    rules: any[]
-    locations: any[]
+    bannerImages: Option[]
+    smallImages: Option[]
+    categories: Option[]
+    audiences: Option[]
+    organizations: Option[]
+    timeTypes: Option[]
+    rules: Option[]
+    locations: Option[]
 }) {
+    const defaultOrganization =
+        Array.isArray(defaultValues?.organizations) &&
+        defaultValues.organizations.length > 0
+            ? defaultValues.organizations[0].shortname
+            : undefined
+
+    const defaultAudience =
+        Array.isArray(defaultValues?.audiences) &&
+        defaultValues.audiences.length > 0
+            ? defaultValues.audiences[0].id
+            : undefined
+
+    const defaultStartTime = defaultValues?.event.time_start
+        .split('T')[1]
+        ?.slice(0, 5)
+
+    const defaultEndTime = defaultValues?.event.time_end
+        .split('T')[1]
+        ?.slice(0, 5)
+
+    const defaultDeadlineTime = defaultValues?.event.time_signup_deadline
+        .split('T')[1]
+        ?.slice(0, 5)
+
+    const defaultPublishTime = defaultValues?.event.time_publish
+        .split('T')[1]
+        ?.slice(0, 5)
+
+    const defaultReleaseTime = defaultValues?.event.time_signup_release
+        .split('T')[1]
+        ?.slice(0, 5)
+
     const [formValues, setFormValues] = useState({
         name_no: defaultValues?.event.name_no || '',
         name_en: defaultValues?.event.name_en || '',
@@ -38,35 +70,35 @@ export function EventFormInputsClient({
         description_no: defaultValues?.event.description_no || '',
         description_en: defaultValues?.event.description_en || '',
         category: defaultValues?.event.category,
-        organization: Array.isArray(defaultValues?.organizations) && defaultValues.organizations.length > 0 ? defaultValues.organizations[0].shortname : undefined,
+        organization: defaultOrganization,
         rule: defaultValues?.event.rule,
         location: defaultValues?.event.location,
-        audiences: Array.isArray(defaultValues?.audiences) && defaultValues.audiences.length > 0 ? defaultValues.audiences[0].id : undefined,
+        audiences: defaultAudience,
         time_type: defaultValues?.event.time_type,
         start_date: defaultValues?.event.time_start.split('T')[0],
         end_date: defaultValues?.event.time_end.split('T')[0],
-        start_time: defaultValues?.event.time_start.split('T')[1]?.slice(0, 5),
-        end_time: defaultValues?.event.time_end.split('T')[1]?.slice(0, 5),
+        start_time: defaultStartTime,
+        end_time: defaultEndTime,
         publish_date: defaultValues?.event.time_publish.split('T')[0],
-        default_start_time: defaultValues?.event.time_start.split('T')[1]?.slice(0, 5),
-        default_end_time: defaultValues?.event.time_end.split('T')[1]?.slice(0, 5),
-        no_end_start_time: defaultValues?.event.time_start.split('T')[1]?.slice(0, 5),
+        default_start_time: defaultStartTime,
+        default_end_time: defaultEndTime,
+        no_end_start_time: defaultStartTime,
         whole_day: '' as string,
         tbd: '' as string,
         capacity: defaultValues?.event.capacity,
         deadline_date: defaultValues?.event.time_signup_deadline.split('T')[0],
-        deadline_time: defaultValues?.event.time_signup_deadline.split('T')[1]?.slice(0, 5),
+        deadline_time: defaultDeadlineTime,
         isFull: defaultValues?.event.full,
         image_banner: defaultValues?.event.image_banner,
         image_small: defaultValues?.event.image_small,
-        publish_time: defaultValues?.event.time_publish.split('T')[1]?.slice(0, 5),
+        publish_time: defaultPublishTime,
         highlight: defaultValues?.event.highlight,
         link_signup: defaultValues?.event.link_signup,
         release_date: defaultValues?.event.time_signup_release.split('T')[0],
-        release_time: defaultValues?.event.time_signup_release.split('T')[1]?.slice(0, 5),
+        release_time: defaultReleaseTime,
         link_facebook: defaultValues?.event.link_facebook,
         link_discord: defaultValues?.event.link_discord,
-        link_stream: defaultValues?.event.link_stream
+        link_stream: defaultValues?.event.link_stream,
     })
 
     function example() {
@@ -75,17 +107,37 @@ export function EventFormInputsClient({
 
     return (
         <div className='flex flex-col gap-12'>
-            <div className='absolute flex flex-row gap-[1rem] -mt-13 w-full justify-end relative'>
-                <Button color="secondary" text='Example' icon='+' onClick={example} />
+            <div
+                className={
+                    'absolute flex flex-row gap-[1rem] -mt-13 w-full ' +
+                    'justify-end relative'
+                }
+            >
+                <Button
+                    color='secondary'
+                    text='Example'
+                    icon='+'
+                    onClick={example}
+                />
             </div>
             <div className='flex flex-col gap-4'>
-                <div className='grid grid-cols-2 gap-x-8 gap-y-4 justify-between w-full'>
+                <div
+                    className={
+                        'grid grid-cols-2 gap-x-8 gap-y-4 ' +
+                        'justify-between w-full'
+                    }
+                >
                     <Input
                         name='name_no'
                         type='text'
                         label='Name (Norwegian)'
                         value={formValues.name_no}
-                        setValue={(input) => setFormValues({ ...formValues, name_no: input.toString() })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                name_no: input.toString(),
+                            })
+                        }
                         required
                     />
                     <Input
@@ -93,7 +145,12 @@ export function EventFormInputsClient({
                         type='text'
                         label='Name (English)'
                         value={formValues.name_en}
-                        setValue={(input) => setFormValues({ ...formValues, name_en: input.toString() })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                name_en: input.toString(),
+                            })
+                        }
                         required
                     />
                     <Input
@@ -101,27 +158,47 @@ export function EventFormInputsClient({
                         type='text'
                         label='Informational (Norwegian)'
                         value={formValues.informational_no}
-                        setValue={(input) => setFormValues({ ...formValues, informational_no: input.toString() })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                informational_no: input.toString(),
+                            })
+                        }
                     />
                     <Input
                         name='informational_en'
                         type='text'
                         label='Informational (English)'
                         value={formValues.informational_en}
-                        setValue={(input) => setFormValues({ ...formValues, informational_en: input.toString() })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                informational_en: input.toString(),
+                            })
+                        }
                     />
                     <Markdown
                         name='description_no'
                         label='Description (Norwegian)'
                         value={formValues.description_no}
-                        setValue={(input) => setFormValues({ ...formValues, description_no: input.toString() })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                description_no: input.toString(),
+                            })
+                        }
                         required
                     />
                     <Markdown
                         name='description_en'
                         label='Description (English)'
                         value={formValues.description_en}
-                        setValue={(input) => setFormValues({ ...formValues, description_en: input.toString() })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                description_en: input.toString(),
+                            })
+                        }
                         required
                     />
                 </div>
@@ -133,7 +210,12 @@ export function EventFormInputsClient({
                         label='Category'
                         options={categories}
                         value={formValues.category || ''}
-                        setValue={(input) => setFormValues({ ...formValues, category: Number(input) })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                category: Number(input),
+                            })
+                        }
                         required
                     />
                     <Select
@@ -141,28 +223,48 @@ export function EventFormInputsClient({
                         label='Organization'
                         options={organizations}
                         value={formValues.organization || ''}
-                        setValue={(input) => setFormValues({ ...formValues, organization: input.toString() })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                organization: input.toString(),
+                            })
+                        }
                     />
                     <Select
                         name='rule'
                         label='Rule'
                         options={rules}
                         value={formValues.rule || ''}
-                        setValue={(input) => setFormValues({ ...formValues, rule: Number(input) })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                rule: Number(input),
+                            })
+                        }
                     />
                     <Select
                         name='location'
                         label='Location'
                         options={locations}
                         value={formValues.location || ''}
-                        setValue={(input) => setFormValues({ ...formValues, location: Number(input) })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                location: Number(input),
+                            })
+                        }
                     />
                     <Select
                         name='audiences'
                         label='Audiences'
                         options={audiences}
                         value={formValues.audiences || ''}
-                        setValue={(input) => setFormValues({ ...formValues, audiences: Number(input) })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                audiences: Number(input),
+                            })
+                        }
                     />
                 </div>
                 <div className='flex flex-col gap-4 w-full'>
@@ -171,7 +273,12 @@ export function EventFormInputsClient({
                         label='Time Type'
                         options={timeTypes}
                         value={formValues.time_type || ''}
-                        setValue={(input) => setFormValues({ ...formValues, time_type: input as time_type })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                time_type: input as time_type,
+                            })
+                        }
                         required
                     >
                         <div className='flex flex-row gap-4 w-full'>
@@ -180,108 +287,163 @@ export function EventFormInputsClient({
                                     name='start_date'
                                     label='Start Date'
                                     value={formValues.start_date || ''}
-                                    setValue={(input) => setFormValues({ ...formValues, start_date: input })}
+                                    setValue={(input) =>
+                                        setFormValues({
+                                            ...formValues,
+                                            start_date: input,
+                                        })
+                                    }
                                     required
                                 />
                                 <DateInput
                                     name='end_date'
                                     label='End Date'
                                     value={formValues.end_date || ''}
-                                    setValue={(input) => setFormValues({ ...formValues, end_date: input })}
+                                    setValue={(input) =>
+                                        setFormValues({
+                                            ...formValues,
+                                            end_date: input,
+                                        })
+                                    }
                                     required
                                 />
                                 <DateInput
                                     name='publish_date'
                                     label='Publish Date'
                                     value={formValues.publish_date || ''}
-                                    setValue={(input) => setFormValues({ ...formValues, publish_date: input })}
+                                    setValue={(input) =>
+                                        setFormValues({
+                                            ...formValues,
+                                            publish_date: input,
+                                        })
+                                    }
                                     required
                                 />
                             </div>
                             <div className='flex flex-col gap-4 w-full'>
-                                <SelectOption value='' className='grid grid-flow-row gap-y-4 pt-4'>
+                                <SelectOption
+                                    value=''
+                                    className='grid grid-flow-row gap-y-4 pt-4'
+                                >
                                     <TimeInput
                                         name='start_time'
                                         label='Start Time'
                                         value={formValues.start_time || ''}
-                                        setValue={(input) => setFormValues({ ...formValues, start_time: input })}
+                                        setValue={(input) =>
+                                            setFormValues({
+                                                ...formValues,
+                                                start_time: input,
+                                            })
+                                        }
                                         required
                                     />
                                     <TimeInput
                                         name='end_time'
                                         label='End Time'
                                         value={formValues.end_time || ''}
-                                        setValue={(input) => setFormValues({ ...formValues, end_time: input })}
+                                        setValue={(input) =>
+                                            setFormValues({
+                                                ...formValues,
+                                                end_time: input,
+                                            })
+                                        }
                                         required
                                     />
                                 </SelectOption>
                                 <SelectOption
                                     value='default'
-                                    className='grid grid-flow-row gap-y-4 pt-4'>
+                                    className='grid grid-flow-row gap-y-4 pt-4'
+                                >
                                     <TimeInput
                                         name='start_time'
                                         label='Start Time'
-                                        value={formValues.default_start_time || ''}
-                                        setValue={(input) => setFormValues({ ...formValues, default_start_time: input })}
+                                        value={
+                                            formValues.default_start_time || ''
+                                        }
+                                        setValue={(input) =>
+                                            setFormValues({
+                                                ...formValues,
+                                                default_start_time: input,
+                                            })
+                                        }
                                         required
                                     />
                                     <TimeInput
                                         name='end_time'
                                         label='End Time'
-                                        value={formValues.default_end_time || ''}
-                                        setValue={(input) => setFormValues({ ...formValues, default_end_time: input })}
+                                        value={
+                                            formValues.default_end_time || ''
+                                        }
+                                        setValue={(input) =>
+                                            setFormValues({
+                                                ...formValues,
+                                                default_end_time: input,
+                                            })
+                                        }
                                         required
                                     />
                                 </SelectOption>
                                 <SelectOption
                                     value='no_end'
-                                    className='grid grid-flow-row gap-y-4 pt-4'>
+                                    className='grid grid-flow-row gap-y-4 pt-4'
+                                >
                                     <TimeInput
                                         name='start_time'
                                         label='Start Time'
-                                        value={formValues.no_end_start_time || ''}
-                                        setValue={(input) => setFormValues({ ...formValues, no_end_start_time: input })}
+                                        value={
+                                            formValues.no_end_start_time || ''
+                                        }
+                                        setValue={(input) =>
+                                            setFormValues({
+                                                ...formValues,
+                                                no_end_start_time: input,
+                                            })
+                                        }
                                         required
                                     />
                                     <TimeInput
                                         name='end_time'
                                         label='End Time'
                                         value='23:00'
-                                        setValue={() => { }}
-                                        disabled
-                                    />
-                                </SelectOption>
-                                <SelectOption value='whole_day'
-                                    className='grid grid-flow-row gap-y-4 pt-4'>
-                                    <TimeInput
-                                        name='start_time'
-                                        label='Start Time'
-                                        setValue={() => { }}
-                                        value='00:00'
-                                        disabled
-                                    />
-                                    <TimeInput
-                                        name='end_time'
-                                        label='End Time'
-                                        value='23:59'
-                                        setValue={() => { }}
+                                        setValue={() => {}}
                                         disabled
                                     />
                                 </SelectOption>
                                 <SelectOption
-                                    value='tbd' className='grid grid-flow-row gap-y-4 pt-4'>
+                                    value='whole_day'
+                                    className='grid grid-flow-row gap-y-4 pt-4'
+                                >
                                     <TimeInput
                                         name='start_time'
                                         label='Start Time'
+                                        setValue={() => {}}
                                         value='00:00'
-                                        setValue={() => { }}
                                         disabled
                                     />
                                     <TimeInput
                                         name='end_time'
                                         label='End Time'
                                         value='23:59'
-                                        setValue={() => { }}
+                                        setValue={() => {}}
+                                        disabled
+                                    />
+                                </SelectOption>
+                                <SelectOption
+                                    value='tbd'
+                                    className='grid grid-flow-row gap-y-4 pt-4'
+                                >
+                                    <TimeInput
+                                        name='start_time'
+                                        label='Start Time'
+                                        value='00:00'
+                                        setValue={() => {}}
+                                        disabled
+                                    />
+                                    <TimeInput
+                                        name='end_time'
+                                        label='End Time'
+                                        value='23:59'
+                                        setValue={() => {}}
                                         disabled
                                     />
                                 </SelectOption>
@@ -289,7 +451,12 @@ export function EventFormInputsClient({
                                     name='publish_time'
                                     label='Publish Time'
                                     value={formValues.publish_time || ''}
-                                    setValue={(input) => setFormValues({ ...formValues, publish_time: input })}
+                                    setValue={(input) =>
+                                        setFormValues({
+                                            ...formValues,
+                                            publish_time: input,
+                                        })
+                                    }
                                     required
                                 />
                             </div>
@@ -299,7 +466,12 @@ export function EventFormInputsClient({
                         name='highlight'
                         label='Highlight'
                         value={formValues.highlight || false}
-                        setValue={(input) => setFormValues({ ...formValues, highlight: input })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                highlight: input,
+                            })
+                        }
                     />
                 </div>
             </div>
@@ -312,20 +484,35 @@ export function EventFormInputsClient({
                         type='text'
                         label='Signup Link'
                         value={formValues.link_signup}
-                        setValue={(input) => setFormValues({ ...formValues, link_signup: input as string })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                link_signup: input as string,
+                            })
+                        }
                     />
                     <div className='grid grid-cols-2 gap-x-4 gap-y-4'>
                         <DateInput
                             name='release_date'
                             label='Release Date'
                             value={formValues.release_date || ''}
-                            setValue={(input) => setFormValues({ ...formValues, release_date: input })}
+                            setValue={(input) =>
+                                setFormValues({
+                                    ...formValues,
+                                    release_date: input,
+                                })
+                            }
                         />
                         <TimeInput
                             name='release_time'
                             label='Release Time'
                             value={formValues.release_time || ''}
-                            setValue={(input) => setFormValues({ ...formValues, release_time: input })}
+                            setValue={(input) =>
+                                setFormValues({
+                                    ...formValues,
+                                    release_time: input,
+                                })
+                            }
                         />
                     </div>
                     <Input
@@ -333,27 +520,47 @@ export function EventFormInputsClient({
                         type='number'
                         label='Capacity'
                         value={formValues.capacity}
-                        setValue={(input) => setFormValues({ ...formValues, capacity: Number(input) })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                capacity: Number(input),
+                            })
+                        }
                     />
                     <div className='grid grid-cols-2 gap-x-4 gap-y-4'>
                         <DateInput
                             name='deadline_date'
                             label='Deadline Date'
                             value={formValues.deadline_date || ''}
-                            setValue={(input) => setFormValues({ ...formValues, deadline_date: input })}
+                            setValue={(input) =>
+                                setFormValues({
+                                    ...formValues,
+                                    deadline_date: input,
+                                })
+                            }
                         />
                         <TimeInput
                             name='deadline_time'
                             label='Deadline Time'
                             value={formValues.deadline_time || ''}
-                            setValue={(input) => setFormValues({ ...formValues, deadline_time: input })}
+                            setValue={(input) =>
+                                setFormValues({
+                                    ...formValues,
+                                    deadline_time: input,
+                                })
+                            }
                         />
                     </div>
                     <Switch
                         name='isFull'
                         label='Is Full'
                         value={formValues.isFull || false}
-                        setValue={(input) => setFormValues({ ...formValues, isFull: input as boolean })}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                isFull: input as boolean,
+                            })
+                        }
                     />
                 </div>
             </div>
@@ -364,14 +571,24 @@ export function EventFormInputsClient({
                     label='Banner Image'
                     options={bannerImages}
                     value={formValues.image_banner || ''}
-                    setValue={(input) => setFormValues({ ...formValues, image_banner: input as string })}
+                    setValue={(input) =>
+                        setFormValues({
+                            ...formValues,
+                            image_banner: input as string,
+                        })
+                    }
                 />
                 <Select
                     name='image_small'
                     label='Small Image'
                     options={smallImages}
                     value={formValues.image_small || ''}
-                    setValue={(input) => setFormValues({ ...formValues, image_small: input as string })}
+                    setValue={(input) =>
+                        setFormValues({
+                            ...formValues,
+                            image_small: input as string,
+                        })
+                    }
                 />
             </div>
             <div className='flex flex-col gap-4'>
@@ -381,21 +598,36 @@ export function EventFormInputsClient({
                     type='text'
                     label='Facebook Link'
                     value={formValues.link_facebook}
-                    setValue={(input) => setFormValues({ ...formValues, link_facebook: input as string })}
+                    setValue={(input) =>
+                        setFormValues({
+                            ...formValues,
+                            link_facebook: input as string,
+                        })
+                    }
                 />
                 <Input
                     name='link_discord'
                     type='text'
                     label='Discord Link'
                     value={formValues.link_discord}
-                    setValue={(input) => setFormValues({ ...formValues, link_discord: input as string })}
+                    setValue={(input) =>
+                        setFormValues({
+                            ...formValues,
+                            link_discord: input as string,
+                        })
+                    }
                 />
                 <Input
                     name='link_stream'
                     type='text'
                     label='Stream Link'
                     value={formValues.link_stream}
-                    setValue={(input) => setFormValues({ ...formValues, link_stream: input as string })}
+                    setValue={(input) =>
+                        setFormValues({
+                            ...formValues,
+                            link_stream: input as string,
+                        })
+                    }
                 />
             </div>
         </div>
@@ -406,8 +638,9 @@ const sampleEvent = {
     name_no: '🍽️ Studentlunsj med Login',
     name_en: '🍽️ Student Lunch with Login',
     informational_no: 'Bli kjent med medstudenter og Login over lunsj!',
-    informational_en: 'Meet fellow students and get to know Login better over lunch!',
-    description_no: `🎉 Velkommen til en sosial studentlunsj hos Login i Gjøvik!  
+    informational_en:
+        'Meet fellow students and get to know Login better over lunch!',
+    description_no: `🎉 Velkommen til en sosial studentlunsj hos Login i Gjøvik!
 - Gratis mat og drikke  
 - Møt andre studenter på studiet  
 - Få informasjon om kommende arrangementer og aktiviteter`,
@@ -444,5 +677,5 @@ const sampleEvent = {
     release_time: '09:00',
     link_facebook: 'https://www.facebook.com/loginlinjeforeningen/events/',
     link_discord: 'https://discord.gg/login',
-    link_stream: 'https://login.no/stream'
+    link_stream: 'https://login.no/stream',
 }

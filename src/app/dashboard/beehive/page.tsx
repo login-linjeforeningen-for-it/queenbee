@@ -8,7 +8,8 @@ export default function page() {
             </div>
             <div className='w-full h-full flex items-center justify-center'>
                 <Alert>
-                    Denne funksjonaliteten mangler ett nytt API som er integrert med både Beehive, Queenbee og Nucleus.
+                    Denne funksjonaliteten mangler ett nytt API som er integrert
+                    med både Beehive, Queenbee og Nucleus.
                 </Alert>
             </div>
         </div>

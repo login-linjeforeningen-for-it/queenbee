@@ -15,7 +15,16 @@ type InputProps = {
     required?: boolean
 }
 
-export default function Input({name, type, label, className, tooltip, required, value, setValue}: InputProps) {
+export default function Input({
+    name,
+    type,
+    label,
+    className,
+    tooltip,
+    required,
+    value,
+    setValue,
+}: InputProps) {
     const [hasBlured, setHasBlured] = useState(false)
 
     return (
@@ -23,15 +32,25 @@ export default function Input({name, type, label, className, tooltip, required, 
             <div className='relative flex items-center'>
                 <input
                     name={name}
-                    value={value}
+                    value={value || ''}
                     onChange={(e) => setValue(e.target.value)}
                     onBlur={() => setHasBlured(true)}
                     type={type}
-                    className='block px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border-[0.10rem] appearance-none border-login-200 focus:outline-none focus:ring-0 focus:border-login-50 peer'
+                    className={
+                        'block px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg ' +
+                        'border-[0.10rem] appearance-none border-login-200 ' +
+                        'focus:outline-none focus:ring-0 ' +
+                        'focus:border-login-50 peer'
+                    }
                     placeholder=''
                     required={required}
                 />
-                <Label label={label} value={value} required={required} showRequired={required && !value && hasBlured} />
+                <Label
+                    label={label}
+                    value={value}
+                    required={required}
+                    showRequired={required && !value && hasBlured}
+                />
                 {tooltip && <ToolTip info={tooltip} />}
             </div>
         </div>

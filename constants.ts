@@ -16,27 +16,32 @@ const requiredEnvironmentVariables = [
     'AUTH_CERT_URL',
     'CLIENT_CERT_URL',
     'UNIVERSE_DOMAIN',
-    'GITLAB_MESSAGE'
+    'GITLAB_MESSAGE',
 ]
 
-const missingVariables = requiredEnvironmentVariables.filter(key => !process.env[key])
+const missingVariables = requiredEnvironmentVariables.filter(
+    (key) => !process.env[key]
+)
 
 if (isServer && missingVariables.length > 0) {
     throw new Error(
         'Missing essential environment variables:\n' +
-        missingVariables.map(key => `${key}: ${process.env[key] || 'undefined'}`).join('\n')
+            missingVariables
+                .map((key) => `${key}: ${process.env[key] || 'undefined'}`)
+                .join('\n')
     )
 }
 
 const env = Object.fromEntries(
-    requiredEnvironmentVariables.map(key => [key, process.env[key]])
+    requiredEnvironmentVariables.map((key) => [key, process.env[key]])
 )
 
 const config = {
     url: {
-        NEXT_PUBLIC_BROWSER_API: env.NEXT_PUBLIC_BROWSER_API || 'https://api.queenbee.login.no/v1',
+        NEXT_PUBLIC_BROWSER_API:
+            env.NEXT_PUBLIC_BROWSER_API || 'https://api.queenbee.login.no/v1',
         API_URL: env.API_URL || 'https://api.queenbee.login.no/v1',
-        CDN_URL: env.CDN_URL || 'https://cdn.login.no'
+        CDN_URL: env.CDN_URL || 'https://cdn.login.no',
     },
     firebase: {
         type: env.TYPE,
@@ -49,7 +54,7 @@ const config = {
         token_uri: env.TOKEN_URI,
         auth_provider_x509_cert_url: env.AUTH_CERT_URL,
         client_x509_cert_url: env.CLIENT_CERT_URL,
-        universe_domain: env.UNIVERSE_DOMAIN
+        universe_domain: env.UNIVERSE_DOMAIN,
     },
     beehiveApi: {
         EVENTS_PATH: '/events/',
@@ -69,21 +74,21 @@ const config = {
     time: {
         TIME_UNSET: '0001-01-01T00:00:00Z',
         TIME_UNSET_START: '00:00:01',
-        TIME_UNSET_END: '23:59:59'
+        TIME_UNSET_END: '23:59:59',
     },
     timeType: {
         DEFAULT: 'default',
         NO_END: 'no_end',
         WHOLE_DAY: 'whole_day',
-        TO_BE_DETERMINED: 'tbd'
+        TO_BE_DETERMINED: 'tbd',
     },
     jobType: {
         FULL_TIME: 'full',
         PART_TIME: 'part',
         SUMMER: 'summer',
-        VERV: 'verv'
+        VERV: 'verv',
     },
-    version: packageInfo.version
+    version: packageInfo.version,
 }
 
 export default config

@@ -3,11 +3,10 @@
 import { setCookie } from '@utils/cookies'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 
-
 enum Location {
     Address = 'address',
     Mazemap = 'mazemap',
-    Coordinate = 'coordinate'
+    Coordinate = 'coordinate',
 }
 
 type OptionProps = {
@@ -15,7 +14,7 @@ type OptionProps = {
     active: Location
 }
 
-export default function Option({value, active}: OptionProps) {
+export default function Option({ value, active }: OptionProps) {
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
@@ -31,8 +30,11 @@ export default function Option({value, active}: OptionProps) {
     return (
         <div className={`${isActive ? 'bg-login/20' : ''} rounded-lg`}>
             <h1
-                className={`cursor-pointer px-2 p-1 ${isActive ? 'text-login' : 'text-login-400'}`}
-                onClick={(() => handleClick(value))}
+                className={
+                    'cursor-pointer px-2 p-1 ' +
+                    `${isActive ? 'text-login' : 'text-login-400'}`
+                }
+                onClick={() => handleClick(value)}
             >
                 {`${value[0].toUpperCase()}${value.slice(1)}`}
             </h1>

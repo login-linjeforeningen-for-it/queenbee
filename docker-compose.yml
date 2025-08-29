@@ -1,24 +1,24 @@
 services:
-  queenbee:
-    container_name: queenbee
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "3001:3000"
-    environment:
-      API_URL: ${API_URL}
-      NEXT_PUBLIC_BROWSER_API: ${NEXT_PUBLIC_BROWSER_API}
-      TYPE: ${TYPE}
-      PROJECT_ID: ${PROJECT_ID}
-      PRIVATE_KEY_ID: ${PRIVATE_KEY_ID}
-      PRIVATE_KEY: ${PRIVATE_KEY}
-      CLIENT_EMAIL: ${CLIENT_EMAIL}
-      CLIENT_ID: ${CLIENT_ID}
-      AUTH_URI: ${AUTH_URI}
-      TOKEN_URI: ${TOKEN_URI}
-      AUTH_CERT_URL: ${AUTH_CERT_URL}
-      CLIENT_CERT_URL: ${CLIENT_CERT_URL}
-      UNIVERSE_DOMAIN: ${UNIVERSE_DOMAIN}
-      GITLAB_MESSAGE: ${GITLAB_MESSAGE}
-      CDN_URL: "https://cdn.login.no"
+    queenbee:
+        container_name: queenbee
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - '3001:3000'
+        environment:
+            API_URL: ${API_URL}
+            NEXT_PUBLIC_BROWSER_API: ${NEXT_PUBLIC_BROWSER_API}
+            TYPE: ${TYPE}
+            PROJECT_ID: ${PROJECT_ID}
+            PRIVATE_KEY_ID: ${PRIVATE_KEY_ID}
+            PRIVATE_KEY: ${PRIVATE_KEY}
+            CLIENT_EMAIL: ${CLIENT_EMAIL}
+            CLIENT_ID: ${CLIENT_ID}
+            AUTH_URI: ${AUTH_URI}
+            TOKEN_URI: ${TOKEN_URI}
+            AUTH_CERT_URL: ${AUTH_CERT_URL}
+            CLIENT_CERT_URL: ${CLIENT_CERT_URL}
+            UNIVERSE_DOMAIN: ${UNIVERSE_DOMAIN}
+            GITLAB_MESSAGE: ${GITLAB_MESSAGE}
+            CDN_URL: 'https://cdn.login.no'

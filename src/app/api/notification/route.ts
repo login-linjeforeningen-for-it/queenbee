@@ -12,10 +12,14 @@ export async function POST(req: Request) {
         })
     } catch (error) {
         console.error(`API Error (api/notification/route.ts): ${error}`)
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-        return new Response(JSON.stringify({ success: false, error: errorMessage }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' },
-        })
+        const errorMessage =
+            error instanceof Error ? error.message : 'Unknown error'
+        return new Response(
+            JSON.stringify({ success: false, error: errorMessage }),
+            {
+                status: 500,
+                headers: { 'Content-Type': 'application/json' },
+            }
+        )
     }
 }

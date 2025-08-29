@@ -1,8 +1,13 @@
 import { getOrganizationImages } from '@utils/api'
 import OrganizationFormInputsClient from '../client/organizations'
 
-export default async function OrganizationFormInputs({ defaultValues }: { defaultValues?: GetOrganizationProps }) {
+export default async function OrganizationFormInputs({
+    defaultValues,
+}: {
+    defaultValues?: GetOrganizationProps
+}) {
     const imagesResponse = await getOrganizationImages()
+    // prettier-ignore
     const images = Array.isArray(imagesResponse)
         ? imagesResponse.map((image) => ({
             label: image.name,

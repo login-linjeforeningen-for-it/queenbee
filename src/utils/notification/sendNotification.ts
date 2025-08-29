@@ -22,7 +22,7 @@ type Data = {} | DetailedEventStr
 // Initialize the Firebase Admin SDK with the service account
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const app = initializeApp({
-    credential: admin.credential.cert({ ...config.firebase } as ServiceAccount)
+    credential: admin.credential.cert({ ...config.firebase } as ServiceAccount),
 })
 
 /**
@@ -32,7 +32,12 @@ const app = initializeApp({
  * @param screen   Event to navigate to in the app, give the full object.
  * @param topic    Notification topic
  */
-export default async function sendNotification({ title, description, screen, topic }: sendNotificationProps): Promise<boolean> {
+export default async function sendNotification({
+    title,
+    description,
+    screen,
+    topic,
+}: sendNotificationProps): Promise<boolean> {
     // Sets the topic to maintenance if the topic is not available
     if (!topic) {
         topic = 'maintenance'
@@ -48,7 +53,7 @@ export default async function sendNotification({ title, description, screen, top
             title: title,
             body: description,
         },
-        data: data
+        data,
     }
 
     // Sends the message

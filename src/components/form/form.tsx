@@ -11,13 +11,22 @@ type ContentFormProps = {
     name: 'event' | 'job' | 'organization' | 'location' | 'rule'
     type: 'create' | 'update'
     id?: string
-    formAction: (prevState: FormState, formData: FormData) => FormState | Promise<FormState>
+    formAction: (
+        prevState: FormState,
+        formData: FormData
+    ) => FormState | Promise<FormState>
     children: React.ReactNode
 }
 
 const initialState: FormState = null
 
-export default function CustomForm({ name, type, id, formAction, children }: ContentFormProps) {
+export default function CustomForm({
+    name,
+    type,
+    id,
+    formAction,
+    children,
+}: ContentFormProps) {
     const [state, action, pending] = useActionState(formAction, initialState)
     const [submitPressed, setSubmitPressed] = useState(false)
     const router = useRouter()
@@ -36,7 +45,8 @@ export default function CustomForm({ name, type, id, formAction, children }: Con
     return (
         <Form
             action={action}
-            className={`group ${submitPressed ? 'submitPressed' : ''}`}>
+            className={`group ${submitPressed ? 'submitPressed' : ''}`}
+        >
             <div className='flex flex-col gap-12'>
                 <div>
                     {type === 'update' && id != null && (
@@ -46,8 +56,18 @@ export default function CustomForm({ name, type, id, formAction, children }: Con
                     {children}
                 </div>
 
-                <button type='submit' onClick={() => setSubmitPressed(true)} disabled={pending} className='flex flex-row w-fit gap-2 capitalize cursor-pointer bg-login/90 hover:bg-login/80 rounded-md px-3 py-1'>
-                    <Save className='w-5' />{type} {name}
+                <button
+                    type='submit'
+                    onClick={() => setSubmitPressed(true)}
+                    disabled={pending}
+                    className={
+                        'flex flex-row w-fit gap-2 capitalize ' +
+                        'cursor-pointer bg-login/90 hover:bg-login/80 ' +
+                        'rounded-md px-3 py-1'
+                    }
+                >
+                    <Save className='w-5' />
+                    {type} {name}
                 </button>
             </div>
         </Form>

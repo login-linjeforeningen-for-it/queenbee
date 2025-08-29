@@ -1,14 +1,14 @@
 .theme-toggle_svg {
     height: 3rem;
-    padding: .8rem .8rem;
+    padding: 0.8rem 0.8rem;
 }
 
 .dark .theme-toggle_svg {
-    fill: white
+    fill: white;
 }
 
 .theme-toggle_sun-ray {
-    transition: .4s;
+    transition: 0.4s;
 }
 
 .light .theme-toggle_sun-ray {
@@ -20,7 +20,7 @@
 }
 
 .theme-toggle_mask-circle {
-    transition: .4s;
+    transition: 0.4s;
 }
 
 .dark .theme-toggle_mask-circle {
@@ -29,7 +29,7 @@
 
 .theme-toggle_sun-moon {
     transform-origin: center;
-    transition: .4s;
+    transition: 0.4s;
 }
 
 .light .theme-toggle_sun-moon {
