@@ -7,6 +7,7 @@ import Select from '@components/inputs/select'
 import Switch from '@components/inputs/switch'
 import TagInput from '@components/inputs/tag'
 import TimeInput from '@components/inputs/time'
+import Announce from '@components/announce/announce'
 import Button from '@components/userInput/button'
 import fallBackDate from '@utils/fallbackDate'
 import { useState } from 'react'
@@ -16,11 +17,13 @@ export default function JobFormInputsClient({
     organizations,
     applicationTypes,
     jobImages,
+    preview
 }: {
     defaultValues?: GetJobProps
     organizations: Organization[]
     applicationTypes: Application[]
     jobImages: LoginImage[]
+    preview?: boolean
 }) {
     const [formValues, setFormValues] = useState({
         title_no: defaultValues?.title_no,
@@ -44,6 +47,8 @@ export default function JobFormInputsClient({
             defaultValues?.application_deadline || fallBackDate('one month'),
     })
 
+    const mt = preview ? '-mt-12' : '-mt-13'
+
     function example() {
         setFormValues(sampleJob)
     }
@@ -52,7 +57,7 @@ export default function JobFormInputsClient({
         <div className='flex flex-col gap-12'>
             <div
                 className={
-                    'absolute flex flex-row gap-[1rem] -mt-13 w-full ' +
+                    `absolute flex flex-row gap-[1rem] w-full ${mt} ` +
                     'justify-end relative'
                 }
             >
@@ -368,6 +373,7 @@ export default function JobFormInputsClient({
                     required
                 />
             </div>
+            <Announce />
         </div>
     )
 }

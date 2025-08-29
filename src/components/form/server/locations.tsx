@@ -2,8 +2,10 @@ import LocationFormInputsClient from '../client/locations'
 
 export default function LocationFormInputs({
     defaultValues,
+    parent
 }: {
     defaultValues?: GetLocationProps
+    parent?: { preview?: boolean }
 }) {
     const locationTypes: { label: string; value: location_type }[] = [
         { label: 'Mazemap', value: 'mazemap' },
@@ -16,6 +18,7 @@ export default function LocationFormInputs({
         <LocationFormInputsClient
             defaultValues={defaultValues}
             locationTypes={locationTypes}
+            preview={parent?.preview}
         />
     )
 }

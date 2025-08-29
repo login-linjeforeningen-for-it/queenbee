@@ -107,3 +107,17 @@ export const postRuleSchema = z.object({
 export const patchRuleSchema = postRuleSchema.extend({
     id: z.number(),
 })
+
+export const postAnnouncementSchema = z.object({
+    title: z.string().min(1),
+    description: z.string().min(1),
+    channel: z.string().min(1),
+    embed: z.string().optional(),
+    color: z.string().optional(),
+    interval: z.string().optional(),
+    schedule: z.string().optional(),
+})
+
+export const patchAnnouncementSchema = postAnnouncementSchema.extend({
+    id: z.number(),
+})

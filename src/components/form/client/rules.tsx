@@ -7,8 +7,10 @@ import { useState } from 'react'
 
 export default function RuleFormInputsClient({
     defaultValues,
+    preview,
 }: {
-    defaultValues?: GetRuleProps
+    defaultValues?: GetRuleProps,
+    preview?: boolean
 }) {
     const [formValues, setFormValues] = useState({
         name_no: defaultValues?.name_no ?? '',
@@ -16,6 +18,8 @@ export default function RuleFormInputsClient({
         description_no: defaultValues?.description_no ?? '',
         description_en: defaultValues?.description_en ?? '',
     })
+
+    const mt = preview ? '-mt-12' : '-mt-13'
 
     function example() {
         setFormValues(sampleRule)
@@ -25,7 +29,7 @@ export default function RuleFormInputsClient({
         <div className='flex flex-col gap-4 relative'>
             {/* prettier-ignore */}
             <div className={
-                'absolute flex flex-row gap-[1rem] -mt-13 w-full justify-end'
+                `absolute flex flex-row gap-[1rem] w-full ${mt} justify-end`
             }>
                 <Button
                     color='secondary'

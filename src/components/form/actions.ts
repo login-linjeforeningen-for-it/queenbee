@@ -11,13 +11,17 @@ import {
     patchLocation,
     postRule,
     patchRule,
+    patchAnnouncement,
+    postAnnouncement,
 } from '@/utils/api'
 import {
+    patchAnnouncementSchema,
     patchEventSchema,
     patchJobSchema,
     patchLocationSchema,
     patchOrganizationSchema,
     patchRuleSchema,
+    postAnnouncementSchema,
     postEventSchema,
     postJobSchema,
     postLocationSchema,
@@ -34,11 +38,13 @@ export type FormState =
     | PostJobProps
     | PostOrganizationProps
     | PostLocationProps
+    | PostAnnouncementProps
     | PatchRuleProps
     | PatchEventProps
     | PatchJobProps
     | PatchOrganizationProps
     | PatchLocationProps
+    | PatchAnnouncementProps
 
 export async function createEvent(
     _: FormState,
@@ -490,6 +496,63 @@ export async function updateRule(
         return response
     } catch (error) {
         console.error('Error updating rule:', error)
+        throw error
+    }
+}
+
+export async function createAnnouncement(
+    _: FormState,
+    formData: FormData
+): Promise<FormState> {
+    try {
+        const announcementProps: PostAnnouncementProps = {
+            title: formData.get('title') as string,
+            description: formData.get('description') as string,
+            channel: formData.get('channel') as string,
+            embed: formData.get('embed') as embed_type,
+            color: formData.get('color') as string,
+            interval: formData.get('interval') as string,
+            time: formData.get('time') as string,
+        }
+
+        const result = postAnnouncementSchema.safeParse(announcementProps)
+        if (!result.success) {
+            return z.prettifyError(result.error)
+        }
+
+        const response = await postAnnouncement(announcementProps)
+        return response
+    } catch (error) {
+        console.error('Error creating announcement:', error)
+        throw error
+    }
+}
+
+export async function updateAnnouncement(
+    _: FormState,
+    formData: FormData
+): Promise<FormState> {
+    try {
+        const announcementProps: PatchAnnouncementProps = {
+            id: Number(formData.get('id')),
+            title: formData.get('title') as string,
+            description: formData.get('description') as string,
+            channel: formData.get('channel') as string,
+            embed: formData.get('embed') as embed_type,
+            color: formData.get('color') as string,
+            interval: formData.get('interval') as string,
+            time: formData.get('time') as string,
+        }
+
+        const result = patchAnnouncementSchema.safeParse(announcementProps)
+        if (!result.success) {
+            return z.prettifyError(result.error)
+        }
+
+        const response = await patchAnnouncement(announcementProps)
+        return response
+    } catch (error) {
+        console.error('Error updating announcement:', error)
         throw error
     }
 }

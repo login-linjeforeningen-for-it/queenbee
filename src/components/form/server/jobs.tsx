@@ -3,8 +3,10 @@ import JobFormInputsClient from '../client/jobs'
 
 export default async function JobFormInputs({
     defaultValues,
+    parent,
 }: {
     defaultValues?: GetJobProps
+    parent?: { preview?: boolean }
 }) {
     const organizationsResponse = await getOrganizations()
     // prettier-ignore
@@ -38,6 +40,7 @@ export default async function JobFormInputs({
             organizations={organizations}
             applicationTypes={applicationTypes}
             jobImages={jobImages}
+            preview={parent?.preview}
         />
     )
 }

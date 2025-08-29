@@ -3,8 +3,10 @@ import OrganizationFormInputsClient from '../client/organizations'
 
 export default async function OrganizationFormInputs({
     defaultValues,
+    parent,
 }: {
     defaultValues?: GetOrganizationProps
+    parent?: { preview?: boolean }
 }) {
     const imagesResponse = await getOrganizationImages()
     // prettier-ignore
@@ -20,6 +22,7 @@ export default async function OrganizationFormInputs({
         <OrganizationFormInputsClient
             defaultValues={defaultValues}
             images={images}
+            preview={parent?.preview}
         />
     )
 }

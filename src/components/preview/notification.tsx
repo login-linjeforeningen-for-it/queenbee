@@ -24,7 +24,7 @@ export default function Notification({
         title.length > 60 ? `${title.slice(0, 60)}...` : title
     const formattedDescription =
         description.length > 120
-            ? `${description.slice(0, 60)}...`
+            ? `${description.slice(0, 120)}...`
             : description
 
     if (small) {

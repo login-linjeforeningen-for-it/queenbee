@@ -8,7 +8,7 @@ import { Save } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 
 type ContentFormProps = {
-    name: 'event' | 'job' | 'organization' | 'location' | 'rule'
+    name: FormName
     type: 'create' | 'update'
     id?: string
     formAction: (

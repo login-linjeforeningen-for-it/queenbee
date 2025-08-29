@@ -4,26 +4,58 @@ import { useRouter } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import { FormState } from './actions'
 import CustomForm from './form'
+import {
+    Children,
+    cloneElement,
+    isValidElement,
+    ReactElement,
+    useEffect,
+    useState
+} from 'react'
+import DiscordPreview from '@components/preview/discord'
+
+type ChildProps = {
+    preview: boolean
+    defaultValues?: object
+}
 
 type FormWrapperProps = {
-    name: 'event' | 'job' | 'organization' | 'location' | 'rule'
+    name: FormName
     type: 'create' | 'update'
     id?: string
+    preview?: boolean
     formAction: (
         prevState: FormState,
         formData: FormData
     ) => FormState | Promise<FormState>
-    children: React.ReactNode
+    children: ReactElement<ChildProps> | ReactElement<ChildProps>[]
 }
 
 export default function FormWrapper({
     name,
     type,
     id,
+    preview,
     formAction,
     children,
 }: FormWrapperProps) {
     const router = useRouter()
+    const [title, setTitle] = useState('')
+
+    useEffect(() => {
+        function handleStorageChange(e: Event) {
+            const event = e as CustomEvent
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+            event.detail.key === 'title' && setTitle(event.detail.value)
+        }
+
+        window.addEventListener('customStorageChange', handleStorageChange)
+
+        return () => {
+            window.removeEventListener('customStorageChange',
+                handleStorageChange)
+        }
+    }, [])
 
     return (
         <div
@@ -31,7 +63,9 @@ export default function FormWrapper({
                 'h-[var(--h-pageInfo)] w-full flex flex-col items-center'
             }
         >
-            <div className='w-full px-16 py-4'>
+            <div className={
+                `w-full px-16 py-4 ${preview ? 'grid grid-cols-2 gap-4' : ''}`
+            }>
                 <div className='flex flex-col gap-4'>
                     <button
                         type='button'
@@ -49,15 +83,25 @@ export default function FormWrapper({
                         {type} {name}
                     </h1>
                 </div>
-                <div className='flex flex-col gap-4 mt-4'></div>
+                {preview && title.length ? <div>
+                    <h1 className='font-semibold text-2xl mt-10'>
+                        Preview
+                    </h1>
+                </div> : <div className='flex flex-col gap-4 mt-4'></div>}
                 <CustomForm
                     name={name}
                     type={type}
                     id={id}
                     formAction={formAction}
                 >
-                    {children}
+                    {Children.map(children, child => {
+                        if (isValidElement(child)) {
+                            return cloneElement(child, { preview })
+                        }
+                        return child
+                    })}
                 </CustomForm>
+                <DiscordPreview />
             </div>
         </div>
     )

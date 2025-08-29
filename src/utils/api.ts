@@ -274,6 +274,44 @@ export async function deleteRule(id: number) {
     return await deleteWrapper(path)
 }
 
+// Announcements
+export async function getAnnouncement(
+    id: number
+): Promise<GetAnnouncementProps | string> {
+    const path = `${config.beehiveApi.ANNOUNCEMENT_PATH}${id}`
+    return await getWrapper(path)
+}
+
+export async function getAnnouncements(
+    limit: number | number = 10,
+    offset: number | number = 0
+) {
+    const queryParts = new URLSearchParams({
+        limit: String(limit),
+        offset: String(offset),
+    })
+
+    const path = `${config.beehiveApi.RULES_PATH}?${queryParts.toString()}`
+    return await getWrapper(path)
+}
+
+export async function postAnnouncement(
+    body: PostAnnouncementProps
+): Promise<PostAnnouncementProps | string> {
+    return await postWrapper(config.beehiveApi.ANNOUNCEMENT_PATH, body)
+}
+
+export async function patchAnnouncement(
+    body: PatchAnnouncementProps
+): Promise<PatchAnnouncementProps | string> {
+    return await patchWrapper(config.beehiveApi.ANNOUNCEMENT_PATH, body)
+}
+
+export async function deleteAnnouncement(id: number) {
+    const path = `${config.beehiveApi.ANNOUNCEMENT_PATH}${id}`
+    return await deleteWrapper(path)
+}
+
 async function getWrapper(path: string, options = {}) {
     const Cookies = await cookies()
     const token = Cookies.get('access_token')?.value || ''

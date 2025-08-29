@@ -10,6 +10,7 @@ import {
     Icon,
     LayoutDashboard,
     MapPin,
+    Megaphone,
     Smartphone,
 } from 'lucide-react'
 import { hexagons7 } from '@lucide/lab'
@@ -57,6 +58,11 @@ export default function Sidebar() {
             name: 'Rules',
             path: '/dashboard/rules',
             image: <Gavel className='w-6' />,
+        },
+        announce: {
+            name: 'Announcements',
+            path: '/dashboard/announcements',
+            image: <Megaphone className='w-6' />,
         },
     }
 

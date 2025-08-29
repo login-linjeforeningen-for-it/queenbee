@@ -68,6 +68,7 @@ const config = {
         AUDIENCES_PATH: '/audiences/',
         ORGANIZATIONS_PATH: '/organizations/',
         RULES_PATH: '/rules/',
+        ANNOUNCEMENT_PATH: '/announcement/',
         LOCATIONS_PATH: '/locations/',
         IMAGES_PATH: '/images',
     },

@@ -8,9 +8,11 @@ import { useState } from 'react'
 export default function LocationFormInputsClient({
     defaultValues,
     locationTypes,
+    preview
 }: {
     defaultValues?: GetLocationProps
     locationTypes: LocationTypes[]
+    preview?: boolean
 }) {
     const [formValues, setFormValues] = useState({
         name_no: defaultValues?.name_no ?? '',
@@ -26,6 +28,8 @@ export default function LocationFormInputsClient({
         city_name: defaultValues?.city_name ?? '',
     })
 
+    const mt = preview ? '-mt-12' : '-mt-13'
+
     function example() {
         setFormValues(sampleEventLocation)
     }
@@ -34,7 +38,7 @@ export default function LocationFormInputsClient({
         <div className='flex flex-col gap-4 relative'>
             <div
                 className={
-                    'absolute flex flex-row gap-[1rem] -mt-13 w-full ' +
+                    `absolute flex flex-row gap-[1rem] w-full ${mt} ` +
                     'justify-end'
                 }
             >

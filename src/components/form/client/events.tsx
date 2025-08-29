@@ -6,6 +6,7 @@ import Markdown from '@components/inputs/markdown'
 import Select, { SelectOption } from '@components/inputs/select'
 import Switch from '@components/inputs/switch'
 import TimeInput from '@components/inputs/time'
+import Announce from '@components/announce/announce'
 import Button from '@components/userInput/button'
 import { useState } from 'react'
 
@@ -19,6 +20,7 @@ export function EventFormInputsClient({
     timeTypes,
     rules,
     locations,
+    preview
 }: {
     defaultValues?: GetEventProps
     bannerImages: Option[]
@@ -29,6 +31,7 @@ export function EventFormInputsClient({
     timeTypes: Option[]
     rules: Option[]
     locations: Option[]
+    preview?: boolean
 }) {
     const defaultOrganization =
         Array.isArray(defaultValues?.organizations) &&
@@ -101,6 +104,8 @@ export function EventFormInputsClient({
         link_stream: defaultValues?.event.link_stream,
     })
 
+    const mt = preview ? '-mt-12' : '-mt-13'
+
     function example() {
         setFormValues(sampleEvent)
     }
@@ -109,7 +114,7 @@ export function EventFormInputsClient({
         <div className='flex flex-col gap-12'>
             <div
                 className={
-                    'absolute flex flex-row gap-[1rem] -mt-13 w-full ' +
+                    `absolute flex flex-row gap-[1rem] w-full ${mt} ` +
                     'justify-end relative'
                 }
             >
@@ -630,6 +635,7 @@ export function EventFormInputsClient({
                     }
                 />
             </div>
+            <Announce />
         </div>
     )
 }

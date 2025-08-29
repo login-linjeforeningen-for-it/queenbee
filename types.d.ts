@@ -1,6 +1,7 @@
 type time_type = 'default' | 'no_end' | 'whole_day' | 'tbd'
 type job_type = 'full' | 'part' | 'summer' | 'verv'
 type location_type = 'mazemap' | 'coords' | 'address' | 'digital'
+type embed_type = 'true' | 'false'
 
 // Events
 type GetEventsProps = {
@@ -362,6 +363,31 @@ type PatchRuleProps = PostRuleProps & {
     id: number
 }
 
+type GetAnnouncementProps = {
+    id: number
+    title: string
+    description: string
+    channel: string
+    embed: embed_type
+    color: string
+    interval: string
+    time: string | null
+}
+
+type PostAnnouncementProps = {
+    title: string
+    description: string
+    channel: string
+    embed: embed_type
+    color: string
+    interval: string
+    time: string | null
+}
+
+type PatchAnnouncementProps = PostAnnouncementProps & {
+    id: number
+}
+
 // Images
 type GetImageProps = {
     filepath: string
@@ -554,3 +580,21 @@ type LocationTypes = {
 }
 
 type Option = { value: string | number; label: string; image?: string }
+
+type FormName =
+    | 'event'
+    | 'job'
+    | 'organization'
+    | 'location'
+    | 'rule'
+    | 'announcement'
+
+type Announcement = {
+    title?: string
+    description?: string
+    channel?: string
+    embed?: boolean
+    color?: string
+    interval: boolean
+    schedule: string
+}

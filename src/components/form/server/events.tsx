@@ -11,8 +11,10 @@ import { EventFormInputsClient } from '../client/events'
 
 export default async function EventFormInputs({
     defaultValues,
+    parent,
 }: {
     defaultValues?: GetEventProps
+    parent?: { preview?: boolean }
 }) {
     const bannerImagesResponse = await getEventBannerImages()
     // prettier-ignore
@@ -97,6 +99,7 @@ export default async function EventFormInputs({
             organizations={organizations}
             rules={rules}
             locations={locations}
+            preview={parent?.preview}
         />
     )
 }

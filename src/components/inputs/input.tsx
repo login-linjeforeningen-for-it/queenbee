@@ -26,7 +26,6 @@ export default function Input({
     setValue,
 }: InputProps) {
     const [hasBlured, setHasBlured] = useState(false)
-
     return (
         <div className={`w-full ${className}`}>
             <div className='relative flex items-center'>

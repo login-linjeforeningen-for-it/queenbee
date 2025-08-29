@@ -9,9 +9,11 @@ import { useState } from 'react'
 export default function OrganizationFormInputsClient({
     defaultValues,
     images,
+    preview
 }: {
     defaultValues?: GetOrganizationProps
     images: LoginImage[]
+    preview?: boolean
 }) {
     const [formValues, setFormValues] = useState({
         shortname: defaultValues?.shortname ?? '',
@@ -26,6 +28,8 @@ export default function OrganizationFormInputsClient({
         logo: defaultValues?.logo ?? '',
     })
 
+    const mt = preview ? '-mt-12' : '-mt-13'
+
     function example() {
         setFormValues(sampleOrganization)
     }
@@ -34,7 +38,7 @@ export default function OrganizationFormInputsClient({
         <div className='flex flex-col gap-12 relative'>
             <div
                 className={
-                    'absolute flex flex-row gap-[1rem] -mt-13 ' +
+                    `absolute flex flex-row gap-[1rem] w-full ${mt} ` +
                     'w-full justify-end'
                 }
             >
