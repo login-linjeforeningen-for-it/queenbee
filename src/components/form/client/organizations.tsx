@@ -35,11 +35,11 @@ export default function OrganizationFormInputsClient({
     }
 
     return (
-        <div className='flex flex-col gap-12 relative'>
+        <div className='grid grid-cols-2 gap-y-4 gap-x-8 pt-10 relative'>
             <div
                 className={
                     `absolute flex flex-row gap-[1rem] w-full ${mt} ` +
-                    'w-full justify-end'
+                    'justify-end'
                 }
             >
                 <Button
@@ -49,141 +49,139 @@ export default function OrganizationFormInputsClient({
                     onClick={example}
                 />
             </div>
-            <div className='flex flex-col gap-4'>
-                <Input
-                    name='shortname'
-                    type='text'
-                    label='Short Name'
-                    value={formValues.shortname}
-                    setValue={(input) =>
-                        setFormValues({
-                            ...formValues,
-                            shortname: input as string,
-                        })
-                    }
-                    required
-                />
-                <div className='grid grid-cols-2 gap-y-4 gap-x-8  w-full'>
-                    <Input
-                        name='name_no'
-                        type='text'
-                        label='Name (Norwegian)'
-                        value={formValues.name_no}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                name_no: input as string,
-                            })
-                        }
-                        required
-                    />
-                    <Input
-                        name='name_en'
-                        type='text'
-                        label='Name (English)'
-                        value={formValues.name_en}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                name_en: input as string,
-                            })
-                        }
-                        required
-                    />
-                    <Markdown
-                        name='description_no'
-                        label='Description (Norwegian)'
-                        value={formValues.description_no}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                description_no: input as string,
-                            })
-                        }
-                        required
-                    />
-                    <Markdown
-                        name='description_en'
-                        label='Description (English)'
-                        value={formValues.description_en}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                description_en: input as string,
-                            })
-                        }
-                        required
-                    />
-                </div>
-            </div>
-            <div className='flex flex-col gap-4'>
-                <h1 className='text-xl'>Social Links</h1>
-                <Input
-                    name='link_homepage'
-                    type='text'
-                    label='Homepage Link'
-                    value={formValues.link_homepage}
-                    setValue={(input) =>
-                        setFormValues({
-                            ...formValues,
-                            link_homepage: input as string,
-                        })
-                    }
-                    required
-                />
-                <Input
-                    name='link_linkedin'
-                    type='text'
-                    label='Linkedin Link'
-                    value={formValues.link_linkedin}
-                    setValue={(input) =>
-                        setFormValues({
-                            ...formValues,
-                            link_linkedin: input as string,
-                        })
-                    }
-                />
-                <Input
-                    name='link_facebook'
-                    type='text'
-                    label='Facebook Link'
-                    value={formValues.link_facebook}
-                    setValue={(input) =>
-                        setFormValues({
-                            ...formValues,
-                            link_facebook: input as string,
-                        })
-                    }
-                />
-                <Input
-                    name='link_instagram'
-                    type='text'
-                    label='Instagram Link'
-                    value={formValues.link_instagram}
-                    setValue={(input) =>
-                        setFormValues({
-                            ...formValues,
-                            link_instagram: input as string,
-                        })
-                    }
-                />
-            </div>
-            <div className='flex flex-col gap-4'>
-                <h1 className='text-xl'>Logo</h1>
-                <Select
-                    name='logo'
-                    label='Organization Logo'
-                    options={images}
-                    value={formValues.logo}
-                    setValue={(input) =>
-                        setFormValues({
-                            ...formValues,
-                            logo: input as string,
-                        })
-                    }
-                    required
-                />
-            </div>
+            <Input
+                name='shortname'
+                type='text'
+                label='Short Name'
+                value={formValues.shortname}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        shortname: input as string,
+                    })
+                }
+                className='col-span-2'
+                required
+            />
+            <Input
+                name='name_no'
+                type='text'
+                label='Name (Norwegian)'
+                value={formValues.name_no}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        name_no: input as string,
+                    })
+                }
+                required
+            />
+            <Input
+                name='name_en'
+                type='text'
+                label='Name (English)'
+                value={formValues.name_en}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        name_en: input as string,
+                    })
+                }
+                required
+            />
+            <Markdown
+                name='description_no'
+                label='Description (Norwegian)'
+                value={formValues.description_no}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        description_no: input as string,
+                    })
+                }
+                required
+            />
+            <Markdown
+                name='description_en'
+                label='Description (English)'
+                value={formValues.description_en}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        description_en: input as string,
+                    })
+                }
+                required
+            />
+            <h1 className='text-xl pt-10 col-span-2'>Social Links</h1>
+            <Input
+                name='link_homepage'
+                type='text'
+                label='Homepage Link'
+                value={formValues.link_homepage}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        link_homepage: input as string,
+                    })
+                }
+                className='col-span-2'
+                required
+            />
+            <Input
+                name='link_linkedin'
+                type='text'
+                label='Linkedin Link'
+                value={formValues.link_linkedin}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        link_linkedin: input as string,
+                    })
+                }
+                className='col-span-2'
+            />
+            <Input
+                name='link_facebook'
+                type='text'
+                label='Facebook Link'
+                value={formValues.link_facebook}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        link_facebook: input as string,
+                    })
+                }
+                className='col-span-2'
+            />
+            <Input
+                name='link_instagram'
+                type='text'
+                label='Instagram Link'
+                value={formValues.link_instagram}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        link_instagram: input as string,
+                    })
+                }
+                className='col-span-2'
+            />
+            <h1 className='text-xl pt-10 col-span-2'>Logo</h1>
+            <Select
+                name='logo'
+                label='Organization Logo'
+                options={images}
+                value={formValues.logo}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        logo: input as string,
+                    })
+                }
+                className='col-span-2'
+                required
+            />
         </div>
     )
 }

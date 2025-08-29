@@ -54,11 +54,11 @@ export default function JobFormInputsClient({
     }
 
     return (
-        <div className='flex flex-col gap-12'>
+        <div className='grid grid-cols-2 gap-y-4 gap-x-8 pt-10 relative'>
             <div
                 className={
                     `absolute flex flex-row gap-[1rem] w-full ${mt} ` +
-                    'justify-end relative'
+                    'justify-end'
                 }
             >
                 <Button
@@ -68,311 +68,291 @@ export default function JobFormInputsClient({
                     onClick={example}
                 />
             </div>
-            <div className='flex flex-col gap-8'>
-                <div
-                    className={
-                        'grid grid-cols-2 gap-x-8 gap-y-4 ' +
-                        'justify-between w-full'
-                    }
-                >
-                    <Input
-                        name='title_no'
-                        type='text'
-                        label='Title (Norwegian)'
-                        value={formValues.title_no}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                title_no: input as string,
-                            })
-                        }
-                        required
-                    />
-                    <Input
-                        name='title_en'
-                        type='text'
-                        label='Title (English)'
-                        value={formValues.title_en}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                title_en: input as string,
-                            })
-                        }
-                        required
-                    />
-                    <Input
-                        name='position_title_no'
-                        type='text'
-                        label='Position (Norwegian)'
-                        value={formValues.position_title_no}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                position_title_no: input as string,
-                            })
-                        }
-                        required
-                    />
-                    <Input
-                        name='position_title_en'
-                        type='text'
-                        label='Position (English)'
-                        value={formValues.position_title_en}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                position_title_en: input as string,
-                            })
-                        }
-                        required
-                    />
-                    <Input
-                        name='description_short_no'
-                        type='text'
-                        label='Short Description (Norwegian)'
-                        value={formValues.description_short_no}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                description_short_no: input as string,
-                            })
-                        }
-                        required
-                    />
-                    <Input
-                        name='description_short_en'
-                        type='text'
-                        label='Short Description (English)'
-                        value={formValues.description_short_en}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                description_short_en: input as string,
-                            })
-                        }
-                        required
-                    />
-                    <Markdown
-                        name='description_long_no'
-                        label='Description (Norwegian)'
-                        value={formValues.description_long_no}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                description_long_no: input as string,
-                            })
-                        }
-                        required
-                    />
-                    <Markdown
-                        name='description_long_en'
-                        label='Description (English)'
-                        value={formValues.description_long_en}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                description_long_en: input as string,
-                            })
-                        }
-                        required
-                    />
-                </div>
-                <div
-                    className={
-                        'grid grid-cols-2 gap-x-8 gap-y-4 ' +
-                        'justify-between w-full'
-                    }
-                >
-                    <Select
-                        name='organization'
-                        label='Organization'
-                        options={organizations}
-                        value={formValues.organization}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                organization: input as string,
-                            })
-                        }
-                        required
-                    />
-                    <TagInput
-                        name='cities'
-                        label='Cities'
-                        value={formValues.cities || []}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                cities: input,
-                            })
-                        }
-                    />
-                    <Select
-                        name='job_type'
-                        label='Application Type'
-                        options={applicationTypes}
-                        value={formValues.job_type || ''}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                job_type: input as job_type,
-                            })
-                        }
-                        required
-                    />
-                    <TagInput
-                        name='skills'
-                        label='Skills'
-                        value={formValues.skills || []}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                skills: input,
-                            })
-                        }
-                    />
-                    <div className='grid grid-cols-2 gap-x-4 gap-y-4 w-full'>
-                        <DateInput
-                            name='publish_date'
-                            label='Publish Date'
-                            value={formValues.time_publish.split('T')[0]}
-                            setValue={(input) =>
-                                setFormValues({
-                                    ...formValues,
-                                    time_publish: input,
-                                })
-                            }
-                            required
-                        />
-                        <TimeInput
-                            name='publish_time'
-                            label='Publish Time'
-                            value={formValues.time_publish
-                                .split('T')[1]
-                                ?.slice(0, 5)}
-                            setValue={(input) =>
-                                setFormValues({
-                                    ...formValues,
-                                    time_publish: input,
-                                })
-                            }
-                            required
-                        />
-                    </div>
-                    <Switch
-                        name='highlight'
-                        label='Highlight Ad'
-                        value={formValues.highlight || false}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                highlight: input,
-                            })
-                        }
-                    />
-                    <div className='grid grid-cols-2 gap-4 w-full'>
-                        <DateInput
-                            name='expire_date'
-                            label='Expire Date'
-                            value={formValues.time_expire.split('T')[0]}
-                            setValue={(date) => {
-                                const time =
-                                    formValues.time_expire.split('T')[1] ??
-                                    '00:00'
-                                setFormValues({
-                                    ...formValues,
-                                    time_expire: `${date}T${time}`,
-                                })
-                            }}
-                            required
-                        />
-                        <TimeInput
-                            name='expire_time'
-                            label='Expire Time'
-                            value={formValues.time_expire
-                                .split('T')[1]
-                                ?.slice(0, 5)}
-                            setValue={(time) => {
-                                const date =
-                                    formValues.time_expire.split('T')[0] ??
-                                    new Date().toISOString().split('T')[0]
-                                setFormValues({
-                                    ...formValues,
-                                    time_expire: `${date}T${time}`,
-                                })
-                            }}
-                            required
-                        />
-                    </div>
-                </div>
-            </div>
-            <div className='flex flex-col gap-4'>
-                <h1 className='text-xl'>Application</h1>
-                <Input
-                    name='application_url'
-                    type='text'
-                    label='Application URL'
-                    value={formValues.application_url}
+            <Input
+                name='title_no'
+                type='text'
+                label='Title (Norwegian)'
+                value={formValues.title_no}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        title_no: input as string,
+                    })
+                }
+                required
+            />
+            <Input
+                name='title_en'
+                type='text'
+                label='Title (English)'
+                value={formValues.title_en}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        title_en: input as string,
+                    })
+                }
+                required
+            />
+            <Input
+                name='position_title_no'
+                type='text'
+                label='Position (Norwegian)'
+                value={formValues.position_title_no}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        position_title_no: input as string,
+                    })
+                }
+                required
+            />
+            <Input
+                name='position_title_en'
+                type='text'
+                label='Position (English)'
+                value={formValues.position_title_en}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        position_title_en: input as string,
+                    })
+                }
+                required
+            />
+            <Input
+                name='description_short_no'
+                type='text'
+                label='Short Description (Norwegian)'
+                value={formValues.description_short_no}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        description_short_no: input as string,
+                    })
+                }
+                required
+            />
+            <Input
+                name='description_short_en'
+                type='text'
+                label='Short Description (English)'
+                value={formValues.description_short_en}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        description_short_en: input as string,
+                    })
+                }
+                required
+            />
+            <Markdown
+                name='description_long_no'
+                label='Description (Norwegian)'
+                value={formValues.description_long_no}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        description_long_no: input as string,
+                    })
+                }
+                required
+            />
+            <Markdown
+                name='description_long_en'
+                label='Description (English)'
+                value={formValues.description_long_en}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        description_long_en: input as string,
+                    })
+                }
+                required
+            />
+            <Select
+                name='organization'
+                label='Organization'
+                options={organizations}
+                value={formValues.organization}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        organization: input as string,
+                    })
+                }
+                required
+            />
+            <TagInput
+                name='cities'
+                label='Cities'
+                value={formValues.cities || []}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        cities: input,
+                    })
+                }
+            />
+            <Select
+                name='job_type'
+                label='Application Type'
+                options={applicationTypes}
+                value={formValues.job_type || ''}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        job_type: input as job_type,
+                    })
+                }
+                required
+            />
+            <TagInput
+                name='skills'
+                label='Skills'
+                value={formValues.skills || []}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        skills: input,
+                    })
+                }
+            />
+            <div className='flex flex-row gap-x-4'>
+                <DateInput
+                    name='publish_date'
+                    label='Publish Date'
+                    value={formValues.time_publish.split('T')[0]}
                     setValue={(input) =>
                         setFormValues({
                             ...formValues,
-                            application_url: input as string,
+                            time_publish: input,
                         })
                     }
                     required
                 />
-                <div className='flex flex-row gap-4'>
-                    <DateInput
-                        name='deadline_date'
-                        label='Deadline Date'
-                        value={formValues.application_deadline.split('T')[0]}
-                        setValue={(date) => {
-                            const time =
-                                formValues.application_deadline.split('T')[1] ??
-                                '00:00'
-                            setFormValues({
-                                ...formValues,
-                                application_deadline: `${date}T${time}`,
-                            })
-                        }}
-                        required
-                    />
-                    <TimeInput
-                        name='deadline_time'
-                        label='Deadline Time'
-                        value={formValues.application_deadline
-                            .split('T')[1]
-                            ?.slice(0, 5)}
-                        setValue={(time) => {
-                            const date =
-                                formValues.application_deadline.split('T')[0] ??
-                                new Date().toISOString().split('T')[0]
-                            setFormValues({
-                                ...formValues,
-                                application_deadline: `${date}T${time}`,
-                            })
-                        }}
-                        required
-                    />
-                </div>
-            </div>
-            <div className='flex flex-col gap-4'>
-                <h1 className='text-xl'>Image</h1>
-                <Select
-                    name='banner_image'
-                    label='Banner Image'
-                    options={jobImages}
-                    value={formValues.banner_image || ''}
+                <TimeInput
+                    name='publish_time'
+                    label='Publish Time'
+                    value={formValues.time_publish
+                        .split('T')[1]
+                        ?.slice(0, 5)}
                     setValue={(input) =>
                         setFormValues({
                             ...formValues,
-                            banner_image: input as string,
+                            time_publish: input,
                         })
                     }
                     required
                 />
             </div>
+            <Switch
+                name='highlight'
+                label='Highlight Ad'
+                value={formValues.highlight || false}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        highlight: input,
+                    })
+                }
+            />
+            <div className='flex flex-row gap-x-4'>
+                <DateInput
+                    name='expire_date'
+                    label='Expire Date'
+                    value={formValues.time_expire.split('T')[0]}
+                    setValue={(date) => {
+                        const time =
+                            formValues.time_expire.split('T')[1] ??
+                            '00:00'
+                        setFormValues({
+                            ...formValues,
+                            time_expire: `${date}T${time}`,
+                        })
+                    }}
+                    required
+                />
+                <TimeInput
+                    name='expire_time'
+                    label='Expire Time'
+                    value={formValues.time_expire
+                        .split('T')[1]
+                        ?.slice(0, 5)}
+                    setValue={(time) => {
+                        const date =
+                            formValues.time_expire.split('T')[0] ??
+                            new Date().toISOString().split('T')[0]
+                        setFormValues({
+                            ...formValues,
+                            time_expire: `${date}T${time}`,
+                        })
+                    }}
+                    required
+                />
+            </div>
+            <h1 className='text-xl pt-10 col-span-2'>Application</h1>
+            <Input
+                name='application_url'
+                type='text'
+                label='Application URL'
+                value={formValues.application_url}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        application_url: input as string,
+                    })
+                }
+                className='col-span-2'
+                required
+            />
+            <DateInput
+                name='deadline_date'
+                label='Deadline Date'
+                value={formValues.application_deadline.split('T')[0]}
+                setValue={(date) => {
+                    const time =
+                        formValues.application_deadline.split('T')[1] ??
+                        '00:00'
+                    setFormValues({
+                        ...formValues,
+                        application_deadline: `${date}T${time}`,
+                    })
+                }}
+                required
+            />
+            <TimeInput
+                name='deadline_time'
+                label='Deadline Time'
+                value={formValues.application_deadline
+                    .split('T')[1]
+                    ?.slice(0, 5)}
+                setValue={(time) => {
+                    const date =
+                        formValues.application_deadline.split('T')[0] ??
+                        new Date().toISOString().split('T')[0]
+                    setFormValues({
+                        ...formValues,
+                        application_deadline: `${date}T${time}`,
+                    })
+                }}
+                required
+            />
+            <h1 className='text-xl pt-10 col-span-2'>Image</h1>
+            <Select
+                name='banner_image'
+                label='Banner Image'
+                options={jobImages}
+                value={formValues.banner_image || ''}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        banner_image: input as string,
+                    })
+                }
+                className='col-span-2'
+                required
+            />
             <Announce />
         </div>
     )

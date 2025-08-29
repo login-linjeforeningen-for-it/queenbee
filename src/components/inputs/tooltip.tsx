@@ -7,7 +7,7 @@ export default function ToolTip({
 }) {
     return (
         <div
-            className={`absolute right-0 px-1 flex justify-center ${className}`}
+            className={`absolute z-19 right-0 px-1 flex justify-center ${className}`}
         >
             <span
                 className={
@@ -20,7 +20,7 @@ export default function ToolTip({
             <div
                 className={
                     'absolute hidden peer-hover:block p-2 ' +
-                    'rounded z-20 bg-login-700 border top-12 w-max max-w-3xs'
+                    'rounded z-20 bg-login-700 border left-12 w-max max-w-3xs'
                 }
             >
                 {info}

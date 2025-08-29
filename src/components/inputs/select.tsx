@@ -1,20 +1,11 @@
 'use client'
 
-import { useRef, useState, createContext, useContext } from 'react'
+import { useRef, useState } from 'react'
 import Image from 'next/image'
 import ToolTip from './tooltip'
 import Label from './label'
 import EraseButton from './erase'
 import config from '../../../constants'
-
-export type SelectContextType = {
-    selectedValue: string | number
-    options: Option[]
-}
-
-export const SelectContext = createContext<SelectContextType | undefined>(
-    undefined
-)
 
 type SelectProps = {
     name: string
@@ -58,90 +49,65 @@ export default function Select({
     }
 
     return (
-        <SelectContext value={{ selectedValue: value, options }}>
-            <div className={`w-full ${className}`}>
-                <div className='relative flex items-center'>
-                    <select
-                        ref={selectRef}
-                        name={name}
-                        className={
-                            'peer bg-login-800 block px-2.5 pb-2.5 pt-4 ' +
-                            'w-full text-sm rounded-lg border-[0.10rem] ' +
-                            'appearance-none border-login-200 ' +
-                            'focus:outline-none focus:ring-0 ' +
-                            'focus:border-login-50 cursor-pointer'
-                        }
-                        value={value}
-                        onChange={(e) => {
-                            setValue(e.target.value)
+        <div className={`w-full ${className}`}>
+            <div className='relative flex items-center'>
+                <select
+                    ref={selectRef}
+                    name={name}
+                    className={
+                        'peer bg-login-800 block px-2.5 pb-2.5 pt-4 ' +
+                        'w-full text-sm rounded-lg border-[0.10rem] ' +
+                        'appearance-none border-login-200 ' +
+                        'focus:outline-none focus:ring-0 ' +
+                        'focus:border-login-50 cursor-pointer'
+                    }
+                    value={value}
+                    onChange={(e) => {
+                        setValue(e.target.value)
+                        setHasBlured(true)
+                    }}
+                    onBlur={() => setHasBlured(true)}
+                    onMouseDown={(e) => {
+                        e.preventDefault()
+                        selectRef.current?.focus()
+                    }}
+                    required={required}
+                >
+                    <option value='' hidden />
+                    {options.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </select>
+
+                <Label
+                    label={label}
+                    value={value}
+                    required={required}
+                    showRequired={required && !value && hasBlured}
+                />
+
+                {value && (
+                    <EraseButton
+                        setData={(v: string) => {
+                            setValue(v)
                             setHasBlured(true)
                         }}
-                        onBlur={() => setHasBlured(true)}
-                        onMouseDown={(e) => {
-                            e.preventDefault()
-                            selectRef.current?.focus()
-                        }}
-                        required={required}
-                    >
-                        <option value='' hidden />
-                        {options.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
-
-                    <Label
-                        label={label}
-                        value={value}
-                        required={required}
-                        showRequired={required && !value && hasBlured}
                     />
+                )}
+                {!value && tooltip && <ToolTip info={tooltip} />}
 
-                    {value && (
-                        <EraseButton
-                            setData={(v: string) => {
-                                setValue(v)
-                                setHasBlured(true)
-                            }}
-                        />
-                    )}
-                    {!value && tooltip && <ToolTip info={tooltip} />}
-
-                    <SelectContent
-                        options={options}
-                        value={value}
-                        selectedOption={selectedOption}
-                        handleChoose={handleChoose}
-                    />
-                </div>
-                {children}
+                <SelectContent
+                    options={options}
+                    value={value}
+                    selectedOption={selectedOption}
+                    handleChoose={handleChoose}
+                />
             </div>
-        </SelectContext>
+            {children}
+        </div>
     )
-}
-
-type SelectOptionProps = {
-    value: string | number
-    className?: string
-    children?: React.ReactNode
-}
-
-export function SelectOption({
-    value,
-    className,
-    children,
-}: SelectOptionProps) {
-    const ctx = useContext(SelectContext)
-    if (!ctx) return null
-
-    const { selectedValue } = ctx as { selectedValue: string | number }
-
-    if (String(selectedValue) === String(value)) {
-        return <div className={className}>{children}</div>
-    }
-
-    return null
 }
 
 function SelectContent({

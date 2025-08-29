@@ -33,14 +33,6 @@ export default [
             '@typescript-eslint/no-unused-vars': 'error',
             '@typescript-eslint/ban-ts-comment': 'off',
             '@typescript-eslint/no-non-null-assertion': 'off',
-            'max-len': [
-                'error',
-                {
-                    code: 80,
-                    ignoreComments: true,
-                    ignoreUrls: true,
-                },
-            ],
         },
     },
 ]

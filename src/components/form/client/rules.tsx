@@ -26,8 +26,7 @@ export default function RuleFormInputsClient({
     }
 
     return (
-        <div className='flex flex-col gap-4 relative'>
-            {/* prettier-ignore */}
+        <div className='grid grid-cols-2 gap-y-4 gap-x-8 pt-10 relative'>
             <div className={
                 `absolute flex flex-row gap-[1rem] w-full ${mt} justify-end`
             }>
@@ -38,60 +37,56 @@ export default function RuleFormInputsClient({
                     onClick={example}
                 />
             </div>
-            <div className='flex flex-row gap-8 justify-between w-full'>
-                <Input
-                    name='name_no'
-                    type='text'
-                    label='Name (Norwegian)'
-                    required
-                    value={formValues.name_no}
-                    setValue={(input) =>
-                        setFormValues({
-                            ...formValues,
-                            name_no: input as string,
-                        })
-                    }
-                />
-                <Input
-                    name='name_en'
-                    type='text'
-                    label='Name (English)'
-                    required
-                    value={formValues.name_en}
-                    setValue={(input) =>
-                        setFormValues({
-                            ...formValues,
-                            name_en: input as string,
-                        })
-                    }
-                />
-            </div>
-            <div className='flex flex-row gap-8 justify-between w-full'>
-                <Markdown
-                    name='description_no'
-                    label='Description (Norwegian)'
-                    required
-                    value={formValues.description_no}
-                    setValue={(input) =>
-                        setFormValues({
-                            ...formValues,
-                            description_no: input as string,
-                        })
-                    }
-                />
-                <Markdown
-                    name='description_en'
-                    label='Description (English)'
-                    required
-                    value={formValues.description_en}
-                    setValue={(input) =>
-                        setFormValues({
-                            ...formValues,
-                            description_en: input as string,
-                        })
-                    }
-                />
-            </div>
+            <Input
+                name='name_no'
+                type='text'
+                label='Name (Norwegian)'
+                required
+                value={formValues.name_no}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        name_no: input as string,
+                    })
+                }
+            />
+            <Input
+                name='name_en'
+                type='text'
+                label='Name (English)'
+                required
+                value={formValues.name_en}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        name_en: input as string,
+                    })
+                }
+            />
+            <Markdown
+                name='description_no'
+                label='Description (Norwegian)'
+                required
+                value={formValues.description_no}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        description_no: input as string,
+                    })
+                }
+            />
+            <Markdown
+                name='description_en'
+                label='Description (English)'
+                required
+                value={formValues.description_en}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        description_en: input as string,
+                    })
+                }
+            />
         </div>
     )
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import Input from '@components/inputs/input'
-import Select, { SelectOption } from '@components/inputs/select'
+import Select from '@components/inputs/select'
 import Button from '@components/userInput/button'
 import { useState } from 'react'
 
@@ -18,7 +18,7 @@ export default function LocationFormInputsClient({
         name_no: defaultValues?.name_no ?? '',
         name_en: defaultValues?.name_en ?? '',
         url: defaultValues?.url ?? '',
-        type: defaultValues?.type ?? 'address',
+        type: defaultValues?.type ?? '',
         mazemap_campus_id: defaultValues?.mazemap_campus_id ?? 0,
         mazemap_poi_id: defaultValues?.mazemap_poi_id ?? 0,
         coordinate_lat: defaultValues?.coordinate_lat ?? 0,
@@ -35,7 +35,7 @@ export default function LocationFormInputsClient({
     }
 
     return (
-        <div className='flex flex-col gap-4 relative'>
+        <div className='grid grid-cols-1 gap-y-4 pt-10 relative'>
             <div
                 className={
                     `absolute flex flex-row gap-[1rem] w-full ${mt} ` +
@@ -100,112 +100,108 @@ export default function LocationFormInputsClient({
                 }
                 required
             >
-                <SelectOption
-                    value='mazemap'
-                    className='grid grid-flow-col gap-x-8 pt-4'
-                >
-                    <Input
-                        name='mazemap_campus_id'
-                        type='number'
-                        label='Campus ID'
-                        value={formValues.mazemap_campus_id}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                mazemap_campus_id: Number(input),
-                            })
-                        }
-                        required
-                    />
-                    <Input
-                        name='mazemap_poi_id'
-                        type='number'
-                        label='POI ID'
-                        value={formValues.mazemap_poi_id}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                mazemap_poi_id: Number(input),
-                            })
-                        }
-                        required
-                    />
-                </SelectOption>
-                <SelectOption
-                    value='coords'
-                    className='grid grid-flow-col gap-x-8 pt-4'
-                >
-                    <Input
-                        name='coordinate_lat'
-                        type='text'
-                        label='Latitude'
-                        value={formValues.coordinate_lat}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                coordinate_lat: Number(input),
-                            })
-                        }
-                        required
-                    />
-                    <Input
-                        name='coordinate_long'
-                        type='number'
-                        label='Longitude'
-                        value={formValues.coordinate_long}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                coordinate_long: Number(input),
-                            })
-                        }
-                        required
-                    />
-                </SelectOption>
-                <SelectOption
-                    value='address'
-                    className='grid grid-flow-col gap-x-8 pt-4'
-                >
-                    <Input
-                        name='address_street'
-                        type='text'
-                        label='Address'
-                        value={formValues.address_street}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                address_street: input as string,
-                            })
-                        }
-                        required
-                    />
-                    <Input
-                        name='address_postcode'
-                        type='number'
-                        label='Postal Code'
-                        value={formValues.address_postcode}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                address_postcode: Number(input),
-                            })
-                        }
-                        required
-                    />
-                    <Input
-                        name='city_name'
-                        type='text'
-                        label='City'
-                        value={formValues.city_name}
-                        setValue={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                city_name: input as string,
-                            })
-                        }
-                        required
-                    />
-                </SelectOption>
+                <div className='grid grid-flow-col gap-x-8 pt-4'>
+                    {formValues.type === 'mazemap' && <>
+                        <Input
+                            name='mazemap_campus_id'
+                            type='number'
+                            label='Campus ID'
+                            value={formValues.mazemap_campus_id}
+                            setValue={(input) =>
+                                setFormValues({
+                                    ...formValues,
+                                    mazemap_campus_id: Number(input),
+                                })
+                            }
+                            required
+                        />
+                        <Input
+                            name='mazemap_poi_id'
+                            type='number'
+                            label='POI ID'
+                            value={formValues.mazemap_poi_id}
+                            setValue={(input) =>
+                                setFormValues({
+                                    ...formValues,
+                                    mazemap_poi_id: Number(input),
+                                })
+                            }
+                            required
+                        />
+                    </>
+                    }
+                    {formValues.type === 'coords' && <>
+                        <Input
+                            name='coordinate_lat'
+                            type='text'
+                            label='Latitude'
+                            value={formValues.coordinate_lat}
+                            setValue={(input) =>
+                                setFormValues({
+                                    ...formValues,
+                                    coordinate_lat: Number(input),
+                                })
+                            }
+                            required
+                        />
+                        <Input
+                            name='coordinate_long'
+                            type='number'
+                            label='Longitude'
+                            value={formValues.coordinate_long}
+                            setValue={(input) =>
+                                setFormValues({
+                                    ...formValues,
+                                    coordinate_long: Number(input),
+                                })
+                            }
+                            required
+                        />
+                    </>
+                    }
+                    {formValues.type === 'address' && <>
+                        <Input
+                            name='address_street'
+                            type='text'
+                            label='Address'
+                            value={formValues.address_street}
+                            setValue={(input) =>
+                                setFormValues({
+                                    ...formValues,
+                                    address_street: input as string,
+                                })
+                            }
+                            required
+                        />
+                        <Input
+                            name='address_postcode'
+                            type='number'
+                            label='Postal Code'
+                            value={formValues.address_postcode}
+                            setValue={(input) =>
+                                setFormValues({
+                                    ...formValues,
+                                    address_postcode: Number(input),
+                                })
+                            }
+                            required
+                        />
+                        <Input
+                            name='city_name'
+                            type='text'
+                            label='City'
+                            value={formValues.city_name}
+                            setValue={(input) =>
+                                setFormValues({
+                                    ...formValues,
+                                    city_name: input as string,
+                                })
+                            }
+                            required
+                        />
+                    </>
+                    }
+                </div>
             </Select>
         </div>
     )
@@ -213,7 +209,7 @@ export default function LocationFormInputsClient({
 
 const sampleEventLocation = {
     name_no: '🍊 Login Loungen',
-    name_en: '🍊 Huset',
+    name_en: '🍊 Login Lounge',
     url: 'https://login.no/',
     type: 'coords' as location_type,
     mazemap_campus_id: 0,
