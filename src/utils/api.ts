@@ -155,14 +155,14 @@ export async function deleteCity(body: CityProps) {
 // Locations
 export async function getLocations(
     type: string | null = null,
-    limit: number | number = 10,
-    offset: number | number = 0
+    offset: number | number = 0,
+    limit?: number
 ): Promise<GetLocationsProps | string> {
     const queryParts = new URLSearchParams({
-        limit: String(limit),
         offset: String(offset),
     })
     if (type) queryParts.append('type', type)
+    if (limit) queryParts.append('limit', String(limit))
 
     const path = `${config.beehiveApi.LOCATIONS_PATH}?${queryParts.toString()}`
     return await getWrapper(path)
@@ -193,13 +193,13 @@ export async function patchLocation(
 
 // Organizations
 export async function getOrganizations(
-    limit: number | number = 10,
-    offset: number | number = 0
+    offset: number | number = 0,
+    limit?: number
 ) {
     const queryParts = new URLSearchParams({
-        limit: String(limit),
-        offset: String(offset),
+        offset: String(offset)
     })
+    if (limit) queryParts.append('limit', String(limit))
 
     const path =
         `${config.beehiveApi.ORGANIZATIONS_PATH}?` + `${queryParts.toString()}`
@@ -240,13 +240,13 @@ export async function getOrganizationImages(): Promise<GetImageProps | string> {
 
 // Rules
 export async function getRules(
-    limit: number | number = 10,
-    offset: number | number = 0
+    offset: number | number = 0,
+    limit?: number
 ) {
     const queryParts = new URLSearchParams({
-        limit: String(limit),
         offset: String(offset),
     })
+    if (limit) queryParts.append('limit', String(limit))
 
     const path = `${config.beehiveApi.RULES_PATH}?${queryParts.toString()}`
     return await getWrapper(path)
@@ -283,13 +283,13 @@ export async function getAnnouncement(
 }
 
 export async function getAnnouncements(
-    limit: number | number = 10,
-    offset: number | number = 0
+    offset: number | number = 0,
+    limit?: number
 ) {
     const queryParts = new URLSearchParams({
-        limit: String(limit),
         offset: String(offset),
     })
+    if (limit) queryParts.append('limit', String(limit))
 
     const path = `${config.beehiveApi.RULES_PATH}?${queryParts.toString()}`
     return await getWrapper(path)

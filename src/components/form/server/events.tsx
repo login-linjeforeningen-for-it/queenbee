@@ -67,7 +67,7 @@ export default async function EventFormInputs({
     // prettier-ignore
     const locations = Array.isArray(locationsResponse)
         ? locationsResponse.map((location) => ({
-            label: location.name_en,
+            label: location.name_no,
             value: location.id,
         }))
         : []
