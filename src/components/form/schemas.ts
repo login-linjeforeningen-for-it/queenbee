@@ -26,11 +26,11 @@ export const postEventSchema = z.object({
     name_no: z.string().min(1),
     parent: z.number().optional(),
     rule: z.number().optional(),
-    time_end: z.iso.datetime(),
-    time_publish: z.iso.datetime(),
-    time_signup_deadline: z.iso.datetime().optional(),
-    time_signup_release: z.iso.datetime().optional(),
-    time_start: z.iso.datetime(),
+    time_end: z.iso.datetime({ offset: true }),
+    time_publish: z.iso.datetime({ offset: true }),
+    time_signup_deadline: z.iso.datetime({ offset: true }).optional(),
+    time_signup_release: z.iso.datetime({ offset: true }).optional(),
+    time_start: z.iso.datetime({ offset: true }),
     time_type: time_type,
     visible: z.boolean(),
 })
@@ -40,7 +40,7 @@ export const patchEventSchema = postEventSchema.extend({
 })
 
 export const postJobSchema = z.object({
-    application_deadline: z.iso.datetime(),
+    application_deadline: z.iso.datetime({ offset: true }),
     application_url: z.string().min(1),
     banner_image: z.string().min(1),
     description_long_en: z.string().min(1),
@@ -52,8 +52,8 @@ export const postJobSchema = z.object({
     organization: z.string().min(1),
     position_title_en: z.string().min(1),
     position_title_no: z.string().min(1),
-    time_expire: z.iso.datetime(),
-    time_publish: z.iso.datetime(),
+    time_expire: z.iso.datetime({ offset: true }),
+    time_publish: z.iso.datetime({ offset: true }),
     title_en: z.string().min(1),
     title_no: z.string().min(1),
     visible: z.boolean(),

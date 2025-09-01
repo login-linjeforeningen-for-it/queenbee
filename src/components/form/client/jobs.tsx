@@ -11,6 +11,7 @@ import Announce from '@components/announce/announce'
 import Button from '@components/userInput/button'
 import fallBackDate from '@utils/fallbackDate'
 import { useState } from 'react'
+import { toLocalTimeString } from '@utils/timeZone'
 
 export default function JobFormInputsClient({
     defaultValues,
@@ -234,9 +235,7 @@ export default function JobFormInputsClient({
                 <TimeInput
                     name='publish_time'
                     label='Publish Time'
-                    value={formValues.time_publish
-                        .split('T')[1]
-                        ?.slice(0, 5)}
+                    value={toLocalTimeString(formValues.time_publish)}
                     setValue={(input) =>
                         setFormValues({
                             ...formValues,
@@ -264,7 +263,7 @@ export default function JobFormInputsClient({
                     value={formValues.time_expire.split('T')[0]}
                     setValue={(date) => {
                         const time =
-                            formValues.time_expire.split('T')[1] ??
+                            toLocalTimeString(formValues.time_expire) ??
                             '00:00'
                         setFormValues({
                             ...formValues,
@@ -276,9 +275,7 @@ export default function JobFormInputsClient({
                 <TimeInput
                     name='expire_time'
                     label='Expire Time'
-                    value={formValues.time_expire
-                        .split('T')[1]
-                        ?.slice(0, 5)}
+                    value={toLocalTimeString(formValues.time_expire)}
                     setValue={(time) => {
                         const date =
                             formValues.time_expire.split('T')[0] ??
@@ -312,7 +309,7 @@ export default function JobFormInputsClient({
                 value={formValues.application_deadline.split('T')[0]}
                 setValue={(date) => {
                     const time =
-                        formValues.application_deadline.split('T')[1] ??
+                        toLocalTimeString(formValues.application_deadline) ??
                         '00:00'
                     setFormValues({
                         ...formValues,
@@ -324,9 +321,7 @@ export default function JobFormInputsClient({
             <TimeInput
                 name='deadline_time'
                 label='Deadline Time'
-                value={formValues.application_deadline
-                    .split('T')[1]
-                    ?.slice(0, 5)}
+                value={toLocalTimeString(formValues.application_deadline)}
                 setValue={(time) => {
                     const date =
                         formValues.application_deadline.split('T')[0] ??

@@ -5,7 +5,7 @@ import ToolTip from './tooltip'
 type SwitchProps = {
     name: string
     label: string
-    value: boolean
+    value?: boolean
     setValue: (_: boolean) => void
     className?: string
     tooltip?: string

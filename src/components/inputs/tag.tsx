@@ -9,7 +9,7 @@ import { X } from 'lucide-react'
 type TagInputProps = {
     name: string
     label: string
-    value: string[]
+    value?: string[]
     setValue: (_: string[]) => void
     className?: string
     tooltip?: string

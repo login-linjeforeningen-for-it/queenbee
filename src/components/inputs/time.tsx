@@ -8,7 +8,7 @@ import EraseButton from './erase'
 type TimeProps = {
     name: string
     label: string
-    value: string
+    value?: string
     setValue: (_: string) => void
     className?: string
     tooltip?: string

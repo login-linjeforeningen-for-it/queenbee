@@ -9,6 +9,7 @@ import TimeInput from '@components/inputs/time'
 import Announce from '@components/announce/announce'
 import Button from '@components/userInput/button'
 import { useState } from 'react'
+import { toLocalTimeString } from '@utils/timeZone'
 
 export function EventFormInputsClient({
     defaultValues,
@@ -45,26 +46,6 @@ export function EventFormInputsClient({
             ? defaultValues.audiences[0].id
             : undefined
 
-    const defaultStartTime = defaultValues?.event.time_start
-        .split('T')[1]
-        ?.slice(0, 5)
-
-    const defaultEndTime = defaultValues?.event.time_end
-        .split('T')[1]
-        ?.slice(0, 5)
-
-    const defaultDeadlineTime = defaultValues?.event.time_signup_deadline
-        .split('T')[1]
-        ?.slice(0, 5)
-
-    const defaultPublishTime = defaultValues?.event.time_publish
-        .split('T')[1]
-        ?.slice(0, 5)
-
-    const defaultReleaseTime = defaultValues?.event.time_signup_release
-        .split('T')[1]
-        ?.slice(0, 5)
-
     const [formValues, setFormValues] = useState({
         name_no: defaultValues?.event.name_no || '',
         name_en: defaultValues?.event.name_en || '',
@@ -80,25 +61,25 @@ export function EventFormInputsClient({
         time_type: defaultValues?.event.time_type,
         start_date: defaultValues?.event.time_start.split('T')[0],
         end_date: defaultValues?.event.time_end.split('T')[0],
-        start_time: defaultStartTime,
-        end_time: defaultEndTime,
+        start_time: toLocalTimeString(defaultValues?.event.time_start),
+        end_time: toLocalTimeString(defaultValues?.event.time_end),
         publish_date: defaultValues?.event.time_publish.split('T')[0],
-        default_start_time: defaultStartTime,
-        default_end_time: defaultEndTime,
-        no_end_start_time: defaultStartTime,
+        default_start_time: toLocalTimeString(defaultValues?.event.time_start),
+        default_end_time: toLocalTimeString(defaultValues?.event.time_end),
+        no_end_start_time: toLocalTimeString(defaultValues?.event.time_start),
         whole_day: '' as string,
         tbd: '' as string,
         capacity: defaultValues?.event.capacity,
         deadline_date: defaultValues?.event.time_signup_deadline.split('T')[0],
-        deadline_time: defaultDeadlineTime,
+        deadline_time: toLocalTimeString(defaultValues?.event.time_signup_deadline),
         isFull: defaultValues?.event.full,
         image_banner: defaultValues?.event.image_banner,
         image_small: defaultValues?.event.image_small,
-        publish_time: defaultPublishTime,
+        publish_time: toLocalTimeString(defaultValues?.event.time_publish),
         highlight: defaultValues?.event.highlight,
         link_signup: defaultValues?.event.link_signup,
         release_date: defaultValues?.event.time_signup_release.split('T')[0],
-        release_time: defaultReleaseTime,
+        release_time: toLocalTimeString(defaultValues?.event.time_signup_release),
         link_facebook: defaultValues?.event.link_facebook,
         link_discord: defaultValues?.event.link_discord,
         link_stream: defaultValues?.event.link_stream,

@@ -29,6 +29,7 @@ import {
     postRuleSchema,
 } from './schemas'
 import z from 'zod'
+import { timeZoneOffset } from '@utils/timeZone'
 
 export type FormState =
     | null
@@ -51,6 +52,7 @@ export async function createEvent(
     formData: FormData
 ): Promise<FormState> {
     try {
+        const timeZone = timeZoneOffset()
         const eventProps: PostEventProps = {
             canceled: false,
             capacity: Number(formData.get('capacity')),
@@ -76,39 +78,39 @@ export async function createEvent(
             time_end:
                 formData.get('end_date') && formData.get('end_time')
                     ? `${formData.get('end_date')}T` +
-                      `${formData.get('end_time')}:00Z`
+                      `${formData.get('end_time')}:00${timeZone}`
                     : '',
             time_publish:
                 formData.get('publish_date') && formData.get('publish_time')
                     ? `${formData.get('publish_date')}T` +
-                      `${formData.get('publish_time')}:00Z`
+                      `${formData.get('publish_time')}:00${timeZone}`
                     : '',
             // prettier-ignore
             time_signup_deadline: formData.get('link_signup')
                 ? formData.get('deadline_date') && formData.get('deadline_time')
                     ? `${formData.get('deadline_date')}T` +
-                    `${formData.get('deadline_time')}:00Z`
+                    `${formData.get('deadline_time')}:00${timeZone}`
                     : formData.get('end_date') && formData.get('end_time')
                         ? `${formData.get('end_date')}T` +
-                        `${formData.get('end_time')}:00Z`
+                        `${formData.get('end_time')}:00${timeZone}`
                         : undefined
                 : undefined,
             // prettier-ignore
             time_signup_release: formData.get('link_signup')
                 ? formData.get('release_date') && formData.get('release_time')
                     ? `${formData.get('release_date')}T` +
-                    `${formData.get('release_time')}:00Z`
+                    `${formData.get('release_time')}:00${timeZone}`
                     : formData.get('publish_date') &&
                         formData.get('publish_time')
                         ? `${formData.get('publish_date')}T` +
-                        `${formData.get('publish_time')}:00Z`
+                        `${formData.get('publish_time')}:00${timeZone}`
                         : undefined
                 : undefined,
             // prettier-ignore
             time_start:
                 formData.get('start_date') && formData.get('start_time')
                     ? `${formData.get('start_date')}T` +
-                    `${formData.get('start_time')}:00Z`
+                    `${formData.get('start_time')}:00${timeZone}`
                     : '',
             time_type: formData.get('time_type') as time_type,
             visible: true,
@@ -132,6 +134,7 @@ export async function updateEvent(
     formData: FormData
 ): Promise<FormState> {
     try {
+        const timeZone = timeZoneOffset()
         const eventProps: PatchEventProps = {
             id: Number(formData.get('id')),
             canceled: false,
@@ -158,38 +161,38 @@ export async function updateEvent(
             time_end:
                 formData.get('end_date') && formData.get('end_time')
                     ? `${formData.get('end_date')}T` +
-                      `${formData.get('end_time')}:00Z`
+                      `${formData.get('end_time')}:00${timeZone}`
                     : '',
             time_publish:
                 formData.get('publish_date') && formData.get('publish_time')
                     ? `${formData.get('publish_date')}T` +
-                      `${formData.get('publish_time')}:00Z`
+                      `${formData.get('publish_time')}:00${timeZone}`
                     : '',
             // prettier-ignore
             time_signup_deadline: formData.get('link_signup')
                 ? formData.get('deadline_date') && formData.get('deadline_time')
                     ? `${formData.get('deadline_date')}T` +
-                    `${formData.get('deadline_time')}:00Z`
+                    `${formData.get('deadline_time')}:00${timeZone}`
                     : formData.get('end_date') && formData.get('end_time')
                         ? `${formData.get('end_date')}T` +
-                        `${formData.get('end_time')}:00Z`
+                        `${formData.get('end_time')}:00${timeZone}`
                         : ''
                 : '',
             // prettier-ignore
             time_signup_release: formData.get('link_signup')
                 ? formData.get('release_date') && formData.get('release_time')
                     ? `${formData.get('release_date')}T` +
-                    `${formData.get('release_time')}:00Z`
+                    `${formData.get('release_time')}:00${timeZone}`
                     : formData.get('publish_date') &&
                         formData.get('publish_time')
                         ? `${formData.get('publish_date')}` +
-                        `T${formData.get('publish_time')}:00Z`
+                        `T${formData.get('publish_time')}:00${timeZone}`
                         : ''
                 : '',
             time_start:
                 formData.get('start_date') && formData.get('start_time')
                     ? `${formData.get('start_date')}T` +
-                      `${formData.get('start_time')}:00Z`
+                      `${formData.get('start_time')}:00${timeZone}`
                     : '',
             time_type: formData.get('time_type') as time_type,
             visible: true,
@@ -213,11 +216,12 @@ export async function createJob(
     formData: FormData
 ): Promise<FormState> {
     try {
+        const timeZone = timeZoneOffset()
         const jobProps: PostJobProps = {
             application_deadline:
                 formData.get('deadline_date') && formData.get('deadline_time')
                     ? `${formData.get('deadline_date')}T` +
-                      `${formData.get('deadline_time')}:00Z`
+                      `${formData.get('deadline_time')}:00${timeZone}`
                     : '',
             application_url: formData.get('application_url') as string,
             banner_image: formData.get('banner_image') as string,
@@ -237,12 +241,12 @@ export async function createJob(
             time_expire:
                 formData.get('expire_date') && formData.get('expire_time')
                     ? `${formData.get('expire_date')}T` +
-                      `${formData.get('expire_time')}:00Z`
+                      `${formData.get('expire_time')}:00${timeZone}`
                     : '',
             time_publish:
                 formData.get('publish_date') && formData.get('publish_time')
                     ? `${formData.get('publish_date')}T` +
-                      `${formData.get('publish_time')}:00Z`
+                      `${formData.get('publish_time')}:00${timeZone}`
                     : '',
             title_en: formData.get('title_en') as string,
             title_no: formData.get('title_no') as string,
@@ -267,12 +271,13 @@ export async function updateJob(
     formData: FormData
 ): Promise<FormState> {
     try {
+        const timeZone = timeZoneOffset()
         const jobProps: PatchJobProps = {
             id: Number(formData.get('id')),
             application_deadline:
                 formData.get('deadline_date') && formData.get('deadline_time')
                     ? `${formData.get('deadline_date')}T` +
-                      `${formData.get('deadline_time')}:00Z`
+                      `${formData.get('deadline_time')}:00${timeZone}`
                     : '',
             application_url: formData.get('application_url') as string,
             banner_image: formData.get('banner_image') as string,
@@ -292,12 +297,12 @@ export async function updateJob(
             time_expire:
                 formData.get('expire_date') && formData.get('expire_time')
                     ? `${formData.get('expire_date')}T` +
-                      `${formData.get('expire_time')}:00Z`
+                      `${formData.get('expire_time')}:00${timeZone}`
                     : '',
             time_publish:
                 formData.get('publish_date') && formData.get('publish_time')
                     ? `${formData.get('publish_date')}T` +
-                      `${formData.get('publish_time')}:00Z`
+                      `${formData.get('publish_time')}:00${timeZone}`
                     : '',
             title_en: formData.get('title_en') as string,
             title_no: formData.get('title_no') as string,
