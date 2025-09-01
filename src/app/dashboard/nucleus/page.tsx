@@ -1,5 +1,4 @@
 'use client'
-import config from '@config'
 import sendNotificationClient from '@utils/notification/sendNotificationClient'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -7,8 +6,6 @@ import Input from '@components/inputs/input'
 import { Send } from 'lucide-react'
 import Button from '@components/userInput/button'
 import Preview from '@components/preview/preview'
-
-const NucleusPDF = `${config.url.CDN_URL}/files/misc/push_notifications.pdf`
 
 export default function page() {
     const [result, setResult] = useState<SendResponseClient | null>()
@@ -172,8 +169,7 @@ export default function page() {
                                 onClick={() => setExample(setFormValues)}
                             />
                             <Link
-                                target='_blank'
-                                href={NucleusPDF}
+                                href={'/dashboard/nucleus/documentation'}
                                 className={
                                     'bg-login-600 text-foreground px-4 grid ' +
                                     'place-items-center rounded-lg ' +
