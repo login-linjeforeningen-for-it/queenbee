@@ -7,26 +7,26 @@ const tekkomBotApiUrl = config.url.TEKKOM_BOT_API_URL
 type GetWrapperProps = {
     path: string
     options?: object
-    customUrl?: string
+    custom?: 'tekkom'
 }
 
 type PostWrapper = {
     path: string
     data?: object
-    customUrl?: string
+    custom?: string
 }
 
 type DeleteWrapperProps = {
     path: string
     options?: object
-    customUrl?: string
+    custom?: string
 }
 
 type PatchWrapperProps = {
     path: string
     data?: object
     options?: object
-    customUrl?: string
+    custom?: string
 }
 
 // Events
@@ -302,7 +302,7 @@ export async function deleteRule(id: number) {
 
 export async function getChannels(): Promise<Channel[] | string> {
     const path = config.tekkomBotApi.CHANNELS_PATH
-    return await getWrapper({ path, customUrl: tekkomBotApiUrl })
+    return await getWrapper({ path, custom: 'tekkom' })
 }
 
 // Announcements
@@ -310,7 +310,7 @@ export async function getAnnouncement(
     id: number
 ): Promise<GetAnnouncementProps | string> {
     const path = `${config.tekkomBotApi.ANNOUNCEMENT_PATH}/${id}`
-    return await getWrapper({ path, customUrl: tekkomBotApiUrl })
+    return await getWrapper({ path, custom: 'tekkom' })
 }
 
 export async function getAnnouncements(
@@ -323,7 +323,7 @@ export async function getAnnouncements(
     if (limit) queryParts.append('limit', String(limit))
 
     const path = `${config.tekkomBotApi.ANNOUNCEMENT_PATH}?${queryParts.toString()}`
-    return await getWrapper({ path, customUrl: tekkomBotApiUrl })
+    return await getWrapper({ path, custom: 'tekkom' })
 }
 
 export async function postAnnouncement(
@@ -332,7 +332,7 @@ export async function postAnnouncement(
     return await postWrapper({
         path: config.tekkomBotApi.ANNOUNCEMENT_PATH,
         data: body,
-        customUrl: tekkomBotApiUrl
+        custom: tekkomBotApiUrl
     })
 }
 
@@ -342,7 +342,7 @@ export async function patchAnnouncement(
     return await patchWrapper({
         path: config.tekkomBotApi.ANNOUNCEMENT_PATH,
         data: body,
-        customUrl: config.url.TEKKOM_BOT_API_URL
+        custom: 'tekkom'
     })
 }
 
@@ -351,9 +351,12 @@ export async function deleteAnnouncement(id: number) {
     return await deleteWrapper({ path })
 }
 
-async function getWrapper({ path, options = {}, customUrl }: GetWrapperProps) {
+async function getWrapper({ path, options = {}, custom }: GetWrapperProps) {
     const Cookies = await cookies()
-    const token = Cookies.get('access_token')?.value || ''
+    const access_token = Cookies.get('access_token')?.value || ''
+    const bot_access_token = Cookies.get('bot_access_token')?.value || ''
+    const token = custom === 'tekkom' ? bot_access_token : access_token
+    const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
 
     const defaultOptions = {
         method: 'GET',
@@ -365,7 +368,7 @@ async function getWrapper({ path, options = {}, customUrl }: GetWrapperProps) {
     const finalOptions = { ...defaultOptions, ...options }
 
     try {
-        const response = await fetch(`${customUrl ?? baseUrl}${path}`, finalOptions)
+        const response = await fetch(`${url}${path}`, finalOptions)
         if (!response.ok) {
             throw new Error(await response.text())
         }
@@ -383,9 +386,12 @@ async function getWrapper({ path, options = {}, customUrl }: GetWrapperProps) {
     }
 }
 
-async function postWrapper({ path, data, customUrl }: PostWrapper) {
+async function postWrapper({ path, data, custom }: PostWrapper) {
     const Cookies = await cookies()
-    const token = Cookies.get('access_token')?.value || ''
+    const access_token = Cookies.get('access_token')?.value || ''
+    const bot_access_token = Cookies.get('bot_access_token')?.value || ''
+    const token = custom === 'tekkom' ? bot_access_token : access_token
+    const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
 
     const defaultOptions = {
         method: 'POST',
@@ -397,7 +403,7 @@ async function postWrapper({ path, data, customUrl }: PostWrapper) {
     }
 
     try {
-        const response = await fetch(`${customUrl ?? baseUrl}${path}`, defaultOptions)
+        const response = await fetch(`${url}${path}`, defaultOptions)
         if (!response.ok) {
             throw new Error(await response.text())
         }
@@ -415,9 +421,12 @@ async function postWrapper({ path, data, customUrl }: PostWrapper) {
     }
 }
 
-async function deleteWrapper({ path, options, customUrl }: DeleteWrapperProps) {
+async function deleteWrapper({ path, options, custom }: DeleteWrapperProps) {
     const Cookies = await cookies()
-    const token = Cookies.get('access_token')?.value || ''
+    const access_token = Cookies.get('access_token')?.value || ''
+    const bot_access_token = Cookies.get('bot_access_token')?.value || ''
+    const token = custom === 'tekkom' ? bot_access_token : access_token
+    const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
 
     const defaultOptions = {
         method: 'DELETE',
@@ -429,7 +438,7 @@ async function deleteWrapper({ path, options, customUrl }: DeleteWrapperProps) {
     const finalOptions = { ...defaultOptions, ...options }
 
     try {
-        const response = await fetch(`${customUrl ?? baseUrl}${path}`, finalOptions)
+        const response = await fetch(`${url}${path}`, finalOptions)
         const data = await response.json()
 
         if (!response.ok) {
@@ -447,9 +456,12 @@ async function deleteWrapper({ path, options, customUrl }: DeleteWrapperProps) {
     }
 }
 
-async function patchWrapper({ path, data = {}, options = {}, customUrl }: PatchWrapperProps) {
+async function patchWrapper({ path, data = {}, options = {}, custom }: PatchWrapperProps) {
     const Cookies = await cookies()
-    const token = Cookies.get('access_token')?.value || ''
+    const access_token = Cookies.get('access_token')?.value || ''
+    const bot_access_token = Cookies.get('bot_access_token')?.value || ''
+    const token = custom === 'tekkom' ? bot_access_token : access_token
+    const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
 
     const defaultOptions = {
         method: 'PATCH',
@@ -462,7 +474,7 @@ async function patchWrapper({ path, data = {}, options = {}, customUrl }: PatchW
     const finalOptions = { ...defaultOptions, ...options }
 
     try {
-        const response = await fetch(`${customUrl ?? baseUrl}${path}`, finalOptions)
+        const response = await fetch(`${url}${path}`, finalOptions)
         const data = await response.json()
 
         if (!response.ok) {
