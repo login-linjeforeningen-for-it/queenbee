@@ -22,7 +22,7 @@ export function EventFormInputsClient({
     rules,
     locations,
     preview,
-    channels
+    channels,
 }: {
     defaultValues?: GetEventProps
     bannerImages: Option[]

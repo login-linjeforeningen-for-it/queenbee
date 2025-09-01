@@ -2,12 +2,22 @@ import AnnouncementFormInputsClient from '@components/form/client/announcements'
 import DiscordPreview from '@components/preview/discord'
 import ArrowDown from '@components/shared/arrowDown'
 import ArrowRight from '@components/shared/arrowRight'
+import config from '@config'
 import { getCookie, setCookie } from '@utils/cookies'
-import { useState } from 'react'
+import { LogIn, MessageSquareWarning } from 'lucide-react'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 export default function Announce({ channels }: { channels: Channel[] }) {
-    const [state, setState] = useState(getCookie('announceBar'))
+    const [state, setState] = useState('closed')
     const isOpen = state === 'open'
+
+    useEffect(() => {
+        const cookie = getCookie('announceBar')
+        if (cookie) {
+            setState(cookie)
+        }
+    }, [])
 
     function handleClick() {
         setState((prev) => prev === 'closed' ? 'open' : 'closed')
@@ -32,9 +42,43 @@ export default function Announce({ channels }: { channels: Channel[] }) {
     )
 }
 
-function OpenAnnouncement({ isOpen, channels: channelsInput }: { isOpen: boolean, channels: Channel[] }) {
+function OpenAnnouncement({
+    isOpen,
+    channels: channelsInput,
+}: {
+    isOpen: boolean,
+    channels: Channel[],
+}) {
     if (!isOpen) {
         return <></>
+    }
+
+    if (!channelsInput.length) {
+        return (
+            <div className='w-full space-y-4 mt-2' onClick={(e) => e.stopPropagation()}>
+                <div className='w-full h-[2px] bg-(var:--color-login-400) rounded-lg' />
+                <div className='flex gap-2 w-full rounded-lg p-2 bg-red-500'>
+                    <MessageSquareWarning />
+                    <h1 className='font-semibold'>Unauthenticated</h1>
+                </div>
+                <div className='grid place-items-center h-full'>
+                    <Link
+                        href={`${config.url.NEXT_PUBLIC_BROWSER_API}/oauth2/login`}
+                        className='grid place-items-center'
+                    >
+                        <button
+                            className={
+                                'flex align-middle gap-2 mt-2 rounded-lg ' +
+                                'bg-login px-8 py-1  hover:bg-orange-500 mb-2'
+                            }
+                        >
+                            Login
+                            <LogIn className='w-5' />
+                        </button>
+                    </Link>
+                </div>
+            </div>
+        )
     }
 
     const channels = Array.isArray(channelsInput)
