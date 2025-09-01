@@ -75,13 +75,13 @@ function Content({ title, description }: ContentProps) {
                 <div className='flex justify-between'>
                     {/* prettier-ignore */}
                     <h1 className={
-                        'text-white font-semibold text-xs w-full max-w-[90%]'
+                        'text-foreground font-semibold text-xs w-full max-w-[90%]'
                     }>
                         {title}
                     </h1>
                     <h1 className='text-login-200 text-xs'>nå</h1>
                 </div>
-                <p className='text-white/80 text-xs max-w-[96%]'>
+                <p className='text-foreground/80 text-xs max-w-[96%]'>
                     {description}
                 </p>
             </div>

@@ -17,6 +17,7 @@ const requiredEnvironmentVariables = [
     'CLIENT_CERT_URL',
     'UNIVERSE_DOMAIN',
     'GITLAB_MESSAGE',
+    'TEKKOM_BOT_API_URL'
 ]
 
 const missingVariables = requiredEnvironmentVariables.filter(
@@ -42,6 +43,7 @@ const config = {
             env.NEXT_PUBLIC_BROWSER_API || 'https://api.queenbee.login.no/v1',
         API_URL: env.API_URL || 'https://api.queenbee.login.no/v1',
         CDN_URL: env.CDN_URL || 'https://cdn.login.no',
+        TEKKOM_BOT_API_URL: env.TEKKOM_BOT_API_URL || 'https://api.tekkom-bot.login.no/api',
     },
     firebase: {
         type: env.TYPE,
@@ -68,9 +70,12 @@ const config = {
         AUDIENCES_PATH: '/audiences/',
         ORGANIZATIONS_PATH: '/organizations/',
         RULES_PATH: '/rules/',
-        ANNOUNCEMENT_PATH: '/announcement/',
         LOCATIONS_PATH: '/locations/',
         IMAGES_PATH: '/images',
+    },
+    tekkomBotApi: {
+        ANNOUNCEMENT_PATH: '/announcements',
+        CHANNELS_PATH: '/channels',
     },
     time: {
         TIME_UNSET: '0001-01-01T00:00:00Z',

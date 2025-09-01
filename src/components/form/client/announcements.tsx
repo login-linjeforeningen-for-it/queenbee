@@ -2,21 +2,33 @@
 
 import Input from '@components/inputs/input'
 import Markdown from '@components/inputs/markdown'
+import Select from '@components/inputs/select'
+import Switch from '@components/inputs/switch'
 import Button from '@components/userInput/button'
 import { useEffect, useState } from 'react'
 
 export default function AnnouncementFormInputsClient({
+    channels,
     defaultValues,
     preview,
+    nested,
+    color,
+    buttonColor,
+    buttonColorHighlighted
 }: {
+    channels: Option[]
     defaultValues?: GetAnnouncementProps
     preview?: boolean
+    nested?: boolean
+    color?: string
+    buttonColor?: string
+    buttonColorHighlighted?: string
 }) {
     const [formValues, setFormValues] = useState({
         title: defaultValues?.title ?? '',
         description: defaultValues?.description ?? '',
         channel: defaultValues?.channel ?? '',
-        embed: defaultValues?.embed ?? '',
+        embed: defaultValues?.embed ?? true,
         color: defaultValues?.color ?? '',
         interval: defaultValues?.interval ?? '',
         time: defaultValues?.time ?? null,
@@ -35,7 +47,7 @@ export default function AnnouncementFormInputsClient({
         setLocalStorageItem('title', formValues.title)
         setLocalStorageItem('description', formValues.description)
         setLocalStorageItem('channel', formValues.channel)
-        setLocalStorageItem('embed', formValues.embed)
+        setLocalStorageItem('embed', String(formValues.embed))
         setLocalStorageItem('color', formValues.color)
         setLocalStorageItem('interval', formValues.interval)
         setLocalStorageItem('time', formValues.time || '')
@@ -50,7 +62,7 @@ export default function AnnouncementFormInputsClient({
     return (
         <div className='flex flex-col gap-4 relative'>
             {/* prettier-ignore */}
-            <div className={
+            {!nested && <div className={
                 `absolute flex flex-row gap-[1rem] w-full justify-end ${mt}`
             }>
                 <Button
@@ -59,11 +71,12 @@ export default function AnnouncementFormInputsClient({
                     icon='+'
                     onClick={example}
                 />
-            </div>
+            </div>}
             <Input
                 name='title'
                 type='text'
-                label='Name (Norwegian)'
+                label='Title'
+                color={color}
                 required
                 value={formValues.title}
                 setValue={(input) =>
@@ -76,6 +89,9 @@ export default function AnnouncementFormInputsClient({
             <Markdown
                 name='description'
                 label='Description'
+                color={color}
+                buttonColor={buttonColor}
+                buttonColorHighlighted={buttonColorHighlighted}
                 required
                 value={formValues.description}
                 setValue={(input) =>
@@ -85,16 +101,29 @@ export default function AnnouncementFormInputsClient({
                     })
                 }
             />
-            <Input
+            <Select
                 name='channel'
-                type='text'
-                label='Discord Channel'
-                required
-                value={formValues.channel}
+                label='Discord channel'
+                options={channels}
+                color={color}
+                value={formValues.channel || ''}
                 setValue={(input) =>
                     setFormValues({
                         ...formValues,
                         channel: input as string,
+                    })
+                }
+                className='col-span-2'
+                required
+            />
+            <Switch
+                name='embed'
+                label='Embed'
+                value={formValues.embed || false}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        embed: input,
                     })
                 }
             />
@@ -102,7 +131,7 @@ export default function AnnouncementFormInputsClient({
                 name='color'
                 type='text'
                 label='Embed color'
-                required
+                color={color}
                 value={formValues.color}
                 setValue={(input) =>
                     setFormValues({
@@ -115,6 +144,7 @@ export default function AnnouncementFormInputsClient({
                 name='interval'
                 type='text'
                 label='Interval'
+                color={color}
                 value={formValues.interval}
                 setValue={(input) =>
                     setFormValues({
@@ -127,6 +157,7 @@ export default function AnnouncementFormInputsClient({
                 name='time'
                 type='text'
                 label='Time'
+                color={color}
                 value={formValues.time || ''}
                 setValue={(input) =>
                     setFormValues({
@@ -145,7 +176,7 @@ const sampleAnnouncement = {
         'Hei @<Login-Verv>! Det arrangeres mocktailkurs på Login ' +
         'Loungen i dag kl 15.',
     channel: 'Arrangementer',
-    embed: 'true',
+    embed: true,
     color: 'fd8738',
     interval: '* * * * *',
     time: '18:00',

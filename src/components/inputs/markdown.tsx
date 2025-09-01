@@ -14,6 +14,9 @@ type MarkdownProps = {
     tooltip?: string
     required?: boolean
     rows?: number
+    color?: string
+    buttonColor?: string
+    buttonColorHighlighted?: string
 }
 
 export default function Markdown({
@@ -25,10 +28,16 @@ export default function Markdown({
     required,
     rows = 6,
     setValue,
+    color,
+    buttonColor,
+    buttonColorHighlighted
 }: MarkdownProps) {
     const [mode, setMode] = useState<'edit' | 'preview'>('edit')
     const [hasBlured, setHasBlured] = useState(false)
     const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+    const smallButtonStyle = `px-2 py-1 rounded 
+        ${buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-500'}
+        ${' '}${buttonColor ? buttonColor : 'bg-login-600'}`
 
     function wrapSelection(before: string, after = before, placeHolder = '') {
         const textarea = textareaRef.current
@@ -63,7 +72,7 @@ export default function Markdown({
                             'rounded-lg border-[0.10rem] appearance-none ' +
                             'border-login-200 focus:outline-none focus:ring-0' +
                             ' focus:border-login-50 peer resize-vertical ' +
-                            'bg-login-800'
+                            `${color ? color : 'bg-login-800'}`
                         }
                     />
                 ) : (
@@ -71,7 +80,8 @@ export default function Markdown({
                         className={
                             'block px-2.5 pb-2.5 pt-4 w-full text-sm ' +
                             'rounded-lg border-[0.10rem] border-login-200 ' +
-                            'bg-login-800 resize-vertical overflow-auto'
+                            `${color ? color : 'bg-login-800'} ` +
+                            ' resize-vertical overflow-auto'
                         }
                         style={{ minHeight: `${rows * 1.5}rem` }}
                     >
@@ -82,6 +92,7 @@ export default function Markdown({
                 <Label
                     label={label}
                     value={value}
+                    color={color}
                     required={required}
                     showRequired={required && !value && hasBlured}
                 />
@@ -89,24 +100,24 @@ export default function Markdown({
             </div>
 
             <div className='flex items-center justify-between gap-2 mt-2'>
-                <div className='flex gap-1'>
+                <div className='flex gap-2'>
                     <button
                         type='button'
-                        className='px-2 py-1 rounded hover:bg-login-600'
+                        className={smallButtonStyle}
                         onClick={() => wrapSelection('**', '**', 'bold')}
                     >
                         B
                     </button>
                     <button
                         type='button'
-                        className='px-2 py-1 rounded hover:bg-login-600'
+                        className={smallButtonStyle}
                         onClick={() => wrapSelection('*', '*', 'italic')}
                     >
                         I
                     </button>
                     <button
                         type='button'
-                        className='px-2 py-1 rounded hover:bg-login-600'
+                        className={smallButtonStyle}
                         onClick={() =>
                             wrapSelection('\n```\n', '\n```\n', 'code block')
                         }
@@ -115,14 +126,14 @@ export default function Markdown({
                     </button>
                     <button
                         type='button'
-                        className='px-2 py-1 rounded hover:bg-login-600'
+                        className={smallButtonStyle}
                         onClick={() => wrapSelection('[', '](url)', 'text')}
                     >
                         Link
                     </button>
                     <button
                         type='button'
-                        className='px-2 py-1 rounded hover:bg-login-600'
+                        className={smallButtonStyle}
                         onClick={() => wrapSelection('\n- ', '', 'list item')}
                     >
                         UL
@@ -135,8 +146,8 @@ export default function Markdown({
                         onClick={() => setMode('edit')}
                         className={`px-2 py-1 rounded ${
                             mode === 'edit'
-                                ? 'bg-login-600'
-                                : 'hover:bg-login-600'
+                                ? buttonColor ? buttonColor : 'bg-login-600'
+                                : buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-600'
                         }`}
                     >
                         Edit
@@ -146,8 +157,8 @@ export default function Markdown({
                         onClick={() => setMode('preview')}
                         className={`px-2 py-1 rounded ${
                             mode === 'preview'
-                                ? 'bg-login-600'
-                                : 'hover:bg-login-600'
+                                ? buttonColor ? buttonColor : 'bg-login-600'
+                                : buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-600'
                         }`}
                     >
                         Preview

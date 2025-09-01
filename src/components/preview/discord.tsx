@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function DiscordPreview() {
     const [title, setTitle] = useState('')
@@ -9,12 +9,24 @@ export default function DiscordPreview() {
     const [embed, setEmbed] = useState(true)
     const [color, setColor] = useState('')
     const formattedColor = formatColor(color)
+    const boxRef = useRef<HTMLDivElement>(null)
+    useEffect(() => {
+        if (boxRef.current) {
+            const el = boxRef.current
+            el.style.borderColor = embed ? formattedColor : 'none'
+            el.style.borderLeft = embed ? `4px solid ${formattedColor}` : 'none'
+            el.style.borderTop = '0px solid #2f3136'
+            el.style.borderRight = '0px solid #2f3136'
+            el.style.borderBottom = '0px solid #2f3136'
+        }
+    }, [formattedColor, embed])
+
     useEffect(() => {
         function handleStorageChange(e: Event) {
             const event = e as CustomEvent
             event.detail.key === 'title' && setTitle(event.detail.value)
             event.detail.key === 'channel' && setChannel(event.detail.value)
-            event.detail.key === 'embed' && setEmbed(event.detail.value)
+            event.detail.key === 'embed' && setEmbed(event.detail.value === 'true')
             event.detail.key === 'color' && setColor(event.detail.value)
             event.detail.key === 'description'
                 && setDescription(event.detail.value)
@@ -35,7 +47,7 @@ export default function DiscordPreview() {
     return (
         <div className={
             'bg-[#2b2b2b] rounded-md p-4 ' +
-            'text-white font-sans shadow-lg'
+            'text-foreground font-sans shadow-lg'
         }>
             {/* Channel Name */}
             <p className='text-[#72767d] text-sm mb-2'># {channel}</p>
@@ -59,7 +71,7 @@ export default function DiscordPreview() {
                             TekKom
                         </span>
                         <span className={
-                            'font-semibold text-white text-sm '
+                            'font-semibold text-foreground text-sm '
                             + 'bg-[#5865F2] rounded-md px-2'
                         }>
                             APP
@@ -71,29 +83,25 @@ export default function DiscordPreview() {
                     {/* Optional Embed */}
                     {embed ? (
                         <div
-                            className='border-l-4 p-3 mt-2 rounded-lg'
+                            className='p-3 mt-2 rounded-lg'
                             style={{
-                                borderColor: formattedColor,
                                 backgroundColor: '#2f3136',
-                                borderTop: '1px solid transparent',
-                                borderRight: '1px solid transparent',
-                                borderBottom: '1px solid transparent',
+                                borderLeft: embed ? `4px solid ${formattedColor}` : 'none',
+                                borderTop: 'none',
+                                borderRight: '12px solid #2f3136',
+                                borderBottom: 'none'
                             }}
                         >
                             {title && (
-                                <p className='font-semibold text-white'>
-                                    {title}
-                                </p>
+                                <p className='font-semibold text-foreground'>{title}</p>
                             )}
                             {description && (
-                                <p className='text-[#dcddde] mt-1'>
-                                    {description}
-                                </p>
+                                <p className='text-[#dcddde] mt-1'>{description}</p>
                             )}
                         </div>
-                    ) : <div>
-                        <span className='font-semibold text-white'>
-                            {title}
+                    ) : <div className='grid'>
+                        <span className='font-semibold text-foreground'>
+                            {title}dd
                         </span>
                         <span className='text-[#dcddde]'>
                             {description}
@@ -106,6 +114,15 @@ export default function DiscordPreview() {
 }
 
 function formatColor(color: string) {
-    if (!color.startsWith('#')) return `#${color}`
-    return color
+    const normalized = color.trim().toLowerCase()
+    if (!color.trim().length) return 'white'
+
+    // Checks if it's a valid CSS color name
+    const s = new Option().style
+    s.color = normalized
+    if (s.color) return normalized
+
+    // Otherwise, treat as hex
+    if (!normalized.startsWith('#')) return `#${normalized}`
+    return normalized
 }

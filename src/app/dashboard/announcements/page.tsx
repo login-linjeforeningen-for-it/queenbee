@@ -4,7 +4,6 @@ import Button from '@components/userInput/button'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
-import Announce from '@components/announce/announce'
 
 async function deleteAction(id: string) {
     'use server'
@@ -25,8 +24,6 @@ export default async function Page() {
     const tempSort = Array.isArray(list)
         ? list.filter((item) => !item.is_deleted)
         : []
-
-    return <Announce />
 
     return (
         <div

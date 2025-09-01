@@ -13,6 +13,7 @@ type InputProps = {
     className?: string
     tooltip?: string
     required?: boolean
+    color?: string
 }
 
 export default function Input({
@@ -24,6 +25,7 @@ export default function Input({
     required,
     value,
     setValue,
+    color
 }: InputProps) {
     const [hasBlured, setHasBlured] = useState(false)
     return (
@@ -48,6 +50,8 @@ export default function Input({
                     label={label}
                     value={value}
                     required={required}
+                    color={color}
+                    className=''
                     showRequired={required && !value && hasBlured}
                 />
                 {tooltip && <ToolTip info={tooltip} />}

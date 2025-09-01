@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import { FormState } from './actions'
 import CustomForm from './form'
@@ -41,6 +41,8 @@ export default function FormWrapper({
 }: FormWrapperProps) {
     const router = useRouter()
     const [title, setTitle] = useState('')
+    const pathname = usePathname()
+    const displayPreview = !pathname.includes('events/create') && !pathname.includes('jobs/create')
 
     useEffect(() => {
         function handleStorageChange(e: Event) {
@@ -72,8 +74,8 @@ export default function FormWrapper({
                         aria-label='Go back'
                         onClick={() => router.back()}
                         className={
-                            'inline-flex items-center gap-2 ' +
-                            'cursor-pointer hover:text-login'
+                            'inline-flex items-center gap-2 rounded-lg p-1 px-4 ' +
+                            'cursor-pointer hover:text-login bg-login-600 w-fit'
                         }
                     >
                         <ArrowLeft className='size-4.5' />
@@ -101,7 +103,7 @@ export default function FormWrapper({
                         return child
                     })}
                 </CustomForm>
-                <DiscordPreview />
+                {displayPreview && <DiscordPreview />}
             </div>
         </div>
     )

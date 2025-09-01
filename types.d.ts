@@ -368,7 +368,7 @@ type GetAnnouncementProps = {
     title: string
     description: string
     channel: string
-    embed: embed_type
+    embed: boolean
     color: string
     interval: string
     time: string | null
@@ -597,4 +597,9 @@ type Announcement = {
     color?: string
     interval: boolean
     schedule: string
+}
+
+type Channel = {
+    label: string
+    value: string
 }

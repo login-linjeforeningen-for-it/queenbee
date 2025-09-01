@@ -17,6 +17,7 @@ type SelectProps = {
     tooltip?: string
     required?: boolean
     children?: React.ReactNode
+    color?: string
 }
 
 type SelectedOptionProps = {
@@ -34,6 +35,7 @@ export default function Select({
     required,
     children,
     setValue,
+    color
 }: SelectProps) {
     const [hasBlured, setHasBlured] = useState(false)
     const selectRef = useRef<HTMLSelectElement | null>(null)
@@ -55,11 +57,11 @@ export default function Select({
                     ref={selectRef}
                     name={name}
                     className={
-                        'peer bg-login-800 block px-2.5 pb-2.5 pt-4 ' +
+                        'peer cursor-pointer block px-2.5 pb-2.5 pt-4 ' +
                         'w-full text-sm rounded-lg border-[0.10rem] ' +
-                        'appearance-none border-login-200 ' +
-                        'focus:outline-none focus:ring-0 ' +
-                        'focus:border-login-50 cursor-pointer'
+                        'appearance-none border-login-200 focus:ring-0 ' +
+                        'focus:outline-none focus:border-login-50 ' +
+                        `${color ? color : 'bg-login-800'}`
                     }
                     value={value}
                     onChange={(e) => {
@@ -85,6 +87,7 @@ export default function Select({
                     label={label}
                     value={value}
                     required={required}
+                    color={color}
                     showRequired={required && !value && hasBlured}
                 />
 
@@ -103,6 +106,7 @@ export default function Select({
                     value={value}
                     selectedOption={selectedOption}
                     handleChoose={handleChoose}
+                    color={color}
                 />
             </div>
             {children}
@@ -115,11 +119,13 @@ function SelectContent({
     value,
     selectedOption,
     handleChoose,
+    color
 }: {
     options: Option[]
     value: string | number
     selectedOption: Option | undefined
     handleChoose: (value: string | number) => void
+    color?: string
 }) {
     return (
         <div
@@ -130,7 +136,7 @@ function SelectContent({
         >
             <div
                 className={
-                    'bg-login-800 border-[0.10rem] border-login-200 ' +
+                    `${color ? color : 'bg-login-800'}` + ' border-[0.10rem] border-login-200 ' +
                     'rounded-lg shadow-lg p-0 max-h-72 overflow-hidden'
                 }
             >

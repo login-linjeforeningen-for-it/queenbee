@@ -1,6 +1,7 @@
 import {
     getAudiences,
     getCategories,
+    getChannels,
     getEventBannerImages,
     getEventSmallImages,
     getLocations,
@@ -88,6 +89,11 @@ export default async function EventFormInputs({
         { label: 'To Be Determined', value: 'tbd' },
     ]
 
+    const channelsResponse = getChannels()
+    const channels = Array.isArray(channelsResponse)
+        ? channelsResponse.map((channel) => ({ ...channel }))
+        : []
+
     return (
         <EventFormInputsClient
             defaultValues={defaultValues}
@@ -99,6 +105,7 @@ export default async function EventFormInputs({
             organizations={organizations}
             rules={rules}
             locations={locations}
+            channels={channels}
             preview={parent?.preview}
         />
     )

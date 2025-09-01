@@ -21,7 +21,8 @@ export function EventFormInputsClient({
     timeTypes,
     rules,
     locations,
-    preview
+    preview,
+    channels
 }: {
     defaultValues?: GetEventProps
     bannerImages: Option[]
@@ -33,6 +34,7 @@ export function EventFormInputsClient({
     rules: Option[]
     locations: Option[]
     preview?: boolean
+    channels: Channel[]
 }) {
     const defaultOrganization =
         Array.isArray(defaultValues?.organizations) &&
@@ -580,7 +582,7 @@ export function EventFormInputsClient({
                 }
                 className='col-span-2'
             />
-            <Announce />
+            <Announce channels={channels} />
         </div>
     )
 }
