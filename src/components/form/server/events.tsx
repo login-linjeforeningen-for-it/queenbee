@@ -40,7 +40,7 @@ export default async function EventFormInputs({
     // prettier-ignore
     const categories = Array.isArray(categoriesResponse)
         ? categoriesResponse.map((category) => ({
-            label: category.name_en,
+            label: category.name_no,
             value: category.id,
         }))
         : []
@@ -49,7 +49,7 @@ export default async function EventFormInputs({
     // prettier-ignore
     const organizations = Array.isArray(organizationsResponse)
         ? organizationsResponse.map((organization) => ({
-            label: organization.name_en,
+            label: organization.name_no,
             value: organization.shortname,
         }))
         : []
@@ -58,7 +58,7 @@ export default async function EventFormInputs({
     // prettier-ignore
     const rules = Array.isArray(rulesResponse)
         ? rulesResponse.map((rule) => ({
-            label: rule.name_en,
+            label: rule.name_no,
             value: rule.id,
         }))
         : []
@@ -76,7 +76,7 @@ export default async function EventFormInputs({
     // prettier-ignore
     const audiences = Array.isArray(audiencesResponse)
         ? audiencesResponse.map((audience) => ({
-            label: audience.name_en,
+            label: audience.name_no,
             value: audience.id,
         }))
         : []

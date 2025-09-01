@@ -12,7 +12,7 @@ export default async function JobFormInputs({
     // prettier-ignore
     const organizations = Array.isArray(organizationsResponse)
         ? organizationsResponse.map((organization) => ({
-            label: organization.name_en,
+            label: organization.name_no,
             value: organization.shortname,
         }))
         : []
