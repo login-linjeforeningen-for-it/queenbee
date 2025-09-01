@@ -1,10 +1,5 @@
 import appConfig from '@config'
 import { NextRequest, NextResponse } from 'next/server'
-import { Agent, Dispatcher } from 'undici'
-
-type FetchOptions = RequestInit & {
-    dispatcher?: Dispatcher
-}
 
 export const config = {
     runtime: 'nodejs',
@@ -49,16 +44,9 @@ function pathIsAllowedWhileUnauthenticated(path: string) {
 
 async function tokenIsValid(token: string): Promise<boolean> {
     try {
-        const agent = new Agent({
-            connect: {
-                rejectUnauthorized: false,
-            },
-        })
-
         const response = await fetch(`${appConfig.url.API_URL}/events`, {
             headers: { Authorization: `Bearer ${token}` },
-            dispatcher: agent,
-        } as FetchOptions)
+        })
 
         if (!response.ok) {
             const errorDescription =
