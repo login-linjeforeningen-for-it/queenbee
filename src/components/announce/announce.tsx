@@ -5,7 +5,6 @@ import ArrowRight from '@components/shared/arrowRight'
 import config from '@config'
 import { getCookie, setCookie } from '@utils/cookies'
 import { LogIn, MessageSquareWarning } from 'lucide-react'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 export default function Announce({ channels }: { channels: Channel[] }) {
@@ -53,6 +52,10 @@ function OpenAnnouncement({
         return <></>
     }
 
+    function handleLogin() {
+        window.location.href = `${config.url.NEXT_PUBLIC_BROWSER_API}/oauth2/login`
+    }
+
     if (!channelsInput.length) {
         return (
             <div className='w-full space-y-4 mt-2' onClick={(e) => e.stopPropagation()}>
@@ -62,20 +65,16 @@ function OpenAnnouncement({
                     <h1 className='font-semibold'>Unauthenticated</h1>
                 </div>
                 <div className='grid place-items-center h-full'>
-                    <Link
-                        href={`${config.url.NEXT_PUBLIC_BROWSER_API}/oauth2/login`}
-                        className='grid place-items-center'
+                    <button
+                        onClick={handleLogin}
+                        className={
+                            'flex align-middle gap-2 mt-2 rounded-lg cursor-pointer ' +
+                            'bg-login px-8 py-1  hover:bg-orange-500 mb-2'
+                        }
                     >
-                        <button
-                            className={
-                                'flex align-middle gap-2 mt-2 rounded-lg ' +
-                                'bg-login px-8 py-1  hover:bg-orange-500 mb-2'
-                            }
-                        >
-                            Login
-                            <LogIn className='w-5' />
-                        </button>
-                    </Link>
+                        Login
+                        <LogIn className='w-5' />
+                    </button>
                 </div>
             </div>
         )
