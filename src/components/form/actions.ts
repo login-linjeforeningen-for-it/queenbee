@@ -517,7 +517,6 @@ export async function createAnnouncement(
             embed: formData.get('embed') as embed_type === 'on' ? 'true' : 'false',
             color: formData.get('color') as string,
             interval: formData.get('interval') as string,
-            date: formData.get('time') as string,
             time: formData.get('time') as string,
             active: true
         }
@@ -549,7 +548,6 @@ export async function updateAnnouncement(
             color: formData.get('color') as string,
             interval: formData.get('interval') as string,
             time: formData.get('time') as string,
-            date: formData.get('date') as string,
             active: true
         }
 

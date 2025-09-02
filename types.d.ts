@@ -382,7 +382,6 @@ type PostAnnouncementProps = {
     color: string
     interval: string
     time: string | null
-    date: string | null
     active: true
 }
 

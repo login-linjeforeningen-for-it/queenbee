@@ -91,7 +91,6 @@ export default async function Page() {
 }
 
 function TempSort({ tempSort, channels }: { tempSort: object[], channels: Channel[] }) {
-    console.log(tempSort[0]);
     (tempSort as Announcement[]).forEach((announcement) => {
         (announcement.sent as unknown as string) = announcement.sent ? 'true' : 'false'
         announcement.channel = channels.find((c) => c.value === announcement.channel)?.label
