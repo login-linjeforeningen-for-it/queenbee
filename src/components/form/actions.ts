@@ -47,10 +47,7 @@ export type FormState =
     | PatchLocationProps
     | PatchAnnouncementProps
 
-export async function createEvent(
-    _: FormState,
-    formData: FormData
-): Promise<FormState> {
+export async function createEvent(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const timeZone = timeZoneOffset()
         const eventProps: PostEventProps = {
@@ -129,10 +126,7 @@ export async function createEvent(
     }
 }
 
-export async function updateEvent(
-    _: FormState,
-    formData: FormData
-): Promise<FormState> {
+export async function updateEvent(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const timeZone = timeZoneOffset()
         const eventProps: PatchEventProps = {
@@ -211,10 +205,7 @@ export async function updateEvent(
     }
 }
 
-export async function createJob(
-    _: FormState,
-    formData: FormData
-): Promise<FormState> {
+export async function createJob(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const timeZone = timeZoneOffset()
         const jobProps: PostJobProps = {
@@ -266,10 +257,7 @@ export async function createJob(
     }
 }
 
-export async function updateJob(
-    _: FormState,
-    formData: FormData
-): Promise<FormState> {
+export async function updateJob(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const timeZone = timeZoneOffset()
         const jobProps: PatchJobProps = {
@@ -322,10 +310,7 @@ export async function updateJob(
     }
 }
 
-export async function createOrganization(
-    _: FormState,
-    formData: FormData
-): Promise<FormState> {
+export async function createOrganization(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const organizationProps: PostOrganizationProps = {
             description_en: formData.get('description_en') as string,
@@ -354,10 +339,7 @@ export async function createOrganization(
     }
 }
 
-export async function updateOrganization(
-    _: FormState,
-    formData: FormData
-): Promise<FormState> {
+export async function updateOrganization(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const organizationProps: PatchOrganizationProps = {
             description_en: formData.get('description_en') as string,
@@ -389,10 +371,7 @@ export async function updateOrganization(
     }
 }
 
-export async function createLocation(
-    _: FormState,
-    formData: FormData
-): Promise<FormState> {
+export async function createLocation(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const locationProps: PostLocationProps = {
             address_postcode: Number(formData.get('address_postcode')),
@@ -421,10 +400,7 @@ export async function createLocation(
     }
 }
 
-export async function updateLocation(
-    _: FormState,
-    formData: FormData
-): Promise<FormState> {
+export async function updateLocation(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const locationProps: PatchLocationProps = {
             id: Number(formData.get('id')),
@@ -454,10 +430,7 @@ export async function updateLocation(
     }
 }
 
-export async function createRule(
-    _: FormState,
-    formData: FormData
-): Promise<FormState> {
+export async function createRule(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const ruleProps: PostRuleProps = {
             name_en: formData.get('name_en') as string,
@@ -479,10 +452,7 @@ export async function createRule(
     }
 }
 
-export async function updateRule(
-    _: FormState,
-    formData: FormData
-): Promise<FormState> {
+export async function updateRule(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const ruleProps: PatchRuleProps = {
             id: Number(formData.get('id')),
@@ -505,10 +475,7 @@ export async function updateRule(
     }
 }
 
-export async function createAnnouncement(
-    _: FormState,
-    formData: FormData
-): Promise<FormState> {
+export async function createAnnouncement(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const announcementProps: PostAnnouncementProps = {
             title: formData.get('title') as string,
@@ -534,10 +501,7 @@ export async function createAnnouncement(
     }
 }
 
-export async function updateAnnouncement(
-    _: FormState,
-    formData: FormData
-): Promise<FormState> {
+export async function updateAnnouncement(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const announcementProps: PatchAnnouncementProps = {
             id: Number(formData.get('id')),
