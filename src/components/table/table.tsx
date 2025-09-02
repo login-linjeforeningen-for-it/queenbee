@@ -228,7 +228,7 @@ function Body({ list, headers, deleteAction }: BodyProps) {
 }
 
 function formatValue(key: string, value: string | number) {
-    if (key.includes('date')) {
+    if (key.includes('date') || key.includes('last_sent')) {
         return new Date(value).toLocaleString('nb-NO', {
             timeZone: 'Europe/Oslo',
         })

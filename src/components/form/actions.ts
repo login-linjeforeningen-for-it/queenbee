@@ -78,12 +78,12 @@ export async function createEvent(
             time_end:
                 formData.get('end_date') && formData.get('end_time')
                     ? `${formData.get('end_date')}T` +
-                      `${formData.get('end_time')}:00${timeZone}`
+                    `${formData.get('end_time')}:00${timeZone}`
                     : '',
             time_publish:
                 formData.get('publish_date') && formData.get('publish_time')
                     ? `${formData.get('publish_date')}T` +
-                      `${formData.get('publish_time')}:00${timeZone}`
+                    `${formData.get('publish_time')}:00${timeZone}`
                     : '',
             // prettier-ignore
             time_signup_deadline: formData.get('link_signup')
@@ -161,12 +161,12 @@ export async function updateEvent(
             time_end:
                 formData.get('end_date') && formData.get('end_time')
                     ? `${formData.get('end_date')}T` +
-                      `${formData.get('end_time')}:00${timeZone}`
+                    `${formData.get('end_time')}:00${timeZone}`
                     : '',
             time_publish:
                 formData.get('publish_date') && formData.get('publish_time')
                     ? `${formData.get('publish_date')}T` +
-                      `${formData.get('publish_time')}:00${timeZone}`
+                    `${formData.get('publish_time')}:00${timeZone}`
                     : '',
             // prettier-ignore
             time_signup_deadline: formData.get('link_signup')
@@ -192,7 +192,7 @@ export async function updateEvent(
             time_start:
                 formData.get('start_date') && formData.get('start_time')
                     ? `${formData.get('start_date')}T` +
-                      `${formData.get('start_time')}:00${timeZone}`
+                    `${formData.get('start_time')}:00${timeZone}`
                     : '',
             time_type: formData.get('time_type') as time_type,
             visible: true,
@@ -221,7 +221,7 @@ export async function createJob(
             application_deadline:
                 formData.get('deadline_date') && formData.get('deadline_time')
                     ? `${formData.get('deadline_date')}T` +
-                      `${formData.get('deadline_time')}:00${timeZone}`
+                    `${formData.get('deadline_time')}:00${timeZone}`
                     : '',
             application_url: formData.get('application_url') as string,
             banner_image: formData.get('banner_image') as string,
@@ -241,12 +241,12 @@ export async function createJob(
             time_expire:
                 formData.get('expire_date') && formData.get('expire_time')
                     ? `${formData.get('expire_date')}T` +
-                      `${formData.get('expire_time')}:00${timeZone}`
+                    `${formData.get('expire_time')}:00${timeZone}`
                     : '',
             time_publish:
                 formData.get('publish_date') && formData.get('publish_time')
                     ? `${formData.get('publish_date')}T` +
-                      `${formData.get('publish_time')}:00${timeZone}`
+                    `${formData.get('publish_time')}:00${timeZone}`
                     : '',
             title_en: formData.get('title_en') as string,
             title_no: formData.get('title_no') as string,
@@ -277,7 +277,7 @@ export async function updateJob(
             application_deadline:
                 formData.get('deadline_date') && formData.get('deadline_time')
                     ? `${formData.get('deadline_date')}T` +
-                      `${formData.get('deadline_time')}:00${timeZone}`
+                    `${formData.get('deadline_time')}:00${timeZone}`
                     : '',
             application_url: formData.get('application_url') as string,
             banner_image: formData.get('banner_image') as string,
@@ -297,12 +297,12 @@ export async function updateJob(
             time_expire:
                 formData.get('expire_date') && formData.get('expire_time')
                     ? `${formData.get('expire_date')}T` +
-                      `${formData.get('expire_time')}:00${timeZone}`
+                    `${formData.get('expire_time')}:00${timeZone}`
                     : '',
             time_publish:
                 formData.get('publish_date') && formData.get('publish_time')
                     ? `${formData.get('publish_date')}T` +
-                      `${formData.get('publish_time')}:00${timeZone}`
+                    `${formData.get('publish_time')}:00${timeZone}`
                     : '',
             title_en: formData.get('title_en') as string,
             title_no: formData.get('title_no') as string,
@@ -514,10 +514,12 @@ export async function createAnnouncement(
             title: formData.get('title') as string,
             description: formData.get('description') as string,
             channel: formData.get('channel') as string,
-            embed: formData.get('embed') as embed_type,
+            embed: formData.get('embed') as embed_type === 'on' ? 'true' : 'false',
             color: formData.get('color') as string,
             interval: formData.get('interval') as string,
+            date: formData.get('time') as string,
             time: formData.get('time') as string,
+            active: true
         }
 
         const result = postAnnouncementSchema.safeParse(announcementProps)
@@ -543,10 +545,12 @@ export async function updateAnnouncement(
             title: formData.get('title') as string,
             description: formData.get('description') as string,
             channel: formData.get('channel') as string,
-            embed: formData.get('embed') as embed_type,
+            embed: formData.get('embed') as embed_type === 'on' ? 'true' : 'false',
             color: formData.get('color') as string,
             interval: formData.get('interval') as string,
             time: formData.get('time') as string,
+            date: formData.get('date') as string,
+            active: true
         }
 
         const result = patchAnnouncementSchema.safeParse(announcementProps)

@@ -1,7 +1,7 @@
 type time_type = 'default' | 'no_end' | 'whole_day' | 'tbd'
 type job_type = 'full' | 'part' | 'summer' | 'verv'
 type location_type = 'mazemap' | 'coords' | 'address' | 'digital'
-type embed_type = 'true' | 'false'
+type embed_type = 'on' | 'off'
 
 // Events
 type GetEventsProps = {
@@ -378,10 +378,12 @@ type PostAnnouncementProps = {
     title: string
     description: string
     channel: string
-    embed: embed_type
+    embed: 'true' | 'false'
     color: string
     interval: string
     time: string | null
+    date: string | null
+    active: true
 }
 
 type PatchAnnouncementProps = PostAnnouncementProps & {
@@ -590,13 +592,17 @@ type FormName =
     | 'announcement'
 
 type Announcement = {
+    id: string
     title?: string
     description?: string
     channel?: string
     embed?: boolean
     color?: string
     interval: boolean
-    schedule: string
+    time: string
+    sent: boolean
+    last_sent: string
+    active: boolean
 }
 
 type ChannelResponse = {

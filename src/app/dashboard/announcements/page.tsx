@@ -1,4 +1,4 @@
-import { deleteAnnouncement, getAnnouncements } from '@utils/api'
+import { deleteAnnouncement, getAnnouncements, getChannels } from '@utils/api'
 import Alert from '@components/alert/alert'
 import Button from '@components/userInput/button'
 import Search from '@components/inputs/search'
@@ -24,9 +24,11 @@ export default async function Page() {
     // const page = typeof filters.page === 'string' ? Number(filters.page) : 1
 
     const list = await getAnnouncements()
-    const tempSort = Array.isArray(list)
-        ? list.filter((item) => !item.is_deleted)
+    const channelsResponse = await getChannels()
+    const channels = Array.isArray(channelsResponse)
+        ? channelsResponse.map((channel) => ({ label: channel.name, value: channel.id }))
         : []
+    const tempSort = Array.isArray(list) ? list : []
 
     if (typeof list === 'string') {
         return (
@@ -83,12 +85,18 @@ export default async function Page() {
                     </div>
                 </div>
             </div>
-            <TempSort tempSort={tempSort} />
+            <TempSort tempSort={tempSort} channels={channels} />
         </div>
     )
 }
 
-function TempSort({ tempSort }: { tempSort: object[] }) {
+function TempSort({ tempSort, channels }: { tempSort: object[], channels: Channel[] }) {
+    console.log(tempSort[0]);
+    (tempSort as Announcement[]).forEach((announcement) => {
+        (announcement.sent as unknown as string) = announcement.sent ? 'true' : 'false'
+        announcement.channel = channels.find((c) => c.value === announcement.channel)?.label
+    })
+
     if (
         typeof tempSort === 'string' ||
         !Array.isArray(tempSort) ||
@@ -109,7 +117,7 @@ function TempSort({ tempSort }: { tempSort: object[] }) {
         <div className='flex-1 flex flex-col overflow-hidden'>
             <Table
                 list={tempSort}
-                headers={['id', 'name_no', 'name_en']}
+                headers={['id', 'title', 'description', 'channel', 'interval', 'date', 'time', 'sent', 'last_sent', 'active']}
                 deleteAction={deleteAction}
             />
             <Pagination pageSize={10} totalRows={tempSort.length} />
