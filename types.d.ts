@@ -599,6 +599,14 @@ type Announcement = {
     schedule: string
 }
 
+type ChannelResponse = {
+    guildId: string
+    guildName: string
+    id: string
+    name: string
+    category: string
+}
+
 type Channel = {
     label: string
     value: string

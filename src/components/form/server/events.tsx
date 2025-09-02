@@ -89,9 +89,9 @@ export default async function EventFormInputs({
         { label: 'To Be Determined', value: 'tbd' },
     ]
 
-    const channelsResponse = getChannels()
+    const channelsResponse = await getChannels()
     const channels = Array.isArray(channelsResponse)
-        ? channelsResponse.map((channel) => ({ ...channel }))
+        ? channelsResponse.map((channel) => ({ label: channel.name, value: channel.id }))
         : []
 
     return (

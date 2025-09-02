@@ -43,7 +43,7 @@ export default function Announce({ channels }: { channels: Channel[] }) {
 
 function OpenAnnouncement({
     isOpen,
-    channels: channelsInput,
+    channels,
 }: {
     isOpen: boolean,
     channels: Channel[],
@@ -56,7 +56,7 @@ function OpenAnnouncement({
         window.location.href = `${config.url.NEXT_PUBLIC_BROWSER_API}/oauth2/login`
     }
 
-    if (!channelsInput.length) {
+    if (!channels.length) {
         return (
             <div className='w-full space-y-4 mt-2' onClick={(e) => e.stopPropagation()}>
                 <div className='w-full h-[2px] bg-(var:--color-login-400) rounded-lg' />
@@ -79,10 +79,6 @@ function OpenAnnouncement({
             </div>
         )
     }
-
-    const channels = Array.isArray(channelsInput)
-        ? channelsInput.map((channel) => ({ ...channel }))
-        : []
 
     return (
         <div className='w-full space-y-4 mt-2' onClick={(e) => e.stopPropagation()}>

@@ -1,4 +1,4 @@
-import { getJobImages, getOrganizations } from '@utils/api'
+import { getChannels, getJobImages, getOrganizations } from '@utils/api'
 import JobFormInputsClient from '../client/jobs'
 
 export default async function JobFormInputs({
@@ -34,6 +34,11 @@ export default async function JobFormInputs({
         }))
         : []
 
+    const channelsResponse = await getChannels()
+    const channels = Array.isArray(channelsResponse)
+        ? channelsResponse.map((channel) => ({ label: channel.name, value: channel.id }))
+        : []
+
     return (
         <JobFormInputsClient
             defaultValues={defaultValues}
@@ -41,6 +46,7 @@ export default async function JobFormInputs({
             applicationTypes={applicationTypes}
             jobImages={jobImages}
             preview={parent?.preview}
+            channels={channels}
         />
     )
 }

@@ -300,7 +300,7 @@ export async function deleteRule(id: number) {
     return await deleteWrapper({ path })
 }
 
-export async function getChannels(): Promise<Channel[] | string> {
+export async function getChannels(): Promise<ChannelResponse[] | string> {
     const path = config.tekkomBotApi.CHANNELS_PATH
     return await getWrapper({ path, custom: 'tekkom' })
 }
