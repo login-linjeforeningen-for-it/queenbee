@@ -21,4 +21,5 @@ services:
             CLIENT_CERT_URL: ${CLIENT_CERT_URL}
             UNIVERSE_DOMAIN: ${UNIVERSE_DOMAIN}
             GITLAB_MESSAGE: ${GITLAB_MESSAGE}
+            NEXT_PUBLIC_TEKKOM_BOT_API_URL: ${NEXT_PUBLIC_TEKKOM_BOT_API_URL}
             CDN_URL: 'https://cdn.login.no'
