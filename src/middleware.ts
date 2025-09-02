@@ -52,13 +52,13 @@ async function tokenIsValid(token: string): Promise<boolean> {
             const errorDescription =
                 'Failed connection to: ' +
                 `${appConfig.url.API_URL}/events: ${await response.text()}`
-            console.error(errorDescription)
+            console.log(errorDescription)
             return false
         }
 
         return true
     } catch (error) {
-        console.error(`API Error (middleware.ts): ${error}`, {
+        console.log(`API Error (middleware.ts): ${error}`, {
             message: (error as Error).message,
             stack: (error as Error).stack,
         })

@@ -1,4 +1,4 @@
-import { getAnnouncement } from '@utils/api'
+import { getAnnouncement, getChannels } from '@utils/api'
 import {
     createAnnouncement,
     updateAnnouncement,
@@ -13,6 +13,10 @@ export default async function Page({
     params: Promise<{ slug: string; id?: string[] }>
 }) {
     const { id, slug } = await params
+    const channelsResponse = await getChannels()
+    const channels = Array.isArray(channelsResponse)
+        ? channelsResponse.map((channel) => ({ label: channel.name, value: channel.id }))
+        : []
 
     if (id) {
         const announcement = await getAnnouncement(Number(id[0]))
@@ -27,6 +31,7 @@ export default async function Page({
                         type='create'
                         preview={true}
                         formAction={createAnnouncement}
+                        channels={channels}
                     >
                         <AnnouncementFormInputs defaultValues={announcement} />
                     </FormWrapper>
@@ -39,6 +44,7 @@ export default async function Page({
                         id={id[0]}
                         preview={true}
                         formAction={updateAnnouncement}
+                        channels={channels}
                     >
                         <AnnouncementFormInputs defaultValues={announcement} />
                     </FormWrapper>
@@ -52,6 +58,7 @@ export default async function Page({
                 type='create'
                 preview={true}
                 formAction={createAnnouncement}
+                channels={channels}
             >
                 <AnnouncementFormInputs />
             </FormWrapper>

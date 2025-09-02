@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
-export default function DiscordPreview() {
+export default function DiscordPreview({ channels }: { channels: Channel[] }) {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [channel, setChannel] = useState('')
@@ -44,13 +44,15 @@ export default function DiscordPreview() {
         return <></>
     }
 
+    const channelName = channels.find((c) => c.value === channel)?.label
+
     return (
         <div className={
             'bg-[#2b2b2b] rounded-md p-4 ' +
             'text-foreground font-sans shadow-lg'
         }>
             {/* Channel Name */}
-            <p className='text-[#72767d] text-sm mb-2'># {channel}</p>
+            <p className='text-[#72767d] text-sm mb-2'># {channelName}</p>
 
             <div className='flex rounded-md p-3 gap-2'>
                 <div className='w-12 h-12 aspect-square relative'>
@@ -101,7 +103,7 @@ export default function DiscordPreview() {
                         </div>
                     ) : <div className='grid'>
                         <span className='font-semibold text-foreground'>
-                            {title}dd
+                            {title}
                         </span>
                         <span className='text-[#dcddde]'>
                             {description}

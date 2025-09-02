@@ -175,7 +175,7 @@ const sampleAnnouncement = {
     description:
         'Hei @<Login-Verv>! Det arrangeres mocktailkurs på Login ' +
         'Loungen i dag kl 15.',
-    channel: 'Arrangementer',
+    channel: '940907390629449769',
     embed: true,
     color: 'fd8738',
     interval: '* * * * *',

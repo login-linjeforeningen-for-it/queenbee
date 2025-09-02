@@ -29,6 +29,7 @@ type FormWrapperProps = {
         formData: FormData
     ) => FormState | Promise<FormState>
     children: ReactElement<ChildProps> | ReactElement<ChildProps>[]
+    channels?: Channel[]
 }
 
 export default function FormWrapper({
@@ -38,6 +39,7 @@ export default function FormWrapper({
     preview,
     formAction,
     children,
+    channels
 }: FormWrapperProps) {
     const router = useRouter()
     const [title, setTitle] = useState('')
@@ -103,7 +105,7 @@ export default function FormWrapper({
                         return child
                     })}
                 </CustomForm>
-                {displayPreview && <DiscordPreview />}
+                {displayPreview && <DiscordPreview channels={displayPreview ? channels as Channel[] : []} />}
             </div>
         </div>
     )

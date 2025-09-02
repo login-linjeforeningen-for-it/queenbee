@@ -91,7 +91,7 @@ function OpenAnnouncement({
                     buttonColor='bg-login-500'
                     buttonColorHighlighted='bg-login-400'
                 />
-                <DiscordPreview />
+                <DiscordPreview channels={channels} />
             </div>
         </div>
     )

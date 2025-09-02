@@ -377,7 +377,7 @@ async function getWrapper({ path, options = {}, custom }: GetWrapperProps) {
         return data
         // eslint-disable-next-line
     } catch (error: any) {
-        console.error(error)
+        console.log(error)
         return (
             JSON.stringify(error.error) ||
             JSON.stringify(error.message) ||
@@ -412,7 +412,7 @@ async function postWrapper({ path, data, custom }: PostWrapper) {
         return data
         // eslint-disable-next-line
     } catch (error: any) {
-        console.error(JSON.stringify(error))
+        console.log(JSON.stringify(error))
         return (
             JSON.stringify(error.error) ||
             JSON.stringify(error.message) ||

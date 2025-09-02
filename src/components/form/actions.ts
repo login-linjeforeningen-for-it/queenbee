@@ -124,7 +124,7 @@ export async function createEvent(
         const response = await postEvent(eventProps)
         return response
     } catch (error) {
-        console.error('Error creating event:', error)
+        console.log('Error creating event:', error)
         throw error
     }
 }
@@ -206,7 +206,7 @@ export async function updateEvent(
         const response = await patchEvent(eventProps)
         return response
     } catch (error) {
-        console.error('Error updating event:', error)
+        console.log('Error updating event:', error)
         throw error
     }
 }
@@ -261,7 +261,7 @@ export async function createJob(
         const response = await postJob(jobProps)
         return response
     } catch (error) {
-        console.error('Error creating job:', error)
+        console.log('Error creating job:', error)
         throw error
     }
 }
@@ -317,7 +317,7 @@ export async function updateJob(
         const response = await patchJob(jobProps)
         return response
     } catch (error) {
-        console.error('Error updating job:', error)
+        console.log('Error updating job:', error)
         throw error
     }
 }
@@ -349,7 +349,7 @@ export async function createOrganization(
         const response = await postOrganization(organizationProps)
         return response
     } catch (error) {
-        console.error('Error creating organization:', error)
+        console.log('Error creating organization:', error)
         throw error
     }
 }
@@ -384,7 +384,7 @@ export async function updateOrganization(
         )
         return response
     } catch (error) {
-        console.error('Error updating organization:', error)
+        console.log('Error updating organization:', error)
         throw error
     }
 }
@@ -416,7 +416,7 @@ export async function createLocation(
         const response = await postLocation(locationProps)
         return response
     } catch (error) {
-        console.error('Error creating location:', error)
+        console.log('Error creating location:', error)
         throw error
     }
 }
@@ -449,7 +449,7 @@ export async function updateLocation(
         const response = await patchLocation(locationProps)
         return response
     } catch (error) {
-        console.error('Error updating location:', error)
+        console.log('Error updating location:', error)
         throw error
     }
 }
@@ -474,7 +474,7 @@ export async function createRule(
         const response = await postRule(ruleProps)
         return response
     } catch (error) {
-        console.error('Error creating rule:', error)
+        console.log('Error creating rule:', error)
         throw error
     }
 }
@@ -500,7 +500,7 @@ export async function updateRule(
         const response = await patchRule(ruleProps)
         return response
     } catch (error) {
-        console.error('Error updating rule:', error)
+        console.log('Error updating rule:', error)
         throw error
     }
 }
@@ -528,7 +528,7 @@ export async function createAnnouncement(
         const response = await postAnnouncement(announcementProps)
         return response
     } catch (error) {
-        console.error('Error creating announcement:', error)
+        console.log('Error creating announcement:', error)
         throw error
     }
 }
@@ -557,7 +557,7 @@ export async function updateAnnouncement(
         const response = await patchAnnouncement(announcementProps)
         return response
     } catch (error) {
-        console.error('Error updating announcement:', error)
+        console.log('Error updating announcement:', error)
         throw error
     }
 }
