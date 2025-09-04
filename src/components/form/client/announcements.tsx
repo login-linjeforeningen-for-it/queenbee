@@ -5,6 +5,7 @@ import Markdown from '@components/inputs/markdown'
 import Select from '@components/inputs/select'
 import Switch from '@components/inputs/switch'
 import Button from '@components/userInput/button'
+import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
 import { useEffect, useState } from 'react'
 
 export default function AnnouncementFormInputsClient({
@@ -14,7 +15,8 @@ export default function AnnouncementFormInputsClient({
     nested,
     color,
     buttonColor,
-    buttonColorHighlighted
+    buttonColorHighlighted,
+    required: req = true
 }: {
     channels: Option[]
     defaultValues?: GetAnnouncementProps
@@ -23,7 +25,9 @@ export default function AnnouncementFormInputsClient({
     color?: string
     buttonColor?: string
     buttonColorHighlighted?: string
+    required?: boolean
 }) {
+    const [required, setRequired] = useState(req)
     const [formValues, setFormValues] = useState({
         title: defaultValues?.title ?? '',
         description: defaultValues?.description ?? '',
@@ -51,7 +55,21 @@ export default function AnnouncementFormInputsClient({
         setLocalStorageItem('color', formValues.color)
         setLocalStorageItem('interval', formValues.interval)
         setLocalStorageItem('time', formValues.time || '')
+
+        if (!req && anyMandatoryFieldSet(formValues)) {
+            setRequired(true)
+        }
+
+        if (!req && !anyMandatoryFieldSet(formValues)) {
+            setRequired(false)
+        }
     }, [formValues])
+
+    useEffect(() => {
+        if (req) {
+            setRequired(true)
+        }
+    }, [])
 
     const mt = preview ? '-mt-12' : '-mt-13'
 
@@ -77,7 +95,7 @@ export default function AnnouncementFormInputsClient({
                 type='text'
                 label='Title'
                 color={color}
-                required
+                required={required}
                 value={formValues.title}
                 setValue={(input) =>
                     setFormValues({
@@ -90,9 +108,9 @@ export default function AnnouncementFormInputsClient({
                 name='description'
                 label='Description'
                 color={color}
+                required={required}
                 buttonColor={buttonColor}
                 buttonColorHighlighted={buttonColorHighlighted}
-                required
                 value={formValues.description}
                 setValue={(input) =>
                     setFormValues({
@@ -107,6 +125,7 @@ export default function AnnouncementFormInputsClient({
                 options={channels}
                 color={color}
                 value={formValues.channel || ''}
+                required={required}
                 setValue={(input) =>
                     setFormValues({
                         ...formValues,
@@ -114,7 +133,6 @@ export default function AnnouncementFormInputsClient({
                     })
                 }
                 className='col-span-2'
-                required
             />
             <Switch
                 name='embed'
