@@ -102,17 +102,27 @@ export async function deleteOrganizationEvent(body: OrganizationEventProps) {
 
 // Event - Images
 export async function getEventBannerImages(): Promise<GetImageProps | string> {
-    const path =
-        `${config.beehiveApi.IMAGES_PATH}` +
-        `${config.beehiveApi.EVENTS_PATH}banner`
+    const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.EVENTS_PATH}banner`
     return await getWrapper({ path })
 }
 
 export async function getEventSmallImages(): Promise<GetImageProps | string> {
-    const path =
-        `${config.beehiveApi.IMAGES_PATH}` +
-        `${config.beehiveApi.EVENTS_PATH}small`
+    const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.EVENTS_PATH}small`
     return await getWrapper({ path })
+}
+
+export async function postEventBannerImages(file: File): Promise<PostImageProps | string> {
+    const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.EVENTS_PATH}banner`
+    const formData = new FormData()
+    formData.append('file', file)
+    return await postWrapper({ path, data: formData })
+}
+
+export async function postEventSmallImages(file: File): Promise<PostImageProps | string> {
+    const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.EVENTS_PATH}small`
+    const formData = new FormData()
+    formData.append('file', file)
+    return await postWrapper({ path, data: formData })
 }
 
 // Jobs
