@@ -398,6 +398,10 @@ type GetImageProps = {
     size: number
 }[]
 
+type PostImageProps = {
+    file: File
+}
+
 // Other
 type JobProps = {
     application_deadline: string
