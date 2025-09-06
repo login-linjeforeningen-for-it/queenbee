@@ -118,6 +118,6 @@ export const postAnnouncementSchema = z.object({
     time: z.string().nullable().optional(),
 })
 
-export const patchAnnouncementSchema = postAnnouncementSchema.extend({
+export const putAnnouncementSchema = postAnnouncementSchema.extend({
     id: z.number(),
 })

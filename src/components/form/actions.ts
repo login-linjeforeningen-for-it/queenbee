@@ -11,11 +11,11 @@ import {
     patchLocation,
     postRule,
     patchRule,
-    patchAnnouncement,
+    putAnnouncement,
     postAnnouncement,
 } from '@/utils/api'
 import {
-    patchAnnouncementSchema,
+    putAnnouncementSchema,
     patchEventSchema,
     patchJobSchema,
     patchLocationSchema,
@@ -46,7 +46,7 @@ export type FormState =
     | PatchJobProps
     | PatchOrganizationProps
     | PatchLocationProps
-    | PatchAnnouncementProps
+    | PutAnnouncementProps
 
 export async function createEvent(_: FormState, formData: FormData): Promise<FormState> {
     try {
@@ -523,6 +523,8 @@ export async function updateRule(_: FormState, formData: FormData): Promise<Form
 
 export async function createAnnouncement(_: FormState, formData: FormData): Promise<FormState> {
     try {
+        const date = formData.get('publish_date') as string
+        const time = formData.get('publish_time') as string
         const announcementProps: PostAnnouncementProps = {
             title: formData.get('title') as string,
             description: formData.get('description') as string,
@@ -530,7 +532,7 @@ export async function createAnnouncement(_: FormState, formData: FormData): Prom
             embed: formData.get('embed') as embed_type === 'on',
             color: formData.get('color') as string,
             interval: formData.get('interval') as string,
-            time: formData.get('time') as string,
+            time: `${date}T${time}:00.000Z`,
             active: true
         }
 
@@ -549,7 +551,9 @@ export async function createAnnouncement(_: FormState, formData: FormData): Prom
 
 export async function updateAnnouncement(_: FormState, formData: FormData): Promise<FormState> {
     try {
-        const announcementProps: PatchAnnouncementProps = {
+        const date = formData.get('publish_date') as string
+        const time = formData.get('publish_time') as string
+        const announcementProps: PutAnnouncementProps = {
             id: Number(formData.get('id')),
             title: formData.get('title') as string,
             description: formData.get('description') as string,
@@ -557,16 +561,16 @@ export async function updateAnnouncement(_: FormState, formData: FormData): Prom
             embed: formData.get('embed') as embed_type === 'on',
             color: formData.get('color') as string,
             interval: formData.get('interval') as string,
-            time: formData.get('time') as string,
+            time: `${date}T${time}:00.000Z`,
             active: true
         }
 
-        const result = patchAnnouncementSchema.safeParse(announcementProps)
+        const result = putAnnouncementSchema.safeParse(announcementProps)
         if (!result.success) {
             return z.prettifyError(result.error)
         }
 
-        const response = await patchAnnouncement(announcementProps)
+        const response = await putAnnouncement(announcementProps)
         return response
     } catch (error) {
         console.log('Error updating announcement:', error)

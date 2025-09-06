@@ -22,6 +22,13 @@ type DeleteWrapperProps = {
     custom?: string
 }
 
+type PutWrapperProps = {
+    path: string
+    data?: object
+    options?: object
+    custom?: string
+}
+
 type PatchWrapperProps = {
     path: string
     data?: object
@@ -308,8 +315,8 @@ export async function getChannels(): Promise<ChannelResponse[] | string> {
 // Announcements
 export async function getAnnouncement(
     id: number
-): Promise<GetAnnouncementProps | string> {
-    const path = `${config.tekkomBotApi.ANNOUNCEMENT_PATH}/${id}`
+): Promise<GetAnnouncementProps[] | string> {
+    const path = `${config.tekkomBotApi.ANNOUNCEMENT_PATH}?id=${id}`
     return await getWrapper({ path, custom: 'tekkom' })
 }
 
@@ -336,10 +343,10 @@ export async function postAnnouncement(
     })
 }
 
-export async function patchAnnouncement(
-    body: PatchAnnouncementProps
-): Promise<PatchAnnouncementProps | string> {
-    return await patchWrapper({
+export async function putAnnouncement(
+    body: PutAnnouncementProps
+): Promise<PutAnnouncementProps | string> {
+    return await putWrapper({
         path: config.tekkomBotApi.ANNOUNCEMENT_PATH,
         data: body,
         custom: 'tekkom'
@@ -347,8 +354,12 @@ export async function patchAnnouncement(
 }
 
 export async function deleteAnnouncement(id: number) {
-    const path = `${config.tekkomBotApi.ANNOUNCEMENT_PATH}${id}`
-    return await deleteWrapper({ path })
+    const path = `${config.tekkomBotApi.ANNOUNCEMENT_PATH}`
+    return await deleteWrapper({
+        path,
+        options: { body: JSON.stringify({ id }) },
+        custom: 'tekkom'
+    })
 }
 
 async function getWrapper({ path, options = {}, custom }: GetWrapperProps) {
@@ -456,6 +467,41 @@ async function deleteWrapper({ path, options, custom }: DeleteWrapperProps) {
     }
 }
 
+async function putWrapper({ path, data = {}, options = {}, custom }: PutWrapperProps) {
+    const Cookies = await cookies()
+    const access_token = Cookies.get('access_token')?.value || ''
+    const bot_access_token = Cookies.get('bot_access_token')?.value || ''
+    const token = custom === 'tekkom' ? bot_access_token : access_token
+    const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
+
+    const defaultOptions = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    }
+    const finalOptions = { ...defaultOptions, ...options }
+
+    try {
+        const response = await fetch(`${url}${path}`, finalOptions)
+        if (!response.ok) {
+            throw new Error(await response.text())
+        }
+
+        const data = await response.json()
+        return data
+        // eslint-disable-next-line
+    } catch (error: any) {
+        return (
+            JSON.stringify(error.error) ||
+            JSON.stringify(error.message) ||
+            'Unknown error! Please contact TekKom'
+        )
+    }
+}
+
 async function patchWrapper({ path, data = {}, options = {}, custom }: PatchWrapperProps) {
     const Cookies = await cookies()
     const access_token = Cookies.get('access_token')?.value || ''
@@ -475,12 +521,11 @@ async function patchWrapper({ path, data = {}, options = {}, custom }: PatchWrap
 
     try {
         const response = await fetch(`${url}${path}`, finalOptions)
-        const data = await response.json()
-
         if (!response.ok) {
             throw new Error(await response.text())
         }
 
+        const data = await response.json()
         return data
         // eslint-disable-next-line
     } catch (error: any) {

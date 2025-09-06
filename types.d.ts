@@ -385,7 +385,7 @@ type PostAnnouncementProps = {
     active: true
 }
 
-type PatchAnnouncementProps = PostAnnouncementProps & {
+type PutAnnouncementProps = PostAnnouncementProps & {
     id: number
 }
 

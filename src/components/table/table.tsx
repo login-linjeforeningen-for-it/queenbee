@@ -4,6 +4,8 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+const timeValues = ['date', 'last_sent', 'time']
+
 type TableProps = {
     list: object[]
     headers?: string[]
@@ -228,7 +230,11 @@ function Body({ list, headers, deleteAction }: BodyProps) {
 }
 
 function formatValue(key: string, value: string | number) {
-    if (key.includes('date') || key.includes('last_sent')) {
+    if (timeValues.includes(key) && !value) {
+        return 'Never'
+    }
+
+    if (timeValues.includes(key)) {
         return new Date(value).toLocaleString('nb-NO', {
             timeZone: 'Europe/Oslo',
         })

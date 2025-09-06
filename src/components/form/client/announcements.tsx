@@ -215,5 +215,5 @@ const sampleAnnouncement = {
     embed: true,
     color: 'fd8738',
     interval: '* * * * *',
-    time: '18:00',
+    time: '2025-09-06T10:00:43.552Z',
 }
