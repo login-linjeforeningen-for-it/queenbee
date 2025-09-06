@@ -7,7 +7,7 @@ export const config = {
 
 export async function middleware(req: NextRequest) {
     const tokenCookie = req.cookies.get('access_token')
-    if (!pathIsAllowedWhileUnauthenticated(req.nextUrl.pathname)) {
+    if (!pathIsAllowedWhileUnauthorized(req.nextUrl.pathname)) {
         if (!tokenCookie) {
             return NextResponse.redirect(new URL('/', req.url))
         }
@@ -23,7 +23,7 @@ export async function middleware(req: NextRequest) {
     return res
 }
 
-function pathIsAllowedWhileUnauthenticated(path: string) {
+function pathIsAllowedWhileUnauthorized(path: string) {
     if (path === '/' || path === '/favicon.ico') {
         return true
     }

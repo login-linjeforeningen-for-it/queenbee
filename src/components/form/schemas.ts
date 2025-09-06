@@ -112,12 +112,12 @@ export const postAnnouncementSchema = z.object({
     title: z.string().min(1),
     description: z.string().min(1),
     channel: z.string().min(1),
-    embed: z.string().optional(),
+    embed: z.boolean().optional(),
     color: z.string().optional(),
     interval: z.string().optional(),
-    schedule: z.string().optional(),
+    time: z.string().nullable().optional(),
 })
 
-export const patchAnnouncementSchema = postAnnouncementSchema.extend({
+export const putAnnouncementSchema = postAnnouncementSchema.extend({
     id: z.number(),
 })

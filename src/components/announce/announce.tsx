@@ -5,10 +5,12 @@ import ArrowRight from '@components/shared/arrowRight'
 import config from '@config'
 import { getCookie, setCookie } from '@utils/cookies'
 import { LogIn, MessageSquareWarning } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function Announce({ channels }: { channels: Channel[] }) {
     const [state, setState] = useState('closed')
+    const pathname = usePathname()
     const isOpen = state === 'open'
 
     useEffect(() => {
@@ -23,8 +25,35 @@ export default function Announce({ channels }: { channels: Channel[] }) {
         setCookie('announceBar', state === 'closed' ? 'open' : 'closed')
     }
 
+    if (pathname.includes('update/')) {
+        if (state === 'open') {
+            setState('closed')
+        }
+
+        return (
+            <div className='col-span-2 space-apart bg-login-600 rounded-lg p-2 px-4 cursor-pointer mt-10'>
+                <div className='flex justify-between'>
+                    <div className='flex gap-2'>
+                        <h1 className={'text-2xl font-bold select-none text-login-200'}>
+                            Announce
+                        </h1>
+                        <h1 className='text-login-300 self-center mt-[1.2]'>
+                            Announcements can currently not be edited from this page.
+                        </h1>
+                    </div>
+                    <div className='h-[20px] w-[20px] self-center'>
+                        <ArrowRight color='#fd8738' />
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     return (
-        <div onClick={handleClick} className='col-span-2 space-apart bg-login-600 rounded-lg p-2 px-4 cursor-pointer mt-10'>
+        <div
+            onClick={handleClick}
+            className='col-span-2 space-apart bg-login-600 rounded-lg p-2 px-4 cursor-pointer mt-10'
+        >
             <div className='flex justify-between'>
                 <h1 className={
                     'text-2xl font-bold select-none '
@@ -62,7 +91,7 @@ function OpenAnnouncement({
                 <div className='w-full h-[2px] bg-(var:--color-login-400) rounded-lg' />
                 <div className='flex gap-2 w-full rounded-lg p-2 bg-red-500'>
                     <MessageSquareWarning />
-                    <h1 className='font-semibold'>Unauthenticated</h1>
+                    <h1 className='font-semibold'>Unauthorized</h1>
                 </div>
                 <div className='grid place-items-center h-full'>
                     <button
@@ -90,6 +119,7 @@ function OpenAnnouncement({
                     color='bg-login-600'
                     buttonColor='bg-login-500'
                     buttonColorHighlighted='bg-login-400'
+                    required={false}
                 />
                 <DiscordPreview channels={channels} />
             </div>

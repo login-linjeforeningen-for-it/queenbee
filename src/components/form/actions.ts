@@ -11,11 +11,11 @@ import {
     patchLocation,
     postRule,
     patchRule,
-    patchAnnouncement,
+    putAnnouncement,
     postAnnouncement,
 } from '@/utils/api'
 import {
-    patchAnnouncementSchema,
+    putAnnouncementSchema,
     patchEventSchema,
     patchJobSchema,
     patchLocationSchema,
@@ -30,6 +30,7 @@ import {
 } from './schemas'
 import z from 'zod'
 import { timeZoneOffset } from '@utils/timeZone'
+import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
 
 export type FormState =
     | null
@@ -45,7 +46,7 @@ export type FormState =
     | PatchJobProps
     | PatchOrganizationProps
     | PatchLocationProps
-    | PatchAnnouncementProps
+    | PutAnnouncementProps
 
 export async function createEvent(_: FormState, formData: FormData): Promise<FormState> {
     try {
@@ -113,12 +114,32 @@ export async function createEvent(_: FormState, formData: FormData): Promise<For
             visible: true,
         }
 
-        const result = postEventSchema.safeParse(eventProps)
-        if (!result.success) {
-            return z.prettifyError(result.error)
+        const announcementProps: PostAnnouncementProps = {
+            title: formData.get('title') as string,
+            description: formData.get('description') as string,
+            channel: formData.get('channel') as string,
+            embed: formData.get('embed') as embed_type === 'on',
+            color: formData.get('color') as string,
+            interval: formData.get('interval') as string,
+            time: formData.get('time') as string,
+            active: true
+        }
+
+        const resultEvent = postEventSchema.safeParse(eventProps)
+        const resultAnnouncement = postAnnouncementSchema.safeParse(announcementProps)
+        if (!resultEvent.success) {
+            return z.prettifyError(resultEvent.error)
+        }
+        if (!resultAnnouncement.success && anyMandatoryFieldSet(announcementProps)) {
+            return z.prettifyError(resultAnnouncement.error)
         }
 
         const response = await postEvent(eventProps)
+        if (resultAnnouncement.success) {
+            const announcement = await postAnnouncement(announcementProps)
+            return [response, announcement].join(', ')
+        }
+
         return response
     } catch (error) {
         console.log('Error creating event:', error)
@@ -249,7 +270,32 @@ export async function createJob(_: FormState, formData: FormData): Promise<FormS
             return z.prettifyError(result.error)
         }
 
+        const announcementProps: PostAnnouncementProps = {
+            title: formData.get('title') as string,
+            description: formData.get('description') as string,
+            channel: formData.get('channel') as string,
+            embed: formData.get('embed') as embed_type === 'on',
+            color: formData.get('color') as string,
+            interval: formData.get('interval') as string,
+            time: formData.get('time') as string,
+            active: true
+        }
+
+        const resultEvent = postEventSchema.safeParse(jobProps)
+        const resultAnnouncement = postAnnouncementSchema.safeParse(announcementProps)
+        if (!resultEvent.success) {
+            return z.prettifyError(resultEvent.error)
+        }
+        if (!resultAnnouncement.success && anyMandatoryFieldSet(announcementProps)) {
+            return z.prettifyError(resultAnnouncement.error)
+        }
+
         const response = await postJob(jobProps)
+        if (resultAnnouncement.success) {
+            const announcement = await postAnnouncement(announcementProps)
+            return [response, announcement].join(', ')
+        }
+
         return response
     } catch (error) {
         console.log('Error creating job:', error)
@@ -477,14 +523,16 @@ export async function updateRule(_: FormState, formData: FormData): Promise<Form
 
 export async function createAnnouncement(_: FormState, formData: FormData): Promise<FormState> {
     try {
+        const date = formData.get('publish_date') as string
+        const time = formData.get('publish_time') as string
         const announcementProps: PostAnnouncementProps = {
             title: formData.get('title') as string,
             description: formData.get('description') as string,
             channel: formData.get('channel') as string,
-            embed: formData.get('embed') as embed_type === 'on' ? 'true' : 'false',
+            embed: formData.get('embed') as embed_type === 'on',
             color: formData.get('color') as string,
             interval: formData.get('interval') as string,
-            time: formData.get('time') as string,
+            time: `${date}T${time}:00.000Z`,
             active: true
         }
 
@@ -503,24 +551,26 @@ export async function createAnnouncement(_: FormState, formData: FormData): Prom
 
 export async function updateAnnouncement(_: FormState, formData: FormData): Promise<FormState> {
     try {
-        const announcementProps: PatchAnnouncementProps = {
+        const date = formData.get('publish_date') as string
+        const time = formData.get('publish_time') as string
+        const announcementProps: PutAnnouncementProps = {
             id: Number(formData.get('id')),
             title: formData.get('title') as string,
             description: formData.get('description') as string,
             channel: formData.get('channel') as string,
-            embed: formData.get('embed') as embed_type === 'on' ? 'true' : 'false',
+            embed: formData.get('embed') as embed_type === 'on',
             color: formData.get('color') as string,
             interval: formData.get('interval') as string,
-            time: formData.get('time') as string,
+            time: `${date}T${time}:00.000Z`,
             active: true
         }
 
-        const result = patchAnnouncementSchema.safeParse(announcementProps)
+        const result = putAnnouncementSchema.safeParse(announcementProps)
         if (!result.success) {
             return z.prettifyError(result.error)
         }
 
-        const response = await patchAnnouncement(announcementProps)
+        const response = await putAnnouncement(announcementProps)
         return response
     } catch (error) {
         console.log('Error updating announcement:', error)

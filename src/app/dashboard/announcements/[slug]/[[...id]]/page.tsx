@@ -19,11 +19,12 @@ export default async function Page({
         : []
 
     if (id) {
-        const announcement = await getAnnouncement(Number(id[0]))
+        const announcements = await getAnnouncement(Number(id[0]))
         if (
-            typeof announcement === 'object' &&
-            Object.keys(announcement).length > 0
+            typeof announcements === 'object' &&
+            Object.keys(announcements).length > 0
         ) {
+            const announcement = announcements[0]
             if (slug === 'create') {
                 return (
                     <FormWrapper

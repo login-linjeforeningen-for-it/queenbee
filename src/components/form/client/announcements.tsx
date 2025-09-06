@@ -1,10 +1,14 @@
 'use client'
 
+import DateInput from '@components/inputs/date'
 import Input from '@components/inputs/input'
 import Markdown from '@components/inputs/markdown'
 import Select from '@components/inputs/select'
 import Switch from '@components/inputs/switch'
+import TimeInput from '@components/inputs/time'
 import Button from '@components/userInput/button'
+import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
+import { toLocalTimeString } from '@utils/timeZone'
 import { useEffect, useState } from 'react'
 
 export default function AnnouncementFormInputsClient({
@@ -14,7 +18,8 @@ export default function AnnouncementFormInputsClient({
     nested,
     color,
     buttonColor,
-    buttonColorHighlighted
+    buttonColorHighlighted,
+    required: req = true
 }: {
     channels: Option[]
     defaultValues?: GetAnnouncementProps
@@ -23,7 +28,9 @@ export default function AnnouncementFormInputsClient({
     color?: string
     buttonColor?: string
     buttonColorHighlighted?: string
+    required?: boolean
 }) {
+    const [required, setRequired] = useState(req)
     const [formValues, setFormValues] = useState({
         title: defaultValues?.title ?? '',
         description: defaultValues?.description ?? '',
@@ -31,7 +38,7 @@ export default function AnnouncementFormInputsClient({
         embed: defaultValues?.embed ?? true,
         color: defaultValues?.color ?? '',
         interval: defaultValues?.interval ?? '',
-        time: defaultValues?.time ?? null,
+        time: defaultValues?.time ?? new Date().toISOString(),
     })
 
     useEffect(() => {
@@ -51,7 +58,21 @@ export default function AnnouncementFormInputsClient({
         setLocalStorageItem('color', formValues.color)
         setLocalStorageItem('interval', formValues.interval)
         setLocalStorageItem('time', formValues.time || '')
+
+        if (!req && anyMandatoryFieldSet(formValues)) {
+            setRequired(true)
+        }
+
+        if (!req && !anyMandatoryFieldSet(formValues)) {
+            setRequired(false)
+        }
     }, [formValues])
+
+    useEffect(() => {
+        if (req) {
+            setRequired(true)
+        }
+    }, [])
 
     const mt = preview ? '-mt-12' : '-mt-13'
 
@@ -77,7 +98,7 @@ export default function AnnouncementFormInputsClient({
                 type='text'
                 label='Title'
                 color={color}
-                required
+                required={required}
                 value={formValues.title}
                 setValue={(input) =>
                     setFormValues({
@@ -90,9 +111,9 @@ export default function AnnouncementFormInputsClient({
                 name='description'
                 label='Description'
                 color={color}
+                required={required}
                 buttonColor={buttonColor}
                 buttonColorHighlighted={buttonColorHighlighted}
-                required
                 value={formValues.description}
                 setValue={(input) =>
                     setFormValues({
@@ -107,6 +128,7 @@ export default function AnnouncementFormInputsClient({
                 options={channels}
                 color={color}
                 value={formValues.channel || ''}
+                required={required}
                 setValue={(input) =>
                     setFormValues({
                         ...formValues,
@@ -114,7 +136,6 @@ export default function AnnouncementFormInputsClient({
                     })
                 }
                 className='col-span-2'
-                required
             />
             <Switch
                 name='embed'
@@ -153,18 +174,33 @@ export default function AnnouncementFormInputsClient({
                     })
                 }
             />
-            <Input
-                name='time'
-                type='text'
-                label='Time'
-                color={color}
-                value={formValues.time || ''}
-                setValue={(input) =>
+            <DateInput
+                name='publish_date'
+                label='Publish Date'
+                value={formValues.time.split('T')[0]}
+                setValue={(date) => {
+                    const time =
+                        toLocalTimeString(formValues.time) ??
+                        '00:00'
                     setFormValues({
                         ...formValues,
-                        time: input as string,
+                        time: `${date}T${time}`,
                     })
-                }
+                }}
+            />
+            <TimeInput
+                name='publish_time'
+                label='Publish Time'
+                value={toLocalTimeString(formValues.time)}
+                setValue={(time) => {
+                    const date =
+                        formValues.time.split('T')[0] ??
+                        new Date().toISOString().split('T')[0]
+                    setFormValues({
+                        ...formValues,
+                        time: `${date}T${time}`,
+                    })
+                }}
             />
         </div>
     )
@@ -179,5 +215,5 @@ const sampleAnnouncement = {
     embed: true,
     color: 'fd8738',
     interval: '* * * * *',
-    time: '18:00',
+    time: '2025-09-06T10:00:43.552Z',
 }

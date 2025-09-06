@@ -378,14 +378,14 @@ type PostAnnouncementProps = {
     title: string
     description: string
     channel: string
-    embed: 'true' | 'false'
+    embed: boolean
     color: string
     interval: string
     time: string | null
     active: true
 }
 
-type PatchAnnouncementProps = PostAnnouncementProps & {
+type PutAnnouncementProps = PostAnnouncementProps & {
     id: number
 }
 
