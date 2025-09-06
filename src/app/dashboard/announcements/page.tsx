@@ -8,6 +8,19 @@ import { LogIn, MessageSquareWarning } from 'lucide-react'
 import config from '@config'
 import Link from 'next/link'
 
+const announcementList = [
+    'id',
+    'title',
+    'description',
+    'channel',
+    'interval',
+    'date',
+    'time',
+    'sent',
+    'last_sent',
+    'active'
+]
+
 async function deleteAction(id: string) {
     'use server'
     await deleteAnnouncement(Number(id))
@@ -40,7 +53,7 @@ export default async function Page() {
             >
                 <div className='flex gap-2 w-full rounded-lg p-2 bg-red-500'>
                     <MessageSquareWarning />
-                    <h1 className='font-semibold'>Unauthenticated</h1>
+                    <h1 className='font-semibold'>Unauthorized</h1>
                 </div>
                 <div className='flex-none'>
                     <h1 className='font-semibold text-lg'>Announcements</h1>
@@ -116,7 +129,7 @@ function TempSort({ tempSort, channels }: { tempSort: object[], channels: Channe
         <div className='flex-1 flex flex-col overflow-hidden'>
             <Table
                 list={tempSort}
-                headers={['id', 'title', 'description', 'channel', 'interval', 'date', 'time', 'sent', 'last_sent', 'active']}
+                headers={announcementList}
                 deleteAction={deleteAction}
             />
             <Pagination pageSize={10} totalRows={tempSort.length} />

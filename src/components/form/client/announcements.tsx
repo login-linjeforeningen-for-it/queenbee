@@ -1,11 +1,14 @@
 'use client'
 
+import DateInput from '@components/inputs/date'
 import Input from '@components/inputs/input'
 import Markdown from '@components/inputs/markdown'
 import Select from '@components/inputs/select'
 import Switch from '@components/inputs/switch'
+import TimeInput from '@components/inputs/time'
 import Button from '@components/userInput/button'
 import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
+import { toLocalTimeString } from '@utils/timeZone'
 import { useEffect, useState } from 'react'
 
 export default function AnnouncementFormInputsClient({
@@ -35,7 +38,7 @@ export default function AnnouncementFormInputsClient({
         embed: defaultValues?.embed ?? true,
         color: defaultValues?.color ?? '',
         interval: defaultValues?.interval ?? '',
-        time: defaultValues?.time ?? null,
+        time: defaultValues?.time ?? new Date().toISOString(),
     })
 
     useEffect(() => {
@@ -171,18 +174,33 @@ export default function AnnouncementFormInputsClient({
                     })
                 }
             />
-            <Input
-                name='time'
-                type='text'
-                label='Time'
-                color={color}
-                value={formValues.time || ''}
-                setValue={(input) =>
+            <DateInput
+                name='publish_date'
+                label='Publish Date'
+                value={formValues.time.split('T')[0]}
+                setValue={(date) => {
+                    const time =
+                        toLocalTimeString(formValues.time) ??
+                        '00:00'
                     setFormValues({
                         ...formValues,
-                        time: input as string,
+                        time: `${date}T${time}`,
                     })
-                }
+                }}
+            />
+            <TimeInput
+                name='publish_time'
+                label='Publish Time'
+                value={toLocalTimeString(formValues.time)}
+                setValue={(time) => {
+                    const date =
+                        formValues.time.split('T')[0] ??
+                        new Date().toISOString().split('T')[0]
+                    setFormValues({
+                        ...formValues,
+                        time: `${date}T${time}`,
+                    })
+                }}
             />
         </div>
     )

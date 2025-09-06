@@ -91,7 +91,7 @@ function OpenAnnouncement({
                 <div className='w-full h-[2px] bg-(var:--color-login-400) rounded-lg' />
                 <div className='flex gap-2 w-full rounded-lg p-2 bg-red-500'>
                     <MessageSquareWarning />
-                    <h1 className='font-semibold'>Unauthenticated</h1>
+                    <h1 className='font-semibold'>Unauthorized</h1>
                 </div>
                 <div className='grid place-items-center h-full'>
                     <button
