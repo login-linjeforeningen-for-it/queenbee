@@ -2,10 +2,11 @@
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
-export default function DiscordPreview({ channels }: { channels: Channel[] }) {
+export default function DiscordPreview({ channels, roles }: { channels: Channel[], roles: Role[] }) {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [channel, setChannel] = useState('')
+    const [Roles, setRoles] = useState([] as string[])
     const [embed, setEmbed] = useState(true)
     const [color, setColor] = useState('')
     const formattedColor = formatColor(color)
@@ -26,10 +27,10 @@ export default function DiscordPreview({ channels }: { channels: Channel[] }) {
             const event = e as CustomEvent
             event.detail.key === 'title' && setTitle(event.detail.value)
             event.detail.key === 'channel' && setChannel(event.detail.value)
+            event.detail.key === 'roles' && setRoles(event.detail.value.split(' '))
             event.detail.key === 'embed' && setEmbed(event.detail.value === 'true')
             event.detail.key === 'color' && setColor(event.detail.value)
-            event.detail.key === 'description'
-                && setDescription(event.detail.value)
+            event.detail.key === 'description' && setDescription(event.detail.value)
         }
 
         window.addEventListener('customStorageChange', handleStorageChange)
@@ -45,6 +46,7 @@ export default function DiscordPreview({ channels }: { channels: Channel[] }) {
     }
 
     const channelName = channels.find((c) => c.value === channel)?.label
+    const roleNames = Roles.map((role) => `@${roles.find((r) => r.value === role)?.label}`).join(' ')
 
     return (
         <div className={
@@ -84,22 +86,27 @@ export default function DiscordPreview({ channels }: { channels: Channel[] }) {
                     </div>
                     {/* Optional Embed */}
                     {embed ? (
-                        <div
-                            className='p-3 mt-2 rounded-lg'
-                            style={{
-                                backgroundColor: '#2f3136',
-                                borderLeft: embed ? `4px solid ${formattedColor}` : 'none',
-                                borderTop: 'none',
-                                borderRight: '12px solid #2f3136',
-                                borderBottom: 'none'
-                            }}
-                        >
-                            {title && (
-                                <p className='font-semibold text-foreground'>{title}</p>
+                        <div>
+                            {Roles.length > 0 && (
+                                <p className='font-semibold text-foreground'>{roleNames}</p>
                             )}
-                            {description && (
-                                <p className='text-[#dcddde] mt-1'>{description}</p>
-                            )}
+                            <div
+                                className='p-3 mt-2 rounded-lg'
+                                style={{
+                                    backgroundColor: '#2f3136',
+                                    borderLeft: embed ? `4px solid ${formattedColor}` : 'none',
+                                    borderTop: 'none',
+                                    borderRight: '12px solid #2f3136',
+                                    borderBottom: 'none'
+                                }}
+                            >
+                                {title && (
+                                    <p className='font-semibold text-foreground'>{title}</p>
+                                )}
+                                {description && (
+                                    <p className='text-[#dcddde] mt-1'>{description}</p>
+                                )}
+                            </div>
                         </div>
                     ) : <div className='grid'>
                         <span className='font-semibold text-foreground'>

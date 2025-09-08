@@ -76,6 +76,7 @@ const config = {
     tekkomBotApi: {
         ANNOUNCEMENT_PATH: '/announcements',
         CHANNELS_PATH: '/channels',
+        ROLES_PATH: '/roles',
     },
     time: {
         TIME_UNSET: '0001-01-01T00:00:00Z',

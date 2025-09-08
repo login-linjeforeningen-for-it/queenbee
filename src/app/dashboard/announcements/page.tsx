@@ -1,4 +1,4 @@
-import { deleteAnnouncement, getAnnouncements, getChannels } from '@utils/api'
+import { deleteAnnouncement, getAnnouncements, getChannels, getRoles } from '@utils/api'
 import Alert from '@components/alert/alert'
 import Button from '@components/userInput/button'
 import Search from '@components/inputs/search'
@@ -13,6 +13,7 @@ const announcementList = [
     'title',
     'description',
     'channel',
+    'roles',
     'interval',
     'date',
     'time',
@@ -37,9 +38,13 @@ export default async function Page() {
     // const page = typeof filters.page === 'string' ? Number(filters.page) : 1
 
     const list = await getAnnouncements()
+    const rolesResponse = await getRoles()
     const channelsResponse = await getChannels()
     const channels = Array.isArray(channelsResponse)
         ? channelsResponse.map((channel) => ({ label: channel.name, value: channel.id }))
+        : []
+    const roles = Array.isArray(rolesResponse)
+        ? rolesResponse.map((role) => ({ label: role.name, value: role.id }))
         : []
     const tempSort = Array.isArray(list) ? list : []
 
@@ -98,15 +103,16 @@ export default async function Page() {
                     </div>
                 </div>
             </div>
-            <TempSort tempSort={tempSort} channels={channels} />
+            <TempSort tempSort={tempSort} channels={channels} roles={roles} />
         </div>
     )
 }
 
-function TempSort({ tempSort, channels }: { tempSort: object[], channels: Channel[] }) {
+function TempSort({ tempSort, channels, roles }: { tempSort: object[], channels: Channel[], roles: Role[] }) {
     (tempSort as Announcement[]).forEach((announcement) => {
         (announcement.sent as unknown as string) = announcement.sent ? 'true' : 'false'
         announcement.channel = channels.find((c) => c.value === announcement.channel)?.label
+        announcement.roles?.forEach((role) => roles.find((r) => r.value === role)?.label)
     })
 
     if (

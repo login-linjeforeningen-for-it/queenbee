@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react'
 
 export default function AnnouncementFormInputsClient({
     channels,
+    roles,
     defaultValues,
     preview,
     nested,
@@ -22,6 +23,7 @@ export default function AnnouncementFormInputsClient({
     required: req = true
 }: {
     channels: Option[]
+    roles: Option[]
     defaultValues?: GetAnnouncementProps
     preview?: boolean
     nested?: boolean
@@ -35,6 +37,7 @@ export default function AnnouncementFormInputsClient({
         title: defaultValues?.title ?? '',
         description: defaultValues?.description ?? '',
         channel: defaultValues?.channel ?? '',
+        roles: defaultValues?.roles.join(' ') ?? '',
         embed: defaultValues?.embed ?? true,
         color: defaultValues?.color ?? '',
         interval: defaultValues?.interval ?? '',
@@ -54,6 +57,7 @@ export default function AnnouncementFormInputsClient({
         setLocalStorageItem('title', formValues.title)
         setLocalStorageItem('description', formValues.description)
         setLocalStorageItem('channel', formValues.channel)
+        setLocalStorageItem('roles', formValues.roles)
         setLocalStorageItem('embed', String(formValues.embed))
         setLocalStorageItem('color', formValues.color)
         setLocalStorageItem('interval', formValues.interval)
@@ -137,6 +141,21 @@ export default function AnnouncementFormInputsClient({
                 }
                 className='col-span-2'
             />
+            <Select
+                name='roles'
+                label='Role'
+                options={roles}
+                color={color}
+                value={formValues.roles || ''}
+                required={required}
+                setValue={(input) =>
+                    setFormValues({
+                        ...formValues,
+                        roles: input as string,
+                    })
+                }
+                className='col-span-2'
+            />
             <Switch
                 name='embed'
                 label='Embed'
@@ -212,6 +231,7 @@ const sampleAnnouncement = {
         'Hei @<Login-Verv>! Det arrangeres mocktailkurs på Login ' +
         'Loungen i dag kl 15.',
     channel: '940907390629449769',
+    roles: '1278447313240592520 1412818698535833711',
     embed: true,
     color: 'fd8738',
     interval: '* * * * *',
