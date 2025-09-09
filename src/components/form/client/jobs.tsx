@@ -19,7 +19,8 @@ export default function JobFormInputsClient({
     applicationTypes,
     jobImages,
     preview,
-    channels
+    channels,
+    roles
 }: {
     defaultValues?: GetJobProps
     organizations: Organization[]
@@ -27,6 +28,7 @@ export default function JobFormInputsClient({
     jobImages: LoginImage[]
     preview?: boolean
     channels: Channel[]
+    roles: Role[]
 }) {
     const [formValues, setFormValues] = useState({
         title_no: defaultValues?.title_no,
@@ -350,7 +352,7 @@ export default function JobFormInputsClient({
                 className='col-span-2'
                 required
             />
-            <Announce channels={channels} />
+            <Announce channels={channels} roles={roles} />
         </div>
     )
 }
