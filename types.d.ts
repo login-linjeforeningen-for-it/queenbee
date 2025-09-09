@@ -368,6 +368,7 @@ type GetAnnouncementProps = {
     title: string
     description: string
     channel: string
+    roles: string[]
     embed: boolean
     color: string
     interval: string
@@ -378,6 +379,7 @@ type PostAnnouncementProps = {
     title: string
     description: string
     channel: string
+    roles: string[]
     embed: boolean
     color: string
     interval: string
@@ -599,6 +601,7 @@ type Announcement = {
     title?: string
     description?: string
     channel?: string
+    roles?: string[]
     embed?: boolean
     color?: string
     interval: boolean
@@ -617,6 +620,16 @@ type ChannelResponse = {
 }
 
 type Channel = {
+    label: string
+    value: string
+}
+
+type RoleResponse = {
+    name: string
+    id: string
+}
+
+type Role = {
     label: string
     value: string
 }

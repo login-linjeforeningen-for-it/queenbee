@@ -322,6 +322,11 @@ export async function getChannels(): Promise<ChannelResponse[] | string> {
     return await getWrapper({ path, custom: 'tekkom' })
 }
 
+export async function getRoles(): Promise<RoleResponse[] | string> {
+    const path = config.tekkomBotApi.ROLES_PATH
+    return await getWrapper({ path, custom: 'tekkom' })
+}
+
 // Announcements
 export async function getAnnouncement(
     id: number

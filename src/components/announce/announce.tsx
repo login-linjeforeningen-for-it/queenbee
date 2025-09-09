@@ -8,7 +8,7 @@ import { LogIn, MessageSquareWarning } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-export default function Announce({ channels }: { channels: Channel[] }) {
+export default function Announce({ channels, roles }: { channels: Channel[], roles: Role[] }) {
     const [state, setState] = useState('closed')
     const pathname = usePathname()
     const isOpen = state === 'open'
@@ -65,7 +65,7 @@ export default function Announce({ channels }: { channels: Channel[] }) {
                     {isOpen ? <ArrowDown color='#fd8738' /> : <ArrowRight color='#fd8738' />}
                 </div>
             </div>
-            <OpenAnnouncement isOpen={isOpen} channels={channels} />
+            <OpenAnnouncement isOpen={isOpen} channels={channels} roles={roles} />
         </div>
     )
 }
@@ -73,9 +73,11 @@ export default function Announce({ channels }: { channels: Channel[] }) {
 function OpenAnnouncement({
     isOpen,
     channels,
+    roles
 }: {
     isOpen: boolean,
     channels: Channel[],
+    roles: Role[]
 }) {
     if (!isOpen) {
         return <></>
@@ -115,13 +117,14 @@ function OpenAnnouncement({
             <div className='grid grid-cols-2 gap-4'>
                 <AnnouncementFormInputsClient
                     channels={channels}
+                    roles={roles}
                     nested={true}
                     color='bg-login-600'
                     buttonColor='bg-login-500'
                     buttonColorHighlighted='bg-login-400'
                     required={false}
                 />
-                <DiscordPreview channels={channels} />
+                <DiscordPreview channels={channels} roles={roles} />
             </div>
         </div>
     )
