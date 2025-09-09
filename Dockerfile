@@ -1,5 +1,5 @@
 # Node image with Alpine Linux
-FROM node:20-alpine
+FROM node:lts-alpine
 
 # Arguments
 ARG GITLAB_MESSAGE

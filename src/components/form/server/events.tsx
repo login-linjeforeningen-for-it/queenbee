@@ -6,6 +6,7 @@ import {
     getEventSmallImages,
     getLocations,
     getOrganizations,
+    getRoles,
     getRules,
 } from '@utils/api'
 import { EventFormInputsClient } from '../client/events'
@@ -89,6 +90,11 @@ export default async function EventFormInputs({
         { label: 'To Be Determined', value: 'tbd' },
     ]
 
+    const rolesResponse = await getRoles()
+    const roles = Array.isArray(rolesResponse)
+        ? rolesResponse.map((role) => ({ label: role.name, value: role.id }))
+        : []
+
     const channelsResponse = await getChannels()
     const channels = Array.isArray(channelsResponse)
         ? channelsResponse.map((channel) => ({ label: channel.name, value: channel.id }))
@@ -106,6 +112,7 @@ export default async function EventFormInputs({
             rules={rules}
             locations={locations}
             channels={channels}
+            roles={roles}
             preview={parent?.preview}
         />
     )
