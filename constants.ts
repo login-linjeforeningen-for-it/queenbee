@@ -17,7 +17,9 @@ const requiredEnvironmentVariables = [
     'CLIENT_CERT_URL',
     'UNIVERSE_DOMAIN',
     'GITLAB_MESSAGE',
-    'NEXT_PUBLIC_TEKKOM_BOT_API_URL'
+    'NEXT_PUBLIC_TEKKOM_BOT_API_URL',
+    'CRITICAL_ROLE',
+    'WEBHOOK_URL'
 ]
 
 const missingVariables = requiredEnvironmentVariables.filter(
@@ -39,8 +41,6 @@ const env = Object.fromEntries(
 
 const config = {
     url: {
-        NEXT_PUBLIC_BROWSER_API:
-            env.NEXT_PUBLIC_BROWSER_API || 'https://api.queenbee.login.no/v1',
         API_URL: env.API_URL || 'https://api.queenbee.login.no/v1',
         CDN_URL: env.CDN_URL || 'https://cdn.login.no',
         TEKKOM_BOT_API_URL: env.NEXT_PUBLIC_TEKKOM_BOT_API_URL || 'https://api.tekkom-bot.login.no/api',
@@ -96,6 +96,8 @@ const config = {
         VERV: 'verv',
     },
     version: packageInfo.version,
+    CRITICAL_ROLE: env.CRITICAL_ROLE,
+    WEBHOOK_URL: env.WEBHOOK_URL
 }
 
 export default config

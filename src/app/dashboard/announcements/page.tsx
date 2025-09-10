@@ -5,7 +5,6 @@ import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import { LogIn, MessageSquareWarning } from 'lucide-react'
-import config from '@config'
 import Link from 'next/link'
 
 const announcementList = [
@@ -65,7 +64,7 @@ export default async function Page() {
                 </div>
                 <div className='grid place-items-center h-full'>
                     <Link
-                        href={`${config.url.NEXT_PUBLIC_BROWSER_API}/oauth2/login`}
+                        href={`${process.env.NEXT_PUBLIC_BROWSER_API}/oauth2/login`}
                         className='grid place-items-center'
                     >
                         <button
