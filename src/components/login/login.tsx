@@ -35,7 +35,7 @@ export default function Login() {
         try {
             const response = await fetch(`${config.url.TEKKOM_BOT_API_URL}/token`, {
                 headers: {
-                    Name: name,
+                    name,
                     'btg': 'queenbee-btg',
                     Authorization: `Bearer ${token}`,
                 },
