@@ -2,7 +2,6 @@ import AnnouncementFormInputsClient from '@components/form/client/announcements'
 import DiscordPreview from '@components/preview/discord'
 import ArrowDown from '@components/shared/arrowDown'
 import ArrowRight from '@components/shared/arrowRight'
-import config from '@config'
 import { getCookie, setCookie } from '@utils/cookies'
 import { LogIn, MessageSquareWarning } from 'lucide-react'
 import { usePathname } from 'next/navigation'
@@ -84,7 +83,7 @@ function OpenAnnouncement({
     }
 
     function handleLogin() {
-        window.location.href = `${config.url.NEXT_PUBLIC_BROWSER_API}/oauth2/login`
+        window.location.href = `${process.env.NEXT_PUBLIC_BROWSER_API}/oauth2/login`
     }
 
     if (!channels.length) {
