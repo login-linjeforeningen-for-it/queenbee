@@ -15,7 +15,7 @@ export default function Login() {
     useEffect(() => {
         (async () => {
             try {
-                const response = await fetch(loginUrl)
+                const response = await fetch('/api/authentik-health')
                 if (!response.ok) {
                     setLoginUnavailable(true)
                 }
