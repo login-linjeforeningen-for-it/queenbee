@@ -230,7 +230,7 @@ const sampleAnnouncement = {
         'Hei @<Login-Verv>! Det arrangeres mocktailkurs på Login ' +
         'Loungen i dag kl 15.',
     channel: '940907390629449769',
-    roles: '1278447313240592520 1412818698535833711',
+    roles: '1143326743508308032',
     embed: true,
     color: 'fd8738',
     interval: '* * * * *',
