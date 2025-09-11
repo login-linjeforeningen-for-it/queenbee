@@ -18,6 +18,18 @@ export default async function Home() {
                 <p className='mt-2 text-foreground text-center font-semibold text-login-300'>Queenbee - Admintool</p>
                 <Login />
             </div>
+            {typeof config.version !== 'undefined' ? (
+                <Link
+                    className={
+                        'absolute right-4 bottom-4 bg-login-800 text-login-50 px-2 py-1 rounded-lg font-mono ' +
+                        'border border-login-400 rounded-md text-white tracking-[0.05em] font-semibold text-lg '
+                    }
+                    target='_blank'
+                    href={`${config.url.GITLAB_URL}/tekkom/web/beehive/queenbee/-/tags/${config.version}`}
+                >
+                    v{config.version}
+                </Link>
+            ) : null}
         </main>
     )
 }
