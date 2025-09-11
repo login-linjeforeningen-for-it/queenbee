@@ -1,6 +1,8 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import Login from '@components/login/login'
+import config from '@config'
+import Link from 'next/link'
 
 export default async function Home() {
     const Cookies = await cookies()
