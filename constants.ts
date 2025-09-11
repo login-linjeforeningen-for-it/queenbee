@@ -18,8 +18,6 @@ const requiredEnvironmentVariables = [
     'UNIVERSE_DOMAIN',
     'GITLAB_MESSAGE',
     'NEXT_PUBLIC_TEKKOM_BOT_API_URL',
-    'CRITICAL_ROLE',
-    'WEBHOOK_URL'
 ]
 
 const missingVariables = requiredEnvironmentVariables.filter(
@@ -97,8 +95,6 @@ const config = {
         VERV: 'verv',
     },
     version: packageInfo.version,
-    CRITICAL_ROLE: env.CRITICAL_ROLE,
-    WEBHOOK_URL: env.WEBHOOK_URL
 }
 
 export default config
