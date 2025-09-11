@@ -127,11 +127,11 @@ export async function createEvent(_: FormState, formData: FormData): Promise<For
         }
 
         const resultEvent = postEventSchema.safeParse(eventProps)
-        const resultAnnouncement = postAnnouncementSchema.safeParse(announcementProps)
         if (!resultEvent.success) {
             return z.prettifyError(resultEvent.error)
         }
 
+        const resultAnnouncement = postAnnouncementSchema.safeParse(announcementProps)
         if (!resultAnnouncement.success && anyMandatoryFieldSet(announcementProps)) {
             return z.prettifyError(resultAnnouncement.error)
         }
@@ -266,11 +266,6 @@ export async function createJob(_: FormState, formData: FormData): Promise<FormS
             visible: true,
         }
 
-        const result = postJobSchema.safeParse(jobProps)
-        if (!result.success) {
-            return z.prettifyError(result.error)
-        }
-
         const announcementProps: PostAnnouncementPropsUnparsed = {
             title: formData.get('title') as string,
             description: formData.get('description') as string,
@@ -283,12 +278,12 @@ export async function createJob(_: FormState, formData: FormData): Promise<FormS
             active: true
         }
 
-        const resultEvent = postEventSchema.safeParse(jobProps)
-        const resultAnnouncement = postAnnouncementSchema.safeParse(announcementProps)
-        if (!resultEvent.success) {
-            return z.prettifyError(resultEvent.error)
+        const result = postJobSchema.safeParse(jobProps)
+        if (!result.success) {
+            return z.prettifyError(result.error)
         }
 
+        const resultAnnouncement = postAnnouncementSchema.safeParse(announcementProps)
         if (!resultAnnouncement.success && anyMandatoryFieldSet(announcementProps)) {
             return z.prettifyError(resultAnnouncement.error)
         }
