@@ -1,7 +1,7 @@
 'use client'
 
 import config from '@config'
-import { setCookie } from '@utils/cookies'
+import { removeCookie, setCookie } from '@utils/cookies'
 import { LogIn } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -19,6 +19,8 @@ export default function Login() {
                 if (!response.ok) {
                     setLoginUnavailable(true)
                 }
+
+                removeCookie('btg_name')
             } catch (error) {
                 console.log(error)
                 setLoginUnavailable(true)
