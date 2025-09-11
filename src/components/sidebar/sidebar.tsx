@@ -14,7 +14,7 @@ import {
     Smartphone,
 } from 'lucide-react'
 import { hexagons7 } from '@lucide/lab'
-import config from '@config'
+import SidebarVersion from './sidebarVersion'
 
 export default function Sidebar() {
     const path = usePathname()
@@ -91,25 +91,7 @@ export default function Sidebar() {
                     </Link>
                 ))}
             </div>
-            {typeof config.version !== 'undefined' ? (
-                <div className='absolute w-full bottom-4 flex justify-center'>
-                    <Link
-                        className={
-                            'inline-flex items-center gap-3 px-4 py-2 rounded-xl mx-4 ' +
-                            'bg-login-700 border-2 border-login-500 ' +
-                            'text-white text-center tracking-wide font-bold'
-                        }
-                        target='_blank'
-                        href={`${config.url.GITLAB_URL}/tekkom/web/beehive/queenbee/-/tags/${config.version}`}
-                        aria-label={`Queenbee version ${config.version}`}
-                    >
-                        <span className='hidden md:inline'>Version</span>
-                        <span className='bg-login-800 text-login-50 px-2 py-0.5 rounded-lg font-mono border border-login-400'>
-                            {config.version}
-                        </span>
-                    </Link>
-                </div>
-            ) : null}
+            <SidebarVersion />
         </div>
     )
 }

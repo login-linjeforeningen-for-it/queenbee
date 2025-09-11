@@ -7,16 +7,32 @@ export const config = {
 
 export async function middleware(req: NextRequest) {
     const tokenCookie = req.cookies.get('access_token')
+    let validToken = false
+
     if (!pathIsAllowedWhileUnauthorized(req.nextUrl.pathname)) {
         if (!tokenCookie) {
             return NextResponse.redirect(new URL('/', req.url))
         }
+
+        const btgCookie = req.cookies.get('btg_name')
+        const btg = btgCookie?.value
         const token = tokenCookie.value
-        const validToken = await tokenIsValid(token)
+
+        if (btg) {
+            validToken = await btgTokenIsValid(token, btg)
+            if (!validToken) {
+                return NextResponse.redirect(new URL('/logout', req.url))
+            }
+        }
+
         if (!validToken) {
-            return NextResponse.redirect(new URL('/logout', req.url))
+            validToken = await tokenIsValid(token)
+            if (!validToken) {
+                return NextResponse.redirect(new URL('/logout', req.url))
+            }
         }
     }
+
     const theme = req.cookies.get('theme')?.value || 'dark'
     const res = NextResponse.next()
     res.headers.set('x-theme', theme)
@@ -59,6 +75,32 @@ async function tokenIsValid(token: string): Promise<boolean> {
         return true
     } catch (error) {
         console.log(`API Error (middleware.ts): ${error}`, {
+            message: (error as Error).message,
+            stack: (error as Error).stack,
+        })
+
+        return false
+    }
+}
+
+async function btgTokenIsValid(token: string, name: string): Promise<boolean> {
+    try {
+        const response = await fetch(`${appConfig.url.TEKKOM_BOT_API_URL}/token`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                name,
+                btg: 'queenbee-btg',
+                middleware: 'true'
+            }
+        })
+
+        if (!response.ok) {
+            throw new Error(await response.text())
+        }
+
+        return true
+    } catch (error) {
+        console.log(`API BTG Error (middleware.ts): ${error}`, {
             message: (error as Error).message,
             stack: (error as Error).stack,
         })

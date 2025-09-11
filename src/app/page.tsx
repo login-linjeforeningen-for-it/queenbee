@@ -1,8 +1,7 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import Login from '@components/login/login'
-import config from '@config'
-import Link from 'next/link'
+import Version from '@components/version/version'
 
 export default async function Home() {
     const Cookies = await cookies()
@@ -12,7 +11,7 @@ export default async function Home() {
     }
 
     return (
-        <main className='h-full grid place-items-center p-4'>
+        <main className='h-full grid place-items-center p-4 relative'>
             <div>
                 <h1 className='text-2xl font-bold text-login text-center'>
                     QueenBee
@@ -20,18 +19,7 @@ export default async function Home() {
                 <p className='mt-2 text-foreground text-center font-semibold text-login-300'>Queenbee - Admintool</p>
                 <Login />
             </div>
-            {typeof config.version !== 'undefined' ? (
-                <Link
-                    className={
-                        'absolute right-4 bottom-4 bg-login-800 text-login-50 px-2 py-1 rounded-lg font-mono ' +
-                        'border border-login-400 rounded-md text-white tracking-[0.05em] font-semibold text-lg '
-                    }
-                    target='_blank'
-                    href={`${config.url.GITLAB_URL}/tekkom/web/beehive/queenbee/-/tags/${config.version}`}
-                >
-                    v{config.version}
-                </Link>
-            ) : null}
+            <Version />
         </main>
     )
 }

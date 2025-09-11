@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 const loginUrl = `${process.env.NEXT_PUBLIC_BROWSER_API}/oauth2/login`
 
 export default function Login() {
-    const [loginUnavailable, setLoginUnavailable] = useState(false)
+    const [loginUnavailable, setLoginUnavailable] = useState(true)
     const [errorMessage, setErrorMessage] = useState('')
 
     useEffect(() => {
@@ -45,9 +45,10 @@ export default function Login() {
                 throw new Error(await response.text())
             }
 
-            setCookie('name', name, 1)
+            setCookie('btg_name', name, 1)
             setCookie('access_token', token, 1)
-            setCookie('btg', token, 1)
+            setCookie('bot_access_token', token, 1)
+            document.location.href = `login?access_token=${token}&btg=true`
         } catch (error) {
             setErrorMessage(error instanceof Error
                 ? error.message.includes('Unauthorized')
