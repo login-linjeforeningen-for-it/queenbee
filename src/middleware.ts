@@ -6,7 +6,7 @@ export const config = {
 }
 
 export async function middleware(req: NextRequest) {
-    const tokenCookie = req.cookies.get('access_token')
+    /* const tokenCookie = req.cookies.get('access_token')
     if (!pathIsAllowedWhileUnauthorized(req.nextUrl.pathname)) {
         if (!tokenCookie) {
             return NextResponse.redirect(new URL('/', req.url))
@@ -16,14 +16,14 @@ export async function middleware(req: NextRequest) {
         if (!validToken) {
             return NextResponse.redirect(new URL('/logout', req.url))
         }
-    }
+    } */
     const theme = req.cookies.get('theme')?.value || 'dark'
     const res = NextResponse.next()
     res.headers.set('x-theme', theme)
     return res
 }
 
-function pathIsAllowedWhileUnauthorized(path: string) {
+/* function pathIsAllowedWhileUnauthorized(path: string) {
     if (path === '/' || path === '/favicon.ico') {
         return true
     }
@@ -40,9 +40,9 @@ function pathIsAllowedWhileUnauthorized(path: string) {
     }
 
     return false
-}
+} */
 
-async function tokenIsValid(token: string): Promise<boolean> {
+/* async function tokenIsValid(token: string): Promise<boolean> {
     try {
         const response = await fetch(`${appConfig.url.API_URL}/events`, {
             headers: { Authorization: `Bearer ${token}` },
@@ -66,3 +66,4 @@ async function tokenIsValid(token: string): Promise<boolean> {
         return false
     }
 }
+ */
