@@ -37,7 +37,7 @@ export default function AnnouncementFormInputsClient({
         title: defaultValues?.title ?? '',
         description: defaultValues?.description ?? '',
         channel: defaultValues?.channel ?? '',
-        roles: defaultValues?.roles.join(' ') ?? '',
+        roles: defaultValues?.roles?.join(' ') ?? '',
         embed: defaultValues?.embed ?? true,
         color: defaultValues?.color ?? '',
         interval: defaultValues?.interval ?? '',
