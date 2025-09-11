@@ -8,7 +8,7 @@ export default async function JobFormInputs({
     defaultValues?: GetJobProps
     parent?: { preview?: boolean }
 }) {
-    const organizationsResponse = await getOrganizations()
+    const organizationsResponse = await getOrganizations(0, 100)
     // prettier-ignore
     const organizations = Array.isArray(organizationsResponse)
         ? organizationsResponse.map((organization) => ({
