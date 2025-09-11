@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 const loginUrl = `${process.env.NEXT_PUBLIC_BROWSER_API}/oauth2/login`
 
 export default function Login() {
-    const [loginUnavailable, setLoginUnavailable] = useState(true)
+    const [loginUnavailable, setLoginUnavailable] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
 
     useEffect(() => {
