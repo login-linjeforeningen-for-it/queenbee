@@ -36,7 +36,7 @@ export default [
             '@stylistic/max-len': [
                 'error',
                 {
-                    code: 120,
+                    code: 140,
                     ignoreComments: true,
                     ignoreUrls: true,
                 },

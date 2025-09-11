@@ -44,6 +44,7 @@ const config = {
         API_URL: env.API_URL || 'https://api.queenbee.login.no/v1',
         CDN_URL: env.CDN_URL || 'https://cdn.login.no',
         TEKKOM_BOT_API_URL: env.NEXT_PUBLIC_TEKKOM_BOT_API_URL || 'https://api.tekkom-bot.login.no/api',
+        GITLAB_URL: 'https://gitlab.login.no',
     },
     firebase: {
         type: env.TYPE,
