@@ -350,7 +350,6 @@ export default function JobFormInputsClient({
                     })
                 }
                 className='col-span-2'
-                required
             />
             <Announce channels={channels} roles={roles} />
         </div>

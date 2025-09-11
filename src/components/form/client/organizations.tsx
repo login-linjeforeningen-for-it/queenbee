@@ -180,7 +180,6 @@ export default function OrganizationFormInputsClient({
                     })
                 }
                 className='col-span-2'
-                required
             />
         </div>
     )

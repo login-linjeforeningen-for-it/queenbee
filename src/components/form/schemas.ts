@@ -70,7 +70,7 @@ export const postOrganizationSchema = z.object({
     link_homepage: z.string().min(1),
     link_instagram: z.string().optional(),
     link_linkedin: z.string().optional(),
-    logo: z.string().min(1),
+    logo: z.string().nullish(),
     name_en: z.string().min(1),
     name_no: z.string().min(1),
     shortname: z.string().min(1),
