@@ -387,7 +387,23 @@ type PostAnnouncementProps = {
     active: true
 }
 
+type PostAnnouncementPropsUnparsed = {
+    title: string
+    description: string
+    channel: string
+    roles: string
+    embed: boolean
+    color: string
+    interval: string
+    time: string | null
+    active: true
+}
+
 type PutAnnouncementProps = PostAnnouncementProps & {
+    id: number
+}
+
+type PutAnnouncementPropsUnparsed = PostAnnouncementPropsUnparsed & {
     id: number
 }
 

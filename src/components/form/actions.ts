@@ -114,11 +114,11 @@ export async function createEvent(_: FormState, formData: FormData): Promise<For
             visible: true,
         }
 
-        const announcementProps: PostAnnouncementProps = {
+        const announcementProps: PostAnnouncementPropsUnparsed = {
             title: formData.get('title') as string,
             description: formData.get('description') as string,
             channel: formData.get('channel') as string,
-            roles: (formData.get('roles') as string)?.split(' '),
+            roles: formData.get('roles') as string,
             embed: formData.get('embed') as embed_type === 'on',
             color: formData.get('color') as string,
             interval: formData.get('interval') as string,
@@ -131,14 +131,14 @@ export async function createEvent(_: FormState, formData: FormData): Promise<For
         if (!resultEvent.success) {
             return z.prettifyError(resultEvent.error)
         }
+
         if (!resultAnnouncement.success && anyMandatoryFieldSet(announcementProps)) {
             return z.prettifyError(resultAnnouncement.error)
         }
 
         const response = await postEvent(eventProps)
-        if (resultAnnouncement.success) {
-            const announcement = await postAnnouncement(announcementProps)
-            return [response, announcement].join(', ')
+        if (anyMandatoryFieldSet(announcementProps)) {
+            await postAnnouncement({ ...announcementProps, roles: announcementProps.roles.split(' ') })
         }
 
         return response
@@ -271,11 +271,11 @@ export async function createJob(_: FormState, formData: FormData): Promise<FormS
             return z.prettifyError(result.error)
         }
 
-        const announcementProps: PostAnnouncementProps = {
+        const announcementProps: PostAnnouncementPropsUnparsed = {
             title: formData.get('title') as string,
             description: formData.get('description') as string,
             channel: formData.get('channel') as string,
-            roles: (formData.get('roles') as string).split(' '),
+            roles: formData.get('roles') as string,
             embed: formData.get('embed') as embed_type === 'on',
             color: formData.get('color') as string,
             interval: formData.get('interval') as string,
@@ -288,14 +288,14 @@ export async function createJob(_: FormState, formData: FormData): Promise<FormS
         if (!resultEvent.success) {
             return z.prettifyError(resultEvent.error)
         }
+
         if (!resultAnnouncement.success && anyMandatoryFieldSet(announcementProps)) {
             return z.prettifyError(resultAnnouncement.error)
         }
 
         const response = await postJob(jobProps)
-        if (resultAnnouncement.success) {
-            const announcement = await postAnnouncement(announcementProps)
-            return [response, announcement].join(', ')
+        if (anyMandatoryFieldSet(announcementProps)) {
+            await postAnnouncement({ ...announcementProps, roles: announcementProps.roles.split(' ') })
         }
 
         return response
@@ -527,11 +527,11 @@ export async function createAnnouncement(_: FormState, formData: FormData): Prom
     try {
         const date = formData.get('publish_date') as string
         const time = formData.get('publish_time') as string
-        const announcementProps: PostAnnouncementProps = {
+        const announcementProps: PostAnnouncementPropsUnparsed = {
             title: formData.get('title') as string,
             description: formData.get('description') as string,
             channel: formData.get('channel') as string,
-            roles: (formData.get('roles') as string).split(' '),
+            roles: formData.get('roles') as string,
             embed: formData.get('embed') as embed_type === 'on',
             color: formData.get('color') as string,
             interval: formData.get('interval') as string,
@@ -544,7 +544,7 @@ export async function createAnnouncement(_: FormState, formData: FormData): Prom
             return z.prettifyError(result.error)
         }
 
-        const response = await postAnnouncement(announcementProps)
+        const response = await postAnnouncement({ ...announcementProps, roles: announcementProps.roles.split(' ') })
         return response
     } catch (error) {
         console.log('Error creating announcement:', error)
@@ -556,12 +556,12 @@ export async function updateAnnouncement(_: FormState, formData: FormData): Prom
     try {
         const date = formData.get('publish_date') as string
         const time = formData.get('publish_time') as string
-        const announcementProps: PutAnnouncementProps = {
+        const announcementProps: PutAnnouncementPropsUnparsed = {
             id: Number(formData.get('id')),
             title: formData.get('title') as string,
             description: formData.get('description') as string,
             channel: formData.get('channel') as string,
-            roles: (formData.get('roles') as string).split(' '),
+            roles: formData.get('roles') as string,
             embed: formData.get('embed') as embed_type === 'on',
             color: formData.get('color') as string,
             interval: formData.get('interval') as string,
@@ -574,7 +574,7 @@ export async function updateAnnouncement(_: FormState, formData: FormData): Prom
             return z.prettifyError(result.error)
         }
 
-        const response = await putAnnouncement(announcementProps)
+        const response = await putAnnouncement({ ...announcementProps, roles: announcementProps.roles.split(' ') })
         return response
     } catch (error) {
         console.log('Error updating announcement:', error)

@@ -112,6 +112,7 @@ export const postAnnouncementSchema = z.object({
     title: z.string().min(1),
     description: z.string().min(1),
     channel: z.string().min(1),
+    roles: z.string().optional(),
     embed: z.boolean().optional(),
     color: z.string().optional(),
     interval: z.string().optional(),

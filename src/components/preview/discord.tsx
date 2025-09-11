@@ -11,6 +11,7 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
     const [color, setColor] = useState('')
     const formattedColor = formatColor(color)
     const boxRef = useRef<HTMLDivElement>(null)
+
     useEffect(() => {
         if (boxRef.current) {
             const el = boxRef.current
@@ -87,8 +88,8 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
                     {/* Optional Embed */}
                     {embed ? (
                         <div>
-                            {Roles.length > 0 && (
-                                <p className='font-semibold text-foreground'>{roleNames}</p>
+                            {Roles.length > 0 && Roles[0].length > 0 && (
+                                <p className='text-foreground'>{roleNames}</p>
                             )}
                             <div
                                 className='p-3 mt-2 rounded-lg'

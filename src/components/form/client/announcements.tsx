@@ -147,7 +147,6 @@ export default function AnnouncementFormInputsClient({
                 options={roles}
                 color={color}
                 value={formValues.roles || ''}
-                required={required}
                 setValue={(input) =>
                     setFormValues({
                         ...formValues,
