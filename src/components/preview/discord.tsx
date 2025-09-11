@@ -46,7 +46,7 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
         return <></>
     }
 
-    const channelName = channels.find((c) => c.value === channel)?.label
+    const channelName = channels?.find((c) => c.value === channel)?.label
     const roleNames = Roles.map((role) => `@${roles.find((r) => r.value === role)?.label}`).join(' ')
 
     return (

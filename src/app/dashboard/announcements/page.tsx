@@ -110,7 +110,7 @@ export default async function Page() {
 function TempSort({ tempSort, channels, roles }: { tempSort: object[], channels: Channel[], roles: Role[] }) {
     (tempSort as Announcement[]).forEach((announcement) => {
         (announcement.sent as unknown as string) = announcement.sent ? 'true' : 'false'
-        announcement.channel = channels.find((c) => c.value === announcement.channel)?.label
+        announcement.channel = channels?.find((c) => c.value === announcement.channel)?.label
         announcement.roles?.forEach((role) => roles.find((r) => r.value === role)?.label)
     })
 
