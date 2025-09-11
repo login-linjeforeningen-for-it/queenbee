@@ -633,3 +633,11 @@ type Role = {
     label: string
     value: string
 }
+
+type DashboardTotalStats = {
+    events: number
+    jobs: number
+    announcements: number
+    organizations: number
+    locations: number
+}
