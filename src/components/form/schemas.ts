@@ -42,7 +42,7 @@ export const patchEventSchema = postEventSchema.extend({
 export const postJobSchema = z.object({
     application_deadline: z.iso.datetime({ offset: true }),
     application_url: z.string().min(1),
-    banner_image: z.string().min(1),
+    banner_image: z.string().nullable(),
     description_long_en: z.string().min(1),
     description_long_no: z.string().min(1),
     description_short_en: z.string().min(1),
