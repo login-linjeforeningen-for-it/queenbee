@@ -2,7 +2,6 @@
 
 import { usePathname, useRouter } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
-import { FormState } from './actions'
 import CustomForm from './form'
 import {
     Children,
@@ -24,10 +23,8 @@ type FormWrapperProps = {
     type: 'create' | 'update'
     id?: string
     preview?: boolean
-    formAction: (
-        prevState: FormState,
-        formData: FormData
-    ) => FormState | Promise<FormState>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    formAction: ( prevState: any, formData: FormData ) => any | Promise<any>
     children: ReactElement<ChildProps> | ReactElement<ChildProps>[]
     channels?: Channel[]
     roles?: Role[]
