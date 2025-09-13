@@ -2,7 +2,6 @@
 
 import { toast } from 'sonner'
 import Form from 'next/form'
-import { FormState } from './actions'
 import { useActionState, useEffect, useState } from 'react'
 import { Save } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
@@ -11,14 +10,13 @@ type ContentFormProps = {
     name: FormName
     type: 'create' | 'update'
     id?: string
-    formAction: (
-        prevState: FormState,
-        formData: FormData
-    ) => FormState | Promise<FormState>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    formAction: ( prevState: any, formData: FormData ) => any | Promise<any>
     children: React.ReactNode
 }
 
-const initialState: FormState = null
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const initialState: any = null
 
 export default function CustomForm({
     name,

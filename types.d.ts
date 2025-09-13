@@ -611,6 +611,7 @@ type FormName =
     | 'location'
     | 'rule'
     | 'announcement'
+    | 'form'
 
 type Announcement = {
     id: string

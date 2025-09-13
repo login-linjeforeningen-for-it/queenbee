@@ -22,7 +22,7 @@ services:
                 NEXT_PUBLIC_TEKKOM_BOT_API_URL: ${NEXT_PUBLIC_TEKKOM_BOT_API_URL}
                 CDN_URL: 'https://cdn.login.no'
         ports:
-            - '3001:3000'
+            - '3000:3000'
         environment:
             API_URL: ${API_URL}
             NEXT_PUBLIC_BROWSER_API: ${NEXT_PUBLIC_BROWSER_API}
