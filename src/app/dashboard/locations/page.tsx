@@ -1,6 +1,6 @@
 import { deleteLocation, getLocations } from '@utils/api'
 import Alert from '@components/alert/alert'
-import Button from '@components/userInput/button'
+import Button from '@components/button/button'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import LocationOption from '@components/locationOption/locationOption'

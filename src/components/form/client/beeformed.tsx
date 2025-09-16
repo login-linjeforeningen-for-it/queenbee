@@ -1,7 +1,7 @@
 'use client'
 
 import Input from '@components/inputs/input'
-import Button from '@components/userInput/button'
+import Button from '@components/button/button'
 import { useState } from 'react'
 
 export default function BeeFormedInputsClient({

@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react'
 import Label from './label'
 import ToolTip from './tooltip'
-import MarkdownRender from '../userInput/markdownRender'
+import MarkdownRender from '../markdown/markdownRender'
 
 type MarkdownProps = {
     name: string

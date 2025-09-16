@@ -2,7 +2,7 @@
 
 import Input from '@components/inputs/input'
 import Markdown from '@components/inputs/markdown'
-import Button from '@components/userInput/button'
+import Button from '@components/button/button'
 import { useState } from 'react'
 
 export default function RuleFormInputsClient({
