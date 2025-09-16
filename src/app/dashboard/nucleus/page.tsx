@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import Input from '@components/inputs/input'
 import { Send } from 'lucide-react'
-import Button from '@components/userInput/button'
+import Button from '@components/button/button'
 import Preview from '@components/preview/preview'
 
 export default function page() {

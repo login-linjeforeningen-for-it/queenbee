@@ -3,7 +3,7 @@
 import Input from '@components/inputs/input'
 import Markdown from '@components/inputs/markdown'
 import Select from '@components/inputs/select'
-import Button from '@components/userInput/button'
+import Button from '@components/button/button'
 import { useState } from 'react'
 
 export default function OrganizationFormInputsClient({
