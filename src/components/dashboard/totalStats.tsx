@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-export default function DashboardStats({ stats }: { stats: DashboardTotalStats }) {
+export default function TotalStats({ stats }: { stats: DashboardTotalStats }) {
     return (
         <div className='mt-4 grid grid-cols-2 md:grid-cols-5 gap-4'>
             <div className='p-4 bg-white/5 rounded-md flex flex-col justify-center h-24'>
