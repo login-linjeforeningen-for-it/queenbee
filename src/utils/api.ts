@@ -335,17 +335,10 @@ export async function getAnnouncement(
     return await getWrapper({ path, custom: 'tekkom' })
 }
 
-export async function getAnnouncements(
-    offset: number | number = 0,
-    limit?: number
-) {
-    const queryParts = new URLSearchParams({
-        offset: String(offset),
-    })
-    if (limit) queryParts.append('limit', String(limit))
-
-    const path = `${config.tekkomBotApi.ANNOUNCEMENT_PATH}?${queryParts.toString()}`
-    return await getWrapper({ path, custom: 'tekkom' })
+export async function getAnnouncements() {
+    const path = config.tekkomBotApi.ANNOUNCEMENT_PATH
+    const data = await getWrapper({ path, custom: 'tekkom' })
+    return data
 }
 
 export async function postAnnouncement(
@@ -384,13 +377,17 @@ async function getWrapper({ path, options = {}, custom }: GetWrapperProps) {
     const token = custom === 'tekkom' ? bot_access_token : access_token
     const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
 
-    const defaultOptions = {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-        },
+    const baseHeaders = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
     }
+
+    const headers = custom === 'tekkom' ? {
+        ...baseHeaders,
+        btg: 'tekkom-bot'
+    } : baseHeaders
+
+    const defaultOptions = { method: 'GET', headers }
     const finalOptions = { ...defaultOptions, ...options }
 
     try {

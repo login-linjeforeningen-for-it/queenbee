@@ -43,7 +43,7 @@ export default async function Page() {
         ? channelsResponse.map((channel) => ({ label: channel.name, value: channel.id }))
         : []
     const roles = Array.isArray(rolesResponse)
-        ? rolesResponse.map((role) => ({ label: role.name, value: role.id }))
+        ? rolesResponse.map((role) => ({ label: role.name, value: role.id, color: role.color }))
         : []
     const tempSort = Array.isArray(list) ? list : []
 
@@ -111,7 +111,7 @@ function TempSort({ tempSort, channels, roles }: { tempSort: object[], channels:
     (tempSort as Announcement[]).forEach((announcement) => {
         (announcement.sent as unknown as string) = announcement.sent ? 'true' : 'false'
         announcement.channel = channels?.find((c) => c.value === announcement.channel)?.label
-        announcement.roles?.forEach((role) => roles.find((r) => r.value === role)?.label)
+        announcement.roles = announcement.roles?.map((role) => roles.find((r) => r.value === role)?.label || '') ?? []
     })
 
     if (

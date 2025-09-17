@@ -16,7 +16,7 @@ export default async function Page({
     const rolesResponse = await getRoles()
     const channelsResponse = await getChannels()
     const roles = Array.isArray(rolesResponse)
-        ? rolesResponse.map((role) => ({ label: role.name, value: role.id }))
+        ? rolesResponse.map((role) => ({ label: role.name, value: role.id, color: role.color }))
         : []
     const channels = Array.isArray(channelsResponse)
         ? channelsResponse.map((channel) => ({ label: channel.name, value: channel.id }))
@@ -51,6 +51,7 @@ export default async function Page({
                         preview={true}
                         formAction={updateAnnouncement}
                         roles={roles}
+                        channels={channels}
                     >
                         <AnnouncementFormInputs defaultValues={announcement} />
                     </FormWrapper>
@@ -65,6 +66,7 @@ export default async function Page({
                 preview={true}
                 formAction={createAnnouncement}
                 roles={roles}
+                channels={channels}
             >
                 <AnnouncementFormInputs />
             </FormWrapper>

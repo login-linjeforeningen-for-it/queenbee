@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { Markdown } from './markdown'
 
 export default function DiscordPreview({ channels, roles }: { channels: Channel[], roles: Role[] }) {
     const [title, setTitle] = useState('')
@@ -47,7 +48,17 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
     }
 
     const channelName = channels?.find((c) => c.value === channel)?.label
-    const roleNames = Roles.map((role) => `@${roles.find((r) => r.value === role)?.label}`).join(' ')
+    let roleColor = '#fd8738'
+    const roleNames = Roles.map((role) => {
+        const match = roles.find((r) => r.value === role)
+        if (match !== undefined) {
+            roleColor = match.color
+            return `@${match.label}`
+        }
+
+        return undefined
+    }).join(' ')
+    const ping = Roles.length > 0 && Roles[0].length > 0
 
     return (
         <div className={
@@ -57,7 +68,15 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
             {/* Channel Name */}
             <p className='text-[#72767d] text-sm mb-2'># {channelName}</p>
 
-            <div className='flex rounded-md p-3 gap-2'>
+            <div
+                className={`flex rounded-md p-3 gap-2 ${ping && 'border-l-2 border-login bg-login/15'}`}
+                style={{
+                    borderLeft: ping ? `4px solid ${formattedColor}` : 'none',
+                    borderTop: 'none',
+                    borderRight: '12px solid #00000000',
+                    borderBottom: 'none'
+                }}
+            >
                 <div className='w-12 h-12 aspect-square relative'>
                     <Image
                         src='/images/tekkom.png'
@@ -87,9 +106,9 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
                     </div>
                     {/* Optional Embed */}
                     {embed ? (
-                        <div>
-                            {Roles.length > 0 && Roles[0].length > 0 && (
-                                <p className='text-foreground'>{roleNames}</p>
+                        <div className='mt-1'>
+                            {ping && (
+                                <Ping color={roleColor} names={roleNames} />
                             )}
                             <div
                                 className='p-3 mt-2 rounded-lg'
@@ -97,24 +116,28 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
                                     backgroundColor: '#2f3136',
                                     borderLeft: embed ? `4px solid ${formattedColor}` : 'none',
                                     borderTop: 'none',
-                                    borderRight: '12px solid #2f3136',
+                                    borderRight: '12px solid #00000000',
                                     borderBottom: 'none'
                                 }}
                             >
                                 {title && (
-                                    <p className='font-semibold text-foreground'>{title}</p>
+                                    <div className='max-w-100 break-words overflow-hidden'>
+                                        <Markdown className='font-semibold text-foreground' markdown={format(title, roles)} />
+                                    </div>
                                 )}
                                 {description && (
-                                    <p className='text-[#dcddde] mt-1'>{description}</p>
+                                    <div className='max-w-100 break-words overflow-hidden -mb-1 text-[#dcddde]'>
+                                        <Markdown markdown={format(description, roles)} />
+                                    </div>
                                 )}
                             </div>
                         </div>
                     ) : <div className='grid'>
                         <span className='font-semibold text-foreground'>
-                            {title}
+                            <Markdown markdown={format(title, roles)} />
                         </span>
-                        <span className='text-[#dcddde]'>
-                            {description}
+                        <span className='text-[#dcddde] max-w-100 break-words overflow-hidden'>
+                            <Markdown markdown={format(description, roles)} />
                         </span>
                     </div>}
                 </div>
@@ -135,4 +158,54 @@ function formatColor(color: string) {
     // Otherwise, treat as hex
     if (!normalized.startsWith('#')) return `#${normalized}`
     return normalized
+}
+
+function Ping({ color, names }: { color: string, names: string }) {
+    return (
+        <p
+            style={{ color: color, backgroundColor: `${color}26` }}
+            className='text-foreground w-fit rounded-sm px-1'>{names}
+        </p>
+    )
+}
+
+function format(text: string, roles: Role[]): string {
+    const regex = /<@&(\d+)>/g
+    let lastIndex = 0
+    let match: RegExpExecArray | null
+    let result = ''
+
+    while ((match = regex.exec(text)) !== null) {
+        const roleId = match[1]
+        const start = match.index
+
+        if (start > lastIndex) {
+            result += text.slice(lastIndex, start)
+        }
+
+        const role = roles.find(r => r.value === roleId)
+        if (role) {
+            const bgColor = `${role.color}26`
+            const style = `color: ${role.color}; background-color: ${bgColor}; padding: 0.2rem; border-radius: 0.375rem;`
+            result += `<span style="${style}">@${escapeHtml(role.label)}</span>`
+        } else {
+            result += match[0]
+        }
+
+        lastIndex = regex.lastIndex
+    }
+
+    if (lastIndex < text.length) {
+        result += text.slice(lastIndex)
+    }
+
+    return result
+}
+
+function escapeHtml(str: string): string {
+    return str.replace(/&/g, '&amp')
+        .replace(/</g, '&lt')
+        .replace(/>/g, '&gt')
+        .replace(/"/g, '&quot')
+        .replace(/'/g, '&#39')
 }
