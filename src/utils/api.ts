@@ -349,7 +349,7 @@ export async function getAnnouncements(
 
     const path = `${config.tekkomBotApi.ANNOUNCEMENT_PATH}?${queryParts.toString()}`
     const data = await getWrapper({ path, custom: 'tekkom' })
-    console.log(`Fetched from api\nPath: ${path}\nData: ${data}`)
+    console.log(`Fetched from api\nPath: ${path}\nData: ${JSON.stringify(data)}`)
     return data
 }
 
