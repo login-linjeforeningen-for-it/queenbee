@@ -342,10 +342,15 @@ export async function getAnnouncements(
     const queryParts = new URLSearchParams({
         offset: String(offset),
     })
-    if (limit) queryParts.append('limit', String(limit))
+
+    if (limit) {
+        queryParts.append('limit', String(limit))
+    }
 
     const path = `${config.tekkomBotApi.ANNOUNCEMENT_PATH}?${queryParts.toString()}`
-    return await getWrapper({ path, custom: 'tekkom' })
+    const data = await getWrapper({ path, custom: 'tekkom' })
+    console.log(`Fetched from api\nPath: ${path}\nData: ${data}`)
+    return data
 }
 
 export async function postAnnouncement(
