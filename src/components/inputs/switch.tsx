@@ -21,10 +21,7 @@ export default function Switch({
 }: SwitchProps) {
     return (
         <div
-            className={
-                'relative w-full flex items-center p-2 ' +
-                `border-login-200 rounded-lg border-[0.10rem] ${className}`
-            }
+            className={`relative w-full flex items-center p-2 border-login-200 rounded-lg border-[0.10rem] ${className || ''}`}
         >
             <label className='flex items-center cursor-pointer'>
                 <input
@@ -36,8 +33,8 @@ export default function Switch({
                 />
                 <div
                     className={
-                        'w-10 h-6 bg-login-200 rounded-full p-1 ' +
-                        `transition ${value ? 'bg-login-50' : ''}`
+                        'w-10 h-6  rounded-full p-1 ' +
+                        `transition ${value ? 'bg-login-50' : 'bg-login-200'}`
                     }
                 >
                     <div
