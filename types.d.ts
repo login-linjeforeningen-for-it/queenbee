@@ -644,11 +644,13 @@ type Channel = {
 type RoleResponse = {
     name: string
     id: string
+    color: string
 }
 
 type Role = {
     label: string
     value: string
+    color: string
 }
 
 type DashboardTotalStats = {

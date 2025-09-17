@@ -51,6 +51,7 @@ export default function AnnouncementFormInputsClient({
             const event = new CustomEvent('customStorageChange', {
                 detail: { key, value }
             })
+
             window.dispatchEvent(event)
         }
 
@@ -227,8 +228,11 @@ export default function AnnouncementFormInputsClient({
 const sampleAnnouncement = {
     title: '🍹 Mocktailkurs på Login Loungen',
     description:
-        'Hei @<Login-Verv>! Det arrangeres mocktailkurs på Login ' +
-        'Loungen i dag kl 15.',
+        `Hei <@&1143326743508308032>! Det arrangeres mocktailkurs på Login Loungen i dag kl 15.
+
+\`\`\`ts
+const a = 5
+\`\`\``,
     channel: '940907390629449769',
     roles: '1143326743508308032',
     embed: true,

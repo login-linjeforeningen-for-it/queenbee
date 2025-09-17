@@ -92,7 +92,7 @@ export default async function EventFormInputs({
 
     const rolesResponse = await getRoles()
     const roles = Array.isArray(rolesResponse)
-        ? rolesResponse.map((role) => ({ label: role.name, value: role.id }))
+        ? rolesResponse.map((role) => ({ label: role.name, value: role.id, color: role.color }))
         : []
 
     const channelsResponse = await getChannels()

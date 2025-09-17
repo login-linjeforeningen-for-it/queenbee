@@ -43,7 +43,7 @@ export default async function Page() {
         ? channelsResponse.map((channel) => ({ label: channel.name, value: channel.id }))
         : []
     const roles = Array.isArray(rolesResponse)
-        ? rolesResponse.map((role) => ({ label: role.name, value: role.id }))
+        ? rolesResponse.map((role) => ({ label: role.name, value: role.id, color: role.color }))
         : []
     const tempSort = Array.isArray(list) ? list : []
 
