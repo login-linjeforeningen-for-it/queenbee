@@ -1,5 +1,5 @@
 import { getJob } from '@utils/api'
-import { createJob, updateJob } from '@components/form/actions'
+import { createJob, updateJob } from '@components/form/actions/jobs'
 import FormWrapper from '@components/form/wrapper'
 import JobFormInputs from '@components/form/server/jobs'
 import { notFound } from 'next/navigation'

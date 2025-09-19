@@ -1,5 +1,5 @@
 import { getEvent } from '@utils/api'
-import { createEvent, updateEvent } from '@components/form/actions'
+import { createEvent, updateEvent } from '@components/form/actions/events'
 import FormWrapper from '@components/form/wrapper'
 import EventFormInputs from '@components/form/server/events'
 import { notFound } from 'next/navigation'

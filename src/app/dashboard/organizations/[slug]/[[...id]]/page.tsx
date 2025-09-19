@@ -2,7 +2,7 @@ import { getOrganization } from '@utils/api'
 import {
     createOrganization,
     updateOrganization,
-} from '@components/form/actions'
+} from '@components/form/actions/organizations'
 import FormWrapper from '@components/form/wrapper'
 import { notFound } from 'next/navigation'
 import OrganizationFormInputs from '@components/form/server/organizations'
