@@ -161,7 +161,7 @@ type PostEventProps = {
     visible: boolean
 }
 
-type PatchEventProps = PostEventProps & {
+type PutEventProps = PostEventProps & {
     id: number
 }
 
@@ -229,7 +229,7 @@ type PostJobProps = {
     visible: boolean
 }
 
-type PatchJobProps = PostJobProps & {
+type PutJobProps = PostJobProps & {
     id: number
 }
 
@@ -275,7 +275,7 @@ type PostOrganizationProps = {
     type: number
 }
 
-type PatchOrganizationProps = PostOrganizationProps
+type PutOrganizationProps = PostOrganizationProps
 
 // Locations
 type GetLocationsProps = {
@@ -329,7 +329,7 @@ type PostLocationProps = {
     url: string
 }
 
-type PatchLocationProps = PostLocationProps & {
+type PutLocationProps = PostLocationProps & {
     id: number
 }
 
@@ -359,7 +359,7 @@ type PostRuleProps = {
     name_no: string
 }
 
-type PatchRuleProps = PostRuleProps & {
+type PutRuleProps = PostRuleProps & {
     id: number
 }
 

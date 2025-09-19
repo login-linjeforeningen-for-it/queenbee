@@ -1,14 +1,14 @@
 'use server'
 
 import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
-import { patchEvent, postAnnouncement, postEvent } from '@utils/api'
+import { putEvent, postAnnouncement, postEvent } from '@utils/api'
 import { timeZoneOffset } from '@utils/timeZone'
 
 export type FormState =
     | null
     | string
     | PostEventProps
-    | PatchEventProps
+    | PutEventProps
 
 export async function createEvent(_: FormState, formData: FormData): Promise<FormState> {
     try {
@@ -103,7 +103,7 @@ export async function createEvent(_: FormState, formData: FormData): Promise<For
 export async function updateEvent(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const timeZone = timeZoneOffset()
-        const eventProps: PatchEventProps = {
+        const eventProps: PutEventProps = {
             id: Number(formData.get('id')),
             canceled: false,
             capacity: Number(formData.get('capacity')),
@@ -166,7 +166,7 @@ export async function updateEvent(_: FormState, formData: FormData): Promise<For
             visible: true,
         }
 
-        const response = await patchEvent(eventProps)
+        const response = await putEvent(eventProps)
         return response
     } catch (error) {
         console.log('Error updating event:', error)

@@ -1,14 +1,14 @@
 'use server'
 
 import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
-import { patchJob, postAnnouncement, postJob } from '@utils/api'
+import { putJob, postAnnouncement, postJob } from '@utils/api'
 import { timeZoneOffset } from '@utils/timeZone'
 
 export type FormState =
     | null
     | string
     | PostJobProps
-    | PatchJobProps
+    | PutJobProps
 
 export async function createJob(_: FormState, formData: FormData): Promise<FormState> {
     try {
@@ -76,7 +76,7 @@ export async function createJob(_: FormState, formData: FormData): Promise<FormS
 export async function updateJob(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const timeZone = timeZoneOffset()
-        const jobProps: PatchJobProps = {
+        const jobProps: PutJobProps = {
             id: Number(formData.get('id')),
             application_deadline:
                 formData.get('deadline_date') && formData.get('deadline_time')
@@ -113,7 +113,7 @@ export async function updateJob(_: FormState, formData: FormData): Promise<FormS
             visible: true,
         }
 
-        const response = await patchJob(jobProps)
+        const response = await putJob(jobProps)
         return response
     } catch (error) {
         console.log('Error updating job:', error)

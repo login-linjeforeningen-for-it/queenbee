@@ -1,12 +1,12 @@
 'use server'
 
-import { patchRule, postRule } from '@utils/api'
+import { putRule, postRule } from '@utils/api'
 
 export type FormState =
     | null
     | string
     | PostRuleProps
-    | PatchRuleProps
+    | PutRuleProps
 
 export async function createRule(_: FormState, formData: FormData): Promise<FormState> {
     try {
@@ -27,7 +27,7 @@ export async function createRule(_: FormState, formData: FormData): Promise<Form
 
 export async function updateRule(_: FormState, formData: FormData): Promise<FormState> {
     try {
-        const ruleProps: PatchRuleProps = {
+        const ruleProps: PutRuleProps = {
             id: Number(formData.get('id')),
             name_en: formData.get('name_en') as string,
             name_no: formData.get('name_no') as string,
@@ -35,7 +35,7 @@ export async function updateRule(_: FormState, formData: FormData): Promise<Form
             description_no: formData.get('description_no') as string,
         }
 
-        const response = await patchRule(ruleProps)
+        const response = await putRule(ruleProps)
         return response
     } catch (error) {
         console.log('Error updating rule:', error)

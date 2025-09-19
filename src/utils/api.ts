@@ -29,13 +29,6 @@ type PutWrapperProps = {
     custom?: string
 }
 
-type PatchWrapperProps = {
-    path: string
-    data?: object
-    options?: object
-    custom?: string
-}
-
 // Events
 export async function getEvents(
     limit: number | number = 10,
@@ -66,11 +59,11 @@ export async function deleteEvent(id: number) {
     return await deleteWrapper({ path })
 }
 
-export async function patchEvent(
-    body: PatchEventProps
-): Promise<PatchEventProps | string> {
+export async function putEvent(
+    body: PutEventProps
+): Promise<PutEventProps | string> {
     const path = `${config.beehiveApi.EVENTS_PATH}`
-    return await patchWrapper({ path, data: body })
+    return await putWrapper({ path, data: body })
 }
 
 // Events - Categories
@@ -162,11 +155,11 @@ export async function deleteJob(id: number) {
     return await deleteWrapper({ path })
 }
 
-export async function patchJob(
-    body: PatchJobProps
-): Promise<PatchJobProps | string> {
+export async function putJob(
+    body: PutJobProps
+): Promise<PutJobProps | string> {
     const path = `${config.beehiveApi.JOBADS_PATH}`
-    return await patchWrapper({ path, options: body })
+    return await putWrapper({ path, options: body })
 }
 
 // Jobs - Images
@@ -227,11 +220,11 @@ export async function deleteLocation(id: number) {
     return await deleteWrapper({ path })
 }
 
-export async function patchLocation(
-    body: PatchLocationProps
-): Promise<PatchLocationProps | string> {
+export async function putLocation(
+    body: PutLocationProps
+): Promise<PutLocationProps | string> {
     const path = `${config.beehiveApi.LOCATIONS_PATH}`
-    return await patchWrapper({ path, data: body })
+    return await putWrapper({ path, data: body })
 }
 
 // Organizations
@@ -265,12 +258,12 @@ export async function deleteOrganization(shortname: string) {
     return await deleteWrapper({ path })
 }
 
-export async function patchOrganization(
+export async function putOrganization(
     shortname: string,
-    body: PatchOrganizationProps
-): Promise<PatchOrganizationProps | string> {
+    body: PutOrganizationProps
+): Promise<PutOrganizationProps | string> {
     const path = `${config.beehiveApi.ORGANIZATIONS_PATH}${shortname}`
-    return await patchWrapper({ path, data: body })
+    return await putWrapper({ path, data: body })
 }
 
 // Organizations - Images
@@ -306,10 +299,10 @@ export async function postRule(
     return await postWrapper({ path: config.beehiveApi.RULES_PATH, data: body })
 }
 
-export async function patchRule(
-    body: PatchRuleProps
-): Promise<PatchRuleProps | string> {
-    return await patchWrapper({ path: config.beehiveApi.RULES_PATH, data: body })
+export async function putRule(
+    body: PutRuleProps
+): Promise<PutRuleProps | string> {
+    return await putWrapper({ path: config.beehiveApi.RULES_PATH, data: body })
 }
 
 export async function deleteRule(id: number) {
@@ -488,41 +481,6 @@ async function putWrapper({ path, data = {}, options = {}, custom }: PutWrapperP
 
     const defaultOptions = {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-    }
-    const finalOptions = { ...defaultOptions, ...options }
-
-    try {
-        const response = await fetch(`${url}${path}`, finalOptions)
-        if (!response.ok) {
-            throw new Error(await response.text())
-        }
-
-        const data = await response.json()
-        return data
-        // eslint-disable-next-line
-    } catch (error: any) {
-        return (
-            JSON.stringify(error.error) ||
-            JSON.stringify(error.message) ||
-            'Unknown error! Please contact TekKom'
-        )
-    }
-}
-
-async function patchWrapper({ path, data = {}, options = {}, custom }: PatchWrapperProps) {
-    const Cookies = await cookies()
-    const access_token = Cookies.get('access_token')?.value || ''
-    const bot_access_token = Cookies.get('bot_access_token')?.value || ''
-    const token = custom === 'tekkom' ? bot_access_token : access_token
-    const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
-
-    const defaultOptions = {
-        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,

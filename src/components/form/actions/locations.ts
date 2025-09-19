@@ -1,12 +1,12 @@
 'use server'
 
-import { patchLocation, postLocation } from '@utils/api'
+import { putLocation, postLocation } from '@utils/api'
 
 export type FormState =
     | null
     | string
     | PostLocationProps
-    | PatchLocationProps
+    | PutLocationProps
 
 export async function createLocation(_: FormState, formData: FormData): Promise<FormState> {
     try {
@@ -34,7 +34,7 @@ export async function createLocation(_: FormState, formData: FormData): Promise<
 
 export async function updateLocation(_: FormState, formData: FormData): Promise<FormState> {
     try {
-        const locationProps: PatchLocationProps = {
+        const locationProps: PutLocationProps = {
             id: Number(formData.get('id')),
             address_postcode: Number(formData.get('address_postcode')),
             address_street: formData.get('address_street') as string,
@@ -49,7 +49,7 @@ export async function updateLocation(_: FormState, formData: FormData): Promise<
             url: formData.get('url') as string,
         }
 
-        const response = await patchLocation(locationProps)
+        const response = await putLocation(locationProps)
         return response
     } catch (error) {
         console.log('Error updating location:', error)

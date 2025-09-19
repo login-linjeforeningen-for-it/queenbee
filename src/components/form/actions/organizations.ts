@@ -1,12 +1,12 @@
 'use server'
 
-import { patchOrganization, postOrganization } from '@utils/api'
+import { putOrganization, postOrganization } from '@utils/api'
 
 export type FormState =
     | null
     | string
     | PostOrganizationProps
-    | PatchOrganizationProps
+    | PutOrganizationProps
 
 export async function createOrganization(_: FormState, formData: FormData): Promise<FormState> {
     try {
@@ -34,7 +34,7 @@ export async function createOrganization(_: FormState, formData: FormData): Prom
 
 export async function updateOrganization(_: FormState, formData: FormData): Promise<FormState> {
     try {
-        const organizationProps: PatchOrganizationProps = {
+        const organizationProps: PutOrganizationProps = {
             description_en: formData.get('description_en') as string,
             description_no: formData.get('description_no') as string,
             link_facebook: formData.get('link_facebook') as string,
@@ -48,7 +48,7 @@ export async function updateOrganization(_: FormState, formData: FormData): Prom
             type: Number(formData.get('type')),
         }
 
-        const response = await patchOrganization(
+        const response = await putOrganization(
             organizationProps.shortname,
             organizationProps
         )
