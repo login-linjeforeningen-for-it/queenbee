@@ -71,7 +71,7 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
             <div
                 className={`flex rounded-md p-3 gap-2 ${ping && 'border-l-2 border-login bg-login/15'}`}
                 style={{
-                    borderLeft: ping ? `4px solid ${formattedColor}` : 'none',
+                    borderLeft: ping ? '4px solid #fd8738' : 'none',
                     borderTop: 'none',
                     borderRight: '12px solid #00000000',
                     borderBottom: 'none'
