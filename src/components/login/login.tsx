@@ -6,11 +6,14 @@ import { LogIn } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-const loginUrl = `${process.env.NEXT_PUBLIC_BROWSER_API}/oauth2/login`
+const CLIENT_ID = process.env.NEXT_PUBLIC_AUTHENTIK_CLIENT_ID
+const REDIRECT_URI = process.env.NEXT_PUBLIC_AUTHENTIK_REDIRECT_URI
+const AUTH_URL = `${process.env.NEXT_PUBLIC_AUTHENTIK_URI}/application/o/authorize/`
 
 export default function Login() {
     const [loginUnavailable, setLoginUnavailable] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         (async () => {
@@ -24,9 +27,11 @@ export default function Login() {
             } catch (error) {
                 console.log(error)
                 setLoginUnavailable(true)
+            } finally {
+                setIsLoading(false)
             }
         })()
-    }, [loginUrl])
+    }, [])
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
@@ -58,6 +63,23 @@ export default function Login() {
                     : error.message
                 : 'Unknown error! Please contact TekKom')
         }
+    }
+
+    const state = Math.random().toString(36).substring(5)
+    const authQueryParams = new URLSearchParams({
+        client_id: CLIENT_ID as string,
+        redirect_uri: REDIRECT_URI as string,
+        response_type: 'code',
+        scope: 'openid profile email',
+        state: state,
+    }).toString()
+
+    if (isLoading) {
+        return (
+            <div className='grid place-items-center'>
+                <div className='animate-spin rounded-full h-8 w-8 border-b-4 border-login'></div>
+            </div>
+        )
     }
 
     if (loginUnavailable) {
@@ -94,10 +116,10 @@ export default function Login() {
 
     return (
         <Link
-            href={loginUrl}
+            href={`${AUTH_URL}?${authQueryParams}`}
             className='grid place-items-center'
         >
-            <button
+            <div
                 className={
                     'flex align-middle gap-2 mt-2 rounded-lg ' +
                     'bg-login px-8 py-1  hover:bg-orange-500 mb-2'
@@ -105,7 +127,7 @@ export default function Login() {
             >
                 Login
                 <LogIn className='w-5' />
-            </button>
+            </div>
         </Link>
     )
 }

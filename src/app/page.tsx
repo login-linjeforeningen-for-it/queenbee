@@ -12,7 +12,7 @@ export default async function Home() {
 
     return (
         <main className='h-full grid place-items-center p-4 relative'>
-            <div>
+            <div className='flex flex-col justify-center items-center'>
                 <h1 className='text-2xl font-bold text-login text-center'>
                     QueenBee
                 </h1>
