@@ -445,6 +445,12 @@ export function EventFormInputsClient({
                         link_signup: input as string,
                     })
                 }
+                required = {
+                    formValues.release_date !== '' && formValues.release_date !== undefined ||
+                    formValues.release_time !== '' && formValues.release_time !== undefined ||
+                    formValues.deadline_date !== '' && formValues.deadline_date !== undefined ||
+                    formValues.deadline_time !== '' && formValues.deadline_time !== undefined
+                }
             />
             <div className='flex flex-row gap-x-4'>
                 <DateInput
@@ -457,6 +463,12 @@ export function EventFormInputsClient({
                             release_date: input,
                         })
                     }
+                    required = {
+                        formValues.link_signup !== '' && formValues.link_signup !== undefined ||
+                        formValues.release_time !== '' && formValues.release_time !== undefined ||
+                        formValues.deadline_date !== '' && formValues.deadline_date !== undefined ||
+                        formValues.deadline_time !== '' && formValues.deadline_time !== undefined
+                    }
                 />
                 <TimeInput
                     name='release_time'
@@ -467,6 +479,12 @@ export function EventFormInputsClient({
                             ...formValues,
                             release_time: input,
                         })
+                    }
+                    required = {
+                        formValues.link_signup !== '' && formValues.link_signup !== undefined ||
+                        formValues.release_date !== '' && formValues.release_date !== undefined ||
+                        formValues.deadline_date !== '' && formValues.deadline_date !== undefined ||
+                        formValues.deadline_time !== '' && formValues.deadline_time !== undefined
                     }
                 />
             </div>
@@ -493,6 +511,12 @@ export function EventFormInputsClient({
                             deadline_date: input,
                         })
                     }
+                    required = {
+                        formValues.link_signup !== '' && formValues.link_signup !== undefined ||
+                        formValues.release_time !== '' && formValues.release_time !== undefined ||
+                        formValues.release_date !== '' && formValues.release_date !== undefined ||
+                        formValues.deadline_time !== '' && formValues.deadline_time !== undefined
+                    }
                 />
                 <TimeInput
                     name='deadline_time'
@@ -503,6 +527,12 @@ export function EventFormInputsClient({
                             ...formValues,
                             deadline_time: input,
                         })
+                    }
+                    required = {
+                        formValues.link_signup !== '' && formValues.link_signup !== undefined ||
+                        formValues.release_time !== '' && formValues.release_time !== undefined ||
+                        formValues.release_date !== '' && formValues.release_date !== undefined ||
+                        formValues.deadline_date !== '' && formValues.deadline_date !== undefined
                     }
                 />
             </div>
