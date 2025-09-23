@@ -269,7 +269,7 @@ export async function patchOrganization(
     shortname: string,
     body: PatchOrganizationProps
 ): Promise<PatchOrganizationProps | string> {
-    const path = `${config.beehiveApi.ORGANIZATIONS_PATH}${shortname}`
+    const path = `${config.beehiveApi.ORGANIZATIONS_PATH}`
     return await patchWrapper({ path, data: body })
 }
 
