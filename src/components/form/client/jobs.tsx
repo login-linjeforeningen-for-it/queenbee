@@ -228,24 +228,29 @@ export default function JobFormInputsClient({
                     name='publish_date'
                     label='Publish Date'
                     value={formValues.time_publish.split('T')[0]}
-                    setValue={(input) =>
+                    setValue={(input) => {
+                        const time =
+                            toLocalTimeString(formValues.time_publish) ||
+                            '00:00'
                         setFormValues({
                             ...formValues,
-                            time_publish: input,
+                            time_publish: `${input}T${time}`,
                         })
-                    }
+                    }}
                     required
                 />
                 <TimeInput
                     name='publish_time'
                     label='Publish Time'
                     value={toLocalTimeString(formValues.time_publish)}
-                    setValue={(input) =>
+                    setValue={(input) => {
+                        const date = formValues.time_publish.split('T')[0] ??
+                            new Date().toISOString().split('T')[0]
                         setFormValues({
                             ...formValues,
-                            time_publish: input,
+                            time_publish: `${date}T${input}`,
                         })
-                    }
+                    }}
                     required
                 />
             </div>
