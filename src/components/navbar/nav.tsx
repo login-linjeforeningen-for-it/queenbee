@@ -4,7 +4,10 @@ import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { LogOut } from 'lucide-react'
 
-export default function Nav() {
+export default async function Nav() {
+    const Cookies = await cookies()
+    const token = Cookies.get('access_token')?.value || undefined
+
     return (
         <nav
             className={
@@ -12,17 +15,17 @@ export default function Nav() {
                 'bg-login-950 flex justify-between'
             }
         >
-            <LeftSide />
-            <RightSide />
+            <LeftSide token={token} />
+            <RightSide token={token} />
         </nav>
     )
 }
 
-function LeftSide() {
+function LeftSide({token}: {token: string | undefined}) {
     return (
         <div className='flex gap-4'>
             <div className='relative h-[var(--h-navbar)] w-[45px]'>
-                <Link href='/'>
+                <Link href={token ? '/dashboard' : '/'}>
                     <Image
                         alt='Logo'
                         src='/images/queenbee-logo.png'
@@ -36,9 +39,7 @@ function LeftSide() {
     )
 }
 
-async function RightSide() {
-    const Cookies = await cookies()
-    const token = Cookies.get('access_token')?.value || undefined
+function RightSide({token}: {token: string | undefined}) {
     return (
         <div className='flex gap-[1rem] items-center pr-[1rem]'>
             <ThemeSwitch />
