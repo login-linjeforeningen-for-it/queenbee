@@ -21,14 +21,14 @@ export async function middleware(req: NextRequest) {
         if (btg) {
             validToken = await btgTokenIsValid(token, btg)
             if (!validToken) {
-                return NextResponse.redirect(new URL('/logout', req.url))
+                return NextResponse.redirect(new URL('/api/logout', req.url))
             }
         }
 
         if (!validToken) {
             validToken = await tokenIsValid(token)
             if (!validToken) {
-                return NextResponse.redirect(new URL('/logout', req.url))
+                return NextResponse.redirect(new URL('/api/logout', req.url))
             }
         }
     }
@@ -51,7 +51,7 @@ function pathIsAllowedWhileUnauthorized(path: string) {
         path.startsWith('/login') ||
         path.startsWith('/api/callback') ||
         path.startsWith('/api/login') ||
-        path.startsWith('/logout') ||
+        path.startsWith('/api/logout') ||
         path.startsWith('/_next/webpack-hmr')
     ) {
         return true

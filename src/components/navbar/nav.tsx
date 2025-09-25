@@ -48,7 +48,7 @@ async function RightSide() {
                         'flex align-middle gap-[0.5rem] ' +
                         'hover:*:text-login hover:*:stroke-login'
                     }
-                    href={token ? '/logout' : '/login'}
+                    href='/api/logout'
                 >
                     <LogOut className='w-5' />
                     <h1>Logout</h1>
