@@ -70,6 +70,12 @@ async function tokenIsValid(token: string): Promise<boolean> {
             return false
         }
 
+        const data = await userInfo.json()
+
+        if (!Array.isArray(data.groups) || !data.groups.map((g: string) => g.toLowerCase()).includes('queenbee')) {
+            return false
+        }
+
         return true
     } catch (error) {
         console.log(`API Error (middleware.ts): ${error}`, {
