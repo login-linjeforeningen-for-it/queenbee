@@ -6,9 +6,7 @@ import { LogIn } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-const CLIENT_ID = process.env.NEXT_PUBLIC_AUTHENTIK_CLIENT_ID
-const REDIRECT_URI = process.env.NEXT_PUBLIC_AUTHENTIK_REDIRECT_URI
-const AUTH_URL = `${process.env.NEXT_PUBLIC_AUTHENTIK_URI}/application/o/authorize/`
+const LoginURI = process.env.NEXT_PUBLIC_URI + '/api/login'
 
 export default function Login() {
     const [loginUnavailable, setLoginUnavailable] = useState(false)
@@ -65,15 +63,6 @@ export default function Login() {
         }
     }
 
-    const state = Math.random().toString(36).substring(5)
-    const authQueryParams = new URLSearchParams({
-        client_id: CLIENT_ID as string,
-        redirect_uri: REDIRECT_URI as string,
-        response_type: 'code',
-        scope: 'openid profile email',
-        state: state,
-    }).toString()
-
     if (isLoading) {
         return (
             <div className='grid place-items-center'>
@@ -116,7 +105,7 @@ export default function Login() {
 
     return (
         <Link
-            href={`${AUTH_URL}?${authQueryParams}`}
+            href={LoginURI}
             className='grid place-items-center'
         >
             <div

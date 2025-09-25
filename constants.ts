@@ -18,11 +18,10 @@ const requiredEnvironmentVariables = [
     'UNIVERSE_DOMAIN',
     'GITLAB_MESSAGE',
     'NEXT_PUBLIC_TEKKOM_BOT_API_URL',
+    'NEXT_PUBLIC_URI',
     'NEXT_PUBLIC_AUTHENTIK_CLIENT_ID',
     'AUTHENTIK_CLIENT_SECRET',
-    'NEXT_PUBLIC_AUTHENTIK_REDIRECT_URI',
     'NEXT_PUBLIC_AUTHENTIK_URI',
-    'NEXT_PUBLIC_QUEENBEE_LOGIN'
 ]
 
 const missingVariables = requiredEnvironmentVariables.filter(
@@ -49,7 +48,6 @@ const config = {
         TEKKOM_BOT_API_URL: env.NEXT_PUBLIC_TEKKOM_BOT_API_URL,
         GITLAB_URL: 'https://gitlab.login.no',
         AUTHENTIK_URL: 'https://authentik.login.no',
-        QUEENBEE_LOGIN: env.NEXT_PUBLIC_QUEENBEE_LOGIN || 'https://queenbee.login.no/api/login',
     },
     firebase: {
         type: env.TYPE,
@@ -101,14 +99,18 @@ const config = {
         SUMMER: 'summer',
         VERV: 'verv',
     },
+    auth: {
+        LOGIN_URI: `${env.NEXT_PUBLIC_URI}/api/login`,
+        REDIRECT_URI: `${env.NEXT_PUBLIC_URI}/api/callback`,
+        TOKEN_URI: `${env.NEXT_PUBLIC_URI}/api/token`,
+        LOGOUT_URI: `${env.NEXT_PUBLIC_URI}/api/logout`,
+    },
     authentik: {
         CLIENT_ID: env.NEXT_PUBLIC_AUTHENTIK_CLIENT_ID,
         CLIENT_SECRET: env.AUTHENTIK_CLIENT_SECRET,
-        REDIRECT_URI: env.NEXT_PUBLIC_AUTHENTIK_REDIRECT_URI || 'https://queenbee.login.no/api/callback',
-        API_URL: env.NEXT_PUBLIC_AUTHENTIK_URI || 'https://authentik.login.no',
-        AUTH_URL: 'https://authentik.login.no/application/o/authorize/',
-        TOKEN_URL: 'https://authentik.login.no/application/o/token/',
-        USERINFO_URL: 'https://authentik.login.no/application/o/userinfo/',
+        AUTH_URI: `${env.NEXT_PUBLIC_AUTHENTIK_URI}/application/o/authorize/`,
+        TOKEN_URI: `${env.NEXT_PUBLIC_AUTHENTIK_URI}/application/o/token/`,
+        USERINFO_URI: `${env.NEXT_PUBLIC_AUTHENTIK_URI}/application/o/userinfo/`,
 
     },
     version: packageInfo.version,

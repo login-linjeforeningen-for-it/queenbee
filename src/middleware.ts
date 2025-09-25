@@ -48,9 +48,9 @@ function pathIsAllowedWhileUnauthorized(path: string) {
         path.startsWith('/_next/static/') ||
         path.startsWith('/_next/image') ||
         path.startsWith('/images/') ||
-        path.startsWith('/login') ||
-        path.startsWith('/api/callback') ||
         path.startsWith('/api/login') ||
+        path.startsWith('/api/callback') ||
+        path.startsWith('/api/token') ||
         path.startsWith('/api/logout') ||
         path.startsWith('/_next/webpack-hmr')
     ) {
@@ -62,7 +62,7 @@ function pathIsAllowedWhileUnauthorized(path: string) {
 
 async function tokenIsValid(token: string): Promise<boolean> {
     try {
-        const userInfo = await fetch(appConfig.authentik.USERINFO_URL, {
+        const userInfo = await fetch(appConfig.authentik.USERINFO_URI, {
             headers: { Authorization: `Bearer ${token}` },
         })
 
