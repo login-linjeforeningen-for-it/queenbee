@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import UploadPopup from './uploadPopup'
 
-export default function Upload() {
+export default function Upload({handleFile}: {handleFile: (file: File) => void}) {
     const [open, setOpen] = useState(false)
     const [file, setFile] = useState<File | null>(null)
     const inputRef = React.useRef<HTMLInputElement>(null)
@@ -32,7 +32,7 @@ export default function Upload() {
                 />
             </label>
             {open && file && (
-                <UploadPopup onClose={handleClose} file={file} />
+                <UploadPopup onClose={handleClose} file={file} handleFile={handleFile} />
             )}
         </>
     )

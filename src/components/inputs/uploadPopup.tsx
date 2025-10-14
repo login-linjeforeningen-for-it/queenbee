@@ -8,10 +8,11 @@ import Switch from './switch'
 
 type UploadPopupProps = {
     file: File
+    handleFile: (file: File) => void
     onClose: () => void
 }
 
-export default function UploadPopup({ file, onClose }: UploadPopupProps) {
+export default function UploadPopup({ file, handleFile, onClose }: UploadPopupProps) {
     const image = URL.createObjectURL(file)
     const [uploadDisabled, setUploadDisabled] = useState(true)
     const [error, setError] = useState('')
@@ -86,7 +87,6 @@ export default function UploadPopup({ file, onClose }: UploadPopupProps) {
                     {error}
                 </p>
 
-
                 <div className='flex justify-between pt-4 mt-6 border-t border-login-500/80'>
                     <div className='mb-4 w-fit'>
                         <Switch
@@ -109,7 +109,7 @@ export default function UploadPopup({ file, onClose }: UploadPopupProps) {
                                 ${uploadDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
                             disabled={uploadDisabled}
                             onClick={() => {
-                                alert('To be done')
+                                handleFile(file)
                                 onClose()
                             }}
                         >
