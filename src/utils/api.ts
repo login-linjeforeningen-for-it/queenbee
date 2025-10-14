@@ -44,6 +44,13 @@ export async function deleteEvent(id: number) {
     return await deleteWrapper({ path })
 }
 
+// Categories
+export async function getCategories(): Promise<GetCategoriesProps | string> {
+    const path = `${config.beehiveApi.CATEGORIES_PATH}`
+    return await getWrapper({ path })
+}
+
+
 // ------------------------------------------ Jobs ------------------------------------------
 
 export async function getJobs({ search, limit, offset, orderBy, sort }: GetParamsProps = {}): Promise<GetJobsProps | string> {
@@ -267,12 +274,6 @@ export async function getOrganizationImages(): Promise<GetImageProps | string> {
     const path =
         `${config.beehiveApi.IMAGES_PATH}` +
         `${config.beehiveApi.ORGANIZATIONS_PATH}`
-    return await getWrapper({ path })
-}
-
-// Categories
-export async function getCategories(): Promise<GetCategoriesProps | string> {
-    const path = `${config.beehiveApi.CATEGORIES_PATH}`
     return await getWrapper({ path })
 }
 

@@ -29,7 +29,7 @@ const config = {
         SKILLS_PATH: '/jobs/skills/',
         CITIES_PATH: '/cities/',
         CITIES_PATH_2: '/jobs/cities/',
-        CATEGORIES_PATH: '/categories/',
+        CATEGORIES_PATH: '/events/categories/',
         AUDIENCES_PATH_2: '/events/audiences/',
         ORGANIZATIONS_PATH_2: '/events/organizations/',
         AUDIENCES_PATH: '/audiences/',
