@@ -1,19 +1,14 @@
 import { getChannels, getJobImages, getOrganizations, getRoles } from '@utils/api'
 import JobFormInputsClient from '../client/jobs'
 
-export default async function JobFormInputs({
-    defaultValues,
-    parent,
-}: {
-    defaultValues?: GetJobProps
-    parent?: { preview?: boolean }
-}) {
-    const organizationsResponse = await getOrganizations(0, 100)
-    // prettier-ignore
-    const organizations = Array.isArray(organizationsResponse)
-        ? organizationsResponse.map((organization) => ({
-            label: organization.name_no,
-            value: organization.shortname,
+export default async function JobFormInputs({ defaultValues, parent }: { defaultValues?: GetJobProps, parent?: { preview?: boolean }}) {
+    const organizationsResponse = await getOrganizations({ limit: 1000 })
+    const organizations = typeof organizationsResponse !== 'string' ? organizationsResponse.organizations : []
+
+    const organizationsOptions = Array.isArray(organizations)
+        ? organizations.map((organization) => ({
+            label: organization.name_en,
+            value: organization.id,
         }))
         : []
 
@@ -47,7 +42,7 @@ export default async function JobFormInputs({
     return (
         <JobFormInputsClient
             defaultValues={defaultValues}
-            organizations={organizations}
+            organizations={organizationsOptions}
             applicationTypes={applicationTypes}
             jobImages={jobImages}
             preview={parent?.preview}

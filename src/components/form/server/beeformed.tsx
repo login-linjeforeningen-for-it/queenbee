@@ -1,11 +1,7 @@
 import BeeFormedInputsClient from '../client/beeformed'
 
-export default function BeeFormedFormInputs({
-    defaultValues
-}: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    defaultValues?: any
-}) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function BeeFormedFormInputs({ defaultValues }: { defaultValues?: any }) {
 
     return (
         <BeeFormedInputsClient

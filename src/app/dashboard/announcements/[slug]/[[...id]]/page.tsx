@@ -1,8 +1,5 @@
 import { getAnnouncement, getChannels, getRoles } from '@utils/api'
-import {
-    createAnnouncement,
-    updateAnnouncement,
-} from '@components/form/actions'
+import { createAnnouncement, updateAnnouncement } from '@components/form/actions/announcements'
 import FormWrapper from '@components/form/wrapper'
 import { notFound } from 'next/navigation'
 import AnnouncementFormInputs from '@components/form/server/announcements'

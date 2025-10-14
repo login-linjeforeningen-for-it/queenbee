@@ -27,6 +27,7 @@ export default function CustomForm({
 }: ContentFormProps) {
     const [state, action, pending] = useActionState(formAction, initialState)
     const [submitPressed, setSubmitPressed] = useState(false)
+    const [submitCount, setSubmitCount] = useState(0)
     const router = useRouter()
     const pathname = usePathname()
 
@@ -38,7 +39,7 @@ export default function CustomForm({
         } else if (typeof state === 'string') {
             toast.error(`Error: ${state}`)
         }
-    }, [state])
+    }, [state, submitCount])
 
     return (
         <Form
@@ -56,7 +57,10 @@ export default function CustomForm({
 
                 <button
                     type='submit'
-                    onClick={() => setSubmitPressed(true)}
+                    onClick={() => {
+                        setSubmitPressed(true)
+                        setSubmitCount(prev => prev + 1)
+                    }}
                     disabled={pending}
                     className={
                         'flex flex-row w-fit gap-2 capitalize ' +

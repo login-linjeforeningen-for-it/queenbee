@@ -47,26 +47,21 @@ enum LocationAPI {
     coordinate = 'coords',
 }
 
-type TempSortProps = {
-    tempSort: object[]
-    activeType: Location
-}
-
 async function deleteAction(id: string) {
     'use server'
     await deleteLocation(Number(id))
 }
 
-export default async function Page({
-    searchParams,
-}: {
-    searchParams: Promise<{ [key: string]: string | undefined }>
-}) {
+export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
     const cookieStore = await cookies()
-
     const filters = await searchParams
-    // const search = typeof filters.q === 'string' ? filters.q : ''
-    // const page = typeof filters.page === 'string' ? Number(filters.page) : 1
+    const search = typeof filters.q === 'string' ? filters.q : ''
+    const offset = typeof filters.page === 'string' ? Number(filters.page)-1 : 0
+    const limit = 10
+    const orderBy = typeof filters.column === 'string' ? filters.column : 'id'
+    const sort = typeof filters.order === 'string' && (filters.order === 'asc' || filters.order === 'desc')
+        ? filters.order
+        : 'asc'
 
     const cookieLocation = cookieStore.get('location')?.value
     // prettier-ignore
@@ -74,15 +69,19 @@ export default async function Page({
         typeof cookieLocation === 'string' &&
             Object.values(Location).includes(cookieLocation as Location)
             ? (cookieLocation as Location)
-            : typeof filters.t === 'string' &&
+            : typeof filters.type === 'string' &&
                 Object.values(Location).includes(filters.t as Location)
-                ? (filters.t as Location)
+                ? (filters.type as Location)
                 : Location.Address
 
-    const list = await getLocations(LocationAPI[activeType])
-    const tempSort = Array.isArray(list)
-        ? list.filter((item) => !item.is_deleted)
-        : []
+    const locations = await getLocations({
+        type: LocationAPI[activeType],
+        search,
+        offset,
+        limit,
+        orderBy,
+        sort
+    })
 
     return (
         <div
@@ -118,51 +117,40 @@ export default async function Page({
                     </div>
                 </div>
             </div>
-            <TempSort tempSort={tempSort} activeType={activeType} />
-        </div>
-    )
-}
-
-function TempSort({ tempSort, activeType }: TempSortProps) {
-    if (
-        typeof tempSort === 'string' ||
-        !Array.isArray(tempSort) ||
-        tempSort.length < 1
-    ) {
-        return (
-            <div className='w-full h-full flex items-center justify-center'>
-                <Alert>
-                    {typeof tempSort === 'string'
-                        ? tempSort
-                        : 'No locations found'}
-                </Alert>
-            </div>
-        )
-    }
-    return (
-        <div className='flex-1 flex flex-col overflow-hidden'>
-            {activeType === Location.Address && (
-                <Table
-                    list={tempSort}
-                    headers={AddressHeaders}
-                    deleteAction={deleteAction}
-                />
+            {typeof locations === 'string' || !Array.isArray(locations.locations) || locations.locations.length < 1 ? (
+                <div className='w-full h-full flex items-center justify-center'>
+                    <Alert>
+                        {typeof locations === 'string'
+                            ? locations
+                            : 'No locations found'}
+                    </Alert>
+                </div>
+            ) : (
+                <div className='flex-1 flex flex-col overflow-hidden'>
+                    {activeType === Location.Address && (
+                        <Table
+                            list={locations.locations}
+                            headers={AddressHeaders}
+                            deleteAction={deleteAction}
+                        />
+                    )}
+                    {activeType === Location.Mazemap && (
+                        <Table
+                            list={locations.locations}
+                            headers={MazemapHeaders}
+                            deleteAction={deleteAction}
+                        />
+                    )}
+                    {activeType === Location.Coordinate && (
+                        <Table
+                            list={locations.locations}
+                            headers={CoordinateHeaders}
+                            deleteAction={deleteAction}
+                        />
+                    )}
+                    <Pagination pageSize={10} totalRows={locations.total_count} />
+                </div>
             )}
-            {activeType === Location.Mazemap && (
-                <Table
-                    list={tempSort}
-                    headers={MazemapHeaders}
-                    deleteAction={deleteAction}
-                />
-            )}
-            {activeType === Location.Coordinate && (
-                <Table
-                    list={tempSort}
-                    headers={CoordinateHeaders}
-                    deleteAction={deleteAction}
-                />
-            )}
-            <Pagination pageSize={10} totalRows={tempSort.length} />
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import { getLocation } from '@utils/api'
-import { createLocation, updateLocation } from '@components/form/actions'
+import { createLocation, updateLocation } from '@components/form/actions/locations'
 import FormWrapper from '@components/form/wrapper'
 import LocationFormInputs from '@components/form/server/locations'
 import { notFound } from 'next/navigation'

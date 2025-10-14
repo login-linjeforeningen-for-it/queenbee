@@ -22,7 +22,7 @@ export default function LocationFormInputsClient({
         mazemap_campus_id: defaultValues?.mazemap_campus_id ?? 0,
         mazemap_poi_id: defaultValues?.mazemap_poi_id ?? 0,
         coordinate_lat: defaultValues?.coordinate_lat ?? 0,
-        coordinate_long: defaultValues?.coordinate_long ?? 0,
+        coordinate_long: defaultValues?.coordinate_lon ?? 0,
         address_street: defaultValues?.address_street ?? '',
         address_postcode: defaultValues?.address_postcode ?? 0,
         city_name: defaultValues?.city_name ?? '',

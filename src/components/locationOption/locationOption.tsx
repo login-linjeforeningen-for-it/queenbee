@@ -22,7 +22,7 @@ export default function Option({ value, active }: OptionProps) {
 
     function handleClick(value: Location) {
         const params = new URLSearchParams(searchParams.toString())
-        params.set('t', value)
+        params.set('type', value)
         router.push(pathname + '?' + params.toString())
         setCookie('location', value)
     }

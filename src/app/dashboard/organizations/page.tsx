@@ -6,37 +6,33 @@ import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 
 const headers = [
-    'description_en',
-    'description_no',
-    'link_facebook',
-    'link_homepage',
-    'link_instagram',
-    'link_linkedin',
-    'logo',
+    'id',
     'name_en',
     'name_no',
-    'shortname',
 ]
 
 async function deleteAction(id: string) {
     'use server'
-    await deleteOrganization(id)
+    await deleteOrganization(Number(id))
 }
 
-export default async function Page() {
-    // export default async function Page({
-    //     _,
-    // }: {
-    //     searchParams: Promise<{ [key: string]: string | undefined }>
-    // }) {
-    // const filters = await searchParams
-    // const search = typeof filters.q === 'string' ? filters.q : ''
-    // const page = typeof filters.page === 'string' ? Number(filters.page) : 1
+export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
+    const filters = await searchParams
+    const search = typeof filters.q === 'string' ? filters.q : ''
+    const offset = typeof filters.page === 'string' ? Number(filters.page)-1 : 0
+    const limit = 10
+    const orderBy = typeof filters.column === 'string' ? filters.column : 'id'
+    const sort = typeof filters.order === 'string' && (filters.order === 'asc' || filters.order === 'desc')
+        ? filters.order
+        : 'asc'
 
-    const list = await getOrganizations()
-    const tempSort = Array.isArray(list)
-        ? list.filter((item) => !item.is_deleted)
-        : []
+    const organizations = await getOrganizations({
+        search,
+        offset,
+        limit,
+        orderBy,
+        sort
+    })
 
     return (
         <div
@@ -58,35 +54,26 @@ export default async function Page() {
                     </div>
                 </div>
             </div>
-            <TempSort tempSort={tempSort} />
-        </div>
-    )
-}
-
-function TempSort({ tempSort }: { tempSort: object[] }) {
-    if (
-        typeof tempSort === 'string' ||
-        !Array.isArray(tempSort) ||
-        tempSort.length < 1
-    ) {
-        return (
-            <div className='w-full h-full flex items-center justify-center'>
-                <Alert>
-                    {typeof tempSort === 'string'
-                        ? tempSort
-                        : 'No organizations found'}
-                </Alert>
-            </div>
-        )
-    }
-    return (
-        <div className='flex-1 flex flex-col overflow-hidden'>
-            <Table
-                list={tempSort}
-                headers={headers}
-                deleteAction={deleteAction}
-            />
-            <Pagination pageSize={10} totalRows={tempSort.length} />
+            { typeof organizations === 'string' || !Array.isArray(organizations.organizations) || organizations.organizations.length < 1
+                ? (
+                    <div className='w-full h-full flex items-center justify-center'>
+                        <Alert>
+                            {typeof organizations === 'string'
+                                ? organizations
+                                : 'No organizations found'}
+                        </Alert>
+                    </div>
+                ) : (
+                    <div className='flex-1 flex flex-col overflow-hidden'>
+                        <Table
+                            list={organizations.organizations}
+                            headers={headers}
+                            deleteAction={deleteAction}
+                        />
+                        <Pagination pageSize={10} totalRows={organizations.total_count} />
+                    </div>
+                )
+            }
         </div>
     )
 }

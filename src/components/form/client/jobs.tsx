@@ -23,7 +23,7 @@ export default function JobFormInputsClient({
     roles
 }: {
     defaultValues?: GetJobProps
-    organizations: Organization[]
+    organizations: { label: string; value: number }[]
     applicationTypes: Application[]
     jobImages: LoginImage[]
     preview?: boolean
@@ -39,7 +39,7 @@ export default function JobFormInputsClient({
         description_short_en: defaultValues?.description_short_en,
         description_long_no: defaultValues?.description_long_no || '',
         description_long_en: defaultValues?.description_long_en || '',
-        organization: defaultValues?.organization || '',
+        organization: defaultValues?.organization.id || '',
         banner_image: defaultValues?.banner_image,
         cities: defaultValues?.cities,
         job_type: defaultValues?.job_type,
@@ -179,7 +179,7 @@ export default function JobFormInputsClient({
                 name='organization'
                 label='Organization'
                 options={organizations}
-                value={formValues.organization}
+                value={formValues.organization || ''}
                 setValue={(input) =>
                     setFormValues({
                         ...formValues,
@@ -302,7 +302,7 @@ export default function JobFormInputsClient({
                 name='application_url'
                 type='text'
                 label='Application URL'
-                value={formValues.application_url}
+                value={formValues.application_url ?? ''}
                 setValue={(input) =>
                     setFormValues({
                         ...formValues,
@@ -380,7 +380,7 @@ const sampleJob = {
 - Create intuitive and attractive interfaces for the website and app
 - Work closely with marketing and event teams
 - Provide creative input on projects and campaigns`,
-    organization: 'NTNU',
+    organization: 1,
     banner_image: 'adbanner.png',
     cities: ['Gjøvik'],
     job_type: 'verv' as job_type,

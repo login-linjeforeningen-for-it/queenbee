@@ -38,55 +38,43 @@ export function EventFormInputsClient({
     channels: Channel[]
     roles: Role[]
 }) {
-    const defaultOrganization =
-        Array.isArray(defaultValues?.organizations) &&
-        defaultValues.organizations.length > 0
-            ? defaultValues.organizations[0].shortname
-            : undefined
-
-    const defaultAudience =
-        Array.isArray(defaultValues?.audiences) &&
-        defaultValues.audiences.length > 0
-            ? defaultValues.audiences[0].id
-            : undefined
-
     const [formValues, setFormValues] = useState({
-        name_no: defaultValues?.event.name_no || '',
-        name_en: defaultValues?.event.name_en || '',
-        informational_no: defaultValues?.event.informational_no || '',
-        informational_en: defaultValues?.event.informational_en || '',
-        description_no: defaultValues?.event.description_no || '',
-        description_en: defaultValues?.event.description_en || '',
-        category: defaultValues?.event.category,
-        organization: defaultOrganization,
-        rule: defaultValues?.event.rule,
-        location: defaultValues?.event.location,
-        audiences: defaultAudience,
-        time_type: defaultValues?.event.time_type,
-        start_date: defaultValues?.event.time_start.split('T')[0],
-        end_date: defaultValues?.event.time_end.split('T')[0],
-        start_time: toLocalTimeString(defaultValues?.event.time_start),
-        end_time: toLocalTimeString(defaultValues?.event.time_end),
-        publish_date: defaultValues?.event.time_publish.split('T')[0],
-        default_start_time: toLocalTimeString(defaultValues?.event.time_start),
-        default_end_time: toLocalTimeString(defaultValues?.event.time_end),
-        no_end_start_time: toLocalTimeString(defaultValues?.event.time_start),
+        name_no: defaultValues?.name_no || '',
+        name_en: defaultValues?.name_en || '',
+        informational_no: defaultValues?.informational_no || '',
+        informational_en: defaultValues?.informational_en || '',
+        description_no: defaultValues?.description_no || '',
+        description_en: defaultValues?.description_en || '',
+        category: defaultValues?.category.id,
+        organization: defaultValues?.organization?.id,
+        rule: defaultValues?.rule?.id,
+        location: defaultValues?.location?.id,
+        audiences: defaultValues?.audience?.id,
+        time_type: defaultValues?.time_type,
+        start_date: defaultValues?.time_start.split('T')[0],
+        end_date: defaultValues?.time_end.split('T')[0],
+        start_time: toLocalTimeString(defaultValues?.time_start),
+        end_time: toLocalTimeString(defaultValues?.time_end),
+        publish_date: defaultValues?.time_publish.split('T')[0],
+        default_start_time: toLocalTimeString(defaultValues?.time_start),
+        default_end_time: toLocalTimeString(defaultValues?.time_end),
+        no_end_start_time: toLocalTimeString(defaultValues?.time_start),
         whole_day: '' as string,
         tbd: '' as string,
-        capacity: defaultValues?.event.capacity,
-        deadline_date: defaultValues?.event.time_signup_deadline.split('T')[0],
-        deadline_time: toLocalTimeString(defaultValues?.event.time_signup_deadline),
-        isFull: defaultValues?.event.full,
-        image_banner: defaultValues?.event.image_banner,
-        image_small: defaultValues?.event.image_small,
-        publish_time: toLocalTimeString(defaultValues?.event.time_publish),
-        highlight: defaultValues?.event.highlight,
-        link_signup: defaultValues?.event.link_signup,
-        release_date: defaultValues?.event.time_signup_release.split('T')[0],
-        release_time: toLocalTimeString(defaultValues?.event.time_signup_release),
-        link_facebook: defaultValues?.event.link_facebook,
-        link_discord: defaultValues?.event.link_discord,
-        link_stream: defaultValues?.event.link_stream,
+        capacity: defaultValues?.capacity,
+        deadline_date: defaultValues?.time_signup_deadline?.split('T')[0],
+        deadline_time: toLocalTimeString(defaultValues?.time_signup_deadline ?? undefined),
+        isFull: defaultValues?.is_full,
+        image_banner: defaultValues?.image_banner,
+        image_small: defaultValues?.image_small,
+        publish_time: toLocalTimeString(defaultValues?.time_publish),
+        highlight: defaultValues?.highlight,
+        link_signup: defaultValues?.link_signup,
+        release_date: defaultValues?.time_signup_release ? defaultValues.time_signup_release.split('T')[0] : '',
+        release_time: toLocalTimeString(defaultValues?.time_signup_release ?? undefined),
+        link_facebook: defaultValues?.link_facebook,
+        link_discord: defaultValues?.link_discord,
+        link_stream: defaultValues?.link_stream,
     })
 
     const mt = preview ? '-mt-12' : '-mt-13'
@@ -206,7 +194,7 @@ export function EventFormInputsClient({
                     setValue={(input) =>
                         setFormValues({
                             ...formValues,
-                            organization: input.toString(),
+                            organization: Number(input),
                         })
                     }
                 />
@@ -438,7 +426,7 @@ export function EventFormInputsClient({
                 name='link_signup'
                 type='text'
                 label='Signup Link'
-                value={formValues.link_signup}
+                value={formValues.link_signup ?? ''}
                 setValue={(input) =>
                     setFormValues({
                         ...formValues,
@@ -492,7 +480,7 @@ export function EventFormInputsClient({
                 name='capacity'
                 type='number'
                 label='Capacity'
-                value={formValues.capacity}
+                value={formValues.capacity ?? ''}
                 setValue={(input) =>
                     setFormValues({
                         ...formValues,
@@ -579,7 +567,7 @@ export function EventFormInputsClient({
                 name='link_facebook'
                 type='text'
                 label='Facebook Link'
-                value={formValues.link_facebook}
+                value={formValues.link_facebook ?? ''}
                 setValue={(input) =>
                     setFormValues({
                         ...formValues,
@@ -592,7 +580,7 @@ export function EventFormInputsClient({
                 name='link_discord'
                 type='text'
                 label='Discord Link'
-                value={formValues.link_discord}
+                value={formValues.link_discord ?? ''}
                 setValue={(input) =>
                     setFormValues({
                         ...formValues,
@@ -605,7 +593,7 @@ export function EventFormInputsClient({
                 name='link_stream'
                 type='text'
                 label='Stream Link'
-                value={formValues.link_stream}
+                value={formValues.link_stream ?? ''}
                 setValue={(input) =>
                     setFormValues({
                         ...formValues,
@@ -634,7 +622,7 @@ const sampleEvent = {
 - Meet fellow students in the study program  
 - Learn about upcoming events and activities`,
     category: 2,
-    organization: 'NTNU',
+    organization: 1,
     rule: 10,
     location: 1,
     audiences: 1,

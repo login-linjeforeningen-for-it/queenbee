@@ -11,13 +11,7 @@ import {
 } from '@utils/api'
 import { EventFormInputsClient } from '../client/events'
 
-export default async function EventFormInputs({
-    defaultValues,
-    parent,
-}: {
-    defaultValues?: GetEventProps
-    parent?: { preview?: boolean }
-}) {
+export default async function EventFormInputs({ defaultValues, parent }: { defaultValues?: GetEventProps; parent?: { preview?: boolean } }){
     const bannerImagesResponse = await getEventBannerImages()
     // prettier-ignore
     const bannerImages = Array.isArray(bannerImagesResponse)
@@ -47,28 +41,31 @@ export default async function EventFormInputs({
         }))
         : []
 
-    const organizationsResponse = await getOrganizations()
-    // prettier-ignore
-    const organizations = Array.isArray(organizationsResponse)
-        ? organizationsResponse.map((organization) => ({
-            label: organization.name_no,
-            value: organization.shortname,
+    const organizationsResponse = await getOrganizations({ limit: 20 })
+    const organizations = typeof organizationsResponse !== 'string' ? organizationsResponse.organizations : []
+
+    const organizationsOptions = Array.isArray(organizations)
+        ? organizations.map((organization) => ({
+            label: organization.name_en,
+            value: organization.id,
         }))
         : []
 
     const rulesResponse = await getRules()
-    // prettier-ignore
-    const rules = Array.isArray(rulesResponse)
-        ? rulesResponse.map((rule) => ({
+    const rules = typeof rulesResponse !== 'string' ? rulesResponse.rules : []
+
+    const rulesOptions = Array.isArray(rules)
+        ? rules.map((rule) => ({
             label: rule.name_no,
             value: rule.id,
         }))
         : []
 
     const locationsResponse = await getLocations()
-    // prettier-ignore
-    const locations = Array.isArray(locationsResponse)
-        ? locationsResponse.map((location) => ({
+    const locations = typeof locationsResponse !== 'string' ? locationsResponse.locations : []
+
+    const locationsOptions = Array.isArray(locations)
+        ? locations.map((location) => ({
             label: location.name_no,
             value: location.id,
         }))
@@ -108,9 +105,9 @@ export default async function EventFormInputs({
             audiences={audiences}
             timeTypes={timeTypes}
             categories={categories}
-            organizations={organizations}
-            rules={rules}
-            locations={locations}
+            organizations={organizationsOptions}
+            rules={rulesOptions}
+            locations={locationsOptions}
             channels={channels}
             roles={roles}
             preview={parent?.preview}

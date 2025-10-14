@@ -1,25 +1,21 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import Login from '@components/login/login'
-import Version from '@components/version/version'
+import {LoginPage } from 'uibee/components'
+import config from '@config'
 
 export default async function Home() {
     const Cookies = await cookies()
-    const token = Cookies.get('token')?.value
+    const token = Cookies.get('access_token')?.value
     if (token) {
         redirect('/dashboard')
     }
 
     return (
-        <main className='h-full grid place-items-center p-4 relative'>
-            <div>
-                <h1 className='text-2xl font-bold text-login text-center'>
-                    QueenBee
-                </h1>
-                <p className='mt-2 text-foreground text-center font-semibold text-login-300'>Queenbee - Admintool</p>
-                <Login />
-            </div>
-            <Version />
-        </main>
+        <LoginPage
+            title='Queenbee'
+            description='Content Management System'
+            redirectURL={config.auth.LOGIN_URL}
+            version={config.version}
+        />
     )
 }

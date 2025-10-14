@@ -1,45 +1,10 @@
 import packageInfo from './package.json'
 
-const isServer = typeof window === 'undefined'
-const requiredEnvironmentVariables = [
-    'API_URL',
-    'NEXT_PUBLIC_BROWSER_API',
-    'CDN_URL',
-    'TYPE',
-    'PROJECT_ID',
-    'PRIVATE_KEY_ID',
-    'PRIVATE_KEY',
-    'CLIENT_EMAIL',
-    'CLIENT_ID',
-    'AUTH_URI',
-    'TOKEN_URI',
-    'AUTH_CERT_URL',
-    'CLIENT_CERT_URL',
-    'UNIVERSE_DOMAIN',
-    'GITLAB_MESSAGE',
-    'NEXT_PUBLIC_TEKKOM_BOT_API_URL',
-]
-
-const missingVariables = requiredEnvironmentVariables.filter(
-    (key) => !process.env[key]
-)
-
-if (isServer && missingVariables.length > 0) {
-    throw new Error(
-        'Missing essential environment variables:\n' +
-            missingVariables
-                .map((key) => `${key}: ${process.env[key] || 'undefined'}`)
-                .join('\n')
-    )
-}
-
-const env = Object.fromEntries(
-    requiredEnvironmentVariables.map((key) => [key, process.env[key]])
-)
+const { env } = process
 
 const config = {
     url: {
-        API_URL: env.API_URL || 'https://api.queenbee.login.no/v1',
+        API_URL: env.API_URL || 'https://workerbee-v2.login.no/api/v2',
         CDN_URL: env.CDN_URL || 'https://cdn.login.no',
         TEKKOM_BOT_API_URL: env.NEXT_PUBLIC_TEKKOM_BOT_API_URL,
         GITLAB_URL: 'https://gitlab.login.no',
@@ -94,6 +59,20 @@ const config = {
         PART_TIME: 'part',
         SUMMER: 'summer',
         VERV: 'verv',
+    },
+    auth: {
+        BASE_URL: env.BASE_URL,
+        LOGIN_URL: `${env.BASE_URL}/api/login`,
+        REDIRECT_URL: `${env.BASE_URL}/api/callback`,
+        TOKEN_URL: `${env.BASE_URL}/api/token`,
+        LOGOUT_URL: `${env.BASE_URL}/api/logout`,
+    },
+    authentik: {
+        CLIENT_ID: env.AUTHENTIK_CLIENT_ID,
+        CLIENT_SECRET: env.AUTHENTIK_CLIENT_SECRET,
+        AUTH_URL: `${env.AUTHENTIK_URL}/application/o/authorize/`,
+        TOKEN_URL: `${env.AUTHENTIK_URL}/application/o/token/`,
+        USERINFO_URL: `${env.AUTHENTIK_URL}/application/o/userinfo/`,
     },
     version: packageInfo.version,
 }

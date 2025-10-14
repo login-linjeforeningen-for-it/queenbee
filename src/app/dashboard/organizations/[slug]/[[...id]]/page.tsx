@@ -2,7 +2,7 @@ import { getOrganization } from '@utils/api'
 import {
     createOrganization,
     updateOrganization,
-} from '@components/form/actions'
+} from '@components/form/actions/organizations'
 import FormWrapper from '@components/form/wrapper'
 import { notFound } from 'next/navigation'
 import OrganizationFormInputs from '@components/form/server/organizations'
@@ -15,7 +15,7 @@ export default async function Page({
     const { id, slug } = await params
 
     if (id) {
-        const organization = await getOrganization(id[0])
+        const organization = await getOrganization(Number(id[0]))
         if (
             typeof organization === 'object' &&
             Object.keys(organization).length > 0

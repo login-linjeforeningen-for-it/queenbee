@@ -7,14 +7,8 @@ import Pagination from '@components/table/pagination'
 
 const headers = [
     'id',
-    'name_no',
     'title_no',
-    'job_type',
-    'time_publish',
-    'application_deadline',
-    'application_url',
-    'updated_at',
-    'visible',
+    'title_en',
 ]
 
 async function deleteAction(id: string) {
@@ -22,20 +16,23 @@ async function deleteAction(id: string) {
     await deleteJob(Number(id))
 }
 
-export default async function Page() {
-    // export default async function Page({
-    //     _,
-    // }: {
-    //     searchParams: Promise<{ [key: string]: string | undefined }>
-    // }) {
-    // const filters = await searchParams
-    // const search = typeof filters.q === 'string' ? filters.q : ''
-    // const page = typeof filters.page === 'string' ? Number(filters.page) : 1
+export default async function Page({ searchParams}: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
+    const filters = await searchParams
+    const search = typeof filters.q === 'string' ? filters.q : ''
+    const offset = typeof filters.page === 'string' ? Number(filters.page)-1 : 0
+    const limit = 10
+    const orderBy = typeof filters.column === 'string' ? filters.column : 'id'
+    const sort = typeof filters.order === 'string' && (filters.order === 'asc' || filters.order === 'desc')
+        ? filters.order
+        : 'asc'
 
-    const list = await getJobs()
-    const tempSort = Array.isArray(list)
-        ? list.filter((item) => !item.is_deleted)
-        : []
+    const jobs = await getJobs({
+        search,
+        offset,
+        limit,
+        orderBy,
+        sort
+    })
 
     return (
         <div
@@ -53,34 +50,26 @@ export default async function Page() {
                     </div>
                 </div>
             </div>
-            <TempSort tempSort={tempSort} />
-        </div>
-    )
-}
-
-function TempSort({ tempSort }: { tempSort: object[] }) {
-    if (
-        typeof tempSort === 'string' ||
-        !Array.isArray(tempSort) ||
-        tempSort.length < 1
-    ) {
-        return (
-            <div className='w-full h-full flex items-center justify-center'>
-                <Alert>
-                    {typeof tempSort === 'string' ? tempSort : 'No jobs found'}
-                </Alert>
-            </div>
-        )
-    }
-
-    return (
-        <div className='flex-1 flex flex-col overflow-hidden'>
-            <Table
-                list={tempSort}
-                headers={headers}
-                deleteAction={deleteAction}
-            />
-            <Pagination pageSize={10} totalRows={tempSort.length} />
+            { typeof jobs === 'string' || !Array.isArray(jobs.jobs) || jobs.jobs.length < 1
+                ? (
+                    <div className='w-full h-full flex items-center justify-center'>
+                        <Alert>
+                            {typeof jobs === 'string'
+                                ? jobs
+                                : 'No jobs found'}
+                        </Alert>
+                    </div>
+                ) : (
+                    <div className='flex-1 flex flex-col overflow-hidden'>
+                        <Table
+                            list={jobs.jobs}
+                            headers={headers}
+                            deleteAction={deleteAction}
+                        />
+                        <Pagination pageSize={10} totalRows={jobs.total_count} />
+                    </div>
+                )
+            }
         </div>
     )
 }

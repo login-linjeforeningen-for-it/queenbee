@@ -16,7 +16,6 @@ export default function OrganizationFormInputsClient({
     preview?: boolean
 }) {
     const [formValues, setFormValues] = useState({
-        shortname: defaultValues?.shortname ?? '',
         name_no: defaultValues?.name_no ?? '',
         name_en: defaultValues?.name_en ?? '',
         description_no: defaultValues?.description_no ?? '',
@@ -49,20 +48,6 @@ export default function OrganizationFormInputsClient({
                     onClick={example}
                 />
             </div>
-            <Input
-                name='shortname'
-                type='text'
-                label='Short Name'
-                value={formValues.shortname}
-                setValue={(input) =>
-                    setFormValues({
-                        ...formValues,
-                        shortname: input as string,
-                    })
-                }
-                className='col-span-2'
-                required
-            />
             <Input
                 name='name_no'
                 type='text'

@@ -21,14 +21,14 @@ export async function middleware(req: NextRequest) {
         if (btg) {
             validToken = await btgTokenIsValid(token, btg)
             if (!validToken) {
-                return NextResponse.redirect(new URL('/logout', req.url))
+                return NextResponse.redirect(new URL('/api/logout', req.url))
             }
         }
 
         if (!validToken) {
             validToken = await tokenIsValid(token)
             if (!validToken) {
-                return NextResponse.redirect(new URL('/logout', req.url))
+                return NextResponse.redirect(new URL('/api/logout', req.url))
             }
         }
     }
@@ -48,8 +48,10 @@ function pathIsAllowedWhileUnauthorized(path: string) {
         path.startsWith('/_next/static/') ||
         path.startsWith('/_next/image') ||
         path.startsWith('/images/') ||
-        path.startsWith('/login') ||
-        path.startsWith('/logout') ||
+        path.startsWith('/api/login') ||
+        path.startsWith('/api/callback') ||
+        path.startsWith('/api/token') ||
+        path.startsWith('/api/logout') ||
         path.startsWith('/api/authentik-health') ||
         path.startsWith('/_next/webpack-hmr')
     ) {
@@ -61,15 +63,17 @@ function pathIsAllowedWhileUnauthorized(path: string) {
 
 async function tokenIsValid(token: string): Promise<boolean> {
     try {
-        const response = await fetch(`${appConfig.url.API_URL}/events`, {
+        const userInfo = await fetch(appConfig.authentik.USERINFO_URL, {
             headers: { Authorization: `Bearer ${token}` },
         })
 
-        if (!response.ok) {
-            const errorDescription =
-                'Failed connection to: ' +
-                `${appConfig.url.API_URL}/events: ${await response.text()}`
-            console.log(errorDescription)
+        if (!userInfo.ok) {
+            return false
+        }
+
+        const data = await userInfo.json()
+
+        if (!Array.isArray(data.groups) || !data.groups.map((g: string) => g.toLowerCase()).includes('queenbee')) {
             return false
         }
 

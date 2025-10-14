@@ -10,20 +10,29 @@ async function deleteAction(id: string) {
     await deleteRule(Number(id))
 }
 
-export default async function Page() {
-    // export default async function Page({
-    //     _,
-    // }: {
-    //     searchParams: Promise<{ [key: string]: string | undefined }>
-    // }) {
-    // const filters = await searchParams
-    // const search = typeof filters.q === 'string' ? filters.q : ''
-    // const page = typeof filters.page === 'string' ? Number(filters.page) : 1
+const headers = [
+    'id',
+    'name_no',
+    'name_en',
+]
 
-    const list = await getRules()
-    const tempSort = Array.isArray(list)
-        ? list.filter((item) => !item.is_deleted)
-        : []
+export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
+    const filters = await searchParams
+    const search = typeof filters.q === 'string' ? filters.q : ''
+    const offset = typeof filters.page === 'string' ? Number(filters.page)-1 : 0
+    const limit = 10
+    const orderBy = typeof filters.column === 'string' ? filters.column : 'id'
+    const sort = typeof filters.order === 'string' && (filters.order === 'asc' || filters.order === 'desc')
+        ? filters.order
+        : 'asc'
+
+    const rules = await getRules({
+        search,
+        offset,
+        limit,
+        orderBy,
+        sort
+    })
 
     return (
         <div
@@ -41,34 +50,26 @@ export default async function Page() {
                     </div>
                 </div>
             </div>
-            <TempSort tempSort={tempSort} />
-        </div>
-    )
-}
-
-function TempSort({ tempSort }: { tempSort: object[] }) {
-    if (
-        typeof tempSort === 'string' ||
-        !Array.isArray(tempSort) ||
-        tempSort.length < 1
-    ) {
-        return (
-            <div className='w-full h-full flex items-center justify-center'>
-                <Alert>
-                    {typeof tempSort === 'string' ? tempSort : 'No rules found'}
-                </Alert>
-            </div>
-        )
-    }
-
-    return (
-        <div className='flex-1 flex flex-col overflow-hidden'>
-            <Table
-                list={tempSort}
-                headers={['id', 'name_no', 'name_en']}
-                deleteAction={deleteAction}
-            />
-            <Pagination pageSize={10} totalRows={tempSort.length} />
+            { typeof rules === 'string' || !Array.isArray(rules.rules) || rules.rules.length < 1
+                ? (
+                    <div className='w-full h-full flex items-center justify-center'>
+                        <Alert>
+                            {typeof rules === 'string'
+                                ? rules
+                                : 'No rules found'}
+                        </Alert>
+                    </div>
+                ) : (
+                    <div className='flex-1 flex flex-col overflow-hidden'>
+                        <Table
+                            list={rules.rules}
+                            headers={headers}
+                            deleteAction={deleteAction}
+                        />
+                        <Pagination pageSize={10} totalRows={rules.total_count} />
+                    </div>
+                )
+            }
         </div>
     )
 }

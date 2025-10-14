@@ -29,10 +29,10 @@ export default function TagInput({
     const [input, setInput] = useState('')
     const [hasBlured, setHasBlured] = useState(false)
 
-    function addTag(value: string) {
-        const trimmed = value.trim()
-        if (trimmed && !value.includes(trimmed)) {
-            setValue([...value, trimmed])
+    function addTag(tagValue: string) {
+        const trimmed = tagValue.trim()
+        if (trimmed && !original.includes(trimmed)) {
+            setValue([...original, trimmed])
         }
     }
 
@@ -58,9 +58,6 @@ export default function TagInput({
         setValue([])
         setInput('')
     }
-
-    const toRemove = original.filter((tag: string) => !value.includes(tag))
-    const toAdd = value.filter((tag: string) => !original.includes(tag))
 
     return (
         <div className={`w-full ${className}`}>
@@ -103,22 +100,11 @@ export default function TagInput({
                         autoComplete='off'
                         required={required && value.length === 0}
                     />
-                    {toRemove.map((tag) => (
-                        <input
-                            key={tag}
-                            type='hidden'
-                            name={name + '_remove'}
-                            value={tag}
-                        />
-                    ))}
-                    {toAdd.map((tag) => (
-                        <input
-                            key={tag}
-                            type='hidden'
-                            name={name + '_add'}
-                            value={tag}
-                        />
-                    ))}
+                    <input
+                        type='hidden'
+                        name={name}
+                        value={value.join(',')}
+                    />
                     <Label
                         label={label}
                         value={value.length ? value.join(', ') : ''}
