@@ -77,7 +77,6 @@ declare global {
         job_type: string
         time_publish: string
         time_expire: string
-        application_deadline: string
         banner_image: string | null
         application_url: string | null
 

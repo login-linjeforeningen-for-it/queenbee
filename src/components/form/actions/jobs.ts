@@ -14,11 +14,6 @@ export async function createJob(_: FormState, formData: FormData): Promise<FormS
     try {
         const timeZone = timeZoneOffset()
         const jobProps: PostJobProps = {
-            application_deadline:
-                formData.get('deadline_date') && formData.get('deadline_time')
-                    ? `${formData.get('deadline_date')}T` +
-                    `${formData.get('deadline_time')}:00${timeZone}`
-                    : '',
             application_url: formData.get('application_url') as string,
             banner_image: formData.get('banner_image') as string,
             description_long_en: formData.get('description_long_en') as string,
@@ -63,8 +58,6 @@ export async function createJob(_: FormState, formData: FormData): Promise<FormS
             active: true
         }
 
-        console.log('Creating job with props:', jobProps)
-
         const response = await postJob(jobProps)
         if (anyMandatoryFieldSet(announcementProps)) {
             await postAnnouncement({ ...announcementProps, roles: announcementProps.roles.split(' ') })
@@ -81,11 +74,6 @@ export async function updateJob(_: FormState, formData: FormData): Promise<FormS
     try {
         const timeZone = timeZoneOffset()
         const jobProps: PutJobProps = {
-            application_deadline:
-                formData.get('deadline_date') && formData.get('deadline_time')
-                    ? `${formData.get('deadline_date')}T` +
-                    `${formData.get('deadline_time')}:00${timeZone}`
-                    : '',
             application_url: formData.get('application_url') as string,
             banner_image: formData.get('banner_image') as string,
             description_long_en: formData.get('description_long_en') as string,

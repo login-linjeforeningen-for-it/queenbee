@@ -48,8 +48,6 @@ export default function JobFormInputsClient({
         highlight: defaultValues?.highlight,
         time_expire: defaultValues?.time_expire || fallBackDate('one month'),
         application_url: defaultValues?.application_url,
-        application_deadline:
-            defaultValues?.application_deadline || fallBackDate('one month'),
     })
 
     const mt = preview ? '-mt-12' : '-mt-13'
@@ -312,36 +310,6 @@ export default function JobFormInputsClient({
                 className='col-span-2'
                 required
             />
-            <DateInput
-                name='deadline_date'
-                label='Deadline Date'
-                value={formValues.application_deadline.split('T')[0]}
-                setValue={(date) => {
-                    const time =
-                        toLocalTimeString(formValues.application_deadline) ??
-                        '00:00'
-                    setFormValues({
-                        ...formValues,
-                        application_deadline: `${date}T${time}`,
-                    })
-                }}
-                required
-            />
-            <TimeInput
-                name='deadline_time'
-                label='Deadline Time'
-                value={toLocalTimeString(formValues.application_deadline)}
-                setValue={(time) => {
-                    const date =
-                        formValues.application_deadline.split('T')[0] ??
-                        new Date().toISOString().split('T')[0]
-                    setFormValues({
-                        ...formValues,
-                        application_deadline: `${date}T${time}`,
-                    })
-                }}
-                required
-            />
             <h1 className='text-xl pt-10 col-span-2'>Image</h1>
             <Select
                 name='banner_image'
@@ -389,5 +357,4 @@ const sampleJob = {
     highlight: true,
     time_expire: fallBackDate('one month'),
     application_url: 'https://login.no/jobs',
-    application_deadline: fallBackDate('one month'),
 }
