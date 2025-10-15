@@ -29,7 +29,6 @@ const config = {
         SKILLS_PATH: '/jobs/skills/',
         CITIES_PATH: '/cities/',
         CITIES_PATH_2: '/jobs/cities/',
-        CATEGORIES_PATH: '/events/categories/',
         AUDIENCES_PATH_2: '/events/audiences/',
         ORGANIZATIONS_PATH_2: '/events/organizations/',
         AUDIENCES_PATH: '/audiences/',
@@ -37,6 +36,16 @@ const config = {
         RULES_PATH: '/rules/',
         LOCATIONS_PATH: '/locations/',
         IMAGES_PATH: '/images',
+    },
+    workerbeeApi: {
+        events: {
+            CATEGORIES: '/events/categories/all',
+            AUDIENCES: '/events/audiences',
+            TIME_TYPES: '/events/time',
+        },
+        jobs: {
+            TYPES: '/jobs/types/all',
+        }
     },
     tekkomBotApi: {
         ANNOUNCEMENT_PATH: '/announcements',
@@ -47,18 +56,6 @@ const config = {
         TIME_UNSET: '0001-01-01T00:00:00Z',
         TIME_UNSET_START: '00:00:01',
         TIME_UNSET_END: '23:59:59',
-    },
-    timeType: {
-        DEFAULT: 'default',
-        NO_END: 'no_end',
-        WHOLE_DAY: 'whole_day',
-        TO_BE_DETERMINED: 'tbd',
-    },
-    jobType: {
-        FULL_TIME: 'full',
-        PART_TIME: 'part',
-        SUMMER: 'summer',
-        VERV: 'verv',
     },
     auth: {
         BASE_URL: env.BASE_URL,

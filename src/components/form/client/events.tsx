@@ -28,10 +28,10 @@ export function EventFormInputsClient({
     defaultValues?: GetEventProps
     bannerImages: Option[]
     smallImages: Option[]
-    categories: Option[]
-    audiences: Option[]
+    categories: OptionsProps[]
+    audiences: OptionsProps[]
     organizations: Option[]
-    timeTypes: Option[]
+    timeTypes: OptionsProps[]
     rules: Option[]
     locations: Option[]
     preview?: boolean
@@ -45,11 +45,11 @@ export function EventFormInputsClient({
         informational_en: defaultValues?.informational_en || '',
         description_no: defaultValues?.description_no || '',
         description_en: defaultValues?.description_en || '',
-        category: defaultValues?.category.id,
+        category: defaultValues?.category,
         organization: defaultValues?.organization?.id,
         rule: defaultValues?.rule?.id,
         location: defaultValues?.location?.id,
-        audiences: defaultValues?.audience?.id,
+        audience: defaultValues?.audience,
         time_type: defaultValues?.time_type,
         start_date: defaultValues?.time_start.split('T')[0],
         end_date: defaultValues?.time_end.split('T')[0],
@@ -181,7 +181,7 @@ export function EventFormInputsClient({
                     setValue={(input) =>
                         setFormValues({
                             ...formValues,
-                            category: Number(input),
+                            category: input?.toString(),
                         })
                     }
                     required
@@ -223,14 +223,14 @@ export function EventFormInputsClient({
                     }
                 />
                 <Select
-                    name='audiences'
-                    label='Audiences'
+                    name='audience'
+                    label='Audience'
                     options={audiences}
-                    value={formValues.audiences || ''}
+                    value={formValues.audience || ''}
                     setValue={(input) =>
                         setFormValues({
                             ...formValues,
-                            audiences: Number(input),
+                            audience: input?.toString(),
                         })
                     }
                 />
@@ -621,11 +621,11 @@ const sampleEvent = {
 - Free food and drinks  
 - Meet fellow students in the study program  
 - Learn about upcoming events and activities`,
-    category: 2,
+    category: 'TekKom',
     organization: 1,
-    rule: 10,
+    rule: 1,
     location: 1,
-    audiences: 1,
+    audience: 'students',
     time_type: 'default' as time_type,
     start_date: '2025-09-15',
     end_date: '2025-09-15',

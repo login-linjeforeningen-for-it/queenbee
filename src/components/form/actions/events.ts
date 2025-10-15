@@ -18,7 +18,7 @@ export async function createEvent(_: FormState, formData: FormData): Promise<For
         const eventProps: PostEventProps = {
             canceled: formData.get('canceled') === 'true',
             capacity: Number(formData.get('capacity')),
-            category_id: Number(formData.get('category')),
+            category: formData.get('category') as string,
             description_en: formData.get('description_en') as string,
             description_no: formData.get('description_no') as string,
             digital: false,
@@ -35,9 +35,9 @@ export async function createEvent(_: FormState, formData: FormData): Promise<For
             location_id: Number(formData.get('location')),
             name_en: formData.get('name_en') as string,
             name_no: formData.get('name_no') as string,
-            parent_id: Number(formData.get('parent')),
+            parent_id: formData.get('parent') ? Number(formData.get('parent')) : null,
             rule_id: Number(formData.get('rule')),
-            audience_id: formData.get('audience') ? Number(formData.get('audience')) : null,
+            audience: formData.get('audience') as string,
             organization_id: formData.get('organization') ? Number(formData.get('organization')) : null,
             time_end:
                 formData.get('end_date') && formData.get('end_time')
@@ -110,7 +110,7 @@ export async function updateEvent(_: FormState, formData: FormData): Promise<For
         const eventProps: PutEventProps = {
             canceled: false,
             capacity: Number(formData.get('capacity')),
-            category_id: Number(formData.get('category')),
+            category: formData.get('category') as string,
             description_en: formData.get('description_en') as string,
             description_no: formData.get('description_no') as string,
             digital: formData.get('digital') === 'true',
@@ -127,9 +127,9 @@ export async function updateEvent(_: FormState, formData: FormData): Promise<For
             location_id: Number(formData.get('location')),
             name_en: formData.get('name_en') as string,
             name_no: formData.get('name_no') as string,
-            parent_id: Number(formData.get('parent')),
+            parent_id: formData.get('parent') ? Number(formData.get('parent')) : null,
             rule_id: Number(formData.get('rule')),
-            audience_id: formData.get('audience') ? Number(formData.get('audience')) : null,
+            audience: formData.get('audience') as string,
             organization_id: formData.get('organization') ? Number(formData.get('organization')) : null,
             time_end:
                 formData.get('end_date') && formData.get('end_time')

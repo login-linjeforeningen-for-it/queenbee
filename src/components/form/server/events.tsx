@@ -8,6 +8,7 @@ import {
     getOrganizations,
     getRoles,
     getRules,
+    getTimeTypes,
 } from '@utils/api'
 import { EventFormInputsClient } from '../client/events'
 
@@ -33,11 +34,10 @@ export default async function EventFormInputs({ defaultValues, parent }: { defau
         : []
 
     const categoriesResponse = await getCategories()
-    // prettier-ignore
     const categories = Array.isArray(categoriesResponse)
         ? categoriesResponse.map((category) => ({
-            label: category.name_no,
-            value: category.id,
+            label: category.en,
+            value: category.en,
         }))
         : []
 
@@ -63,7 +63,6 @@ export default async function EventFormInputs({ defaultValues, parent }: { defau
 
     const locationsResponse = await getLocations()
     const locations = typeof locationsResponse !== 'string' ? locationsResponse.locations : []
-
     const locationsOptions = Array.isArray(locations)
         ? locations.map((location) => ({
             label: location.name_no,
@@ -72,20 +71,22 @@ export default async function EventFormInputs({ defaultValues, parent }: { defau
         : []
 
     const audiencesResponse = await getAudiences()
-    // prettier-ignore
     const audiences = Array.isArray(audiencesResponse)
         ? audiencesResponse.map((audience) => ({
-            label: audience.name_no,
-            value: audience.id,
+            label: audience.en
+                .replace(/_/g, ' ')
+                .replace(/^([a-z])/, (m) => m.toUpperCase()),
+            value: audience.en,
         }))
         : []
 
-    const timeTypes: { label: string; value: time_type }[] = [
-        { label: 'Default', value: 'default' },
-        { label: 'No end', value: 'no_end' },
-        { label: 'Whole day', value: 'whole_day' },
-        { label: 'To Be Determined', value: 'tbd' },
-    ]
+    const timeTypes = await getTimeTypes()
+    const timeTypesOptions = Array.isArray(timeTypes)
+        ? timeTypes.map((type) => ({
+            label: type,
+            value: type
+        }))
+        : []
 
     const rolesResponse = await getRoles()
     const roles = Array.isArray(rolesResponse)
@@ -103,7 +104,7 @@ export default async function EventFormInputs({ defaultValues, parent }: { defau
             bannerImages={bannerImages}
             smallImages={smallImages}
             audiences={audiences}
-            timeTypes={timeTypes}
+            timeTypes={timeTypesOptions}
             categories={categories}
             organizations={organizationsOptions}
             rules={rulesOptions}

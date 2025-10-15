@@ -34,11 +34,11 @@ declare global {
 
     type GetEventProps = Event & {
         id: number
-        category: GetRuleProps
+        category: string
         location: GetLocationProps | null
         parent_id: number | null
         rule: GetRuleProps | null
-        audience: GetAudienceProps | null
+        audience: string
         organization: GetOrganizationProps | null
         updated_at: string
         created_at: string
@@ -50,11 +50,11 @@ declare global {
     }
 
     type PostEventProps = Event & {
-        category_id: number
+        category: string
         location_id: number | null
         parent_id: number | null
         rule_id: number | null
-        audience_id: number | null
+        audience: string | null
         organization_id: number | null
     }
 
@@ -245,6 +245,12 @@ declare global {
         id: number
     }
 
+    // Enum types
+    type GetTypesProps = {
+        en: string
+        no: string
+    }[]
+
     // Images
     type GetImageProps = {
         filepath: string
@@ -257,6 +263,8 @@ declare global {
     }
 
     // Other
+    type OptionsProps = { label: string; value: number | string }
+
     type CityProps = {
         city: string
         id: number

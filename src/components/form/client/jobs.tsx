@@ -24,7 +24,7 @@ export default function JobFormInputsClient({
 }: {
     defaultValues?: GetJobProps
     organizations: { label: string; value: number }[]
-    applicationTypes: Application[]
+    applicationTypes: OptionsProps[]
     jobImages: LoginImage[]
     preview?: boolean
     channels: Channel[]

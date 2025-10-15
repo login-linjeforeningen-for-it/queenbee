@@ -44,12 +44,20 @@ export async function deleteEvent(id: number) {
     return await deleteWrapper({ path })
 }
 
-// Categories
-export async function getCategories(): Promise<GetCategoriesProps | string> {
-    const path = `${config.beehiveApi.CATEGORIES_PATH}`
+export async function getCategories(): Promise<GetTypesProps | string> {
+    const path = `${config.workerbeeApi.events.CATEGORIES}`
     return await getWrapper({ path })
 }
 
+export async function getAudiences(): Promise<GetTypesProps | string> {
+    const path = `${config.workerbeeApi.events.AUDIENCES}`
+    return await getWrapper({ path })
+}
+
+export async function getTimeTypes(): Promise<string[] | string> {
+    const path = `${config.workerbeeApi.events.TIME_TYPES}`
+    return await getWrapper({ path })
+}
 
 // ------------------------------------------ Jobs ------------------------------------------
 
@@ -82,6 +90,11 @@ export async function putJob(id: number, body: PutJobProps): Promise<PutJobProps
 export async function deleteJob(id: number) {
     const path = `${config.beehiveApi.JOBADS_PATH}${id}`
     return await deleteWrapper({ path })
+}
+
+export async function getTypes(): Promise<GetTypesProps | string> {
+    const path = `${config.workerbeeApi.jobs.TYPES}`
+    return await getWrapper({ path })
 }
 
 // ------------------------------------------ Organizations ------------------------------------------
@@ -275,26 +288,4 @@ export async function getOrganizationImages(): Promise<GetImageProps | string> {
         `${config.beehiveApi.IMAGES_PATH}` +
         `${config.beehiveApi.ORGANIZATIONS_PATH}`
     return await getWrapper({ path })
-}
-
-export async function getAudiences(): Promise<GetAudiencesProps | string> {
-    const path = `${config.beehiveApi.AUDIENCES_PATH}`
-    return await getWrapper({ path })
-}
-
-export async function getAudience(id: number) {
-    const path = `${config.beehiveApi.AUDIENCES_PATH}${id}`
-    return await getWrapper({ path })
-}
-
-export async function postAudience(body: AudienceProps) {
-    return await postWrapper({ path: config.beehiveApi.AUDIENCES_PATH_2, data: body })
-}
-
-export async function deleteAudience(body: AudienceProps) {
-    return await deleteWrapper({ path: config.beehiveApi.AUDIENCES_PATH_2, options: body })
-}
-
-export async function postOrganizationEvent(body: PostOrganizationProps): Promise<PostOrganizationProps | string> {
-    return await postWrapper({ path: config.beehiveApi.ORGANIZATIONS_PATH_2, data: body })
 }
