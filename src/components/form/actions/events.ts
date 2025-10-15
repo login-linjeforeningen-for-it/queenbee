@@ -49,7 +49,6 @@ export async function createEvent(_: FormState, formData: FormData): Promise<For
                     ? `${formData.get('publish_date')}T` +
                     `${formData.get('publish_time')}:00${timeZone}`
                     : '',
-            // prettier-ignore
             time_signup_deadline: formData.get('link_signup')
                 ? formData.get('deadline_date') && formData.get('deadline_time')
                     ? `${formData.get('deadline_date')}T` +
@@ -59,7 +58,6 @@ export async function createEvent(_: FormState, formData: FormData): Promise<For
                         `${formData.get('end_time')}:00${timeZone}`
                         : null
                 : null,
-            // prettier-ignore
             time_signup_release: formData.get('link_signup')
                 ? formData.get('release_date') && formData.get('release_time')
                     ? `${formData.get('release_date')}T` +
@@ -149,8 +147,8 @@ export async function updateEvent(_: FormState, formData: FormData): Promise<For
                     : formData.get('end_date') && formData.get('end_time')
                         ? `${formData.get('end_date')}T` +
                         `${formData.get('end_time')}:00${timeZone}`
-                        : ''
-                : '',
+                        : null
+                : null,
             // prettier-ignore
             time_signup_release: formData.get('link_signup')
                 ? formData.get('release_date') && formData.get('release_time')
@@ -160,8 +158,8 @@ export async function updateEvent(_: FormState, formData: FormData): Promise<For
                         formData.get('publish_time')
                         ? `${formData.get('publish_date')}` +
                         `T${formData.get('publish_time')}:00${timeZone}`
-                        : ''
-                : '',
+                        : null
+                : null,
             time_start:
                 formData.get('start_date') && formData.get('start_time')
                     ? `${formData.get('start_date')}T` +
