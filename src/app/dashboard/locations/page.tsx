@@ -39,12 +39,14 @@ enum Location {
     Address = 'address',
     Mazemap = 'mazemap',
     Coordinate = 'coordinate',
+    Digital = 'digital',
 }
 
 enum LocationAPI {
     address = 'address',
     mazemap = 'mazemap',
     coordinate = 'coords',
+    digital = 'digital',
 }
 
 async function deleteAction(id: string) {
@@ -57,7 +59,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     const filters = await searchParams
     const search = typeof filters.q === 'string' ? filters.q : ''
     const offset = typeof filters.page === 'string' ? Number(filters.page)-1 : 0
-    const limit = 10
+    const limit = 14
     const orderBy = typeof filters.column === 'string' ? filters.column : 'id'
     const sort = typeof filters.order === 'string' && (filters.order === 'asc' || filters.order === 'desc')
         ? filters.order
@@ -107,6 +109,10 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                             value={Location.Mazemap}
                             active={activeType}
                         />
+                        <LocationOption
+                            value={Location.Digital}
+                            active={activeType}
+                        />
                     </div>
                     <div className='flex flex-row gap-[1rem]'>
                         <Button
@@ -148,7 +154,14 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                             deleteAction={deleteAction}
                         />
                     )}
-                    <Pagination pageSize={10} totalRows={locations.total_count} />
+                    {activeType === Location.Digital && (
+                        <Table
+                            list={locations.locations}
+                            headers={['id', 'name_no', 'url', 'updated_at']}
+                            deleteAction={deleteAction}
+                        />
+                    )}
+                    <Pagination pageSize={limit} totalRows={locations.total_count} />
                 </div>
             )}
         </div>

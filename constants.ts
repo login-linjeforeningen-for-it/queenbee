@@ -48,7 +48,7 @@ const config = {
             TYPES: '/jobs/types/all',
         },
         locations: {
-            PATH: '/locations',
+            PATH: '/locations/',
         }
     },
     tekkomBotApi: {

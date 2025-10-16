@@ -20,7 +20,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     const filters = await searchParams
     const search = typeof filters.q === 'string' ? filters.q : ''
     const offset = typeof filters.page === 'string' ? Number(filters.page)-1 : 0
-    const limit = 10
+    const limit = 14
     const orderBy = typeof filters.column === 'string' ? filters.column : 'id'
     const sort = typeof filters.order === 'string' && (filters.order === 'asc' || filters.order === 'desc')
         ? filters.order
@@ -70,7 +70,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                             headers={headers}
                             deleteAction={deleteAction}
                         />
-                        <Pagination pageSize={10} totalRows={events.total_count} />
+                        <Pagination pageSize={limit} totalRows={events.total_count} />
                     </div>
                 )
             }

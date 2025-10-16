@@ -7,6 +7,7 @@ enum Location {
     Address = 'address',
     Mazemap = 'mazemap',
     Coordinate = 'coordinate',
+    Digital = 'digital',
 }
 
 type OptionProps = {
