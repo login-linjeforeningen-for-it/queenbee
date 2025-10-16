@@ -24,8 +24,6 @@ const config = {
         universe_domain: env.UNIVERSE_DOMAIN,
     },
     beehiveApi: {
-        EVENTS_PATH: '/events/',
-        JOBADS_PATH: '/jobs/',
         SKILLS_PATH: '/jobs/skills/',
         CITIES_PATH: '/cities/',
         CITIES_PATH_2: '/jobs/cities/',
@@ -34,17 +32,23 @@ const config = {
         AUDIENCES_PATH: '/audiences/',
         ORGANIZATIONS_PATH: '/organizations/',
         RULES_PATH: '/rules/',
-        LOCATIONS_PATH: '/locations/',
         IMAGES_PATH: '/images',
     },
     workerbeeApi: {
         events: {
+            PATH: '/events/',
+            PATH_PROTECTED: '/events/protected/',
             CATEGORIES: '/events/categories/all',
             AUDIENCES: '/events/audiences',
             TIME_TYPES: '/events/time',
         },
         jobs: {
+            PATH: '/jobs/',
+            PATH_PROTECTED: '/jobs/protected/',
             TYPES: '/jobs/types/all',
+        },
+        locations: {
+            PATH: '/locations',
         }
     },
     tekkomBotApi: {

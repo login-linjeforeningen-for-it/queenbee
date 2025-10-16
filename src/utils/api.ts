@@ -21,26 +21,26 @@ export async function getEvents({ search, offset, limit, orderBy, sort }: GetPar
     if (orderBy)    queryParts.append('orderBy', String(orderBy))
     if (sort)       queryParts.append('sort', String(sort))
 
-    const path = `${config.beehiveApi.EVENTS_PATH}?${queryParts.toString()}`
+    const path = `${config.workerbeeApi.events.PATH_PROTECTED}?${queryParts.toString()}`
     return await getWrapper({ path })
 }
 
 export async function getEvent(id: number): Promise<GetEventProps | string> {
-    const path = `${config.beehiveApi.EVENTS_PATH}${id}`
+    const path = `${config.workerbeeApi.events.PATH_PROTECTED}${id}`
     return await getWrapper({ path })
 }
 
 export async function postEvent(body: PostEventProps): Promise<PostEventProps | string> {
-    return await postWrapper({ path: config.beehiveApi.EVENTS_PATH, data: body })
+    return await postWrapper({ path: config.workerbeeApi.events.PATH, data: body })
 }
 
 export async function putEvent(id: number, body: PutEventProps): Promise<PutEventProps | string> {
-    const path = `${config.beehiveApi.EVENTS_PATH}${id}`
+    const path = `${config.workerbeeApi.events.PATH}${id}`
     return await putWrapper({ path, data: body })
 }
 
 export async function deleteEvent(id: number) {
-    const path = `${config.beehiveApi.EVENTS_PATH}${id}`
+    const path = `${config.workerbeeApi.events.PATH}${id}`
     return await deleteWrapper({ path })
 }
 
@@ -69,26 +69,26 @@ export async function getJobs({ search, limit, offset, orderBy, sort }: GetParam
     if (orderBy)    queryParts.append('orderBy', String(orderBy))
     if (sort)       queryParts.append('sort', String(sort))
 
-    const path = `${config.beehiveApi.JOBADS_PATH}?${queryParts.toString()}`
+    const path = `${config.workerbeeApi.jobs.PATH_PROTECTED}?${queryParts.toString()}`
     return await getWrapper({ path })
 }
 
 export async function getJob(id: number): Promise<GetJobProps | string> {
-    const path = `${config.beehiveApi.JOBADS_PATH}${id}`
+    const path = `${config.workerbeeApi.jobs.PATH_PROTECTED}${id}`
     return await getWrapper({ path })
 }
 
 export async function postJob(body: PostJobProps): Promise<PostJobProps | string> {
-    return await postWrapper({ path: config.beehiveApi.JOBADS_PATH, data: body })
+    return await postWrapper({ path: config.workerbeeApi.jobs.PATH, data: body })
 }
 
 export async function putJob(id: number, body: PutJobProps): Promise<PutJobProps | string> {
-    const path = `${config.beehiveApi.JOBADS_PATH}${id}`
+    const path = `${config.workerbeeApi.jobs.PATH}${id}`
     return await putWrapper({ path, data: body })
 }
 
 export async function deleteJob(id: number) {
-    const path = `${config.beehiveApi.JOBADS_PATH}${id}`
+    const path = `${config.workerbeeApi.jobs.PATH}${id}`
     return await deleteWrapper({ path })
 }
 
@@ -144,26 +144,26 @@ Promise<GetLocationsProps | string> {
     if (orderBy)    queryParts.append('orderBy', String(orderBy))
     if (sort)       queryParts.append('sort', String(sort))
 
-    const path = `${config.beehiveApi.LOCATIONS_PATH}?${queryParts.toString()}`
+    const path = `${config.workerbeeApi.locations.PATH}?${queryParts.toString()}`
     return await getWrapper({ path })
 }
 
 export async function getLocation(id: number): Promise<GetLocationProps | string> {
-    const path = `${config.beehiveApi.LOCATIONS_PATH}${id}`
+    const path = `${config.workerbeeApi.locations.PATH}${id}`
     return await getWrapper({ path })
 }
 
 export async function postLocation(body: PostLocationProps): Promise<PostLocationProps | string> {
-    return await postWrapper({ path: config.beehiveApi.LOCATIONS_PATH, data: body })
+    return await postWrapper({ path: config.workerbeeApi.locations.PATH, data: body })
 }
 
 export async function putLocation(id: number, body: PutLocationProps): Promise<PutLocationProps | string> {
-    const path = `${config.beehiveApi.LOCATIONS_PATH}${id}`
+    const path = `${config.workerbeeApi.locations.PATH}${id}`
     return await putWrapper({ path, data: body })
 }
 
 export async function deleteLocation(id: number) {
-    const path = `${config.beehiveApi.LOCATIONS_PATH}${id}`
+    const path = `${config.workerbeeApi.locations.PATH}${id}`
     return await deleteWrapper({ path })
 }
 
@@ -252,24 +252,24 @@ export async function deleteAnnouncement(id: number) {
 
 // Events
 export async function getEventBannerImages(): Promise<GetImageProps | string> {
-    const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.EVENTS_PATH}banner`
+    const path = `${config.beehiveApi.IMAGES_PATH}${config.workerbeeApi.events.PATH}banner`
     return await getWrapper({ path })
 }
 
 export async function getEventSmallImages(): Promise<GetImageProps | string> {
-    const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.EVENTS_PATH}small`
+    const path = `${config.beehiveApi.IMAGES_PATH}${config.workerbeeApi.events.PATH}small`
     return await getWrapper({ path })
 }
 
 export async function postEventBannerImages(file: File): Promise<PostImageProps | string> {
-    const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.EVENTS_PATH}banner`
+    const path = `${config.beehiveApi.IMAGES_PATH}${config.workerbeeApi.events.PATH}banner`
     const formData = new FormData()
     formData.append('file', file)
     return await postWrapper({ path, data: formData })
 }
 
 export async function postEventSmallImages(file: File): Promise<PostImageProps | string> {
-    const path = `${config.beehiveApi.IMAGES_PATH}${config.beehiveApi.EVENTS_PATH}small`
+    const path = `${config.beehiveApi.IMAGES_PATH}${config.workerbeeApi.events.PATH}small`
     const formData = new FormData()
     formData.append('file', file)
     return await postWrapper({ path, data: formData })
@@ -278,7 +278,7 @@ export async function postEventSmallImages(file: File): Promise<PostImageProps |
 // Jobs
 export async function getJobImages(): Promise<GetImageProps | string> {
     const path =
-        `${config.beehiveApi.IMAGES_PATH}` + `${config.beehiveApi.JOBADS_PATH}`
+        `${config.beehiveApi.IMAGES_PATH}` + `${config.workerbeeApi.jobs.PATH}`
     return await getWrapper({ path })
 }
 
