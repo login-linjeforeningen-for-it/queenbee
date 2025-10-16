@@ -2,7 +2,9 @@
 
 import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
 import { putEvent, postAnnouncement, postEvent } from '@utils/api'
-import { timeZoneOffset } from '@utils/timeZone'
+import {
+    getOptionalBoolean, getOptionalNumber, getOptionalString, getRequiredString, getRequiredDateTime, getOptionalDateTime
+} from '@utils/validate'
 
 export type FormState =
     | null
@@ -14,68 +16,37 @@ type PutEventProps = PostEventProps
 
 export async function createEvent(_: FormState, formData: FormData): Promise<FormState> {
     try {
-        const timeZone = timeZoneOffset()
         const eventProps: PostEventProps = {
-            canceled: formData.get('canceled') === 'true',
-            capacity: Number(formData.get('capacity')),
-            category: formData.get('category') as string,
-            description_en: formData.get('description_en') as string,
-            description_no: formData.get('description_no') as string,
-            digital: false,
-            is_full: formData.get('isFull') === 'true',
-            highlight: formData.get('highlight') === 'true',
-            image_banner: formData.get('image_banner') as string,
-            image_small: formData.get('image_small') as string,
-            informational_en: formData.get('informational_en') as string,
-            informational_no: formData.get('informational_no') as string,
-            link_discord: formData.get('link_discord') as string,
-            link_facebook: formData.get('link_facebook') as string,
-            link_signup: formData.get('link_signup') as string,
-            link_stream: formData.get('link_stream') as string,
-            location_id: Number(formData.get('location')),
-            name_en: formData.get('name_en') as string,
-            name_no: formData.get('name_no') as string,
-            parent_id: formData.get('parent') ? Number(formData.get('parent')) : null,
-            rule_id: Number(formData.get('rule')),
-            audience: formData.get('audience') as string,
-            organization_id: formData.get('organization') ? Number(formData.get('organization')) : null,
-            time_end:
-                formData.get('end_date') && formData.get('end_time')
-                    ? `${formData.get('end_date')}T` +
-                    `${formData.get('end_time')}:00${timeZone}`
-                    : '',
-            time_publish:
-                formData.get('publish_date') && formData.get('publish_time')
-                    ? `${formData.get('publish_date')}T` +
-                    `${formData.get('publish_time')}:00${timeZone}`
-                    : '',
-            time_signup_deadline: formData.get('link_signup')
-                ? formData.get('deadline_date') && formData.get('deadline_time')
-                    ? `${formData.get('deadline_date')}T` +
-                    `${formData.get('deadline_time')}:00${timeZone}`
-                    : formData.get('end_date') && formData.get('end_time')
-                        ? `${formData.get('end_date')}T` +
-                        `${formData.get('end_time')}:00${timeZone}`
-                        : null
-                : null,
-            time_signup_release: formData.get('link_signup')
-                ? formData.get('release_date') && formData.get('release_time')
-                    ? `${formData.get('release_date')}T` +
-                    `${formData.get('release_time')}:00${timeZone}`
-                    : formData.get('publish_date') &&
-                        formData.get('publish_time')
-                        ? `${formData.get('publish_date')}T` +
-                        `${formData.get('publish_time')}:00${timeZone}`
-                        : null
-                : null,
-            // prettier-ignore
-            time_start:
-                formData.get('start_date') && formData.get('start_time')
-                    ? `${formData.get('start_date')}T` +
-                    `${formData.get('start_time')}:00${timeZone}`
-                    : '',
-            time_type: formData.get('time_type') as time_type,
-            visible: true,
+            canceled:               getOptionalBoolean(formData, 'canceled') || false,
+            capacity:               getOptionalNumber(formData, 'capacity'),
+            category:               getRequiredString(formData, 'category'),
+            description_en:         getRequiredString(formData, 'description_en'),
+            description_no:         getRequiredString(formData, 'description_no'),
+            digital:                getOptionalBoolean(formData, 'digital') || false,
+            is_full:                getOptionalBoolean(formData, 'isFull') || false,
+            highlight:              getOptionalBoolean(formData, 'highlight') || false,
+            image_banner:           getOptionalString(formData, 'image_banner'),
+            image_small:            getOptionalString(formData, 'image_small'),
+            informational_en:       getRequiredString(formData, 'informational_en'),
+            informational_no:       getRequiredString(formData, 'informational_no'),
+            link_discord:           getOptionalString(formData, 'link_discord'),
+            link_facebook:          getOptionalString(formData, 'link_facebook'),
+            link_signup:            getOptionalString(formData, 'link_signup'),
+            link_stream:            getOptionalString(formData, 'link_stream'),
+            location_id:            getOptionalNumber(formData, 'location'),
+            name_en:                getRequiredString(formData, 'name_en'),
+            name_no:                getRequiredString(formData, 'name_no'),
+            parent_id:              getOptionalNumber(formData, 'parent'),
+            rule_id:                getOptionalNumber(formData, 'rule'),
+            audience:               getOptionalString(formData, 'audience'),
+            organization_id:        getOptionalNumber(formData, 'organization'),
+            time_end:               getRequiredDateTime(formData, 'end_date', 'end_time'),
+            time_publish:           getRequiredDateTime(formData, 'publish_date', 'publish_time'),
+            time_signup_deadline:   getOptionalDateTime(formData, 'deadline_date', 'deadline_time'),
+            time_signup_release:    getOptionalDateTime(formData, 'release_date', 'release_time'),
+            time_start:             getRequiredDateTime(formData, 'start_date', 'start_time'),
+            time_type:              getRequiredString(formData, 'time_type') as time_type,
+            visible:                getOptionalBoolean(formData, 'visible') || true,
         }
 
         const announcementProps: PostAnnouncementPropsUnparsed = {
@@ -104,69 +75,37 @@ export async function createEvent(_: FormState, formData: FormData): Promise<For
 
 export async function updateEvent(_: FormState, formData: FormData): Promise<FormState> {
     try {
-        const timeZone = timeZoneOffset()
         const eventProps: PutEventProps = {
-            canceled: false,
-            capacity: Number(formData.get('capacity')),
-            category: formData.get('category') as string,
-            description_en: formData.get('description_en') as string,
-            description_no: formData.get('description_no') as string,
-            digital: formData.get('digital') === 'true',
-            is_full: formData.get('isFull') === 'true',
-            highlight: formData.get('highlight') === 'true',
-            image_banner: formData.get('image_banner') as string,
-            image_small: formData.get('image_small') as string,
-            informational_en: formData.get('informational_en') as string,
-            informational_no: formData.get('informational_no') as string,
-            link_discord: formData.get('link_discord') as string,
-            link_facebook: formData.get('link_facebook') as string,
-            link_signup: formData.get('link_signup') as string,
-            link_stream: formData.get('link_stream') as string,
-            location_id: Number(formData.get('location')),
-            name_en: formData.get('name_en') as string,
-            name_no: formData.get('name_no') as string,
-            parent_id: formData.get('parent') ? Number(formData.get('parent')) : null,
-            rule_id: Number(formData.get('rule')),
-            audience: formData.get('audience') as string,
-            organization_id: formData.get('organization') ? Number(formData.get('organization')) : null,
-            time_end:
-                formData.get('end_date') && formData.get('end_time')
-                    ? `${formData.get('end_date')}T` +
-                    `${formData.get('end_time')}:00${timeZone}`
-                    : '',
-            time_publish:
-                formData.get('publish_date') && formData.get('publish_time')
-                    ? `${formData.get('publish_date')}T` +
-                    `${formData.get('publish_time')}:00${timeZone}`
-                    : '',
-            // prettier-ignore
-            time_signup_deadline: formData.get('link_signup')
-                ? formData.get('deadline_date') && formData.get('deadline_time')
-                    ? `${formData.get('deadline_date')}T` +
-                    `${formData.get('deadline_time')}:00${timeZone}`
-                    : formData.get('end_date') && formData.get('end_time')
-                        ? `${formData.get('end_date')}T` +
-                        `${formData.get('end_time')}:00${timeZone}`
-                        : null
-                : null,
-            // prettier-ignore
-            time_signup_release: formData.get('link_signup')
-                ? formData.get('release_date') && formData.get('release_time')
-                    ? `${formData.get('release_date')}T` +
-                    `${formData.get('release_time')}:00${timeZone}`
-                    : formData.get('publish_date') &&
-                        formData.get('publish_time')
-                        ? `${formData.get('publish_date')}` +
-                        `T${formData.get('publish_time')}:00${timeZone}`
-                        : null
-                : null,
-            time_start:
-                formData.get('start_date') && formData.get('start_time')
-                    ? `${formData.get('start_date')}T` +
-                    `${formData.get('start_time')}:00${timeZone}`
-                    : '',
-            time_type: formData.get('time_type') as time_type,
-            visible: true,
+            canceled:               getOptionalBoolean(formData, 'canceled') || false,
+            capacity:               getOptionalNumber(formData, 'capacity'),
+            category:               getRequiredString(formData, 'category'),
+            description_en:         getRequiredString(formData, 'description_en'),
+            description_no:         getRequiredString(formData, 'description_no'),
+            digital:                getOptionalBoolean(formData, 'digital') || false,
+            is_full:                getOptionalBoolean(formData, 'isFull') || false,
+            highlight:              getOptionalBoolean(formData, 'highlight') || false,
+            image_banner:           getOptionalString(formData, 'image_banner'),
+            image_small:            getOptionalString(formData, 'image_small'),
+            informational_en:       getRequiredString(formData, 'informational_en'),
+            informational_no:       getRequiredString(formData, 'informational_no'),
+            link_discord:           getOptionalString(formData, 'link_discord'),
+            link_facebook:          getOptionalString(formData, 'link_facebook'),
+            link_signup:            getOptionalString(formData, 'link_signup'),
+            link_stream:            getOptionalString(formData, 'link_stream'),
+            location_id:            getOptionalNumber(formData, 'location'),
+            name_en:                getRequiredString(formData, 'name_en'),
+            name_no:                getRequiredString(formData, 'name_no'),
+            parent_id:              getOptionalNumber(formData, 'parent'),
+            rule_id:                getOptionalNumber(formData, 'rule'),
+            audience:               getOptionalString(formData, 'audience'),
+            organization_id:        getOptionalNumber(formData, 'organization'),
+            time_end:               getRequiredDateTime(formData, 'end_date', 'end_time'),
+            time_publish:           getRequiredDateTime(formData, 'publish_date', 'publish_time'),
+            time_signup_deadline:   getOptionalDateTime(formData, 'deadline_date', 'deadline_time'),
+            time_signup_release:    getOptionalDateTime(formData, 'release_date', 'release_time'),
+            time_start:             getRequiredDateTime(formData, 'start_date', 'start_time'),
+            time_type:              getRequiredString(formData, 'time_type') as time_type,
+            visible:                getOptionalBoolean(formData, 'visible') || true,
         }
 
         const id = Number(formData.get('id'))

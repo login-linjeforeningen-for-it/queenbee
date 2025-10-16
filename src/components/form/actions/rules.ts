@@ -1,6 +1,7 @@
 'use server'
 
 import { putRule, postRule } from '@utils/api'
+import { getRequiredString } from '@utils/validate'
 
 export type FormState =
     | null
@@ -11,10 +12,10 @@ export type FormState =
 export async function createRule(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const ruleProps: PostRuleProps = {
-            name_en: formData.get('name_en') as string,
-            name_no: formData.get('name_no') as string,
-            description_en: formData.get('description_en') as string,
-            description_no: formData.get('description_no') as string,
+            name_en:        getRequiredString(formData, 'name_en'),
+            name_no:        getRequiredString(formData, 'name_no'),
+            description_en: getRequiredString(formData, 'description_en'),
+            description_no: getRequiredString(formData, 'description_no'),
         }
 
         const response = await postRule(ruleProps)
@@ -28,10 +29,10 @@ export async function createRule(_: FormState, formData: FormData): Promise<Form
 export async function updateRule(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const ruleProps: PutRuleProps = {
-            name_en: formData.get('name_en') as string,
-            name_no: formData.get('name_no') as string,
-            description_en: formData.get('description_en') as string,
-            description_no: formData.get('description_no') as string,
+            name_en:        getRequiredString(formData, 'name_en'),
+            name_no:        getRequiredString(formData, 'name_no'),
+            description_en: getRequiredString(formData, 'description_en'),
+            description_no: getRequiredString(formData, 'description_no'),
         }
 
         const id = Number(formData.get('id'))

@@ -84,7 +84,7 @@ export async function postJob(body: PostJobProps): Promise<PostJobProps | string
 
 export async function putJob(id: number, body: PutJobProps): Promise<PutJobProps | string> {
     const path = `${config.beehiveApi.JOBADS_PATH}${id}`
-    return await putWrapper({ path, options: body })
+    return await putWrapper({ path, data: body })
 }
 
 export async function deleteJob(id: number) {

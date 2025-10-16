@@ -1,6 +1,7 @@
 'use server'
 
 import { putOrganization, postOrganization } from '@utils/api'
+import { getOptionalString, getRequiredString } from '@utils/validate'
 
 export type FormState =
     | null
@@ -11,16 +12,15 @@ export type FormState =
 export async function createOrganization(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const organizationProps: PostOrganizationProps = {
-            description_en: formData.get('description_en') as string,
-            description_no: formData.get('description_no') as string,
-            link_facebook: formData.get('link_facebook') as string,
-            link_homepage: formData.get('link_homepage') as string,
-            link_instagram: formData.get('link_instagram') as string,
-            link_linkedin: formData.get('link_linkedin') as string,
-            logo: formData.get('logo') as string,
-            name_en: formData.get('name_en') as string,
-            name_no: formData.get('name_no') as string,
-            type: Number(formData.get('type')),
+            description_en: getRequiredString(formData, 'description_en'),
+            description_no: getRequiredString(formData, 'description_no'),
+            link_facebook:  getOptionalString(formData, 'link_facebook'),
+            link_homepage:  getOptionalString(formData, 'link_homepage'),
+            link_instagram: getOptionalString(formData, 'link_instagram'),
+            link_linkedin:  getOptionalString(formData, 'link_linkedin'),
+            logo:           getOptionalString(formData, 'logo'),
+            name_en:        getRequiredString(formData, 'name_en'),
+            name_no:        getRequiredString(formData, 'name_no'),
         }
 
         const response = await postOrganization(organizationProps)
@@ -34,16 +34,15 @@ export async function createOrganization(_: FormState, formData: FormData): Prom
 export async function updateOrganization(_: FormState, formData: FormData): Promise<FormState> {
     try {
         const organizationProps: PutOrganizationProps = {
-            description_en: formData.get('description_en') as string,
-            description_no: formData.get('description_no') as string,
-            link_facebook: formData.get('link_facebook') as string,
-            link_homepage: formData.get('link_homepage') as string,
-            link_instagram: formData.get('link_instagram') as string,
-            link_linkedin: formData.get('link_linkedin') as string,
-            logo: formData.get('logo') as string,
-            name_en: formData.get('name_en') as string,
-            name_no: formData.get('name_no') as string,
-            type: Number(formData.get('type')),
+            description_en: getRequiredString(formData, 'description_en'),
+            description_no: getRequiredString(formData, 'description_no'),
+            link_facebook:  getOptionalString(formData, 'link_facebook'),
+            link_homepage:  getOptionalString(formData, 'link_homepage'),
+            link_instagram: getOptionalString(formData, 'link_instagram'),
+            link_linkedin:  getOptionalString(formData, 'link_linkedin'),
+            logo:           getOptionalString(formData, 'logo'),
+            name_en:        getRequiredString(formData, 'name_en'),
+            name_no:        getRequiredString(formData, 'name_no'),
         }
 
         const id = Number(formData.get('id'))

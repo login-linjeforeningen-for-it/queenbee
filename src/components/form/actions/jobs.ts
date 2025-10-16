@@ -2,7 +2,9 @@
 
 import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
 import { putJob, postAnnouncement, postJob } from '@utils/api'
-import { timeZoneOffset } from '@utils/timeZone'
+import {
+    getOptionalBoolean, getRequiredNumber, getOptionalString, getRequiredString, getRequiredDateTime, getOptionalArray
+} from '@utils/validate'
 
 export type FormState =
     | null
@@ -12,38 +14,25 @@ export type FormState =
 
 export async function createJob(_: FormState, formData: FormData): Promise<FormState> {
     try {
-        const timeZone = timeZoneOffset()
         const jobProps: PostJobProps = {
-            application_url: formData.get('application_url') as string,
-            banner_image: formData.get('banner_image') as string,
-            description_long_en: formData.get('description_long_en') as string,
-            description_long_no: formData.get('description_long_no') as string,
-            description_short_en: formData.get(
-                'description_short_en'
-            ) as string,
-            description_short_no: formData.get(
-                'description_short_no'
-            ) as string,
-            highlight: formData.get('highlight') === 'true',
-            job_type: formData.get('job_type') as job_type,
-            organization_id: Number(formData.get('organization')),
-            position_title_en: formData.get('position_title_en') as string,
-            position_title_no: formData.get('position_title_no') as string,
-            time_expire:
-                formData.get('expire_date') && formData.get('expire_time')
-                    ? `${formData.get('expire_date')}T` +
-                    `${formData.get('expire_time')}:00${timeZone}`
-                    : '',
-            time_publish:
-                formData.get('publish_date') && formData.get('publish_time')
-                    ? `${formData.get('publish_date')}T` +
-                    `${formData.get('publish_time')}:00${timeZone}`
-                    : '',
-            title_en: formData.get('title_en') as string,
-            title_no: formData.get('title_no') as string,
-            visible: true,
-            cities: (formData.get('cities') as string || '').split(','),
-            skills: (formData.get('skills') as string || '').split(',')
+            application_url:        getOptionalString(formData, 'application_url'),
+            banner_image:           getOptionalString(formData, 'banner_image'),
+            description_long_en:    getRequiredString(formData, 'description_long_en'),
+            description_long_no:    getRequiredString(formData, 'description_long_no'),
+            description_short_en:   getRequiredString(formData, 'description_short_en'),
+            description_short_no:   getRequiredString(formData, 'description_short_no'),
+            highlight:              getOptionalBoolean(formData, 'highlight') || false,
+            job_type:               getRequiredString(formData, 'job_type') as job_type,
+            organization_id:        getRequiredNumber(formData, 'organization'),
+            position_title_en:      getRequiredString(formData, 'position_title_en'),
+            position_title_no:      getRequiredString(formData, 'position_title_no'),
+            time_expire:            getRequiredDateTime(formData, 'expire_date', 'expire_time'),
+            time_publish:           getRequiredDateTime(formData, 'publish_date', 'publish_time'),
+            title_en:               getRequiredString(formData, 'title_en'),
+            title_no:               getRequiredString(formData, 'title_no'),
+            visible:                getOptionalBoolean(formData, 'visible') || false,
+            cities:                 getOptionalArray(formData, 'cities'),
+            skills:                 getOptionalArray(formData, 'skills')
         }
 
         const announcementProps: PostAnnouncementPropsUnparsed = {
@@ -72,38 +61,25 @@ export async function createJob(_: FormState, formData: FormData): Promise<FormS
 
 export async function updateJob(_: FormState, formData: FormData): Promise<FormState> {
     try {
-        const timeZone = timeZoneOffset()
         const jobProps: PutJobProps = {
-            application_url: formData.get('application_url') as string,
-            banner_image: formData.get('banner_image') as string,
-            description_long_en: formData.get('description_long_en') as string,
-            description_long_no: formData.get('description_long_no') as string,
-            description_short_en: formData.get(
-                'description_short_en'
-            ) as string,
-            description_short_no: formData.get(
-                'description_short_no'
-            ) as string,
-            highlight: formData.get('highlight') === 'true',
-            job_type: formData.get('job_type') as job_type,
-            organization_id: Number(formData.get('organization')),
-            position_title_en: formData.get('position_title_en') as string,
-            position_title_no: formData.get('position_title_no') as string,
-            time_expire:
-                formData.get('expire_date') && formData.get('expire_time')
-                    ? `${formData.get('expire_date')}T` +
-                    `${formData.get('expire_time')}:00${timeZone}`
-                    : '',
-            time_publish:
-                formData.get('publish_date') && formData.get('publish_time')
-                    ? `${formData.get('publish_date')}T` +
-                    `${formData.get('publish_time')}:00${timeZone}`
-                    : '',
-            title_en: formData.get('title_en') as string,
-            title_no: formData.get('title_no') as string,
-            visible: true,
-            cities: (formData.get('cities') as string || '').split(','),
-            skills: (formData.get('skills') as string || '').split(','),
+            application_url:        getOptionalString(formData, 'application_url') as string,
+            banner_image:           getOptionalString(formData, 'banner_image') as string,
+            description_long_en:    getRequiredString(formData, 'description_long_en'),
+            description_long_no:    getRequiredString(formData, 'description_long_no'),
+            description_short_en:   getRequiredString(formData, 'description_short_en'),
+            description_short_no:   getRequiredString(formData, 'description_short_no'),
+            highlight:              getOptionalBoolean(formData, 'highlight') || false,
+            job_type:               getRequiredString(formData, 'job_type') as job_type,
+            organization_id:        getRequiredNumber(formData, 'organization'),
+            position_title_en:      getRequiredString(formData, 'position_title_en'),
+            position_title_no:      getRequiredString(formData, 'position_title_no'),
+            time_expire:            getRequiredDateTime(formData, 'expire_date', 'expire_time'),
+            time_publish:           getRequiredDateTime(formData, 'publish_date', 'publish_time'),
+            title_en:               getRequiredString(formData, 'title_en'),
+            title_no:               getRequiredString(formData, 'title_no'),
+            visible:                getOptionalBoolean(formData, 'visible') || false,
+            cities:                 getOptionalArray(formData, 'cities'),
+            skills:                 getOptionalArray(formData, 'skills')
         }
 
         const id = Number(formData.get('id'))
