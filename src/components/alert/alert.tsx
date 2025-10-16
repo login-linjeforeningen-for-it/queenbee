@@ -16,7 +16,7 @@ export default function Alert({
         <div
             className={
                 'grid grid-cols-[min-content_auto] rounded-lg ' +
-                'p-[0.5em_1em_0.5em_0.8em] items-start w-fit ' +
+                'p-[0.5em_1em_0.5em_0.8em] items-start w-fit text-white ' +
                 `${variant === 'info' ? 'bg-red-900' : ''} ${className}`
             }
         >

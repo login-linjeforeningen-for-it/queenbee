@@ -83,7 +83,7 @@ export default function Sidebar() {
                         className={
                             'flex flex-row px-[1rem] items-center ' +
                             'gap-[0.5rem] py-[0.8rem] hover:pl-[1.5rem] ' +
-                            'duration-[500ms] transition-[padding] ' +
+                            'duration-[300ms] transition-all ' +
                             `${
                                 path === value.path
                                     ? '*:stroke-login text-login pl-[1.2rem] ' +

@@ -55,7 +55,7 @@ export default async function Page() {
                     'overflow-hidden flex flex-col gap-2'
                 }
             >
-                <div className='flex gap-2 w-full rounded-lg p-2 bg-red-500'>
+                <div className='flex gap-2 w-full rounded-lg p-2 bg-red-900'>
                     <MessageSquareWarning />
                     <h1 className='font-semibold'>Unauthorized</h1>
                 </div>
