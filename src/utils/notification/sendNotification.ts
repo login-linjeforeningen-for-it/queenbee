@@ -19,11 +19,12 @@ interface DetailedEventStr extends Omit<DetailedEvent, 'id'> {
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 type Data = {} | DetailedEventStr
 
-// Initialize the Firebase Admin SDK with the service account
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const app = initializeApp({
-    credential: admin.credential.cert({ ...config.firebase } as ServiceAccount),
-})
+// Initialize the Firebase Admin SDK with the service account only if not already initialized and config is available
+if (!admin.apps.length && config.firebase.project_id) {
+    initializeApp({
+        credential: admin.credential.cert({ ...config.firebase } as ServiceAccount),
+    })
+}
 
 /**
  * Posts notification to FCM.
