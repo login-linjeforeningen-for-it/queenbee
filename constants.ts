@@ -39,7 +39,7 @@ const config = {
             PATH: '/events/',
             PATH_PROTECTED: '/events/protected/',
             CATEGORIES: '/categories',
-            AUDIENCES: '/events/audiences',
+            AUDIENCES: '/audiences',
             TIME_TYPES: '/events/time',
         },
         jobs: {

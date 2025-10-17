@@ -49,7 +49,7 @@ export async function getCategories(): Promise<GetCategoriesProps | string> {
     return await getWrapper({ path })
 }
 
-export async function getAudiences(): Promise<GetTypesProps | string> {
+export async function getAudiences(): Promise<GetAudiencesProps | string> {
     const path = `${config.workerbeeApi.events.AUDIENCES}`
     return await getWrapper({ path })
 }

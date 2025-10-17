@@ -73,12 +73,11 @@ export default async function EventFormInputs({ defaultValues, parent }: { defau
         : []
 
     const audiencesResponse = await getAudiences()
-    const audiences = Array.isArray(audiencesResponse)
-        ? audiencesResponse.map((audience) => ({
-            label: audience.en
-                .replace(/_/g, ' ')
-                .replace(/^([a-z])/, (m) => m.toUpperCase()),
-            value: audience.en,
+    const audiences = typeof audiencesResponse !== 'string' ? audiencesResponse.audiences : []
+    const audiencesOptions = Array.isArray(audiences)
+        ? audiences.map((audience) => ({
+            label: audience.name_en,
+            value: audience.id,
         }))
         : []
 
@@ -105,7 +104,7 @@ export default async function EventFormInputs({ defaultValues, parent }: { defau
             defaultValues={defaultValues}
             bannerImages={bannerImages}
             smallImages={smallImages}
-            audiences={audiences}
+            audiences={audiencesOptions}
             timeTypes={timeTypesOptions}
             categories={categoriesOptions}
             organizations={organizationsOptions}

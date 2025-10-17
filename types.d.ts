@@ -38,7 +38,7 @@ declare global {
         location: GetLocationProps | null
         parent_id: number | null
         rule: GetRuleProps | null
-        audience: string
+        audience: GetAudienceProps | null
         organization: GetOrganizationProps | null
         updated_at: string
         created_at: string
@@ -54,7 +54,7 @@ declare global {
         location_id: number | null
         parent_id: number | null
         rule_id: number | null
-        audience: string | null
+        audience_id: number | null
         organization_id: number | null
     }
 
@@ -99,20 +99,6 @@ declare global {
     }
 
     type PutJobProps = PostJobProps
-
-    type GetAudiencesProps = {
-        id: number
-        is_deleted: boolean
-        name_en: string
-        name_no: string
-    }[]
-
-    type GetAudiencesProps = {
-        id: number
-        is_deleted: boolean
-        name_en: string
-        name_no: string
-    }
 
     // Organizations
     type Organization = {
@@ -191,6 +177,27 @@ declare global {
 
     type PostRuleProps = Rule
     type PutRuleProps = Rule
+
+    // Audience
+    type GetAudienceProps = {
+        id: number
+        name_no: string
+        name_en: string
+        created_at: string
+        updated_at: string
+    }
+
+    type GetAudiencesProps = {
+        audiences: GetAudienceProps[]
+        total_count: number
+    }
+
+    type PostAudienceProps = {
+        name_no: string
+        name_en: string
+    }
+
+    type PutAudienceProps = PostAudienceProps
 
     // Categories
     type GetCategoryProps = {

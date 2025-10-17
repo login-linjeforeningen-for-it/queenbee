@@ -49,7 +49,7 @@ export function EventFormInputsClient({
         organization: defaultValues?.organization?.id,
         rule: defaultValues?.rule?.id,
         location: defaultValues?.location?.id,
-        audience: defaultValues?.audience,
+        audience_id: defaultValues?.audience?.id,
         time_type: defaultValues?.time_type,
         start_date: defaultValues?.time_start.split('T')[0],
         end_date: defaultValues?.time_end.split('T')[0],
@@ -225,14 +225,14 @@ export function EventFormInputsClient({
                     }
                 />
                 <Select
-                    name='audience'
+                    name='audience_id'
                     label='Audience'
                     options={audiences}
-                    value={formValues.audience || ''}
+                    value={formValues.audience_id || ''}
                     setValue={(input) =>
                         setFormValues({
                             ...formValues,
-                            audience: input?.toString(),
+                            audience_id: Number(input),
                         })
                     }
                 />
@@ -627,7 +627,7 @@ const sampleEvent = {
     organization: 1,
     rule: 1,
     location: 1,
-    audience: 'students',
+    audience_id: 1,
     time_type: 'default' as time_type,
     start_date: '2025-09-15',
     end_date: '2025-09-15',
