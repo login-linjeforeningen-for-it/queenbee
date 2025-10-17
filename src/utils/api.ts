@@ -44,7 +44,7 @@ export async function deleteEvent(id: number) {
     return await deleteWrapper({ path })
 }
 
-export async function getCategories(): Promise<GetTypesProps | string> {
+export async function getCategories(): Promise<GetCategoriesProps | string> {
     const path = `${config.workerbeeApi.events.CATEGORIES}`
     return await getWrapper({ path })
 }

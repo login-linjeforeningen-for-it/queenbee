@@ -38,7 +38,7 @@ const config = {
         events: {
             PATH: '/events/',
             PATH_PROTECTED: '/events/protected/',
-            CATEGORIES: '/events/categories/all',
+            CATEGORIES: '/categories',
             AUDIENCES: '/events/audiences',
             TIME_TYPES: '/events/time',
         },

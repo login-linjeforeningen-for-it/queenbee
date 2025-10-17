@@ -45,7 +45,7 @@ export function EventFormInputsClient({
         informational_en: defaultValues?.informational_en || '',
         description_no: defaultValues?.description_no || '',
         description_en: defaultValues?.description_en || '',
-        category: defaultValues?.category,
+        category: defaultValues?.category?.id,
         organization: defaultValues?.organization?.id,
         rule: defaultValues?.rule?.id,
         location: defaultValues?.location?.id,
@@ -183,7 +183,7 @@ export function EventFormInputsClient({
                     setValue={(input) =>
                         setFormValues({
                             ...formValues,
-                            category: input?.toString(),
+                            category: Number(input),
                         })
                     }
                     required
@@ -623,7 +623,7 @@ const sampleEvent = {
 - Free food and drinks  
 - Meet fellow students in the study program  
 - Learn about upcoming events and activities`,
-    category: 'TekKom',
+    category: 1,
     organization: 1,
     rule: 1,
     location: 1,

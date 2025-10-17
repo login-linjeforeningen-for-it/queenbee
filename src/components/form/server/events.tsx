@@ -34,10 +34,12 @@ export default async function EventFormInputs({ defaultValues, parent }: { defau
         : []
 
     const categoriesResponse = await getCategories()
-    const categories = Array.isArray(categoriesResponse)
-        ? categoriesResponse.map((category) => ({
-            label: category.en,
-            value: category.en,
+    const categories = typeof categoriesResponse !== 'string' ? categoriesResponse.categories : []
+
+    const categoriesOptions = Array.isArray(categories)
+        ? categories.map((category) => ({
+            label: category.name_en,
+            value: category.id,
         }))
         : []
 
@@ -105,7 +107,7 @@ export default async function EventFormInputs({ defaultValues, parent }: { defau
             smallImages={smallImages}
             audiences={audiences}
             timeTypes={timeTypesOptions}
-            categories={categories}
+            categories={categoriesOptions}
             organizations={organizationsOptions}
             rules={rulesOptions}
             locations={locationsOptions}

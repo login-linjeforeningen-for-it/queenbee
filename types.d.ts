@@ -34,7 +34,7 @@ declare global {
 
     type GetEventProps = Event & {
         id: number
-        category: string
+        category: GetCategoryProps
         location: GetLocationProps | null
         parent_id: number | null
         rule: GetRuleProps | null
@@ -50,7 +50,7 @@ declare global {
     }
 
     type PostEventProps = Event & {
-        category: string
+        category_id: number
         location_id: number | null
         parent_id: number | null
         rule_id: number | null
@@ -113,13 +113,6 @@ declare global {
         name_en: string
         name_no: string
     }
-
-    type GetCategoriesProps = {
-        color: string
-        id: number
-        name_en: string
-        name_no: string
-    }[]
 
     // Organizations
     type Organization = {
@@ -198,6 +191,22 @@ declare global {
 
     type PostRuleProps = Rule
     type PutRuleProps = Rule
+
+    // Categories
+    type GetCategoryProps = {
+        id: number
+        name_no: string
+        name_en: string
+        color: string
+        created_at: string
+        updated_at: string
+    }
+
+    // Categories
+    type GetCategoriesProps = {
+        categories: GetCategoryProps[]
+        total_count: number
+    }
 
     // Announcements
     type GetAnnouncementProps = {

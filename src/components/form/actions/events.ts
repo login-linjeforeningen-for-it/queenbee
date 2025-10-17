@@ -3,7 +3,8 @@
 import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
 import { putEvent, postAnnouncement, postEvent } from '@utils/api'
 import {
-    getOptionalBoolean, getOptionalNumber, getOptionalString, getRequiredString, getRequiredDateTime, getOptionalDateTime
+    getOptionalBoolean, getOptionalNumber, getOptionalString, getRequiredString, getRequiredDateTime, getOptionalDateTime,
+    getRequiredNumber
 } from '@utils/validate'
 
 export type FormState =
@@ -19,7 +20,7 @@ export async function createEvent(_: FormState, formData: FormData): Promise<For
         const eventProps: PostEventProps = {
             canceled:               getOptionalBoolean(formData, 'canceled') || false,
             capacity:               getOptionalNumber(formData, 'capacity'),
-            category:               getRequiredString(formData, 'category'),
+            category_id:            getRequiredNumber(formData, 'category'),
             description_en:         getRequiredString(formData, 'description_en'),
             description_no:         getRequiredString(formData, 'description_no'),
             digital:                getOptionalBoolean(formData, 'digital') || false,
@@ -78,7 +79,7 @@ export async function updateEvent(_: FormState, formData: FormData): Promise<For
         const eventProps: PutEventProps = {
             canceled:               getOptionalBoolean(formData, 'canceled') || false,
             capacity:               getOptionalNumber(formData, 'capacity'),
-            category:               getRequiredString(formData, 'category'),
+            category_id:            getRequiredNumber(formData, 'category'),
             description_en:         getRequiredString(formData, 'description_en'),
             description_no:         getRequiredString(formData, 'description_no'),
             digital:                getOptionalBoolean(formData, 'digital') || false,
