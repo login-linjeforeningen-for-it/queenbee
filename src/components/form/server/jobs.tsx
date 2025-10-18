@@ -12,11 +12,12 @@ export default async function JobFormInputs({ defaultValues, parent }: { default
         }))
         : []
 
-    const applicationTypes = await getTypes()
-    const applicationTypesOptions = Array.isArray(applicationTypes)
-        ? applicationTypes.map((type) => ({
-            label: type.en.replace(/_/g, '-').replace(/^([a-z])/, (m) => m.toUpperCase()),
-            value: type.en,
+    const jobTypesResponse = await getTypes()
+    const jobTypes = typeof jobTypesResponse !== 'string' ? jobTypesResponse.job_types : []
+    const jobTypesOptions = Array.isArray(jobTypes)
+        ? jobTypes.map((type) => ({
+            label: type.name_en,
+            value: type.id,
         }))
         : []
 
@@ -44,7 +45,7 @@ export default async function JobFormInputs({ defaultValues, parent }: { default
         <JobFormInputsClient
             defaultValues={defaultValues}
             organizations={organizationsOptions}
-            applicationTypes={applicationTypesOptions}
+            applicationTypes={jobTypesOptions}
             jobImages={jobImages}
             preview={parent?.preview}
             channels={channels}

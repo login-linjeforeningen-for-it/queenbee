@@ -42,7 +42,7 @@ export default function JobFormInputsClient({
         organization: defaultValues?.organization.id || '',
         banner_image: defaultValues?.banner_image,
         cities: defaultValues?.cities,
-        job_type: defaultValues?.job_type,
+        job_type_id: defaultValues?.job_type.id,
         skills: defaultValues?.skills,
         time_publish: defaultValues?.time_publish || new Date().toISOString(),
         highlight: defaultValues?.highlight,
@@ -198,14 +198,14 @@ export default function JobFormInputsClient({
                 }
             />
             <Select
-                name='job_type'
+                name='job_type_id'
                 label='Application Type'
                 options={applicationTypes}
-                value={formValues.job_type || ''}
+                value={formValues.job_type_id || ''}
                 setValue={(input) =>
                     setFormValues({
                         ...formValues,
-                        job_type: input as job_type,
+                        job_type_id: Number(input),
                     })
                 }
                 required
@@ -351,7 +351,7 @@ const sampleJob = {
     organization: 1,
     banner_image: 'adbanner.png',
     cities: ['Gjøvik'],
-    job_type: 'verv' as job_type,
+    job_type_id: 1,
     skills: ['Figma', 'Adobe XD', 'Creativity', 'Attention to detail'],
     time_publish: new Date().toISOString(),
     highlight: true,

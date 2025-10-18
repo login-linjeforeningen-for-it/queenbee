@@ -92,7 +92,7 @@ export async function deleteJob(id: number) {
     return await deleteWrapper({ path })
 }
 
-export async function getTypes(): Promise<GetTypesProps | string> {
+export async function getTypes(): Promise<GetJobTypesProps | string> {
     const path = `${config.workerbeeApi.jobs.TYPES}`
     return await getWrapper({ path })
 }

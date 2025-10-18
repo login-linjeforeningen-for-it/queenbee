@@ -4,11 +4,7 @@ import FormWrapper from '@components/form/wrapper'
 import JobFormInputs from '@components/form/server/jobs'
 import { notFound } from 'next/navigation'
 
-export default async function Page({
-    params,
-}: {
-    params: Promise<{ slug: string; id?: string[] }>
-}) {
+export default async function Page({ params }: { params: Promise<{ slug: string; id?: string[] }> }) {
     const { id, slug } = await params
 
     if (id) {

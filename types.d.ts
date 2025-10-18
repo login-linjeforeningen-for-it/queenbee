@@ -1,6 +1,5 @@
 declare global {
     type time_type = 'default' | 'no_end' | 'whole_day' | 'tbd'
-    type job_type = 'full' | 'part' | 'summer' | 'verv'
     type location_type = 'mazemap' | 'coords' | 'address' | 'digital'
     type embed_type = 'on' | 'off'
 
@@ -74,7 +73,6 @@ declare global {
         description_short_en: string
         description_long_no: string
         description_long_en: string
-        job_type: string
         time_publish: string
         time_expire: string
         banner_image: string | null
@@ -84,6 +82,7 @@ declare global {
 
     type GetJobProps = Job & {
         id: number
+        job_type: GetJobTypeProps
         organization: GetOrganizationProps
         created_at: string
         updated_at: string
@@ -95,6 +94,7 @@ declare global {
     }
 
     type PostJobProps = Job & {
+        job_type_id: number
         organization_id: number
     }
 
@@ -212,6 +212,20 @@ declare global {
     // Categories
     type GetCategoriesProps = {
         categories: GetCategoryProps[]
+        total_count: number
+    }
+
+    // Job Type
+    type GetJobTypeProps = {
+        id: number
+        name_no: string
+        name_en: string
+        updated_at: string
+        created_at: string
+    }
+
+    type GetJobTypesProps = {
+        job_types: GetJobTypeProps[]
         total_count: number
     }
 
