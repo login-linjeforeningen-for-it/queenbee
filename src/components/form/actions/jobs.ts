@@ -30,7 +30,7 @@ export async function createJob(_: FormState, formData: FormData): Promise<FormS
             time_publish:           getRequiredDateTime(formData, 'publish_date', 'publish_time'),
             title_en:               getRequiredString(formData, 'title_en'),
             title_no:               getRequiredString(formData, 'title_no'),
-            visible:                getOptionalBoolean(formData, 'visible') || false,
+            visible:                true,
             cities:                 getOptionalArray(formData, 'cities'),
             skills:                 getOptionalArray(formData, 'skills')
         }
@@ -77,7 +77,7 @@ export async function updateJob(_: FormState, formData: FormData): Promise<FormS
             time_publish:           getRequiredDateTime(formData, 'publish_date', 'publish_time'),
             title_en:               getRequiredString(formData, 'title_en'),
             title_no:               getRequiredString(formData, 'title_no'),
-            visible:                getOptionalBoolean(formData, 'visible') || false,
+            visible:                true,
             cities:                 getOptionalArray(formData, 'cities'),
             skills:                 getOptionalArray(formData, 'skills')
         }
