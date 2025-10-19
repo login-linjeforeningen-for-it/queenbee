@@ -1,10 +1,9 @@
-import { getChannels, getJobImages, getOrganizations, getRoles, getTypes } from '@utils/api'
+import { getAllOrganizations, getChannels, getJobImages, getRoles, getTypes } from '@utils/api'
 import JobFormInputsClient from '../client/jobs'
 
 export default async function JobFormInputs({ defaultValues, parent }: { defaultValues?: GetJobProps, parent?: { preview?: boolean }}) {
-    const organizationsResponse = await getOrganizations({ limit: 1000 })
-    const organizations = typeof organizationsResponse !== 'string' ? organizationsResponse.organizations : []
-
+    const organizationsResponse = await getAllOrganizations()
+    const organizations = typeof organizationsResponse !== 'string' ? organizationsResponse : []
     const organizationsOptions = Array.isArray(organizations)
         ? organizations.map((organization) => ({
             label: organization.name_en,

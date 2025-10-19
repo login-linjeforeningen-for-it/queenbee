@@ -1,13 +1,13 @@
 import {
+    getAllLocations,
+    getAllOrganizations,
+    getAllRules,
     getAudiences,
     getCategories,
     getChannels,
     getEventBannerImages,
     getEventSmallImages,
-    getLocations,
-    getOrganizations,
     getRoles,
-    getRules,
     getTimeTypes,
 } from '@utils/api'
 import { EventFormInputsClient } from '../client/events'
@@ -43,8 +43,8 @@ export default async function EventFormInputs({ defaultValues, parent }: { defau
         }))
         : []
 
-    const organizationsResponse = await getOrganizations({ limit: 20 })
-    const organizations = typeof organizationsResponse !== 'string' ? organizationsResponse.organizations : []
+    const organizationsResponse = await getAllOrganizations()
+    const organizations = typeof organizationsResponse !== 'string' ? organizationsResponse : []
 
     const organizationsOptions = Array.isArray(organizations)
         ? organizations.map((organization) => ({
@@ -53,21 +53,21 @@ export default async function EventFormInputs({ defaultValues, parent }: { defau
         }))
         : []
 
-    const rulesResponse = await getRules()
-    const rules = typeof rulesResponse !== 'string' ? rulesResponse.rules : []
+    const rulesResponse = await getAllRules()
+    const rules = typeof rulesResponse !== 'string' ? rulesResponse : []
 
     const rulesOptions = Array.isArray(rules)
         ? rules.map((rule) => ({
-            label: rule.name_no,
+            label: rule.name_en,
             value: rule.id,
         }))
         : []
 
-    const locationsResponse = await getLocations()
-    const locations = typeof locationsResponse !== 'string' ? locationsResponse.locations : []
+    const locationsResponse = await getAllLocations()
+    const locations = typeof locationsResponse !== 'string' ? locationsResponse : []
     const locationsOptions = Array.isArray(locations)
         ? locations.map((location) => ({
-            label: location.name_no,
+            label: location.name_en,
             value: location.id,
         }))
         : []

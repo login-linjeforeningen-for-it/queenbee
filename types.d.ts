@@ -124,6 +124,11 @@ declare global {
         total_count: number
     }
 
+    type GetAllOrganizationsProps = {
+        id: number
+        name_en: string
+    }[]
+
     type PostOrganizationProps = Organization
     type PutOrganizationProps = Organization
 
@@ -153,6 +158,12 @@ declare global {
         total_count: number
     }
 
+    type GetAllLocationsProps = {
+        id: number
+        name_en: string
+        type: string
+    }[]
+
     type PostLocationProps = Location
     type PutLocationProps = Location
 
@@ -174,6 +185,11 @@ declare global {
         rules: GetRuleProps[]
         total_count: number
     }
+
+    type GetAllRulesProps = {
+        id: number
+        name_en: string
+    }[]
 
     type PostRuleProps = Rule
     type PutRuleProps = Rule

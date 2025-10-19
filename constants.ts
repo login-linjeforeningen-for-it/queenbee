@@ -47,9 +47,15 @@ const config = {
             PATH_PROTECTED: '/jobs/protected/',
             TYPES: '/jobs/types/all',
         },
+        organizations: {
+            PATH: '/organizations/',
+        },
         locations: {
             PATH: '/locations/',
-        }
+        },
+        rules: {
+            PATH: '/rules/',
+        },
     },
     tekkomBotApi: {
         ANNOUNCEMENT_PATH: '/announcements',

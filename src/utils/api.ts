@@ -118,6 +118,11 @@ export async function getOrganization(id: number): Promise<GetOrganizationProps 
     return await getWrapper({ path })
 }
 
+export async function getAllOrganizations(): Promise<GetAllOrganizationsProps | string> {
+    const path = `${config.workerbeeApi.organizations.PATH}all/`
+    return await getWrapper({ path })
+}
+
 export async function postOrganization(body: PostOrganizationProps): Promise<PostOrganizationProps | string> {
     return await postWrapper({ path: config.beehiveApi.ORGANIZATIONS_PATH, data: body })
 }
@@ -153,6 +158,11 @@ export async function getLocation(id: number): Promise<GetLocationProps | string
     return await getWrapper({ path })
 }
 
+export async function getAllLocations(): Promise<GetAllLocationsProps | string> {
+    const path = `${config.workerbeeApi.locations.PATH}all/`
+    return await getWrapper({ path })
+}
+
 export async function postLocation(body: PostLocationProps): Promise<PostLocationProps | string> {
     return await postWrapper({ path: config.workerbeeApi.locations.PATH, data: body })
 }
@@ -183,6 +193,11 @@ export async function getRules({ search, offset, limit, orderBy, sort }: GetPara
 
 export async function getRule(id: number): Promise<GetRuleProps | string> {
     const path = `${config.beehiveApi.RULES_PATH}${id}`
+    return await getWrapper({ path })
+}
+
+export async function getAllRules(): Promise<GetAllRulesProps | string> {
+    const path = `${config.workerbeeApi.rules.PATH}all/`
     return await getWrapper({ path })
 }
 
