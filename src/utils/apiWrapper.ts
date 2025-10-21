@@ -87,8 +87,6 @@ export async function postWrapper({ path, data, custom }: PostWrapper) {
         body: isFormData ? data : JSON.stringify(data),
     }
 
-    console.log('POST Request to:', `${url}${path}`, defaultOptions)
-
     try {
         const response = await fetch(`${url}${path}`, defaultOptions)
         if (!response.ok) {
