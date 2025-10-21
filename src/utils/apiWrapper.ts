@@ -1,3 +1,5 @@
+'use server'
+
 import config from '@config'
 import { cookies } from 'next/headers'
 
@@ -9,7 +11,7 @@ type GetWrapperProps = {
 
 type PostWrapper = {
     path: string
-    data?: object
+    data?: object | FormData
     custom?: string
 }
 
@@ -74,14 +76,18 @@ export async function postWrapper({ path, data, custom }: PostWrapper) {
     const token = custom === 'tekkom' ? bot_access_token : access_token
     const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
 
+    const isFormData = data instanceof FormData
+
     const defaultOptions = {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            ...(isFormData ? { } : { 'Content-Type': 'application/json' }),
             Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data),
+        body: isFormData ? data : JSON.stringify(data),
     }
+
+    console.log('POST Request to:', `${url}${path}`, defaultOptions)
 
     try {
         const response = await fetch(`${url}${path}`, defaultOptions)

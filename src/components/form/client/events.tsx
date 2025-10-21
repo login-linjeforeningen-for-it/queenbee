@@ -10,11 +10,12 @@ import Announce from '@components/announce/announce'
 import Button from '@components/button/button'
 import { useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
+import Upload from '@components/inputs/upload'
+import { uploadImage } from '@utils/api'
 
 export function EventFormInputsClient({
     defaultValues,
     bannerImages,
-    smallImages,
     categories,
     organizations,
     audiences,
@@ -27,7 +28,6 @@ export function EventFormInputsClient({
 }: {
     defaultValues?: GetEventProps
     bannerImages: Option[]
-    smallImages: Option[]
     categories: OptionsProps[]
     audiences: OptionsProps[]
     organizations: Option[]
@@ -538,6 +538,9 @@ export function EventFormInputsClient({
                 }
             />
             <h1 className='text-xl pt-10 col-span-2'>Image</h1>
+            <Upload handleFile={function (file: File): void {
+                uploadImage('events', file)
+            }} />
             <Select
                 name='image_banner'
                 label='Banner Image'
@@ -554,7 +557,7 @@ export function EventFormInputsClient({
             <Select
                 name='image_small'
                 label='Small Image'
-                options={smallImages}
+                options={bannerImages}
                 value={formValues.image_small || ''}
                 setValue={(input) =>
                     setFormValues({

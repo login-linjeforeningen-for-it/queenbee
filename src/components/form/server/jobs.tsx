@@ -1,4 +1,4 @@
-import { getAllOrganizations, getChannels, getJobImages, getRoles, getTypes } from '@utils/api'
+import { getAllOrganizations, getChannels, getImages, getRoles, getTypes } from '@utils/api'
 import JobFormInputsClient from '../client/jobs'
 
 export default async function JobFormInputs({ defaultValues, parent }: { defaultValues?: GetJobProps, parent?: { preview?: boolean }}) {
@@ -20,13 +20,12 @@ export default async function JobFormInputs({ defaultValues, parent }: { default
         }))
         : []
 
-    const jobImagesResponse = await getJobImages()
-    // prettier-ignore
-    const jobImages = Array.isArray(jobImagesResponse)
-        ? jobImagesResponse.map((image) => ({
-            label: image.name,
-            value: image.name,
-            image: `${image.filepath}${image.name}`,
+    const imagesResponse = await getImages('jobs')
+    const images = Array.isArray(imagesResponse)
+        ? imagesResponse.map((image) => ({
+            label: image,
+            value: image,
+            image: `img/jobs/${image}`,
         }))
         : []
 
@@ -45,7 +44,7 @@ export default async function JobFormInputs({ defaultValues, parent }: { default
             defaultValues={defaultValues}
             organizations={organizationsOptions}
             applicationTypes={jobTypesOptions}
-            jobImages={jobImages}
+            jobImages={images}
             preview={parent?.preview}
             channels={channels}
             roles={roles}

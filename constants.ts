@@ -56,6 +56,9 @@ const config = {
         rules: {
             PATH: '/rules/',
         },
+        images: {
+            PATH: '/images/',
+        },
     },
     tekkomBotApi: {
         ANNOUNCEMENT_PATH: '/announcements',

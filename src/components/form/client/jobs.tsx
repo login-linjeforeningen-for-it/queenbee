@@ -12,6 +12,8 @@ import Button from '@components/button/button'
 import fallBackDate from '@utils/fallbackDate'
 import { useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
+import { uploadImage } from '@utils/api'
+import Upload from '@components/inputs/upload'
 
 export default function JobFormInputsClient({
     defaultValues,
@@ -311,6 +313,9 @@ export default function JobFormInputsClient({
                 required
             />
             <h1 className='text-xl pt-10 col-span-2'>Image</h1>
+            <Upload handleFile={function (file: File): void {
+                uploadImage('events', file)
+            }} />
             <Select
                 name='banner_image'
                 label='Banner Image'

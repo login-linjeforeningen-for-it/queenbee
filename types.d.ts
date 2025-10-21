@@ -297,15 +297,7 @@ declare global {
     }[]
 
     // Images
-    type GetImageProps = {
-        filepath: string
-        name: string
-        size: number
-    }[]
-
-    type PostImageProps = {
-        file: File
-    }
+    type ImagePaths = 'events' | 'jobs' | 'organizations'
 
     // Other
     type OptionsProps = { label: string; value: number | string }

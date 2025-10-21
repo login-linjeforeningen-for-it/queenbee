@@ -5,6 +5,8 @@ import Markdown from '@components/inputs/markdown'
 import Select from '@components/inputs/select'
 import Button from '@components/button/button'
 import { useState } from 'react'
+import { uploadImage } from '@utils/api'
+import Upload from '@components/inputs/upload'
 
 export default function OrganizationFormInputsClient({
     defaultValues,
@@ -153,6 +155,9 @@ export default function OrganizationFormInputsClient({
                 className='col-span-2'
             />
             <h1 className='text-xl pt-10 col-span-2'>Logo</h1>
+            <Upload handleFile={function (file: File): void {
+                uploadImage('events', file)
+            }} />
             <Select
                 name='logo'
                 label='Organization Logo'

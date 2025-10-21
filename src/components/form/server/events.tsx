@@ -5,31 +5,19 @@ import {
     getAudiences,
     getCategories,
     getChannels,
-    getEventBannerImages,
-    getEventSmallImages,
+    getImages,
     getRoles,
     getTimeTypes,
 } from '@utils/api'
 import { EventFormInputsClient } from '../client/events'
 
 export default async function EventFormInputs({ defaultValues, parent }: { defaultValues?: GetEventProps; parent?: { preview?: boolean } }){
-    const bannerImagesResponse = await getEventBannerImages()
-    // prettier-ignore
-    const bannerImages = Array.isArray(bannerImagesResponse)
-        ? bannerImagesResponse.map((image) => ({
-            label: image.name,
-            value: image.name,
-            image: `${image.filepath}${image.name}`,
-        }))
-        : []
-
-    const smallImagesResponse = await getEventSmallImages()
-    // prettier-ignore
-    const smallImages = Array.isArray(smallImagesResponse)
-        ? smallImagesResponse.map((image) => ({
-            label: image.name,
-            value: image.name,
-            image: `${image.filepath}${image.name}`,
+    const imagesResponse = await getImages('events')
+    const images = Array.isArray(imagesResponse)
+        ? imagesResponse.map((image) => ({
+            label: image,
+            value: image,
+            image: `img/events/${image}`,
         }))
         : []
 
@@ -102,8 +90,7 @@ export default async function EventFormInputs({ defaultValues, parent }: { defau
     return (
         <EventFormInputsClient
             defaultValues={defaultValues}
-            bannerImages={bannerImages}
-            smallImages={smallImages}
+            bannerImages={images}
             audiences={audiencesOptions}
             timeTypes={timeTypesOptions}
             categories={categoriesOptions}

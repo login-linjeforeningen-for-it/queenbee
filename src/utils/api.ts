@@ -1,3 +1,5 @@
+'use server'
+
 import config from '@config'
 import { deleteWrapper, getWrapper, postWrapper, putWrapper } from '@utils/apiWrapper'
 
@@ -265,42 +267,23 @@ export async function deleteAnnouncement(id: number) {
 
 // ------------------------------------------ Images ------------------------------------------
 
-// Events
-export async function getEventBannerImages(): Promise<GetImageProps | string> {
-    const path = `${config.beehiveApi.IMAGES_PATH}${config.workerbeeApi.events.PATH}banner`
+export async function getImages(type: 'events' | 'jobs' | 'organizations'): Promise<string[] | string> {
+    const path = `${config.workerbeeApi.images.PATH}${type}`
     return await getWrapper({ path })
 }
 
-export async function getEventSmallImages(): Promise<GetImageProps | string> {
-    const path = `${config.beehiveApi.IMAGES_PATH}${config.workerbeeApi.events.PATH}small`
-    return await getWrapper({ path })
-}
-
-export async function postEventBannerImages(file: File): Promise<PostImageProps | string> {
-    const path = `${config.beehiveApi.IMAGES_PATH}${config.workerbeeApi.events.PATH}banner`
+export async function uploadImage(type: ImagePaths, file: File): Promise<string> {
+    const path = `${config.workerbeeApi.images.PATH}${type}`
     const formData = new FormData()
-    formData.append('file', file)
-    return await postWrapper({ path, data: formData })
+    formData.append('image', file)
+
+    return await postWrapper({
+        path,
+        data: formData,
+    })
 }
 
-export async function postEventSmallImages(file: File): Promise<PostImageProps | string> {
-    const path = `${config.beehiveApi.IMAGES_PATH}${config.workerbeeApi.events.PATH}small`
-    const formData = new FormData()
-    formData.append('file', file)
-    return await postWrapper({ path, data: formData })
-}
-
-// Jobs
-export async function getJobImages(): Promise<GetImageProps | string> {
-    const path =
-        `${config.beehiveApi.IMAGES_PATH}` + `${config.workerbeeApi.jobs.PATH}`
-    return await getWrapper({ path })
-}
-
-// Organizations
-export async function getOrganizationImages(): Promise<GetImageProps | string> {
-    const path =
-        `${config.beehiveApi.IMAGES_PATH}` +
-        `${config.beehiveApi.ORGANIZATIONS_PATH}`
-    return await getWrapper({ path })
+export async function deleteImage(type: ImagePaths, imageName: string): Promise<string> {
+    const path = `${config.workerbeeApi.images.PATH}${type}/${imageName}`
+    return await deleteWrapper({ path })
 }
