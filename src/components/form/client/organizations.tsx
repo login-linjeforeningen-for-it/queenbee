@@ -156,7 +156,7 @@ export default function OrganizationFormInputsClient({
             />
             <h1 className='text-xl pt-10 col-span-2'>Logo</h1>
             <Upload handleFile={function (file: File): void {
-                uploadImage('events', file)
+                uploadImage('organizations', file)
             }} />
             <Select
                 name='logo'

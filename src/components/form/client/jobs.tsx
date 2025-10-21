@@ -314,7 +314,7 @@ export default function JobFormInputsClient({
             />
             <h1 className='text-xl pt-10 col-span-2'>Image</h1>
             <Upload handleFile={function (file: File): void {
-                uploadImage('events', file)
+                uploadImage('jobs', file)
             }} />
             <Select
                 name='banner_image'
