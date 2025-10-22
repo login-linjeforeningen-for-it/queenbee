@@ -10,8 +10,8 @@ declare global {
         name_en: string
         description_no: string
         description_en: string
-        informational_no: string
-        informational_en: string
+        informational_no: string | null
+        informational_en: string | null
         time_type: time_type
         time_start: string
         time_end: string

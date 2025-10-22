@@ -135,7 +135,6 @@ export function EventFormInputsClient({
                         informational_no: input.toString(),
                     })
                 }
-                required
             />
             <Input
                 name='informational_en'
@@ -148,7 +147,6 @@ export function EventFormInputsClient({
                         informational_en: input.toString(),
                     })
                 }
-                required
             />
             <Markdown
                 name='description_no'
