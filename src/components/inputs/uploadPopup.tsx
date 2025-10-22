@@ -1,8 +1,10 @@
 'use client'
 
+import Cropper, { Area } from 'react-easy-crop'
+import cropImage from '@/utils/image/cropImage'
 import { X } from 'lucide-react'
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import NextImage from 'next/image'
+import { useCallback, useEffect, useState } from 'react'
 import Switch from './switch'
 
 
@@ -16,34 +18,39 @@ type UploadPopupProps = {
 export default function UploadPopup({ file, handleFile, onClose, showSwitch }: UploadPopupProps) {
     const image = URL.createObjectURL(file)
     const [uploadDisabled, setUploadDisabled] = useState(true)
-    const [error, setError] = useState('')
     const [showTag, setShowTag] = useState(showSwitch)
+    const [crop, setCrop] = useState({ x: 0, y: 0 })
+    const [zoom, setZoom] = useState(1)
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
+    const [needsCrop, setNeedsCrop] = useState(false)
 
     useEffect(() => {
-        if (file.type.startsWith('image/')) {
-            if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
-                setError('File must be JPG, PNG, or GIF')
-                setUploadDisabled(true)
-                return
+        const img = new Image()
+        img.onload = () => {
+            const ratio = img.width / img.height
+            if (ratio !== 2.5) {
+                setNeedsCrop(true)
+                setUploadDisabled(false)
             }
-            const img = new window.Image()
-            img.onload = () => {
-                const ratio = img.width / img.height
-                if (ratio !== 2.5) {
-                    setError('Image aspect ratio must be 5:2')
-                } else if (file.size > 1 * 1024 * 1024) {
-                    setError('Image size must be less than 1MB')
-                } else {
-                    setError('')
-                }
-                setUploadDisabled(ratio !== 2.5 || file.size > 1 * 1024 * 1024)
-            }
-            img.src = image
-        } else {
-            setError('File must be an image')
-            setUploadDisabled(true)
         }
-    }, [file, image])
+        img.src = image
+    }, [file])
+
+    const onCropComplete = useCallback((_: Area, croppedPixels: Area) => {
+        setCroppedAreaPixels(croppedPixels)
+    }, [])
+
+    async function handleClick() {
+        if (needsCrop && croppedAreaPixels) {
+            const blob = await cropImage(image, croppedAreaPixels)
+            const croppedFile = new File([blob], file.name, { type: file.type })
+            handleFile(croppedFile)
+        } else {
+            handleFile(file)
+        }
+
+        onClose()
+    }
 
     return (
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md'>
@@ -63,30 +70,34 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
                     </button>
                 </div>
 
-                <div className='relative h-fit aspect-5/2 flex flex-col items-center justify-center'>
-                    <div className='relative'>
-                        <Image
+                <div className='relative w-full h-[300px] border border-login-600/30 rounded-md overflow-hidden'>
+                    {needsCrop ? (
+                        <Cropper
+                            image={image}
+                            crop={crop}
+                            zoom={zoom}
+                            aspect={5 / 2}
+                            onCropChange={setCrop}
+                            onCropComplete={onCropComplete}
+                            onZoomChange={setZoom}
+                        />
+                    ) : (
+                        <NextImage
                             src={image}
                             alt='Preview'
-                            width={332}
-                            height={133}
-                            className='border border-login-600/30 aspect-5/2'
+                            fill
+                            className='object-cover'
                         />
-                        {showTag && (
-                            <div className='absolute top-2 left-2 flex w-fit h-fit justify-center rounded
-                                min-w-14 min-h-14 py-1 px-2 backdrop-blur-sm bg-black/50'>
-                                <div className='w-fit'>
-                                    <div className='text-center w-max mx-auto text-white text-xl leading-7'>14</div>
-                                    <div className='text-center text-white text-base leading-5 -translate-y-0.5'>Apr</div>
-                                </div>
-                            </div>
-                        )}
+                    )}
+
+                    <div className='absolute top-2 left-2 flex w-fit h-fit justify-center rounded
+                        min-w-14 min-h-14 py-1 px-2 backdrop-blur-sm bg-black/50'>
+                        <div className='w-fit'>
+                            <div className='text-center w-max mx-auto text-white text-xl leading-7'>14</div>
+                            <div className='text-center text-white text-base leading-5 -translate-y-0.5'>Apr</div>
+                        </div>
                     </div>
                 </div>
-
-                <p className='text-red-400 text-center'>
-                    {error}
-                </p>
 
                 <div className='flex justify-between pt-4 mt-6 border-t border-login-500/80'>
                     <div className='mb-4 w-fit'>
@@ -111,10 +122,7 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
                             className={`px-6 py-2 rounded-md bg-login 
                                 ${uploadDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
                             disabled={uploadDisabled}
-                            onClick={() => {
-                                handleFile(file)
-                                onClose()
-                            }}
+                            onClick={handleClick}
                         >
                             Upload
                         </button>

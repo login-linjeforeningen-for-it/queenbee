@@ -89,6 +89,26 @@ export function EventFormInputsClient({
         setFormValues(sampleEvent)
     }
 
+    async function handleFile(file: File): Promise<void> {
+        const result = await uploadImage('events', file)
+        if (result.status >= 200 && result.status < 300) {
+            toast.success('Image uploaded successfully')
+            const existingImage = images.find(img => img.value === result.data)
+            if (!existingImage) {
+                setImages([
+                    ...images,
+                    {
+                        label: result.data,
+                        value: result.data,
+                        image: `img/jobs/${result.data}`,
+                    }
+                ])
+            }
+        } else {
+            toast.error('Error uploading image')
+        }
+    }
+
     return (
         <div className='grid grid-cols-2 gap-y-4 gap-x-8 pt-10 relative'>
             <div
@@ -580,25 +600,7 @@ export function EventFormInputsClient({
             <h1 className='text-xl pt-10 col-span-2'>Image</h1>
             <Upload
                 showSwitch
-                handleFile={async function (file: File): Promise<void> {
-                    const result = await uploadImage('events', file)
-                    if (result.status >= 200 && result.status < 300) {
-                        toast.success('Image uploaded successfully')
-                        const existingImage = images.find(img => img.value === result.data)
-                        if (!existingImage) {
-                            setImages([
-                                ...images,
-                                {
-                                    label: result.data,
-                                    value: result.data,
-                                    image: `img/jobs/${result.data}`,
-                                }
-                            ])
-                        }
-                    } else {
-                        toast.error('Error uploading image')
-                    }
-                }}
+                handleFile={handleFile}
             />
             <Select
                 name='image_banner'

@@ -6,7 +6,7 @@ type UploadProps = {
     showSwitch?: boolean
 }
 
-export default function Upload({handleFile, showSwitch}: UploadProps) {
+export default function Upload({ handleFile, showSwitch }: UploadProps) {
     const [open, setOpen] = useState(false)
     const [file, setFile] = useState<File | null>(null)
     const inputRef = React.useRef<HTMLInputElement>(null)
@@ -21,7 +21,9 @@ export default function Upload({handleFile, showSwitch}: UploadProps) {
     function handleClose() {
         setOpen(false)
         setFile(null)
-        if (inputRef.current) inputRef.current.value = ''
+        if (inputRef.current) {
+            inputRef.current.value = ''
+        }
     }
 
     return (
