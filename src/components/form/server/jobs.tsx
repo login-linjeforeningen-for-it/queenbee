@@ -44,7 +44,7 @@ export default async function JobFormInputs({ defaultValues, parent }: { default
             defaultValues={defaultValues}
             organizations={organizationsOptions}
             applicationTypes={jobTypesOptions}
-            jobImages={images}
+            defaultImages={images}
             preview={parent?.preview}
             channels={channels}
             roles={roles}

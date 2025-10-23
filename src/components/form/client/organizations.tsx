@@ -7,16 +7,18 @@ import Button from '@components/button/button'
 import { useState } from 'react'
 import { uploadImage } from '@utils/api'
 import Upload from '@components/inputs/upload'
+import { toast } from 'sonner'
 
 export default function OrganizationFormInputsClient({
     defaultValues,
-    images,
+    defaultImages,
     preview
 }: {
     defaultValues?: GetOrganizationProps
-    images: LoginImage[]
+    defaultImages: Option[]
     preview?: boolean
 }) {
+    const [images, setImages] = useState<Option[]>(defaultImages)
     const [formValues, setFormValues] = useState({
         name_no: defaultValues?.name_no ?? '',
         name_en: defaultValues?.name_en ?? '',
@@ -155,9 +157,27 @@ export default function OrganizationFormInputsClient({
                 className='col-span-2'
             />
             <h1 className='text-xl pt-10 col-span-2'>Logo</h1>
-            <Upload handleFile={function (file: File): void {
-                uploadImage('organizations', file)
-            }} />
+            <Upload
+                handleFile={async function (file: File): Promise<void> {
+                    const result = await uploadImage('organizations', file)
+                    if (result.status >= 200 && result.status < 300) {
+                        toast.success('Image uploaded successfully')
+                        const existingImage = images.find(img => img.value === result.data)
+                        if (!existingImage) {
+                            setImages([
+                                ...images,
+                                {
+                                    label: result.data,
+                                    value: result.data,
+                                    image: `img/jobs/${result.data}`,
+                                }
+                            ])
+                        }
+                    } else {
+                        toast.error('Error uploading image')
+                    }
+                }}
+            />
             <Select
                 name='logo'
                 label='Organization Logo'

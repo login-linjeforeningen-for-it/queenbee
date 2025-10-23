@@ -272,15 +272,16 @@ export async function getImages(type: 'events' | 'jobs' | 'organizations'): Prom
     return await getWrapper({ path })
 }
 
-export async function uploadImage(type: ImagePaths, file: File): Promise<string> {
+export async function uploadImage(type: ImagePaths, file: File): Promise<{ status: number, data: string }> {
     const path = `${config.workerbeeApi.images.PATH}${type}`
     const formData = new FormData()
     formData.append('image', file)
 
-    return await postWrapper({
-        path,
-        data: formData,
-    })
+    const response = await postWrapper({ path, data: formData, status: true })
+    // If response is a Response object:
+    const status = response.status
+    const data = response.data
+    return { status, data }
 }
 
 export async function deleteImage(type: ImagePaths, imageName: string): Promise<string> {

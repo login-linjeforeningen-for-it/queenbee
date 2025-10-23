@@ -90,7 +90,7 @@ export default async function EventFormInputs({ defaultValues, parent }: { defau
     return (
         <EventFormInputsClient
             defaultValues={defaultValues}
-            bannerImages={images}
+            defaultImages={images}
             audiences={audiencesOptions}
             timeTypes={timeTypesOptions}
             categories={categoriesOptions}

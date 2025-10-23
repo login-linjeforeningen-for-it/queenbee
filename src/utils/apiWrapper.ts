@@ -13,6 +13,7 @@ type PostWrapper = {
     path: string
     data?: object | FormData
     custom?: string
+    status?: boolean
 }
 
 type DeleteWrapperProps = {
@@ -69,7 +70,7 @@ export async function getWrapper({ path, options = {}, custom }: GetWrapperProps
     }
 }
 
-export async function postWrapper({ path, data, custom }: PostWrapper) {
+export async function postWrapper({ path, data, custom, status }: PostWrapper) {
     const Cookies = await cookies()
     const access_token = Cookies.get('access_token')?.value || ''
     const bot_access_token = Cookies.get('bot_access_token')?.value || ''
@@ -94,7 +95,11 @@ export async function postWrapper({ path, data, custom }: PostWrapper) {
         }
 
         const text = await response.text()
-        return JSON.parse(text)
+        const dataParsed = JSON.parse(text)
+        if (status) {
+            return { status: response.status, data: dataParsed }
+        }
+        return dataParsed
         // eslint-disable-next-line
     } catch (error: any) {
         return (

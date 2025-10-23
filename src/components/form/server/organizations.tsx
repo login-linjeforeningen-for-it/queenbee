@@ -15,7 +15,7 @@ export default async function OrganizationFormInputs({ defaultValues, parent }:
     return (
         <OrganizationFormInputsClient
             defaultValues={defaultValues}
-            images={images}
+            defaultImages={images}
             preview={parent?.preview}
         />
     )

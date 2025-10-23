@@ -10,13 +10,14 @@ type UploadPopupProps = {
     file: File
     handleFile: (file: File) => void
     onClose: () => void
+    showSwitch?: boolean
 }
 
-export default function UploadPopup({ file, handleFile, onClose }: UploadPopupProps) {
+export default function UploadPopup({ file, handleFile, onClose, showSwitch }: UploadPopupProps) {
     const image = URL.createObjectURL(file)
     const [uploadDisabled, setUploadDisabled] = useState(true)
     const [error, setError] = useState('')
-    const [showTag, setShowTag] = useState(true)
+    const [showTag, setShowTag] = useState(showSwitch)
 
     useEffect(() => {
         if (file.type.startsWith('image/')) {
@@ -46,7 +47,7 @@ export default function UploadPopup({ file, handleFile, onClose }: UploadPopupPr
 
     return (
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md'>
-            <div className='bg-login-800 rounded-2xl px-8 py-6 border border-login-500/40
+            <div className='bg-login-800 rounded-xl px-8 py-6 border border-login-500/40
                 relative shadow-2xl max-w-2xl w-full mx-4 overflow-hidden'
             >
                 <div className='absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-login via-login to-login/80 rounded-t-2xl' />
@@ -89,13 +90,15 @@ export default function UploadPopup({ file, handleFile, onClose }: UploadPopupPr
 
                 <div className='flex justify-between pt-4 mt-6 border-t border-login-500/80'>
                     <div className='mb-4 w-fit'>
-                        <Switch
-                            name='showTag'
-                            label='Show Tag'
-                            value={showTag}
-                            setValue={setShowTag}
-                            className='border-transparent bg-login-500/60'
-                        />
+                        {showSwitch && (
+                            <Switch
+                                name='showTag'
+                                label='Show Tag'
+                                value={showTag}
+                                setValue={setShowTag}
+                                className='border-transparent bg-login-500/60'
+                            />
+                        )}
                     </div>
                     <div className='flex gap-4 h-fit'>
                         <button

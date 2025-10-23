@@ -12,10 +12,11 @@ import { useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
 import Upload from '@components/inputs/upload'
 import { uploadImage } from '@utils/api'
+import { toast } from 'sonner'
 
 export function EventFormInputsClient({
     defaultValues,
-    bannerImages,
+    defaultImages,
     categories,
     organizations,
     audiences,
@@ -27,7 +28,7 @@ export function EventFormInputsClient({
     roles
 }: {
     defaultValues?: GetEventProps
-    bannerImages: Option[]
+    defaultImages: Option[]
     categories: OptionsProps[]
     audiences: OptionsProps[]
     organizations: Option[]
@@ -38,6 +39,7 @@ export function EventFormInputsClient({
     channels: Channel[]
     roles: Role[]
 }) {
+    const [images, setImages] = useState<Option[]>(defaultImages)
     const [formValues, setFormValues] = useState({
         name_no: defaultValues?.name_no || '',
         name_en: defaultValues?.name_en || '',
@@ -536,13 +538,32 @@ export function EventFormInputsClient({
                 }
             />
             <h1 className='text-xl pt-10 col-span-2'>Image</h1>
-            <Upload handleFile={function (file: File): void {
-                uploadImage('events', file)
-            }} />
+            <Upload
+                showSwitch
+                handleFile={async function (file: File): Promise<void> {
+                    const result = await uploadImage('events', file)
+                    if (result.status >= 200 && result.status < 300) {
+                        toast.success('Image uploaded successfully')
+                        const existingImage = images.find(img => img.value === result.data)
+                        if (!existingImage) {
+                            setImages([
+                                ...images,
+                                {
+                                    label: result.data,
+                                    value: result.data,
+                                    image: `img/jobs/${result.data}`,
+                                }
+                            ])
+                        }
+                    } else {
+                        toast.error('Error uploading image')
+                    }
+                }}
+            />
             <Select
                 name='image_banner'
                 label='Banner Image'
-                options={bannerImages}
+                options={images}
                 value={formValues.image_banner || ''}
                 setValue={(input) =>
                     setFormValues({
@@ -555,7 +576,7 @@ export function EventFormInputsClient({
             <Select
                 name='image_small'
                 label='Small Image'
-                options={bannerImages}
+                options={images}
                 value={formValues.image_small || ''}
                 setValue={(input) =>
                     setFormValues({
