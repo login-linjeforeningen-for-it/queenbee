@@ -1,12 +1,14 @@
+'use client'
+
 import Image from 'next/image'
 import ThemeSwitch from '../theme/themeSwitch'
 import Link from 'next/link'
-import { cookies } from 'next/headers'
+import { getCookie } from '@utils/cookies'
 import { LogOut } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
-export default async function Nav() {
-    const Cookies = await cookies()
-    const token = Cookies.get('access_token')?.value || undefined
+export default function Nav() {
+    const token = getCookie('access_token') || undefined
 
     return (
         <nav
@@ -50,6 +52,10 @@ function RightSide({token}: {token: string | undefined}) {
                         'hover:*:text-login hover:*:stroke-login'
                     }
                     href='/api/logout'
+                    onClick={() => {
+                        const router = useRouter()
+                        router.push('/api/logout')
+                    }}
                     prefetch={false}
                 >
                     <LogOut className='w-5' />
