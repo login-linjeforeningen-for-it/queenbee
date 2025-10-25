@@ -55,7 +55,7 @@ export default async function EventFormInputs({ defaultValues, parent }: { defau
     const locations = typeof locationsResponse !== 'string' ? locationsResponse : []
     const locationsOptions = Array.isArray(locations)
         ? locations.map((location) => ({
-            label: location.name_en,
+            label: `${location.name_en} | ${location.type}`,
             value: location.id,
         }))
         : []
