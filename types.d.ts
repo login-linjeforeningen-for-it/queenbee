@@ -299,6 +299,22 @@ declare global {
     // Images
     type ImagePaths = 'events' | 'jobs' | 'organizations'
 
+
+    // Beeformed
+    type BeeformedProps = {
+        title: string
+    }
+
+    type GetBeeformedProps = BeeformedProps & {
+        id: number
+        created_at: string
+        updated_at: string
+    }
+
+    type PostBeeformedProps = BeeformedProps
+
+    type PutBeeformedProps = BeeformedProps
+
     // Other
     type OptionsProps = { label: string; value: number | string }
 

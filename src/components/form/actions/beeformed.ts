@@ -1,23 +1,27 @@
 'use server'
 
-type FormProps = {
-    title: string
+import { getRequiredString } from '@utils/validate'
+
+type FormState =
+    | null
+    | string
+
+type PostFormState = FormState | PostBeeformedProps
+
+type PutFormState = FormState | PutBeeformedProps
+
+
+function extractBeeformedProps<T extends PostBeeformedProps | PutBeeformedProps>(formData: FormData): T {
+    return {
+        title: getRequiredString(formData, 'title')
+    } as T
 }
 
-type ReturnFormProps = {
-    id: number
-} & FormProps
 
-export async function createForm(_: FormProps, formData: FormData): Promise<ReturnFormProps> {
-    return {
-        id: 0,
-        title: formData.get('title') as string
-    }
+export async function createForm(_: PostFormState, formData: FormData): Promise<PostFormState> {
+    return extractBeeformedProps<PostBeeformedProps>(formData)
 }
 
-export async function updateForm(_: FormProps, formData: FormData): Promise<ReturnFormProps> {
-    return {
-        id: 0,
-        title: formData.get('title') as string
-    }
+export async function updateForm(_: PutFormState, formData: FormData): Promise<PutFormState> {
+    return extractBeeformedProps<PutBeeformedProps>(formData)
 }

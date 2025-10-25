@@ -3,20 +3,27 @@
 import { putRule, postRule } from '@utils/api'
 import { getRequiredString } from '@utils/validate'
 
-export type FormState =
+type FormState =
     | null
     | string
-    | PostRuleProps
-    | PutRuleProps
 
-export async function createRule(_: FormState, formData: FormData): Promise<FormState> {
+type PostFormState = FormState | PostRuleProps
+
+type PutFormState = FormState | PutRuleProps
+
+
+function extractRuleProps<T extends PostRuleProps | PutRuleProps>(formData: FormData): T {
+    return {
+        name_en:        getRequiredString(formData, 'name_en'),
+        name_no:        getRequiredString(formData, 'name_no'),
+        description_en: getRequiredString(formData, 'description_en'),
+        description_no: getRequiredString(formData, 'description_no'),
+    } as T
+}
+
+export async function createRule(_: PostFormState, formData: FormData): Promise<PostFormState> {
     try {
-        const ruleProps: PostRuleProps = {
-            name_en:        getRequiredString(formData, 'name_en'),
-            name_no:        getRequiredString(formData, 'name_no'),
-            description_en: getRequiredString(formData, 'description_en'),
-            description_no: getRequiredString(formData, 'description_no'),
-        }
+        const ruleProps = extractRuleProps<PostRuleProps>(formData)
 
         const response = await postRule(ruleProps)
         return response
@@ -26,14 +33,9 @@ export async function createRule(_: FormState, formData: FormData): Promise<Form
     }
 }
 
-export async function updateRule(_: FormState, formData: FormData): Promise<FormState> {
+export async function updateRule(_: PutFormState, formData: FormData): Promise<PutFormState> {
     try {
-        const ruleProps: PutRuleProps = {
-            name_en:        getRequiredString(formData, 'name_en'),
-            name_no:        getRequiredString(formData, 'name_no'),
-            description_en: getRequiredString(formData, 'description_en'),
-            description_no: getRequiredString(formData, 'description_no'),
-        }
+        const ruleProps = extractRuleProps<PutRuleProps>(formData)
 
         const id = Number(formData.get('id'))
 
