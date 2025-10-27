@@ -1,4 +1,5 @@
 export function getCookie(name: string): string | null {
+    if (typeof document === 'undefined') return null
     const matches = document.cookie.match(
         new RegExp(
             '(?:^|; )' +
@@ -10,6 +11,7 @@ export function getCookie(name: string): string | null {
 }
 
 export function setCookie(name: string, value: string, days?: number) {
+    if (typeof document === 'undefined') return
     let expires = ''
 
     if (!value) {
@@ -27,14 +29,15 @@ export function setCookie(name: string, value: string, days?: number) {
         `${expires} path=/; SameSite=Lax`
 }
 
+export function removeCookie(name: string) {
+    if (typeof document === 'undefined') return
+    document.cookie =
+        `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; ` +
+        'path=/; SameSite=Lax'
+}
+
 export function removeCookies(...cookies: string[]) {
     for (const cookie of cookies) {
         removeCookie(cookie)
     }
-}
-
-export function removeCookie(name: string) {
-    document.cookie =
-        `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; ` +
-        'path=/; SameSite=Lax'
 }

@@ -83,7 +83,9 @@ function OpenAnnouncement({
     }
 
     function handleLogin() {
-        window.location.href = `${process.env.NEXT_PUBLIC_BROWSER_API}/oauth2/login`
+        if (typeof window !== 'undefined') {
+            window.location.href = `${process.env.NEXT_PUBLIC_BROWSER_API}/oauth2/login`
+        }
     }
 
     if (!channels.length) {
