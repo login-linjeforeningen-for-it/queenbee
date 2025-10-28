@@ -6,9 +6,14 @@ import Link from 'next/link'
 import { getCookie } from '@utils/cookies'
 import { LogOut } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
 
 export default function Nav() {
-    const token = getCookie('access_token') || undefined
+    const [token, setToken] = useState<string | undefined>(undefined)
+
+    useEffect(() => {
+        setToken(getCookie('access_token') || undefined)
+    }, [])
 
     return (
         <nav

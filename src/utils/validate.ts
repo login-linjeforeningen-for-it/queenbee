@@ -33,18 +33,18 @@ export function getOptionalBoolean(formData: FormData, key: string): boolean | n
     return false
 }
 
-export function getRequiredDateTime(formData: FormData, dateKey: string, timeKey: string): string {
+export function getRequiredDateTime(formData: FormData, dateKey: string, timeKey: string, defaultTime?: string): string {
     const date = formData.get(dateKey)
-    const time = formData.get(timeKey)
+    const time = formData.get(timeKey) || defaultTime
     if (date && time) {
         return `${date}T${time}:00`
     }
     throw new Error(`${dateKey} and ${timeKey} are required`)
 }
 
-export function getOptionalDateTime(formData: FormData, dateKey: string, timeKey: string): string | null {
+export function getOptionalDateTime(formData: FormData, dateKey: string, timeKey: string, defaultTime?: string): string | null {
     const date = formData.get(dateKey)
-    const time = formData.get(timeKey)
+    const time = formData.get(timeKey) || defaultTime
     if (date && time) {
         return `${date}T${time}:00`
     }

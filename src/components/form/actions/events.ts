@@ -40,11 +40,11 @@ function extractEventProps<T extends PostEventProps | PutEventProps>(formData: F
         rule_id:                getOptionalNumber(formData, 'rule'),
         audience_id:            getOptionalNumber(formData, 'audience_id'),
         organization_id:        getOptionalNumber(formData, 'organization'),
-        time_end:               getRequiredDateTime(formData, 'end_date', 'end_time'),
-        time_publish:           getRequiredDateTime(formData, 'publish_date', 'publish_time'),
-        time_signup_deadline:   getOptionalDateTime(formData, 'deadline_date', 'deadline_time'),
-        time_signup_release:    getOptionalDateTime(formData, 'release_date', 'release_time'),
-        time_start:             getRequiredDateTime(formData, 'start_date', 'start_time'),
+        time_end:               getRequiredDateTime(formData, 'end_date', 'end_time', '23:59'),
+        time_publish:           getRequiredDateTime(formData, 'publish_date', 'publish_time', '00:00'),
+        time_signup_deadline:   getOptionalDateTime(formData, 'deadline_date', 'deadline_time', '23:59'),
+        time_signup_release:    getOptionalDateTime(formData, 'release_date', 'release_time', '00:00'),
+        time_start:             getRequiredDateTime(formData, 'start_date', 'start_time', '00:00'),
         time_type:              getRequiredString(formData, 'time_type') as time_type,
         visible:                getOptionalBoolean(formData, 'visible') || true
     } as T
