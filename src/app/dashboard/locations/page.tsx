@@ -9,29 +9,26 @@ import Pagination from '@components/table/pagination'
 
 const AddressHeaders = [
     'id',
-    'name_no',
+    'name_en',
     'address_street',
     'address_postcode',
     'city_name',
-    'url',
     'updated_at',
 ]
 
 const MazemapHeaders = [
     'id',
-    'name_no',
+    'name_en',
     'mazemap_campus_id',
     'mazemap_poi_id',
-    'url',
     'updated_at',
 ]
 
 const CoordinateHeaders = [
     'id',
-    'name_no',
+    'name_en',
     'coordinate_lat',
     'coordinate_long',
-    'url',
     'updated_at',
 ]
 
