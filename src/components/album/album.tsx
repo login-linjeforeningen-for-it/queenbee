@@ -9,15 +9,16 @@ import { Trash2 } from 'lucide-react'
 
 type AlbumProps = {
     album: GetAlbumProps
+    pageSize: number
     deleteAction: (id: string, name: string) => Promise<DeleteParamsProps | string>
 }
 
-export default function Album({ album, deleteAction }: AlbumProps) {
+export default function Album({ album, deleteAction, pageSize }: AlbumProps) {
     const searchParams = useSearchParams()
 
     const currentPage = searchParams.get('page') ? Number(searchParams.get('page')) : 1
     const search = searchParams.get('q') || ''
-    const itemsPerPage = 15
+    const itemsPerPage = pageSize
 
     const [images, setImages] = useState(album.images)
 

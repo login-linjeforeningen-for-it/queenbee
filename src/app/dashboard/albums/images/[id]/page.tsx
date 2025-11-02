@@ -13,6 +13,7 @@ async function deleteAction(id: string, name: string): Promise<DeleteParamsProps
 
 export default async function Page({ params }: { params: Promise<{ id: string }>}) {
     const { id } = await params
+    const pageSize = 15
 
     if (id) {
         const album = await getAlbum(Number(id))
@@ -32,13 +33,14 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                     {album.images &&
                         <Album
                             album={album}
+                            pageSize={pageSize}
                             deleteAction={deleteAction}
                         />
                     }
                     {album.images &&
                         <Pagination
                             totalRows={album.images.length}
-                            pageSize={20}
+                            pageSize={pageSize}
                         />
                     }
                 </div>

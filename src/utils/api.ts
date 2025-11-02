@@ -341,3 +341,6 @@ export async function deleteImage(type: ImagePaths, imageName: string): Promise<
     const path = `${config.workerbeeApi.images.PATH}${type}/${imageName}`
     return await deleteWrapper({ path })
 }
+
+// ------------------------------------------ Statistics ------------------------------------------
+
