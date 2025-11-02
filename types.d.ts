@@ -332,6 +332,13 @@ declare global {
         event_id: number
     }
 
+    // Stats
+    type GetStatisticsCategoriesProps = {
+        id: number
+        name_en: string
+        event_count: number
+    }[]
+
     // Enum types
     type GetTypesProps = {
         en: string

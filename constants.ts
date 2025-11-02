@@ -62,6 +62,9 @@ const config = {
         images: {
             PATH: '/images/',
         },
+        statistics: {
+            PATH: '/stats/',
+        },
     },
     tekkomBotApi: {
         ANNOUNCEMENT_PATH: '/announcements',

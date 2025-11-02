@@ -344,3 +344,7 @@ export async function deleteImage(type: ImagePaths, imageName: string): Promise<
 
 // ------------------------------------------ Statistics ------------------------------------------
 
+export async function getStatisticsCategories(): Promise<GetStatisticsCategoriesProps | string> {
+    const path = `${config.workerbeeApi.statistics.PATH}categories`
+    return await getWrapper({ path })
+}
