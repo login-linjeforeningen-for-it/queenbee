@@ -4,7 +4,7 @@ import Input from '@components/inputs/input'
 import { toast } from 'sonner'
 import config from '@config'
 import { useState } from 'react'
-import { Upload } from 'lucide-react'
+import { Upload, Loader } from 'lucide-react'
 import { getCookie } from '@utils/cookies'
 
 const api = process.env.NEXT_PUBLIC_API_URL
@@ -35,6 +35,7 @@ async function uploadImages(id: number, files: File[]) {
 export default function UploadAlbumImages({ albumId }: { albumId: number }) {
     const [files, setFiles] = useState<File[]>([])
     const [inputKey, setInputKey] = useState(0)
+    const [isUploading, setIsUploading] = useState(false)
 
     return (
         <div className='flex flex-row items-center gap-4 w-md'>
@@ -49,23 +50,29 @@ export default function UploadAlbumImages({ albumId }: { albumId: number }) {
             />
             <button
                 type='button'
+                disabled={isUploading}
                 className={`flex flex-row gap-2 cursor-pointer bg-login/90 hover:bg-login/80 
-                    rounded-md text-nowrap items-center
+                    rounded-md text-nowrap items-center disabled:cursor-not-allowed disabled:opacity-50
                 `}
                 onClick={async () => {
-                    if (files.length === 0) {
-                        toast.error('No files selected for upload')
-                        return
-                    }
-                    const response = await uploadImages(albumId, files)
-                    if (response.ok) {
-                        setFiles([])
-                        setInputKey(prev => prev + 1)
-                        window.location.reload()
+                    setIsUploading(true)
+                    try {
+                        if (files.length === 0) {
+                            toast.error('No files selected for upload')
+                            return
+                        }
+                        const response = await uploadImages(albumId, files)
+                        if (response.ok) {
+                            setFiles([])
+                            setInputKey(prev => prev + 1)
+                            window.location.reload()
+                        }
+                    } finally {
+                        setIsUploading(false)
                     }
                 }}
             >
-                <Upload className='size-10 p-2'/>
+                {isUploading ? <Loader className='animate-spin size-10 p-2' /> : <Upload className='size-10 p-2' />}
             </button>
         </div>
     )
