@@ -48,6 +48,12 @@ declare global {
         total_count: number
     }
 
+    type GetAllEventsProps = {
+        id: number
+        name_en: string
+        time_start: string
+    }[]
+
     type PostEventProps = Event & {
         category_id: number
         location_id: number | null

@@ -27,6 +27,11 @@ export async function getEvents({ search, offset, limit, orderBy, sort }: GetPar
     return await getWrapper({ path })
 }
 
+export async function getAllEvents(): Promise<GetAllEventsProps | string> {
+    const path = `${config.workerbeeApi.events.PATH}all/`
+    return await getWrapper({ path })
+}
+
 export async function getEvent(id: number): Promise<GetEventProps | string> {
     const path = `${config.workerbeeApi.events.PATH_PROTECTED}${id}`
     return await getWrapper({ path })

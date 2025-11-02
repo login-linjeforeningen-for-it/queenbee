@@ -11,11 +11,13 @@ import { Upload } from 'lucide-react'
 export default function AlbumFormInputsClient({
     defaultValues,
     preview,
-    type
+    type,
+    eventsOptions
 }: {
     defaultValues?: GetAlbumProps,
     preview?: boolean
     type: 'create' | 'update'
+    eventsOptions: Option[]
 }) {
     const [formValues, setFormValues] = useState({
         name_no: defaultValues?.name_no ?? '',
@@ -111,7 +113,7 @@ export default function AlbumFormInputsClient({
             <Select
                 name='event'
                 label='Event'
-                options={[]}
+                options={eventsOptions}
                 value={formValues.event_id ?? ''}
                 setValue={(input) => {
                     setFormValues({
