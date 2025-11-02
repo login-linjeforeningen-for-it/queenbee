@@ -25,7 +25,7 @@ export default function AlbumFormInputsClient({
         description_no: defaultValues?.description_no ?? '',
         description_en: defaultValues?.description_en ?? '',
         year: defaultValues?.year ?? new Date().getFullYear(),
-        event_id: defaultValues?.event_id ?? null,
+        event_id: defaultValues?.event?.id ?? null,
         images: [] as File[],
     })
 
@@ -111,7 +111,7 @@ export default function AlbumFormInputsClient({
                 }}
             />
             <Select
-                name='event'
+                name='event_id'
                 label='Event'
                 options={eventsOptions}
                 value={formValues.event_id ?? ''}

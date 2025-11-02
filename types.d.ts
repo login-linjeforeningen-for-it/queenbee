@@ -302,12 +302,18 @@ declare global {
         description_no: string
         description_en: string
         year: number
-        event_id: number
     }
 
     type GetAlbumProps = AlbumProps & {
         id: number
         images: string[]
+        event: {
+            id: number
+            name_en: string
+            name_no: string
+            time_start: string
+            time_end: string
+        }
         created_at: string
         updated_at: string
     }
@@ -318,12 +324,13 @@ declare global {
     }
 
     type PostAlbumProps = AlbumProps & {
-        id: number
-        created_at: string
-        updated_at: string
+        event_id: number
+
     }
 
-    type PutAlbumProps = AlbumProps
+    type PutAlbumProps = AlbumProps & {
+        event_id: number
+    }
 
     // Enum types
     type GetTypesProps = {
