@@ -358,6 +358,10 @@ declare global {
     type PutBeeformedProps = BeeformedProps
 
     // Other
+    type DeleteParamsProps = {
+        message: string
+    }
+
     type OptionsProps = { label: string; value: number | string }
 
     type CityProps = {

@@ -312,6 +312,11 @@ export async function deleteAlbum(id: number) {
     return await deleteWrapper({ path })
 }
 
+export async function deleteAlbumImage(albumId: number, imageName: string): Promise<DeleteParamsProps | string> {
+    const path = `${config.workerbeeApi.albums.PATH}${albumId}/${imageName}`
+    return await deleteWrapper({ path })
+}
+
 
 // ------------------------------------------ Images ------------------------------------------
 

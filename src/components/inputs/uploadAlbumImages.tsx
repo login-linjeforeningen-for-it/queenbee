@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 import config from '@config'
 import { useState } from 'react'
 import { Upload } from 'lucide-react'
+import { getCookie } from '@utils/cookies'
 
 const api = process.env.NEXT_PUBLIC_API_URL
 
@@ -16,6 +17,9 @@ async function uploadImages(id: number, files: File[]) {
 
     const response = await fetch(`${api}${config.workerbeeApi.albums.PATH}${id}`, {
         method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${getCookie('access_token') || ''}`
+        },
         body: formData
     })
 
@@ -30,10 +34,12 @@ async function uploadImages(id: number, files: File[]) {
 
 export default function UploadAlbumImages({ albumId }: { albumId: number }) {
     const [files, setFiles] = useState<File[]>([])
+    const [inputKey, setInputKey] = useState(0)
 
     return (
         <div className='flex flex-row items-center gap-4 w-md'>
             <Input
+                key={inputKey}
                 name='images'
                 label='Images'
                 type='file'
@@ -51,7 +57,12 @@ export default function UploadAlbumImages({ albumId }: { albumId: number }) {
                         toast.error('No files selected for upload')
                         return
                     }
-                    await uploadImages(albumId, files)
+                    const response = await uploadImages(albumId, files)
+                    if (response.ok) {
+                        setFiles([])
+                        setInputKey(prev => prev + 1)
+                        window.location.reload()
+                    }
                 }}
             >
                 <Upload className='size-10 p-2'/>
