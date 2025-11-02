@@ -265,6 +265,49 @@ export async function deleteAnnouncement(id: number) {
     })
 }
 
+// ------------------------------------------ Albums ------------------------------------------
+
+export async function getAlbums({ search, offset, limit, orderBy, sort }: GetParamsProps = {}): Promise<GetAlbumsProps | string> {
+    const queryParts = new URLSearchParams()
+    if (search)     queryParts.append('search', String(search))
+    if (offset)     queryParts.append('offset', String(offset))
+    if (limit)      queryParts.append('limit', String(limit))
+    if (orderBy)    queryParts.append('orderBy', String(orderBy))
+    if (sort)       queryParts.append('sort', String(sort))
+
+    const path = `${config.workerbeeApi.albums.PATH}?${queryParts.toString()}`
+    return await getWrapper({ path })
+}
+
+export async function getAlbum(id: number): Promise<GetAlbumProps | string> {
+    const path = `${config.workerbeeApi.albums.PATH}${id}`
+    return await getWrapper({ path })
+}
+
+export async function postAlbum(body: PostAlbumProps): Promise<PostAlbumProps | string> {
+    return await postWrapper({ path: config.workerbeeApi.albums.PATH, data: body })
+}
+
+export async function postAlbumImages(id: number, body: File[]): Promise<object | string> {
+    const formData = new FormData()
+    body.forEach(file => {
+        formData.append('images', file)
+    })
+    const path = `${config.workerbeeApi.albums.PATH}${id}`
+    return await postWrapper({ path, data: formData })
+}
+
+export async function putAlbum(id: number, body: PutAlbumProps): Promise<PutAlbumProps | string> {
+    const path = `${config.workerbeeApi.albums.PATH}${id}`
+    return await putWrapper({ path, data: body })
+}
+
+export async function deleteAlbum(id: number) {
+    const path = `${config.workerbeeApi.albums.PATH}${id}`
+    return await deleteWrapper({ path })
+}
+
+
 // ------------------------------------------ Images ------------------------------------------
 
 export async function getImages(type: 'events' | 'jobs' | 'organizations'): Promise<string[] | string> {

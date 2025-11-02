@@ -56,6 +56,9 @@ const config = {
         rules: {
             PATH: '/rules/',
         },
+        albums: {
+            PATH: '/albums/',
+        },
         images: {
             PATH: '/images/',
         },

@@ -225,7 +225,6 @@ declare global {
         updated_at: string
     }
 
-    // Categories
     type GetCategoriesProps = {
         categories: GetCategoryProps[]
         total_count: number
@@ -289,6 +288,36 @@ declare global {
     type PutAnnouncementPropsUnparsed = PostAnnouncementPropsUnparsed & {
         id: number
     }
+
+    // Albums
+    type AlbumProps = {
+        name_no: string
+        name_en: string
+        description_no: string
+        description_en: string
+        year: number
+        event_id: number
+    }
+
+    type GetAlbumProps = AlbumProps & {
+        id: number
+        images: string[]
+        created_at: string
+        updated_at: string
+    }
+
+    type GetAlbumsProps = {
+        albums: GetAlbumProps[]
+        total_count: number
+    }
+
+    type PostAlbumProps = AlbumProps & {
+        id: number
+        created_at: string
+        updated_at: string
+    }
+
+    type PutAlbumProps = AlbumProps
 
     // Enum types
     type GetTypesProps = {
@@ -383,6 +412,7 @@ declare global {
         | 'rule'
         | 'announcement'
         | 'form'
+        | 'album'
 
     type Announcement = {
         id: string

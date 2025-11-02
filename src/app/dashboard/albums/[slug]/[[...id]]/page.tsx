@@ -1,0 +1,46 @@
+import { getAlbum } from '@utils/api'
+import { createAlbum, updateAlbum } from '@components/form/actions/albums'
+import FormWrapper from '@components/form/wrapper'
+import { notFound } from 'next/navigation'
+import AlbumFormInputs from '@components/form/server/albums'
+
+export default async function Page({ params }: { params: Promise<{ slug: string; id?: string[] }>
+}) {
+    const { id, slug } = await params
+
+    if (id) {
+        const album = await getAlbum(Number(id[0]))
+        if (typeof album === 'object' && Object.keys(album).length > 0) {
+            if (slug === 'create') {
+                return (
+                    <FormWrapper
+                        name='album'
+                        type='create'
+                        formAction={createAlbum}
+                    >
+                        <AlbumFormInputs type='update' defaultValues={album} />
+                    </FormWrapper>
+                )
+            } else if (slug === 'update') {
+                return (
+                    <FormWrapper
+                        name='album'
+                        type='update'
+                        id={id[0]}
+                        formAction={updateAlbum}
+                    >
+                        <AlbumFormInputs type='update' defaultValues={album} />
+                    </FormWrapper>
+                )
+            }
+        }
+    } else if (slug === 'create') {
+        return (
+            <FormWrapper name='album' type='create' formAction={createAlbum}>
+                <AlbumFormInputs type='create' />
+            </FormWrapper>
+        )
+    }
+
+    notFound()
+}

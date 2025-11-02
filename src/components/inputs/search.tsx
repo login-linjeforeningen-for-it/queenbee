@@ -4,7 +4,7 @@ import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Label from './label'
 
-export default function Search() {
+export default function Search({className}: {className?: string}) {
     const router = useRouter(),
         pathname = usePathname(),
         searchParams = useSearchParams()
@@ -20,7 +20,7 @@ export default function Search() {
     }
 
     return (
-        <div className='relative flex items-center'>
+        <div className={`relative flex items-center ${className}`}>
             <input
                 name='search'
                 value={text}
@@ -29,7 +29,7 @@ export default function Search() {
                 className={
                     'block px-2.5 pb-2 pt-3 w-full text-sm rounded-lg ' +
                     'border-[0.10rem] appearance-none border-login-200 ' +
-                    'focus:outline-none focus:ring-0 focus:border-login-50 peer'
+                    'focus:outline-none focus:ring-0 focus:border-login-50 peer '
                 }
                 placeholder=''
             />

@@ -9,6 +9,7 @@ import {
     ClipboardList,
     Gavel,
     Icon,
+    Images,
     LayoutDashboard,
     MapPin,
     Megaphone,
@@ -65,6 +66,11 @@ export default function Sidebar() {
             name: 'Announcements',
             path: '/dashboard/announcements',
             image: <Megaphone className='w-6' />,
+        },
+        albums: {
+            name: 'Albums',
+            path: '/dashboard/albums',
+            image: <Images className='w-6' />,
         },
         forms: {
             name: 'Forms',
