@@ -348,3 +348,8 @@ export async function getStatisticsCategories(): Promise<GetStatisticsCategories
     const path = `${config.workerbeeApi.statistics.PATH}categories`
     return await getWrapper({ path })
 }
+
+export async function getStatisticsNewAdditions(): Promise<GetStatisticsNewAdditionsProps | string> {
+    const path = `${config.workerbeeApi.statistics.PATH}new-additions`
+    return await getWrapper({ path })
+}

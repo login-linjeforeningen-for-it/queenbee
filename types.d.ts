@@ -336,6 +336,14 @@ declare global {
         id: number
         name_en: string
         event_count: number
+        color: string
+    }[]
+
+    type GetStatisticsNewAdditionsProps = {
+        id: number
+        name_en: string
+        created_at: string
+        source: string
     }[]
 
     // Enum types
@@ -483,6 +491,7 @@ declare global {
         announcements: number
         organizations: number
         locations: number
+        albums: number
     }
 
     type DetailedEvent = {

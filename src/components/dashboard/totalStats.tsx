@@ -5,18 +5,20 @@ import {
     BriefcaseBusiness,
     Megaphone,
     Building2,
-    MapPin
+    MapPin,
+    Images
 } from 'lucide-react'
 import { ReactNode, useEffect, useState } from 'react'
 
 export default function TotalStats({ stats }: { stats: DashboardTotalStats }) {
     return (
-        <div className='mt-4 grid grid-cols-2 md:grid-cols-5 gap-4'>
+        <div className='mt-4 grid grid-cols-2 md:grid-cols-6 gap-4'>
             <Stat text='Events' count={stats.events} item={<Calendar className='w-5 h-5' />} />
             <Stat text='Jobs' count={stats.jobs} item={<BriefcaseBusiness className='w-5 h-5' />} />
             <Stat text='Announcements' count={stats.announcements} item={<Megaphone className='w-5 h-5' />} />
             <Stat text='Organizations' count={stats.organizations} item={<Building2 className='w-5 h-5' />} />
             <Stat text='Locations' count={stats.locations} item={<MapPin className='w-5 h-5' />} />
+            <Stat text='Albums' count={stats.albums} item={<Images className='w-5 h-5' />} />
         </div>
     )
 }
