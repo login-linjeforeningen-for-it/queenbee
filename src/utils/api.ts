@@ -289,7 +289,7 @@ export async function getAlbum(id: number): Promise<GetAlbumProps | string> {
     return await getWrapper({ path })
 }
 
-export async function postAlbum(body: PostAlbumProps): Promise<PostAlbumProps | string> {
+export async function postAlbum(body: PostAlbumProps): Promise<PostAlbumProps & { id: number } | string> {
     return await postWrapper({ path: config.workerbeeApi.albums.PATH, data: body })
 }
 

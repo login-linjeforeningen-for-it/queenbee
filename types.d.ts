@@ -325,7 +325,6 @@ declare global {
 
     type PostAlbumProps = AlbumProps & {
         event_id: number
-
     }
 
     type PutAlbumProps = AlbumProps & {

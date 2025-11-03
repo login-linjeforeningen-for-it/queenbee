@@ -24,6 +24,7 @@ export default async function Page({
                 return (
                     <FormWrapper
                         name='organization'
+                        path='organizations'
                         type='create'
                         formAction={createOrganization}
                     >
@@ -34,6 +35,7 @@ export default async function Page({
                 return (
                     <FormWrapper
                         name='organization'
+                        path='organizations'
                         type='update'
                         id={id[0]}
                         formAction={updateOrganization}
@@ -47,6 +49,7 @@ export default async function Page({
         return (
             <FormWrapper
                 name='organization'
+                path='organizations'
                 type='create'
                 formAction={createOrganization}
             >

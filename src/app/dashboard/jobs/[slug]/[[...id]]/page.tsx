@@ -14,6 +14,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                 return (
                     <FormWrapper
                         name='job'
+                        path='jobs'
                         type='create'
                         formAction={createJob}
                     >
@@ -24,6 +25,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                 return (
                     <FormWrapper
                         name='job'
+                        path='jobs'
                         type='update'
                         id={id[0]}
                         formAction={updateJob}
@@ -35,7 +37,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
         }
     } else if (slug === 'create') {
         return (
-            <FormWrapper name='job' type='create' formAction={createJob}>
+            <FormWrapper
+                name='job'
+                path='jobs'
+                type='create'
+                formAction={createJob}
+            >
                 <JobFormInputs />
             </FormWrapper>
         )

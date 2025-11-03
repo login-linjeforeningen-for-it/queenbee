@@ -1,7 +1,6 @@
 'use client'
 
-import { usePathname, useRouter } from 'next/navigation'
-import { ArrowLeft } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import CustomForm from './form'
 import {
     Children,
@@ -12,6 +11,7 @@ import {
     useState
 } from 'react'
 import DiscordPreview from '@components/preview/discord'
+import BackButton from '@components/navigation/back'
 
 type ChildProps = {
     preview: boolean
@@ -20,27 +20,30 @@ type ChildProps = {
 
 type FormWrapperProps = {
     name: FormName
+    path?: string
     type: 'create' | 'update'
     id?: string
     preview?: boolean
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formAction: ( prevState: any, formData: FormData ) => any | Promise<any>
     children: ReactElement<ChildProps> | ReactElement<ChildProps>[]
+    customRedirect?: string
     channels?: Channel[]
     roles?: Role[]
 }
 
 export default function FormWrapper({
     name,
+    path,
     type,
     id,
     preview,
     formAction,
     children,
+    customRedirect,
     channels,
     roles
 }: FormWrapperProps) {
-    const router = useRouter()
     const [title, setTitle] = useState('')
     const pathname = usePathname()
     const displayPreview = !pathname.includes('events/create') && !pathname.includes('jobs/create')
@@ -70,18 +73,7 @@ export default function FormWrapper({
                 `w-full px-16 py-4 ${preview ? 'grid grid-cols-2 gap-4' : ''}`
             }>
                 <div className='flex flex-col gap-4'>
-                    <button
-                        type='button'
-                        aria-label='Go back'
-                        onClick={() => router.back()}
-                        className={
-                            'inline-flex items-center gap-2 rounded-lg p-1 px-4 ' +
-                            'cursor-pointer hover:text-login bg-login-600 w-fit'
-                        }
-                    >
-                        <ArrowLeft className='size-4.5' />
-                        <span>Back</span>
-                    </button>
+                    <BackButton pushURL={path ? `/dashboard/${path}` : undefined} />
                     <h1 className='font-semibold text-2xl capitalize'>
                         {type} {name}
                     </h1>
@@ -96,6 +88,7 @@ export default function FormWrapper({
                     type={type}
                     id={id}
                     formAction={formAction}
+                    customRedirect={customRedirect}
                 >
                     {Children.map(children, child => {
                         if (isValidElement(child)) {

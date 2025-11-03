@@ -18,6 +18,7 @@ export default async function Page({
                 return (
                     <FormWrapper
                         name='rule'
+                        path='rules'
                         type='create'
                         formAction={createRule}
                     >
@@ -28,6 +29,7 @@ export default async function Page({
                 return (
                     <FormWrapper
                         name='rule'
+                        path='rules'
                         type='update'
                         id={id[0]}
                         formAction={updateRule}
@@ -39,7 +41,12 @@ export default async function Page({
         }
     } else if (slug === 'create') {
         return (
-            <FormWrapper name='rule' type='create' formAction={createRule}>
+            <FormWrapper
+                name='rule'
+                path='rules'
+                type='create'
+                formAction={createRule}
+            >
                 <RuleFormInputs />
             </FormWrapper>
         )

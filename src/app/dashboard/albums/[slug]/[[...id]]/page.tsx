@@ -15,8 +15,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                 return (
                     <FormWrapper
                         name='album'
+                        path='albums'
                         type='create'
                         formAction={createAlbum}
+                        customRedirect='images'
                     >
                         <AlbumFormInputs type='update' defaultValues={album} />
                     </FormWrapper>
@@ -25,6 +27,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                 return (
                     <FormWrapper
                         name='album'
+                        path='albums'
                         type='update'
                         id={id[0]}
                         formAction={updateAlbum}
@@ -36,7 +39,13 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
         }
     } else if (slug === 'create') {
         return (
-            <FormWrapper name='album' type='create' formAction={createAlbum}>
+            <FormWrapper
+                name='album'
+                path='albums'
+                type='create'
+                formAction={createAlbum}
+                customRedirect='images'
+            >
                 <AlbumFormInputs type='create' />
             </FormWrapper>
         )

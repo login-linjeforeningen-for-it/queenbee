@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
             return (
                 <div className='flex flex-col h-full'>
                     <div className='flex flex-col gap-4'>
-                        <BackButton />
+                        <BackButton pushURL={`/dashboard/albums/update/${album.id}`} />
                         <h1 className='text-lg font-bold mb-4'>
                             Album: {album.name_en}
                         </h1>

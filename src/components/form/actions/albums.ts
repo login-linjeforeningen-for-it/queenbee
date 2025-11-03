@@ -7,7 +7,7 @@ type FormState =
     | null
     | string
 
-type PostFormState = FormState | PostAlbumProps
+type PostFormState = FormState | PostAlbumProps & { id: number }
 
 type PutFormState = FormState | PutAlbumProps
 

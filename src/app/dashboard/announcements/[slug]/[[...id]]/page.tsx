@@ -30,6 +30,7 @@ export default async function Page({
                 return (
                     <FormWrapper
                         name='announcement'
+                        path='announcements'
                         type='create'
                         preview={true}
                         formAction={createAnnouncement}
@@ -43,6 +44,7 @@ export default async function Page({
                 return (
                     <FormWrapper
                         name='announcement'
+                        path='announcements'
                         type='update'
                         id={id[0]}
                         preview={true}
@@ -59,6 +61,7 @@ export default async function Page({
         return (
             <FormWrapper
                 name='announcement'
+                path='announcements'
                 type='create'
                 preview={true}
                 formAction={createAnnouncement}

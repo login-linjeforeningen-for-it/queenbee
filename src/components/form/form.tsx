@@ -12,6 +12,7 @@ type ContentFormProps = {
     id?: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formAction: ( prevState: any, formData: FormData ) => any | Promise<any>
+    customRedirect?: string
     children: React.ReactNode
 }
 
@@ -23,6 +24,7 @@ export default function CustomForm({
     type,
     id,
     formAction,
+    customRedirect,
     children,
 }: ContentFormProps) {
     const [state, action, pending] = useActionState(formAction, initialState)
@@ -35,7 +37,8 @@ export default function CustomForm({
         if (typeof state !== 'string' && state !== null) {
             toast.success(`${name} ${type}d successfully!`)
             const basePath = pathname.split('/').slice(0, 3).join('/')
-            router.push(basePath)
+            console.log(state)
+            router.push( state?.id && customRedirect ? `${basePath}/${customRedirect}/${state.id}` : basePath )
         } else if (typeof state === 'string') {
             toast.error(`Error: ${state}`)
         }
