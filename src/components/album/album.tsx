@@ -30,6 +30,17 @@ export default function Album({ album, deleteAction, pageSize }: AlbumProps) {
     const limit = itemsPerPage
     const paginatedImages = filteredImages.slice(offset, offset + limit)
 
+    function getDisplayName(filename: string) {
+        if (filename.startsWith('img_')) {
+            const parts = filename.split('_')
+            return parts.slice(2).join('_')
+        } else if (filename.startsWith('coverimg_')) {
+            const parts = filename.split('_')
+            return parts.slice(1).join('_')
+        }
+        return filename
+    }
+
     const handleDeleteImage = async (imageName: string) => {
         try {
             const response = await deleteAction(album.id.toString(), imageName)
@@ -56,6 +67,10 @@ export default function Album({ album, deleteAction, pageSize }: AlbumProps) {
                             alt={`Album Image ${image}`}
                             className='w-full h-full object-cover'
                         />
+                        <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t
+                            from-login-600/90 via-login-600/70 to-transparent text-white text-xs p-1 truncate'>
+                            {getDisplayName(image)}
+                        </div>
                         <div className='absolute inset-0 bg-login-950/90 bg-opacity-0 group-hover:bg-opacity-50
                             transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100'>
                             <button
