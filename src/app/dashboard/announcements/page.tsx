@@ -89,7 +89,6 @@ function Sort({ tempSort, channels, roles, limit }: {
     announcements.forEach((announcement) => {
         (announcement.sent as unknown as string) = announcement.sent ? 'true' : 'false'
         announcement.channel = channels?.find((c) => c.value === announcement.channel)?.label
-        announcement.roles = announcement.roles?.map((role) => roles.find((r) => r.value === role)?.label || '') ?? []
     })
 
     if (
@@ -114,6 +113,7 @@ function Sort({ tempSort, channels, roles, limit }: {
                 list={announcements}
                 headers={announcementList}
                 deleteAction={deleteAction}
+                roles={roles}
             />
             <Pagination pageSize={limit} totalRows={Number(totalCount)} />
         </div>

@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import Image from 'next/image'
+import React from 'react'
+import { renderToString } from 'react-dom/server'
 import { useEffect, useRef, useState } from 'react'
 import { Markdown } from './markdown'
+import { RoleRenderer } from './discordRole'
 
 export default function DiscordPreview({ channels, roles }: { channels: Channel[], roles: Role[] }) {
     const [title, setTitle] = useState('')
@@ -12,6 +15,15 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
     const [color, setColor] = useState('')
     const formattedColor = formatColor(color)
     const boxRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        setTitle(localStorage.getItem('title') || '')
+        setDescription(localStorage.getItem('description') || '')
+        setChannel(localStorage.getItem('channel') || '')
+        setRoles((localStorage.getItem('roles') || '').split(' '))
+        setEmbed(localStorage.getItem('embed') === 'true')
+        setColor(localStorage.getItem('color') || '')
+    }, [])
 
     useEffect(() => {
         if (boxRef.current) {
@@ -183,11 +195,9 @@ function format(text: string, roles: Role[]): string {
             result += text.slice(lastIndex, start)
         }
 
-        const role = roles.find(r => r.value === roleId)
-        if (role) {
-            const bgColor = `${role.color}26`
-            const style = `color: ${role.color}; background-color: ${bgColor}; padding: 0.2rem; border-radius: 0.375rem;`
-            result += `<span style="${style}">@${escapeHtml(role.label)}</span>`
+        const spanElement = RoleRenderer({ roleId, roles })
+        if (spanElement) {
+            result += renderToString(spanElement)
         } else {
             result += match[0]
         }
@@ -200,12 +210,4 @@ function format(text: string, roles: Role[]): string {
     }
 
     return result
-}
-
-function escapeHtml(str: string): string {
-    return str.replace(/&/g, '&amp')
-        .replace(/</g, '&lt')
-        .replace(/>/g, '&gt')
-        .replace(/"/g, '&quot')
-        .replace(/'/g, '&#39')
 }

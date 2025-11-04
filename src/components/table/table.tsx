@@ -3,6 +3,7 @@
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { RoleRenderer } from '@components/preview/discordRole'
 
 const timeValues = ['date', 'last_sent', 'time']
 
@@ -10,6 +11,7 @@ type TableProps = {
     list: object[]
     headers?: string[]
     deleteAction: (id: string) => void
+    roles?: Role[]
 }
 
 type HeaderProps = {
@@ -21,20 +23,25 @@ type BodyProps = {
     list: object[]
     headers: string[]
     deleteAction: (id: string) => void
+    roles?: Role[]
 }
 
-export default function Table({ list, headers, deleteAction }: TableProps) {
+export default function Table({ list, headers, deleteAction, roles }: TableProps) {
     const keys = Object.keys(list[0])
     headers = headers || keys
 
     return (
         <div className='relative flex-1 noscroll w-full overflow-auto'>
             <table className='w-full relative border-collapse rounded-lg pl-2'>
-                <Header keys={keys} headers={headers} />
+                <Header
+                    keys={keys}
+                    headers={headers}
+                />
                 <Body
                     list={list}
                     headers={headers}
                     deleteAction={deleteAction}
+                    roles={roles}
                 />
             </table>
         </div>
@@ -115,7 +122,7 @@ function Header({ keys, headers }: HeaderProps) {
     )
 }
 
-function Body({ list, headers, deleteAction }: BodyProps) {
+function Body({ list, headers, deleteAction, roles }: BodyProps) {
     const [openMenuId, setOpenMenuId] = useState<string | null>(null)
     const pathname = usePathname()
     const router = useRouter()
@@ -128,7 +135,6 @@ function Body({ list, headers, deleteAction }: BodyProps) {
             <tbody key={index} className='bg-login-500 h-[2rem]'>
                 <tr className='border-y-1 border-login-900'>
                     {entries.map(([key, value]) => {
-                        const renderedValue = formatValue(key, value)
                         if (!headers.includes(key)) return null
                         return (
                             <td key={key} className='p-[0.5rem]'>
@@ -139,7 +145,13 @@ function Body({ list, headers, deleteAction }: BodyProps) {
                                             'whitespace-nowrap max-w-[15rem]'
                                         }
                                     >
-                                        {renderedValue}
+                                        {key === 'roles' && roles ? (
+                                            (value as string[]).map((roleId, idx) => (
+                                                <RoleRenderer key={idx} roleId={roleId} roles={roles} />
+                                            ))
+                                        ) : (
+                                            formatValue(key, value)
+                                        )}
                                     </h1>
                                 </div>
                             </td>
