@@ -6,7 +6,7 @@ const config = {
     url: {
         API_URL: env.API_URL || 'https://workerbee-v2.login.no/api/v2',
         CDN_URL: env.CDN_URL || 'https://cdn.login.no',
-        TEKKOM_BOT_API_URL: env.NEXT_PUBLIC_TEKKOM_BOT_API_URL,
+        TEKKOM_BOT_API_URL: env.TEKKOM_BOT_API_URL,
         GITLAB_URL: 'https://gitlab.login.no',
         AUTHENTIK_URL: 'https://authentik.login.no',
     },

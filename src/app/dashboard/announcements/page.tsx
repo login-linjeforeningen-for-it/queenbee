@@ -4,13 +4,10 @@ import Button from '@components/button/button'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
-import { LogIn, MessageSquareWarning } from 'lucide-react'
-import Link from 'next/link'
 
 const announcementList = [
     'id',
     'title',
-    'description',
     'channel',
     'roles',
     'interval',
@@ -26,17 +23,23 @@ async function deleteAction(id: string) {
     await deleteAnnouncement(Number(id))
 }
 
-export default async function Page() {
-    // export default async function Page({
-    //     _,
-    // }: {
-    //     searchParams: Promise<{ [key: string]: string | undefined }>
-    // }) {
-    // const filters = await searchParams
-    // const search = typeof filters.q === 'string' ? filters.q : ''
-    // const page = typeof filters.page === 'string' ? Number(filters.page) : 1
+export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
+    const filters = await searchParams
+    const search = typeof filters.q === 'string' ? filters.q : ''
+    const offset = typeof filters.page === 'string' ? Number(filters.page)-1 : 0
+    const limit = 14
+    const orderBy = typeof filters.column === 'string' ? filters.column : 'id'
+    const sort = typeof filters.order === 'string' && (filters.order === 'asc' || filters.order === 'desc')
+        ? filters.order
+        : 'asc'
 
-    const list = await getAnnouncements()
+    const list = await getAnnouncements({
+        search,
+        offset,
+        limit,
+        orderBy,
+        sort,
+    })
     const rolesResponse = await getRoles()
     const channelsResponse = await getChannels()
     const channels = Array.isArray(channelsResponse)
@@ -45,50 +48,9 @@ export default async function Page() {
     const roles = Array.isArray(rolesResponse)
         ? rolesResponse.map((role) => ({ label: role.name, value: role.id, color: role.color }))
         : []
-    const tempSort = Array.isArray(list) ? list : []
-
-    if (typeof list === 'string') {
-        return (
-            <div
-                className={
-                    'h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] ' +
-                    'overflow-hidden flex flex-col gap-2'
-                }
-            >
-                <div className='flex gap-2 w-full rounded-lg p-2 bg-red-900'>
-                    <MessageSquareWarning />
-                    <h1 className='font-semibold'>Unauthorized</h1>
-                </div>
-                <div className='flex-none'>
-                    <h1 className='font-semibold text-lg'>Announcements</h1>
-                </div>
-                <div className='grid place-items-center h-full'>
-                    <Link
-                        href={`${process.env.NEXT_PUBLIC_BROWSER_API}/oauth2/login`}
-                        className='grid place-items-center'
-                    >
-                        <button
-                            className={
-                                'flex align-middle gap-2 mt-2 rounded-lg ' +
-                                'bg-login px-8 py-1  hover:bg-orange-500 mb-2'
-                            }
-                        >
-                            Login
-                            <LogIn className='w-5' />
-                        </button>
-                    </Link>
-                </div>
-            </div>
-        )
-    }
 
     return (
-        <div
-            className={
-                'h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] ' +
-                'overflow-hidden flex flex-col'
-            }
-        >
+        <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden flex flex-col'>
             <div className='flex-none'>
                 <h1 className='font-semibold text-lg'>Announcements</h1>
                 <div className='flex items-center justify-between py-3'>
@@ -102,13 +64,29 @@ export default async function Page() {
                     </div>
                 </div>
             </div>
-            <TempSort tempSort={tempSort} channels={channels} roles={roles} />
+            <Sort tempSort={list} channels={channels} roles={roles} limit={limit} />
         </div>
     )
 }
 
-function TempSort({ tempSort, channels, roles }: { tempSort: object[], channels: Channel[], roles: Role[] }) {
-    (tempSort as Announcement[]).forEach((announcement) => {
+function Sort({ tempSort, channels, roles, limit }: {
+    tempSort: Announcement[] | { announcements: Announcement[], total_count: number } | string,
+    channels: Channel[],
+    roles: Role[],
+    limit: number
+}) {
+    let announcements: Announcement[] = []
+    let totalCount = 0
+
+    if (typeof tempSort === 'object' && tempSort !== null && 'announcements' in tempSort) {
+        announcements = tempSort.announcements
+        totalCount = tempSort.total_count
+    } else if (Array.isArray(tempSort)) {
+        announcements = tempSort
+        totalCount = tempSort.length
+    }
+
+    announcements.forEach((announcement) => {
         (announcement.sent as unknown as string) = announcement.sent ? 'true' : 'false'
         announcement.channel = channels?.find((c) => c.value === announcement.channel)?.label
         announcement.roles = announcement.roles?.map((role) => roles.find((r) => r.value === role)?.label || '') ?? []
@@ -116,8 +94,8 @@ function TempSort({ tempSort, channels, roles }: { tempSort: object[], channels:
 
     if (
         typeof tempSort === 'string' ||
-        !Array.isArray(tempSort) ||
-        tempSort.length < 1
+        !Array.isArray(announcements) ||
+        announcements.length < 1
     ) {
         return (
             <div className='w-full h-full flex items-center justify-center'>
@@ -133,11 +111,11 @@ function TempSort({ tempSort, channels, roles }: { tempSort: object[], channels:
     return (
         <div className='flex-1 flex flex-col overflow-hidden'>
             <Table
-                list={tempSort}
+                list={announcements}
                 headers={announcementList}
                 deleteAction={deleteAction}
             />
-            <Pagination pageSize={10} totalRows={tempSort.length} />
+            <Pagination pageSize={limit} totalRows={Number(totalCount)} />
         </div>
     )
 }

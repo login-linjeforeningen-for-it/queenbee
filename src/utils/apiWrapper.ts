@@ -35,13 +35,11 @@ const tekkomBotApiUrl = config.url.TEKKOM_BOT_API_URL
 export async function getWrapper({ path, options = {}, custom }: GetWrapperProps) {
     const Cookies = await cookies()
     const access_token = Cookies.get('access_token')?.value || ''
-    const bot_access_token = Cookies.get('bot_access_token')?.value || ''
-    const token = custom === 'tekkom' ? bot_access_token : access_token
     const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
 
     const baseHeaders = {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${access_token}`,
     }
 
     const headers = custom === 'tekkom' ? {
@@ -73,8 +71,6 @@ export async function getWrapper({ path, options = {}, custom }: GetWrapperProps
 export async function postWrapper({ path, data, custom, status }: PostWrapper) {
     const Cookies = await cookies()
     const access_token = Cookies.get('access_token')?.value || ''
-    const bot_access_token = Cookies.get('bot_access_token')?.value || ''
-    const token = custom === 'tekkom' ? bot_access_token : access_token
     const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
 
     const isFormData = data instanceof FormData
@@ -83,7 +79,7 @@ export async function postWrapper({ path, data, custom, status }: PostWrapper) {
         method: 'POST',
         headers: {
             ...(isFormData ? { } : { 'Content-Type': 'application/json' }),
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${access_token}`,
         },
         body: isFormData ? data : JSON.stringify(data),
     }
@@ -113,15 +109,13 @@ export async function postWrapper({ path, data, custom, status }: PostWrapper) {
 export async function deleteWrapper({ path, options, custom }: DeleteWrapperProps) {
     const Cookies = await cookies()
     const access_token = Cookies.get('access_token')?.value || ''
-    const bot_access_token = Cookies.get('bot_access_token')?.value || ''
-    const token = custom === 'tekkom' ? bot_access_token : access_token
     const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
 
     const defaultOptions = {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${access_token}`,
         },
     }
     const finalOptions = { ...defaultOptions, ...options }
@@ -148,15 +142,13 @@ export async function deleteWrapper({ path, options, custom }: DeleteWrapperProp
 export async function putWrapper({ path, data = {}, options = {}, custom }: PutWrapperProps) {
     const Cookies = await cookies()
     const access_token = Cookies.get('access_token')?.value || ''
-    const bot_access_token = Cookies.get('bot_access_token')?.value || ''
-    const token = custom === 'tekkom' ? bot_access_token : access_token
     const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
 
     const defaultOptions = {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${access_token}`,
         },
         body: JSON.stringify(data),
     }

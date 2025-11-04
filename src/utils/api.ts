@@ -234,13 +234,23 @@ export async function getRoles(): Promise<RoleResponse[] | string> {
     return await getWrapper({ path, custom: 'tekkom' })
 }
 
-export async function getAnnouncement(id: number): Promise<GetAnnouncementProps[] | string> {
+export async function getAnnouncement(id: number): Promise<GetAnnouncementProps | string> {
     const path = `${config.tekkomBotApi.ANNOUNCEMENT_PATH}?id=${id}`
     return await getWrapper({ path, custom: 'tekkom' })
 }
 
-export async function getAnnouncements() {
-    const path = config.tekkomBotApi.ANNOUNCEMENT_PATH
+export async function getAnnouncements({
+    search, offset, limit, orderBy, sort
+}: GetParamsProps & { includePlaceholders?: boolean } = {}): Promise<GetAnnouncementsProps | string> {
+    const queryParts = new URLSearchParams()
+    if (search)     queryParts.append('search', String(search))
+    if (limit)      queryParts.append('limit', String(limit))
+    if (offset)     queryParts.append('offset', String(offset))
+    if (orderBy)    queryParts.append('orderBy', String(orderBy))
+    if (sort)       queryParts.append('sort', String(sort))
+    queryParts.append('includePlaceholders', 'true')
+
+    const path = `${config.tekkomBotApi.ANNOUNCEMENT_PATH}?${queryParts.toString()}`
     const data = await getWrapper({ path, custom: 'tekkom' })
     return data
 }
