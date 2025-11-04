@@ -291,6 +291,10 @@ declare global {
         id: number
     }
 
+    type PutAnnouncementPropsUnparsed = PostAnnouncementPropsUnparsed & {
+        id: number
+    }
+
     type GetAnnouncementsProps = {
         announcements: Announcement[]
         total_count: number
