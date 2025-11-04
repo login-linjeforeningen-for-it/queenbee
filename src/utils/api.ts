@@ -234,7 +234,7 @@ export async function getRoles(): Promise<RoleResponse[] | string> {
     return await getWrapper({ path, custom: 'tekkom' })
 }
 
-export async function getAnnouncement(id: number): Promise<GetAnnouncementProps | string> {
+export async function getAnnouncement(id: number): Promise<GetAnnouncementProps[] | string> {
     const path = `${config.tekkomBotApi.ANNOUNCEMENT_PATH}?id=${id}`
     return await getWrapper({ path, custom: 'tekkom' })
 }
