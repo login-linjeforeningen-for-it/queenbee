@@ -336,6 +336,30 @@ declare global {
         event_id: number
     }
 
+    // Alerts
+    type AlertProps = {
+        service: string,
+        page: string,
+        title_en: string,
+        title_no: string,
+        description_en: string,
+        description_no: string,
+    }
+
+    type GetAlertProps = AlertProps & {
+        id: number,
+        created_at: string,
+        updated_at: string,
+    }
+
+    type GetAlertsProps = {
+        alerts: GetAlertProps[],
+        total_count: number,
+    }
+
+    type PostAlertProps = AlertProps
+    type PutAlertProps = AlertProps
+
     // Stats
     type GetStatisticsCategoriesProps = {
         id: number
@@ -449,6 +473,7 @@ declare global {
         | 'announcement'
         | 'form'
         | 'album'
+        | 'alert'
 
     type Announcement = {
         id: string

@@ -327,6 +327,39 @@ export async function deleteAlbumImage(albumId: number, imageName: string): Prom
     return await deleteWrapper({ path })
 }
 
+// ------------------------------------------ Alerts ------------------------------------------
+
+export async function getAlerts({ search, offset, limit, orderBy, sort }: GetParamsProps = {}): Promise<GetAlertsProps | string> {
+    const queryParts = new URLSearchParams()
+    if (search)     queryParts.append('search', String(search))
+    if (offset)     queryParts.append('offset', String(offset))
+    if (limit)      queryParts.append('limit', String(limit))
+    if (orderBy)    queryParts.append('orderBy', String(orderBy))
+    if (sort)       queryParts.append('sort', String(sort))
+
+    const path = `${config.workerbeeApi.alerts.PATH}?${queryParts.toString()}`
+    return await getWrapper({ path })
+}
+
+export async function getAlert(id: number): Promise<GetAlertProps | string> {
+    const path = `${config.workerbeeApi.alerts.PATH}id/${id}`
+    return await getWrapper({ path })
+}
+
+export async function postAlert(body: PostAlertProps): Promise<PostAlertProps | string> {
+    return await postWrapper({ path: config.workerbeeApi.alerts.PATH, data: body })
+}
+
+export async function putAlert(id: number, body: PutAlertProps): Promise<PutAlertProps | string> {
+    const path = `${config.workerbeeApi.alerts.PATH}${id}`
+    return await putWrapper({ path, data: body })
+}
+
+export async function deleteAlert(id: number) {
+    const path = `${config.workerbeeApi.alerts.PATH}${id}`
+    return await deleteWrapper({ path })
+}
+
 
 // ------------------------------------------ Images ------------------------------------------
 
@@ -363,3 +396,4 @@ export async function getStatisticsNewAdditions(): Promise<GetStatisticsNewAddit
     const path = `${config.workerbeeApi.statistics.PATH}new-additions`
     return await getWrapper({ path })
 }
+

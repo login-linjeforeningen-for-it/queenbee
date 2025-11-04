@@ -14,6 +14,7 @@ import {
     MapPin,
     Megaphone,
     Smartphone,
+    TriangleAlert,
 } from 'lucide-react'
 import { hexagons7 } from '@lucide/lab'
 import SidebarVersion from './sidebarVersion'
@@ -76,6 +77,11 @@ export default function Sidebar() {
             name: 'Forms',
             path: '/dashboard/beeformed',
             image: <ClipboardList className='w-6' />,
+        },
+        alerts: {
+            name: 'Alerts',
+            path: '/dashboard/alerts',
+            image: <TriangleAlert className='w-6' />,
         },
     }
 

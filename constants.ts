@@ -59,6 +59,9 @@ const config = {
         albums: {
             PATH: '/albums/',
         },
+        alerts: {
+            PATH: '/alerts/',
+        },
         images: {
             PATH: '/images/',
         },
