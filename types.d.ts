@@ -375,6 +375,28 @@ declare global {
         source: string
     }[]
 
+    // Honeys
+    type HoneyProps = {
+        service: string
+        language: string
+        page: string
+        text: JSON
+    }
+
+    type GetHoneyProps = HoneyProps & {
+        id: number
+        created_at: string
+        updated_at: string
+    }
+
+    type GetHoneysProps = {
+        honeys: GetHoneyProps[]
+        total_count: number
+    }
+
+    type PostHoneyProps = HoneyProps
+    type PutHoneyProps = HoneyProps
+
     // Enum types
     type GetTypesProps = {
         en: string
@@ -474,6 +496,7 @@ declare global {
         | 'form'
         | 'album'
         | 'alert'
+        | 'honey'
 
     type Announcement = {
         id: string

@@ -1,0 +1,46 @@
+'use server'
+
+import { postHoney, putHoney } from '@utils/api'
+import { getRequiredString } from '@utils/validate'
+
+type FormState =
+    | null
+    | string
+
+type PostFormState = FormState | PostHoneyProps
+
+type PutFormState = FormState | PutHoneyProps
+
+
+function extractHoneyProps<T extends PostHoneyProps | PutHoneyProps>(formData: FormData): T {
+    return {
+        page: getRequiredString(formData, 'page'),
+    } as T
+}
+
+export async function createHoney(_: PostFormState, formData: FormData): Promise<PostFormState> {
+    try {
+        const honeyProps = extractHoneyProps<PostHoneyProps>(formData)
+
+        const response = await postHoney(honeyProps)
+        return response
+    } catch (error) {
+        console.log('Error creating honey:', error)
+        throw error
+    }
+}
+
+export async function updateHoney(_: PutFormState, formData: FormData): Promise<PutFormState> {
+    try {
+        const honeyProps = extractHoneyProps<PutHoneyProps>(formData)
+
+        const id = Number(formData.get('id'))
+
+
+        const response = await putHoney(id, honeyProps)
+        return response
+    } catch (error) {
+        console.log('Error updating honey:', error)
+        throw error
+    }
+}

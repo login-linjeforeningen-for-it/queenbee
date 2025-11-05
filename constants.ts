@@ -62,6 +62,9 @@ const config = {
         alerts: {
             PATH: '/alerts/',
         },
+        honeys: {
+            PATH: '/text/',
+        },
         images: {
             PATH: '/images/',
         },

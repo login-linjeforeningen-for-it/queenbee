@@ -15,8 +15,8 @@ export default async function Home() {
             <h1 className='font-semibold text-lg'>Dashboard</h1>
             <TotalStats stats={stats} />
             <div className='flex h-full'>
-                {typeof additions === 'object' && <StatisticsNewAdditions additions={additions} />}
-                {typeof categories === 'object' && <StatisticsCategories categories={categories} />}
+                {typeof additions !== 'object' || additions && <StatisticsNewAdditions additions={additions} />}
+                {typeof categories !== 'object' || categories && <StatisticsCategories categories={categories} />}
             </div>
             {/* <div className='flex justify-center w-full pt-4'>
                 <Activity stats={yearlyActivity} />

@@ -360,6 +360,44 @@ export async function deleteAlert(id: number) {
     return await deleteWrapper({ path })
 }
 
+// ------------------------------------------ Honey ------------------------------------------
+
+export async function getHoneyServices(): Promise<string[] | string> {
+    const path = `${config.workerbeeApi.honeys.PATH}`
+    return await getWrapper({ path })
+}
+
+export async function getHoneys({ service, search, offset, limit, orderBy, sort }: GetParamsProps & { service: string }):
+Promise<GetHoneysProps | string> {
+    const queryParts = new URLSearchParams()
+    if (search)     queryParts.append('search', String(search))
+    if (offset)     queryParts.append('offset', String(offset))
+    if (limit)      queryParts.append('limit', String(limit))
+    if (orderBy)    queryParts.append('orderBy', String(orderBy))
+    if (sort)       queryParts.append('sort', String(sort))
+
+    const path = `${config.workerbeeApi.honeys.PATH}${service}?${queryParts.toString()}`
+    return await getWrapper({ path })
+}
+
+export async function getHoney(id: number): Promise<GetHoneyProps | string> {
+    const path = `${config.workerbeeApi.honeys.PATH}${id}`
+    return await getWrapper({ path })
+}
+
+export async function postHoney(body: PostHoneyProps): Promise<PostHoneyProps | string> {
+    return await postWrapper({ path: config.workerbeeApi.honeys.PATH, data: body })
+}
+
+export async function putHoney(id: number, body: PutHoneyProps): Promise<PutHoneyProps | string> {
+    const path = `${config.workerbeeApi.honeys.PATH}${id}`
+    return await putWrapper({ path, data: body })
+}
+
+export async function deleteHoney(id: number) {
+    const path = `${config.workerbeeApi.honeys.PATH}${id}`
+    return await deleteWrapper({ path })
+}
 
 // ------------------------------------------ Images ------------------------------------------
 

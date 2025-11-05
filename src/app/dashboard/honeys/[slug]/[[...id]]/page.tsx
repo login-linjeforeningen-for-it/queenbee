@@ -1,36 +1,36 @@
-import { getLocation } from '@utils/api'
-import { createLocation, updateLocation } from '@components/form/actions/locations'
+import { getHoney } from '@utils/api'
+import { createHoney, updateHoney } from '@components/form/actions/honeys'
 import FormWrapper from '@components/form/wrapper'
-import LocationFormInputs from '@components/form/server/locations'
+import HoneyFormInputs from '@components/form/server/honeys'
 import { notFound } from 'next/navigation'
 
 export default async function Page({ params }: { params: Promise<{ slug: string; id?: string[] }> }) {
     const { id, slug } = await params
 
     if (id) {
-        const location = await getLocation(Number(id[0]))
-        if (typeof location === 'object' && Object.keys(location).length > 0) {
+        const honey = await getHoney(Number(id[0]))
+        if (typeof honey === 'object' && Object.keys(honey).length > 0) {
             if (slug === 'create') {
                 return (
                     <FormWrapper
-                        name='location'
-                        path='locations'
+                        name='honey'
+                        path='honeys'
                         type='create'
-                        formAction={createLocation}
+                        formAction={createHoney}
                     >
-                        <LocationFormInputs defaultValues={location} />
+                        <HoneyFormInputs defaultValues={honey} />
                     </FormWrapper>
                 )
             } else if (slug === 'update') {
                 return (
                     <FormWrapper
-                        name='location'
-                        path='locations'
+                        name='honey'
+                        path='honeys'
                         type='update'
                         id={id[0]}
-                        formAction={updateLocation}
+                        formAction={updateHoney}
                     >
-                        <LocationFormInputs defaultValues={location} />
+                        <HoneyFormInputs defaultValues={honey} />
                     </FormWrapper>
                 )
             }
@@ -38,12 +38,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
     } else if (slug === 'create') {
         return (
             <FormWrapper
-                name='location'
-                path='locations'
+                name='honey'
+                path='honeys'
                 type='create'
-                formAction={createLocation}
+                formAction={createHoney}
             >
-                <LocationFormInputs />
+                <HoneyFormInputs />
             </FormWrapper>
         )
     }

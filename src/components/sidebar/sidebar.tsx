@@ -29,8 +29,8 @@ export default function Sidebar() {
             image: <LayoutDashboard className='w-6' />,
         },
         beehive: {
-            name: 'BeeHive',
-            path: '/dashboard/beehive',
+            name: 'Honeys',
+            path: '/dashboard/honeys',
             image: <Icon iconNode={hexagons7} className='w-6' />,
         },
         nucleus: {
