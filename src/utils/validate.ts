@@ -56,3 +56,14 @@ export function getOptionalArray(formData: FormData, key: string): string[] | nu
     const array = value.split(',').map(s => s.trim()).filter(s => s !== '')
     return array.length > 0 ? array : null
 }
+
+export function getRequiredJSON(formData: FormData, key: string): object {
+    const value = formData.get(key)
+    if (value === null || value === '' || value === undefined) throw new Error(`${key} is required`)
+    try {
+        return JSON.parse(value as string)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+        throw new Error(`${key} must be valid JSON`)
+    }
+}

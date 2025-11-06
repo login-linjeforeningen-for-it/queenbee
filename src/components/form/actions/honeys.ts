@@ -1,7 +1,7 @@
 'use server'
 
 import { postHoney, putHoney } from '@utils/api'
-import { getRequiredString } from '@utils/validate'
+import { getRequiredJSON, getRequiredString } from '@utils/validate'
 
 type FormState =
     | null
@@ -14,7 +14,10 @@ type PutFormState = FormState | PutHoneyProps
 
 function extractHoneyProps<T extends PostHoneyProps | PutHoneyProps>(formData: FormData): T {
     return {
-        page: getRequiredString(formData, 'page'),
+        service:    getRequiredString(formData, 'service'),
+        page:       getRequiredString(formData, 'page'),
+        language:   getRequiredString(formData, 'language'),
+        text:       JSON.stringify(getRequiredJSON(formData, 'text')),
     } as T
 }
 

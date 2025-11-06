@@ -37,8 +37,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         service: activeType,
     })
 
-    console.log('honeys', honeys)
-
     const servicesResult = await getHoneyServices()
     const services = Array.isArray(servicesResult)
         ? servicesResult

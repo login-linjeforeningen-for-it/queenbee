@@ -380,7 +380,7 @@ declare global {
         service: string
         language: string
         page: string
-        text: JSON
+        text: string
     }
 
     type GetHoneyProps = HoneyProps & {

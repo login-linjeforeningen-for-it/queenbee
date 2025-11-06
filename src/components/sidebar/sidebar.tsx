@@ -28,16 +28,6 @@ export default function Sidebar() {
             path: '/dashboard',
             image: <LayoutDashboard className='w-6' />,
         },
-        beehive: {
-            name: 'Honeys',
-            path: '/dashboard/honeys',
-            image: <Icon iconNode={hexagons7} className='w-6' />,
-        },
-        nucleus: {
-            name: 'Nucleus',
-            path: '/dashboard/nucleus',
-            image: <Smartphone className='w-6' />,
-        },
         events: {
             name: 'Events',
             path: '/dashboard/events',
@@ -78,10 +68,20 @@ export default function Sidebar() {
             path: '/dashboard/beeformed',
             image: <ClipboardList className='w-6' />,
         },
+        nucleus: {
+            name: 'Nucleus',
+            path: '/dashboard/nucleus',
+            image: <Smartphone className='w-6' />,
+        },
         alerts: {
             name: 'Alerts',
             path: '/dashboard/alerts',
             image: <TriangleAlert className='w-6' />,
+        },
+        honeys: {
+            name: 'Honeys',
+            path: '/dashboard/honeys',
+            image: <Icon iconNode={hexagons7} className='w-6' />,
         },
     }
 

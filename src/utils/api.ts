@@ -363,7 +363,7 @@ export async function deleteAlert(id: number) {
 // ------------------------------------------ Honey ------------------------------------------
 
 export async function getHoneyServices(): Promise<string[] | string> {
-    const path = `${config.workerbeeApi.honeys.PATH}`
+    const path = `${config.workerbeeApi.honeys.SERVICES}`
     return await getWrapper({ path })
 }
 
@@ -376,7 +376,7 @@ Promise<GetHoneysProps | string> {
     if (orderBy)    queryParts.append('orderBy', String(orderBy))
     if (sort)       queryParts.append('sort', String(sort))
 
-    const path = `${config.workerbeeApi.honeys.PATH}${service}?${queryParts.toString()}`
+    const path = `${config.workerbeeApi.honeys.SERVICES}${service}?${queryParts.toString()}`
     return await getWrapper({ path })
 }
 

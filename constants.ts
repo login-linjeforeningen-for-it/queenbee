@@ -63,7 +63,8 @@ const config = {
             PATH: '/alerts/',
         },
         honeys: {
-            PATH: '/text/',
+            PATH: '/honeys/',
+            SERVICES: '/text/',
         },
         images: {
             PATH: '/images/',
