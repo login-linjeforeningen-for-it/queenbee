@@ -13,7 +13,6 @@ export async function GET() {
 
         return NextResponse.json({ ok: true })
     } catch (error) {
-        console.log(error)
         return NextResponse.json(
             { ok: false, error: (error as Error).message },
             { status: 503 }

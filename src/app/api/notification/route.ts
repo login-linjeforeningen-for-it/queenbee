@@ -11,7 +11,6 @@ export async function POST(req: Request) {
             headers: { 'Content-Type': 'application/json' },
         })
     } catch (error) {
-        console.log(`API Error (api/notification/route.ts): ${error}`)
         const errorMessage =
             error instanceof Error ? error.message : 'Unknown error'
         return new Response(
