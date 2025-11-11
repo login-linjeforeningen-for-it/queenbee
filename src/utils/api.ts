@@ -20,7 +20,7 @@ export async function getEvents({ search, offset, limit, orderBy, sort }: GetPar
     if (search)     queryParts.append('search', String(search))
     if (limit)      queryParts.append('limit', String(limit))
     if (offset)     queryParts.append('offset', String(offset))
-    if (orderBy)    queryParts.append('orderBy', String(orderBy))
+    if (orderBy)    queryParts.append('order_by', String(orderBy))
     if (sort)       queryParts.append('sort', String(sort))
 
     const path = `${config.workerbeeApi.events.PATH_PROTECTED}?${queryParts.toString()}`
@@ -73,7 +73,7 @@ export async function getJobs({ search, limit, offset, orderBy, sort }: GetParam
     if (search)     queryParts.append('search', String(search))
     if (limit)      queryParts.append('limit', String(limit))
     if (offset)     queryParts.append('offset', String(offset))
-    if (orderBy)    queryParts.append('orderBy', String(orderBy))
+    if (orderBy)    queryParts.append('order_by', String(orderBy))
     if (sort)       queryParts.append('sort', String(sort))
 
     const path = `${config.workerbeeApi.jobs.PATH_PROTECTED}?${queryParts.toString()}`
@@ -113,7 +113,7 @@ Promise<GetOrganizationsProps | string>
     if (search)     queryParts.append('search', String(search))
     if (limit)      queryParts.append('limit', String(limit))
     if (offset)     queryParts.append('offset', String(offset))
-    if (orderBy)    queryParts.append('orderBy', String(orderBy))
+    if (orderBy)    queryParts.append('order_by', String(orderBy))
     if (sort)       queryParts.append('sort', String(sort))
 
     const path = `${config.beehiveApi.ORGANIZATIONS_PATH}?${queryParts.toString()}`
@@ -153,7 +153,7 @@ Promise<GetLocationsProps | string> {
     if (search)     queryParts.append('search', String(search))
     if (offset)     queryParts.append('offset', String(offset))
     if (limit)      queryParts.append('limit', String(limit))
-    if (orderBy)    queryParts.append('orderBy', String(orderBy))
+    if (orderBy)    queryParts.append('order_by', String(orderBy))
     if (sort)       queryParts.append('sort', String(sort))
 
     const path = `${config.workerbeeApi.locations.PATH}?${queryParts.toString()}`
@@ -191,7 +191,7 @@ export async function getRules({ search, offset, limit, orderBy, sort }: GetPara
     if (search)     queryParts.append('search', String(search))
     if (offset)     queryParts.append('offset', String(offset))
     if (limit)      queryParts.append('limit', String(limit))
-    if (orderBy)    queryParts.append('orderBy', String(orderBy))
+    if (orderBy)    queryParts.append('order_by', String(orderBy))
     if (sort)       queryParts.append('sort', String(sort))
 
     const path = `${config.beehiveApi.RULES_PATH}?${queryParts.toString()}`
@@ -246,7 +246,7 @@ export async function getAnnouncements({
     if (search)     queryParts.append('search', String(search))
     if (limit)      queryParts.append('limit', String(limit))
     if (offset)     queryParts.append('offset', String(offset))
-    if (orderBy)    queryParts.append('orderBy', String(orderBy))
+    if (orderBy)    queryParts.append('order_by', String(orderBy))
     if (sort)       queryParts.append('sort', String(sort))
     queryParts.append('includePlaceholders', 'true')
 
@@ -287,7 +287,7 @@ export async function getAlbums({ search, offset, limit, orderBy, sort }: GetPar
     if (search)     queryParts.append('search', String(search))
     if (offset)     queryParts.append('offset', String(offset))
     if (limit)      queryParts.append('limit', String(limit))
-    if (orderBy)    queryParts.append('orderBy', String(orderBy))
+    if (orderBy)    queryParts.append('order_by', String(orderBy))
     if (sort)       queryParts.append('sort', String(sort))
 
     const path = `${config.workerbeeApi.albums.PATH}?${queryParts.toString()}`
@@ -334,7 +334,7 @@ export async function getAlerts({ search, offset, limit, orderBy, sort }: GetPar
     if (search)     queryParts.append('search', String(search))
     if (offset)     queryParts.append('offset', String(offset))
     if (limit)      queryParts.append('limit', String(limit))
-    if (orderBy)    queryParts.append('orderBy', String(orderBy))
+    if (orderBy)    queryParts.append('order_by', String(orderBy))
     if (sort)       queryParts.append('sort', String(sort))
 
     const path = `${config.workerbeeApi.alerts.PATH}?${queryParts.toString()}`
@@ -373,7 +373,7 @@ Promise<GetHoneysProps | string> {
     if (search)     queryParts.append('search', String(search))
     if (offset)     queryParts.append('offset', String(offset))
     if (limit)      queryParts.append('limit', String(limit))
-    if (orderBy)    queryParts.append('orderBy', String(orderBy))
+    if (orderBy)    queryParts.append('order_by', String(orderBy))
     if (sort)       queryParts.append('sort', String(sort))
 
     const path = `${config.workerbeeApi.honeys.SERVICES}${service}?${queryParts.toString()}`
