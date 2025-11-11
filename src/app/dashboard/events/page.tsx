@@ -9,6 +9,9 @@ const headers = [
     'id',
     'name_no',
     'name_en',
+    'time_start',
+    'updated_at'
+
 ]
 
 async function deleteAction(id: string) {

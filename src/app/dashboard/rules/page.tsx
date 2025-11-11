@@ -14,6 +14,7 @@ const headers = [
     'id',
     'name_no',
     'name_en',
+    'updated_at'
 ]
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
