@@ -4,7 +4,7 @@ const { env } = process
 
 const config = {
     url: {
-        API_URL: env.API_URL || 'https://workerbee-v2.login.no/api/v2',
+        API_URL: env.API_URL || 'https://workerbee.login.no/api/v2',
         CDN_URL: env.CDN_URL || 'https://cdn.login.no',
         TEKKOM_BOT_API_URL: env.TEKKOM_BOT_API_URL,
         GITLAB_URL: 'https://gitlab.login.no',
