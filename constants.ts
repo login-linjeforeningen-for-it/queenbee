@@ -96,6 +96,7 @@ const config = {
         AUTH_URL: `${env.AUTHENTIK_URL}/application/o/authorize/`,
         TOKEN_URL: `${env.AUTHENTIK_URL}/application/o/token/`,
         USERINFO_URL: `${env.AUTHENTIK_URL}/application/o/userinfo/`,
+        TOKEN: `${env.AUTHENTIK_API_TOKEN}`,
     },
     version: packageInfo.version,
 }

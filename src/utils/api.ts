@@ -2,7 +2,7 @@
 
 import config from '@config'
 import { deleteWrapper, getWrapper, postWrapper, putWrapper } from '@utils/apiWrapper'
-
+import { authentikApiWrapper } from '@utils/apiAuthentik'
 
 type GetParamsProps = {
     type?: string
@@ -438,4 +438,12 @@ export async function getStatisticsNewAdditions(): Promise<GetStatisticsNewAddit
 export async function getStatisticsYearlyActivity(): Promise<GetStatisticsYearlyActivityProps | string> {
     const path = `${config.workerbeeApi.statistics.PATH}yearly`
     return await getWrapper({ path })
+}
+
+
+export async function getApplicationMetrics() {
+    return await authentikApiWrapper({
+        path: '/core/applications/queenbee/metrics/',
+        token: config.authentik.TOKEN
+    })
 }
