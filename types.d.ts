@@ -371,8 +371,15 @@ declare global {
     type GetStatisticsNewAdditionsProps = {
         id: number
         name_en: string
+        updated_at: string
         created_at: string
+        action: 'created' | 'updated'
         source: string
+    }[]
+
+    type GetStatisticsYearlyActivityProps = {
+        insert_date: string
+        inserted_count: number
     }[]
 
     // Honeys

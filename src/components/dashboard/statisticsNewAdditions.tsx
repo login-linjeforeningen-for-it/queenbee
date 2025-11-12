@@ -1,12 +1,14 @@
 'use client'
 
-import { Clock, Plus } from 'lucide-react'
+import { Clock, Plus, RefreshCw } from 'lucide-react'
 
 export default function StatisticsNewAdditions({ additions }: { additions: GetStatisticsNewAdditionsProps }) {
-    const formatDate = (dateString: string) => {
+    function formatDate(dateString: string) {
         const date = new Date(dateString)
         const now = new Date()
-        const diffMs = now.getTime() - date.getTime()
+        const nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+        const dateDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+        const diffMs = nowDate.getTime() - dateDate.getTime()
         const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
 
         if (diffDays === 0) return 'Today'
@@ -16,20 +18,29 @@ export default function StatisticsNewAdditions({ additions }: { additions: GetSt
     }
 
     return (
-        <div className='pt-6 grow'>
-            <h2 className='font-semibold text-lg pb-4'>Recent Additions</h2>
-            <div className='flex flex-col gap-4'>
-                {additions.slice(0, 10).map((addition) => (
-                    <div key={addition.id} className='p-3 bg-white/5 rounded-md flex items-center justify-between'>
-                        <div className='flex items-center gap-3'>
-                            <Plus className='w-4 h-4 text-green-500' />
+        <div className='grow flex flex-col'>
+            <h2 className='pt-6 pb-4 text-center font-semibold text-lg flex-shrink-0'>Recent Additions</h2>
+            <div className='flex flex-col justify-between flex-1 overflow-hidden'>
+                {additions.map((addition) => (
+                    <div
+                        key={`${addition.id}-${addition.updated_at}`}
+                        className='p-3 bg-login-600 rounded-md flex items-center justify-between'
+                    >
+                        <div className='flex items-center justify-between gap-2'>
+                            {
+                                addition.action === 'created' ? (
+                                    <Plus className='w-4 h-4 text-green-500' />
+                                ) : (
+                                    <RefreshCw className='w-4 h-4 text-login' />
+                                )
+                            }
                             <div>
                                 <div className='font-medium'>{addition.name_en} | {addition.source}</div>
                             </div>
                         </div>
                         <div className='flex items-center gap-1 text-sm text-muted-foreground'>
                             <Clock className='w-3 h-3' />
-                            {formatDate(addition.created_at)}
+                            {formatDate(addition.updated_at)}
                         </div>
                     </div>
                 ))}

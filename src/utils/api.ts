@@ -435,3 +435,7 @@ export async function getStatisticsNewAdditions(): Promise<GetStatisticsNewAddit
     return await getWrapper({ path })
 }
 
+export async function getStatisticsYearlyActivity(): Promise<GetStatisticsYearlyActivityProps | string> {
+    const path = `${config.workerbeeApi.statistics.PATH}yearly`
+    return await getWrapper({ path })
+}

@@ -21,7 +21,7 @@ export default function StatisticsCategories({ categories }: { categories: GetSt
         responsive: true,
         plugins: {
             legend: {
-                position: 'bottom' as const,
+                position: 'right' as const,
                 labels: {
                     color: 'rgba(255, 255, 255, 0.8)',
                     font: {
@@ -44,10 +44,12 @@ export default function StatisticsCategories({ categories }: { categories: GetSt
     }
 
     return (
-        <div className='h-full w-fit flex flex-col pt-6'>
+        <div className='w-full flex flex-col pt-6'>
             <h2 className='font-semibold text-lg pb-4 mx-auto'>Event Categories</h2>
-            <div className='bg-white/5 rounded-md h-full aspect-square mx-auto p-10'>
-                <Pie data={data} options={options} height='100%' width='auto' />
+            <div className='w-full bg-login-600 rounded-md'>
+                <div className='aspect-square mx-auto w-full max-w-md'>
+                    <Pie data={data} options={options} />
+                </div>
             </div>
         </div>
     )
