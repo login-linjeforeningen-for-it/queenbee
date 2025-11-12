@@ -1,6 +1,7 @@
 'use client'
 
 import { Clock, Plus, RefreshCw } from 'lucide-react'
+import Link from 'next/link'
 
 export default function StatisticsNewAdditions({ additions }: { additions: GetStatisticsNewAdditionsProps }) {
     function formatDate(dateString: string) {
@@ -22,8 +23,9 @@ export default function StatisticsNewAdditions({ additions }: { additions: GetSt
             <h2 className='pt-6 pb-4 text-center font-semibold text-lg flex-shrink-0'>Recent Additions</h2>
             <div className='flex flex-col justify-between flex-1 overflow-hidden'>
                 {additions.map((addition) => (
-                    <div
-                        key={`${addition.id}-${addition.updated_at}`}
+                    <Link
+                        href={`/dashboard/${addition.source}/update/${addition.id}`}
+                        key={`${addition.id}-${addition.source}`}
                         className='p-3 bg-login-600 rounded-md flex items-center justify-between'
                     >
                         <div className='flex items-center justify-between gap-2'>
@@ -42,7 +44,7 @@ export default function StatisticsNewAdditions({ additions }: { additions: GetSt
                             <Clock className='w-3 h-3' />
                             {formatDate(addition.updated_at)}
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div>
