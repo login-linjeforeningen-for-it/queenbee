@@ -28,6 +28,8 @@ export default function LocationFormInputsClient({
         city_name: defaultValues?.city_name ?? '',
     })
 
+    const [mazemapURL, setMazemapURL] = useState('')
+
     const mt = preview ? '-mt-12' : '-mt-13'
 
     function example() {
@@ -202,6 +204,45 @@ export default function LocationFormInputsClient({
                     </>
                     }
                 </div>
+                {formValues.type === 'mazemap' && (
+                    <div className='pt-4'>
+                        <Input
+                            name='notUsed'
+                            type='text'
+                            label='Get from Mazemap URL'
+                            value={mazemapURL}
+                            setValue={(input) => {
+                                const url = input as string
+                                console.log(url)
+                                setMazemapURL(
+                                    input as string,
+                                )
+                                if(url.startsWith('https://use.mazemap.com')) {
+                                    const urlObj = new URL(url)
+                                    console.log(urlObj)
+                                    const hashParams = new URLSearchParams(urlObj.hash.substring(1))
+                                    const campusID = hashParams.get('campusid')
+                                    const poiID = hashParams.get('sharepoi')
+                                    if(campusID) {
+                                        console.log(`Campus ID: ${campusID}`)
+                                        setFormValues((prev) => ({
+                                            ...prev,
+                                            mazemap_campus_id: Number(campusID),
+                                        }))
+                                    }
+                                    if(poiID) {
+                                        console.log(`POI ID: ${poiID}`)
+                                        setFormValues((prev) => ({
+                                            ...prev,
+                                            mazemap_poi_id: Number(poiID),
+                                        }))
+                                    }
+                                }
+                            }}
+                        />
+                        <p className='text-sm text-login-100 mt-1'>This will auto-fill the Campus ID and POI ID from the Mazemap URL</p>
+                    </div>
+                )}
             </Select>
         </div>
     )
