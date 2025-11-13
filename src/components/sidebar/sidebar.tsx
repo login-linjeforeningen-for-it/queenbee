@@ -6,7 +6,6 @@ import {
     BriefcaseBusiness,
     Building2,
     Calendar,
-    ClipboardList,
     Gavel,
     Icon,
     Images,
@@ -62,11 +61,6 @@ export default function Sidebar() {
             name: 'Albums',
             path: '/dashboard/albums',
             image: <Images className='w-6' />,
-        },
-        forms: {
-            name: 'Forms',
-            path: '/dashboard/beeformed',
-            image: <ClipboardList className='w-6' />,
         },
         nucleus: {
             name: 'Nucleus',
