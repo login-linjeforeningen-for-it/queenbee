@@ -3,12 +3,17 @@ import Search from '@components/inputs/search'
 import UploadAlbumImages from '@components/inputs/uploadAlbumImages'
 import BackButton from '@components/navigation/back'
 import Pagination from '@components/table/pagination'
-import { deleteAlbumImage, getAlbum } from '@utils/api'
+import { deleteAlbumImage, getAlbum, putCoverImage } from '@utils/api'
 import { notFound } from 'next/navigation'
 
 async function deleteAction(id: string, name: string): Promise<DeleteParamsProps | string> {
     'use server'
     return await deleteAlbumImage(Number(id), name)
+}
+
+async function coverAction(id: string, name: string): Promise<{message: string} | string> {
+    'use server'
+    return await putCoverImage(Number(id), name)
 }
 
 export default async function Page({ params }: { params: Promise<{ id: string }>}) {
@@ -35,6 +40,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                             album={album}
                             pageSize={pageSize}
                             deleteAction={deleteAction}
+                            coverAction={coverAction}
                         />
                     }
                     {album.images &&

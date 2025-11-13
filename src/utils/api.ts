@@ -330,6 +330,11 @@ export async function deleteAlbumImage(albumId: number, imageName: string): Prom
     return await deleteWrapper({ path })
 }
 
+export async function putCoverImage(albumId: number, imageName: string): Promise<{message: string} | string> {
+    const path = `${config.workerbeeApi.albums.PATH}${albumId}/${imageName}`
+    return await putWrapper({ path, data: {} })
+}
+
 // ------------------------------------------ Alerts ------------------------------------------
 
 export async function getAlerts({ search, offset, limit, orderBy, sort }: GetParamsProps = {}): Promise<GetAlertsProps | string> {
