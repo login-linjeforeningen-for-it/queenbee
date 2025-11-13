@@ -4,6 +4,7 @@ import Button from '@components/button/button'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
+import HistoricalSwitch from '@components/inputs/historical'
 
 const headers = [
     'id',
@@ -27,13 +28,15 @@ export default async function Page({ searchParams}: { searchParams: Promise<{ [k
     const sort = typeof filters.order === 'string' && (filters.order === 'asc' || filters.order === 'desc')
         ? filters.order
         : 'asc'
+    const historical = filters.historical === 'true'
 
     const jobs = await getJobs({
         search,
         offset,
         limit,
         orderBy,
-        sort
+        sort,
+        historical
     })
 
     return (
@@ -44,7 +47,10 @@ export default async function Page({ searchParams}: { searchParams: Promise<{ [k
             }
         >
             <div className='flex-none'>
-                <h1 className='font-semibold text-lg'>Jobs</h1>
+                <div className='flex flex-row justify-between'>
+                    <h1 className='font-semibold text-lg'>Jobs</h1>
+                    <HistoricalSwitch name={'historical'} label={'Historical'} />
+                </div>
                 <div className='flex items-center justify-between py-3'>
                     <Search />
                     <div className='flex flex-row gap-[1rem]'>

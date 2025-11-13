@@ -21,7 +21,7 @@ export default function Switch({
 }: SwitchProps) {
     return (
         <div
-            className={`relative w-full flex items-center p-2 border-login-200 rounded-lg border-[0.10rem] ${className || ''}`}
+            className={'relative w-full flex items-center p-2 border-login-200 rounded-lg border-[0.10rem] ' + (className || '')}
         >
             <label className='flex items-center cursor-pointer'>
                 <input
