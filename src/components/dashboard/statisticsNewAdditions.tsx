@@ -21,7 +21,7 @@ export default function StatisticsNewAdditions({ additions }: { additions: GetSt
     return (
         <div className='grow flex flex-col'>
             <h2 className='pt-6 pb-4 text-center font-semibold text-lg flex-shrink-0'>Recent Additions</h2>
-            <div className='flex flex-col justify-between flex-1 overflow-hidden'>
+            <div className='flex flex-col gap-2 flex-1 overflow-hidden'>
                 {additions.map((addition) => (
                     <Link
                         href={`/dashboard/${addition.source}/update/${addition.id}`}
