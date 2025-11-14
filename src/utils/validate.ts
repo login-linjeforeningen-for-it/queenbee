@@ -51,6 +51,12 @@ export function getOptionalDateTime(formData: FormData, dateKey: string, timeKey
     return null
 }
 
+export function getRequiredDate(formData: FormData, key: string): string {
+    const value = formData.get(key)
+    if (value === null || value === '' || value === undefined) throw new Error(`${key} is required`)
+    return value as string
+}
+
 export function getOptionalArray(formData: FormData, key: string): string[] | null {
     const value = formData.get(key) as string || ''
     const array = value.split(',').map(s => s.trim()).filter(s => s !== '')

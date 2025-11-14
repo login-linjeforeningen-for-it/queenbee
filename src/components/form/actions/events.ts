@@ -4,7 +4,8 @@ import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
 import { putEvent, postAnnouncement, postEvent } from '@utils/api'
 import {
     getOptionalBoolean, getOptionalNumber, getOptionalString, getRequiredString, getRequiredDateTime, getOptionalDateTime,
-    getRequiredNumber
+    getRequiredNumber,
+    getRequiredDate
 } from '@utils/validate'
 
 type FormState =
@@ -46,7 +47,7 @@ function extractEventProps<T extends PostEventProps | PutEventProps>(formData: F
         time_signup_release:    getOptionalDateTime(formData, 'release_date', 'release_time', '00:00'),
         time_start:             getRequiredDateTime(formData, 'start_date', 'start_time', '00:00'),
         time_type:              getRequiredString(formData, 'time_type') as time_type,
-        visible:                getOptionalBoolean(formData, 'visible') || true
+        visible:                getOptionalBoolean(formData, 'visible') || true,
     } as T
 }
 
@@ -66,15 +67,16 @@ export async function createEvent(_: PostFormState, formData: FormData): Promise
             active: true
         }
 
-        const response = await postEvent(eventProps)
+        const repeat_until = getOptionalBoolean(formData, 'repeat_weekly') ? getRequiredDate(formData, 'repeat_until') : null
+
+        const response = await postEvent(eventProps, repeat_until)
         if (anyMandatoryFieldSet(announcementProps)) {
             await postAnnouncement({ ...announcementProps, roles: announcementProps.roles.split(' ') })
         }
 
         return response
     } catch (error) {
-        console.log('Error creating event:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }
 
@@ -86,7 +88,6 @@ export async function updateEvent(_: PutFormState, formData: FormData): Promise<
         const response = await putEvent(id, eventProps)
         return response
     } catch (error) {
-        console.log('Error updating event:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }

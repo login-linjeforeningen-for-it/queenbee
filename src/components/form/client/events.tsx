@@ -25,7 +25,8 @@ export function EventFormInputsClient({
     locations,
     preview,
     channels,
-    roles
+    roles,
+    type
 }: {
     defaultValues?: GetEventProps
     defaultImages: Option[]
@@ -38,6 +39,7 @@ export function EventFormInputsClient({
     preview?: boolean
     channels: Channel[]
     roles: Role[]
+    type: 'create' | 'update'
 }) {
     const [images, setImages] = useState<Option[]>(defaultImages)
     const [formValues, setFormValues] = useState({
@@ -77,6 +79,8 @@ export function EventFormInputsClient({
         link_facebook: defaultValues?.link_facebook,
         link_discord: defaultValues?.link_discord,
         link_stream: defaultValues?.link_stream,
+        repeat_weekly: false,
+        repeat_until: ''
     })
 
     const mt = preview ? '-mt-12' : '-mt-13'
@@ -89,7 +93,7 @@ export function EventFormInputsClient({
         <div className='grid grid-cols-2 gap-y-4 gap-x-8 pt-10 relative'>
             <div
                 className={
-                    `absolute flex flex-row gap-[1rem] w-full ${mt} ` +
+                    `absolute flex flex-row gap-4 w-full ${mt} ` +
                     'justify-end'
                 }
             >
@@ -423,6 +427,38 @@ export function EventFormInputsClient({
                     />
                 </div>
             </Select>
+            {type === 'create' &&
+                <>
+                    <h1 className='text-xl pt-10 col-span-2'>Repeat</h1>
+                    <Switch
+                        name='repeat_weekly'
+                        label='Repeat Weekly'
+                        value={formValues.repeat_weekly || false}
+                        setValue={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                repeat_weekly: input,
+                            })
+                        }
+                        className='col-span-2'
+                    />
+                    {formValues.repeat_weekly &&
+                        <DateInput
+                            name='repeat_until'
+                            label='Repeat Until'
+                            value={formValues.repeat_until || ''}
+                            setValue={(input) =>
+                                setFormValues({
+                                    ...formValues,
+                                    repeat_until: input as string,
+                                })
+                            }
+                            className='col-span-2'
+                            required
+                        />
+                    }
+                </>
+            }
             <h1 className='text-xl pt-10 col-span-2'>Signup</h1>
             <Input
                 name='link_signup'
@@ -675,4 +711,6 @@ const sampleEvent = {
     link_facebook: 'https://www.facebook.com/loginlinjeforeningen/events/',
     link_discord: 'https://discord.gg/login',
     link_stream: 'https://login.no/stream',
+    repeat_weekly: false,
+    repeat_until: ''
 }
