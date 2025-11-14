@@ -31,8 +31,7 @@ export async function createAlbum(_: PostFormState, formData: FormData): Promise
 
         return response
     } catch (error) {
-        console.log('Error creating album:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }
 
@@ -45,7 +44,6 @@ export async function updateAlbum(_: PutFormState, formData: FormData): Promise<
         const response = await putAlbum(id, albumProps)
         return response
     } catch (error) {
-        console.log('Error updating album:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }

@@ -30,8 +30,7 @@ export async function createAlert(_: PostFormState, formData: FormData): Promise
         const response = await postAlert(alertProps)
         return response
     } catch (error) {
-        console.log('Error creating alert:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }
 
@@ -44,7 +43,6 @@ export async function updateAlert(_: PutFormState, formData: FormData): Promise<
         const response = await putAlert(id, alertProps)
         return response
     } catch (error) {
-        console.log('Error updating alert:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }

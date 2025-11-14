@@ -60,8 +60,7 @@ export async function createJob(_: PostFormState, formData: FormData): Promise<P
 
         return response
     } catch (error) {
-        console.log('Error creating job:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }
 
@@ -74,7 +73,6 @@ export async function updateJob(_: PutFormState, formData: FormData): Promise<Pu
         const response = await putJob(id, jobProps)
         return response
     } catch (error) {
-        console.log('Error updating job:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }

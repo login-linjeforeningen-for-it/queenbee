@@ -33,8 +33,7 @@ export async function createOrganization(_: PostFormState, formData: FormData): 
         const response = await postOrganization(organizationProps)
         return response
     } catch (error) {
-        console.log('Error creating organization:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }
 
@@ -47,7 +46,6 @@ export async function updateOrganization(_: PutFormState, formData: FormData): P
         const response = await putOrganization(id, organizationProps)
         return response
     } catch (error) {
-        console.log('Error updating organization:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }

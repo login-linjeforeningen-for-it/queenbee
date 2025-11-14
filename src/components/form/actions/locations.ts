@@ -35,8 +35,7 @@ export async function createLocation(_: PostFormState, formData: FormData): Prom
         const response = await postLocation(locationProps)
         return response
     } catch (error) {
-        console.log('Error creating location:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }
 
@@ -50,7 +49,6 @@ export async function updateLocation(_: PutFormState, formData: FormData): Promi
         const response = await putLocation(id, locationProps)
         return response
     } catch (error) {
-        console.log('Error updating location:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }

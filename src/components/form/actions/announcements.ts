@@ -27,8 +27,7 @@ export async function createAnnouncement(_: FormState, formData: FormData): Prom
         const response = await postAnnouncement({ ...announcementProps, roles: announcementProps.roles.split(' ') })
         return response
     } catch (error) {
-        console.log('Error creating announcement:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }
 
@@ -52,7 +51,6 @@ export async function updateAnnouncement(_: FormState, formData: FormData): Prom
         const response = await putAnnouncement({ ...announcementProps, roles: announcementProps.roles.split(' ') })
         return response
     } catch (error) {
-        console.log('Error updating announcement:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }

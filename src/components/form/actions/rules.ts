@@ -28,8 +28,7 @@ export async function createRule(_: PostFormState, formData: FormData): Promise<
         const response = await postRule(ruleProps)
         return response
     } catch (error) {
-        console.log('Error creating rule:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }
 
@@ -42,7 +41,6 @@ export async function updateRule(_: PutFormState, formData: FormData): Promise<P
         const response = await putRule(id, ruleProps)
         return response
     } catch (error) {
-        console.log('Error updating rule:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }

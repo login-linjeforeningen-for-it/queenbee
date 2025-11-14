@@ -28,8 +28,7 @@ export async function createHoney(_: PostFormState, formData: FormData): Promise
         const response = await postHoney(honeyProps)
         return response
     } catch (error) {
-        console.log('Error creating honey:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }
 
@@ -43,7 +42,6 @@ export async function updateHoney(_: PutFormState, formData: FormData): Promise<
         const response = await putHoney(id, honeyProps)
         return response
     } catch (error) {
-        console.log('Error updating honey:', error)
-        throw error
+        return error instanceof Error ? error.message : 'Unknown error'
     }
 }
