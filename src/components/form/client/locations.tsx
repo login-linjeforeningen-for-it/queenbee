@@ -40,7 +40,7 @@ export default function LocationFormInputsClient({
         <div className='grid grid-cols-1 gap-y-4 pt-10 relative'>
             <div
                 className={
-                    `absolute flex flex-row gap-[1rem] w-full ${mt} ` +
+                    `absolute flex flex-row gap-4 w-full ${mt} ` +
                     'justify-end'
                 }
             >
@@ -253,8 +253,8 @@ const sampleEventLocation = {
     name_en: '🍊 Login Lounge',
     url: 'https://login.no/',
     type: 'coords' as location_type,
-    mazemap_campus_id: 0,
-    mazemap_poi_id: 0,
+    mazemap_campus_id: 55,
+    mazemap_poi_id: 229153,
     coordinate_lat: 60.787,
     coordinate_long: 10.6815,
     address_street: 'Teknologivegen 22',

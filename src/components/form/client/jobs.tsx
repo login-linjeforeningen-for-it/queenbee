@@ -64,7 +64,7 @@ export default function JobFormInputsClient({
         <div className='grid grid-cols-2 gap-y-4 gap-x-8 pt-10 relative'>
             <div
                 className={
-                    `absolute flex flex-row gap-[1rem] w-full ${mt} ` +
+                    `absolute flex flex-row gap-4 w-full ${mt} ` +
                     'justify-end'
                 }
             >

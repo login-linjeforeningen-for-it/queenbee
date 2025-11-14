@@ -89,7 +89,7 @@ export default function AnnouncementFormInputsClient({
         <div className='flex flex-col gap-4 relative'>
             {/* prettier-ignore */}
             {!nested && <div className={
-                `absolute flex flex-row gap-[1rem] w-full justify-end ${mt}`
+                `absolute flex flex-row gap-4 w-full justify-end ${mt}`
             }>
                 <Button
                     color='secondary'
@@ -238,5 +238,5 @@ const a = 5
     embed: true,
     color: 'fd8738',
     interval: '* * * * *',
-    time: '2025-09-06T10:00:43.552Z',
+    time: new Date().toISOString(),
 }
