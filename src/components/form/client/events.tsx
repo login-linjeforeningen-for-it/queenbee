@@ -705,7 +705,7 @@ const sampleEvent = {
     whole_day: 'false',
     tbd: 'false',
     capacity: 50,
-    release_date: new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    release_date: today.toISOString().split('T')[0],
     release_time: '12:00',
     deadline_date: new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     deadline_time: '14:00',
