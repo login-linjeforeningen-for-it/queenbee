@@ -39,8 +39,9 @@ export async function getEvent(id: number): Promise<GetEventProps | string> {
     return await getWrapper({ path })
 }
 
-export async function postEvent(body: PostEventProps, repeat_until?: string | null): Promise<PostEventProps | string> {
+export async function postEvent(body: PostEventProps, repeat_type?: string, repeat_until?: string): Promise<PostEventProps | string> {
     const queryParts = new URLSearchParams()
+    if (repeat_type) queryParts.append('repeat_type', String(repeat_type))
     if (repeat_until) queryParts.append('repeat_until', String(repeat_until))
 
     const path = `${config.workerbeeApi.events.PATH}?${queryParts.toString()}`

@@ -79,7 +79,7 @@ export function EventFormInputsClient({
         link_facebook: defaultValues?.link_facebook,
         link_discord: defaultValues?.link_discord,
         link_stream: defaultValues?.link_stream,
-        repeat_weekly: false,
+        repeat_type: '',
         repeat_until: ''
     })
 
@@ -430,19 +430,23 @@ export function EventFormInputsClient({
             {type === 'create' &&
                 <>
                     <h1 className='text-xl pt-10 col-span-2'>Repeat</h1>
-                    <Switch
-                        name='repeat_weekly'
-                        label='Repeat Weekly'
-                        value={formValues.repeat_weekly || false}
+                    <Select
+                        name='repeat_type'
+                        label='Repeat Type'
+                        options={[
+                            { label: 'Weekly', value: 'weekly' },
+                            { label: 'Biweekly', value: 'biweekly' },
+                        ]}
+                        value={formValues.repeat_type || ''}
                         setValue={(input) =>
                             setFormValues({
                                 ...formValues,
-                                repeat_weekly: input,
+                                repeat_type: input as string,
                             })
                         }
                         className='col-span-2'
                     />
-                    {formValues.repeat_weekly &&
+                    {formValues.repeat_type &&
                         <DateInput
                             name='repeat_until'
                             label='Repeat Until'
@@ -711,6 +715,6 @@ const sampleEvent = {
     link_facebook: 'https://www.facebook.com/loginlinjeforeningen/events/',
     link_discord: 'https://discord.gg/login',
     link_stream: 'https://login.no/stream',
-    repeat_weekly: false,
+    repeat_type: '',
     repeat_until: ''
 }
