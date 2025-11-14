@@ -92,7 +92,7 @@ export default function ThemeSwitch() {
                                 }
                                 className={
                                     'bg-login-500 before:content-["Yes"] ' +
-                                    'w-[3rem] h-[2.6rem] text-xs  rounded-lg ' +
+                                    'w-12 h-[2.6rem] text-xs  rounded-lg ' +
                                     'hover:bg-red-600 ' +
                                     'hover:before:content-["Sure?"] ' +
                                     'cursor-pointer'
@@ -101,7 +101,7 @@ export default function ThemeSwitch() {
                             <button
                                 onClick={cancelToggle}
                                 className={
-                                    'bg-login py-2 px-4 w-[14rem] ' +
+                                    'bg-login py-2 px-4 w-56 ' +
                                     'rounded-lg hover:bg-orange-500 ' +
                                     'cursor-pointer'
                                 }
@@ -136,13 +136,13 @@ export default function ThemeSwitch() {
                         <p className='mb-4 text-login text-lg font-semibold'>
                             Proceed with extreme caution!
                         </p>
-                        <div className='flex flex-row items-center gap-[1rem]'>
+                        <div className='flex flex-row items-center gap-4'>
                             <button
                                 onClick={() => {
                                     closeExitPopup()
                                 }}
                                 className={
-                                    'bg-login-500 w-[3rem] h-[2.6rem] ' +
+                                    'bg-login-500 w-12 h-[2.6rem] ' +
                                     'rounded-lg text-sm hover:bg-red-600 ' +
                                     'cursor-pointer'
                                 }
@@ -156,7 +156,7 @@ export default function ThemeSwitch() {
                                     setShowExitPopup(false)
                                 }}
                                 className={
-                                    'bg-login  py-2 px-4 w-[14rem] ' +
+                                    'bg-login  py-2 px-4 w-56 ' +
                                     'rounded-lg hover:bg-green-600 ' +
                                     'cursor-pointer'
                                 }

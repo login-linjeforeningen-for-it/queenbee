@@ -66,7 +66,7 @@ export default function FormWrapper({
     return (
         <div
             className={
-                'h-[var(--h-pageInfo)] w-full flex flex-col items-center'
+                'h-(--h-pageInfo) w-full flex flex-col items-center'
             }
         >
             <div className={

@@ -74,10 +74,9 @@ function Header({ keys, headers }: HeaderProps) {
     }
 
     return (
-        <thead className='bg-login-500 h-[2rem]'>
+        <thead className='bg-login-500 h-8'>
             <tr>
                 {keys.map((key) => {
-                    // prettier-ignore
                     const value =
                         key.length < 3
                             ? key.toUpperCase()
@@ -92,7 +91,7 @@ function Header({ keys, headers }: HeaderProps) {
                         <th key={key} className='whitespace-nowrap text-left'>
                             <button
                                 className={
-                                    'w-full h-full p-[0.5rem] flex flex-row ' +
+                                    'w-full h-full p-2 flex flex-row ' +
                                     'items-center justify-between group'
                                 }
                                 onClick={() => handleChange(key)}
@@ -100,14 +99,14 @@ function Header({ keys, headers }: HeaderProps) {
                                 <h1>{value}</h1>
                                 {column === key ? (
                                     order === 'asc' ? (
-                                        <ChevronUp className='h-[1.5rem]' />
+                                        <ChevronUp className='h-6' />
                                     ) : (
-                                        <ChevronDown className='h-[1.5rem]' />
+                                        <ChevronDown className='h-6' />
                                     )
                                 ) : (
                                     <ChevronUp
                                         className={
-                                            'h-[1.5rem] stroke-login-200 ' +
+                                            'h-6 stroke-login-200 ' +
                                             'opacity-0 group-hover:opacity-100'
                                         }
                                     />
@@ -132,17 +131,17 @@ function Body({ list, headers, deleteAction, roles }: BodyProps) {
         const id = String(entries[0][1])
 
         return (
-            <tbody key={index} className='bg-login-500 h-[2rem]'>
-                <tr className='border-y-1 border-login-900'>
+            <tbody key={index} className='bg-login-500 h-8'>
+                <tr className='border-y border-login-900'>
                     {entries.map(([key, value]) => {
                         if (!headers.includes(key)) return null
                         return (
-                            <td key={key} className='p-[0.5rem]'>
+                            <td key={key} className='p-2'>
                                 <div className='relative group'>
                                     <h1
                                         className={
                                             'overflow-hidden text-ellipsis ' +
-                                            'whitespace-nowrap max-w-[15rem]'
+                                            'whitespace-nowrap max-w-60'
                                         }
                                     >
                                         {key === 'roles' && roles ? (
@@ -157,7 +156,7 @@ function Body({ list, headers, deleteAction, roles }: BodyProps) {
                             </td>
                         )
                     })}
-                    <td className='p-[0.5rem]'>
+                    <td className='p-2'>
                         <button
                             type='button'
                             className={
@@ -221,7 +220,7 @@ function Body({ list, headers, deleteAction, roles }: BodyProps) {
                                         className={
                                             'w-full text-left px-3 py-1.5 ' +
                                             'text-sm hover:bg-login-400 ' +
-                                            'text-[color:var(--color-delete)]'
+                                            'text-(--color-delete)'
                                         }
                                         onClick={() => {
                                             setOpenMenuId(null)

@@ -21,7 +21,7 @@ export default function Alert({
             }
         >
             <CircleAlert
-                className={'w-[2rem] h-[2rem] mr-[0.3rem] stroke-login-50'}
+                className={'w-8 h-8 mr-[0.3rem] stroke-login-50'}
             />
             <div className='self-center'>{children}</div>
         </div>

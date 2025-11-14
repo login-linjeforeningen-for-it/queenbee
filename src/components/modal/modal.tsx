@@ -13,7 +13,7 @@ export default function Modal({ display, children, close }: ModalProps) {
         <div
             className={
                 'absolute inset-0 w-full h-full grid z-100 ' +
-                'bg-[var(--background)]/50'
+                'bg-(--background)/50'
             }
             onClick={(e) => {
                 if (e.currentTarget === e.target) {

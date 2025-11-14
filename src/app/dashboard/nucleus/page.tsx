@@ -51,7 +51,7 @@ export default function page() {
 
     return (
         <div className='flex h-full w-full gap-4'>
-            <div className='w-[30rem]'>
+            <div className='w-120'>
                 <div className='mb-8'>
                     <h1
                         className={
@@ -140,7 +140,7 @@ export default function page() {
                         <div
                             className={
                                 'block lg:hidden relative ' +
-                                'h-[5.5rem] w-full z-200'
+                                'h-22 w-full z-200'
                             }
                         >
                             <Preview
@@ -183,7 +183,7 @@ export default function page() {
                     </div>
                 </form>
             </div>
-            <div className='hidden lg:block w-[26rem]'>
+            <div className='hidden lg:block w-104'>
                 <Preview
                     title={formValues.title}
                     description={formValues.description}

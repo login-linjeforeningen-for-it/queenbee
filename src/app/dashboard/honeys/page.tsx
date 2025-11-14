@@ -57,7 +57,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                             />
                         ))}
                     </div>
-                    <div className='flex flex-row gap-[1rem]'>
+                    <div className='flex flex-row gap-4'>
                         <Button
                             text='New honey'
                             icon='+'

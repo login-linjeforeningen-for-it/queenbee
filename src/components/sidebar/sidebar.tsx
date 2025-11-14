@@ -81,15 +81,15 @@ export default function Sidebar() {
 
     return (
         <div className='relative'>
-            <div className={'h-full min-w-[var(--w-sidebar)] bg-login-900 flex flex-col pt-[0.5rem] overflow-x-scroll gap-[0.2rem]'} >
+            <div className={'h-full min-w-(--w-sidebar) bg-login-900 flex flex-col pt-2 overflow-x-scroll gap-[0.2rem]'} >
                 {Object.entries(paths).map(([, value], index) => (
                     <Link
                         key={index}
                         href={value.path}
                         className={
-                            'flex flex-row px-[1rem] items-center ' +
-                            'gap-[0.5rem] py-[0.8rem] hover:pl-[1.5rem] ' +
-                            'duration-[300ms] transition-all ' +
+                            'flex flex-row px-4 items-center ' +
+                            'gap-2 py-[0.8rem] hover:pl-6 ' +
+                            'duration-300 transition-all ' +
                             `${
                                 path === value.path
                                     ? '*:stroke-login text-login pl-[1.2rem] ' +

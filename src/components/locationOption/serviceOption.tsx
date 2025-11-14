@@ -32,7 +32,7 @@ export default function Option({ value, active }: OptionProps) {
             >
                 {`${value[0].toUpperCase()}${value.slice(1)}`}
             </h1>
-            <div className={`w-full ${isActive ? 'bg-login' : ''} h-[1px]`} />
+            <div className={`w-full ${isActive ? 'bg-login' : ''} h-px`} />
         </div>
     )
 }

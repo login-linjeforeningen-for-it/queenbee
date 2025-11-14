@@ -46,7 +46,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                 <h1 className='font-semibold text-lg'>Albums</h1>
                 <div className='flex items-center justify-between py-3'>
                     <Search />
-                    <div className='flex flex-row gap-[1rem]'>
+                    <div className='flex flex-row gap-4'>
                         <Button text='New album' icon='+' path='albums/create' />
                     </div>
                 </div>

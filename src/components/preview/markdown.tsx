@@ -41,7 +41,7 @@ marked.use({
 export function Markdown({ markdown, className }: MarkdownProps) {
     return (
         <div
-            className={`markdown-preview text-foreground text-md h-full break-words ${className}`}
+            className={`markdown-preview text-foreground text-md h-full wrap-break-word ${className}`}
             dangerouslySetInnerHTML={{ __html: marked(markdown) }}
         />
     )

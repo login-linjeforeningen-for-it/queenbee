@@ -19,7 +19,7 @@ export default function Page() {
     const router = useRouter()
     return (
         <div
-            className='h-[var(--h-pageInfo)] w-full flex flex-col items-center'>
+            className='h-(--h-pageInfo) w-full flex flex-col items-center'>
             <div className='w-full px-16 py-4'>
                 <div className='flex flex-col gap-4'>
                     <button

@@ -133,12 +133,12 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
                                 }}
                             >
                                 {title && (
-                                    <div className='max-w-100 break-words overflow-hidden'>
+                                    <div className='max-w-100 wrap-break-word overflow-hidden'>
                                         <Markdown className='font-semibold text-foreground' markdown={format(title, roles)} />
                                     </div>
                                 )}
                                 {description && (
-                                    <div className='max-w-100 break-words overflow-hidden -mb-1 text-[#dcddde]'>
+                                    <div className='max-w-100 wrap-break-word overflow-hidden -mb-1 text-[#dcddde]'>
                                         <Markdown markdown={format(description, roles)} />
                                     </div>
                                 )}
@@ -148,7 +148,7 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
                         <span className='font-semibold text-foreground'>
                             <Markdown markdown={format(title, roles)} />
                         </span>
-                        <span className='text-[#dcddde] max-w-100 break-words overflow-hidden'>
+                        <span className='text-[#dcddde] max-w-100 wrap-break-word overflow-hidden'>
                             <Markdown markdown={format(description, roles)} />
                         </span>
                     </div>}

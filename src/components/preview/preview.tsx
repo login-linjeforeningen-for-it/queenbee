@@ -30,7 +30,7 @@ export default function Preview({ title, description, small }: PreviewProps) {
             <div
                 className={
                     'hidden lg:block relative w-full ' +
-                    'aspect-[1/2] -mt-10 -ml-10'
+                    'aspect-1/2 -mt-10 -ml-10'
                 }
             >
                 <Image

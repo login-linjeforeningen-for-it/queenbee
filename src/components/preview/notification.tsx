@@ -31,7 +31,7 @@ export default function Notification({
         return (
             <div
                 className={
-                    'absolute w-[19rem] p-2 px-3 rounded-xl ' +
+                    'absolute w-76 p-2 px-3 rounded-xl ' +
                     'backdrop-blur-md bg-black/10 z-100'
                 }
             >
@@ -46,9 +46,9 @@ export default function Notification({
     return (
         <div
             className={
-                'absolute w-[19rem] p-2 px-3 rounded-xl ' +
+                'absolute w-76 p-2 px-3 rounded-xl ' +
                 'backdrop-blur-md bg-black/10 z-100 left-1/2 ' +
-                '-translate-x-1/2 mt-21 -mt-10 -ml-9.5'
+                '-translate-x-1/2 mt-21 -ml-9.5'
             }
         >
             <Content
@@ -62,7 +62,7 @@ export default function Notification({
 function Content({ title, description }: ContentProps) {
     return (
         <div className='h-full w-full flex gap-2'>
-            <div className='relative h-full w-[2rem] aspect-square self-center'>
+            <div className='relative h-full w-8 aspect-square self-center'>
                 <Image
                     fill
                     alt='Logo'

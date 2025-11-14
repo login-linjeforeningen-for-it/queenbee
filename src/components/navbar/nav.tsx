@@ -18,7 +18,7 @@ export default function Nav() {
     return (
         <nav
             className={
-                'relative h-[var(--h-navbar)] w-full ' +
+                'relative h-(--h-navbar) w-full ' +
                 'bg-login-950 flex justify-between'
             }
         >
@@ -31,7 +31,7 @@ export default function Nav() {
 function LeftSide({token}: {token: string | undefined}) {
     return (
         <div className='flex gap-4'>
-            <div className='relative h-[var(--h-navbar)] w-[45px]'>
+            <div className='relative h-(--h-navbar) w-[45px]'>
                 <Link href={token ? '/dashboard' : '/'}>
                     <Image
                         alt='Logo'
@@ -48,12 +48,12 @@ function LeftSide({token}: {token: string | undefined}) {
 
 function RightSide({token}: {token: string | undefined}) {
     return (
-        <div className='flex gap-[1rem] items-center pr-[1rem]'>
+        <div className='flex gap-4 items-center pr-4'>
             <ThemeSwitch />
             {token ? (
                 <Link
                     className={
-                        'flex align-middle gap-[0.5rem] ' +
+                        'flex align-middle gap-2 ' +
                         'hover:*:text-login hover:*:stroke-login'
                     }
                     href='/api/logout'

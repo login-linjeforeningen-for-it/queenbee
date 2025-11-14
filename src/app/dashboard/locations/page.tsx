@@ -111,7 +111,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                             active={activeType}
                         />
                     </div>
-                    <div className='flex flex-row gap-[1rem]'>
+                    <div className='flex flex-row gap-4'>
                         <Button
                             text='New location'
                             icon='+'

@@ -50,7 +50,7 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
             <div className='bg-login-800 rounded-xl px-8 py-6 border border-login-500/40
                 relative shadow-2xl max-w-2xl w-full mx-4 overflow-hidden'
             >
-                <div className='absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-login via-login to-login/80 rounded-t-2xl' />
+                <div className='absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-login via-login to-login/80 rounded-t-2xl' />
 
                 <div className='flex items-center justify-between mb-6 pt-2'>
                     <h1 className='text-2xl font-bold'>Upload Preview</h1>
@@ -63,14 +63,14 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
                     </button>
                 </div>
 
-                <div className='relative h-fit aspect-[5/2] flex flex-col items-center justify-center'>
+                <div className='relative h-fit aspect-5/2 flex flex-col items-center justify-center'>
                     <div className='relative'>
                         <Image
                             src={image}
                             alt='Preview'
                             width={332}
                             height={133}
-                            className='border border-login-600/30 aspect-[5/2]'
+                            className='border border-login-600/30 aspect-5/2'
                         />
                         {showTag && (
                             <div className='absolute top-2 left-2 flex w-fit h-fit justify-center rounded

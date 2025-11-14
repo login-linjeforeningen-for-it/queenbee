@@ -64,7 +64,7 @@ export default function TagInput({
             <div
                 className={
                     'relative flex items-center flex-wrap gap-1 ' +
-                    'min-h-[3rem] border-[0.10rem] border-login-200 ' +
+                    'min-h-12 border-[0.10rem] border-login-200 ' +
                     'rounded-lg ' +
                     'px-2.5 pt-4 pb-2.5 bg-login-800'
                 }

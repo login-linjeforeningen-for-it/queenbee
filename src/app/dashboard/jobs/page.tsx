@@ -53,7 +53,7 @@ export default async function Page({ searchParams}: { searchParams: Promise<{ [k
                 </div>
                 <div className='flex items-center justify-between py-3'>
                     <Search />
-                    <div className='flex flex-row gap-[1rem]'>
+                    <div className='flex flex-row gap-4'>
                         <Button text='New job' icon='+' path='jobs/create' />
                     </div>
                 </div>

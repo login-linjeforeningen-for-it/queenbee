@@ -40,7 +40,7 @@ export default function Announce({ channels, roles }: { channels: Channel[], rol
                             Announcements can currently not be edited from this page.
                         </h1>
                     </div>
-                    <div className='h-[20px] w-[20px] self-center'>
+                    <div className='h-5 w-5 self-center'>
                         <ArrowRight color='#fd8738' />
                     </div>
                 </div>
@@ -56,11 +56,11 @@ export default function Announce({ channels, roles }: { channels: Channel[], rol
             <div className='flex justify-between'>
                 <h1 className={
                     'text-2xl font-bold select-none '
-                    + `${isOpen ? 'text-foreground' : 'text-(var:--color-login-200)'}`
+                    + `${isOpen ? 'text-foreground' : 'text-login-200'}`
                 }>
                     Announce
                 </h1>
-                <div className='h-[20px] w-[20px] self-center'>
+                <div className='h-5 w-5 self-center'>
                     {isOpen ? <ArrowDown color='#fd8738' /> : <ArrowRight color='#fd8738' />}
                 </div>
             </div>
@@ -91,7 +91,7 @@ function OpenAnnouncement({
     if (!channels.length) {
         return (
             <div className='w-full space-y-4 mt-2' onClick={(e) => e.stopPropagation()}>
-                <div className='w-full h-[2px] bg-(var:--color-login-400) rounded-lg' />
+                <div className='w-full h-0.5 bg-login-400 rounded-lg' />
                 <div className='flex gap-2 w-full rounded-lg p-2 bg-red-900'>
                     <MessageSquareWarning />
                     <h1 className='font-semibold'>Unauthorized</h1>
@@ -114,7 +114,7 @@ function OpenAnnouncement({
 
     return (
         <div className='w-full space-y-4 mt-2' onClick={(e) => e.stopPropagation()}>
-            <div className='w-full h-[2px] bg-(var:--color-login-400) rounded-lg' />
+            <div className='w-full h-0.5 bg-login-400 rounded-lg' />
             <div className='grid grid-cols-2 gap-4'>
                 <AnnouncementFormInputsClient
                     channels={channels}

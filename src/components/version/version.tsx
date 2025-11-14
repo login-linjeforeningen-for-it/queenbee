@@ -10,7 +10,7 @@ export default function Version() {
         <Link
             className={
                 'fixed right-4 bottom-4 bg-login-500 text-login-50 px-2 py-1 ' +
-                ' rounded-lg rounded-md text-white tracking-[0.05em] ' +
+                ' rounded-lg text-white tracking-[0.05em] ' +
                 'font-semibold text-lg'
             }
             target='_blank'

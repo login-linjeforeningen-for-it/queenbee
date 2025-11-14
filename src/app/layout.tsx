@@ -17,7 +17,7 @@ export default async function RootLayout({
     return (
         <html test-id='root' lang='en' className={`${theme} h-full`}>
             <body className='bg-login-700 h-full flex flex-col'>
-                <header className='h-[var(--h-navbar)]'>
+                <header className='h-(--h-navbar)'>
                     <Nav />
                 </header>
                 <main className='flex flex-1 overflow-hidden'>
