@@ -311,13 +311,8 @@ export async function postAlbum(body: PostAlbumProps): Promise<PostAlbumProps & 
     return await postWrapper({ path: config.workerbeeApi.albums.PATH, data: body })
 }
 
-export async function postAlbumImages(id: number, body: File[]): Promise<object | string> {
-    const formData = new FormData()
-    body.forEach(file => {
-        formData.append('images', file)
-    })
-    const path = `${config.workerbeeApi.albums.PATH}${id}/`
-    return await postWrapper({ path, data: formData })
+export async function getShareURLs(id: number, body: {filename: string, type: string}[]): Promise<ShareURLResponse[] | string> {
+    return await postWrapper({ path: `${config.workerbeeApi.albums.PATH}${id}`, data: body })
 }
 
 export async function putAlbum(id: number, body: PutAlbumProps): Promise<PutAlbumProps | string> {

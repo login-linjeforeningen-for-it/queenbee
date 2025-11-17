@@ -2,43 +2,16 @@
 
 import Input from '@components/inputs/input'
 import { toast } from 'sonner'
-import config from '@config'
 import { useState } from 'react'
 import { Upload, Loader } from 'lucide-react'
-import { getCookie } from '@utils/cookies'
+import { getShareURLs } from '@utils/api'
 
-const api = process.env.NEXT_PUBLIC_API_URL
-
-type shareKeysResponse = {
-    url: string,
-    headers: {[key: string]: string | string[]},
-    key: string
-}
-
-async function getShareKey(id: number, files: {filename: string, type: string}[]) {
-    const response = await fetch(`${api}${config.workerbeeApi.albums.PATH}${id}`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${getCookie('access_token') || ''}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(files)
-    })
-
-    if (response.ok) {
-        const data = await response.json()
-        return data as shareKeysResponse[]
-    } else {
-        throw new Error('Failed to get share key')
-    }
-}
-
-async function uploadImages(file: File, shareKey: shareKeysResponse) {
+async function uploadImages(file: File, shareURLs: ShareURLResponse) {
     const headers = Object.fromEntries(
-        Object.entries(shareKey.headers).map(([k, v]) => [k, Array.isArray(v) ? v[0] : v])
+        Object.entries(shareURLs.headers).map(([k, v]) => [k, Array.isArray(v) ? v[0] : v])
     ) as {[key: string]: string}
 
-    const response = await fetch(`${shareKey.url}`, {
+    const response = await fetch(`${shareURLs.url}`, {
         method: 'PUT',
         headers,
         body: file
@@ -77,8 +50,12 @@ export default function UploadAlbumImages({ albumId }: { albumId: number }) {
                             return
                         }
                         const fileInfos = files.map(f => ({filename: f.name, type: f.type}))
-                        const shareKeys = await getShareKey(albumId, fileInfos)
-                        const uploadPromises = files.map((file, i) => uploadImages(file, shareKeys[i]))
+                        const shareUrls = await getShareURLs(albumId, fileInfos)
+                        if (typeof shareUrls === 'string') {
+                            toast.error(shareUrls)
+                            return
+                        }
+                        const uploadPromises = files.map((file, i) => uploadImages(file, shareUrls[i]))
                         const results = await Promise.allSettled(uploadPromises)
                         const failedUploads = results.filter(result => result.status === 'rejected').map((_result, i) => files[i].name)
                         if (failedUploads.length > 0) {

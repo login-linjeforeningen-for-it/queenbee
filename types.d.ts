@@ -336,6 +336,12 @@ declare global {
         event_id: number
     }
 
+    type ShareURLResponse = {
+        url: string,
+        headers: {[key: string]: string | string[]},
+        key: string
+    }
+
     // Alerts
     type AlertProps = {
         service: string,
