@@ -4,7 +4,7 @@ import Input from '@components/inputs/input'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import { Upload, Loader } from 'lucide-react'
-import { getShareURLs } from '@utils/api'
+import { compressAlbums, getShareURLs } from '@utils/api'
 
 async function uploadImages(file: File, shareURLs: ShareURLResponse) {
     const headers = Object.fromEntries(
@@ -62,6 +62,7 @@ export default function UploadAlbumImages({ albumId }: { albumId: number }) {
                             toast.error(`Failed to upload: ${failedUploads.join(', ')}`)
                             return
                         }
+                        compressAlbums()
                         toast.success('Images uploaded successfully')
                         setFiles([])
                         setInputKey(prev => prev + 1)

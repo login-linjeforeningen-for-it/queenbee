@@ -335,6 +335,11 @@ export async function putCoverImage(albumId: number, imageName: string): Promise
     return await putWrapper({ path, data: {} })
 }
 
+export async function compressAlbums(): Promise<{message: string} | string> {
+    const path = `${config.workerbeeApi.albums.PATH}compress`
+    return await putWrapper({ path, data: {} })
+}
+
 // ------------------------------------------ Alerts ------------------------------------------
 
 export async function getAlerts({ search, offset, limit, orderBy, sort }: GetParamsProps = {}): Promise<GetAlertsProps | string> {
