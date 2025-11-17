@@ -9,26 +9,39 @@ import { getCookie } from '@utils/cookies'
 
 const api = process.env.NEXT_PUBLIC_API_URL
 
-function chunkArray(array: File[], size: number): File[][] {
-    const chunks = []
-    for (let i = 0; i < array.length; i += size) {
-        chunks.push(array.slice(i, i + size))
-    }
-    return chunks
+type shareKeysResponse = {
+    url: string,
+    headers: {[key: string]: string | string[]},
+    key: string
 }
 
-async function uploadImages(id: number, files: File[]) {
-    const formData = new FormData()
-    files.forEach(file => {
-        formData.append('images', file)
-    })
-
+async function getShareKey(id: number, files: {filename: string, type: string}[]) {
     const response = await fetch(`${api}${config.workerbeeApi.albums.PATH}${id}`, {
         method: 'POST',
         headers: {
-            'Authorization': `Bearer ${getCookie('access_token') || ''}`
+            'Authorization': `Bearer ${getCookie('access_token') || ''}`,
+            'Content-Type': 'application/json'
         },
-        body: formData
+        body: JSON.stringify(files)
+    })
+
+    if (response.ok) {
+        const data = await response.json()
+        return data as shareKeysResponse[]
+    } else {
+        throw new Error('Failed to get share key')
+    }
+}
+
+async function uploadImages(file: File, shareKey: shareKeysResponse) {
+    const headers = Object.fromEntries(
+        Object.entries(shareKey.headers).map(([k, v]) => [k, Array.isArray(v) ? v[0] : v])
+    ) as {[key: string]: string}
+
+    const response = await fetch(`${shareKey.url}`, {
+        method: 'PUT',
+        headers,
+        body: file
     })
 
     return response
@@ -63,18 +76,19 @@ export default function UploadAlbumImages({ albumId }: { albumId: number }) {
                             toast.error('No files selected for upload')
                             return
                         }
-                        const chunks = chunkArray(files, 4)
-                        const uploadPromises = chunks.map(chunk => uploadImages(albumId, chunk))
-                        const responses = await Promise.all(uploadPromises)
-                        const allOk = responses.every(response => response.ok)
-                        if (allOk) {
-                            toast.success('Images uploaded successfully')
-                            setFiles([])
-                            setInputKey(prev => prev + 1)
-                            window.location.reload()
-                        } else {
-                            toast.error('Failed to upload some images')
+                        const fileInfos = files.map(f => ({filename: f.name, type: f.type}))
+                        const shareKeys = await getShareKey(albumId, fileInfos)
+                        const uploadPromises = files.map((file, i) => uploadImages(file, shareKeys[i]))
+                        const results = await Promise.allSettled(uploadPromises)
+                        const failedUploads = results.filter(result => result.status === 'rejected').map((_result, i) => files[i].name)
+                        if (failedUploads.length > 0) {
+                            toast.error(`Failed to upload: ${failedUploads.join(', ')}`)
+                            return
                         }
+                        toast.success('Images uploaded successfully')
+                        setFiles([])
+                        setInputKey(prev => prev + 1)
+                        window.location.reload()
                     } finally {
                         setIsUploading(false)
                     }
