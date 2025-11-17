@@ -9,6 +9,14 @@ import { getCookie } from '@utils/cookies'
 
 const api = process.env.NEXT_PUBLIC_API_URL
 
+function chunkArray(array: File[], size: number): File[][] {
+    const chunks = []
+    for (let i = 0; i < array.length; i += size) {
+        chunks.push(array.slice(i, i + size))
+    }
+    return chunks
+}
+
 async function uploadImages(id: number, files: File[]) {
     const formData = new FormData()
     files.forEach(file => {
@@ -22,12 +30,6 @@ async function uploadImages(id: number, files: File[]) {
         },
         body: formData
     })
-
-    if (!response || !response.ok) {
-        toast.error('Failed to upload images')
-    } else {
-        toast.success('Images uploaded successfully')
-    }
 
     return response
 }
@@ -61,11 +63,17 @@ export default function UploadAlbumImages({ albumId }: { albumId: number }) {
                             toast.error('No files selected for upload')
                             return
                         }
-                        const response = await uploadImages(albumId, files)
-                        if (response.ok) {
+                        const chunks = chunkArray(files, 4)
+                        const uploadPromises = chunks.map(chunk => uploadImages(albumId, chunk))
+                        const responses = await Promise.all(uploadPromises)
+                        const allOk = responses.every(response => response.ok)
+                        if (allOk) {
+                            toast.success('Images uploaded successfully')
                             setFiles([])
                             setInputKey(prev => prev + 1)
                             window.location.reload()
+                        } else {
+                            toast.error('Failed to upload some images')
                         }
                     } finally {
                         setIsUploading(false)
