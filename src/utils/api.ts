@@ -316,7 +316,7 @@ export async function postAlbumImages(id: number, body: File[]): Promise<object 
     body.forEach(file => {
         formData.append('images', file)
     })
-    const path = `${config.workerbeeApi.albums.PATH}${id}`
+    const path = `${config.workerbeeApi.albums.PATH}${id}/`
     return await postWrapper({ path, data: formData })
 }
 
