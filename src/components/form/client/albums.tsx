@@ -124,7 +124,7 @@ export default function AlbumFormInputsClient({
             />
             {type === 'update' &&
                 <Link
-                    href={`/dashboard/albums/images/${defaultValues?.id}`}
+                    href={`/albums/images/${defaultValues?.id}`}
                     className='flex flex-row w-fit gap-2 items-center mt-6 py-2 px-2 bg-login-500 rounded-md'
                 >
                     <Upload className='w-5' />

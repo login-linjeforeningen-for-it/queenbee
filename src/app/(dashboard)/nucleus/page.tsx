@@ -169,7 +169,7 @@ export default function page() {
                                 onClick={() => setExample(setFormValues)}
                             />
                             <Link
-                                href={'/dashboard/nucleus/documentation'}
+                                href={'/nucleus/documentation'}
                                 className={
                                     'bg-login-600 text-foreground px-4 grid ' +
                                     'place-items-center rounded-lg ' +

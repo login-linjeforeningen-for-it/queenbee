@@ -26,7 +26,7 @@ export default function TotalStats({ stats }: { stats: DashboardTotalStats }) {
 
 function Stat({ type, count, item }: { type: string, count: number, item: ReactNode }) {
     return (
-        <Link href={`/dashboard/${type}`} className='p-4 bg-white/5 rounded-md flex flex-col justify-center h-24'>
+        <Link href={`/${type}`} className='p-4 bg-white/5 rounded-md flex flex-col justify-center h-24'>
             <div className='flex items-center gap-2 text-sm text-muted-foreground capitalize'>
                 {item} {type}
             </div>

@@ -29,52 +29,52 @@ export default function Sidebar() {
         },
         events: {
             name: 'Events',
-            path: '/dashboard/events',
+            path: '/events',
             image: <Calendar className='w-6' />,
         },
         jobs: {
             name: 'Jobs',
-            path: '/dashboard/jobs',
+            path: '/jobs',
             image: <BriefcaseBusiness className='w-6' />,
         },
         organizations: {
             name: 'Organizations',
-            path: '/dashboard/organizations',
+            path: '/organizations',
             image: <Building2 className='w-6' />,
         },
         locations: {
             name: 'Locations',
-            path: '/dashboard/locations',
+            path: '/locations',
             image: <MapPin className='w-6' />,
         },
         rules: {
             name: 'Rules',
-            path: '/dashboard/rules',
+            path: '/rules',
             image: <Gavel className='w-6' />,
         },
         announce: {
             name: 'Announcements',
-            path: '/dashboard/announcements',
+            path: '/announcements',
             image: <Megaphone className='w-6' />,
         },
         albums: {
             name: 'Albums',
-            path: '/dashboard/albums',
+            path: '/albums',
             image: <Images className='w-6' />,
         },
         nucleus: {
             name: 'Nucleus',
-            path: '/dashboard/nucleus',
+            path: '/nucleus',
             image: <Smartphone className='w-6' />,
         },
         alerts: {
             name: 'Alerts',
-            path: '/dashboard/alerts',
+            path: '/alerts',
             image: <TriangleAlert className='w-6' />,
         },
         honeys: {
             name: 'Honeys',
-            path: '/dashboard/honeys',
+            path: '/honeys',
             image: <Icon iconNode={hexagons7} className='w-6' />,
         },
     }

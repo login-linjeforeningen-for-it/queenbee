@@ -73,7 +73,7 @@ export default function FormWrapper({
                 `w-full px-16 py-4 ${preview ? 'grid grid-cols-2 gap-4' : ''}`
             }>
                 <div className='flex flex-col gap-4'>
-                    <BackButton pushURL={path ? `/dashboard/${path}` : undefined} />
+                    <BackButton pushURL={path ? `/${path}` : undefined} />
                     <h1 className='font-semibold text-2xl capitalize'>
                         {type} {name}
                     </h1>

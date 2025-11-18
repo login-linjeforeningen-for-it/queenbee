@@ -24,7 +24,7 @@ export default function StatisticsNewAdditions({ additions }: { additions: GetSt
             <div className='flex flex-col gap-2 flex-1 overflow-hidden'>
                 {additions.map((addition) => (
                     <Link
-                        href={`/dashboard/${addition.source}/update/${addition.id}`}
+                        href={`/${addition.source}/update/${addition.id}`}
                         key={`${addition.id}-${addition.source}`}
                         className='p-3 bg-login-600 rounded-md flex items-center justify-between'
                     >
