@@ -214,13 +214,6 @@ declare global {
         total_count: number
     }
 
-    type PostAudienceProps = {
-        name_no: string
-        name_en: string
-    }
-
-    type PutAudienceProps = PostAudienceProps
-
     // Categories
     type GetCategoryProps = {
         id: number
@@ -442,16 +435,6 @@ declare global {
 
     type OptionsProps = { label: string; value: number | string }
 
-    type CityProps = {
-        city: string
-        id: number
-    }
-
-    type SkillProps = {
-        id: number
-        skill: string
-    }
-
     type AudienceProps = {
         audience: number
         event: number
@@ -474,11 +457,6 @@ declare global {
         user_id: string
         user_name: string
         user_roles: string
-    }
-
-    type Organization = {
-        label: string
-        value: string
     }
 
     type Application = {
