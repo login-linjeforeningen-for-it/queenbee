@@ -20,7 +20,7 @@ export async function createAnnouncement(_: FormState, formData: FormData): Prom
             embed: formData.get('embed') as embed_type === 'on',
             color: formData.get('color') as string,
             interval: formData.get('interval') as string,
-            time: `${date}T${time}:00.000Z`,
+            time: `${date}T${time}:00`,
             active: true
         }
 
@@ -44,7 +44,7 @@ export async function updateAnnouncement(_: FormState, formData: FormData): Prom
             embed: formData.get('embed') as embed_type === 'on',
             color: formData.get('color') as string,
             interval: formData.get('interval') as string,
-            time: `${date}T${time}:00.000Z`,
+            time: `${date}T${time}:00`,
             active: true
         }
 

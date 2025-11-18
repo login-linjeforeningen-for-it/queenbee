@@ -37,7 +37,6 @@ export default function CustomForm({
         if (typeof state !== 'string' && state !== null) {
             toast.success(`${name} ${type}d successfully!`)
             const basePath = pathname.split('/').slice(0, 2).join('/')
-            console.log({ pathname, basePath, customRedirect, })
             router.push( state?.id && customRedirect ? `${basePath}/${customRedirect}/${state.id}` : basePath )
         } else if (typeof state === 'string') {
             toast.error(`Error: ${state}`)
