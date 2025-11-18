@@ -6,6 +6,7 @@ import { X } from 'lucide-react'
 import NextImage from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import Switch from './switch'
+import getWidth from '@utils/image/getWidth'
 
 
 type UploadPopupProps = {
@@ -17,20 +18,20 @@ type UploadPopupProps = {
 
 export default function UploadPopup({ file, handleFile, onClose, showSwitch }: UploadPopupProps) {
     const image = URL.createObjectURL(file)
-    const [uploadDisabled, setUploadDisabled] = useState(true)
     const [showTag, setShowTag] = useState(showSwitch)
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
     const [needsCrop, setNeedsCrop] = useState(false)
+    const [imageWidth, setImageWidth] = useState(0)
 
     useEffect(() => {
         const img = new Image()
         img.onload = () => {
+            setImageWidth(img.width)
             const ratio = img.width / img.height
             if (ratio !== 2.5) {
                 setNeedsCrop(true)
-                setUploadDisabled(false)
             }
         }
         img.src = image
@@ -52,6 +53,12 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
         onClose()
     }
 
+    useEffect(() => {
+        console.log('imageWidth', imageWidth)
+    }, [imageWidth])
+
+    const width = getWidth(imageWidth)
+
     return (
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md'>
             <div className='bg-login-800 rounded-xl px-8 py-6 border border-login-500/40
@@ -72,15 +79,34 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
 
                 <div className='relative w-full h-[300px] border border-login-600/30 rounded-md overflow-hidden'>
                     {needsCrop ? (
-                        <Cropper
-                            image={image}
-                            crop={crop}
-                            zoom={zoom}
-                            aspect={5 / 2}
-                            onCropChange={setCrop}
-                            onCropComplete={onCropComplete}
-                            onZoomChange={setZoom}
-                        />
+                        <div>
+                            <Cropper
+                                showGrid={false}
+                                image={image}
+                                crop={crop}
+                                zoom={zoom}
+                                aspect={5 / 2}
+                                onCropChange={setCrop}
+                                onCropComplete={onCropComplete}
+                                onZoomChange={setZoom}
+                            />
+                            <div className='absolute w-full h-full grid place-items-center pointer-events-none'>
+                                <div className='absolute z-10 bg-red-500/20' style={{ width, height: (width / 5) * 2 }}>
+                                    <div className='absolute top-2 left-2 flex w-fit h-fit justify-center rounded
+                                        min-w-14 min-h-14 py-1 px-2 backdrop-blur-sm bg-black/50'>
+                                        <div className='w-fit'>
+                                            <div className='text-center w-max mx-auto text-white text-xl leading-7'>14</div>
+                                            <div className='text-center text-white text-base leading-5 -translate-y-0.5'>Apr</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='absolute bottom-0 w-full flex justify-center'>
+                                <h1 className='backdrop-blur-sm rounded-md w-fit p-2 px-4 text-red-500'>
+                                    Use two fingers or the cursor to move, scroll and zoom.
+                                </h1>
+                            </div>
+                        </div>
                     ) : (
                         <NextImage
                             src={image}
@@ -90,13 +116,13 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
                         />
                     )}
 
-                    <div className='absolute top-2 left-2 flex w-fit h-fit justify-center rounded
+                    {!needsCrop && <div className='absolute top-2 left-2 flex w-fit h-fit justify-center rounded
                         min-w-14 min-h-14 py-1 px-2 backdrop-blur-sm bg-black/50'>
                         <div className='w-fit'>
                             <div className='text-center w-max mx-auto text-white text-xl leading-7'>14</div>
                             <div className='text-center text-white text-base leading-5 -translate-y-0.5'>Apr</div>
                         </div>
-                    </div>
+                    </div>}
                 </div>
 
                 <div className='flex justify-between pt-4 mt-6 border-t border-login-500/80'>
@@ -119,9 +145,7 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
                             Cancel
                         </button>
                         <button
-                            className={`px-6 py-2 rounded-md bg-login 
-                                ${uploadDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
-                            disabled={uploadDisabled}
+                            className='px-6 py-2 rounded-md bg-login cursor-pointer'
                             onClick={handleClick}
                         >
                             Upload
