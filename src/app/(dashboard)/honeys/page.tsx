@@ -5,6 +5,7 @@ import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Option from '@components/locationOption/serviceOption'
 import Pagination from '@components/table/pagination'
+import formatAlert from '@components/alert/formatAlert'
 
 const headers = [
     'id',
@@ -69,9 +70,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
             {typeof honeys === 'string' || !Array.isArray(honeys.honeys) || honeys.honeys.length < 1 ? (
                 <div className='w-full h-full flex items-center justify-center'>
                     <Alert>
-                        {typeof honeys === 'string'
-                            ? honeys
-                            : 'No honeys found'}
+                        {formatAlert(honeys, 'No honey found')}
                     </Alert>
                 </div>
             ) : (

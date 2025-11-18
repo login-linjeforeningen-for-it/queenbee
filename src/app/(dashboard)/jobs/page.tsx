@@ -5,6 +5,7 @@ import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import HistoricalSwitch from '@components/inputs/historical'
+import formatAlert from '@components/alert/formatAlert'
 
 const headers = [
     'id',
@@ -62,9 +63,7 @@ export default async function Page({ searchParams}: { searchParams: Promise<{ [k
                 ? (
                     <div className='w-full h-full flex items-center justify-center'>
                         <Alert>
-                            {typeof jobs === 'string'
-                                ? jobs
-                                : 'No jobs found'}
+                            {formatAlert(jobs, 'No jobs found')}
                         </Alert>
                     </div>
                 ) : (

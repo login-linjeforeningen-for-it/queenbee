@@ -4,6 +4,7 @@ import Button from '@components/button/button'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
+import formatAlert from '@components/alert/formatAlert'
 
 const announcementList = [
     'id',
@@ -99,9 +100,7 @@ function Sort({ tempSort, channels, roles, limit }: {
         return (
             <div className='w-full h-full flex items-center justify-center'>
                 <Alert>
-                    {typeof tempSort === 'string'
-                        ? tempSort
-                        : 'No announcements found'}
+                    {formatAlert(tempSort, 'No announcements found')}
                 </Alert>
             </div>
         )

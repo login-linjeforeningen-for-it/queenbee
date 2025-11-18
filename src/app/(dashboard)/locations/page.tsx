@@ -6,6 +6,7 @@ import Table from '@components/table/table'
 import LocationOption from '@components/locationOption/locationOption'
 import { cookies } from 'next/headers'
 import Pagination from '@components/table/pagination'
+import formatAlert from '@components/alert/formatAlert'
 
 const AddressHeaders = [
     'id',
@@ -123,9 +124,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
             {typeof locations === 'string' || !Array.isArray(locations.locations) || locations.locations.length < 1 ? (
                 <div className='w-full h-full flex items-center justify-center'>
                     <Alert>
-                        {typeof locations === 'string'
-                            ? locations
-                            : 'No locations found'}
+                        {formatAlert(locations, 'No locations found')}
                     </Alert>
                 </div>
             ) : (

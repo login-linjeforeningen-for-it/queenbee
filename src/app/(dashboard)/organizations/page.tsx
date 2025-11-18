@@ -4,6 +4,7 @@ import Button from '@components/button/button'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
+import formatAlert from '@components/alert/formatAlert'
 
 const headers = [
     'id',
@@ -59,9 +60,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                 ? (
                     <div className='w-full h-full flex items-center justify-center'>
                         <Alert>
-                            {typeof organizations === 'string'
-                                ? organizations
-                                : 'No organizations found'}
+                            {formatAlert(organizations, 'No organizations found')}
                         </Alert>
                     </div>
                 ) : (
