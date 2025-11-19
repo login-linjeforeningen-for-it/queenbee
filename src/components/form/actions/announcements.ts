@@ -11,8 +11,10 @@ type PostFormState = FormState | PostAnnouncementProps
 
 type PutFormState = FormState | PutAnnouncementProps
 
+type Unparsed = PostAnnouncementPropsUnparsed | PutAnnouncementPropsUnparsed
 
-export function extractAnnouncementProps<T extends PostAnnouncementPropsUnparsed | PutAnnouncementPropsUnparsed>(formData: FormData): T {
+
+export async function extractAnnouncementProps<T extends Unparsed>(formData: FormData): Promise<T> {
     return {
         title:          getRequiredString(formData, 'title'),
         description:    getRequiredString(formData, 'description'),
@@ -29,9 +31,9 @@ export function extractAnnouncementProps<T extends PostAnnouncementPropsUnparsed
 
 export async function createAnnouncement(_: FormState, formData: FormData): Promise<PostFormState> {
     try {
-        const announcementProps = extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
+        const announcementProps = await extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
 
-        const response = await postAnnouncement({ ...announcementProps, roles: announcementProps.roles.split(' ') })
+        const response = await postAnnouncement({ ...announcementProps, roles: announcementProps.roles?.split(' ') || [] })
         return response
     } catch (error) {
         return error instanceof Error ? error.message : 'Unknown error'
@@ -40,9 +42,9 @@ export async function createAnnouncement(_: FormState, formData: FormData): Prom
 
 export async function updateAnnouncement(_: FormState, formData: FormData): Promise<PutFormState> {
     try {
-        const announcementProps = extractAnnouncementProps<PutAnnouncementPropsUnparsed>(formData)
+        const announcementProps = await extractAnnouncementProps<PutAnnouncementPropsUnparsed>(formData)
 
-        const response = await putAnnouncement({ ...announcementProps, roles: announcementProps.roles.split(' ') })
+        const response = await putAnnouncement({ ...announcementProps, roles: announcementProps.roles?.split(' ') || [] })
         return response
     } catch (error) {
         return error instanceof Error ? error.message : 'Unknown error'

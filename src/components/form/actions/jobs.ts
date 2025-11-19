@@ -42,11 +42,11 @@ export async function createJob(_: PostFormState, formData: FormData): Promise<P
     try {
         const jobProps = extractJobsProps<PostJobProps>(formData)
 
-        const announcementProps = extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
+        const announcementProps = await extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
 
         const response = await postJob(jobProps)
         if (anyMandatoryFieldSet(announcementProps)) {
-            await postAnnouncement({ ...announcementProps, roles: announcementProps.roles.split(' ') })
+            await postAnnouncement({ ...announcementProps, roles: announcementProps.roles?.split(' ') || [] })
         }
 
         return response

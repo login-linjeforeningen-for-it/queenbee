@@ -56,14 +56,14 @@ export async function createEvent(_: PostFormState, formData: FormData): Promise
     try {
         const eventProps = extractEventProps<PostEventProps>(formData)
 
-        const announcementProps = extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
+        const announcementProps = await extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
 
         const repeat_type = getOptionalString(formData, 'repeat_type') || undefined
         const repeat_until = repeat_type ? getRequiredDate(formData, 'repeat_until') : undefined
 
         const response = await postEvent(eventProps, repeat_type, repeat_until)
         if (anyMandatoryFieldSet(announcementProps)) {
-            await postAnnouncement({ ...announcementProps, roles: announcementProps.roles.split(' ') })
+            await postAnnouncement({ ...announcementProps, roles: announcementProps.roles?.split(' ') || [] })
         }
 
         return response
