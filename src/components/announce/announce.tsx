@@ -3,7 +3,7 @@ import DiscordPreview from '@components/preview/discord'
 import ArrowDown from '@components/shared/arrowDown'
 import ArrowRight from '@components/shared/arrowRight'
 import { getCookie, setCookie } from '@utils/cookies'
-import { LogIn, MessageSquareWarning } from 'lucide-react'
+import { MessageSquareWarning } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -82,31 +82,13 @@ function OpenAnnouncement({
         return <></>
     }
 
-    function handleLogin() {
-        if (typeof window !== 'undefined') {
-            window.location.href = `${process.env.NEXT_PUBLIC_BROWSER_API}/oauth2/login`
-        }
-    }
-
     if (!channels.length) {
         return (
             <div className='w-full space-y-4 mt-2' onClick={(e) => e.stopPropagation()}>
                 <div className='w-full h-0.5 bg-login-400 rounded-lg' />
                 <div className='flex gap-2 w-full rounded-lg p-2 bg-red-900'>
                     <MessageSquareWarning />
-                    <h1 className='font-semibold'>Unauthorized</h1>
-                </div>
-                <div className='grid place-items-center h-full'>
-                    <button
-                        onClick={handleLogin}
-                        className={
-                            'flex align-middle gap-2 mt-2 rounded-lg cursor-pointer ' +
-                            'bg-login px-8 py-1  hover:bg-orange-500 mb-2'
-                        }
-                    >
-                        Login
-                        <LogIn className='w-5' />
-                    </button>
+                    <h1 className='font-semibold'>Fail to connect to API</h1>
                 </div>
             </div>
         )
