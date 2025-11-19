@@ -7,6 +7,7 @@ import {
     getRequiredNumber,
     getRequiredDate
 } from '@utils/validate'
+import { extractAnnouncementProps } from './announcements'
 
 type FormState =
     | null
@@ -55,17 +56,7 @@ export async function createEvent(_: PostFormState, formData: FormData): Promise
     try {
         const eventProps = extractEventProps<PostEventProps>(formData)
 
-        const announcementProps: PostAnnouncementPropsUnparsed = {
-            title: formData.get('title') as string,
-            description: formData.get('description') as string,
-            channel: formData.get('channel') as string,
-            roles: formData.get('roles') as string,
-            embed: formData.get('embed') as embed_type === 'on',
-            color: formData.get('color') as string,
-            interval: formData.get('interval') as string,
-            time: formData.get('time') as string,
-            active: true
-        }
+        const announcementProps = extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
 
         const repeat_type = getOptionalString(formData, 'repeat_type') || undefined
         const repeat_until = repeat_type ? getRequiredDate(formData, 'repeat_until') : undefined

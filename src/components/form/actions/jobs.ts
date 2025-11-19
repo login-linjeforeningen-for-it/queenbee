@@ -5,6 +5,7 @@ import { putJob, postAnnouncement, postJob } from '@utils/api'
 import {
     getOptionalBoolean, getRequiredNumber, getOptionalString, getRequiredString, getRequiredDateTime, getOptionalArray
 } from '@utils/validate'
+import { extractAnnouncementProps } from './announcements'
 
 type FormState =
     | null
@@ -41,17 +42,7 @@ export async function createJob(_: PostFormState, formData: FormData): Promise<P
     try {
         const jobProps = extractJobsProps<PostJobProps>(formData)
 
-        const announcementProps: PostAnnouncementPropsUnparsed = {
-            title: formData.get('title') as string,
-            description: formData.get('description') as string,
-            channel: formData.get('channel') as string,
-            roles: formData.get('roles') as string,
-            embed: formData.get('embed') as embed_type === 'on',
-            color: formData.get('color') as string,
-            interval: formData.get('interval') as string,
-            time: formData.get('time') as string,
-            active: true
-        }
+        const announcementProps = extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
 
         const response = await postJob(jobProps)
         if (anyMandatoryFieldSet(announcementProps)) {
