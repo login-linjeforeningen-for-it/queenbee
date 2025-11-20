@@ -1,5 +1,6 @@
 services:
     queenbee:
+        restart: always
         container_name: queenbee
         build:
             context: .
