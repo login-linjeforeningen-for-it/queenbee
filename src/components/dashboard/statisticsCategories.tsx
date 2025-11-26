@@ -45,7 +45,7 @@ export default function StatisticsCategories({ categories }: { categories: GetSt
                             onMouseLeave={() => setHovered(null)}
                             className='cursor-pointer'
                         >
-                            <title>{slice.label}: {slice.count} events</title>
+                            <title>{`${slice.label}: ${slice.count} events`}</title>
                         </path>
                     ))}
                 </svg>
