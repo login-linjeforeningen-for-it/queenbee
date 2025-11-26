@@ -1,13 +1,12 @@
 'use server'
 
-import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
 import { putEvent, postAnnouncement, postEvent } from '@utils/api'
 import {
     getOptionalBoolean, getOptionalNumber, getOptionalString, getRequiredString, getRequiredDateTime, getOptionalDateTime,
     getRequiredNumber,
     getRequiredDate
 } from '@utils/validate'
-import { extractAnnouncementProps } from './announcements'
+import { extractAnnouncementProps, anyMandatoryFieldSet } from './announcements'
 
 type FormState =
     | null
@@ -56,14 +55,22 @@ export async function createEvent(_: PostFormState, formData: FormData): Promise
     try {
         const eventProps = extractEventProps<PostEventProps>(formData)
 
-        const announcementProps = await extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
+        let announcementProps: PostAnnouncementPropsUnparsed | string
+        try {
+            announcementProps = await extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
+        } catch(error) {
+            announcementProps = error instanceof Error ? error.message : 'Unknown error'
+        }
 
         const repeat_type = getOptionalString(formData, 'repeat_type') || undefined
         const repeat_until = repeat_type ? getRequiredDate(formData, 'repeat_until') : undefined
 
         const response = await postEvent(eventProps, repeat_type, repeat_until)
-        if (anyMandatoryFieldSet(announcementProps)) {
+
+        if (typeof announcementProps !== 'string' && await anyMandatoryFieldSet(formData)) {
             await postAnnouncement({ ...announcementProps, roles: announcementProps.roles?.split(' ') || [] })
+        } else if (typeof announcementProps === 'string' && await anyMandatoryFieldSet(formData)) {
+            throw new Error(typeof announcementProps === 'string' ? announcementProps : 'No mandatory fields set for announcement')
         }
 
         return response

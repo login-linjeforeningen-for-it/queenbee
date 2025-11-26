@@ -1,11 +1,10 @@
 'use server'
 
-import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
 import { putJob, postAnnouncement, postJob } from '@utils/api'
 import {
     getOptionalBoolean, getRequiredNumber, getOptionalString, getRequiredString, getRequiredDateTime, getOptionalArray
 } from '@utils/validate'
-import { extractAnnouncementProps } from './announcements'
+import { extractAnnouncementProps, anyMandatoryFieldSet } from './announcements'
 
 type FormState =
     | null
@@ -42,11 +41,19 @@ export async function createJob(_: PostFormState, formData: FormData): Promise<P
     try {
         const jobProps = extractJobsProps<PostJobProps>(formData)
 
-        const announcementProps = await extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
+        let announcementProps: PostAnnouncementPropsUnparsed | string
+        try {
+            announcementProps = await extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
+        } catch(error) {
+            announcementProps = error instanceof Error ? error.message : 'Unknown error'
+        }
 
         const response = await postJob(jobProps)
-        if (anyMandatoryFieldSet(announcementProps)) {
+
+        if (typeof announcementProps !== 'string' && await anyMandatoryFieldSet(formData)) {
             await postAnnouncement({ ...announcementProps, roles: announcementProps.roles?.split(' ') || [] })
+        } else if (typeof announcementProps === 'string' && await anyMandatoryFieldSet(formData)) {
+            throw new Error(typeof announcementProps === 'string' ? announcementProps : 'No mandatory fields set for announcement')
         }
 
         return response

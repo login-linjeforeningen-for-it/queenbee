@@ -21,13 +21,18 @@ export async function extractAnnouncementProps<T extends Unparsed>(formData: For
         channel:        getRequiredString(formData, 'channel'),
         roles:          getOptionalString(formData, 'roles'),
         embed:          getOptionalString(formData, 'embed') as embed_type === 'on',
-        color:          getRequiredString(formData, 'color'),
-        interval:       getRequiredString(formData, 'interval'),
+        color:          getOptionalString(formData, 'color'),
+        interval:       getOptionalString(formData, 'interval'),
         time:           getOptionalDateTime(formData, 'publish_date', 'publish_time'),
         active: true
     } as T
 }
 
+export async function anyMandatoryFieldSet(formData: FormData): Promise<boolean> {
+    return Boolean(
+        getOptionalString(formData, 'title') || getOptionalString(formData, 'description') || getOptionalString(formData, 'channel')
+    )
+}
 
 export async function createAnnouncement(_: FormState, formData: FormData): Promise<PostFormState> {
     try {
