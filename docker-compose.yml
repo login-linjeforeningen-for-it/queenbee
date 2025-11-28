@@ -1,11 +1,12 @@
 services:
-    queenbee:
-        restart: always
-        container_name: queenbee
-        build:
-            context: .
-            dockerfile: Dockerfile
-        ports:
-            - '8050:3000'
-        env_file:
-            - .env
+  queenbee:
+    container_name: queenbee
+    image: queenbee
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8050:3000'
+    env_file:
+      - .env
