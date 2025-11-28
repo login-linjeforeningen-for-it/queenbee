@@ -12,6 +12,7 @@ import {
     LayoutDashboard,
     MapPin,
     Megaphone,
+    Server,
     Smartphone,
     TriangleAlert,
 } from 'lucide-react'
@@ -27,31 +28,6 @@ export default function Sidebar() {
             path: '/dashboard',
             image: <LayoutDashboard className='w-6' />,
         },
-        events: {
-            name: 'Events',
-            path: '/events',
-            image: <Calendar className='w-6' />,
-        },
-        jobs: {
-            name: 'Jobs',
-            path: '/jobs',
-            image: <BriefcaseBusiness className='w-6' />,
-        },
-        organizations: {
-            name: 'Organizations',
-            path: '/organizations',
-            image: <Building2 className='w-6' />,
-        },
-        locations: {
-            name: 'Locations',
-            path: '/locations',
-            image: <MapPin className='w-6' />,
-        },
-        rules: {
-            name: 'Rules',
-            path: '/rules',
-            image: <Gavel className='w-6' />,
-        },
         announce: {
             name: 'Announcements',
             path: '/announcements',
@@ -62,20 +38,50 @@ export default function Sidebar() {
             path: '/albums',
             image: <Images className='w-6' />,
         },
-        nucleus: {
-            name: 'Nucleus',
-            path: '/nucleus',
-            image: <Smartphone className='w-6' />,
-        },
         alerts: {
             name: 'Alerts',
             path: '/alerts',
             image: <TriangleAlert className='w-6' />,
         },
+        events: {
+            name: 'Events',
+            path: '/events',
+            image: <Calendar className='w-6' />,
+        },
         honeys: {
             name: 'Honeys',
             path: '/honeys',
             image: <Icon iconNode={hexagons7} className='w-6' />,
+        },
+        internal: {
+            name: 'Internal',
+            path: '/internal',
+            image: <Server className='w-6' />,
+        },
+        jobs: {
+            name: 'Jobs',
+            path: '/jobs',
+            image: <BriefcaseBusiness className='w-6' />,
+        },
+        locations: {
+            name: 'Locations',
+            path: '/locations',
+            image: <MapPin className='w-6' />,
+        },
+        nucleus: {
+            name: 'Nucleus',
+            path: '/nucleus',
+            image: <Smartphone className='w-6' />,
+        },
+        organizations: {
+            name: 'Organizations',
+            path: '/organizations',
+            image: <Building2 className='w-6' />,
+        },
+        rules: {
+            name: 'Rules',
+            path: '/rules',
+            image: <Gavel className='w-6' />,
         },
     }
 

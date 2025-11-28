@@ -3,13 +3,18 @@ import TotalStats from '@components/dashboard/totalStats'
 import StatisticsCategories from '@components/dashboard/statisticsCategories'
 import StatisticsNewAdditions from '@components/dashboard/statisticsNewAdditions'
 import getStatics from '@utils/stats/getStatistics'
+import formatDate from '@utils/date/formatDate'
 import { getStatisticsCategories, getStatisticsNewAdditions, getStatisticsYearlyActivity } from '@utils/api'
 
 export default async function Home() {
     const stats: DashboardTotalStats = await getStatics()
     const categories = await getStatisticsCategories()
-    const additions = await getStatisticsNewAdditions()
+    let additions = await getStatisticsNewAdditions()
     const yearlyActivity = await getStatisticsYearlyActivity()
+
+    if (Array.isArray(additions)) {
+        additions = additions.map((addition) => ({...addition, updated_at: formatDate(addition.updated_at)}))
+    }
 
     // const data = await getApplicationMetrics()
 

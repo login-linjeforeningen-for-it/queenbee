@@ -55,7 +55,7 @@ export default function Activity({ stats }: { stats: GetStatisticsYearlyActivity
                                 <div
                                     key={di}
                                     title={`${val} activities on ${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`}
-                                    className='w-3 h-3 rounded-4 border border-login-700'
+                                    className='w-3 h-3 rounded-xs'
                                     style={{ background: getColor(val, max) }}
                                 />
                             )
