@@ -60,6 +60,7 @@ function pathIsAllowedWhileUnauthorized(path: string) {
         path.startsWith('/api/logout') ||
         path.startsWith('/api/authentik-health') ||
         path.startsWith('/_next/webpack-hmr')
+        || path.startsWith('/internal/system')
     ) {
         return true
     }
