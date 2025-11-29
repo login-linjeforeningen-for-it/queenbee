@@ -4,7 +4,8 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import {
     LayoutDashboard,
-    Server
+    Server,
+    Waypoints
 } from 'lucide-react'
 import SidebarVersion from './sidebarVersion'
 import { useEffect, useState } from 'react'
@@ -29,6 +30,11 @@ export default function Sidebar({ docker: serverDocker }: { docker: Docker }) {
             name: 'Dashboard',
             path: '/internal',
             image: <LayoutDashboard className='w-6' />
+        },
+        traffic: {
+            name: 'Traffic',
+            path: '/internal/traffic',
+            image: <Waypoints className='w-6' />
         },
         system: {
             name: 'System',
