@@ -9,5 +9,5 @@ export default async function page({ params }: PageProps) {
     const id = (await params).id
     const container = await getContainer(id)
 
-    return <PageClient container={container} />
+    return <PageClient data={container} />
 }
