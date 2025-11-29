@@ -1,4 +1,6 @@
-export default function formatDate(dateString: string) {
+import smallDate from './smallDate'
+
+export default function smartDate(dateString: string) {
     const date = new Date(dateString)
     const now = new Date()
     const nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate())
@@ -7,16 +9,16 @@ export default function formatDate(dateString: string) {
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
 
     if (diffDays === 0) {
-        return 'Today'
+        return smallDate(dateString)
     }
 
     if (diffDays === 1) {
-        return 'Yesterday'
+        return `Yesterday (${smallDate(dateString, true)})`
     }
 
     if (diffDays < 7) {
-        return `${diffDays} days ago`
+        return `${diffDays} days ago (${smallDate(dateString, 'noYear')})`
     }
 
-    return date.toLocaleDateString()
+    return smallDate(dateString)
 }
