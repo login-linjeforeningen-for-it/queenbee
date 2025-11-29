@@ -44,7 +44,7 @@ export async function getWrapper({ path, options = {}, custom }: GetWrapperProps
 
     const baseHeaders = {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${access_token}`,
+        Authorization: `Bearer ${custom === 'system' ? config.internal.token : access_token}`,
     }
 
     const headers = custom === 'tekkom' ? {

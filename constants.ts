@@ -112,6 +112,9 @@ const config = {
         USERINFO_URL: `${env.AUTHENTIK_URL}/application/o/userinfo/`,
         TOKEN: `${env.AUTHENTIK_API_TOKEN}`,
     },
+    internal: {
+        token: env.INTERNAL_API_TOKEN,
+    },
     version: packageInfo.version,
 }
 
