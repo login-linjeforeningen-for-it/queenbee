@@ -11,7 +11,7 @@ type BodyProps = {
 const timeValues = ['date', 'last_sent', 'time']
 
 export default function StatusBody({ list, headers, roles }: BodyProps) {
-    return list.map((item: unknown, index) => {
+    return (list as Container[]).map((item: Container, index) => {
         const entries = Object.entries(list[index])
 
         return (
@@ -41,7 +41,7 @@ export default function StatusBody({ list, headers, roles }: BodyProps) {
                             </td>
                         )
                     })}
-                    <ActionButtons id={(item as { id: string }).id} />
+                    <ActionButtons id={item.id} />
                 </tr>
             </tbody>
         )
@@ -57,7 +57,7 @@ function ActionButtons({ id }: { id: string }) {
                     className={
                         'mx-auto px-3 py-1.5 rounded ' +
                         'hover:bg-login-400 ' +
-                        ' flex items-start justify-center ' +
+                        ' flex items-start justify-center cursor-pointer ' +
                         'bg-login-400'
                     }
                     onClick={() => {}}
@@ -70,7 +70,7 @@ function ActionButtons({ id }: { id: string }) {
                     className={
                         'mx-auto px-3 py-1.5 rounded ' +
                         'hover:bg-login-400 ' +
-                        ' flex items-start justify-center ' +
+                        ' flex items-start justify-center cursor-pointer ' +
                         'bg-login-400'
                     }
                     onClick={() => {}}
@@ -83,7 +83,7 @@ function ActionButtons({ id }: { id: string }) {
                     className={
                         'mx-auto px-3 py-1.5 rounded ' +
                         'hover:bg-login-400 ' +
-                        ' flex items-start justify-center ' +
+                        ' flex items-start justify-center cursor-pointer ' +
                         'bg-login-400'
                     }
                     onClick={() => {}}
