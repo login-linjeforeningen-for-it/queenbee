@@ -58,7 +58,6 @@ export default function page({ data }: { data: DockerContainer }) {
                     <h1 className={title}>Related Containers {data.related.length && `(${data.related.length})`}</h1>
                     {!data.related.length && <h1>This is a standalone service.</h1>}
                     {data.related.map((container) => <RelatedContainer key={container.id} container={container} />)}
-                    {data.related.map((container) => <RelatedContainer key={container.id} container={container} />)}
                 </div>
                 <div className={section}>
                     <h1 className={title}>Details</h1>
