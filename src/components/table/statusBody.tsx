@@ -51,7 +51,7 @@ export default function StatusBody({ list, headers, roles }: BodyProps) {
 function ActionButtons({ id }: { id: string }) {
     return (
         <td className='p-2 flex gap-2 w-full right-0'>
-            <Link className='flex gap-2' href={`/internal/system/${id}`}>
+            <Link className='flex gap-2 cursor-pointer' href={`/internal/system/${id}`}>
                 <button
                     type='button'
                     className={
