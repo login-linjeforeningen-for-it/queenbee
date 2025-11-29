@@ -1,4 +1,5 @@
 import { RoleRenderer } from '@components/preview/discordRole'
+import Link from 'next/link'
 
 type BodyProps = {
     list: object[]
@@ -10,7 +11,7 @@ type BodyProps = {
 const timeValues = ['date', 'last_sent', 'time']
 
 export default function StatusBody({ list, headers, roles }: BodyProps) {
-    return list.map((_, index) => {
+    return list.map((item: unknown, index) => {
         const entries = Object.entries(list[index])
 
         return (
@@ -40,55 +41,57 @@ export default function StatusBody({ list, headers, roles }: BodyProps) {
                             </td>
                         )
                     })}
-                    <ActionButtons />
+                    <ActionButtons id={(item as { id: string }).id} />
                 </tr>
             </tbody>
         )
     })
 }
 
-function ActionButtons() {
+function ActionButtons({ id }: { id: string }) {
     return (
         <td className='p-2 flex gap-2 w-full right-0'>
-            <button
-                type='button'
-                className={
-                    'mx-auto px-3 py-1.5 rounded ' +
-                    'hover:bg-login-400 ' +
-                    ' flex items-start justify-center ' +
-                    'bg-login-400'
-                }
-                onClick={() => {}}
-            >
-                {/* prettier-ignore */}
-                <span className={'text-xl leading-none select-none hover:login-300'}>restart</span>
-            </button>
-            <button
-                type='button'
-                className={
-                    'mx-auto px-3 py-1.5 rounded ' +
-                    'hover:bg-login-400 ' +
-                    ' flex items-start justify-center ' +
-                    'bg-login-400'
-                }
-                onClick={() => {}}
-            >
-                {/* prettier-ignore */}
-                <span className={'text-xl leading-none select-none hover:login-300'}>update</span>
-            </button>
-            <button
-                type='button'
-                className={
-                    'mx-auto px-3 py-1.5 rounded ' +
-                    'hover:bg-login-400 ' +
-                    ' flex items-start justify-center ' +
-                    'bg-login-400'
-                }
-                onClick={() => {}}
-            >
-                {/* prettier-ignore */}
-                <span className={'text-xl leading-none select-none hover:login-300'}>autoupdate</span>
-            </button>
+            <Link href={`/internal/system/${id}`}>
+                <button
+                    type='button'
+                    className={
+                        'mx-auto px-3 py-1.5 rounded ' +
+                        'hover:bg-login-400 ' +
+                        ' flex items-start justify-center ' +
+                        'bg-login-400'
+                    }
+                    onClick={() => {}}
+                >
+                    {/* prettier-ignore */}
+                    <span className={'text-xl leading-none select-none hover:login-300'}>restart</span>
+                </button>
+                <button
+                    type='button'
+                    className={
+                        'mx-auto px-3 py-1.5 rounded ' +
+                        'hover:bg-login-400 ' +
+                        ' flex items-start justify-center ' +
+                        'bg-login-400'
+                    }
+                    onClick={() => {}}
+                >
+                    {/* prettier-ignore */}
+                    <span className={'text-xl leading-none select-none hover:login-300'}>update</span>
+                </button>
+                <button
+                    type='button'
+                    className={
+                        'mx-auto px-3 py-1.5 rounded ' +
+                        'hover:bg-login-400 ' +
+                        ' flex items-start justify-center ' +
+                        'bg-login-400'
+                    }
+                    onClick={() => {}}
+                >
+                    {/* prettier-ignore */}
+                    <span className={'text-xl leading-none select-none hover:login-300'}>autoupdate</span>
+                </button>
+            </Link>
         </td>
     )
 }
