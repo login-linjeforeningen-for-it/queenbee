@@ -464,6 +464,11 @@ export async function getDocker(): Promise<Docker> {
     return await getWrapper({ path, custom: 'system' })
 }
 
+export async function getContainer(id: string): Promise<DockerContainer> {
+    const path = `${config.workerbeeApi.system.docker.path}/${id}`
+    return await getWrapper({ path, custom: 'system' })
+}
+
 export async function getIngress(port: number): Promise<GetIngressProps> {
     const path = `${config.workerbeeApi.system.ingress}${port}`
     return await getWrapper({ path, custom: 'system' })
