@@ -1,4 +1,7 @@
-export default function page({ data }: { data: DockerContainer }) {
+import data from './exampleData'
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function page({ data: _ }: { data: DockerContainer }) {
     return (
         <div>
             <h1>Container {data.container.name} ({data.container.id})</h1>
