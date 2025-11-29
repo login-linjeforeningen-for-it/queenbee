@@ -12,28 +12,14 @@ import {
     LayoutDashboard,
     MapPin,
     Megaphone,
-    Server,
     Smartphone,
     TriangleAlert,
 } from 'lucide-react'
 import { hexagons7 } from '@lucide/lab'
 import SidebarVersion from './sidebarVersion'
-import { useEffect, useState } from 'react'
-import { getDocker } from '@utils/api'
-import PulseDot from '@components/pulse/pulse'
 
-export default function Sidebar({ docker: serverDocker }: { docker: Docker }) {
+export default function Sidebar() {
     const path = usePathname()
-    const [docker, setDocker] = useState(serverDocker)
-
-    useEffect(() => {
-        setInterval(async() => {
-            const updatedDocker = await getDocker()
-            if (updatedDocker) {
-                setDocker(updatedDocker)
-            }
-        }, 5000)
-    }, [])
 
     const paths = {
         dashboard: {
@@ -91,12 +77,6 @@ export default function Sidebar({ docker: serverDocker }: { docker: Docker }) {
             path: '/rules',
             image: <Gavel className='w-6' />,
         },
-        system: {
-            name: 'System',
-            path: '/system',
-            image: <Server className='w-6' />,
-            status: <PulseDot status={docker.status} />
-        }
     }
 
     return (
@@ -122,7 +102,6 @@ export default function Sidebar({ docker: serverDocker }: { docker: Docker }) {
                             {value.image}
                             {value.name}
                         </div>
-                        <div>{'status' in value && value.status}</div>
                     </Link>
                 ))}
             </div>

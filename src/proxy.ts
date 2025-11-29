@@ -22,9 +22,19 @@ export async function proxy(req: NextRequest) {
         }
 
         if (!validToken) {
-            validToken = await tokenIsValid(token)
+            const response = await tokenIsValid(token)
+            validToken = response.valid
             if (!validToken) {
                 return NextResponse.redirect(new URL('/api/logout', req.url))
+            }
+        }
+
+        if(req.nextUrl.pathname.startsWith('/internal')) {
+            const response = await tokenIsValid(token)
+            const groups = response.groups || []
+            const lowerGroups = groups.map(g => g.toLowerCase())
+            if (!lowerGroups.includes('tekkom')) {
+                return NextResponse.redirect(new URL('/dashboard', req.url))
             }
         }
     }
@@ -57,30 +67,30 @@ function pathIsAllowedWhileUnauthorized(path: string) {
     return false
 }
 
-async function tokenIsValid(token: string): Promise<boolean> {
+async function tokenIsValid(token: string): Promise<{ valid: boolean; groups?: string[] }> {
     try {
         const userInfo = await fetch(appConfig.authentik.USERINFO_URL, {
             headers: { Authorization: `Bearer ${token}` },
         })
 
         if (!userInfo.ok) {
-            return false
+            return { valid: false}
         }
 
         const data = await userInfo.json()
 
         if (!Array.isArray(data.groups) || !data.groups.map((g: string) => g.toLowerCase()).includes('queenbee')) {
-            return false
+            return { valid: false}
         }
 
-        return true
+        return { valid: true, groups: data.groups }
     } catch (error) {
         console.log(`API Error (middleware.ts): ${error}`, {
             message: (error as Error).message,
             stack: (error as Error).stack,
         })
 
-        return false
+        return { valid: false}
     }
 }
 
