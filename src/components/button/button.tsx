@@ -6,6 +6,7 @@ type ButtonProps = {
     path?: string
     color?: 'primary' | 'secondary'
     onClick?: (_: object) => void
+    disabled?: boolean
 }
 
 export default function Button({
@@ -14,6 +15,7 @@ export default function Button({
     path,
     color,
     onClick,
+    disabled
 }: ButtonProps) {
     const bg = color === 'secondary' ? 'bg-login-600' : 'bg-login'
 
@@ -21,6 +23,7 @@ export default function Button({
         return (
             <button
                 type='button'
+                disabled={disabled}
                 onClick={onClick}
                 className={
                     `${bg} cursor-pointer px-4 rounded-md h-8 flex ` +
@@ -31,6 +34,20 @@ export default function Button({
                 <h1 className='font-bold'>{icon ? icon : ''}</h1>
                 <h1>{text}</h1>
             </button>
+        )
+    }
+
+    if (disabled) {
+        return (
+            <div
+                className={
+                    `${bg} cursor-not-allowed px-4 rounded-md h-8 flex ` +
+                    'justify-evenly items-center gap-2 select-none'
+                }
+            >
+                <h1 className='font-bold'>{icon ? `${icon}` : ''}</h1>
+                <h1 className=''>{text}</h1>
+            </div>
         )
     }
 

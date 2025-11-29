@@ -331,7 +331,7 @@ declare global {
 
     type ShareURLResponse = {
         url: string,
-        headers: {[key: string]: string | string[]},
+        headers: { [key: string]: string | string[] },
         key: string
     }
 
@@ -558,6 +558,41 @@ declare global {
         deleted_at: string
         category_name_no: string
         category_name_en: string
+    }
+
+    type GetIngressProps = {
+        port: string
+    }
+
+    type Stats = {
+        system: {
+            load: number[]
+            memory: {
+                used: number
+                total: number
+                percent: string
+            }
+            swap: string
+            disk: string
+            temperature: string
+            powerUsage: string
+            processes: number
+            ipv4: string[]
+            ipv6: string[]
+            os: string
+        }
+    }
+
+    type Docker = {
+        status: 'available' | 'unavailable'
+        count: number
+        containers: Container[]
+    }
+
+    type Container = {
+        id: string
+        name: string
+        status: string
     }
 }
 

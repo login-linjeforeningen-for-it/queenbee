@@ -6,36 +6,41 @@ import { cookies } from 'next/headers'
 type GetWrapperProps = {
     path: string
     options?: object
-    custom?: 'tekkom'
+    custom?: 'tekkom' | 'system'
 }
 
 type PostWrapper = {
     path: string
     data?: object | FormData
-    custom?: string
+    custom?: 'tekkom' | 'system'
     status?: boolean
 }
 
 type DeleteWrapperProps = {
     path: string
     options?: object
-    custom?: string
+    custom?: 'tekkom' | 'system'
 }
 
 type PutWrapperProps = {
     path: string
     data?: object
     options?: object
-    custom?: string
+    custom?: 'tekkom' | 'system'
 }
 
 const baseUrl = config.url.API_URL
 const tekkomBotApiUrl = config.url.TEKKOM_BOT_API_URL
+const systemUrl = config.url.system
 
 export async function getWrapper({ path, options = {}, custom }: GetWrapperProps) {
     const Cookies = await cookies()
     const access_token = Cookies.get('access_token')?.value || ''
-    const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
+    const url = custom === 'tekkom'
+        ? tekkomBotApiUrl
+        : custom === 'system'
+            ? systemUrl
+            : baseUrl
 
     const baseHeaders = {
         'Content-Type': 'application/json',
@@ -56,8 +61,8 @@ export async function getWrapper({ path, options = {}, custom }: GetWrapperProps
             throw new Error(await response.text())
         }
 
-        const text = await response.text()
-        return JSON.parse(text)
+        const data = await response.json()
+        return data
         // eslint-disable-next-line
     } catch (error: any) {
         return (
@@ -71,14 +76,18 @@ export async function getWrapper({ path, options = {}, custom }: GetWrapperProps
 export async function postWrapper({ path, data, custom, status }: PostWrapper) {
     const Cookies = await cookies()
     const access_token = Cookies.get('access_token')?.value || ''
-    const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
+    const url = custom === 'tekkom'
+        ? tekkomBotApiUrl
+        : custom === 'system'
+            ? systemUrl
+            : baseUrl
 
     const isFormData = data instanceof FormData
 
     const defaultOptions = {
         method: 'POST',
         headers: {
-            ...(isFormData ? { } : { 'Content-Type': 'application/json' }),
+            ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
             Authorization: `Bearer ${access_token}`,
         },
         body: isFormData ? data : JSON.stringify(data),
@@ -90,12 +99,49 @@ export async function postWrapper({ path, data, custom, status }: PostWrapper) {
             throw new Error(await response.text())
         }
 
-        const text = await response.text()
-        const dataParsed = JSON.parse(text)
+        const data = await response.json()
         if (status) {
-            return { status: response.status, data: dataParsed }
+            return { status: response.status, data }
         }
-        return dataParsed
+
+        return data
+        // eslint-disable-next-line
+    } catch (error: any) {
+        return (
+            JSON.stringify(error.error) ||
+            JSON.stringify(error.message) ||
+            'Unknown error! Please contact TekKom'
+        )
+    }
+}
+
+export async function putWrapper({ path, data = {}, options = {}, custom }: PutWrapperProps) {
+    const Cookies = await cookies()
+    const access_token = Cookies.get('access_token')?.value || ''
+    const url = custom === 'tekkom'
+        ? tekkomBotApiUrl
+        : custom === 'system'
+            ? systemUrl
+            : baseUrl
+
+    const defaultOptions = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${access_token}`,
+        },
+        body: JSON.stringify(data),
+    }
+    const finalOptions = { ...defaultOptions, ...options }
+
+    try {
+        const response = await fetch(`${url}${path}`, finalOptions)
+        if (!response.ok) {
+            throw new Error(await response.text())
+        }
+
+        const data = await response.json()
+        return data
         // eslint-disable-next-line
     } catch (error: any) {
         return (
@@ -109,7 +155,11 @@ export async function postWrapper({ path, data, custom, status }: PostWrapper) {
 export async function deleteWrapper({ path, options, custom }: DeleteWrapperProps) {
     const Cookies = await cookies()
     const access_token = Cookies.get('access_token')?.value || ''
-    const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
+    const url = custom === 'tekkom'
+        ? tekkomBotApiUrl
+        : custom === 'system'
+            ? systemUrl
+            : baseUrl
 
     const defaultOptions = {
         method: 'DELETE',
@@ -129,39 +179,6 @@ export async function deleteWrapper({ path, options, custom }: DeleteWrapperProp
         }
 
         return data
-        // eslint-disable-next-line
-    } catch (error: any) {
-        return (
-            JSON.stringify(error.error) ||
-            JSON.stringify(error.message) ||
-            'Unknown error! Please contact TekKom'
-        )
-    }
-}
-
-export async function putWrapper({ path, data = {}, options = {}, custom }: PutWrapperProps) {
-    const Cookies = await cookies()
-    const access_token = Cookies.get('access_token')?.value || ''
-    const url = custom === 'tekkom' ? tekkomBotApiUrl : baseUrl
-
-    const defaultOptions = {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${access_token}`,
-        },
-        body: JSON.stringify(data),
-    }
-    const finalOptions = { ...defaultOptions, ...options }
-
-    try {
-        const response = await fetch(`${url}${path}`, finalOptions)
-        if (!response.ok) {
-            throw new Error(await response.text())
-        }
-
-        const text = await response.text()
-        return JSON.parse(text)
         // eslint-disable-next-line
     } catch (error: any) {
         return (

@@ -9,6 +9,7 @@ const config = {
         TEKKOM_BOT_API_URL: env.TEKKOM_BOT_API_URL,
         GITLAB_URL: 'https://gitlab.login.no',
         AUTHENTIK_URL: 'https://authentik.login.no',
+        system: 'https://internal.login.no/api'
     },
     firebase: {
         type: env.TYPE,
@@ -35,6 +36,12 @@ const config = {
         IMAGES_PATH: '/images',
     },
     workerbeeApi: {
+        albums: {
+            PATH: '/albums/',
+        },
+        alerts: {
+            PATH: '/alerts/',
+        },
         events: {
             PATH: '/events/',
             PATH_PROTECTED: '/events/protected/',
@@ -42,35 +49,42 @@ const config = {
             AUDIENCES: '/audiences',
             TIME_TYPES: '/events/time',
         },
-        jobs: {
-            PATH: '/jobs/',
-            PATH_PROTECTED: '/jobs/protected/',
-            TYPES: '/jobs/types/all',
-        },
-        organizations: {
-            PATH: '/organizations/',
-        },
-        locations: {
-            PATH: '/locations/',
-        },
-        rules: {
-            PATH: '/rules/',
-        },
-        albums: {
-            PATH: '/albums/',
-        },
-        alerts: {
-            PATH: '/alerts/',
-        },
-        honeys: {
+        honey: {
             PATH: '/honeys/',
             SERVICES: '/text/',
         },
         images: {
             PATH: '/images/',
         },
+        jobs: {
+            PATH: '/jobs/',
+            PATH_PROTECTED: '/jobs/protected/',
+            TYPES: '/jobs/types/all',
+        },
+        locations: {
+            PATH: '/locations/',
+        },
+        organizations: {
+            PATH: '/organizations/',
+        },
+        rules: {
+            PATH: '/rules/',
+        },
         statistics: {
             PATH: '/stats/',
+        },
+        system: {
+            ws: {
+                docker: '/ws/docker/',
+                stats: '/ws/stats/',
+            },
+            docker: {
+                path: '/docker',
+                restart_service: '/restart/service/',
+                restart: '/restart/'
+            },
+            ingress: '/ingress',
+            stats: '/stats',
         },
     },
     tekkomBotApi: {

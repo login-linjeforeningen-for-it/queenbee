@@ -18,9 +18,22 @@ import {
 } from 'lucide-react'
 import { hexagons7 } from '@lucide/lab'
 import SidebarVersion from './sidebarVersion'
+import { useEffect, useState } from 'react'
+import { getDocker } from '@utils/api'
+import PulseDot from '@components/pulse/pulse'
 
-export default function Sidebar() {
+export default function Sidebar({ docker: serverDocker }: { docker: Docker }) {
     const path = usePathname()
+    const [docker, setDocker] = useState(serverDocker)
+
+    useEffect(() => {
+        setInterval(async() => {
+            const updatedDocker = await getDocker()
+            if (updatedDocker) {
+                setDocker(updatedDocker)
+            }
+        }, 5000)
+    }, [])
 
     const paths = {
         dashboard: {
@@ -48,15 +61,10 @@ export default function Sidebar() {
             path: '/events',
             image: <Calendar className='w-6' />,
         },
-        honeys: {
-            name: 'Honeys',
-            path: '/honeys',
+        honey: {
+            name: 'Honey',
+            path: '/honey',
             image: <Icon iconNode={hexagons7} className='w-6' />,
-        },
-        internal: {
-            name: 'Internal',
-            path: '/internal',
-            image: <Server className='w-6' />,
         },
         jobs: {
             name: 'Jobs',
@@ -83,6 +91,12 @@ export default function Sidebar() {
             path: '/rules',
             image: <Gavel className='w-6' />,
         },
+        system: {
+            name: 'System',
+            path: '/system',
+            image: <Server className='w-6' />,
+            status: <PulseDot status={docker.status} />
+        }
     }
 
     return (
@@ -95,7 +109,7 @@ export default function Sidebar() {
                         className={
                             'flex flex-row px-4 items-center ' +
                             'gap-2 py-[0.8rem] hover:pl-6 ' +
-                            'duration-300 transition-all ' +
+                            'duration-300 transition-all justify-between ' +
                             `${
                                 path === value.path
                                     ? '*:stroke-login text-login pl-[1.2rem] ' +
@@ -104,8 +118,11 @@ export default function Sidebar() {
                             } hover:*:stroke-login hover:text-login font-medium`
                         }
                     >
-                        {value.image}
-                        {value.name}
+                        <div className='flex gap-2 items-center'>
+                            {value.image}
+                            {value.name}
+                        </div>
+                        <div>{'status' in value && value.status}</div>
                     </Link>
                 ))}
             </div>

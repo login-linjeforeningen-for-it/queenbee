@@ -4,7 +4,7 @@ import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Label from './label'
 
-export default function Search({className}: {className?: string}) {
+export default function Search({ className }: { className?: string }) {
     const router = useRouter(),
         pathname = usePathname(),
         searchParams = useSearchParams()

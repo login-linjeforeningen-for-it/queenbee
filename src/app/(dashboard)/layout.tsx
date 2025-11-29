@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import '../globals.css'
 import Sidebar from '@components/sidebar/sidebar'
 import { Toaster } from 'sonner'
+import { getDocker } from '@utils/api'
 
 export const metadata: Metadata = {
     title: 'QueenBee',
@@ -11,9 +12,10 @@ export const metadata: Metadata = {
 export default async function RootLayout({
     children,
 }: Readonly<{ children: React.ReactNode }>) {
+    const docker = await getDocker()
     return (
         <main className='flex flex-1 h-full'>
-            <Sidebar />
+            <Sidebar docker={docker} />
             <div
                 className={
                     'relative p-4 w-full h-full bg-login-800 ' +

@@ -14,7 +14,7 @@ type GetParamsProps = {
     historical?: boolean
 }
 
-// ------------------------------------------ Events ------------------------------------------
+// ---------------------------------- Events -----------------------------------
 
 export async function getEvents({ search, offset, limit, orderBy, sort, historical }: GetParamsProps): Promise<GetEventsProps | string> {
     const queryParts = new URLSearchParams()
@@ -73,7 +73,7 @@ export async function getTimeTypes(): Promise<string[] | string> {
     return await getWrapper({ path })
 }
 
-// ------------------------------------------ Jobs ------------------------------------------
+// ---------------------------------- Jobs -------------------------------------
 
 export async function getJobs({ search, limit, offset, orderBy, sort, historical }: GetParamsProps = {}): Promise<GetJobsProps | string> {
     const queryParts = new URLSearchParams()
@@ -112,7 +112,7 @@ export async function getTypes(): Promise<GetJobTypesProps | string> {
     return await getWrapper({ path })
 }
 
-// ------------------------------------------ Organizations ------------------------------------------
+// ---------------------------------- Organizations ----------------------------
 
 export async function getOrganizations({ search, offset, limit, orderBy, sort }: GetParamsProps = {}):
 Promise<GetOrganizationsProps | string>
@@ -152,7 +152,7 @@ export async function deleteOrganization(id: number) {
     return await deleteWrapper({ path })
 }
 
-// ------------------------------------------ Locations ------------------------------------------
+// ---------------------------------- Locations --------------------------------
 
 export async function getLocations({ type, search, offset, limit, orderBy, sort }: GetParamsProps = {}):
 Promise<GetLocationsProps | string> {
@@ -192,7 +192,7 @@ export async function deleteLocation(id: number) {
     return await deleteWrapper({ path })
 }
 
-// ------------------------------------------ Rules ------------------------------------------
+// ---------------------------------- Rules ------------------------------------
 
 export async function getRules({ search, offset, limit, orderBy, sort }: GetParamsProps = {}): Promise<GetRulesProps | string> {
     const queryParts = new URLSearchParams()
@@ -230,7 +230,7 @@ export async function deleteRule(id: number) {
     return await deleteWrapper({ path })
 }
 
-// ------------------------------------------ Announcements ------------------------------------------
+// ------------------------------- Announcements -------------------------------
 
 export async function getChannels(): Promise<ChannelResponse[] | string> {
     const path = config.tekkomBotApi.CHANNELS_PATH
@@ -288,7 +288,7 @@ export async function deleteAnnouncement(id: number) {
     })
 }
 
-// ------------------------------------------ Albums ------------------------------------------
+// ---------------------------------- Albums -----------------------------------
 
 export async function getAlbums({ search, offset, limit, orderBy, sort }: GetParamsProps = {}): Promise<GetAlbumsProps | string> {
     const queryParts = new URLSearchParams()
@@ -340,7 +340,7 @@ export async function compressAlbums(): Promise<{message: string} | string> {
     return await putWrapper({ path, data: {} })
 }
 
-// ------------------------------------------ Alerts ------------------------------------------
+// --------------------------------- Alerts ------------------------------------
 
 export async function getAlerts({ search, offset, limit, orderBy, sort }: GetParamsProps = {}): Promise<GetAlertsProps | string> {
     const queryParts = new URLSearchParams()
@@ -373,10 +373,10 @@ export async function deleteAlert(id: number) {
     return await deleteWrapper({ path })
 }
 
-// ------------------------------------------ Honey ------------------------------------------
+// ---------------------------------- Honey ------------------------------------
 
 export async function getHoneyServices(): Promise<string[] | string> {
-    const path = `${config.workerbeeApi.honeys.SERVICES}`
+    const path = `${config.workerbeeApi.honey.SERVICES}`
     return await getWrapper({ path })
 }
 
@@ -389,30 +389,30 @@ Promise<GetHoneysProps | string> {
     if (orderBy)    queryParts.append('order_by', String(orderBy))
     if (sort)       queryParts.append('sort', String(sort))
 
-    const path = `${config.workerbeeApi.honeys.SERVICES}${service}?${queryParts.toString()}`
+    const path = `${config.workerbeeApi.honey.SERVICES}${service}?${queryParts.toString()}`
     return await getWrapper({ path })
 }
 
 export async function getHoney(id: number): Promise<GetHoneyProps | string> {
-    const path = `${config.workerbeeApi.honeys.PATH}${id}`
+    const path = `${config.workerbeeApi.honey.PATH}${id}`
     return await getWrapper({ path })
 }
 
 export async function postHoney(body: PostHoneyProps): Promise<PostHoneyProps | string> {
-    return await postWrapper({ path: config.workerbeeApi.honeys.PATH, data: body })
+    return await postWrapper({ path: config.workerbeeApi.honey.PATH, data: body })
 }
 
 export async function putHoney(id: number, body: PutHoneyProps): Promise<PutHoneyProps | string> {
-    const path = `${config.workerbeeApi.honeys.PATH}${id}`
+    const path = `${config.workerbeeApi.honey.PATH}${id}`
     return await putWrapper({ path, data: body })
 }
 
 export async function deleteHoney(id: number) {
-    const path = `${config.workerbeeApi.honeys.PATH}${id}`
+    const path = `${config.workerbeeApi.honey.PATH}${id}`
     return await deleteWrapper({ path })
 }
 
-// ------------------------------------------ Images ------------------------------------------
+// ---------------------------------- Images -----------------------------------
 
 export async function getImages(type: 'events' | 'jobs' | 'organizations'): Promise<string[] | string> {
     const path = `${config.workerbeeApi.images.PATH}${type}`
@@ -435,7 +435,7 @@ export async function deleteImage(type: ImagePaths, imageName: string): Promise<
     return await deleteWrapper({ path })
 }
 
-// ------------------------------------------ Statistics ------------------------------------------
+// -------------------------------- Statistics ---------------------------------
 
 export async function getStatisticsCategories(): Promise<GetStatisticsCategoriesProps | string> {
     const path = `${config.workerbeeApi.statistics.PATH}categories`
@@ -452,6 +452,29 @@ export async function getStatisticsYearlyActivity(): Promise<GetStatisticsYearly
     return await getWrapper({ path })
 }
 
+// ---------------------------------- System -----------------------------------
+
+export async function getStats(): Promise<Stats> {
+    const path = `${config.workerbeeApi.system.stats}`
+    return await getWrapper({ path, custom: 'system' })
+}
+
+export async function getDocker(): Promise<Docker> {
+    const path = `${config.workerbeeApi.system.docker.path}`
+    return await getWrapper({ path, custom: 'system' })
+}
+
+export async function getIngress(port: number): Promise<GetIngressProps> {
+    const path = `${config.workerbeeApi.system.ingress}${port}`
+    return await getWrapper({ path, custom: 'system' })
+}
+
+export async function deleteContainer(id: number) {
+    const path = `${config.workerbeeApi.system.docker.path}${id}`
+    return await deleteWrapper({ path, custom: 'system' })
+}
+
+// --------------------------------- Metrics -----------------------------------
 
 export async function getApplicationMetrics() {
     return await authentikApiWrapper({

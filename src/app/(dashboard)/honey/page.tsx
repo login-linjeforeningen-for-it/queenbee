@@ -29,7 +29,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         : 'asc'
     const activeType = filters.type ?? 'beehive'
 
-    const honeys = await getHoneys({
+    const honey = await getHoneys({
         search,
         offset: offset * limit,
         limit,
@@ -46,7 +46,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     return (
         <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden flex flex-col'>
             <div className='flex-none'>
-                <h1 className='font-semibold text-lg'>Honeys</h1>
+                <h1 className='font-semibold text-lg'>Honey</h1>
                 <div className='flex items-center justify-between py-3'>
                     <Search />
                     <div className='flex gap-4'>
@@ -67,20 +67,20 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     </div>
                 </div>
             </div>
-            {typeof honeys === 'string' || !Array.isArray(honeys.honeys) || honeys.honeys.length < 1 ? (
+            {typeof honey === 'string' || !Array.isArray(honey.honeys) || honey.honeys.length < 1 ? (
                 <div className='w-full h-full flex items-center justify-center'>
                     <Alert>
-                        {formatAlert(honeys, 'No honey found')}
+                        {formatAlert(honey, 'No honey found')}
                     </Alert>
                 </div>
             ) : (
                 <div className='flex-1 flex flex-col overflow-hidden'>
                     <Table
-                        list={honeys.honeys}
+                        list={honey.honeys}
                         headers={headers}
                         deleteAction={deleteAction}
                     />
-                    <Pagination pageSize={limit} totalRows={honeys.total_count} />
+                    <Pagination pageSize={limit} totalRows={honey.total_count} />
                 </div>
             )}
         </div>
