@@ -1,11 +1,9 @@
 import RelatedContainer from '@components/container/relatedContainer'
-import data from './exampleData'
 import smartDate from '@utils/date/smartDate'
 
 const MB = 1048576
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function page({ data: _ }: { data: DockerContainer }) {
+export default function page({ data }: { data: DockerContainer }) {
     const title = 'font-semibold text-lg'
     const section = 'bg-white/5 rounded-lg p-2 space-y-2 space-x-2'
     const box = 'bg-white/5 rounded-lg p-2 w-full overflow-auto'
@@ -139,7 +137,7 @@ export default function page({ data: _ }: { data: DockerContainer }) {
                         </div>
                         <div className={box}>
                             <h1>Pids Limit</h1>
-                            <h1>{data.container.details.HostConfig.PidsLimit}</h1>
+                            <h1>{data.container.details.HostConfig.PidsLimit || 'Unlimited'}</h1>
                         </div>
                     </div>
                 </div>
@@ -161,11 +159,11 @@ export default function page({ data: _ }: { data: DockerContainer }) {
                         </div>
                         <div className={box}>
                             <h1>Swappiness</h1>
-                            <h1>{data.container.details.HostConfig.MemorySwappiness}</h1>
+                            <h1>{data.container.details.HostConfig.MemorySwappiness || 30}</h1>
                         </div>
                         <div className={box}>
                             <h1>OOM Kill Disabled</h1>
-                            <h1>{data.container.details.HostConfig.OomKillDisable}</h1>
+                            <h1>{data.container.details.HostConfig.OomKillDisable || false}</h1>
                         </div>
                     </div>
                     <h1>CPU</h1>
@@ -250,7 +248,7 @@ export default function page({ data: _ }: { data: DockerContainer }) {
                         </div>
                         <div className={box}>
                             <h1>Mounts</h1>
-                            <h1>{data.container.details.Mounts}</h1>
+                            <h1>{data.container.details.Mounts || 'No mounts.'}</h1>
                         </div>
                         <div className={box}>
                             <h1>Tty</h1>
@@ -258,7 +256,7 @@ export default function page({ data: _ }: { data: DockerContainer }) {
                         </div>
                         <div className={box}>
                             <h1>Ulimits</h1>
-                            <h1>{data.container.details.HostConfig.Ulimits}</h1>
+                            <h1>{data.container.details.HostConfig.Ulimits || 1024}</h1>
                         </div>
                     </div>
                 </div>

@@ -671,7 +671,7 @@ declare global {
                     SecurityOpt: null
                     UTSMode: string
                     UsernsMode: string
-                    ShmSize: string
+                    ShmSize: number
                     Runtime: string
                     Isolation: string
                     CpuShares: number
@@ -695,10 +695,10 @@ declare global {
                     DeviceRequests: unknown | null
                     MemoryReservation: number
                     MemorySwap: number
-                    MemorySwappiness: unknown | null
-                    OomKillDisable: unknown | null
-                    PidsLimit: unknown | null
-                    Ulimits: unknown | null
+                    MemorySwappiness: number | string | null
+                    OomKillDisable: boolean | null
+                    PidsLimit: string | number | null
+                    Ulimits: string | number | null
                     CpuCount: number
                     CpuPercent: number
                     IOMaximumIOps: number
@@ -716,7 +716,7 @@ declare global {
                     }
                     Name: string
                 }
-                Mounts: unknown[]
+                Mounts: string[]
                 Config: {
                     Hostname: string
                     Domainname: string
