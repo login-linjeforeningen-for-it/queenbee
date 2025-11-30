@@ -14,7 +14,7 @@ import Pods from '@/components/services/pods'
 import Ingress from '@/components/services/ingress'
 import getSegmentedPathname from '@/utils/pathname'
 
-export default async function Service({params}: {params: Promise<{ id: string[] }>}) {
+export default async function Service({ params }: { params: Promise<{ id: string[] }> }) {
     const id = (await params).id[1]
     const isGlobal = id === 'global'
     const Headers = await headers()
@@ -31,11 +31,11 @@ export default async function Service({params}: {params: Promise<{ id: string[] 
         context
     })
     const logs = response.results
-    const pages = response.pages
-    const globalCommands = await Promise.all((await getGlobalCommands('server')).map(async(command) => ({
+    const pages = response.pages || 1
+    const globalCommands = await Promise.all((await getGlobalCommands('server')).map(async (command) => ({
         ...command, author: await getAuthor('server', command.author) || 'Unknown User'
     }))) as GlobalCommandWithUser[]
-    const localCommands = await Promise.all((await getLocalCommands('server', id)).map(async(command) => ({
+    const localCommands = await Promise.all((await getLocalCommands('server', id)).map(async (command) => ({
         ...command, author: await getAuthor('server', command.author) || 'Unknown User'
     }))) as LocalCommandWithUser[]
     const filteredLogs = isGlobal ? logs : logs.filter((log) => log.command.includes(`-n ${id}`))

@@ -41,6 +41,7 @@ function LeftSide({token}: {token: string | undefined}) {
                     src='/images/queenbee-logo.png'
                     fill={true}
                     quality={100}
+                    sizes='(max-width: 400px) 40vw, 40vw'
                 />
             </Link>
             <h1 className='self-center font-semibold '>QUEENBEE - Admintool</h1>

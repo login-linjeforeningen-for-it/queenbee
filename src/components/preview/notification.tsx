@@ -69,6 +69,7 @@ function Content({ title, description }: ContentProps) {
                     src='/images/queenbee-logo.png'
                     quality={100}
                     className='object-contain h-full'
+                    sizes='(max-width: 400px) 40vw, 40vw'
                 />
             </div>
             <div className='w-full'>

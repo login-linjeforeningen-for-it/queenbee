@@ -11,7 +11,7 @@ type LogProps = {
     context: string
 }
 
-export default function LogClient({logs, pages, namespace, context}: LogProps) {
+export default function LogClient({ logs, pages, namespace, context }: LogProps) {
     const [page, setPage] = useState(1)
     const [items, setItems] = useState(logs)
 
