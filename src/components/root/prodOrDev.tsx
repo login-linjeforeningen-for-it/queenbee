@@ -47,7 +47,7 @@ async function Service({ context, service, segmentedPathname }: ServiceProps) {
 
     return (
         <Link
-            href={`/service/${context}/${service.name}`}
+            href={`/internal/kubernetes/${context}/${service.name}`}
             className={serviceStyle}
         >
             <h1>{service.name}</h1>

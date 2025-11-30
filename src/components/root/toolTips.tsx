@@ -23,12 +23,12 @@ export default function ToolTips() {
             if (key === 's') {
                 setDisplay(false)
                 localStorage.setItem('tooltips', 'false')
-                if (!path.includes('/service/message')) {
-                    router.push('/service/message')
+                if (!path.includes('/internal/kubernetes/message')) {
+                    router.push('/internal/kubernetes/message')
                 }
             }
-            if (path.includes('/service/message') && key === 'b') {
-                router.push('/service/prod/global')
+            if (path.includes('/internal/kubernetes/message') && key === 'b') {
+                router.push('/internal/kubernetes/prod/global')
             }
         }
 

@@ -16,7 +16,7 @@ export default function DomainsClient({ namespace, domains: Domains }: DomainsCl
     const timerRef = useRef(3000)
     const [timeLeft, setTimeLeft] = useState(timerRef.current / 1000)
     const path = usePathname()
-    const allowEdit = namespace !== 'global' && !path.includes('/service/message')
+    const allowEdit = namespace !== 'global' && !path.includes('/internal/kubernetes/message')
     const domainStatus = domains.length === 0
         ? ServiceStatus.INACTIVE
         : domains.every(domain => domain.status >= 200 && domain.status < 300)

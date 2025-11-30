@@ -32,7 +32,7 @@ export default function IncidentsClient({
     const [response, setResponse] = useState<{ status: number, message: string } | null>(null)
     const [open, setOpen] = useState(false)
     const path = usePathname()
-    const allowEdit = namespace !== 'global' && !path.includes('/service/message')
+    const allowEdit = namespace !== 'global' && !path.includes('/internal/kubernetes/message')
 
     async function handleSubmit() {
         const response = await postIncident({

@@ -42,7 +42,7 @@ function Context({ context, service, activeContext }: ContextProps) {
 
     return (
         <Link
-            href={`/service/${context.toLowerCase()}/${service ? service : 'global'}`}
+            href={`/internal/kubernetes/${context.toLowerCase()}/${service ? service : 'global'}`}
             className={`${cursorStyle} ${color} w-full rounded-lg w-full px-2 content-center text-login-200 flex text-lg`}
         >
             <h1 className='mr-1'>≡</h1>

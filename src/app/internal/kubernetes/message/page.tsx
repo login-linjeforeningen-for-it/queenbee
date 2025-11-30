@@ -40,7 +40,7 @@ export default async function Page() {
                             <Incidents />
                         </div>
                     </div>
-                    <Link href='/service/prod/global' className='flex w-full p-2 bg-login-600 rounded-lg'>
+                    <Link href='/internal/kubernetes/prod/global' className='flex w-full p-2 bg-login-600 rounded-lg'>
                         <h1 className='px-2 bg-login-400 rounded-lg grid place-items-center mr-2'>B</h1>
                         <h1 className='grid place-items-center'>Back</h1>
                     </Link>

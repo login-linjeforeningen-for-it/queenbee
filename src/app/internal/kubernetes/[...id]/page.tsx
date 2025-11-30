@@ -81,7 +81,7 @@ export default async function Service({params}: {params: Promise<{ id: string[] 
                             <button className={buttonStyle}>Commit history (last 5 commits)</button> */}
                         </div>
                     </div>
-                    <Link href='/service/message' className='w-full p-2 bg-login-600 rounded-lg flex'>
+                    <Link href='/internal/kubernetes/message' className='w-full p-2 bg-login-600 rounded-lg flex'>
                         <h1 className='px-2 bg-login-400 rounded-lg grid place-items-center mr-2'>S</h1>
                         <h1 className='grid place-items-center'>Service Status</h1>
                     </Link>

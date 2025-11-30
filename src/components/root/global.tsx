@@ -15,7 +15,7 @@ export default async function Global() {
 
     return (
         <Link
-            href={`/service/${context}/global`}
+            href={`/internal/kubernetes/${context}/global`}
             className={`rounded-md self-center ${globalStyles} px-2 w-full flex justify-between items-center`}
         >
             Global
