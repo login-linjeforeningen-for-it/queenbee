@@ -35,12 +35,12 @@ export default function Terminal({ namespace, command, name: Name, reason: Reaso
     const legitimateStrings = ['kubectl', 'docker', 'flux', 'helm', 'kubelet', 'grafana', 'prometheus', 'helmfile', 'k9s', 'namespace']
     const terminalStyle = `
         w-full h-full h-[9vh]
-        bg-darker rounded-xl cursor-pointer p-2
-        hover:bg-dark overflow-auto max-h-[45vh]
+        bg-login-600 rounded-lg cursor-pointer p-2
+        hover:bg-login-700 overflow-auto max-h-[45vh]
         ${isFocused ? 'scale-[0.99] mt-1 min-h-[calc(9vh-2px)] h-[calc(9.2vh-2px)] cursor-text' : 'scale-100 min-h-[9.2vh]'}
     `
     const responseColor = response?.status === 200 ? 'bg-green-500/20' : 'bg-red-500/20'
-    const currentCommandColor = currentCommandStatusLabel.toLowerCase().includes('invalid') ? 'text-red-500' : 'text-almostbright'
+    const currentCommandColor = currentCommandStatusLabel.toLowerCase().includes('invalid') ? 'text-red-500' : 'text-login-200'
 
     function autoResizeTextarea(textarea: HTMLTextAreaElement) {
         textarea.style.height = 'auto'
@@ -160,7 +160,7 @@ export default function Terminal({ namespace, command, name: Name, reason: Reaso
                 {response.message}
             </h1>}
             {text.length > 0 && <div className='flex justify-between gap-2'>
-                <div className='w-full rounded-lg bg-darker p-2'>
+                <div className='w-full rounded-lg bg-login-800 p-2'>
                     <input
                         placeholder='Command Name'
                         className='w-full h-full'
@@ -168,7 +168,7 @@ export default function Terminal({ namespace, command, name: Name, reason: Reaso
                         onChange={(event) => setName(event.target.value)}
                     />
                 </div>
-                <div className='w-full rounded-lg bg-darker p-2'>
+                <div className='w-full rounded-lg bg-login-800 p-2'>
                     <input
                         placeholder='Reason'
                         className='w-full h-full'
@@ -187,22 +187,22 @@ export default function Terminal({ namespace, command, name: Name, reason: Reaso
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
             />
-            <div className={`text-almostbright absolute bottom-4 ${isFocused ? 'right-3' : 'right-2'} flex gap-2`}>
+            <div className={`text-login-200 absolute bottom-4 ${isFocused ? 'right-3' : 'right-2'} flex gap-2`}>
                 {text.length > 0 && (!name.length || !reason.length) && <button
-                    className='bg-superlight/20 rounded-lg px-5 text-red-500'
+                    className='bg-login-400/20 rounded-lg px-5 text-red-500'
                 >
                     Empty name or reason
                 </button>}
-                {text.length > 0 && !inputSeemsValid && <h1 className={`${currentCommandColor} bg-superlight/20 rounded-lg px-5`}>
+                {text.length > 0 && !inputSeemsValid && <h1 className={`${currentCommandColor} bg-login-400/20 rounded-lg px-5`}>
                     {currentCommandStatusLabel}
                 </h1>}
                 {text.length > 0 && !inputSeemsValid && !acceptedRisk && <button
                     onClick={() => setAcceptedRisk(true)}
-                    className='bg-almostbright/20 cursor-pointer rounded-lg px-5'
+                    className='bg-login-200/20 cursor-pointer rounded-lg px-5'
                 >
                     Override invalid warning
                 </button>}
-                <h1 className='bg-superlight/20 rounded-lg px-5'>
+                <h1 className='bg-login-400/20 rounded-lg px-5'>
                     {currentCommandTextLabel}
                 </h1>
                 {text.length > 0 && name.length > 0 && reason.length > 0 && (inputSeemsValid || acceptedRisk) && <button

@@ -53,13 +53,13 @@ export default function DomainsClient({ namespace, domains: Domains }: DomainsCl
     return (
         <div className='grid gap-2 pb-1'>
             <div className='flex justify-between px-2'>
-                <h1 className='text-almostbright'>Domain status</h1>
+                <h1 className='text-login-200'>Domain status</h1>
                 <div className='flex items-center gap-2'>
-                    <h1 className='text-extralight'>{`${timeLeft === 0 ? 'fetching' : `${timeLeft}s`}`}</h1>
+                    <h1 className='text-login-300'>{`${timeLeft === 0 ? 'fetching' : `${timeLeft}s`}`}</h1>
                     <Pulse status={domainStatus} />
                 </div>
             </div>
-            {(domains.length > 0 || allowEdit) && <div className='h-[1px] bg-superlight w-full' />}
+            {(domains.length > 0 || allowEdit) && <div className='h-[1px] bg-login-400 w-full' />}
             {domains.toReversed().map((domain, index) => {
                 const status = domain.status >= 200 && domain.status < 300
                     ? ServiceStatus.OPERATIONAL
@@ -71,7 +71,7 @@ export default function DomainsClient({ namespace, domains: Domains }: DomainsCl
                     <Link
                         href={domain.url}
                         key={index}
-                        className='bg-darker w-full rounded-lg cursor-pointer text-almostbright py-1 px-2'
+                        className='bg-login-600 w-full rounded-lg cursor-pointer text-login-200 py-1 px-2'
                     >
                         <div className='flex justify-between items-center'>
                             <h1>{formattedDomain}</h1>
@@ -80,7 +80,7 @@ export default function DomainsClient({ namespace, domains: Domains }: DomainsCl
                                 <Pulse status={status} />
                             </div>
                         </div>
-                        <h1 className='text-superlight text-xs'>{domain.url}</h1>
+                        <h1 className='text-login-400 text-xs'>{domain.url}</h1>
                     </Link>
                 )
             })}

@@ -26,7 +26,7 @@ export default function LogClient({logs, pages, namespace, context}: LogProps) {
                 namespace={namespace}
                 context={context}
             />
-            {!items.length && <h1 className='w-full h-full grid place-items-center text-extralight'>No logs found.</h1>}
+            {!items.length && <h1 className='w-full h-full grid place-items-center text-login-300'>No logs found.</h1>}
             {items.map((log) => <Log key={log.id} log={log} />)}
         </div>
     )

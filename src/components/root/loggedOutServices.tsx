@@ -18,12 +18,12 @@ export default async function LoggedOutServices() {
     return (
         <div className='w-full h-full overflow-hidden grid grid-rows-12'>
             <div className='w-full row-span-12 flex flex-col h-full overflow-hidden gap-2'>
-                <div className='bg-darker p-2 rounded-xl w-full h-[7vh]'>
-                    <div className='grid place-items-center overflow-hidden h-10 rounded-xl'>
+                <div className='bg-login-600 p-2 rounded-lg w-full h-[7vh]'>
+                    <div className='grid place-items-center overflow-hidden h-10 rounded-lg'>
                         <Pulse
                             innerWidth='w-[93%] p-2 grid place-items-center text-center'
                             innerHeight='h-6'
-                            outerWidth='w-full rounded-xl'
+                            outerWidth='w-full rounded-lg'
                             outerHeight='h-7'
                             status={meta}
                         >
@@ -31,7 +31,7 @@ export default async function LoggedOutServices() {
                         </Pulse>
                     </div>
                 </div>
-                <div className='h-full bg-darker rounded-xl overflow-auto max-h-full noscroll'>
+                <div className='h-full bg-login-600 rounded-lg overflow-auto max-h-full noscroll'>
                     {filteredServices.map(async(service) => {
                         const status = await serviceStatus('prod', 'server', service)
 

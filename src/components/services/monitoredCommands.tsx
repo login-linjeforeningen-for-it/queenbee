@@ -43,42 +43,42 @@ export default function MonitoredCommands({ globalCommands, localCommands }: Mon
 
     if (active) {
         return (
-            <div className='w-full h-[50vh] max-h-[50vh] bg-darker rounded-xl p-2'>
+            <div className='w-full h-[50vh] max-h-[50vh] bg-login-600 rounded-lg p-2'>
                 <div className='w-full h-full overflow-auto mb-2 noscroll text-foreground'>
                     <h1
                         onClick={() => setActive(false)}
                         className={`
                             w-full overflow-auto mb-2 noscroll grid 
-                            place-items-center text-almostbright cursor-pointer 
-                            bg-normal rounded-lg py-1
+                            place-items-center text-login-200 cursor-pointer 
+                            bg-login-600 rounded-lg py-1
                         `}
                     >
                         ↓ Monitored commands ↓
                     </h1>
-                    <h1 className='text-almostbright'>Global commands</h1>
+                    <h1 className='text-login-200'>Global commands</h1>
                     {globalCommands.length > 0 ? <div className='grid gap-2 mb-2'>
                         {globalCommands.map((command) => <GlobalCommand
                             key={command.id}
                             command={command}
                         />)}
-                    </div> : <h1 className='text-superlight'>No global commands are monitored.</h1>}
-                    <h1 className='text-almostbright'>Local commands</h1>
+                    </div> : <h1 className='text-login-400'>No global commands are monitored.</h1>}
+                    <h1 className='text-login-200'>Local commands</h1>
                     {localCommands.length > 0 ? <div className='grid gap-2 mb-2'>
                         {localCommands.map((command) => <LocalCommand
                             key={command.id}
                             command={command}
                         />)}
-                    </div> : <h1 className='text-superlight'>There are no local commands monitored specifically for this service.</h1>}
+                    </div> : <h1 className='text-login-400'>There are no local commands monitored specifically for this service.</h1>}
                 </div>
             </div>
         )
     }
 
     return (
-        <div className='w-full h-[4.7vh] max-h-[4.7vh] bg-darker rounded-xl pt-1 px-2 pb-2'>
+        <div className='w-full h-[4.7vh] max-h-[4.7vh] bg-login-600 rounded-lg pt-1 px-2 pb-2'>
             <h1
                 onClick={() => setActive(true)}
-                className='w-full h-full overflow-auto mb-2 noscroll grid place-items-center text-almostbright cursor-pointer'
+                className='w-full h-full overflow-auto mb-2 noscroll grid place-items-center text-login-200 cursor-pointer'
             >
                 ↑ Monitored commands ↑
             </h1>
@@ -138,26 +138,26 @@ function GlobalCommand({ command }: GlobalCommandProps) {
     }, [response])
 
     return (
-        <div onMouseLeave={() => setAllowDelete(false)} className={`p-2 bg-light rounded-lg ${editing ? 'grid gap-2' : ''}`}>
+        <div onMouseLeave={() => setAllowDelete(false)} className={`p-2 bg-login-500 rounded-lg ${editing ? 'grid gap-2' : ''}`}>
             <div className='flex justify-between gap-2'>
                 <div className='flex gap-2'>
-                    <h1 className='min-w-[1rem] text-superlight text-sm'>{command.id}</h1>
+                    <h1 className='min-w-[1rem] text-login-400 text-sm'>{command.id}</h1>
                     <Field placeholder='Name' value={name} setValue={setName} editing={editing} />
                 </div>
                 <div className='flex flex-col place-items-end flex-1'>
                     <div className='flex items-center gap-2 w-full justify-end'>
-                        <Field className='text-superlight' placeholder='Reason' value={reason} setValue={setReason} editing={editing} />
-                        <h1 className='text-superlight text-sm min-w-[8rem]'>{new Date(command.timestamp).toLocaleString('no-NO')}</h1>
-                        {!editing && <h1 onClick={() => setEditing(true)} className='mr-1 text-almostbright cursor-pointer'>✎</h1>}
+                        <Field className='text-login-400' placeholder='Reason' value={reason} setValue={setReason} editing={editing} />
+                        <h1 className='text-login-400 text-sm min-w-[8rem]'>{new Date(command.timestamp).toLocaleString('no-NO')}</h1>
+                        {!editing && <h1 onClick={() => setEditing(true)} className='mr-1 text-login-200 cursor-pointer'>✎</h1>}
                     </div>
                 </div>
             </div>
             <div className='ml-[1rem] pl-2 flex justify-between gap-2'>
                 <div className='flex flex-1'>
-                    <Field className='text-almostbright' placeholder='Command' value={value} setValue={setValue} editing={editing} />
+                    <Field className='text-login-200' placeholder='Command' value={value} setValue={setValue} editing={editing} />
                 </div>
                 <div className={`${editing ? 'max-w-[30%] pt-1' : 'max-w-[16%] pr-[3px]'} flex gap-2`}>
-                    <h1 className='text-superlight text-sm'>{command.author.user_name}</h1>
+                    <h1 className='text-login-400 text-sm'>{command.author.user_name}</h1>
                     <CancelSaveAndDelete
                         editing={editing}
                         allowDelete={allowDelete}
@@ -245,15 +245,15 @@ function LocalCommand({ command }: LocalCommandProps) {
             {response !== null && <h1 className={`${color} py-1 text-center w-full text-bright rounded-lg mt-1 mb-2`}>
                 {response.message}
             </h1>}
-            <div className='p-2 bg-light rounded-lg'>
+            <div className='p-2 bg-login-500 rounded-lg'>
                 <div className='flex justify-between'>
                     <div className='flex gap-2'>
-                        <h1 className='min-w-[1rem] text-superlight text-sm'>{command.id}</h1>
+                        <h1 className='min-w-[1rem] text-login-400 text-sm'>{command.id}</h1>
                         <div className='grid gap-2'>
                             <Field placeholder='Name' value={name} setValue={setName} editing={editing} />
                             <div className='flex justify-between'>
                                 <Field
-                                    className='text-almostbright'
+                                    className='text-login-200'
                                     placeholder='Command'
                                     value={value}
                                     setValue={setValue}
@@ -263,14 +263,14 @@ function LocalCommand({ command }: LocalCommandProps) {
                         </div>
                     </div>
                     <div className={`flex flex-col place-items-end ${editing ? 'gap-2' : ''}`}>
-                        <div className='flex items-center gap-2 text-almostbright'>
+                        <div className='flex items-center gap-2 text-login-200'>
                             {editing ?
                                 <Field placeholder='Namespace' value={namespace} setValue={setNamespace} editing={editing} />
-                                : <h1 className='text-sm text-superlight'>{command.reason}</h1>}
-                            <h1 className='text-superlight text-sm min-w-fit'>{new Date(command.timestamp).toLocaleString('no-NO')}</h1>
-                            {!editing && <h1 onClick={() => setEditing(true)} className='mr-1 text-almostbright cursor-pointer'>✎</h1>}
+                                : <h1 className='text-sm text-login-400'>{command.reason}</h1>}
+                            <h1 className='text-login-400 text-sm min-w-fit'>{new Date(command.timestamp).toLocaleString('no-NO')}</h1>
+                            {!editing && <h1 onClick={() => setEditing(true)} className='mr-1 text-login-200 cursor-pointer'>✎</h1>}
                         </div>
-                        <div className='text-superlight text-sm flex gap-2 pr-[3px]'>
+                        <div className='text-login-400 text-sm flex gap-2 pr-[3px]'>
                             <Field placeholder='Namespace' value={namespace} setValue={setNamespace} editing={editing} />
                             <h1>-</h1>
                             <Field placeholder='Context' value={context} setValue={setContext} editing={editing} />
@@ -295,7 +295,7 @@ function Field({ className, placeholder, editing, value, setValue }: FieldProps)
         return (
             <input
                 placeholder={placeholder}
-                className='bg-extralight text-almostbright rounded-lg px-2 text-sm w-full'
+                className='bg-login-300 text-login-200 rounded-lg px-2 text-sm w-full'
                 value={value}
                 onChange={(event) => setValue(event.target.value)}
             />
@@ -317,7 +317,7 @@ function CancelSaveAndDelete({
             <>
                 <h1
                     onClick={handleCancel}
-                    className='h-fit w-fit bg-superlight hover:bg-almostbright px-4 cursor-pointer rounded-lg text-sm text-white'
+                    className='h-fit w-fit bg-login-400 hover:bg-login-200 px-4 cursor-pointer rounded-lg text-sm text-white'
                 >
                     Cancel
                 </h1>
@@ -330,7 +330,7 @@ function CancelSaveAndDelete({
 
     return (
         <div onClick={handleDelete}>
-            <Trash fill={`${allowDelete ? 'fill-red-500' : 'fill-almostbright'} hover:fill-red-500 h-4 w-4 cursor-pointer`} />
+            <Trash fill={`${allowDelete ? 'fill-red-500' : 'fill-login-200'} hover:fill-red-500 h-4 w-4 cursor-pointer`} />
         </div>
     )
 }

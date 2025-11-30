@@ -49,10 +49,10 @@ export default async function Service({params}: {params: Promise<{ id: string[] 
 
     return (
         <div className='grid grid-cols-12 gap-2 w-full h-full max-h-full'>
-            <div className='rounded-xl grid col-span-3 sm:col-span-2 max-h-[calc((100vh-var(--h-navbar))-1rem)]'>
+            <div className='rounded-lg grid col-span-3 sm:col-span-2 max-h-[calc((100vh-var(--h-navbar))-1rem)]'>
                 <Services />
             </div>
-            <div className='col-span-10 w-full rounded-xl grid grid-cols-12 gap-2 h-full max-h-[calc((100vh-var(--h-navbar))-1rem)]'>
+            <div className='col-span-10 w-full rounded-lg grid grid-cols-12 gap-2 h-full max-h-[calc((100vh-var(--h-navbar))-1rem)]'>
                 <div className='w-full col-span-9 max-h-full overflow-hidden flex flex-col'>
                     <div className='w-full flex-shrink-0'>
                         <Terminal
@@ -70,19 +70,19 @@ export default async function Service({params}: {params: Promise<{ id: string[] 
                         />
                     </div>
                 </div>
-                <div className='flex flex-col w-full h-full rounded-xl col-span-3 gap-2'>
-                    <div className='w-full h-full rounded-xl bg-darker p-2 overflow-auto noscroll max-h-[87vh]'>
+                <div className='flex flex-col w-full h-full rounded-lg col-span-3 gap-2'>
+                    <div className='w-full h-full rounded-lg bg-login-600 p-2 overflow-auto noscroll max-h-[87vh]'>
                         <div className='flex flex-col gap-2'>
                             <Domains />
                             <Incidents />
                             <Pods />
                             <Ingress />
-                            {/* <h1 className='text-superlight text-center'>Below items are planned but not implemented yet.</h1>
+                            {/* <h1 className='text-login-400 text-center'>Below items are planned but not implemented yet.</h1>
                             <button className={buttonStyle}>Commit history (last 5 commits)</button> */}
                         </div>
                     </div>
-                    <Link href='/service/message' className='w-full p-2 bg-darker rounded-xl flex'>
-                        <h1 className='px-2 bg-superlight rounded-lg grid place-items-center mr-2'>S</h1>
+                    <Link href='/service/message' className='w-full p-2 bg-login-600 rounded-lg flex'>
+                        <h1 className='px-2 bg-login-400 rounded-lg grid place-items-center mr-2'>S</h1>
                         <h1 className='grid place-items-center'>Service Status</h1>
                     </Link>
                 </div>

@@ -28,7 +28,7 @@ export default function Upload({ handleFile, showSwitch }: UploadProps) {
 
     return (
         <>
-            <label className='bg-login text-dark px-5 py-2 rounded-md cursor-pointer hover:bg-login/90 w-fit'>
+            <label className='bg-login text-login-700 px-5 py-2 rounded-md cursor-pointer hover:bg-login/90 w-fit'>
                 Upload Image
                 <input
                     ref={inputRef}

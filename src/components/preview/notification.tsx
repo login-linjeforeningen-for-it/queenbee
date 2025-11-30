@@ -31,7 +31,7 @@ export default function Notification({
         return (
             <div
                 className={
-                    'absolute w-76 p-2 px-3 rounded-xl ' +
+                    'absolute w-76 p-2 px-3 rounded-lg ' +
                     'backdrop-blur-md bg-black/10 z-100'
                 }
             >
@@ -46,7 +46,7 @@ export default function Notification({
     return (
         <div
             className={
-                'absolute w-76 p-2 px-3 rounded-xl ' +
+                'absolute w-76 p-2 px-3 rounded-lg ' +
                 'backdrop-blur-md bg-black/10 z-100 left-1/2 ' +
                 '-translate-x-1/2 mt-21 -ml-9.5'
             }

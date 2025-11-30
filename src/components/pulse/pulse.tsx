@@ -1,9 +1,10 @@
 type PulseDotProps = {
-    status: 'available' | 'unavailable'
+    status?: 'available' | 'unavailable'
+    color?: string
 }
 
-export default function PulseDot({ status }: PulseDotProps) {
-    const colorClass = status === 'available' ? 'bg-green-500' : 'bg-red-500'
+export default function PulseDot({ status, color }: PulseDotProps) {
+    const colorClass = color ? color : status === 'available' ? 'bg-green-500' : 'bg-red-500'
 
     return (
         <div className='relative w-2 h-2 grid place-items-center'>

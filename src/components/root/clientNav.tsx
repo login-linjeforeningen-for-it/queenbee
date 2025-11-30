@@ -81,7 +81,7 @@ export function MiddleIcon() {
 
 export function RightSide() {
     return (
-        <div className='flex justify-end rounded-xl gap-2 md:min-w-[10rem]'>
+        <div className='flex justify-end rounded-lg gap-2 md:min-w-[10rem]'>
             <MiddleIcon />
             <RightIcon />
             <ThemeSwitch />

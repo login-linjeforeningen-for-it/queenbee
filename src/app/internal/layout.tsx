@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import '../globals.css'
 import { getDocker } from '@utils/api'
 import SidebarInternal from '@components/sidebar/sidebarInternal'
+import worstAndBestServiceStatus from '@components/services/worstAndBestServiceStatus'
 
 export const metadata: Metadata = {
     title: 'QueenBee',
@@ -10,12 +11,13 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     const docker = await getDocker()
+    const { meta } = await worstAndBestServiceStatus('prod', true)
 
     return (
         <main className='flex flex-1 h-full'>
-            <SidebarInternal docker={docker} />
+            <SidebarInternal meta={meta} docker={docker} />
             <div
-                className='relative p-4 w-full h-full bg-login-800 overflow-scroll'>
+                className='relative p-2 w-full h-full bg-login-800 overflow-scroll'>
                 {children}
             </div>
         </main>

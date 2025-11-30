@@ -19,7 +19,7 @@ export default async function Domains() {
     }
 
     return (
-        <div className='bg-light w-full rounded-lg py-1 text-start px-2 cursor-pointer'>
+        <div className='bg-login-500 w-full rounded-lg py-1 text-start px-2 cursor-pointer'>
             <DomainsClient namespace={namespace} domains={domains} />
         </div>
     )

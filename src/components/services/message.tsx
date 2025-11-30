@@ -17,13 +17,13 @@ export default async function Message({ message, shrink }: MessageProps) {
     const author = await getAuthor('server', Author)
 
     return (
-        <div className='bg-light rounded-lg p-1 px-2'>
+        <div className='bg-login-500 rounded-lg p-1 px-2'>
             <div className='flex justify-between items-center'>
                 <h1 className='font-semibold'>{title}</h1>
                 <Pulse status={serviceStatus} />
             </div>
             <h1 className={shrink ? 'text-xs' : 'text-sm'}>{content}</h1>
-            <div className={`flex justify-between text-superlight ${shrink ? 'text-xs' : 'text-sm'}`}>
+            <div className={`flex justify-between text-login-400 ${shrink ? 'text-xs' : 'text-sm'}`}>
                 {author && <h1>Posted by {('name' in author) ? (author as User).user_name : 'Unknown User'}</h1>}
                 <h1>{new Date(timestamp).toLocaleString('no-NO')}</h1>
             </div>

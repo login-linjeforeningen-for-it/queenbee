@@ -11,10 +11,17 @@ import SidebarVersion from './sidebarVersion'
 import { useEffect, useState } from 'react'
 import { getDocker } from '@utils/api'
 import PulseDot from '@components/pulse/pulse'
+import { ServiceStatus } from '@utils/interfaces'
 
-export default function Sidebar({ docker: serverDocker }: { docker: Docker }) {
+export default function Sidebar({ docker: serverDocker, meta: serverMeta }: { docker: Docker, meta: ServiceStatus }) {
     const path = usePathname()
     const [docker, setDocker] = useState(serverDocker)
+    const color = {
+        operational: 'bg-green-500',
+        degraded: 'bg-login',
+        down: 'bg-red-500',
+        inactive: 'bg-login-300',
+    }[serverMeta] || 'bg-gray-500'
 
     useEffect(() => {
         setInterval(async() => {
@@ -41,6 +48,12 @@ export default function Sidebar({ docker: serverDocker }: { docker: Docker }) {
             path: '/internal/system',
             image: <Server className='w-6' />,
             status: <PulseDot status={docker.status} />
+        },
+        kubernetes: {
+            name: 'Kubernetes',
+            path: '/internal/kubernetes',
+            image: <Server className='w-6' />,
+            status: <PulseDot color={color} />
         }
     }
 

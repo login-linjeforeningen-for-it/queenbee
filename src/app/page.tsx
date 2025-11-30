@@ -36,7 +36,7 @@ export default async function Home() {
             </div>
             <div className='rounded-lg p-4 overflow-auto grid gap-2 max-h-[calc((100vh-var(--h-navbar))-1rem)] w-full'>
                 {messages.length ? <>
-                    <h1 className='text-almostbright font-semibold'>Latest service messages</h1>
+                    <h1 className='text-login-200 font-semibold'>Latest service messages</h1>
                     <div className='flex flex-col h-full overflow-auto noscroll gap-2'>
                         {messages.map((message) => <Message
                             key={message.id}

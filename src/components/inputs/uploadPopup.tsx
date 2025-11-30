@@ -61,7 +61,7 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
 
     return (
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md'>
-            <div className='bg-login-800 rounded-xl px-8 py-6 border border-login-500/40
+            <div className='bg-login-800 rounded-lg px-8 py-6 border border-login-500/40
                 relative shadow-2xl max-w-2xl w-full mx-4 overflow-hidden'
             >
                 <div className='absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-login via-login to-login/80 rounded-t-2xl' />

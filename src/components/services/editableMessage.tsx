@@ -106,7 +106,7 @@ export default function EditableMessage({ message, shrink, author }: MessageProp
                 </h1>}
                 {editing && <button
                     onClick={handleCancel}
-                    className='cursor-pointer bg-superlight py-1 text-center w-full text-bright rounded-lg'
+                    className='cursor-pointer bg-login-400 py-1 text-center w-full text-bright rounded-lg'
                 >
                     Cancel
                 </button>}
@@ -127,25 +127,25 @@ export default function EditableMessage({ message, shrink, author }: MessageProp
             `}>
                 {response.message}
             </h1>}
-            <div className='bg-light rounded-lg flex gap-2 p-2'>
+            <div className='bg-login-500 rounded-lg flex gap-2 p-2'>
                 <div className='w-full'>
                     <div className='flex justify-between items-center'>
                         <h1 className='font-semibold'>{title}</h1>
                         <Pulse status={serviceStatus} />
                     </div>
                     <h1 className={shrink ? 'text-xs' : 'text-sm'}>{content}</h1>
-                    <div className={`flex justify-between text-superlight ${shrink ? 'text-xs' : 'text-sm'}`}>
+                    <div className={`flex justify-between text-login-400 ${shrink ? 'text-xs' : 'text-sm'}`}>
                         <h1>Posted by {author}</h1>
                         <h1>{new Date(message.timestamp).toLocaleString('no-NO')}</h1>
                     </div>
                 </div>
-                <div className='w-[1px] h-full bg-superlight' />
+                <div className='w-[1px] h-full bg-login-400' />
                 <div className='grid place-items-center'>
                     <div onClick={() => setEditing(true)}>
-                        <h1 className='edit text-almostbright h-4 w-4 cursor-pointer'>✎</h1>
+                        <h1 className='edit text-login-200 h-4 w-4 cursor-pointer'>✎</h1>
                     </div>
                     <div onClick={handleDelete}>
-                        <Trash fill={`${allowDelete ? 'fill-red-500' : 'fill-almostbright'} hover:fill-red-500 h-4 w-4 cursor-pointer`} />
+                        <Trash fill={`${allowDelete ? 'fill-red-500' : 'fill-login-200'} hover:fill-red-500 h-4 w-4 cursor-pointer`} />
                     </div>
                 </div>
             </div>

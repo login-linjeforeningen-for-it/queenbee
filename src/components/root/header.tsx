@@ -21,8 +21,8 @@ export default async function Header({ path }: HeaderProps) {
     const cols = `grid-cols-${contexts.length}`
 
     return (
-        <div className='bg-darker p-2 rounded-xl'>
-            <div className={`grid ${cols} gap-2 justify-items-center pb-2`}>
+        <div className='bg-login-600 p-2 rounded-lg'>
+            <div className={`grid ${cols} gap-2 justify-items-center ${contexts.length && 'pb-2'}`}>
                 {contexts.map((context) => <Context
                     key={context}
                     context={context || 'prod'}
@@ -38,12 +38,12 @@ export default async function Header({ path }: HeaderProps) {
 function Context({ context, service, activeContext }: ContextProps) {
     const active = context.toLowerCase() === activeContext.toLowerCase()
     const cursorStyle = active && service === 'global' ? 'cursor-not-allowed' : ''
-    const color = active ? 'bg-normal' : 'bg-light'
+    const color = active ? 'bg-login-600' : 'bg-login-500'
 
     return (
         <Link
             href={`/service/${context.toLowerCase()}/${service ? service : 'global'}`}
-            className={`${cursorStyle} ${color} w-full rounded-lg w-full px-2 content-center text-almostbright flex text-lg`}
+            className={`${cursorStyle} ${color} w-full rounded-lg w-full px-2 content-center text-login-200 flex text-lg`}
         >
             <h1 className='mr-1'>≡</h1>
             <h1 className='grid text-base place-self-center'>{context}</h1>

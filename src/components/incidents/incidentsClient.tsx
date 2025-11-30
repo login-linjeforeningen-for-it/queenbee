@@ -25,7 +25,7 @@ export default function IncidentsClient({
     incidentURL,
     incidentTimestamp
 }: IncidentsClientProps) {
-    const buttonStyle = 'bg-light w-full rounded-lg py-1 text-start flex justify-between items-center px-2 cursor-pointer text-almostbright'
+    const buttonStyle = 'bg-login-500 w-full rounded-lg py-1 text-start flex justify-between items-center px-2 cursor-pointer'
     const [name, setName] = useState(incident)
     const [url, setURL] = useState(incidentURL)
     const [time, setTime] = useState(incidentTimestamp)
@@ -114,19 +114,19 @@ export default function IncidentsClient({
                 href='https://wiki.login.no/tekkom/projects/infrastructure/incident'
                 className={buttonStyle}>All incidents<ArrowOutward className=' w-[1rem] h-[1rem] fill-login' />
             </Link>
-            {(incidents.length > 0 || allowEdit) && <div className='h-[1px] bg-superlight w-full' />}
+            {(incidents.length > 0 || allowEdit) && <div className='h-[1px] bg-login-400 w-full' />}
             {incidents.map((incident) => <div key={incident.name} className={buttonStyle}>
-                <Link target='_blank' href={incident.url} className='text-almostbright'>{incident.name}</Link>
+                <Link target='_blank' href={incident.url} className='text-login-200'>{incident.name}</Link>
                 <ArrowOutward className=' w-[1rem] h-[1rem] fill-login' />
             </div>)}
             {allowEdit && <div className={`pb-2 ${!incidents.length && 'pt-2'}`}>
-                {open ? <div className='grid space-between items-center text-almostbright bg-normal rounded-lg gap-2 p-2'>
+                {open ? <div className='grid space-between items-center text-login-200 bg-login-600 rounded-lg gap-2 p-2'>
                     {response && <h1
                         className={`w-full ${response.status === 200 ? 'bg-green-500/20' : 'bg-red-500/20'} rounded-lg py-1 text-center`}
                     >
                         {response.message}
                     </h1>}
-                    <button onClick={handleCancel} className='cursor-pointer bg-superlight py-1 text-center w-full text-bright rounded-lg'>
+                    <button onClick={handleCancel} className='cursor-pointer bg-login-400 py-1 text-center w-full text-bright rounded-lg'>
                         Cancel
                     </button>
                     <div className='relative grid gap-2'>
@@ -135,7 +135,7 @@ export default function IncidentsClient({
                         <FancyField type='date' placeholder='Date' value={time} setValue={setTime} />
                         <h1
                             onClick={() => setTime(new Date().toISOString())}
-                            className='absolute bg-extralight px-2 rounded-lg bottom-1 right-1'
+                            className='absolute bg-login-300 px-2 rounded-lg bottom-1 right-1'
                         >
                             now
                         </h1>
@@ -148,7 +148,7 @@ export default function IncidentsClient({
                     </button>
                 </div> : <div
                     onClick={() => setOpen(true)}
-                    className='select-none flex justify-between items-center px-2 text-almostbright bg-darker rounded-lg py-1'
+                    className='select-none flex justify-between items-center px-2 text-login-200 bg-login-600 rounded-md py-1'
                 >
                     <h1 className='select-none'>Add incident</h1>
                     <h1 className='select-none text-lg pr-[3px] text-login'>+</h1>

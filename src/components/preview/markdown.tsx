@@ -33,7 +33,7 @@ marked.use({
             return `<a href='${token.href}' title='${token.title}' target='_blank' rel='${rel}' class='${style}'>${token.text}</a>`
         },
         codespan(token) {
-            return `<code class='break-all bg-extralight p-0.3 rounded-xs'>${token.text}</code>`
+            return `<code class='break-all bg-login-300 p-0.3 rounded-xs'>${token.text}</code>`
         }
     }
 })

@@ -67,12 +67,12 @@ export default function PostMessage({ title: Title, content: Content, status: St
     }, [title, content, status])
 
     return (
-        <div className='w-full h-full bg-darker rounded-xl p-2'>
+        <div className='w-full h-full bg-login-600 rounded-lg p-2'>
             <h1>Post Message</h1>
             {response !== null && <h1 className={`${responseColor} py-1 text-center w-full text-bright rounded-lg mt-1 mb-2`}>
                 {response.message}
             </h1>}
-            <div className='grid gap-2 text-almostbright'>
+            <div className='grid gap-2 text-login-200'>
                 <FancyField placeholder='Title' value={title} setValue={setTitle} />
                 <FancyField placeholder='Content' value={content} setValue={setContent} />
                 <FancyField placeholder='Status' value={status} setValue={setStatus} />
