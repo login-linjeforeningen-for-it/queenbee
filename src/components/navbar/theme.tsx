@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { getCookie, setCookie } from 'uibee/utils'
 import { useRouter } from 'next/navigation'
 
-export default function ThemeToggle({className}: {className?: string}) {
+export default function ThemeSwitch({ className }: { className?: string }) {
     const router = useRouter()
     const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 
@@ -41,9 +41,8 @@ export default function ThemeToggle({className}: {className?: string}) {
 }
 
 function ThemeIcon({ theme }: { theme: 'dark' | 'light' }) {
-    const sunrayClass = `fill-white transition-opacity duration-400 ${
-        theme === 'light' ? 'opacity-0' : 'opacity-100'
-    }`
+    const sunrayClass = `fill-white transition-opacity duration-400 ${theme === 'light' ? 'opacity-0' : 'opacity-100'}`
+    const color = theme === 'light' ? 'scale-[1.9] fill-black' : 'scale-100 fill-white'
 
     return (
         <svg
@@ -56,9 +55,7 @@ function ThemeIcon({ theme }: { theme: 'dark' | 'light' }) {
                 <mask id='theme-toggle_clip-path'>
                     <rect x='0' y='0' width='100' height='100' fill='white' />
                     <circle
-                        className={`transition-transform duration-400 ${
-                            theme === 'dark' ? 'translate-x-8 -translate-y-4' : ''
-                        }`}
+                        className={`transition-transform duration-400 ${theme === 'dark' ? 'translate-x-8 -translate-y-4' : ''}`}
                         cx='68'
                         cy='40'
                         r='18'
@@ -67,11 +64,7 @@ function ThemeIcon({ theme }: { theme: 'dark' | 'light' }) {
             </defs>
             {/* Moon */}
             <circle
-                className={`origin-center transition-all duration-400 ${
-                    theme === 'light'
-                        ? 'scale-[1.9] fill-black'
-                        : 'scale-100 fill-white'
-                }`}
+                className={`origin-center transition-all duration-400 ${color}`}
                 mask={'url(#theme-toggle_clip-path)'}
                 cx='50'
                 cy='50'

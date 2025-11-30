@@ -5,7 +5,7 @@ import Image from 'next/image'
 import ToolTip from './tooltip'
 import Label from './label'
 import EraseButton from './erase'
-import config from '../../../constants'
+import config from '@config'
 
 type SelectProps = {
     name: string

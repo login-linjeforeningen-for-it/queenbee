@@ -13,6 +13,9 @@ You can install the dependencies using `npm install`.
 
 Run `npm run dev` for a dev server. Navigate to `http://localhost:3000/`. The application will automatically reload if you change any of the source files.
 
+### BeeKeeper Status
+![Current Status](https://cdn.login.no/img/beekeeper/beekeeper_initial.png)
+
 ### API integrations
 
 The website can be run without APIs, but then the functionality is naturally limited. To connect to the Admin API and database, look at the respective repositories.

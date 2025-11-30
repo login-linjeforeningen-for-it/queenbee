@@ -99,6 +99,12 @@ const config = {
         USERINFO_URL: `${env.AUTHENTIK_URL}/application/o/userinfo/`,
         TOKEN: `${env.AUTHENTIK_API_TOKEN}`,
     },
+    beekeeper: {
+        api: env.NEXT_PUBLIC_BEEKEEPER_API_URL || 'https://api.beekeeper.login.no/api',
+        serverAPI: env.NEXT_PUBLIC_API_URL || 'http://localhost://8201',
+        defaultCluster: 'infra-prod-cluster',
+        basePath: '/service/prod/global',
+    },
     version: packageInfo.version,
 }
 
