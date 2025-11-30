@@ -101,7 +101,7 @@ const config = {
     },
     beekeeper: {
         api: env.NEXT_PUBLIC_BEEKEEPER_API_URL || 'https://api.beekeeper.login.no/api',
-        serverAPI: env.NEXT_PUBLIC_API_URL || 'http://localhost://8201',
+        serverAPI: env.NEXT_PUBLIC_API_URL || 'http://localhost://8002',
         defaultCluster: 'infra-prod-cluster',
         basePath: '/service/prod/global',
     },
