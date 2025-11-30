@@ -38,7 +38,7 @@ export default async function Header({ path }: HeaderProps) {
 function Context({ context, service, activeContext }: ContextProps) {
     const active = context.toLowerCase() === activeContext.toLowerCase()
     const cursorStyle = active && service === 'global' ? 'cursor-not-allowed' : ''
-    const color = active ? 'bg-login-600' : 'bg-login-500'
+    const color = active ? 'bg-login-700' : 'bg-login-500'
 
     return (
         <Link
