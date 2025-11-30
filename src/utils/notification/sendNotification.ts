@@ -1,8 +1,3 @@
-import { ServiceAccount, initializeApp } from 'firebase-admin/app'
-import admin from 'firebase-admin'
-import { Message, getMessaging } from 'firebase-admin/messaging'
-import config from '@config'
-
 type sendNotificationProps = {
     title: string
     description: string
@@ -19,13 +14,6 @@ interface DetailedEventStr extends Omit<DetailedEvent, 'id'> {
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 type Data = {} | DetailedEventStr
 
-// Initialize the Firebase Admin SDK with the service account only if not already initialized and config is available
-if (!admin.apps.length && config.firebase.project_id) {
-    initializeApp({
-        credential: admin.credential.cert({ ...config.firebase } as ServiceAccount),
-    })
-}
-
 /**
  * Posts notification to FCM.
  * @param title    Notification title
@@ -39,16 +27,12 @@ export default async function sendNotification({
     screen,
     topic,
 }: sendNotificationProps): Promise<boolean> {
-    // Sets the topic to maintenance if the topic is not available
     if (!topic) {
         topic = 'maintenance'
     }
 
-    // Provide screen as data parameter if the id is defined
     const data: Data = screen && screen.id ? screen : {}
-
-    // Defines the message to be sent
-    const message: Message = {
+    const message: object = {
         topic: topic,
         notification: {
             title: title,
@@ -57,13 +41,13 @@ export default async function sendNotification({
         data,
     }
 
-    // Sends the message
     try {
-        const notification = await getMessaging().send(message)
+        console.log(message)
+        // const notification = await getMessaging().send(message)
 
-        if (notification) {
-            return true
-        }
+        // if (notification) {
+        //     return true
+        // }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return false
