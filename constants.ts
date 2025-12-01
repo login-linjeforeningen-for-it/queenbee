@@ -105,6 +105,15 @@ const config = {
         // serverAPI: env.NEXT_PUBLIC_API_URL || 'http://beekeeper_api:8080/api', // 20ms faster
         defaultCluster: 'infra-prod-cluster',
         basePath: '/service/prod/global',
+        DB: env.DB,
+        DB_USER: env.BEEKEEPER_DB_USER,
+        DB_HOST: env.BEEKEEPER_DB_HOST,
+        DB_PASSWORD: env.BEEKEEPER_DB_PASSWORD,
+        DB_PORT: env.BEEKEEPER_DB_PORT,
+        DB_MAX_CONN: env.DB_MAX_CONN,
+        DB_IDLE_TIMEOUT_MS: env.DB_IDLE_TIMEOUT_MS,
+        DB_TIMEOUT_MS: env.DB_TIMEOUT_MS,
+        CACHE_TTL: Number(env.CACHE_TTL) || 60000
     },
     version: packageInfo.version,
 }

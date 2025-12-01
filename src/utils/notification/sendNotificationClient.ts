@@ -12,7 +12,7 @@ export default async function sendNotificationClient({
     topic,
 }: HandleSendProps): Promise<SendResponseClient> {
     try {
-        const res = await fetch('/api/notification', {
+        const res = await fetch(`${window.location.href}/api/notification`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
