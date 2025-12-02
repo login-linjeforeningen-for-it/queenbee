@@ -1,0 +1,382 @@
+[
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:145.0) Gecko/20100101 Firefox/145.0",
+        "timestamp": 1764689325,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 200,
+        "request_time": 50,
+        "path": "/events"
+    },
+    {
+        "referer": "https://queenbee.login.no/",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1764689310,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 200,
+        "request_time": 30,
+        "path": "/dashboard"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1764689295,
+        "method": "POST",
+        "domain": "queenbee.login.no",
+        "status": 201,
+        "request_time": 120,
+        "path": "/albums"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1764689280,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 200,
+        "request_time": 20,
+        "path": "/alerts"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:145.0) Gecko/20100101 Firefox/145.0",
+        "timestamp": 1764689265,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 404,
+        "request_time": 10,
+        "path": "/nonexistent"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+        "timestamp": 1764689250,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 200,
+        "request_time": 80,
+        "path": "/announcements"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Android 10; Mobile; rv:68.0) Gecko/68.0 Firefox/68.0",
+        "timestamp": 1764689235,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 200,
+        "request_time": 40,
+        "path": "/honey"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:145.0) Gecko/20100101 Firefox/145.0",
+        "timestamp": 1764689220,
+        "method": "PUT",
+        "domain": "queenbee.login.no",
+        "status": 200,
+        "request_time": 150,
+        "path": "/jobs"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1764689205,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 200,
+        "request_time": 30,
+        "path": "/locations"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/604.1",
+        "timestamp": 1764689190,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 200,
+        "request_time": 50,
+        "path": "/nucleus"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1764689175,
+        "method": "DELETE",
+        "domain": "queenbee.login.no",
+        "status": 204,
+        "request_time": 70,
+        "path": "/organizations"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:145.0) Gecko/20100101 Firefox/145.0",
+        "timestamp": 1764689160,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 200,
+        "request_time": 20,
+        "path": "/rules"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+        "timestamp": 1764689145,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 200,
+        "request_time": 40,
+        "path": "/events"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Android 10; Mobile; rv:68.0) Gecko/68.0 Firefox/68.0",
+        "timestamp": 1764689130,
+        "method": "POST",
+        "domain": "queenbee.login.no",
+        "status": 201,
+        "request_time": 100,
+        "path": "/alerts"
+    },
+    {
+        "referer": "https://api.queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:145.0) Gecko/20100101 Firefox/145.0",
+        "timestamp": 1764602900,
+        "method": "GET",
+        "domain": "api.queenbee.login.no",
+        "status": 200,
+        "request_time": 25,
+        "path": "/api/auth"
+    },
+    {
+        "referer": "https://dev.queenbee.login.no/",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1764602800,
+        "method": "POST",
+        "domain": "dev.queenbee.login.no",
+        "status": 201,
+        "request_time": 45,
+        "path": "/internal/system"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1764775700,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 200,
+        "request_time": 30,
+        "path": "/traffic"
+    },
+    {
+        "referer": "https://test.queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1764775800,
+        "method": "PUT",
+        "domain": "test.queenbee.login.no",
+        "status": 200,
+        "request_time": 60,
+        "path": "/kubernetes"
+    },
+    {
+        "referer": "https://queenbee.login.no/",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:145.0) Gecko/20100101 Firefox/145.0",
+        "timestamp": 1764862100,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 404,
+        "request_time": 15,
+        "path": "/invalid"
+    },
+    {
+        "referer": "https://api.queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+        "timestamp": 1764862200,
+        "method": "GET",
+        "domain": "api.queenbee.login.no",
+        "status": 200,
+        "request_time": 40,
+        "path": "/api/notification"
+    },
+    {
+        "referer": "https://dev.queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Android 10; Mobile; rv:68.0) Gecko/68.0 Firefox/68.0",
+        "timestamp": 1764948500,
+        "method": "DELETE",
+        "domain": "dev.queenbee.login.no",
+        "status": 204,
+        "request_time": 55,
+        "path": "/internal/traffic"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:145.0) Gecko/20100101 Firefox/145.0",
+        "timestamp": 1764948600,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 200,
+        "request_time": 20,
+        "path": "/system"
+    },
+    {
+        "referer": "https://test.queenbee.login.no/",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1765034900,
+        "method": "POST",
+        "domain": "test.queenbee.login.no",
+        "status": 201,
+        "request_time": 70,
+        "path": "/api/token"
+    },
+    {
+        "referer": "https://api.queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/604.1",
+        "timestamp": 1765035000,
+        "method": "GET",
+        "domain": "api.queenbee.login.no",
+        "status": 200,
+        "request_time": 35,
+        "path": "/api/proxy"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1765121300,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 200,
+        "request_time": 25,
+        "path": "/api/system"
+    },
+    {
+        "referer": "https://dev.queenbee.login.no/",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:145.0) Gecko/20100101 Firefox/145.0",
+        "timestamp": 1765121400,
+        "method": "PUT",
+        "domain": "dev.queenbee.login.no",
+        "status": 200,
+        "request_time": 50,
+        "path": "/kubernetes"
+    },
+    {
+        "referer": "https://test.queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+        "timestamp": 1765207700,
+        "method": "GET",
+        "domain": "test.queenbee.login.no",
+        "status": 200,
+        "request_time": 30,
+        "path": "/api/authentik-health"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Android 10; Mobile; rv:68.0) Gecko/68.0 Firefox/68.0",
+        "timestamp": 1765207800,
+        "method": "DELETE",
+        "domain": "queenbee.login.no",
+        "status": 204,
+        "request_time": 45,
+        "path": "/internal/kubernetes"
+    },
+    {
+        "referer": "https://api.queenbee.login.no/",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:145.0) Gecko/20100101 Firefox/145.0",
+        "timestamp": 1765294100,
+        "method": "GET",
+        "domain": "api.queenbee.login.no",
+        "status": 200,
+        "request_time": 20,
+        "path": "/api/login"
+    },
+    {
+        "referer": "https://dev.queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1765294200,
+        "method": "POST",
+        "domain": "dev.queenbee.login.no",
+        "status": 201,
+        "request_time": 65,
+        "path": "/system"
+    },
+    {
+        "referer": "https://queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/604.1",
+        "timestamp": 1765380500,
+        "method": "GET",
+        "domain": "queenbee.login.no",
+        "status": 200,
+        "request_time": 40,
+        "path": "/api/logout"
+    },
+    {
+        "referer": "https://test.queenbee.login.no/",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1765380600,
+        "method": "GET",
+        "domain": "test.queenbee.login.no",
+        "status": 404,
+        "request_time": 10,
+        "path": "/nonexistent"
+    },
+    {
+        "referer": "https://api.queenbee.login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:145.0) Gecko/20100101 Firefox/145.0",
+        "timestamp": 1765466900,
+        "method": "PUT",
+        "domain": "api.queenbee.login.no",
+        "status": 200,
+        "request_time": 55,
+        "path": "/api/notification"
+    },
+    {
+        "referer": "https://login.no/",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:145.0) Gecko/20100101 Firefox/145.0",
+        "timestamp": 1765553300,
+        "method": "GET",
+        "domain": "login.no",
+        "status": 200,
+        "request_time": 30,
+        "path": "/"
+    },
+    {
+        "referer": "https://login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1765553400,
+        "method": "POST",
+        "domain": "login.no",
+        "status": 201,
+        "request_time": 45,
+        "path": "/contact"
+    },
+    {
+        "referer": "https://login.no/",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/604.1",
+        "timestamp": 1765639700,
+        "method": "GET",
+        "domain": "login.no",
+        "status": 200,
+        "request_time": 20,
+        "path": "/about"
+    },
+    {
+        "referer": "https://login.no/dashboard",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1765639800,
+        "method": "GET",
+        "domain": "login.no",
+        "status": 404,
+        "request_time": 15,
+        "path": "/missing"
+    },
+    {
+        "referer": "https://login.no/",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:145.0) Gecko/20100101 Firefox/145.0",
+        "timestamp": 1765726100,
+        "method": "PUT",
+        "domain": "login.no",
+        "status": 200,
+        "request_time": 50,
+        "path": "/profile"
+    }
+]
