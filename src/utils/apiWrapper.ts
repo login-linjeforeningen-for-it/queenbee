@@ -1,12 +1,10 @@
-'use server'
-
 import config from '@config'
 import { cookies } from 'next/headers'
 
 type GetWrapperProps = {
     path: string
     options?: object
-    custom?: 'tekkom' | 'system'
+    custom?: 'tekkom' | 'system' | 'beekeeper'
 }
 
 type PostWrapper = {
@@ -32,6 +30,7 @@ type PutWrapperProps = {
 const baseUrl = config.url.API_URL
 const tekkomBotApiUrl = config.url.TEKKOM_BOT_API_URL
 const systemUrl = config.url.system
+const beekeeperUrl = config.beekeeper.serverAPI
 
 export async function getWrapper({ path, options = {}, custom }: GetWrapperProps) {
     const Cookies = await cookies()
@@ -40,7 +39,9 @@ export async function getWrapper({ path, options = {}, custom }: GetWrapperProps
         ? tekkomBotApiUrl
         : custom === 'system'
             ? systemUrl
-            : baseUrl
+            : custom === 'beekeeper'
+                ? beekeeperUrl
+                : baseUrl
 
     const baseHeaders = {
         'Content-Type': 'application/json',
@@ -80,7 +81,9 @@ export async function postWrapper({ path, data, custom, status }: PostWrapper) {
         ? tekkomBotApiUrl
         : custom === 'system'
             ? systemUrl
-            : baseUrl
+            : custom === 'beekeeper'
+                ? beekeeperUrl
+                : baseUrl
 
     const isFormData = data instanceof FormData
 
@@ -122,7 +125,9 @@ export async function putWrapper({ path, data = {}, options = {}, custom }: PutW
         ? tekkomBotApiUrl
         : custom === 'system'
             ? systemUrl
-            : baseUrl
+            : custom === 'beekeeper'
+                ? beekeeperUrl
+                : baseUrl
 
     const defaultOptions = {
         method: 'PUT',
@@ -159,7 +164,9 @@ export async function deleteWrapper({ path, options, custom }: DeleteWrapperProp
         ? tekkomBotApiUrl
         : custom === 'system'
             ? systemUrl
-            : baseUrl
+            : custom === 'beekeeper'
+                ? beekeeperUrl
+                : baseUrl
 
     const defaultOptions = {
         method: 'DELETE',

@@ -73,6 +73,11 @@ const config = {
             ingress: '/ingress',
             stats: '/stats',
         },
+        beekeeper: {
+            traffic: {
+                METRICS: '/traffic/stats',
+            },
+        },
     },
     tekkomBotApi: {
         ANNOUNCEMENT_PATH: '/announcements',

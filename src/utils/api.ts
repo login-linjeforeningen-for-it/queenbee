@@ -487,3 +487,9 @@ export async function getApplicationMetrics() {
         token: config.authentik.TOKEN
     })
 }
+
+// ---------------------------------- Traffic -----------------------------------
+
+export async function getTrafficMetrics(): Promise<TrafficMetricsProps | string> {
+    return await getWrapper({ path: config.workerbeeApi.beekeeper.traffic.METRICS, custom: 'beekeeper' })
+}

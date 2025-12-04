@@ -412,6 +412,22 @@ declare global {
     // Images
     type ImagePaths = 'events' | 'jobs' | 'organizations'
 
+    // ---------------------------------- BeeKeeper -----------------------------------
+    // Traffic
+    type TrafficMetricsProps = {
+        total_requests: number
+        avg_request_time: number
+        error_rate: number
+        top_methods: TrafficMetricsTop[]
+        top_status_codes: TrafficMetricsTop[]
+        top_domains: TrafficMetricsTop[]
+        top_os: TrafficMetricsTop[]
+    }
+
+    type TrafficMetricsTop = {
+        key: string
+        count: number
+    }
 
     // Other
     type DeleteParamsProps = {

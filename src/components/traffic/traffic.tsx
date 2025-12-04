@@ -1,63 +1,70 @@
-import {
-    Activity,
-    Clock,
-    AlertTriangle,
-} from 'lucide-react'
+import { Activity, Clock, AlertTriangle } from 'lucide-react'
 import data from './data.json'
 
-export default function TrafficDashboard() {
-    const totalRequests = data.length
-    const avgRequestTime = Math.round(data.reduce((acc, curr) => acc + curr.request_time, 0) / totalRequests)
-    const errorCount = data.filter(d => d.status >= 400).length
-    const errorRate = ((errorCount / totalRequests) * 100).toFixed(1)
+export default function TrafficDashboard({ metrics }: { metrics?: TrafficMetricsProps | string }) {
+    const m = typeof metrics === 'object' && metrics !== null ? (metrics as TrafficMetricsProps) : undefined
 
-    const methods = data.reduce((acc, curr) => {
-        acc[curr.method] = (acc[curr.method] || 0) + 1
-        return acc
-    }, {} as Record<string, number>)
+    const totalRequests = Number(m?.total_requests) || 0
+    const avgRequestTime = Number.isFinite(Number(m?.avg_request_time)) ? Math.round(Number(m!.avg_request_time)) : null
+    const errorRate = Number.isFinite(Number(m?.error_rate)) ? (Number(m!.error_rate) * 100).toFixed(1) : null
 
-    const statuses = data.reduce((acc, curr) => {
-        acc[curr.status] = (acc[curr.status] || 0) + 1
-        return acc
-    }, {} as Record<string, number>)
+    const methods = (m?.top_methods ?? []) as TrafficMetricsTop[]
+    const statuses = (m?.top_status_codes ?? []) as TrafficMetricsTop[]
+    const domains = (m?.top_domains ?? []) as TrafficMetricsTop[]
+    const os = (m?.top_os ?? []) as TrafficMetricsTop[]
 
     return (
         <div className='space-y-6'>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-                <StatCard
-                    title='Total Requests'
-                    value={totalRequests}
-                    icon={<Activity className='w-5 h-5' />}
-                />
-                <StatCard
-                    title='Avg Request Time'
-                    value={`${avgRequestTime}ms`}
-                    icon={<Clock className='w-5 h-5' />}
-                />
-                <StatCard
-                    title='Error Rate'
-                    value={`${errorRate}%`}
-                    icon={<AlertTriangle className='w-5 h-5' />}
-                />
+                {[
+                    {
+                        title: 'Total Requests',
+                        value: totalRequests || '—',
+                        icon: <Activity className='w-5 h-5' />
+                    },
+                    {
+                        title: 'Avg Request Time',
+                        value: avgRequestTime ? `${avgRequestTime}ms` : '—',
+                        icon: <Clock className='w-5 h-5' />
+                    },
+                    {
+                        title: 'Error Rate',
+                        value: errorRate ? `${errorRate}%` : '—',
+                        icon: <AlertTriangle className='w-5 h-5' />
+                    },
+                ].map(({ title, value, icon }) => (
+                    <StatCard key={title} title={title} value={value} icon={icon} />
+                ))}
             </div>
 
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                <div className='bg-white/5 p-4 rounded-lg'>
-                    <h3 className='text-lg font-semibold mb-4'>Methods</h3>
-                    <div className='space-y-2'>
-                        {Object.entries(methods).map(([method, count]) => (
-                            <Bar key={method} label={method} value={count} total={totalRequests} />
-                        ))}
+                {[
+                    {
+                        title: 'Methods',
+                        data: methods
+                    },
+                    {
+                        title: 'Status Codes',
+                        data: statuses
+                    },
+                    {
+                        title: 'Domains',
+                        data: domains
+                    },
+                    {
+                        title: 'Operating Systems',
+                        data: os
+                    },
+                ].map(({ title, data: set }) => (
+                    <div className='bg-white/5 p-4 rounded-lg' key={title}>
+                        <h3 className='text-lg font-semibold mb-4'>{title}</h3>
+                        <div className='space-y-2'>
+                            {set.map((entry: TrafficMetricsTop) => (
+                                <Bar key={entry.key} label={entry.key} value={entry.count} total={totalRequests} />
+                            ))}
+                        </div>
                     </div>
-                </div>
-                <div className='bg-white/5 p-4 rounded-lg'>
-                    <h3 className='text-lg font-semibold mb-4'>Status Codes</h3>
-                    <div className='space-y-2'>
-                        {Object.entries(statuses).map(([status, count]) => (
-                            <Bar key={status} label={status} value={count} total={totalRequests} />
-                        ))}
-                    </div>
-                </div>
+                ))}
             </div>
 
             <div className='bg-white/5 rounded-lg overflow-hidden'>
@@ -65,7 +72,7 @@ export default function TrafficDashboard() {
                     <h3 className='text-lg font-semibold'>Recent Traffic</h3>
                 </div>
                 <div className='overflow-x-auto'>
-                    <table className='w-full text-sm text-left'>
+                    <table className='w-full text-sm text-left table-fixed'>
                         <thead className='text-xs uppercase bg-white/5 text-muted-foreground'>
                             <tr>
                                 <th className='px-4 py-3'>Date</th>
@@ -73,7 +80,7 @@ export default function TrafficDashboard() {
                                 <th className='px-4 py-3'>Path</th>
                                 <th className='px-4 py-3'>Status</th>
                                 <th className='px-4 py-3'>Duration</th>
-                                <th className='px-4 py-3'>Domain</th>
+                                <th className='px-4 py-3 max-w-[18rem] truncate'>Domain</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -85,16 +92,12 @@ export default function TrafficDashboard() {
                                     <td className='px-4 py-3 font-medium'>{req.method}</td>
                                     <td className='px-4 py-3'>{req.path}</td>
                                     <td className='px-4 py-3'>
-                                        <span className={`px-2 py-1 rounded text-xs ${
-                                            req.status >= 400 ? 'bg-red-500/20 text-red-400' :
-                                                req.status >= 300 ? 'bg-yellow-500/20 text-yellow-400' :
-                                                    'bg-green-500/20 text-green-400'
-                                        }`}>
+                                        <span className={`px-2 py-1 rounded text-xs ${statusClasses(req.status)}`}>
                                             {req.status}
                                         </span>
                                     </td>
                                     <td className='px-4 py-3'>{req.request_time}ms</td>
-                                    <td className='px-4 py-3'>{req.domain}</td>
+                                    <td className='px-4 py-3 max-w-[18rem] truncate'>{req.domain}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -120,10 +123,10 @@ function StatCard({ title, value, icon }: { title: string, value: string | numbe
 }
 
 function Bar({ label, value, total }: { label: string, value: number, total: number }) {
-    const percentage = (value / total) * 100
+    const percentage = total ? (value / total) * 100 : 0
     return (
-        <div className='flex items-center gap-4'>
-            <div className='w-16 text-sm font-medium'>{label}</div>
+        <div className='flex items-center gap-4 min-w-0'>
+            <div className='w-24 md:w-36 text-sm font-medium truncate' title={label}>{label}</div>
             <div className='flex-1 h-2 bg-white/5 rounded-full overflow-hidden'>
                 <div
                     className='h-full bg-blue-500 rounded-full'
@@ -133,4 +136,10 @@ function Bar({ label, value, total }: { label: string, value: number, total: num
             <div className='w-12 text-sm text-right text-muted-foreground'>{value}</div>
         </div>
     )
+}
+
+function statusClasses(status: number) {
+    if (status >= 400) return 'bg-red-500/20 text-red-400'
+    if (status >= 300) return 'bg-yellow-500/20 text-yellow-400'
+    return 'bg-green-500/20 text-green-400'
 }
