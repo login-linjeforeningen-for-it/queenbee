@@ -1,7 +1,11 @@
 import { Activity, Clock, AlertTriangle } from 'lucide-react'
-import data from './data.json'
 
-export default function TrafficDashboard({ metrics }: { metrics?: TrafficMetricsProps | string }) {
+type TrafficDashboardProps = {
+    metrics: TrafficMetricsProps | string
+    records: TrafficRecordsProps | string
+}
+
+export default function TrafficDashboard({ metrics, records }: TrafficDashboardProps) {
     const m = typeof metrics === 'object' && metrics !== null ? (metrics as TrafficMetricsProps) : undefined
 
     const totalRequests = Number(m?.total_requests) || 0
@@ -12,6 +16,10 @@ export default function TrafficDashboard({ metrics }: { metrics?: TrafficMetrics
     const statuses = (m?.top_status_codes ?? []) as TrafficMetricsTop[]
     const domains = (m?.top_domains ?? []) as TrafficMetricsTop[]
     const os = (m?.top_os ?? []) as TrafficMetricsTop[]
+
+    const r = typeof records === 'object' && records !== null ? (records as TrafficRecordsProps) : undefined
+
+    const recs = (r?.result ?? []) as TrafficRecord[]
 
     return (
         <div className='space-y-6'>
@@ -84,10 +92,10 @@ export default function TrafficDashboard({ metrics }: { metrics?: TrafficMetrics
                             </tr>
                         </thead>
                         <tbody>
-                            {data.slice(0, 10).map((req, i) => (
+                            {recs.map((req, i) => (
                                 <tr key={i} className='border-b border-white/5 hover:bg-white/5'>
                                     <td className='px-4 py-3 text-muted-foreground'>
-                                        {new Date(req.timestamp * 1000).toLocaleString()}
+                                        {new Date(req.timestamp).toLocaleString()}
                                     </td>
                                     <td className='px-4 py-3 font-medium'>{req.method}</td>
                                     <td className='px-4 py-3'>{req.path}</td>

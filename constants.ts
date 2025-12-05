@@ -76,6 +76,7 @@ const config = {
         beekeeper: {
             traffic: {
                 METRICS: '/traffic/metrics',
+                RECORDS: '/traffic/records',
             },
         },
     },

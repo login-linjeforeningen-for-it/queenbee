@@ -429,6 +429,24 @@ declare global {
         count: number
     }
 
+    type TrafficRecordsProps = {
+        result: TrafficRecord[]
+        total_count: number
+    }
+
+    type TrafficRecord = {
+        id: number
+        user_agent: string
+        domain: string
+        path: string
+        method: string
+        referer: string
+        request_time: number
+        status: number
+        timestamp: string
+
+    }
+
     // Other
     type DeleteParamsProps = {
         message: string

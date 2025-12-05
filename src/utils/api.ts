@@ -493,3 +493,15 @@ export async function getApplicationMetrics() {
 export async function getTrafficMetrics(): Promise<TrafficMetricsProps | string> {
     return await getWrapper({ path: config.workerbeeApi.beekeeper.traffic.METRICS, custom: 'beekeeper' })
 }
+
+export async function getTrafficRecords(
+    {start, end, limit}: {start?: string, end?: string, limit?: number}): Promise<TrafficRecordsProps | string>
+{
+    const queryParts = new URLSearchParams()
+    if (start)  queryParts.append('start', start)
+    if (end)    queryParts.append('end', end)
+    if (limit)  queryParts.append('limit', String(limit))
+
+    const path = `${config.workerbeeApi.beekeeper.traffic.RECORDS}?${queryParts.toString()}`
+    return await getWrapper({ path, custom: 'beekeeper' })
+}
