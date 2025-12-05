@@ -106,8 +106,8 @@ const config = {
         TOKEN: `${env.AUTHENTIK_API_TOKEN}`,
     },
     beekeeper: {
-        api: env.NEXT_PUBLIC_BEEKEEPER_API_URL || 'https://api.beekeeper.login.no/api',
-        serverAPI: env.NEXT_PUBLIC_API_URL || 'https://api.beekeeper.login.no/api',
+        api: env.NEXT_PUBLIC_BEEKEEPER_API_URL || 'https://beekeeper.login.no/api',
+        serverAPI: env.NEXT_PUBLIC_API_URL || 'https://beekeeper.login.no/api',
         // serverAPI: env.NEXT_PUBLIC_API_URL || 'http://beekeeper_api:8080/api', // 20ms faster
         defaultCluster: 'infra-prod-cluster',
         basePath: '/service/prod/global',
