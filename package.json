@@ -13,7 +13,7 @@
     "@lucide/lab": "^0.1.2",
     "@next/eslint-plugin-next": "16.0.7",
     "highlight.js": "^11.11.1",
-    "lucide-react": "^0.555.0",
+    "lucide-react": "^0.556.0",
     "marked": "^17.0.1",
     "marked-highlight": "^2.2.3",
     "next": "16.0.7",
@@ -24,7 +24,7 @@
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
     "sonner": "^2.0.7",
-    "uibee": "^2.4.6"
+    "uibee": "^2.4.11"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
