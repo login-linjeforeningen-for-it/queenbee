@@ -1,12 +1,14 @@
 import { getAlbums, getAnnouncements, getEvents, getJobs, getLocations, getOrganizations } from '@utils/api'
 
 export default async function getStatics() {
-    const events = await getEvents({limit: 1})
-    const jobs = await getJobs({limit: 1})
-    const announcements = await getAnnouncements()
-    const organizations = await getOrganizations({limit: 1})
-    const locations = await getLocations({limit: 1})
-    const albums = await getAlbums({limit: 1})
+    const [events, jobs, announcements, organizations, locations, albums] = await Promise.all([
+        getEvents({limit: 1}),
+        getJobs({limit: 1}),
+        getAnnouncements(),
+        getOrganizations({limit: 1}),
+        getLocations({limit: 1}),
+        getAlbums({limit: 1}),
+    ])
 
     return {
         events:         typeof events           === 'string' ? 0 : events.total_count,

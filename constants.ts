@@ -77,6 +77,7 @@ const config = {
             traffic: {
                 METRICS: '/traffic/metrics',
                 RECORDS: '/traffic/records',
+                DOMAINS: '/traffic/domains',
             },
         },
     },

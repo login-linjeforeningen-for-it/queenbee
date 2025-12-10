@@ -29,7 +29,7 @@ export default function Sidebar({ docker: serverDocker, meta: serverMeta }: { do
             if (updatedDocker) {
                 setDocker(updatedDocker)
             }
-        }, 5000)
+        }, 30000)
     }, [])
 
     const paths = {

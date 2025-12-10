@@ -431,7 +431,7 @@ declare global {
 
     type TrafficRecordsProps = {
         result: TrafficRecord[]
-        total_count: number
+        total: number
     }
 
     type TrafficRecord = {

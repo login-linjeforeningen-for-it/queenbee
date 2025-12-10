@@ -490,18 +490,33 @@ export async function getApplicationMetrics() {
 
 // ---------------------------------- Traffic -----------------------------------
 
-export async function getTrafficMetrics(): Promise<TrafficMetricsProps | string> {
-    return await getWrapper({ path: config.workerbeeApi.beekeeper.traffic.METRICS, custom: 'beekeeper' })
+export async function getTrafficMetrics(
+    {start, end, domain}: {start?: string, end?: string, domain?: string} = {}): Promise<TrafficMetricsProps | string>
+{
+    const queryParts = new URLSearchParams()
+    if (start)  queryParts.append('start', start)
+    if (end)    queryParts.append('end', end)
+    if (domain) queryParts.append('domain', domain)
+
+    const path = `${config.workerbeeApi.beekeeper.traffic.METRICS}?${queryParts.toString()}`
+    return await getWrapper({ path, custom: 'beekeeper' })
 }
 
 export async function getTrafficRecords(
-    {start, end, limit}: {start?: string, end?: string, limit?: number}): Promise<TrafficRecordsProps | string>
+    {start, end, limit, page, domain}: {start?: string, end?: string, limit?: number, page?: number, domain?: string}):
+Promise<TrafficRecordsProps | string>
 {
     const queryParts = new URLSearchParams()
     if (start)  queryParts.append('start', start)
     if (end)    queryParts.append('end', end)
     if (limit)  queryParts.append('limit', String(limit))
+    if (page)   queryParts.append('page', String(page))
+    if (domain) queryParts.append('domain', domain)
 
     const path = `${config.workerbeeApi.beekeeper.traffic.RECORDS}?${queryParts.toString()}`
     return await getWrapper({ path, custom: 'beekeeper' })
+}
+
+export async function getTrafficDomains() {
+    return await getWrapper({ path: config.workerbeeApi.beekeeper.traffic.DOMAINS, custom: 'beekeeper' })
 }

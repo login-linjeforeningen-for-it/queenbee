@@ -7,10 +7,14 @@ import formatDate from '@utils/date/formatDate'
 import { getStatisticsCategories, getStatisticsNewAdditions, getStatisticsYearlyActivity } from '@utils/api'
 
 export default async function Home() {
-    const stats: DashboardTotalStats = await getStatics()
-    const categories = await getStatisticsCategories()
-    let additions = await getStatisticsNewAdditions()
-    const yearlyActivity = await getStatisticsYearlyActivity()
+    const [stats, categories, additionsData, yearlyActivity] = await Promise.all([
+        getStatics(),
+        getStatisticsCategories(),
+        getStatisticsNewAdditions(),
+        getStatisticsYearlyActivity(),
+    ])
+
+    let additions = additionsData
 
     if (Array.isArray(additions)) {
         additions = additions.map((addition) => ({...addition, updated_at: formatDate(addition.updated_at)}))
