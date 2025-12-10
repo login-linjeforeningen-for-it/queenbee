@@ -418,15 +418,25 @@ declare global {
         total_requests: number
         avg_request_time: number
         error_rate: number
-        top_methods: TrafficMetricsTop[]
-        top_status_codes: TrafficMetricsTop[]
-        top_domains: TrafficMetricsTop[]
-        top_os: TrafficMetricsTop[]
+        top_methods: TrafficMetricProps[]
+        top_status_codes: TrafficMetricProps[]
+        top_domains: TrafficMetricProps[]
+        top_os: TrafficMetricProps[]
+        top_browsers: TrafficMetricProps[]
+        requests_over_time: TrafficMetricProps[]
+        top_error_paths: TrafficMetricProps[]
+        top_slow_paths: TrafficMetricsTimeProps[]
+        top_paths: TrafficMetricProps[]
     }
 
-    type TrafficMetricsTop = {
+    type TrafficMetricProps = {
         key: string
         count: number
+    }
+
+    type TrafficMetricsTimeProps = {
+        key: string
+        avg_time: number
     }
 
     type TrafficRecordsProps = {

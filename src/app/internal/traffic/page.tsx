@@ -20,7 +20,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                 <ViewToggle />
                 <DomainSelector domains={domainOptions} selectedDomain={selectedDomain} />
             </div>
-            <TrafficDashboard metrics={metrics} />
+            <TrafficDashboard metrics={metrics} selectedDomain={selectedDomain} />
         </div>
     )
 }
