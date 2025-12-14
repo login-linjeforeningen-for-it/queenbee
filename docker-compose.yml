@@ -10,5 +10,11 @@ services:
       - '8000:3000'
     env_file:
       - .env
+    networks:
+      - workerbee_default
     mem_limit: 1g
     cpus: "2.0"
+
+networks:
+  workerbee_default:
+    external: true
