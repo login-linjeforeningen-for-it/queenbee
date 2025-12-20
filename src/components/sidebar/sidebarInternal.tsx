@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import {
     Activity,
+    Database,
     LayoutDashboard,
     Server,
     Waypoints
@@ -38,6 +39,11 @@ export default function Sidebar({ docker: serverDocker, meta: serverMeta }: { do
             name: 'Dashboard',
             path: '/internal',
             image: <LayoutDashboard className='w-6' />
+        },
+        backup: {
+            name: 'Backup',
+            path: '/internal/backup',
+            image: <Database className='w-6' />,
         },
         traffic: {
             name: 'Traffic',

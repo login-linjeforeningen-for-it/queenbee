@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 type ButtonProps = {
     text: string
-    icon: string
+    icon?: string
     path?: string
     color?: 'primary' | 'secondary'
     onClick?: (_: object) => void
