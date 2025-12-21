@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                 return (
                     <FormWrapper
                         name='alert'
-                        path='alerts'
+                        path='internal/alerts'
                         type='create'
                         formAction={createAlert}
                     >
@@ -25,7 +25,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                 return (
                     <FormWrapper
                         name='alert'
-                        path='alerts'
+                        path='internal/alerts'
                         type='update'
                         id={id[0]}
                         formAction={updateAlert}
@@ -39,7 +39,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
         return (
             <FormWrapper
                 name='alert'
-                path='alerts'
+                path='internal/alerts'
                 type='create'
                 formAction={createAlert}
             >

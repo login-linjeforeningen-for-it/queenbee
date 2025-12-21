@@ -12,8 +12,7 @@ import {
     LayoutDashboard,
     MapPin,
     Megaphone,
-    Smartphone,
-    TriangleAlert,
+    Smartphone
 } from 'lucide-react'
 import { hexagons7 } from '@lucide/lab'
 import SidebarVersion from './sidebarVersion'
@@ -36,11 +35,6 @@ export default function Sidebar() {
             name: 'Albums',
             path: '/albums',
             image: <Images className='w-6' />,
-        },
-        alerts: {
-            name: 'Alerts',
-            path: '/alerts',
-            image: <TriangleAlert className='w-6' />,
         },
         events: {
             name: 'Events',

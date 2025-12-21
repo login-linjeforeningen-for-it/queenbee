@@ -8,6 +8,7 @@ import {
     LayoutDashboard,
     Scale,
     Server,
+    TriangleAlert,
     Waypoints
 } from 'lucide-react'
 import SidebarVersion from './sidebarVersion'
@@ -40,6 +41,11 @@ export default function Sidebar({ docker: serverDocker, meta: serverMeta }: { do
             name: 'Dashboard',
             path: '/internal',
             image: <LayoutDashboard className='w-6' />
+        },
+        alerts: {
+            name: 'Alerts',
+            path: '/internal/alerts',
+            image: <TriangleAlert className='w-6' />,
         },
         backup: {
             name: 'Backup',
