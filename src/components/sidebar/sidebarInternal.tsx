@@ -6,6 +6,7 @@ import {
     Activity,
     Database,
     LayoutDashboard,
+    Scale,
     Server,
     Waypoints
 } from 'lucide-react'
@@ -45,10 +46,16 @@ export default function Sidebar({ docker: serverDocker, meta: serverMeta }: { do
             path: '/internal/backup',
             image: <Database className='w-6' />,
         },
-        traffic: {
-            name: 'Traffic',
-            path: '/internal/traffic',
-            image: <Waypoints className='w-6' />
+        loadbalancing: {
+            name: 'Load Balancing',
+            path: '/internal/loadbalancing',
+            image: <Scale className='w-6' />,
+        },
+        kubernetes: {
+            name: 'Kubernetes',
+            path: '/internal/kubernetes',
+            image: <Server className='w-6' />,
+            status: <PulseDot color={color} />
         },
         status: {
             name: 'Status',
@@ -61,12 +68,11 @@ export default function Sidebar({ docker: serverDocker, meta: serverMeta }: { do
             image: <Server className='w-6' />,
             status: <PulseDot status={docker.status} />
         },
-        kubernetes: {
-            name: 'Kubernetes',
-            path: '/internal/kubernetes',
-            image: <Server className='w-6' />,
-            status: <PulseDot color={color} />
-        }
+        traffic: {
+            name: 'Traffic',
+            path: '/internal/traffic',
+            image: <Waypoints className='w-6' />
+        },
     }
 
     return (

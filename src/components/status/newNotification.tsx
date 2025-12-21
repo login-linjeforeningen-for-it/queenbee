@@ -78,6 +78,11 @@ export default function NewNotification({ display, setAddingNotification }: NewT
                         className='px-3 py-2 rounded-md bg-white/10 outline outline-white/20 focus:outline-blue-500'
                         required
                     />
+                    {(!webhook.startsWith('https://') || webhook.includes('https://.')|| !(webhook.includes('.com') || webhook.includes('.no')))
+                        && <span className='text-sm text-red-500'>
+                            Must include 'https://' and a valid top level domain (.com, .no)
+                        </span>
+                    }
                 </div>
 
                 {error && <span className='text-sm text-red-500'>{error}</span>}
