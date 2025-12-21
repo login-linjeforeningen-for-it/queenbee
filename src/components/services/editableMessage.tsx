@@ -97,7 +97,7 @@ export default function EditableMessage({ message, shrink, author }: MessageProp
 
     if (editing) {
         return (
-            <div className='rounded-lg px-[1px] grid gap-2'>
+            <div className='rounded-lg px-px grid gap-2'>
                 {response !== null && <h1 className={`
                     ${response.status === 200 ? 'bg-green-500/20' : 'bg-red-500/20'}
                     py-1 text-center w-full text-bright rounded-lg mt-1 mb-2
@@ -139,7 +139,7 @@ export default function EditableMessage({ message, shrink, author }: MessageProp
                         <h1>{new Date(message.timestamp).toLocaleString('no-NO')}</h1>
                     </div>
                 </div>
-                <div className='w-[1px] h-full bg-login-400' />
+                <div className='w-px h-full bg-login-400' />
                 <div className='grid place-items-center'>
                     <div onClick={() => setEditing(true)}>
                         <h1 className='edit text-login-200 h-4 w-4 cursor-pointer'>✎</h1>

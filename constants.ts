@@ -74,10 +74,21 @@ const config = {
             stats: '/stats',
         },
         beekeeper: {
+            status: {
+                notifications: {
+                    get: '/monitoring/notifications',
+                    post: '/monitoring/notification',
+                },
+                tags: {
+                    get: '/monitoring/tags',
+                    post: '/monitoring/tag',
+                    delete: '/monitoring/tag'
+                }
+            },
             traffic: {
-                METRICS: '/traffic/metrics',
-                RECORDS: '/traffic/records',
-                DOMAINS: '/traffic/domains',
+                metrics: '/traffic/metrics',
+                records: '/traffic/records',
+                domains: '/traffic/domains',
             },
         },
     },

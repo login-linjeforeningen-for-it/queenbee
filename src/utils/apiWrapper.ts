@@ -10,21 +10,21 @@ type GetWrapperProps = {
 type PostWrapper = {
     path: string
     data?: object | FormData
-    custom?: 'tekkom' | 'system'
+    custom?: 'tekkom' | 'system' | 'beekeeper'
     status?: boolean
 }
 
 type DeleteWrapperProps = {
     path: string
     options?: object
-    custom?: 'tekkom' | 'system'
+    custom?: 'tekkom' | 'system' | 'beekeeper'
 }
 
 type PutWrapperProps = {
     path: string
     data?: object
     options?: object
-    custom?: 'tekkom' | 'system'
+    custom?: 'tekkom' | 'system' | 'beekeeper'
 }
 
 const baseUrl = config.url.API_URL

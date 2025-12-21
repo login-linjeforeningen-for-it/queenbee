@@ -141,18 +141,18 @@ function GlobalCommand({ command }: GlobalCommandProps) {
         <div onMouseLeave={() => setAllowDelete(false)} className={`p-2 bg-login-500 rounded-lg ${editing ? 'grid gap-2' : ''}`}>
             <div className='flex justify-between gap-2'>
                 <div className='flex gap-2'>
-                    <h1 className='min-w-[1rem] text-login-400 text-sm'>{command.id}</h1>
+                    <h1 className='min-w-4 text-login-400 text-sm'>{command.id}</h1>
                     <Field placeholder='Name' value={name} setValue={setName} editing={editing} />
                 </div>
                 <div className='flex flex-col place-items-end flex-1'>
                     <div className='flex items-center gap-2 w-full justify-end'>
                         <Field className='text-login-400' placeholder='Reason' value={reason} setValue={setReason} editing={editing} />
-                        <h1 className='text-login-400 text-sm min-w-[8rem]'>{new Date(command.timestamp).toLocaleString('no-NO')}</h1>
+                        <h1 className='text-login-400 text-sm min-w-32'>{new Date(command.timestamp).toLocaleString('no-NO')}</h1>
                         {!editing && <h1 onClick={() => setEditing(true)} className='mr-1 text-login-200 cursor-pointer'>✎</h1>}
                     </div>
                 </div>
             </div>
-            <div className='ml-[1rem] pl-2 flex justify-between gap-2'>
+            <div className='ml-4 pl-2 flex justify-between gap-2'>
                 <div className='flex flex-1'>
                     <Field className='text-login-200' placeholder='Command' value={value} setValue={setValue} editing={editing} />
                 </div>
@@ -248,7 +248,7 @@ function LocalCommand({ command }: LocalCommandProps) {
             <div className='p-2 bg-login-500 rounded-lg'>
                 <div className='flex justify-between'>
                     <div className='flex gap-2'>
-                        <h1 className='min-w-[1rem] text-login-400 text-sm'>{command.id}</h1>
+                        <h1 className='min-w-4 text-login-400 text-sm'>{command.id}</h1>
                         <div className='grid gap-2'>
                             <Field placeholder='Name' value={name} setValue={setName} editing={editing} />
                             <div className='flex justify-between'>

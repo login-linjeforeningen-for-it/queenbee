@@ -1077,6 +1077,22 @@ declare global {
         status: number
         message: string
     }
+
+    type ServiceRow = {
+        uptime: number
+        name: string
+        enabled: boolean
+        tags: { id: string, name: string }[]
+        bars: { status: Bar, date: string, message: string }[]
+    }
+
+    type Bar = 'up' | 'down' | 'pending' | 'maintenance'
+
+    type ServiceNotification = {
+        name: string
+        message: string
+        webhook: string
+    }
 }
 
 export { }

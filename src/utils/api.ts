@@ -14,15 +14,23 @@ type GetParamsProps = {
     historical?: boolean
 }
 
+type GetTrafficRecordsProps = {
+    start?: string
+    end?: string
+    limit?: number
+    page?: number
+    domain?: string
+}
+
 // ---------------------------------- Events -----------------------------------
 
 export async function getEvents({ search, offset, limit, orderBy, sort, historical }: GetParamsProps): Promise<GetEventsProps | string> {
     const queryParts = new URLSearchParams()
-    if (search)     queryParts.append('search', String(search))
-    if (limit)      queryParts.append('limit', String(limit))
-    if (offset)     queryParts.append('offset', String(offset))
-    if (orderBy)    queryParts.append('order_by', String(orderBy))
-    if (sort)       queryParts.append('sort', String(sort))
+    if (search) queryParts.append('search', String(search))
+    if (limit) queryParts.append('limit', String(limit))
+    if (offset) queryParts.append('offset', String(offset))
+    if (orderBy) queryParts.append('order_by', String(orderBy))
+    if (sort) queryParts.append('sort', String(sort))
     if (historical) queryParts.append('historical', String(historical))
 
     const path = `${config.workerbeeApi.events.PATH_PROTECTED}?${queryParts.toString()}`
@@ -77,11 +85,11 @@ export async function getTimeTypes(): Promise<string[] | string> {
 
 export async function getJobs({ search, limit, offset, orderBy, sort, historical }: GetParamsProps = {}): Promise<GetJobsProps | string> {
     const queryParts = new URLSearchParams()
-    if (search)     queryParts.append('search', String(search))
-    if (limit)      queryParts.append('limit', String(limit))
-    if (offset)     queryParts.append('offset', String(offset))
-    if (orderBy)    queryParts.append('order_by', String(orderBy))
-    if (sort)       queryParts.append('sort', String(sort))
+    if (search) queryParts.append('search', String(search))
+    if (limit) queryParts.append('limit', String(limit))
+    if (offset) queryParts.append('offset', String(offset))
+    if (orderBy) queryParts.append('order_by', String(orderBy))
+    if (sort) queryParts.append('sort', String(sort))
     if (historical) queryParts.append('historical', String(historical))
 
     const path = `${config.workerbeeApi.jobs.PATH_PROTECTED}?${queryParts.toString()}`
@@ -114,15 +122,19 @@ export async function getTypes(): Promise<GetJobTypesProps | string> {
 
 // ---------------------------------- Organizations ----------------------------
 
-export async function getOrganizations({ search, offset, limit, orderBy, sort }: GetParamsProps = {}):
-Promise<GetOrganizationsProps | string>
-{
+export async function getOrganizations({
+    search,
+    offset,
+    limit,
+    orderBy,
+    sort
+}: GetParamsProps = {}): Promise<GetOrganizationsProps | string> {
     const queryParts = new URLSearchParams()
-    if (search)     queryParts.append('search', String(search))
-    if (limit)      queryParts.append('limit', String(limit))
-    if (offset)     queryParts.append('offset', String(offset))
-    if (orderBy)    queryParts.append('order_by', String(orderBy))
-    if (sort)       queryParts.append('sort', String(sort))
+    if (search) queryParts.append('search', String(search))
+    if (limit) queryParts.append('limit', String(limit))
+    if (offset) queryParts.append('offset', String(offset))
+    if (orderBy) queryParts.append('order_by', String(orderBy))
+    if (sort) queryParts.append('sort', String(sort))
 
     const path = `${config.beehiveApi.ORGANIZATIONS_PATH}?${queryParts.toString()}`
     return await getWrapper({ path })
@@ -154,15 +166,21 @@ export async function deleteOrganization(id: number) {
 
 // ---------------------------------- Locations --------------------------------
 
-export async function getLocations({ type, search, offset, limit, orderBy, sort }: GetParamsProps = {}):
-Promise<GetLocationsProps | string> {
+export async function getLocations({
+    type,
+    search,
+    offset,
+    limit,
+    orderBy,
+    sort
+}: GetParamsProps = {}): Promise<GetLocationsProps | string> {
     const queryParts = new URLSearchParams()
-    if (type)       queryParts.append('type', type)
-    if (search)     queryParts.append('search', String(search))
-    if (offset)     queryParts.append('offset', String(offset))
-    if (limit)      queryParts.append('limit', String(limit))
-    if (orderBy)    queryParts.append('order_by', String(orderBy))
-    if (sort)       queryParts.append('sort', String(sort))
+    if (type) queryParts.append('type', type)
+    if (search) queryParts.append('search', String(search))
+    if (offset) queryParts.append('offset', String(offset))
+    if (limit) queryParts.append('limit', String(limit))
+    if (orderBy) queryParts.append('order_by', String(orderBy))
+    if (sort) queryParts.append('sort', String(sort))
 
     const path = `${config.workerbeeApi.locations.PATH}?${queryParts.toString()}`
     return await getWrapper({ path })
@@ -196,11 +214,11 @@ export async function deleteLocation(id: number) {
 
 export async function getRules({ search, offset, limit, orderBy, sort }: GetParamsProps = {}): Promise<GetRulesProps | string> {
     const queryParts = new URLSearchParams()
-    if (search)     queryParts.append('search', String(search))
-    if (offset)     queryParts.append('offset', String(offset))
-    if (limit)      queryParts.append('limit', String(limit))
-    if (orderBy)    queryParts.append('order_by', String(orderBy))
-    if (sort)       queryParts.append('sort', String(sort))
+    if (search) queryParts.append('search', String(search))
+    if (offset) queryParts.append('offset', String(offset))
+    if (limit) queryParts.append('limit', String(limit))
+    if (orderBy) queryParts.append('order_by', String(orderBy))
+    if (sort) queryParts.append('sort', String(sort))
 
     const path = `${config.beehiveApi.RULES_PATH}?${queryParts.toString()}`
     return await getWrapper({ path })
@@ -251,11 +269,11 @@ export async function getAnnouncements({
     search, offset, limit, orderBy, sort
 }: GetParamsProps & { includePlaceholders?: boolean } = {}): Promise<GetAnnouncementsProps | string> {
     const queryParts = new URLSearchParams()
-    if (search)     queryParts.append('search', String(search))
-    if (limit)      queryParts.append('limit', String(limit))
-    if (offset)     queryParts.append('offset', String(offset))
-    if (orderBy)    queryParts.append('order_by', String(orderBy))
-    if (sort)       queryParts.append('sort', String(sort))
+    if (search) queryParts.append('search', String(search))
+    if (limit) queryParts.append('limit', String(limit))
+    if (offset) queryParts.append('offset', String(offset))
+    if (orderBy) queryParts.append('order_by', String(orderBy))
+    if (sort) queryParts.append('sort', String(sort))
     queryParts.append('includePlaceholders', 'true')
 
     const path = `${config.tekkomBotApi.ANNOUNCEMENT_PATH}?${queryParts.toString()}`
@@ -292,11 +310,11 @@ export async function deleteAnnouncement(id: number) {
 
 export async function getAlbums({ search, offset, limit, orderBy, sort }: GetParamsProps = {}): Promise<GetAlbumsProps | string> {
     const queryParts = new URLSearchParams()
-    if (search)     queryParts.append('search', String(search))
-    if (offset)     queryParts.append('offset', String(offset))
-    if (limit)      queryParts.append('limit', String(limit))
-    if (orderBy)    queryParts.append('order_by', String(orderBy))
-    if (sort)       queryParts.append('sort', String(sort))
+    if (search) queryParts.append('search', String(search))
+    if (offset) queryParts.append('offset', String(offset))
+    if (limit) queryParts.append('limit', String(limit))
+    if (orderBy) queryParts.append('order_by', String(orderBy))
+    if (sort) queryParts.append('sort', String(sort))
 
     const path = `${config.workerbeeApi.albums.PATH}?${queryParts.toString()}`
     return await getWrapper({ path })
@@ -311,7 +329,7 @@ export async function postAlbum(body: PostAlbumProps): Promise<PostAlbumProps & 
     return await postWrapper({ path: config.workerbeeApi.albums.PATH, data: body })
 }
 
-export async function getShareURLs(id: number, body: {filename: string, type: string}[]): Promise<ShareURLResponse[] | string> {
+export async function getShareURLs(id: number, body: { filename: string, type: string }[]): Promise<ShareURLResponse[] | string> {
     return await postWrapper({ path: `${config.workerbeeApi.albums.PATH}${id}`, data: body })
 }
 
@@ -330,12 +348,12 @@ export async function deleteAlbumImage(albumId: number, imageName: string): Prom
     return await deleteWrapper({ path })
 }
 
-export async function putCoverImage(albumId: number, imageName: string): Promise<{message: string} | string> {
+export async function putCoverImage(albumId: number, imageName: string): Promise<{ message: string } | string> {
     const path = `${config.workerbeeApi.albums.PATH}${albumId}/${imageName}`
     return await putWrapper({ path, data: {} })
 }
 
-export async function compressAlbums(): Promise<{message: string} | string> {
+export async function compressAlbums(): Promise<{ message: string } | string> {
     const path = `${config.workerbeeApi.albums.PATH}compress`
     return await putWrapper({ path, data: {} })
 }
@@ -344,11 +362,11 @@ export async function compressAlbums(): Promise<{message: string} | string> {
 
 export async function getAlerts({ search, offset, limit, orderBy, sort }: GetParamsProps = {}): Promise<GetAlertsProps | string> {
     const queryParts = new URLSearchParams()
-    if (search)     queryParts.append('search', String(search))
-    if (offset)     queryParts.append('offset', String(offset))
-    if (limit)      queryParts.append('limit', String(limit))
-    if (orderBy)    queryParts.append('order_by', String(orderBy))
-    if (sort)       queryParts.append('sort', String(sort))
+    if (search) queryParts.append('search', String(search))
+    if (offset) queryParts.append('offset', String(offset))
+    if (limit) queryParts.append('limit', String(limit))
+    if (orderBy) queryParts.append('order_by', String(orderBy))
+    if (sort) queryParts.append('sort', String(sort))
 
     const path = `${config.workerbeeApi.alerts.PATH}?${queryParts.toString()}`
     return await getWrapper({ path })
@@ -380,14 +398,20 @@ export async function getHoneyServices(): Promise<string[] | string> {
     return await getWrapper({ path })
 }
 
-export async function getHoneys({ service, search, offset, limit, orderBy, sort }: GetParamsProps & { service: string }):
-Promise<GetHoneysProps | string> {
+export async function getHoneys({
+    service,
+    search,
+    offset,
+    limit,
+    orderBy,
+    sort
+}: GetParamsProps & { service: string }): Promise<GetHoneysProps | string> {
     const queryParts = new URLSearchParams()
-    if (search)     queryParts.append('search', String(search))
-    if (offset)     queryParts.append('offset', String(offset))
-    if (limit)      queryParts.append('limit', String(limit))
-    if (orderBy)    queryParts.append('order_by', String(orderBy))
-    if (sort)       queryParts.append('sort', String(sort))
+    if (search) queryParts.append('search', String(search))
+    if (offset) queryParts.append('offset', String(offset))
+    if (limit) queryParts.append('limit', String(limit))
+    if (orderBy) queryParts.append('order_by', String(orderBy))
+    if (sort) queryParts.append('sort', String(sort))
 
     const path = `${config.workerbeeApi.honey.SERVICES}${service}?${queryParts.toString()}`
     return await getWrapper({ path })
@@ -488,35 +512,62 @@ export async function getApplicationMetrics() {
     })
 }
 
-// ---------------------------------- Traffic -----------------------------------
+// ---------------------------------- Traffic ----------------------------------
 
 export async function getTrafficMetrics(
-    {start, end, domain}: {start?: string, end?: string, domain?: string} = {}): Promise<TrafficMetricsProps | string>
-{
+    { start, end, domain }: { start?: string, end?: string, domain?: string } = {}): Promise<TrafficMetricsProps | string> {
     const queryParts = new URLSearchParams()
-    if (start)  queryParts.append('start', start)
-    if (end)    queryParts.append('end', end)
+    if (start) queryParts.append('start', start)
+    if (end) queryParts.append('end', end)
     if (domain) queryParts.append('domain', domain)
 
-    const path = `${config.workerbeeApi.beekeeper.traffic.METRICS}?${queryParts.toString()}`
+    const path = `${config.workerbeeApi.beekeeper.traffic.metrics}?${queryParts.toString()}`
     return await getWrapper({ path, custom: 'beekeeper' })
 }
 
-export async function getTrafficRecords(
-    {start, end, limit, page, domain}: {start?: string, end?: string, limit?: number, page?: number, domain?: string}):
-Promise<TrafficRecordsProps | string>
-{
+export async function getTrafficRecords({
+    start,
+    end,
+    limit,
+    page,
+    domain
+}: GetTrafficRecordsProps): Promise<TrafficRecordsProps | string> {
     const queryParts = new URLSearchParams()
-    if (start)  queryParts.append('start', start)
-    if (end)    queryParts.append('end', end)
-    if (limit)  queryParts.append('limit', String(limit))
-    if (page)   queryParts.append('page', String(page))
+    if (start) queryParts.append('start', start)
+    if (end) queryParts.append('end', end)
+    if (limit) queryParts.append('limit', String(limit))
+    if (page) queryParts.append('page', String(page))
     if (domain) queryParts.append('domain', domain)
 
-    const path = `${config.workerbeeApi.beekeeper.traffic.RECORDS}?${queryParts.toString()}`
+    const path = `${config.workerbeeApi.beekeeper.traffic.records}?${queryParts.toString()}`
     return await getWrapper({ path, custom: 'beekeeper' })
 }
 
 export async function getTrafficDomains() {
-    return await getWrapper({ path: config.workerbeeApi.beekeeper.traffic.DOMAINS, custom: 'beekeeper' })
+    return await getWrapper({ path: config.workerbeeApi.beekeeper.traffic.domains, custom: 'beekeeper' })
+}
+
+// ---------------------------------- Services ---------------------------------
+
+export async function getNotifications(): Promise<ServiceNotification[] | string> {
+    return await getWrapper({ path: config.workerbeeApi.beekeeper.status.notifications.get, custom: 'beekeeper' })
+}
+
+export async function postNotification(name: string, message: string, webhook: string): Promise<string> {
+    return await postWrapper({
+        path: config.workerbeeApi.beekeeper.status.notifications.post,
+        data: { name, message, webhook }, custom: 'beekeeper'
+    })
+}
+
+export async function getTags(): Promise<ServiceNotification[] | string> {
+    return await getWrapper({ path: config.workerbeeApi.beekeeper.status.tags.get, custom: 'beekeeper' })
+}
+
+export async function postTag(name: string, color: string): Promise<string> {
+    return await postWrapper({ path: config.workerbeeApi.beekeeper.status.tags.post, data: { name, color }, custom: 'beekeeper' })
+}
+
+export async function deleteTag(id: string): Promise<ServiceNotification[] | string> {
+    return await deleteWrapper({ path: `${config.workerbeeApi.beekeeper.status.tags.delete}/${id}`, custom: 'beekeeper' })
 }
