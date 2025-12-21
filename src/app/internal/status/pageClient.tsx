@@ -27,7 +27,7 @@ export default function PageClient({ items, notifications }: { items: ServiceRow
     }
 
     return (
-        <div className='grid md:grid-cols-7 gap-2'>
+        <div className='grid lg:grid-cols-7 gap-2'>
             <NewTag display={addingTag} setAddingTag={setAddingTag} />
             <div className='col-span-3 flex gap-2'>
                 <h1 onClick={() => setAdding(true)} className={`

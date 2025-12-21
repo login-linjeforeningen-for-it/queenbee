@@ -553,19 +553,8 @@ export async function getNotifications(): Promise<ServiceNotification[] | string
     return await getWrapper({ path: config.workerbeeApi.beekeeper.status.notifications.get, custom: 'beekeeper' })
 }
 
-export async function postNotification(name: string, message: string, webhook: string): Promise<string> {
-    return await postWrapper({
-        path: config.workerbeeApi.beekeeper.status.notifications.post,
-        data: { name, message, webhook }, custom: 'beekeeper'
-    })
-}
-
 export async function getTags(): Promise<ServiceNotification[] | string> {
     return await getWrapper({ path: config.workerbeeApi.beekeeper.status.tags.get, custom: 'beekeeper' })
-}
-
-export async function postTag(name: string, color: string): Promise<string> {
-    return await postWrapper({ path: config.workerbeeApi.beekeeper.status.tags.post, data: { name, color }, custom: 'beekeeper' })
 }
 
 export async function deleteTag(id: string): Promise<ServiceNotification[] | string> {

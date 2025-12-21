@@ -1,4 +1,4 @@
-import { postNotification } from '@utils/api'
+import postNotification from '@utils/fetch/status/postNotification'
 import { Dispatch, SetStateAction, useState } from 'react'
 
 type NewTagProps = {

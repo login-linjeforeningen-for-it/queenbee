@@ -1,4 +1,4 @@
-import { postTag } from '@utils/api'
+import postTag from '@utils/fetch/status/postTag'
 import { Dispatch, SetStateAction, useState } from 'react'
 
 type NewTagProps = {
@@ -40,7 +40,7 @@ export default function NewTag({ display, setAddingTag }: NewTagProps) {
             <form
                 onClick={(e) => e.stopPropagation()}
                 onSubmit={handleSubmit}
-                className='bg-white/10 backdrop-blur-md rounded-xl p-6 w-full max-w-md grid gap-4 text-white'
+                className='bg-white/10 backdrop-blur-md rounded-xl p-6 w-full max-w-md grid gap-4'
             >
                 <h1 className='text-2xl font-semibold text-center'>New Tag</h1>
 
