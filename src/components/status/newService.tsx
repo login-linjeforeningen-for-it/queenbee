@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import NewNotification from './newNotification'
+import { Plus } from 'lucide-react'
 
 export default function NewService({ notifications }: { notifications: ServiceNotification[] }) {
     const [addingNotification, setAddingNotification] = useState(false)
@@ -194,7 +195,10 @@ export default function NewService({ notifications }: { notifications: ServiceNo
                 </div>
 
                 <div className='w-fit'>
-                    <label className='block text-sm font-medium'>Notification</label>
+                    <div className='flex justify-between items-center'>
+                        <label className='block text-sm font-medium'>Notification</label>
+                        <Plus onClick={() => setAddingNotification(true)} className='w-4 h-4 cursor-pointer hover:stroke-login' />
+                    </div>
                     <select
                         className='w-full rounded bg-white/10 px-3 py-2'
                         value={form.type}
