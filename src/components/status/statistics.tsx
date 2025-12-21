@@ -10,7 +10,7 @@ export default function Statistics({ services }: { services: Service[] }) {
             <div className='text-center text-lg font-semibold'>
                 <h1>Down</h1>
                 <h1 className='text-2xl text-red-500'>
-                    {services.filter(item => item.bars.length && item.bars[item.bars.length - 1].status === 'down').length}
+                    {services.filter(item => !item.bars.length || item.bars[item.bars.length - 1].status === 'down').length}
                 </h1>
             </div>
             <div className='text-center text-lg font-semibold'>
