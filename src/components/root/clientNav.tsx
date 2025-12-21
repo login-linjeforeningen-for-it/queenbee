@@ -71,7 +71,7 @@ export function MiddleIcon() {
     return (
         <Link
             href='/logout'
-            className='grid place-self-center w-[2rem] h-[2rem] relative'
+            className='grid place-self-center w-8 h-8 relative'
             onClick={handleClick}
         >
             <Image src={icon} alt='logo' fill={true} />
@@ -81,7 +81,7 @@ export function MiddleIcon() {
 
 export function RightSide() {
     return (
-        <div className='flex justify-end rounded-lg gap-2 md:min-w-[10rem]'>
+        <div className='flex justify-end rounded-lg gap-2 md:min-w-40'>
             <MiddleIcon />
             <RightIcon />
             <ThemeSwitch />
