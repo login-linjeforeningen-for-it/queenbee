@@ -1,5 +1,6 @@
 'use client'
 
+import EditService from '@components/status/editService'
 import MultiSelect from '@components/status/multiSelect'
 import NewService from '@components/status/newService'
 import NewTag from '@components/status/newTag'
@@ -25,6 +26,7 @@ export default function PageClient({
     const [selectedTags, setSelectedTags] = useState<string[]>([])
     const [selected, setSelected] = useState<Service | null>(null)
     const [adding, setAdding] = useState(false)
+    const [editing, setEditing] = useState<Service | null>(null)
     const [refresh, setRefresh] = useState(false)
     const [refreshTags, setRefreshTags] = useState(false)
     const [refreshNotifications, setRefreshNotifications] = useState(false)
@@ -72,12 +74,12 @@ export default function PageClient({
         <div className='grid lg:grid-cols-7 gap-2'>
             <NewTag display={addingTag} setAddingTag={setAddingTag} setRefresh={setRefreshTags} />
             <div className='col-span-3 flex gap-2'>
-                <h1 onClick={() => setAdding(true)} className={`
+                <h1 onClick={() => { setAdding(true); setEditing(null) }} className={`
                     bg-login/80 outline outline-login/80 px-8 py-0.5 select-none
                     hover:bg-login hover:outline-login hover:brightness-110 rounded-lg
                     w-fit cursor-pointer
                 `}>Add new service</h1>
-                <h1 onClick={() => { setAdding(false); setSelected(null) }} className={`
+                <h1 onClick={() => { setAdding(false); setEditing(null); setSelected(null) }} className={`
                     bg-white/20 outline outline-white/40 px-8 py-0.5 select-none
                     hover:bg-white/40 hover:outline-white/60 hover:brightness-110 rounded-lg
                     w-fit cursor-pointer
@@ -139,10 +141,11 @@ export default function PageClient({
                             && stateFilter === null ? true
                             : (item.bars.length ? stateFilter?.includes(item.bars[item.bars.length - 1].status) : false)
                                 && enabledFilter === null ? true : enabledFilter === item.enabled
-                                    && !selectedTags.length ? true : selectedTags!.some(tf => item.tags.some(it => it.id === tf))
+                                    && !selectedTags.length ? true : selectedTags!.some(tf => item.tags.some(it => it.id === Number(tf)))
                     ).map((item, index) =>
                         <ServiceRow
-                            onClick={() => { setSelected(item); setAdding(false) }}
+                            onClick={() => { setSelected(item); setAdding(false); setEditing(null) }}
+                            onEditClick={() => { setEditing(item); setSelected(null); setAdding(false) }}
                             key={index}
                             name={item.name}
                             uptime={item.uptime}
@@ -159,8 +162,14 @@ export default function PageClient({
                         setRefresh={setRefresh}
                         setRefreshNotifications={setRefreshNotifications}
                     />
-                    : <ServiceStatus service={services.find((service) => service.name === selected?.name)} />
+                    : editing ? null : <ServiceStatus service={services.find((service) => service.name === selected?.name)} />
                 }
+                {editing && <EditService
+                    notifications={notifications}
+                    setRefresh={setRefresh}
+                    setRefreshNotifications={setRefreshNotifications}
+                    service={editing}
+                />}
             </div>
         </div>
     )

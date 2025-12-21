@@ -1083,7 +1083,7 @@ declare global {
         uptime: number
         name: string
         enabled: boolean
-        tags: { id: string, name: string }[]
+        tags: { id: number, name: string }[]
         bars: { status: Bar, date: string, message: string }[]
     }
 
@@ -1111,6 +1111,22 @@ declare global {
         maxConsecutiveFailures: number
         note: string
         enabled: boolean
+    }
+
+    type DetailedService = {
+        id: number
+        uptime: number
+        type: string
+        name: string
+        enabled: boolean
+        tags: { id: number, name: string }[]
+        bars: { status: Bar, date: string, message: string }[]
+        url: string
+        status: boolean
+        expected_down: boolean
+        interval: number
+        note: string
+        max_consecutive_failures: number
     }
 }
 
