@@ -78,7 +78,7 @@ export default function PostMessage({ title: Title, content: Content, status: St
                 <FancyField placeholder='Status' value={status} setValue={setStatus} />
                 <button
                     onClick={handleSubmit}
-                    className='cursor-pointer bg-login py-1 text-center w-full text-bright rounded-lg'
+                    className='cursor-pointer bg-login py-1 text-center w-full text-bright rounded-lg select-none'
                 >
                     Post
                 </button>

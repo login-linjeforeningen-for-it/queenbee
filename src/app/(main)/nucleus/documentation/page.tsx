@@ -26,7 +26,7 @@ export default function Page() {
                         type='button'
                         aria-label='Go back'
                         onClick={() => router.back()}
-                        className='inline-flex items-center gap-2 cursor-pointer hover:text-login'>
+                        className='inline-flex items-center gap-2 cursor-pointer hover:text-login select-none'>
                         <ArrowLeft className='size-4.5' />
                         <span>Back</span>
                     </button>

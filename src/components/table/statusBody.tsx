@@ -82,12 +82,12 @@ function ActionButtons({ id, autoUpdate: serverAutoUpdate }: { id: string, autoU
     }
 
     return (
-        <td onClick={(e) => e.stopPropagation()} className='p-2 flex-1 flex gap-2 w-full pr-5 justify-end'>
+        <td onClick={(e) => e.stopPropagation()} className='p-2 flex-1 flex gap-2 w-full pr-5 justify-end select-none'>
             <div className='flex gap-2 cursor-pointer'>
                 {!autoUpdate && <button
                     type='button'
                     className={`
-                        mx-auto px-3 py-1.5 rounded flex items-start 
+                        mx-auto px-3 py-1.5 rounded flex items-start select-none
                         justify-center cursor-pointer bg-login-500 group
                     `}
                     onClick={handleUpdate}
@@ -98,7 +98,7 @@ function ActionButtons({ id, autoUpdate: serverAutoUpdate }: { id: string, autoU
                     type='button'
                     className={`
                         px-3 py-1.5 rounded bg-login-500 flex items-start
-                        justify-center cursor-pointer group
+                        justify-center cursor-pointer group select-none
                     `}
                     onClick={handleRefresh}
                 >
@@ -107,7 +107,7 @@ function ActionButtons({ id, autoUpdate: serverAutoUpdate }: { id: string, autoU
                 <button
                     type='button'
                     className={`
-                        h-full w-full rounded group flex
+                        h-full w-full rounded group flex select-none
                         items-start justify-center cursor-pointer
                     `}
                     onClick={handleAutoUpdate}

@@ -199,7 +199,7 @@ function CombinedMetrics({ title, data, total }: {
                 <h3 className='text-lg font-semibold'>{currentTitle}</h3>
                 <button
                     onClick={() => setIndex(index === 0 ? 1 : 0)}
-                    className='px-3 py-1 bg-blue-500 text-white rounded text-sm'
+                    className='px-3 py-1 bg-blue-500 text-white rounded text-sm select-none'
                 >
                     {buttonText}
                 </button>

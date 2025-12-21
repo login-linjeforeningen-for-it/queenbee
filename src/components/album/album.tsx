@@ -104,7 +104,7 @@ export default function Album({ album, deleteAction, pageSize, coverAction }: Al
                                 {coverAction && (
                                     <button
                                         onClick={() => handleSetCoverImage(image)}
-                                        className='bg-yellow-600 text-white p-2 rounded-full transition-colors cursor-pointer'
+                                        className='bg-yellow-600 text-white p-2 rounded-full transition-colors cursor-pointer select-none'
                                         title='Set as cover image'
                                     >
                                         <Star size={20} />
@@ -112,7 +112,7 @@ export default function Album({ album, deleteAction, pageSize, coverAction }: Al
                                 )}
                                 <button
                                     onClick={() => handleDeleteImage(image)}
-                                    className='bg-red-900 text-white p-2 rounded-full transition-colors cursor-pointer'
+                                    className='bg-red-900 text-white p-2 rounded-full transition-colors cursor-pointer select-none'
                                     title='Delete image'
                                 >
                                     <Trash2 size={20} />

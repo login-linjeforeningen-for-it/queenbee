@@ -39,8 +39,10 @@ export default function UploadAlbumImages({ albumId }: { albumId: number }) {
             <button
                 type='button'
                 disabled={isUploading}
-                className={`flex flex-row gap-2 cursor-pointer bg-login/90 hover:bg-login/80 
-                    rounded-md text-nowrap items-center disabled:cursor-not-allowed disabled:opacity-50
+                className={`
+                    flex flex-row gap-2 select-none cursor-pointer bg-login/90 
+                    hover:bg-login/80 rounded-md text-nowrap items-center
+                    disabled:cursor-not-allowed disabled:opacity-50
                 `}
                 onClick={async () => {
                     setIsUploading(true)

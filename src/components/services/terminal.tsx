@@ -198,7 +198,7 @@ export default function Terminal({ namespace, command, name: Name, reason: Reaso
                 </h1>}
                 {text.length > 0 && !inputSeemsValid && !acceptedRisk && <button
                     onClick={() => setAcceptedRisk(true)}
-                    className='bg-login-200/20 cursor-pointer rounded-lg px-5'
+                    className='bg-login-200/20 cursor-pointer rounded-lg px-5 select-none'
                 >
                     Override invalid warning
                 </button>}
@@ -207,7 +207,7 @@ export default function Terminal({ namespace, command, name: Name, reason: Reaso
                 </h1>
                 {text.length > 0 && name.length > 0 && reason.length > 0 && (inputSeemsValid || acceptedRisk) && <button
                     onClick={() => submit({ key: 'Enter' } as React.KeyboardEvent<HTMLTextAreaElement>)}
-                    className='bg-login cursor-pointer text-white rounded-lg px-5'
+                    className='bg-login cursor-pointer text-white rounded-lg px-5 select-none'
                 >
                     Submit
                 </button>}

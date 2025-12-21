@@ -4,9 +4,10 @@ import { Dispatch, SetStateAction, useState } from 'react'
 type NewTagProps = {
     display: boolean
     setAddingNotification: Dispatch<SetStateAction<boolean>>
+    setRefresh: Dispatch<SetStateAction<boolean>>
 }
 
-export default function NewNotification({ display, setAddingNotification }: NewTagProps) {
+export default function NewNotification({ display, setAddingNotification, setRefresh }: NewTagProps) {
     const [name, setName] = useState('')
     const [message, setMessage] = useState('')
     const [webhook, setWebhook] = useState('')
@@ -21,8 +22,12 @@ export default function NewNotification({ display, setAddingNotification }: NewT
         }
 
         const response = await postNotification(name, message, webhook)
-        if (!response.includes('failed')) {
+        if ('message' in response) {
             setName('')
+            setMessage('')
+            setWebhook('')
+            setRefresh(true)
+            setAddingNotification(false)
         } else {
             setError('Unable to reach server. Please try again later.')
         }

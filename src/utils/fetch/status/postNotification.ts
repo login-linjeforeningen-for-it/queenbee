@@ -20,6 +20,6 @@ export default async function postNotification(name: string, message: string, we
         const data = await response.json()
         return data
     } catch (error) {
-        console.log(error)
+        return `Failed to post notification: ${error}`
     }
 }

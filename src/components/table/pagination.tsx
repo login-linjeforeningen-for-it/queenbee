@@ -165,11 +165,11 @@ export default function Pagination({
                     type='button'
                     onClick={goNext}
                     disabled={current >= totalPages}
-                    className={
-                        'flex items-center gap-2 p-1 rounded-lg bg-login-600 ' +
-                        'hover:bg-login-500 disabled:opacity-50 ' +
-                        'border-[0.10rem] border-login-200 text-sm'
-                    }
+                    className={`
+                        flex items-center gap-2 p-1 rounded-lg bg-login-600
+                        hover:bg-login-500 disabled:opacity-50 select-none
+                        border-[0.10rem] border-login-200 text-sm
+                    `}
                 >
                     <ChevronRight className='h-5 w-5' />
                 </button>

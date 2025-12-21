@@ -64,11 +64,11 @@ export default function CustomForm({
                         setSubmitCount(prev => prev + 1)
                     }}
                     disabled={pending}
-                    className={
-                        'flex flex-row w-fit gap-2 capitalize ' +
-                        'cursor-pointer bg-login/90 hover:bg-login/80 ' +
-                        'rounded-md px-3 py-1'
-                    }
+                    className={`
+                        flex flex-row w-fit gap-2 capitalize select-none
+                        cursor-pointer bg-login/90 hover:bg-login/80
+                        rounded-md px-3 py-1
+                    `}
                 >
                     <Save className='w-5' />
                     {type} {name}

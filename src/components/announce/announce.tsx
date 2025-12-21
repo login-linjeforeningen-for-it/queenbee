@@ -51,7 +51,7 @@ export default function Announce({ channels, roles }: { channels: Channel[], rol
     return (
         <div
             onClick={handleClick}
-            className='col-span-2 space-apart bg-login-600 rounded-lg p-2 px-4 cursor-pointer mt-10'
+            className='col-span-2 space-apart bg-login-600 rounded-lg p-2 px-4 cursor-pointer mt-10 select-none'
         >
             <div className='flex justify-between'>
                 <h1 className={
@@ -84,7 +84,7 @@ function OpenAnnouncement({
 
     if (!channels.length) {
         return (
-            <div className='w-full space-y-4 mt-2' onClick={(e) => e.stopPropagation()}>
+            <div className='w-full space-y-4 mt-2 select-none' onClick={(e) => e.stopPropagation()}>
                 <div className='w-full h-0.5 bg-login-400 rounded-lg' />
                 <div className='flex gap-2 w-full rounded-lg p-2 bg-red-900'>
                     <MessageSquareWarning />
@@ -95,7 +95,7 @@ function OpenAnnouncement({
     }
 
     return (
-        <div className='w-full space-y-4 mt-2' onClick={(e) => e.stopPropagation()}>
+        <div className='w-full space-y-4 mt-2 select-none' onClick={(e) => e.stopPropagation()}>
             <div className='w-full h-0.5 bg-login-400 rounded-lg' />
             <div className='grid grid-cols-2 gap-4'>
                 <AnnouncementFormInputsClient

@@ -75,6 +75,10 @@ const config = {
         },
         beekeeper: {
             status: {
+                services: {
+                    get: '/monitoring',
+                    post: '/monitoring',
+                },
                 notifications: {
                     get: '/monitoring/notifications',
                     post: '/monitoring/notification',

@@ -70,7 +70,7 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
                     <h1 className='text-2xl font-bold'>Upload Preview</h1>
                     <button
                         onClick={onClose}
-                        className='transition-colors rounded-lg hover:bg-login-600 p-2'
+                        className='transition-colors rounded-lg hover:bg-login-600 p-2 select-none'
                         aria-label='Close'
                     >
                         <X className='w-5 h-5' />
@@ -140,12 +140,12 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
                     <div className='flex gap-4 h-fit'>
                         <button
                             onClick={onClose}
-                            className='px-6 py-2 rounded-md bg-login-500/60 cursor-pointer'
+                            className='px-6 py-2 rounded-md bg-login-500/60 cursor-pointer select-none'
                         >
                             Cancel
                         </button>
                         <button
-                            className='px-6 py-2 rounded-md bg-login cursor-pointer'
+                            className='px-6 py-2 rounded-md bg-login cursor-pointer select-none'
                             onClick={handleClick}
                         >
                             Upload

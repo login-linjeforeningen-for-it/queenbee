@@ -58,7 +58,7 @@ export default function MultiSelect({
                 className={`
                     flex cursor-pointer items-center justify-between gap-2
                     rounded-lg bg-white/10 px-2 py-0.5
-                    outline outline-white/20
+                    outline outline-white/20 select-none
                     hover:bg-white/15
                 `}
             >
@@ -85,7 +85,7 @@ export default function MultiSelect({
                                         e.stopPropagation()
                                         removeOption(val)
                                     }}
-                                    className='hover:text-red-400'
+                                    className='hover:text-red-400 select-none'
                                 >
                                     <X size={14} />
                                 </button>
@@ -98,9 +98,10 @@ export default function MultiSelect({
                     {plusAction !== undefined && <Plus onClick={(e) => plusAction(e)} size={18} className='shrink-0' />}
                     <ChevronDown
                         size={18}
-                        className={`shrink-0 transition-transform ${
-                            open ? 'rotate-180' : ''
-                        }`}
+                        className={`
+                            shrink-0 transition-transform select-none
+                            ${open ? 'rotate-180' : ''}
+                        `}
                     />
                 </div>
             </div>
@@ -123,7 +124,7 @@ export default function MultiSelect({
                                 onClick={() => toggleOption(option.value)}
                                 className={`
                                     flex cursor-pointer items-center px-3 py-2
-                                    hover:bg-white/10 justify-between
+                                    hover:bg-white/10 justify-between select-none
                                     ${selected ? 'bg-white/10' : ''}
                                 `}
                             >

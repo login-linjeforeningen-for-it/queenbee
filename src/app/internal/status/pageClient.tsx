@@ -6,37 +6,79 @@ import NewTag from '@components/status/newTag'
 import ServiceRow from '@components/status/serviceRow'
 import ServiceStatus from '@components/status/serviceStatus'
 import Statistics from '@components/status/statistics'
+import { getNotifications, getServices, getTags } from '@utils/api'
 import { Search } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function PageClient({ items, notifications }: { items: ServiceRow[], notifications: ServiceNotification[] }) {
+export default function PageClient({
+    services: serverServices,
+    notifications: serverNotifications,
+    tags: serverTags
+}: { services: Service[], notifications: ServiceNotification[], tags: Tag[] }) {
+    const [services, setServices] = useState<Service[]>(serverServices)
+    const [notifications, setNotifications] = useState<ServiceNotification[]>(serverNotifications)
+    const [tags, setTags] = useState<{ id: string, name: string }[]>(serverTags)
     const [input, setInput] = useState('')
     const [stateFilter, setStateFilter] = useState<Bar[] | null>(null)
     const [enabledFilter, setEnabledFilter] = useState<boolean | null>(null)
-    const [tags, setTags] = useState<{ id: string, name: string }[]>(items.flatMap((item) => item.tags))
     const [addingTag, setAddingTag] = useState(false)
     const [selectedTags, setSelectedTags] = useState<string[]>([])
-    const [selected, setSelected] = useState<ServiceRow | null>(null)
+    const [selected, setSelected] = useState<Service | null>(null)
     const [adding, setAdding] = useState(false)
+    const [refresh, setRefresh] = useState(false)
+    const [refreshTags, setRefreshTags] = useState(false)
+    const [refreshNotifications, setRefreshNotifications] = useState(false)
 
     function addTag(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
         e.preventDefault()
         e.stopPropagation()
         setAddingTag(true)
-        console.log('setTags unimplemented', setTags)
     }
+
+    useEffect(() => {
+        if (refresh) {
+            (async () => {
+                const response = await getServices()
+                if (Array.isArray(response)) {
+                    setServices(response)
+                }
+            })()
+        }
+    }, [refresh])
+
+    useEffect(() => {
+        if (refreshTags) {
+            (async () => {
+                const response = await getTags()
+                if (Array.isArray(response)) {
+                    setTags(response)
+                }
+            })()
+        }
+    }, [refreshTags])
+
+    useEffect(() => {
+        if (refreshNotifications) {
+            (async () => {
+                const response = await getNotifications()
+                if (Array.isArray(response)) {
+                    setNotifications(response)
+                }
+            })()
+        }
+    }, [refreshNotifications])
 
     return (
         <div className='grid lg:grid-cols-7 gap-2'>
-            <NewTag display={addingTag} setAddingTag={setAddingTag} />
+            <NewTag display={addingTag} setAddingTag={setAddingTag} setRefresh={setRefreshTags} />
             <div className='col-span-3 flex gap-2'>
                 <h1 onClick={() => setAdding(true)} className={`
-                    bg-login/80 outline outline-login/80 px-8 py-0.5
+                    bg-login/80 outline outline-login/80 px-8 py-0.5 select-none
                     hover:bg-login hover:outline-login hover:brightness-110 rounded-lg
                     w-fit cursor-pointer
                 `}>Add new service</h1>
                 <h1 onClick={() => { setAdding(false); setSelected(null) }} className={`
-                    bg-white/20 outline outline-white/40 px-8 py-0.5
+                    bg-white/20 outline outline-white/40 px-8 py-0.5 select-none
                     hover:bg-white/40 hover:outline-white/60 hover:brightness-110 rounded-lg
                     w-fit cursor-pointer
                 `}>Dashboard</h1>
@@ -92,9 +134,10 @@ export default function PageClient({ items, notifications }: { items: ServiceRow
                 </div>
 
                 <div className='grid gap-2 h-fit'>
-                    {items.filter(item =>
+                    {services.filter(item =>
                         item.name.includes(input)
-                            && stateFilter === null ? true : stateFilter?.includes(item.bars[item.bars.length - 1].status)
+                            && stateFilter === null ? true
+                            : (item.bars.length ? stateFilter?.includes(item.bars[item.bars.length - 1].status) : false)
                                 && enabledFilter === null ? true : enabledFilter === item.enabled
                                     && !selectedTags.length ? true : selectedTags!.some(tf => item.tags.some(it => it.id === tf))
                     ).map((item, index) =>
@@ -109,10 +152,14 @@ export default function PageClient({ items, notifications }: { items: ServiceRow
                 </div>
             </div>
             <div className='col-span-4 rounded-lg grid gap-2 h-fit'>
-                <Statistics items={items} />
+                <Statistics services={services} />
                 {adding
-                    ? <NewService notifications={notifications} />
-                    : <ServiceStatus item={items.find((i) => i.name === selected?.name)} />
+                    ? <NewService
+                        notifications={notifications}
+                        setRefresh={setRefresh}
+                        setRefreshNotifications={setRefreshNotifications}
+                    />
+                    : <ServiceStatus service={services.find((service) => service.name === selected?.name)} />
                 }
             </div>
         </div>

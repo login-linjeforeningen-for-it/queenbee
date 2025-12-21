@@ -4,9 +4,10 @@ import { Dispatch, SetStateAction, useState } from 'react'
 type NewTagProps = {
     display: boolean
     setAddingTag: Dispatch<SetStateAction<boolean>>
+    setRefresh: Dispatch<SetStateAction<boolean>>
 }
 
-export default function NewTag({ display, setAddingTag }: NewTagProps) {
+export default function NewTag({ display, setAddingTag, setRefresh }: NewTagProps) {
     const [name, setName] = useState('')
     const [color, setColor] = useState('#fd8738')
     const [error, setError] = useState<string | null>(null)
@@ -20,9 +21,11 @@ export default function NewTag({ display, setAddingTag }: NewTagProps) {
         }
 
         const response = await postTag(name, color)
-        if (!response.includes('failed')) {
+        if ('message' in response) {
             setName('')
             setColor('#fd8738')
+            setAddingTag(false)
+            setRefresh(true)
         } else {
             setError('Unable to reach server. Please try again later.')
         }

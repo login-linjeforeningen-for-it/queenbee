@@ -1,30 +1,42 @@
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import NewNotification from './newNotification'
 import { Plus } from 'lucide-react'
+import postService from '@utils/fetch/status/postService'
 
-export default function NewService({ notifications }: { notifications: ServiceNotification[] }) {
+type NewServiceProps = {
+    notifications: ServiceNotification[]
+    setRefresh: Dispatch<SetStateAction<boolean>>
+    setRefreshNotifications: Dispatch<SetStateAction<boolean>>
+}
+
+export default function NewService({ notifications, setRefresh, setRefreshNotifications }: NewServiceProps) {
     const [addingNotification, setAddingNotification] = useState(false)
-    const [form, setForm] = useState({
+    const [error, setError] = useState<string | null>(null)
+    const initialForm = {
         name: '',
         type: 'fetch',
         url: '',
         interval: 60,
         status: false,
-        webhookUrl: '',
         expectedDown: false,
         maxConsecutiveFailures: 0,
         note: '',
         enabled: true,
-    })
+    }
+
+    const [form, setForm] = useState<NewService>(initialForm)
 
     function updateField<K extends keyof typeof form>(key: K, value: typeof form[K]) {
         setForm((prev) => ({ ...prev, [key]: value }))
     }
 
+    function clearForm() {
+        setForm(initialForm)
+    }
+
     function isValid() {
         if (!form.name || !form.type || !form.url || !form.interval ||
-            !form.webhookUrl || form.maxConsecutiveFailures == null ||
-            !form.note
+            form.maxConsecutiveFailures == null || !form.note
         ) {
             return false
         }
@@ -34,52 +46,31 @@ export default function NewService({ notifications }: { notifications: ServiceNo
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
+        e.stopPropagation()
 
         if (!isValid()) {
             return
         }
 
-
-        try {
-            const res = await fetch('/api/status', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(form),
-            })
-
-            const data = await res.json()
-
-            if (!res.ok) {
-                console.error('Error creating service:', data.error)
-                alert(`Error: ${data.error}`)
-                return
-            }
-
-            alert(`Service "${form.name}" created successfully.`)
-            setForm({
-                name: '',
-                type: 'fetch',
-                url: '',
-                interval: 60,
-                status: false,
-                webhookUrl: '',
-                expectedDown: false,
-                maxConsecutiveFailures: 0,
-                note: '',
-                enabled: true,
-            })
-        } catch (err) {
-            console.error('Network error:', err)
-            alert('Network error, please try again.')
+        const response = await postService(form)
+        if (typeof response === 'object' && 'message' in response) {
+            clearForm()
+            setRefresh(true)
+        } else {
+            setError('Unable to reach server. Please try again later.')
         }
     }
 
     return (
         <div className='w-full space-y-4'>
-            <NewNotification display={addingNotification} setAddingNotification={setAddingNotification} />
+            <NewNotification
+                display={addingNotification}
+                setAddingNotification={setAddingNotification}
+                setRefresh={setRefreshNotifications}
+            />
             <h1 className='text-xl font-semibold'>New Service</h1>
 
-            <form className='space-y-4'>
+            <form onSubmit={handleSubmit} className='space-y-4'>
                 <div className='flex gap-2'>
                     {/* Name */}
                     <div className='w-1/2'>
@@ -117,6 +108,12 @@ export default function NewService({ notifications }: { notifications: ServiceNo
                             value={form.url}
                             onChange={(e) => updateField('url', e.target.value)}
                         />
+                        {((!form.url.startsWith('https://') && !form.url.startsWith('http://')) || form.url.includes('https://.')
+                            || !(form.url.includes('.com') || form.url.includes('.no')))
+                            && <span className='text-xs text-red-500'>
+                                Must include 'http(s)://' and a valid top level domain (.com, .no)
+                            </span>
+                        }
                     </div>
 
                     {/* Interval */}
@@ -134,17 +131,6 @@ export default function NewService({ notifications }: { notifications: ServiceNo
                 </div>
 
                 <div className='flex gap-2'>
-                    {/* Webhook URL */}
-                    <div className='w-1/2'>
-                        <label className='block text-sm font-medium'>Webhook URL</label>
-                        <input
-                            type='url'
-                            className='w-full rounded bg-white/10 px-3 py-2'
-                            value={form.webhookUrl}
-                            onChange={(e) => updateField('webhookUrl', e.target.value)}
-                        />
-                    </div>
-
                     {/* Max Consecutive Failures */}
                     <div className='w-fit'>
                         <label className='block text-sm font-medium'>
@@ -212,13 +198,14 @@ export default function NewService({ notifications }: { notifications: ServiceNo
 
                 {!notifications.length && <h1 className='text-sm text-red-500'>
                     No notifications are set up. Services can be created without, but if they go down, no alert will be sent.<br />
-                    Click <a className='text-blue-400 cursor-pointer' onClick={() => setAddingNotification(true)}>here</a> or the
-                    plus icon next to 'Notifications' to add one.
+                    Click <a className='text-blue-400 cursor-pointer select-none' onClick={() => setAddingNotification(true)}>here</a> or
+                    the plus icon next to 'Notifications' to add one.
                 </h1>}
+
+                {error?.length && <h1 className='text-sm text-red-500'>{error}</h1>}
 
                 {/* Submit */}
                 <button
-                    onSubmit={handleSubmit}
                     type='submit'
                     className={`
                         rounded-lg bg-login/80 outline outline-login

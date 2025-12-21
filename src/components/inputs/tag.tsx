@@ -81,7 +81,7 @@ export default function TagInput({
                             {tag}
                             <button
                                 type='button'
-                                className='ml-1 text-red-700 hover:text-red-800'
+                                className='ml-1 text-red-700 hover:text-red-800 select-none'
                                 onClick={() => removeTag(idx)}
                             >
                                 <X className='h-4 stroke-3' />

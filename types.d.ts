@@ -1078,7 +1078,8 @@ declare global {
         message: string
     }
 
-    type ServiceRow = {
+    type Service = {
+        id: number
         uptime: number
         name: string
         enabled: boolean
@@ -1092,6 +1093,24 @@ declare global {
         name: string
         message: string
         webhook: string
+    }
+
+    type Tag = {
+        id: string
+        name: string
+        color: string
+    }
+
+    type NewService = {
+        name: string
+        type: string
+        url: string
+        interval: number
+        status: boolean
+        expectedDown: boolean
+        maxConsecutiveFailures: number
+        note: string
+        enabled: boolean
     }
 }
 

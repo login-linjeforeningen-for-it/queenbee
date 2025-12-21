@@ -35,7 +35,7 @@ export default function Markdown({
     const [mode, setMode] = useState<'edit' | 'preview'>('edit')
     const [hasBlured, setHasBlured] = useState(false)
     const textareaRef = useRef<HTMLTextAreaElement | null>(null)
-    const smallButtonStyle = `px-2 py-1 rounded 
+    const smallButtonStyle = `px-2 py-1 rounded select-none
         ${buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-500'}
         ${' '}${buttonColor ? buttonColor : 'bg-login-600'}`
 
@@ -144,7 +144,7 @@ export default function Markdown({
                     <button
                         type='button'
                         onClick={() => setMode('edit')}
-                        className={`px-2 py-1 rounded ${
+                        className={`px-2 py-1 rounded select-none ${
                             mode === 'edit'
                                 ? buttonColor ? buttonColor : 'bg-login-600'
                                 : buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-600'
@@ -155,7 +155,7 @@ export default function Markdown({
                     <button
                         type='button'
                         onClick={() => setMode('preview')}
-                        className={`px-2 py-1 rounded ${
+                        className={`px-2 py-1 rounded select-none ${
                             mode === 'preview'
                                 ? buttonColor ? buttonColor : 'bg-login-600'
                                 : buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-600'

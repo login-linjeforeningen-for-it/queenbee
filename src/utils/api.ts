@@ -549,11 +549,15 @@ export async function getTrafficDomains() {
 
 // ---------------------------------- Services ---------------------------------
 
+export async function getServices(): Promise<Service[] | string> {
+    return await getWrapper({ path: config.workerbeeApi.beekeeper.status.services.get, custom: 'beekeeper' })
+}
+
 export async function getNotifications(): Promise<ServiceNotification[] | string> {
     return await getWrapper({ path: config.workerbeeApi.beekeeper.status.notifications.get, custom: 'beekeeper' })
 }
 
-export async function getTags(): Promise<ServiceNotification[] | string> {
+export async function getTags(): Promise<Tag[] | string> {
     return await getWrapper({ path: config.workerbeeApi.beekeeper.status.tags.get, custom: 'beekeeper' })
 }
 

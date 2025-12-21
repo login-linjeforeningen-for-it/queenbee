@@ -1,16 +1,16 @@
 import config from '@config'
 import { getCookie } from '@utils/cookies'
 
-export default async function postTag(name: string, color: string) {
+export default async function postService(form: NewService) {
     try {
         const token = getCookie('access_token')
-        const response = await fetch(`${config.beekeeper.api}${config.workerbeeApi.beekeeper.status.tags.post}`, {
+        const response = await fetch(`${config.beekeeper.api}${config.workerbeeApi.beekeeper.status.services.post}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ name, color })
+            body: JSON.stringify(form)
         })
 
         if (!response.ok) {
@@ -20,6 +20,6 @@ export default async function postTag(name: string, color: string) {
         const data = await response.json()
         return data
     } catch (error) {
-        return `Failed to post tag: ${error}`
+        return `Failed to post service: ${error}`
     }
 }

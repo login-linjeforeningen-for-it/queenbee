@@ -112,12 +112,12 @@ export default function IncidentsClient({
             <Link
                 target='_blank'
                 href='https://wiki.login.no/tekkom/projects/infrastructure/incident'
-                className={buttonStyle}>All incidents<ArrowOutward className=' w-[1rem] h-[1rem] fill-login' />
+                className={buttonStyle}>All incidents<ArrowOutward className=' w-4 h-4 fill-login' />
             </Link>
-            {(incidents.length > 0 || allowEdit) && <div className='h-[1px] bg-login-400 w-full' />}
+            {(incidents.length > 0 || allowEdit) && <div className='h-px bg-login-400 w-full' />}
             {incidents.map((incident) => <div key={incident.name} className={buttonStyle}>
                 <Link target='_blank' href={incident.url} className='text-login-200'>{incident.name}</Link>
-                <ArrowOutward className=' w-[1rem] h-[1rem] fill-login' />
+                <ArrowOutward className=' w-4 h-4 fill-login' />
             </div>)}
             {allowEdit && <div className={`pb-2 ${!incidents.length && 'pt-2'}`}>
                 {open ? <div className='grid space-between items-center text-login-200 bg-login-600 rounded-lg gap-2 p-2'>
@@ -126,7 +126,10 @@ export default function IncidentsClient({
                     >
                         {response.message}
                     </h1>}
-                    <button onClick={handleCancel} className='cursor-pointer bg-login-400 py-1 text-center w-full text-bright rounded-lg'>
+                    <button
+                        onClick={handleCancel}
+                        className='cursor-pointer bg-login-400 py-1 text-center w-full text-bright rounded-lg select-none'
+                    >
                         Cancel
                     </button>
                     <div className='relative grid gap-2'>
@@ -135,20 +138,23 @@ export default function IncidentsClient({
                         <FancyField type='date' placeholder='Date' value={time} setValue={setTime} />
                         <h1
                             onClick={() => setTime(new Date().toISOString())}
-                            className='absolute bg-login-300 px-2 rounded-lg bottom-1 right-1'
+                            className='absolute bg-login-300 px-2 rounded-lg bottom-1 right-1 select-none'
                         >
                             now
                         </h1>
                     </div>
                     <button
                         onClick={handleSubmit}
-                        className='cursor-pointer bg-login py-1 text-center w-full text-bright rounded-lg'
+                        className='cursor-pointer bg-login py-1 text-center w-full text-bright rounded-lg select-none'
                     >
                         Add
                     </button>
                 </div> : <div
                     onClick={() => setOpen(true)}
-                    className='select-none flex justify-between items-center px-2 text-login-200 bg-login-600 rounded-md py-1'
+                    className={`
+                        select-none flex justify-between items-center px-2
+                        text-login-200 bg-login-600 rounded-md py-1
+                    `}
                 >
                     <h1 className='select-none'>Add incident</h1>
                     <h1 className='select-none text-lg pr-[3px] text-login'>+</h1>

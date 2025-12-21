@@ -3,18 +3,18 @@ import barColor from '@utils/status/barColor'
 import TrashShift from './trashShift'
 
 type ServiceStatusProps = {
-    item?: ServiceRow
+    service?: Service
 }
 
-export default function ServiceStatus({ item }: ServiceStatusProps) {
-    if (!item) {
+export default function ServiceStatus({ service }: ServiceStatusProps) {
+    if (!service) {
         return <></>
     }
 
     return (
         <>
             <div className='flex w-full justify-between items-center'>
-                <h1 className='text-xl font-semibold'>{item.name}</h1>
+                <h1 className='text-xl font-semibold'>{service.name}</h1>
                 <TrashShift />
             </div>
             <table className='rounded-lg w-full p-2 bg-white/5'>
@@ -27,9 +27,9 @@ export default function ServiceStatus({ item }: ServiceStatusProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    {item.bars.map((bar, i) => (
-                        <tr key={i}>
-                            <td className='px-2 overflow-auto noscroll'>{item.name}</td>
+                    {service.bars.map((bar, index) => (
+                        <tr key={index}>
+                            <td className='px-2 overflow-auto noscroll'>{service.name}</td>
                             <td className='px-2 py-1'>
                                 <span className={`
                                     inline-flex items-center justify-center text-xs w-full

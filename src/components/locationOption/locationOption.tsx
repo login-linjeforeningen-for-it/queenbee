@@ -31,10 +31,10 @@ export default function Option({ value, active }: OptionProps) {
     return (
         <div className={`${isActive ? 'bg-login/20' : ''} rounded-lg`}>
             <h1
-                className={
-                    'cursor-pointer px-2 p-1 ' +
-                    `${isActive ? 'text-login' : 'text-login-400'}`
-                }
+                className={`
+                    cursor-pointer px-2 p-1
+                    ${isActive ? 'text-login' : 'text-login-400'}
+                `}
                 onClick={() => handleClick(value)}
             >
                 {`${value[0].toUpperCase()}${value.slice(1)}`}
