@@ -10,10 +10,10 @@ export default function PageClient() {
     return (
         <div>
             <div className='flex w-full justify-between items-center'>
-                <h1>Load Balancing</h1>
+                <h1 className='text-lg font-semibold'>Load Balancing</h1>
                 <Button icon='+' text='Add site' onClick={addSite} />
             </div>
-            <h1>hei</h1>
+            <h1>Coming soon…</h1>
         </div>
     )
 }
