@@ -1126,6 +1126,7 @@ declare global {
         url: string
         interval: number
         status: boolean
+        userAgent: null | string
         notification: null | string
         expectedDown: boolean
         maxConsecutiveFailures: number
@@ -1139,11 +1140,12 @@ declare global {
         type: string
         name: string
         enabled: boolean
-        notification: string
+        notification: string | null
         tags: { id: number, name: string }[]
         bars: { status: Bar, date: string, message: string }[]
         url: string
         status: boolean
+        user_agent: string | null
         expected_down: boolean
         interval: number
         note: string

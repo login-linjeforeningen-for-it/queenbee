@@ -34,6 +34,7 @@ export default function EditService({
         status: false,
         notification: null,
         expectedDown: false,
+        userAgent: null,
         maxConsecutiveFailures: 0,
         uptime: 0,
         tags: [{ id: 0, name: 'Loading...' }],
@@ -175,7 +176,19 @@ export default function EditService({
                 </div>
 
                 <div className='flex gap-2'>
-                    {/* Max Consecutive Failures */}
+                    {/* User Agent */}
+                    <div className='w-1/2'>
+                        <label className='block text-sm font-medium'>User Agent</label>
+                        <input
+                            type='text'
+                            className='w-full rounded bg-white/10 px-3 py-2'
+                            value={form.userAgent || ''}
+                            onChange={(e) => updateField('userAgent', e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    {/* User Agent */}
                     <div className='w-fit'>
                         <label className='block text-sm font-medium'>
                             Max Consecutive Failures
