@@ -211,7 +211,7 @@ export default function NewService({ notifications, setRefresh, setRefreshNotifi
                     className={`
                         rounded-lg bg-login/80 outline outline-login
                         hover:bg-login/90 px-4 py-0.5 font-medium
-                        hover:brightness-110
+                        hover:brightness-110 cursor-pointer
                     `}
                 >
                     Create Service
