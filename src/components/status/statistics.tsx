@@ -14,7 +14,7 @@ export default function Statistics({ services }: { services: Service[] }) {
         } else if (service.enabled && hasBars && !bars[0].status && service.maxConsecutiveFailures > 0) {
             let pendingFailed = 0
             for (let i = 0; i < Math.min(service.maxConsecutiveFailures, service.bars.length); i++) {
-                if (service.bars[i].status) {
+                if (!service.bars[i].status) {
                     pendingFailed++
                 }
             }

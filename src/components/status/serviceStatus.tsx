@@ -26,16 +26,23 @@ export default function ServiceStatus({ service }: ServiceStatusProps) {
                 </thead>
                 <tbody>
                     {service.bars.map((bar, index) => {
-                        let status = null
+                        let status: 'up' | 'down' | 'maintenance' | 'pending' | null = null
                         if (service.enabled && bar.status) {
                             status = 'up'
                         } else if (service.enabled && !bar.status && bar.expectedDown) {
                             status = 'maintenance'
                         } else if (service.enabled && !bar.status && service.maxConsecutiveFailures > 0) {
+                            let pendingFailed = 0
                             for (let i = 0; i < Math.min(service.maxConsecutiveFailures, service.bars.length); i++) {
-                                if (service.bars[i].status) {
-                                    status = 'pending'
+                                if (!service.bars[i].status) {
+                                    pendingFailed++
                                 }
+                            }
+
+                            if (pendingFailed < service.maxConsecutiveFailures) {
+                                status = 'pending'
+                            } else {
+                                status = 'down'
                             }
                         } else {
                             status = 'down'
@@ -48,7 +55,7 @@ export default function ServiceStatus({ service }: ServiceStatusProps) {
                                     <span className={`
                                         inline-flex items-center justify-center 
                                         text-xs w-full min-h-full outline
-                                        px-2 rounded-md py-0.5 font-medium ${barOutlineColor(bar, service.maxConsecutiveFailures)} 
+                                        px-2 rounded-md py-0.5 font-medium ${barOutlineColor(bar, service.maxConsecutiveFailures, status)} 
                                         `}>
                                         {status}
                                     </span>

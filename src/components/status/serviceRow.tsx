@@ -29,11 +29,33 @@ export default function ServiceRow({ onClick, service, onEditClick }: ServiceRow
             </div>
             <div className='flex gap-1'>
                 {service.bars.toReversed().map((bar, index) => {
+                    let status: 'up' | 'down' | 'maintenance' | 'pending' | null = null
+                    if (service.enabled && bar.status) {
+                        status = 'up'
+                    } else if (service.enabled && !bar.status && bar.expectedDown) {
+                        status = 'maintenance'
+                    } else if (service.enabled && !bar.status && service.maxConsecutiveFailures > 0) {
+                        let pendingFailed = 0
+                        for (let i = 0; i < Math.min(service.maxConsecutiveFailures, service.bars.length); i++) {
+                            if (!service.bars[i].status) {
+                                pendingFailed++
+                            }
+                        }
+
+                        if (pendingFailed < service.maxConsecutiveFailures) {
+                            status = 'pending'
+                        } else {
+                            status = 'down'
+                        }
+                    } else {
+                        status = 'down'
+                    }
+
                     return <div
                         key={index}
                         className={`
                             w-1.5 h-full rounded-lg 
-                            ${barColor(bar, service.maxConsecutiveFailures)} 
+                            ${barColor(bar, service.maxConsecutiveFailures, status)} 
                             hover:scale-110 hover:brightness-110
                         `}
                     />

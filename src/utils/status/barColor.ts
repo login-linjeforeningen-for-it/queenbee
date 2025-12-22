@@ -1,5 +1,6 @@
-export default function barColor(state: Bar, maxConsecutiveFailures: number) {
-    const bar = state.status ? 'up' : state.expectedDown ? 'maintenance' : maxConsecutiveFailures > 0 ? 'pending' : 'down'
+export default function barColor(state: Bar, maxConsecutiveFailures: number, status?: 'up' | 'down' | 'pending' | 'maintenance') {
+    const bar = status || (state.status ? 'up' : state.expectedDown ? 'maintenance' : maxConsecutiveFailures > 0 ? 'pending' : 'down')
+
     switch(bar) {
         case 'up': return 'bg-green-400/80 outline-green-500'
         case 'down': return 'bg-red-400/80 outline-red-500'
@@ -8,8 +9,9 @@ export default function barColor(state: Bar, maxConsecutiveFailures: number) {
     }
 }
 
-export function barOutlineColor(state: Bar, maxConsecutiveFailures: number) {
-    const bar = state.status ? 'up' : state.expectedDown ? 'maintenance' : maxConsecutiveFailures > 0 ? 'pending' : 'down'
+export function barOutlineColor(state: Bar, maxConsecutiveFailures: number, status?: 'up' | 'down' | 'pending' | 'maintenance') {
+    const bar = status || (state.status ? 'up' : state.expectedDown ? 'maintenance' : maxConsecutiveFailures > 0 ? 'pending' : 'down')
+
     switch(bar) {
         case 'up': return 'bg-green-400/50 outline-green-500'
         case 'down': return 'bg-red-400/50 outline-red-500'
@@ -17,4 +19,3 @@ export function barOutlineColor(state: Bar, maxConsecutiveFailures: number) {
         case 'maintenance': return 'bg-purple-400/50 outline-purple-500'
     }
 }
-
