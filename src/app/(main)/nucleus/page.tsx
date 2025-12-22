@@ -4,8 +4,8 @@ import Link from 'next/link'
 import { useState } from 'react'
 import Input from '@components/inputs/input'
 import { Send } from 'lucide-react'
-import Button from '@components/button/button'
 import Preview from '@components/preview/preview'
+import { Button } from 'uibee/components'
 
 export default function page() {
     const [result, setResult] = useState<SendResponseClient | null>()
@@ -66,14 +66,10 @@ export default function page() {
                 </div>
                 {result?.status && (
                     <div
-                        className={
-                            'rounded-md text-center mb-4 py-2 font-medium ' +
-                            `${
-                                result.status === 200
-                                    ? 'bg-green-500'
-                                    : 'bg-red-500'
-                            }`
-                        }
+                        className={`
+                            rounded-md text-center mb-4 py-2 font-medium
+                            ${result.status === 200 ? 'bg-green-500' : 'bg-red-500'}
+                        `}
                     >
                         {result?.message}
                     </div>
@@ -137,12 +133,7 @@ export default function page() {
                         value={formValues.screen || ''}
                     />
                     {formValues.title.length > 0 && (
-                        <div
-                            className={
-                                'block lg:hidden relative ' +
-                                'h-22 w-full z-200'
-                            }
-                        >
+                        <div className='block lg:hidden relative h-22 w-full z-200'>
                             <Preview
                                 small={true}
                                 title={formValues.title}
@@ -151,16 +142,7 @@ export default function page() {
                         </div>
                     )}
                     <div className='flex items-center justify-between'>
-                        <button
-                            type='submit'
-                            className={
-                                'flex flex-row w-fit gap-2 capitalize ' +
-                                'cursor-pointer bg-login/90 ' +
-                                'hover:bg-login/80 rounded-md px-4 py-1'
-                            }
-                        >
-                            <Send className='w-5' /> Send
-                        </button>
+                        <Button icon={<Send className='w-5' />} text='Send' type='submit' />
                         <div className='flex justify-between gap-2'>
                             <Button
                                 color='secondary'
@@ -170,12 +152,11 @@ export default function page() {
                             />
                             <Link
                                 href={'/nucleus/documentation'}
-                                className={
-                                    'bg-login-600 text-foreground px-4 grid ' +
-                                    'place-items-center rounded-lg ' +
-                                    'font-medium hover:bg-login-600/80 ' +
-                                    'transition'
-                                }
+                                className={`
+                                    bg-login-600 text-foreground px-4 grid
+                                    place-items-center rounded-lg transition
+                                    font-medium hover:bg-login-600/80
+                                `}
                             >
                                 Documentation
                             </Link>

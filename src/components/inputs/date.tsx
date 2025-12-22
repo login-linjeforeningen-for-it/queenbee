@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import ToolTip from './tooltip'
 import Label from './label'
-import EraseButton from './erase'
+import { Button } from 'uibee/components'
+import { Eraser } from 'lucide-react'
 
 type DateProps = {
     name: string
@@ -32,13 +33,13 @@ export default function DateInput({
                 <input
                     type='date'
                     name={name}
-                    className={
-                        'peer no-calendar bg-login-800 block ' +
-                        'px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg ' +
-                        'border-[0.10rem] appearance-none ' +
-                        'border-login-200 focus:outline-none focus:ring-0 ' +
-                        'focus:border-login-50 cursor-pointer'
-                    }
+                    className={`
+                        peer no-calendar bg-login-800 block
+                        px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg
+                        border-[0.10rem] appearance-none
+                        border-login-200 focus:outline-none focus:ring-0
+                        focus:border-login-50 cursor-pointer
+                    `}
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     onFocus={(e) => e.target.showPicker()}
@@ -51,7 +52,11 @@ export default function DateInput({
                     required={required}
                     showRequired={required && !value && hasBlured}
                 />
-                {value && <EraseButton setData={setValue} />}
+                {value && <Button
+                    icon={<Eraser className='w-5' />}
+                    text='Erase'
+                    onClick={() => setValue('')}
+                />}
                 {!value && tooltip && <ToolTip info={tooltip} />}
             </div>
         </div>

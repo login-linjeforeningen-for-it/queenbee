@@ -49,10 +49,10 @@ export default function Header({ keys, headers }: HeaderProps) {
                     return (
                         <th key={key} className='whitespace-nowrap text-left'>
                             <button
-                                className={
-                                    'w-full h-full p-2 flex flex-row ' +
-                                    'items-center justify-between group'
-                                }
+                                className={`
+                                    w-full h-full p-2 flex flex-row
+                                    items-center justify-between group
+                                `}
                                 onClick={() => handleChange(key)}
                             >
                                 <h1>{value}</h1>
@@ -64,10 +64,10 @@ export default function Header({ keys, headers }: HeaderProps) {
                                     )
                                 ) : (
                                     <ChevronUp
-                                        className={
-                                            'h-6 stroke-login-200 ' +
-                                            'opacity-0 group-hover:opacity-100'
-                                        }
+                                        className={`
+                                            h-6 stroke-login-200
+                                            opacity-0 group-hover:opacity-100
+                                        `}
                                     />
                                 )}
                             </button>

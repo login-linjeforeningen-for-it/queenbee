@@ -3,11 +3,11 @@
 import Input from '@components/inputs/input'
 import Markdown from '@components/inputs/markdown'
 import Select from '@components/inputs/select'
-import Button from '@components/button/button'
 import { useState } from 'react'
 import { uploadImage } from '@utils/api'
 import Upload from '@components/inputs/upload'
 import { toast } from 'sonner'
+import { Button } from 'uibee/components'
 
 export default function OrganizationFormInputsClient({
     defaultValues,
@@ -196,14 +196,14 @@ const sampleOrganization = {
     name_no: 'Login - Linjeforeningen for IT',
     name_en: 'Login - Student Organization for IT',
     description_no:
-        '🎓 Login er linjeforeningen for IT- og teknologistudenter ' +
-        `ved NTNU Gjøvik.  
+        `🎓 Login er linjeforeningen for IT- og teknologistudenter
+        ved NTNU Gjøvik.  
 - Arrangerer sosiale og faglige aktiviteter  
 - Nettverksbygging med næringslivet  
 - Støtte til studenter gjennom semesteret`,
     description_en:
-        '🎓 Login is the student organization for IT and technology ' +
-        `students at NTNU Gjøvik.  
+        `🎓 Login is the student organization for IT and technology
+        students at NTNU Gjøvik.  
 - Organizes social and academic events  
 - Networking opportunities with companies  
 - Student support throughout the semester`,

@@ -1,9 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import Button from '@components/button/button'
 import Input from '@components/inputs/input'
 import Link from 'next/link'
+import { ArrowLeft, DatabaseBackup } from 'lucide-react'
+import { Button } from 'uibee/components'
 
 export default function RestoreClient() {
     // Mock data for backups
@@ -27,7 +28,7 @@ export default function RestoreClient() {
             <div className='flex justify-between items-center'>
                 <h1 className='text-2xl font-bold'>Restore Backup</h1>
                 <Link href='/internal/backup'>
-                    <Button text='Back to Settings' />
+                    <Button icon={<ArrowLeft className='w-5' />} text='Back to Settings' />
                 </Link>
             </div>
 
@@ -92,12 +93,11 @@ export default function RestoreClient() {
                                         {backup.size}
                                     </td>
                                     <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium'>
-                                        <button
-                                            className='text-login hover:text-login-400 font-bold cursor-pointer select-none'
+                                        <Button
+                                            icon={<DatabaseBackup className='w-5' />}
+                                            text='Restore'
                                             onClick={() => alert(`Restoring ${backup.id} (mock)`)}
-                                        >
-                                            Restore
-                                        </button>
+                                        />
                                     </td>
                                 </tr>
                             ))

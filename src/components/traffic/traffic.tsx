@@ -1,7 +1,8 @@
 'use client'
 
-import { Activity, Clock, AlertTriangle } from 'lucide-react'
+import { Activity, Clock, AlertTriangle, LucideChartNoAxesGantt } from 'lucide-react'
 import { useState } from 'react'
+import { Button } from 'uibee/components'
 
 type TrafficDashboardProps = {
     metrics?: TrafficMetricsProps | string
@@ -197,12 +198,11 @@ function CombinedMetrics({ title, data, total }: {
         <div className='bg-white/5 p-4 rounded-lg'>
             <div className='flex justify-between items-center mb-4'>
                 <h3 className='text-lg font-semibold'>{currentTitle}</h3>
-                <button
+                <Button
+                    icon={<LucideChartNoAxesGantt className='w-5' />}
+                    text={buttonText}
                     onClick={() => setIndex(index === 0 ? 1 : 0)}
-                    className='px-3 py-1 bg-blue-500 text-white rounded text-sm select-none'
-                >
-                    {buttonText}
-                </button>
+                />
             </div>
             <div className='space-y-2'>
                 {currentData.map((entry) => (
@@ -226,9 +226,14 @@ function RequestsOverTimeChart({ data }: { data: { key: string, count: number }[
     const maxCount = Math.max(...data.map(d => d.count))
     const minCount = 0
 
-    const xScale = (index: number) => (index / (data.length - 1)) * (width - padding.left - padding.right) + padding.left
-    const yScale = (count: number) => height - padding.bottom -
-        ((count - minCount) / (maxCount - minCount || 1)) * (height - padding.top - padding.bottom)
+    function xScale(index: number) {
+        return (index / (data.length - 1)) * (width - padding.left - padding.right) + padding.left
+    }
+
+    function yScale(count: number) {
+        return height - padding.bottom - ((count - minCount)
+        / (maxCount - minCount || 1)) * (height - padding.top - padding.bottom)
+    }
 
     const points = data.map((d, i) => `${xScale(i)},${yScale(d.count)}`).join(' ')
     const areaPoints = `${xScale(0)},${height - padding.bottom} ${points} ${xScale(data.length - 1)},${height - padding.bottom}`

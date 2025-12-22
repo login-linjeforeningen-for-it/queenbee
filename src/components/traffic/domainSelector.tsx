@@ -18,16 +18,18 @@ export default function DomainSelector({ domains, selectedDomain }: DomainSelect
         ...domains.map(domain => ({ value: domain, label: domain }))
     ]
 
-    const handleChange = (newValue: string | number) => {
+    function handleChange(newValue: string | number) {
         const domain = newValue as string
         setValue(domain)
         const params = new URLSearchParams(window.location.search)
+
         if (domain) {
             params.set('domain', domain)
         } else {
             params.delete('domain')
         }
-        router.push(window.location.pathname + '?' + params.toString())
+
+        router.push(`${window.location.pathname}?${params.toString()}`)
     }
 
     return (

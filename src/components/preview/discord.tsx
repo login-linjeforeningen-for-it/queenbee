@@ -73,10 +73,7 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
     const ping = Roles.length > 0 && Roles[0].length > 0
 
     return (
-        <div className={
-            'bg-[#2b2b2b] rounded-md p-4 ' +
-            'text-foreground font-sans shadow-lg'
-        }>
+        <div className='bg-[#2b2b2b] rounded-md p-4 text-foreground font-sans shadow-lg'>
             {/* Channel Name */}
             <p className='text-[#72767d] text-sm mb-2'># {channelName}</p>
 

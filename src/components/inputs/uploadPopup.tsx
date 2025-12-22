@@ -7,6 +7,7 @@ import NextImage from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import Switch from './switch'
 import getWidth from '@utils/image/getWidth'
+import { Button } from 'uibee/components'
 
 
 type UploadPopupProps = {
@@ -77,7 +78,7 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
                     </button>
                 </div>
 
-                <div className='relative w-full h-[300px] border border-login-600/30 rounded-md overflow-hidden'>
+                <div className='relative w-full h-75 border border-login-600/30 rounded-md overflow-hidden'>
                     {needsCrop ? (
                         <div>
                             <Cropper
@@ -138,18 +139,17 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
                         )}
                     </div>
                     <div className='flex gap-4 h-fit'>
-                        <button
+                        <Button
+                            icon={<X className='w-5' />}
+                            color='secondary'
+                            text='Cancel'
                             onClick={onClose}
-                            className='px-6 py-2 rounded-md bg-login-500/60 cursor-pointer select-none'
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            className='px-6 py-2 rounded-md bg-login cursor-pointer select-none'
+                        />
+                        <Button
+                            icon='+'
+                            text='Upload'
                             onClick={handleClick}
-                        >
-                            Upload
-                        </button>
+                        />
                     </div>
                 </div>
             </div>

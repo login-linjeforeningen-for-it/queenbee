@@ -20,16 +20,18 @@ export default function HistoricalSwitch({
     const searchParams = useSearchParams()
     const [value, setValue] = useState(searchParams?.get('historical') === 'true')
 
-    const handleChange = (newValue: boolean) => {
+    function handleChange(newValue: boolean) {
         setValue(newValue)
         const params = new URLSearchParams(searchParams.toString())
+
         if (newValue) {
             params.set('historical', 'true')
         } else {
             params.delete('historical')
         }
+
         params.set('page', '1')
-        router.push(pathname + '?' + params.toString())
+        router.push(`${pathname}?${params.toString()}`)
     }
 
     return (

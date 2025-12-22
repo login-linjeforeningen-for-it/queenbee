@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { Trash2, Star } from 'lucide-react'
+import { Button } from 'uibee/components'
 
 type AlbumProps = {
     album: GetAlbumProps
@@ -46,13 +47,13 @@ export default function Album({ album, deleteAction, pageSize, coverAction }: Al
         try {
             const response = await deleteAction(album.id.toString(), imageName)
             if (typeof response === 'string') {
-                toast.error('Failed to delete image: ' + response)
+                toast.error(`Failed to delete image: ${response}`)
             } else {
                 setImages(prev => prev.filter(img => img !== imageName))
                 toast.success(response.message || 'Image deleted successfully')
             }
         } catch (error) {
-            toast.error('Failed to delete image: ' + (error instanceof Error ? error.message : 'Unknown error'))
+            toast.error(`Failed to delete image: ${(error instanceof Error ? error.message : 'Unknown error')}`)
         }
     }
 
@@ -62,7 +63,7 @@ export default function Album({ album, deleteAction, pageSize, coverAction }: Al
         try {
             const response = await coverAction(album.id.toString(), imageName)
             if (typeof response === 'string') {
-                toast.error('Failed to set cover image: ' + response)
+                toast.error(`Failed to set cover image: ${response}`)
             } else {
                 toast.success(response.message || 'Cover image set successfully')
                 setImages(prev => {
@@ -77,7 +78,7 @@ export default function Album({ album, deleteAction, pageSize, coverAction }: Al
                 })
             }
         } catch (error) {
-            toast.error('Failed to set cover image: ' + (error instanceof Error ? error.message : 'Unknown error'))
+            toast.error(`Failed to set cover image: ${(error instanceof Error ? error.message : 'Unknown error')}`)
         }
     }
 
@@ -102,21 +103,17 @@ export default function Album({ album, deleteAction, pageSize, coverAction }: Al
                             transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100'>
                             <div className='flex gap-2'>
                                 {coverAction && (
-                                    <button
+                                    <Button
+                                        icon={<Star size={20} />}
+                                        text='Set as cover image'
                                         onClick={() => handleSetCoverImage(image)}
-                                        className='bg-yellow-600 text-white p-2 rounded-full transition-colors cursor-pointer select-none'
-                                        title='Set as cover image'
-                                    >
-                                        <Star size={20} />
-                                    </button>
+                                    />
                                 )}
-                                <button
+                                <Button
+                                    icon={<Trash2 size={20} />}
+                                    text='Delete image'
                                     onClick={() => handleDeleteImage(image)}
-                                    className='bg-red-900 text-white p-2 rounded-full transition-colors cursor-pointer select-none'
-                                    title='Delete image'
-                                >
-                                    <Trash2 size={20} />
-                                </button>
+                                />
                             </div>
                         </div>
                     </div>

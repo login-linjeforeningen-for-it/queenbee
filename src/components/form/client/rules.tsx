@@ -2,8 +2,8 @@
 
 import Input from '@components/inputs/input'
 import Markdown from '@components/inputs/markdown'
-import Button from '@components/button/button'
 import { useState } from 'react'
+import { Button } from 'uibee/components'
 
 export default function RuleFormInputsClient({
     defaultValues,

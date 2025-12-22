@@ -30,7 +30,7 @@ export default function JsonInput({
     const [hasBlured, setHasBlured] = useState(false)
     const [isValid, setIsValid] = useState(true)
 
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
         const newValue = e.target.value
         setValue(newValue)
         try {
@@ -43,13 +43,13 @@ export default function JsonInput({
         }
     }
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
         if (e.key === 'Tab') {
             e.preventDefault()
             const textarea = e.currentTarget
             const start = textarea.selectionStart
             const end = textarea.selectionEnd
-            const newValue = value.substring(0, start) + '    ' + value.substring(end)
+            const newValue = `${value.substring(0, start)}    ${value.substring(end)}`
             setValue(newValue)
             setTimeout(() => {
                 textarea.selectionStart = textarea.selectionEnd = start + 4
@@ -68,14 +68,14 @@ export default function JsonInput({
                     onBlur={() => setHasBlured(true)}
                     rows={rows}
                     required={required}
-                    className={
-                        'block px-2.5 pb-2.5 pt-4 w-full text-sm ' +
-                        'rounded-lg border-[0.10rem] appearance-none ' +
-                        'border-login-200 focus:outline-none focus:ring-0' +
-                        ' focus:border-login-50 peer resize-vertical ' +
-                        `${color ? color : 'bg-login-800'} ` +
-                        (!isValid ? 'border-red-500' : '')
-                    }
+                    className={`
+                        block px-2.5 pb-2.5 pt-4 w-full text-sm
+                        rounded-lg border-[0.10rem] appearance-none
+                        border-login-200 focus:outline-none focus:ring-0
+                        focus:border-login-50 peer resize-vertical
+                        ${color ? color : 'bg-login-800'}
+                        ${!isValid ? 'border-red-500' : ''}
+                    `}
                 />
 
                 <Label

@@ -1,11 +1,11 @@
 import { deleteJob, getJobs } from '@utils/api'
 import Alert from '@components/alert/alert'
-import Button from '@components/button/button'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import HistoricalSwitch from '@components/inputs/historical'
 import formatAlert from '@components/alert/formatAlert'
+import { Button } from 'uibee/components'
 
 const headers = [
     'id',
@@ -42,10 +42,10 @@ export default async function Page({ searchParams}: { searchParams: Promise<{ [k
 
     return (
         <div
-            className={
-                'h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] ' +
-                'overflow-hidden flex flex-col'
-            }
+            className={`
+                h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)]
+                overflow-hidden flex flex-col
+            `}
         >
             <div className='flex-none'>
                 <div className='flex flex-row justify-between'>

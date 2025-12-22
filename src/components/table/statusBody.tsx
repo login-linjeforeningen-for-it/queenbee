@@ -35,10 +35,10 @@ export default function StatusBody({ list, headers, roles }: BodyProps) {
                                 <Link className='flex gap-2 cursor-pointer' href={`/internal/system/${item.id}`}>
                                     <div className='relative group'>
                                         <h1
-                                            className={
-                                                'overflow-hidden text-ellipsis ' +
-                                                'whitespace-nowrap max-w-60'
-                                            }
+                                            className={`
+                                                overflow-hidden text-ellipsis
+                                                whitespace-nowrap max-w-60
+                                            `}
                                         >
                                             {key === 'roles' && roles ? (
                                                 (value as string[]).map((roleId, idx) => (

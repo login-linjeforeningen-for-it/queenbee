@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import NewNotification from './newNotification'
 import { Plus } from 'lucide-react'
 import postService from '@utils/fetch/status/postService'
+import { Button } from 'uibee/components'
 
 type NewServiceProps = {
     notifications: ServiceNotification[]
@@ -206,16 +207,7 @@ export default function NewService({ notifications, setRefresh, setRefreshNotifi
                 {error?.length && <h1 className='text-sm text-red-500'>{error}</h1>}
 
                 {/* Submit */}
-                <button
-                    type='submit'
-                    className={`
-                        rounded-lg bg-login/80 outline outline-login
-                        hover:bg-login/90 px-4 py-0.5 font-medium
-                        hover:brightness-110 cursor-pointer
-                    `}
-                >
-                    Create Service
-                </button>
+                <Button type='submit' icon='+' text='Create Service' />
             </form>
         </div>
     )

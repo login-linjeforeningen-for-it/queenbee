@@ -4,6 +4,8 @@ import { useRef, useState } from 'react'
 import Label from './label'
 import ToolTip from './tooltip'
 import MarkdownRender from '../markdown/markdownRender'
+import { Edit, View } from 'lucide-react'
+import { Button } from 'uibee/components'
 
 type MarkdownProps = {
     name: string
@@ -67,22 +69,22 @@ export default function Markdown({
                         onBlur={() => setHasBlured(true)}
                         rows={rows}
                         required={required}
-                        className={
-                            'block px-2.5 pb-2.5 pt-4 w-full text-sm ' +
-                            'rounded-lg border-[0.10rem] appearance-none ' +
-                            'border-login-200 focus:outline-none focus:ring-0' +
-                            ' focus:border-login-50 peer resize-vertical ' +
-                            `${color ? color : 'bg-login-800'}`
-                        }
+                        className={`
+                            block px-2.5 pb-2.5 pt-4 w-full text-sm
+                            rounded-lg border-[0.10rem] appearance-none
+                            border-login-200 focus:outline-none focus:ring-0
+                            focus:border-login-50 peer resize-vertical
+                            ${color ? color : 'bg-login-800'}
+                        `}
                     />
                 ) : (
                     <div
-                        className={
-                            'block px-2.5 pb-2.5 pt-4 w-full text-sm ' +
-                            'rounded-lg border-[0.10rem] border-login-200 ' +
-                            `${color ? color : 'bg-login-800'} ` +
-                            ' resize-vertical overflow-auto'
-                        }
+                        className={`
+                            block px-2.5 pb-2.5 pt-4 w-full text-sm
+                            rounded-lg border-[0.10rem] border-login-200
+                            ${color ? color : 'bg-login-800'}
+                            resize-vertical overflow-auto
+                        `}
                         style={{ minHeight: `${rows * 1.5}rem` }}
                     >
                         <MarkdownRender MDstr={value || ''} />
@@ -141,28 +143,22 @@ export default function Markdown({
                 </div>
 
                 <div className='flex items-center gap-2'>
-                    <button
-                        type='button'
-                        onClick={() => setMode('edit')}
-                        className={`px-2 py-1 rounded select-none ${
-                            mode === 'edit'
-                                ? buttonColor ? buttonColor : 'bg-login-600'
-                                : buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-600'
-                        }`}
-                    >
-                        Edit
-                    </button>
-                    <button
-                        type='button'
+                    <Button
+                        icon={<Edit className='w-5' />}
+                        text='Edit'
+                        className={mode === 'edit'
+                            ? buttonColor ? buttonColor : 'bg-login-600'
+                            : buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-600'}
                         onClick={() => setMode('preview')}
-                        className={`px-2 py-1 rounded select-none ${
-                            mode === 'preview'
-                                ? buttonColor ? buttonColor : 'bg-login-600'
-                                : buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-600'
-                        }`}
-                    >
-                        Preview
-                    </button>
+                    />
+                    <Button
+                        icon={<View className='w-5' />}
+                        text='Preview'
+                        className={mode === 'preview'
+                            ? buttonColor ? buttonColor : 'bg-login-600'
+                            : buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-600'}
+                        onClick={() => setMode('preview')}
+                    />
                 </div>
             </div>
         </div>

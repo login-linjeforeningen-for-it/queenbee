@@ -2,8 +2,8 @@
 
 import Input from '@components/inputs/input'
 import Select from '@components/inputs/select'
-import Button from '@components/button/button'
 import { useState } from 'react'
+import { Button } from 'uibee/components'
 
 export default function LocationFormInputsClient({
     defaultValues,

@@ -20,9 +20,10 @@ export default function Switch({
     setValue,
 }: SwitchProps) {
     return (
-        <div
-            className={'relative w-full flex items-center p-2 border-login-200 rounded-lg border-[0.10rem] ' + (className || '')}
-        >
+        <div className={`
+            relative w-full flex items-center p-2 border-login-200 
+            rounded-lg border-[0.10rem] ${(className || '')}
+        `}>
             <label className='flex items-center cursor-pointer'>
                 <input
                     type='checkbox'
@@ -32,17 +33,16 @@ export default function Switch({
                     onChange={(e) => setValue(e.target.checked)}
                 />
                 <div
-                    className={
-                        'w-10 h-6  rounded-full p-1 ' +
-                        `transition ${value ? 'bg-login-50' : 'bg-login-200'}`
-                    }
+                    className={`
+                        w-10 h-6 rounded-full p-1
+                        transition ${value ? 'bg-login-50' : 'bg-login-200'}
+                    `}
                 >
                     <div
-                        className={
-                            'w-4 h-4 bg-login-800 rounded-full ' +
-                            'shadow-md transform transition ' +
-                            `${value ? 'translate-x-4' : ''}`
-                        }
+                        className={`
+                            w-4 h-4 bg-login-800 rounded-full transition
+                            shadow-md transform ${value ? 'translate-x-4' : ''}
+                        `}
                     />
                 </div>
             </label>

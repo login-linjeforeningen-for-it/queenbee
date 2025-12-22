@@ -4,8 +4,9 @@ import { useRef, useState } from 'react'
 import Image from 'next/image'
 import ToolTip from './tooltip'
 import Label from './label'
-import EraseButton from './erase'
 import config from '@config'
+import { Button } from 'uibee/components'
+import { Eraser } from 'lucide-react'
 
 type SelectProps = {
     name: string
@@ -56,13 +57,13 @@ export default function Select({
                 <select
                     ref={selectRef}
                     name={name}
-                    className={
-                        'peer cursor-pointer block px-2.5 pb-2.5 pt-4 ' +
-                        'w-full text-sm rounded-lg border-[0.10rem] ' +
-                        'appearance-none border-login-200 focus:ring-0 ' +
-                        'focus:outline-none focus:border-login-50 ' +
-                        `${color ? color : 'bg-login-800'}`
-                    }
+                    className={`
+                        peer cursor-pointer block px-2.5 pb-2.5 pt-4
+                        w-full text-sm rounded-lg border-[0.10rem]
+                        appearance-none border-login-200 focus:ring-0
+                        focus:outline-none focus:border-login-50
+                        ${color ? color : 'bg-login-800'}
+                    `}
                     value={value}
                     onChange={(e) => {
                         setValue(e.target.value)
@@ -92,9 +93,11 @@ export default function Select({
                 />
 
                 {value && (
-                    <EraseButton
-                        setData={(v: string) => {
-                            setValue(v)
+                    <Button
+                        icon={<Eraser className='w-5' />}
+                        text='Erase'
+                        onClick={(v: string | object) => {
+                            setValue(v as string)
                             setHasBlured(true)
                         }}
                     />
@@ -128,17 +131,12 @@ function SelectContent({
     color?: string
 }) {
     return (
-        <div
-            className={
-                'hidden peer-focus:block absolute left-0 ' +
-                'right-0 top-full mt-1 z-50'
-            }
-        >
+        <div className='hidden peer-focus:block absolute left-0 right-0 top-full mt-1 z-50'>
             <div
-                className={
-                    `${color ? color : 'bg-login-800'}` + ' border-[0.10rem] border-login-200 ' +
-                    'rounded-lg shadow-lg p-0 max-h-72 overflow-hidden'
-                }
+                className={`
+                    ${color ? color : 'bg-login-800'} border-[0.10rem] border-login-200
+                    rounded-lg shadow-lg p-0 max-h-72 overflow-hidden
+                `}
             >
                 <div className='max-h-72 overflow-auto'>
                     <SelectedOption
@@ -152,12 +150,11 @@ function SelectContent({
                                 <button
                                     key={opt.value}
                                     type='button'
-                                    className={
-                                        'cursor-pointer w-full flex ' +
-                                        'items-center gap-3 px-2 py-2 ' +
-                                        'text-sm hover:bg-surface ' +
-                                        'rounded hover:bg-login-600'
-                                    }
+                                    className={`
+                                        cursor-pointer w-full flex items-center
+                                        gap-3 px-2 py-2 text-sm hover:bg-surface
+                                        rounded hover:bg-login-600
+                                    `}
                                     onMouseDown={(e) => {
                                         e.preventDefault()
                                         handleChoose(opt.value)
@@ -188,10 +185,10 @@ function SelectedOption({ value, selectedOption }: SelectedOptionProps) {
 
     return (
         <div
-            className={
-                'sticky top-0 bg-surface px-2 py-2 z-10 border-b ' +
-                'border-login-200 bg-login-600'
-            }
+            className={`
+                sticky top-0 bg-surface px-2 py-2 z-10 border-b
+                border-login-200 bg-login-600
+            `}
         >
             <div className='flex items-center gap-3'>
                 {selectedOption?.image && (

@@ -7,12 +7,12 @@ import Select from '@components/inputs/select'
 import Switch from '@components/inputs/switch'
 import TimeInput from '@components/inputs/time'
 import Announce from '@components/announce/announce'
-import Button from '@components/button/button'
 import { useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
 import Upload from '@components/inputs/upload'
 import { uploadImage } from '@utils/api'
 import { toast } from 'sonner'
+import { Button } from 'uibee/components'
 
 export function EventFormInputsClient({
     defaultValues,

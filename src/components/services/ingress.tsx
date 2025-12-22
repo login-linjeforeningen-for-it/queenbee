@@ -38,7 +38,7 @@ export default async function Ingresses() {
     return (
         <div className='bg-login-500 rounded-lg w-full px-2'>
             <button className={buttonStyle}>Ingress<Pulse status={status} /></button>
-            {(ingresses.length > 0) && <div className='h-[1px] bg-login-400 w-full px-2' />}
+            {(ingresses.length > 0) && <div className='h-px bg-login-400 w-full px-2' />}
             <div className='w-full grid gap-2 my-2'>
                 {ingressWithEvents.map((ingress, index) => <Ingress key={index} ingress={ingress} />)}
             </div>
@@ -53,7 +53,7 @@ async function Ingress({ingress}: IngressProps) {
     return (
         <div className='w-full bg-login-600 rounded-lg p-2 overflow-hidden'>
             <h1 className='text-login-400 text-[0.8rem] flex justify-between items-center'>
-                {ingress.name + ' - ' + ingress.class}<Pulse status={status} />
+                {`${ingress.name} - ${ingress.class}`}<Pulse status={status} />
             </h1>
             <Link href={`https://${formattedHost}`} className='text-login-300 text-[0.8rem] text-sm'>{ingress.hosts}</Link>
             <div className='flex gap-2 w-full overflow-auto'>

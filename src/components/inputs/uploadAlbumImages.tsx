@@ -46,17 +46,20 @@ export default function UploadAlbumImages({ albumId }: { albumId: number }) {
                 `}
                 onClick={async () => {
                     setIsUploading(true)
+
                     try {
                         if (files.length === 0) {
                             toast.error('No files selected for upload')
                             return
                         }
+
                         const fileInfos = files.map(f => ({filename: f.name, type: f.type}))
                         const shareUrls = await getShareURLs(albumId, fileInfos)
                         if (typeof shareUrls === 'string') {
                             toast.error(shareUrls)
                             return
                         }
+
                         const uploadPromises = files.map((file, i) => uploadImages(file, shareUrls[i]))
                         const results = await Promise.allSettled(uploadPromises)
                         const failedUploads = results.filter(result => result.status === 'rejected').map((_result, i) => files[i].name)
@@ -64,6 +67,7 @@ export default function UploadAlbumImages({ albumId }: { albumId: number }) {
                             toast.error(`Failed to upload: ${failedUploads.join(', ')}`)
                             return
                         }
+
                         compressAlbums()
                         toast.success('Images uploaded successfully')
                         setFiles([])

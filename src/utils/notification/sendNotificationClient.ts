@@ -31,9 +31,7 @@ export default async function sendNotificationClient({
         } else {
             return {
                 status: 500,
-                message:
-                    'Error sending notification: ' +
-                    `${JSON.stringify(data.error)}`,
+                message: `Error sending notification: ${JSON.stringify(data.error)}`,
             }
         }
     } catch (err) {

@@ -50,14 +50,14 @@ export default function Input({
                     onBlur={() => setHasBlured(true)}
                     type={type}
                     multiple={multiple}
-                    className={
-                        'block px-2.5 w-full text-sm rounded-lg ' +
-                        'border-[0.10rem] appearance-none border-login-200 ' +
-                        'focus:outline-none focus:ring-0 ' +
-                        'focus:border-login-50 peer ' +
-                        (type === 'file' ? 'pb-2 pt-3 ' : 'pb-2.5 pt-4 ') +
-                        `${color ? color : 'bg-login-800'}`
-                    }
+                    className={`
+                        block px-2.5 w-full text-sm rounded-lg
+                        border-[0.10rem] appearance-none border-login-200
+                        focus:outline-none focus:ring-0
+                        focus:border-login-50 peer
+                        ${type === 'file' ? 'pb-2 pt-3 ' : 'pb-2.5 pt-4 '}
+                        ${color ? color : 'bg-login-800'}
+                    `}
                     placeholder=''
                     required={required}
                 />

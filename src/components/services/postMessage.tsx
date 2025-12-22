@@ -5,6 +5,7 @@ import FancyField from '../root/fancyField'
 import postMessage from '@/utils/fetch/message/post'
 import { getCookie, removeCookie, setCookie } from '@/utils/cookies'
 import { usePathname, useRouter } from 'next/navigation'
+import { Button } from 'uibee/components'
 
 type PostMessageProps = {
     title: string
@@ -54,6 +55,7 @@ export default function PostMessage({ title: Title, content: Content, status: St
             // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             status.length ? setCookie('messageStatus', status) : removeCookie('messageStatus')
         })
+
         return () => {
             window.removeEventListener('beforeunload', () => {
                 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -76,12 +78,7 @@ export default function PostMessage({ title: Title, content: Content, status: St
                 <FancyField placeholder='Title' value={title} setValue={setTitle} />
                 <FancyField placeholder='Content' value={content} setValue={setContent} />
                 <FancyField placeholder='Status' value={status} setValue={setStatus} />
-                <button
-                    onClick={handleSubmit}
-                    className='cursor-pointer bg-login py-1 text-center w-full text-bright rounded-lg select-none'
-                >
-                    Post
-                </button>
+                <Button text='Post' icon='+' onClick={handleSubmit} />
             </div>
         </div>
     )

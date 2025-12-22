@@ -1,7 +1,6 @@
 'use client'
 
 import Alert from '@components/alert/alert'
-import Button from '@components/button/button'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
@@ -9,6 +8,7 @@ import { getDocker, getStats } from '@utils/api'
 import { Boxes, Cpu, HardDrive, MemoryStick, Server, Thermometer, Zap } from 'lucide-react'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { Button } from 'uibee/components'
 
 type PageClientProps = {
     metrics: Stats

@@ -8,13 +8,13 @@ import Switch from '@components/inputs/switch'
 import TagInput from '@components/inputs/tag'
 import TimeInput from '@components/inputs/time'
 import Announce from '@components/announce/announce'
-import Button from '@components/button/button'
 import fallBackDate from '@utils/fallbackDate'
 import { useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
 import { uploadImage } from '@utils/api'
 import Upload from '@components/inputs/upload'
 import { toast } from 'sonner'
+import { Button } from 'uibee/components'
 
 export default function JobFormInputsClient({
     defaultValues,
@@ -355,11 +355,9 @@ const sampleJob = {
     position_title_no: 'UI-designer hos Login',
     position_title_en: 'UI Designer at Login',
     description_short_no:
-        'Design og forbedre brukeropplevelsen for Login sitt ' +
-        'digitale innhold.',
+        'Design og forbedre brukeropplevelsen for Login sitt digitale innhold.',
     description_short_en:
-        'Design and improve the user experience for Login’s ' +
-        'digital content.',
+        'Design and improve the user experience for Login’s digital content.',
     description_long_no: `🎨 Som UI-designer hos Login vil du:
 - Lage intuitive og attraktive grensesnitt for nettside og app
 - Samarbeide tett med markedsføring og arrangementsteam

@@ -1,5 +1,7 @@
 import postTag from '@utils/fetch/status/postTag'
+import { X } from 'lucide-react'
 import { Dispatch, SetStateAction, useState } from 'react'
+import { Button } from 'uibee/components'
 
 type NewTagProps = {
     display: boolean
@@ -72,22 +74,13 @@ export default function NewTag({ display, setAddingTag, setRefresh }: NewTagProp
                 </div>
 
                 <div className='flex justify-end gap-2 pt-2'>
-                    <button
-                        type='button'
+                    <Button
+                        text='Cancel'
+                        color='secondary'
+                        icon={<X className='w-5' />}
                         onClick={() => setAddingTag(false)}
-                        className='px-4 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 cursor-pointer'
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        type='submit'
-                        className={`
-                            px-4 py-0.5 rounded-lg bg-login/80 hover:bg-login
-                            hover:brightness-110 cursor-pointer
-                        `}
-                    >
-                        Create
-                    </button>
+                    />
+                    <Button type='submit' text='Create' icon='+' />
                 </div>
             </form>
         </div>

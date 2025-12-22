@@ -1,9 +1,10 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import NewNotification from './newNotification'
-import { Plus } from 'lucide-react'
+import { Plus, RefreshCcw } from 'lucide-react'
 import putService from '@utils/fetch/status/putService'
 import { getService } from '@utils/api'
 import TrashShift from './trashShift'
+import { Button } from 'uibee/components'
 
 type EditServiceProps = {
     notifications: ServiceNotification[]
@@ -250,16 +251,7 @@ export default function EditService({
 
                 {/* Submit */}
                 <div className='flex justify-between items-center'>
-                    <button
-                        type='submit'
-                        className={`
-                            rounded-lg bg-login/80 outline outline-login
-                            hover:bg-login/90 px-4 py-0.5 font-medium
-                            hover:brightness-110 cursor-pointer
-                            `}
-                    >
-                        Update Service
-                    </button>
+                    <Button type='submit' icon={<RefreshCcw />} text='Update Service' />
                     <TrashShift />
                 </div>
             </form>

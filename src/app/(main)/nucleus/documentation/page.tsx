@@ -2,16 +2,17 @@
 
 import { ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { Button } from 'uibee/components'
 import Examples from './examples'
 
 const text = {
     title: 'Varslinger (Push Notifications)',
-    descriptionBefore: 'Varslinger er en viktig funksjon i appen, men må brukes ' +
-        'med måte for å ha ønsket hensikt. Varslinger skal brukes like ' +
-        'forsiktig som ',
-    descriptionAfter: ' i Discord, da vi kun trenger en feil før ' +
-        'funksjonen blir slår av. Tenk alltid gjennom om en varsling ' +
-        'virkelig er nødvendig.',
+    descriptionBefore: `Varslinger er en viktig funksjon i appen, men må brukes
+        med måte for å ha ønsket hensikt. Varslinger skal brukes like
+        forsiktig som `,
+    descriptionAfter: ` i Discord, da vi kun trenger en feil før
+        funksjonen blir slår av. Tenk alltid gjennom om en varsling
+        virkelig er nødvendig.`,
     intervals: '10m, 30m, 1h, 2h, 3h, 6h, 1d, 2d, 1w',
 }
 
@@ -22,14 +23,7 @@ export default function Page() {
             className='h-(--h-pageInfo) w-full flex flex-col items-center'>
             <div className='w-full px-16 py-4'>
                 <div className='flex flex-col gap-4'>
-                    <button
-                        type='button'
-                        aria-label='Go back'
-                        onClick={() => router.back()}
-                        className='inline-flex items-center gap-2 cursor-pointer hover:text-login select-none'>
-                        <ArrowLeft className='size-4.5' />
-                        <span>Back</span>
-                    </button>
+                    <Button icon={<ArrowLeft className='w-5' />} text='Back' onClick={() => router.back()} />
                     <h1 className='font-semibold text-2xl capitalize pb-6'>
                         Documentation
                     </h1>

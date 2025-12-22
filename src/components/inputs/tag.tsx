@@ -3,8 +3,8 @@
 import { useState, KeyboardEvent } from 'react'
 import ToolTip from './tooltip'
 import Label from './label'
-import EraseButton from './erase'
-import { X } from 'lucide-react'
+import { Eraser, X } from 'lucide-react'
+import { Button } from 'uibee/components'
 
 type TagInputProps = {
     name: string
@@ -62,21 +62,21 @@ export default function TagInput({
     return (
         <div className={`w-full ${className}`}>
             <div
-                className={
-                    'relative flex items-center flex-wrap gap-1 ' +
-                    'min-h-12 border-[0.10rem] border-login-200 ' +
-                    'rounded-lg ' +
-                    'px-2.5 pt-4 pb-2.5 bg-login-800'
-                }
+                className={`
+                    relative flex items-center flex-wrap gap-1
+                    min-h-12 border-[0.10rem] border-login-200
+                    rounded-lg
+                    px-2.5 pt-4 pb-2.5 bg-login-800
+                `}
             >
                 <div className='flex flex-wrap gap-1 items-center w-full'>
                     {value.map((tag, idx) => (
                         <span
                             key={tag + idx}
-                            className={
-                                'bg-login-600 text-sm rounded px-2 ' +
-                                'py-0.75 flex items-center gap-0.5'
-                            }
+                            className={`
+                                bg-login-600 text-sm rounded px-2
+                                py-0.75 flex items-center gap-0.5
+                            `}
                         >
                             {tag}
                             <button
@@ -93,10 +93,10 @@ export default function TagInput({
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={handleKeyDown}
                         onBlur={() => setHasBlured(true)}
-                        className={
-                            'peer flex-1 min-w-[6ch] bg-transparent ' +
-                            'outline-none text-sm py-1'
-                        }
+                        className={`
+                            peer flex-1 min-w-[6ch] bg-transparent
+                            outline-none text-sm py-1
+                        `}
                         autoComplete='off'
                         required={required && value.length === 0}
                     />
@@ -115,7 +115,11 @@ export default function TagInput({
                         className='pointer-events-none left-2'
                     />
                 </div>
-                {value.length > 0 && <EraseButton setData={handleErase} />}
+                {value.length > 0 && <Button
+                    icon={<Eraser className='w-5' />}
+                    text='Erase'
+                    onClick={handleErase}
+                />}
                 {value.length === 0 && tooltip && <ToolTip info={tooltip} />}
             </div>
         </div>

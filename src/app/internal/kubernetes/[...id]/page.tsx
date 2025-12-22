@@ -54,7 +54,7 @@ export default async function Service({ params }: { params: Promise<{ id: string
             </div>
             <div className='col-span-10 w-full rounded-lg grid grid-cols-12 gap-2 h-full max-h-[calc((100vh-var(--h-navbar))-1rem)]'>
                 <div className='w-full col-span-9 max-h-full overflow-hidden flex flex-col'>
-                    <div className='w-full flex-shrink-0'>
+                    <div className='w-full shrink-0'>
                         <Terminal
                             name={commandName}
                             reason={commandReason}
@@ -63,7 +63,7 @@ export default async function Service({ params }: { params: Promise<{ id: string
                         />
                     </div>
                     <Logs logs={filteredLogs} pages={pages} />
-                    <div className='w-full flex-shrink-0'>
+                    <div className='w-full shrink-0'>
                         <MonitoredCommands
                             globalCommands={filteredGlobalCommands}
                             localCommands={filteredLocalCommands}
@@ -77,8 +77,6 @@ export default async function Service({ params }: { params: Promise<{ id: string
                             <Incidents />
                             <Pods />
                             <Ingress />
-                            {/* <h1 className='text-login-400 text-center'>Below items are planned but not implemented yet.</h1>
-                            <button className={buttonStyle}>Commit history (last 5 commits)</button> */}
                         </div>
                     </div>
                     <Link href='/internal/kubernetes/message' className='w-full p-2 bg-login-600 rounded-lg flex'>

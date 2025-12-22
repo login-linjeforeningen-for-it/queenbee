@@ -2,11 +2,11 @@
 
 import Input from '@components/inputs/input'
 import Markdown from '@components/inputs/markdown'
-import Button from '@components/button/button'
 import { useState } from 'react'
 import Select from '@components/inputs/select'
 import Link from 'next/link'
 import { Upload } from 'lucide-react'
+import { Button } from 'uibee/components'
 
 export default function AlbumFormInputsClient({
     defaultValues,

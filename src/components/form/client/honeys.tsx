@@ -1,10 +1,10 @@
 'use client'
 
 import Input from '@components/inputs/input'
-import Button from '@components/button/button'
 import { useState } from 'react'
 import Select from '@components/inputs/select'
 import JsonInput from '@components/inputs/json'
+import { Button } from 'uibee/components'
 
 export default function HoneyFormInputsClient({
     defaultValues,

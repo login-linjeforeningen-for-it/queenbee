@@ -1,6 +1,8 @@
 import { RoleRenderer } from '@components/preview/discordRole'
+import { BoxesIcon, Edit, X } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { Button } from 'uibee/components'
 
 const timeValues = ['date', 'last_sent', 'time']
 
@@ -29,10 +31,10 @@ export default function Body({ list, headers, deleteAction, roles }: BodyProps) 
                             <td key={key} className='p-2'>
                                 <div className='relative group'>
                                     <h1
-                                        className={
-                                            'overflow-hidden text-ellipsis ' +
-                                            'whitespace-nowrap max-w-60'
-                                        }
+                                        className={`
+                                            overflow-hidden text-ellipsis
+                                            whitespace-nowrap max-w-60
+                                        `}
                                     >
                                         {key === 'roles' && roles ? (
                                             (value as string[]).map((roleId, idx) => (
@@ -49,77 +51,58 @@ export default function Body({ list, headers, deleteAction, roles }: BodyProps) 
                     <td className='p-2'>
                         <button
                             type='button'
-                            className={
-                                'mx-auto px-3 py-1.5 rounded ' +
-                                'hover:bg-login-400 ' +
-                                ' flex items-start justify-center ' +
-                                `${openMenuId === id ? 'bg-login-400' : ''}`
-                            }
+                            className={`
+                                mx-auto px-3 py-1.5 rounded flex items-start
+                                hover:bg-login-400 justify-center
+                                ${openMenuId === id ? 'bg-login-400' : ''}
+                            `}
                             onClick={() =>
                                 setOpenMenuId(openMenuId === id ? null : id)
                             }
                         >
                             {/* prettier-ignore */}
-                            <span className={'text-xl leading-none select-none '
-                                + `${openMenuId === id ? 'text-login-300' : ''}`
-                            }
+                            <span className={`
+                                text-xl leading-none select-none
+                                ${openMenuId === id ? 'text-login-300' : ''}
+                            `}
                             >
                                 ⋮
                             </span>
                         </button>
                         {openMenuId === id && (
-                            <div
-                                className={
-                                    'absolute right-0 mt-1 w-28 ' +
-                                    'origin-top-right rounded-md ' +
-                                    'bg-login-500 border ' +
-                                    'border-[color:var(--color-login-900 )] ' +
-                                    'shadow-lg z-20'
-                                }
-                            >
+                            <div className={`
+                                absolute right-0 mt-1 w-28 origin-top-right
+                                rounded-md bg-login-500 border shadow-lg z-20
+                                border-[color:var(--color-login-900 )]
+                            `}>
                                 <div className='py-1'>
-                                    <button
-                                        className={
-                                            'w-full text-left px-3 py-1.5 ' +
-                                            'text-sm hover:bg-login-400'
-                                        }
+                                    <Button
+                                        icon={<Edit className='w-5' />}
+                                        text='Edit'
                                         onClick={() => {
                                             setOpenMenuId(null)
-                                            router.push(
-                                                `${pathname}/update/${id}`
-                                            )
+                                            router.push(`${pathname}/update/${id}`)
                                         }}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        className={
-                                            'w-full text-left px-3 py-1.5 ' +
-                                            'text-sm hover:bg-login-400'
-                                        }
+                                    />
+                                    <Button
+                                        icon={<BoxesIcon className='w-5' />}
+                                        text='Duplicate'
+                                        color='secondary'
                                         onClick={() => {
                                             setOpenMenuId(null)
-                                            router.push(
-                                                `${pathname}/create/${id}`
-                                            )
+                                            router.push(`${pathname}/create/${id}`)
                                         }}
-                                    >
-                                        Duplicate
-                                    </button>
-                                    <button
-                                        className={
-                                            'w-full text-left px-3 py-1.5 ' +
-                                            'text-sm hover:bg-login-400 ' +
-                                            'text-(--color-delete)'
-                                        }
+                                    />
+                                    <Button
+                                        icon={<X className='w-5' />}
+                                        text='Delete'
+                                        color='secondary'
                                         onClick={() => {
                                             setOpenMenuId(null)
                                             deleteAction(id)
                                             router.refresh()
                                         }}
-                                    >
-                                        Delete
-                                    </button>
+                                    />
                                 </div>
                             </div>
                         )}

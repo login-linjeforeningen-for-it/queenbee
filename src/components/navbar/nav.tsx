@@ -18,10 +18,10 @@ export default function Nav() {
 
     return (
         <nav
-            className={
-                'relative h-(--h-navbar) w-full ' +
-                'bg-login-950 flex justify-between'
-            }
+            className={`
+                relative h-(--h-navbar) w-full
+                bg-login-950 flex justify-between
+            `}
         >
             <LeftSide token={token} />
             <RightSide token={token} />
@@ -64,10 +64,10 @@ function RightSide({token}: {token: string | undefined}) {
                 <>
                     {groups && groups.includes('TekKom') && (
                         <Link
-                            className={
-                                'flex items-center justify-center p-2 rounded-md transition-colors ' +
-                                'hover:bg-login-600 size-12'
-                            }
+                            className={`
+                                flex items-center justify-center p-2 rounded-md 
+                                transition-colors hover:bg-login-600 size-12
+                            `}
                             href={pathname.startsWith('/internal') ? '/dashboard' : '/internal'}
                             prefetch={false}
                         >
@@ -75,10 +75,10 @@ function RightSide({token}: {token: string | undefined}) {
                         </Link>
                     )}
                     <Link
-                        className={
-                            'flex items-center justify-center p-2 rounded-md transition-colors ' +
-                            'hover:bg-login-600 size-12'
-                        }
+                        className={`
+                            flex items-center justify-center p-2 rounded-md transition-colors
+                            hover:bg-login-600 size-12
+                        `}
                         href='/api/logout'
                         onClick={() => {
                             const router = useRouter()

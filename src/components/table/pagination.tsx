@@ -119,11 +119,11 @@ export default function Pagination({
                     type='button'
                     onClick={goPrevious}
                     disabled={current <= 1}
-                    className={
-                        'flex items-center gap-2 p-1 rounded-lg ' +
-                        'bg-login-600 hover:bg-login-500 disabled:opacity-50 ' +
-                        'border-[0.10rem] border-login-200 text-sm'
-                    }
+                    className={`
+                        flex items-center gap-2 p-1 rounded-lg
+                        bg-login-600 hover:bg-login-500 disabled:opacity-50
+                        border-[0.10rem] border-login-200 text-sm
+                    `}
                 >
                     <ChevronLeft className='h-5 w-5' />
                 </button>
@@ -145,15 +145,15 @@ export default function Pagination({
                                 aria-current={
                                     p === current ? 'page' : undefined
                                 }
-                                className={
-                                    'px-3 py-1 rounded-lg text-sm ' +
-                                    `border-[0.10rem] ${
-                                        p === current
-                                            ? 'bg-login-600 border-login-50'
-                                            : 'bg-white/0 border-login-200 ' +
-                                              'hover:bg-login-400'
-                                    }`
-                                }
+                                className={`
+                                    px-3 py-1 rounded-lg text-sm
+                                    border-[0.10rem] ${
+                            p === current
+                                ? 'bg-login-600 border-login-50'
+                                : `bg-white/0 border-login-200
+                                    'hover:bg-login-400`
+                            }
+                                `}
                             >
                                 {p}
                             </button>

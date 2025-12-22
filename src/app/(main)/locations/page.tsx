@@ -1,12 +1,12 @@
 import { deleteLocation, getLocations } from '@utils/api'
 import Alert from '@components/alert/alert'
-import Button from '@components/button/button'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import LocationOption from '@components/locationOption/locationOption'
 import { cookies } from 'next/headers'
 import Pagination from '@components/table/pagination'
 import formatAlert from '@components/alert/formatAlert'
+import { Button } from 'uibee/components'
 
 const AddressHeaders = [
     'id',
@@ -85,10 +85,10 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
 
     return (
         <div
-            className={
-                'h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] ' +
-                'overflow-hidden flex flex-col'
-            }
+            className={`
+                h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)]
+                overflow-hidden flex flex-col
+            `}
         >
             <div className='flex-none'>
                 <h1 className='font-semibold text-lg'>Locations</h1>

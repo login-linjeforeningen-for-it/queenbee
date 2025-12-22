@@ -1,11 +1,11 @@
 import { deleteHoney, getHoneys, getHoneyServices } from '@utils/api'
 import Alert from '@components/alert/alert'
-import Button from '@components/button/button'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Option from '@components/locationOption/serviceOption'
 import Pagination from '@components/table/pagination'
 import formatAlert from '@components/alert/formatAlert'
+import { Button } from 'uibee/components'
 
 const headers = [
     'id',

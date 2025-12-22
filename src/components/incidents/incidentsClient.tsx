@@ -7,6 +7,8 @@ import { removeCookie, setCookie } from '@/utils/cookies'
 import ArrowOutward from '../svg/arrowOutward'
 import FancyField from '../root/fancyField'
 import { usePathname } from 'next/navigation'
+import { Button } from 'uibee/components'
+import { X } from 'lucide-react'
 
 type IncidentsClientProps = {
     context: string
@@ -126,12 +128,12 @@ export default function IncidentsClient({
                     >
                         {response.message}
                     </h1>}
-                    <button
+                    <Button
+                        icon={<X className='w-5' />}
+                        text='Cancel'
+                        color='secondary'
                         onClick={handleCancel}
-                        className='cursor-pointer bg-login-400 py-1 text-center w-full text-bright rounded-lg select-none'
-                    >
-                        Cancel
-                    </button>
+                    />
                     <div className='relative grid gap-2'>
                         <FancyField placeholder='Incident' value={name} setValue={setName} />
                         <FancyField placeholder='URL' value={url} setValue={setURL} />
@@ -143,12 +145,11 @@ export default function IncidentsClient({
                             now
                         </h1>
                     </div>
-                    <button
+                    <Button
+                        icon='+'
+                        text='Add'
                         onClick={handleSubmit}
-                        className='cursor-pointer bg-login py-1 text-center w-full text-bright rounded-lg select-none'
-                    >
-                        Add
-                    </button>
+                    />
                 </div> : <div
                     onClick={() => setOpen(true)}
                     className={`
@@ -157,7 +158,7 @@ export default function IncidentsClient({
                     `}
                 >
                     <h1 className='select-none'>Add incident</h1>
-                    <h1 className='select-none text-lg pr-[3px] text-login'>+</h1>
+                    <h1 className='select-none text-lg pr-0.75 text-login'>+</h1>
                 </div>}
             </div>}
         </div>

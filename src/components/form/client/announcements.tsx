@@ -6,10 +6,10 @@ import Markdown from '@components/inputs/markdown'
 import Select from '@components/inputs/select'
 import Switch from '@components/inputs/switch'
 import TimeInput from '@components/inputs/time'
-import Button from '@components/button/button'
 import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
 import { toLocalTimeString } from '@utils/timeZone'
 import { useEffect, useState } from 'react'
+import { Button } from 'uibee/components'
 
 export default function AnnouncementFormInputsClient({
     channels,

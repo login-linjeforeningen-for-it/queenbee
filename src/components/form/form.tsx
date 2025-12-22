@@ -5,6 +5,7 @@ import Form from 'next/form'
 import { useActionState, useEffect, useState } from 'react'
 import { Save } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
+import { Button } from 'uibee/components'
 
 type ContentFormProps = {
     name: FormName
@@ -57,22 +58,16 @@ export default function CustomForm({
                     {children}
                 </div>
 
-                <button
+                <Button
                     type='submit'
+                    icon={<Save className='w-5' />}
+                    text={`${type} ${name}`}
                     onClick={() => {
                         setSubmitPressed(true)
                         setSubmitCount(prev => prev + 1)
                     }}
                     disabled={pending}
-                    className={`
-                        flex flex-row w-fit gap-2 capitalize select-none
-                        cursor-pointer bg-login/90 hover:bg-login/80
-                        rounded-md px-3 py-1
-                    `}
-                >
-                    <Save className='w-5' />
-                    {type} {name}
-                </button>
+                />
             </div>
         </Form>
     )

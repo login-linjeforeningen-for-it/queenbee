@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import ToolTip from './tooltip'
 import Label from './label'
-import EraseButton from './erase'
+import { Eraser } from 'lucide-react'
+import { Button } from 'uibee/components'
 
 type TimeProps = {
     name: string
@@ -34,13 +35,13 @@ export default function TimeInput({
                 <input
                     type='time'
                     name={name}
-                    className={
-                        `${disabled ? 'text-login-400' : ''} peer block ` +
-                        'px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg ' +
-                        'border-[0.10rem] appearance-none border-login-200 ' +
-                        'focus:outline-none focus:ring-0 ' +
-                        'focus:border-login-50'
-                    }
+                    className={`
+                        ${disabled ? 'text-login-400' : ''} peer block
+                        px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg
+                        border-[0.10rem] appearance-none border-login-200
+                        focus:outline-none focus:ring-0
+                        focus:border-login-50
+                    `}
                     value={value}
                     onChange={(e) => !disabled && setValue(e.target.value)}
                     onBlur={() => setHasBlured(true)}
@@ -52,7 +53,11 @@ export default function TimeInput({
                     value={value}
                     showRequired={required && !value && hasBlured}
                 />
-                {!disabled && value && <EraseButton setData={setValue} />}
+                {!disabled && value && <Button
+                    icon={<Eraser className='w-5' />}
+                    text='Erase'
+                    onClick={() => setValue('')}
+                />}
                 {!value && tooltip && <ToolTip info={tooltip} />}
             </div>
         </div>

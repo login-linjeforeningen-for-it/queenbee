@@ -80,17 +80,15 @@ export default function Sidebar() {
                     <Link
                         key={index}
                         href={value.path}
-                        className={
-                            'flex flex-row px-4 items-center ' +
-                            'gap-2 py-[0.8rem] hover:pl-6 ' +
-                            'duration-300 transition-all justify-between ' +
-                            `${
-                                path === value.path
-                                    ? '*:stroke-login text-login pl-[1.2rem] ' +
-                                    'bg-login-800 border-l-[0.3rem]'
-                                    : ''
-                            } hover:*:stroke-login hover:text-login font-medium`
-                        }
+                        className={`
+                            flex flex-row px-4 items-center gap-2 py-[0.8rem]
+                            hover:pl-6 duration-300 transition-all justify-between
+                            ${path === value.path
+                        ? `*:stroke-login text-login pl-[1.2rem]
+                                bg-login-800 border-l-[0.3rem]`
+                        : ''} 
+                            hover:*:stroke-login hover:text-login font-medium
+                        `}
                     >
                         <div className='flex gap-2 items-center'>
                             {value.image}

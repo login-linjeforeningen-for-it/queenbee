@@ -15,10 +15,10 @@ export default function Preview({ title, description, small }: PreviewProps) {
     return (
         <div className='relative min-h-full max-h-full overflow-hidden'>
             <h1
-                className={
-                    'relative text-2xl font-bold tracking-tight ' +
-                    `text-foreground z-100 ${small ? 'mb-2' : ''}`
-                }
+                className={`
+                    relative text-2xl font-bold tracking-tight
+                    text-foreground z-100 ${small ? 'mb-2' : ''}
+                `}
             >
                 Preview
             </h1>
@@ -27,12 +27,7 @@ export default function Preview({ title, description, small }: PreviewProps) {
                 description={description}
                 small={small}
             />
-            <div
-                className={
-                    'hidden lg:block relative w-full ' +
-                    'aspect-1/2 -mt-10 -ml-10'
-                }
-            >
+            <div className='hidden lg:block relative w-full aspect-1/2 -mt-10 -ml-10'>
                 <Image
                     alt='Logo'
                     src='/images/iphone-events.png'
