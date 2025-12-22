@@ -1,7 +1,7 @@
 import { getBackups } from '@utils/api'
 import formatNextBackup from '@utils/date/formatNextBackup'
 import prettyDate from '@utils/date/prettyDate'
-import { DatabaseIcon } from 'lucide-react'
+import { DatabaseBackup } from 'lucide-react'
 import { Button } from 'uibee/components'
 
 export default async function Page() {
@@ -20,7 +20,7 @@ export default async function Page() {
             <div className='flex justify-between items-center'>
                 <h1 className='text-2xl font-bold'>Backup Management</h1>
                 <Button
-                    icon={<DatabaseIcon className='w-5' />}
+                    icon={<DatabaseBackup className='w-5' />}
                     text='Go to Restore'
                     path='/internal/backup/restore'
                 />
