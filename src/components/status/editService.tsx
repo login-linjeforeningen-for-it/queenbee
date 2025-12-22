@@ -95,6 +95,7 @@ export default function EditService({
                 expectedDown: response.expected_down,
                 interval: response.interval,
                 notification: response.notification,
+                userAgent: response.user_agent,
                 maxConsecutiveFailures: response.max_consecutive_failures,
                 note: response.note,
                 status: response.status,
@@ -184,7 +185,6 @@ export default function EditService({
                             className='w-full rounded bg-white/10 px-3 py-2'
                             value={form.userAgent || ''}
                             onChange={(e) => updateField('userAgent', e.target.value)}
-                            required
                         />
                     </div>
 

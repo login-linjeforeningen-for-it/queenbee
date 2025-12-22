@@ -7,15 +7,22 @@ export default function Statistics({ services }: { services: Service[] }) {
     for (const service of services) {
         const bars = service.bars
         const hasBars = Array.isArray(bars) && bars.length
-        if (service.enabled && hasBars && bars[bars.length - 1].status) {
+        if (service.enabled && hasBars && bars[0].status) {
             up++
-        } else if (service.enabled && hasBars && !bars[bars.length - 1].status && bars[bars.length - 1].expectedDown) {
+        } else if (service.enabled && hasBars && !bars[0].status && bars[0].expectedDown) {
             maintenance++
-        } else if (service.enabled && hasBars && !bars[bars.length - 1].status && service.maxConsecutiveFailures > 0) {
+        } else if (service.enabled && hasBars && !bars[0].status && service.maxConsecutiveFailures > 0) {
+            let pendingFailed = 0
             for (let i = 0; i < Math.min(service.maxConsecutiveFailures, service.bars.length); i++) {
                 if (service.bars[i].status) {
-                    pending++
+                    pendingFailed++
                 }
+            }
+
+            if (pendingFailed < service.maxConsecutiveFailures) {
+                pending++
+            } else {
+                down ++
             }
         } else {
             down++
