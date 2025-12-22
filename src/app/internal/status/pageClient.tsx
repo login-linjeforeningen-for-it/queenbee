@@ -50,6 +50,17 @@ export default function PageClient({
     }, [refresh])
 
     useEffect(() => {
+        const interval = setInterval(async() => {
+            const response = await getServices()
+            if (Array.isArray(response)) {
+                setServices(response)
+            }
+        }, 60000)
+
+        return () => clearInterval(interval)
+    }, [])
+
+    useEffect(() => {
         if (refreshTags) {
             (async () => {
                 const response = await getTags()
