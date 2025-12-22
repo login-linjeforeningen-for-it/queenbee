@@ -77,6 +77,7 @@ const config = {
             status: {
                 services: {
                     get: '/monitoring',
+                    put: '/monitoring',
                     post: '/monitoring',
                 },
                 notifications: {

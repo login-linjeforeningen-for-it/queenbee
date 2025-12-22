@@ -19,6 +19,7 @@ export default function NewService({ notifications, setRefresh, setRefreshNotifi
         interval: 60,
         status: false,
         expectedDown: false,
+        notification: null,
         maxConsecutiveFailures: 0,
         note: '',
         enabled: true,

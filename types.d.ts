@@ -1083,13 +1083,22 @@ declare global {
         uptime: number
         name: string
         enabled: boolean
+        notification: number
+        maxConsecutiveFailures: number
         tags: { id: number, name: string }[]
-        bars: { status: Bar, date: string, message: string }[]
+        bars: Bar[]
     }
 
-    type Bar = 'up' | 'down' | 'pending' | 'maintenance'
+    type Bar = {
+        status: boolean
+        delay: number
+        expectedDown: boolean
+        timestamp: string
+        note: string
+    }
 
     type ServiceNotification = {
+        id: string
         name: string
         message: string
         webhook: string
@@ -1107,6 +1116,7 @@ declare global {
         url: string
         interval: number
         status: boolean
+        notification: null | string
         expectedDown: boolean
         maxConsecutiveFailures: number
         note: string
@@ -1119,6 +1129,7 @@ declare global {
         type: string
         name: string
         enabled: boolean
+        notification: string
         tags: { id: number, name: string }[]
         bars: { status: Bar, date: string, message: string }[]
         url: string

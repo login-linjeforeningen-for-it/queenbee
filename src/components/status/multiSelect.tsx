@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { X, ChevronDown, Plus } from 'lucide-react'
+import { X, ChevronDown, Plus, Check } from 'lucide-react'
 
 type Option = {
     label: string
@@ -57,7 +57,7 @@ export default function MultiSelect({
                 onClick={() => setOpen((o) => !o)}
                 className={`
                     flex cursor-pointer items-center justify-between gap-2
-                    rounded-lg bg-white/10 px-2 py-0.5
+                    rounded-lg bg-white/10 px-2 py-0.5 min-w-fit
                     outline outline-white/20 select-none
                     hover:bg-white/15
                 `}
@@ -76,7 +76,7 @@ export default function MultiSelect({
                         return (
                             <span
                                 key={val}
-                                className='flex items-center gap-1 rounded-md bg-white/20 px-2 py-0.5 text-sm'
+                                className='flex items-center gap-1 rounded-md bg-white/20 px-2 py-0.5 text-sm min-w-fit'
                             >
                                 {option.label}
                                 <button
@@ -110,7 +110,7 @@ export default function MultiSelect({
             {open && options.length > 0 && (
                 <div
                     className={`
-                        absolute z-50 mt-1 max-h-60 w-full overflow-auto
+                        absolute z-50 mt-1 max-h-60 min-w-fit w-full overflow-auto
                         rounded-lg bg-neutral-900 shadow-lg
                         outline outline-white/10
                     `}
@@ -125,13 +125,13 @@ export default function MultiSelect({
                                 className={`
                                     flex cursor-pointer items-center px-3 py-2
                                     hover:bg-white/10 justify-between select-none
-                                    ${selected ? 'bg-white/10' : ''}
+                                    ${selected ? 'bg-white/10' : ''} min-w-fit
                                 `}
                             >
                                 <span>{option.label}</span>
                                 {selected && (
                                     <span className='text-xs text-white/50'>
-                                        Selected
+                                        <Check className='w-4 h-4' />
                                     </span>
                                 )}
                             </div>

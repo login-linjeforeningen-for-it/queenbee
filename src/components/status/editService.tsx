@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import NewNotification from './newNotification'
 import { Plus } from 'lucide-react'
-import putService from '@utils/fetch/status/postService'
+import putService from '@utils/fetch/status/putService'
 import { getService } from '@utils/api'
 import TrashShift from './trashShift'
 
@@ -10,9 +10,18 @@ type EditServiceProps = {
     setRefresh: Dispatch<SetStateAction<boolean>>
     setRefreshNotifications: Dispatch<SetStateAction<boolean>>
     service: Service
+    setEditing: Dispatch<SetStateAction<Service | null>>
+    setSelected: Dispatch<SetStateAction<Service | null>>
 }
 
-export default function EditService({ notifications, setRefresh, setRefreshNotifications, service }: EditServiceProps) {
+export default function EditService({
+    notifications,
+    setRefresh,
+    setRefreshNotifications,
+    service,
+    setEditing,
+    setSelected
+}: EditServiceProps) {
     const [addingNotification, setAddingNotification] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const initialForm = {
@@ -22,6 +31,7 @@ export default function EditService({ notifications, setRefresh, setRefreshNotif
         url: 'Loading...',
         interval: 60,
         status: false,
+        notification: null,
         expectedDown: false,
         maxConsecutiveFailures: 0,
         uptime: 0,
@@ -31,7 +41,7 @@ export default function EditService({ notifications, setRefresh, setRefreshNotif
         bars: [] as { status: Bar; date: string; message: string; }[]
     }
 
-    const [form, setForm] = useState(initialForm)
+    const [form, setForm] = useState<NewService>(initialForm)
 
     function updateField<K extends keyof typeof form>(key: K, value: typeof form[K]) {
         setForm((prev) => ({ ...prev, [key]: value }))
@@ -59,17 +69,19 @@ export default function EditService({ notifications, setRefresh, setRefreshNotif
             return
         }
 
-        const response = await putService(form)
+        const response = await putService(service.id, form)
         if (typeof response === 'object' && 'message' in response) {
             clearForm()
             setRefresh(true)
+            setEditing(null)
+            setSelected(service)
         } else {
             setError('Unable to reach server. Please try again later.')
         }
     }
 
     useEffect(() => {
-        (async() => {
+        (async () => {
             const response = await getService(service.id)
             if (typeof response === 'string') {
                 return setError('Unable to reach server.')
@@ -80,6 +92,7 @@ export default function EditService({ notifications, setRefresh, setRefreshNotif
                 enabled: response.enabled,
                 expectedDown: response.expected_down,
                 interval: response.interval,
+                notification: response.notification,
                 maxConsecutiveFailures: response.max_consecutive_failures,
                 note: response.note,
                 status: response.status,
@@ -217,11 +230,12 @@ export default function EditService({ notifications, setRefresh, setRefreshNotif
                     </div>
                     <select
                         className='w-full rounded bg-white/10 px-3 py-2'
-                        value={form.type}
-                        onChange={(e) => updateField('type', e.target.value as 'fetch' | 'post')}
+                        value={form.notification || 'None'}
+                        onChange={(e) => updateField('notification', e.target.value)}
                     >
+                        <option value=''>None</option>
                         {notifications.map((notification) =>
-                            <option key={notification.name} value={notification.name}>{notification.name}</option>
+                            <option key={notification.name} value={notification.id}>{notification.name}</option>
                         )}
                     </select>
                 </div>

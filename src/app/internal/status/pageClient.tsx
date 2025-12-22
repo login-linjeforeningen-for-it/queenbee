@@ -20,8 +20,8 @@ export default function PageClient({
     const [notifications, setNotifications] = useState<ServiceNotification[]>(serverNotifications)
     const [tags, setTags] = useState<{ id: string, name: string }[]>(serverTags)
     const [input, setInput] = useState('')
-    const [stateFilter, setStateFilter] = useState<Bar[] | null>(null)
-    const [enabledFilter, setEnabledFilter] = useState<boolean | null>(null)
+    const [stateFilter, setStateFilter] = useState<string[] | null>(null)
+    const [activeFilter, setActiveFilter] = useState<boolean | null>(null)
     const [addingTag, setAddingTag] = useState(false)
     const [selectedTags, setSelectedTags] = useState<string[]>([])
     const [selected, setSelected] = useState<Service | null>(null)
@@ -95,24 +95,25 @@ export default function PageClient({
                         options={[
                             { label: 'Up', value: 'up' },
                             { label: 'Down', value: 'down' },
-                            { label: 'Pending', value: 'pending' }
+                            { label: 'Pending', value: 'pending' },
+                            { label: 'Maintenance', value: 'maintenance' }
                         ]}
                         value={stateFilter ?? []}
-                        onChange={(values: string[]) => setStateFilter(values.length ? (values as Bar[]) : null)}
+                        onChange={(values: string[]) => setStateFilter(values.length ? values : null)}
                         placeholder='Status'
                     />
                     <select
                         className='px-2 py-0.5 rounded-lg '
-                        value={enabledFilter === null ? '' : String(enabledFilter)}
+                        value={activeFilter === null ? '' : String(activeFilter)}
                         onChange={(e) =>
-                            setEnabledFilter(
+                            setActiveFilter(
                                 e.target.value === '' ? null : e.target.value === 'true'
                             )
                         }
                     >
-                        <option value=''>Active</option>
-                        <option value='true'>Enabled</option>
-                        <option value='false'>Disabled</option>
+                        <option value=''>All</option>
+                        <option value='true'>Active</option>
+                        <option value='false'>Inactive</option>
                     </select>
                     <MultiSelect
                         options={tags.map((tag) => ({
@@ -136,18 +137,44 @@ export default function PageClient({
                 </div>
 
                 <div className='grid gap-2 h-fit'>
-                    {services.filter(item =>
-                        item.name.includes(input)
-                            && stateFilter === null ? true
-                            : (item.bars.length ? stateFilter?.includes(item.bars[item.bars.length - 1].status) : false)
-                                && enabledFilter === null ? true : enabledFilter === item.enabled
-                                    && !selectedTags.length ? true : selectedTags!.some(tf => item.tags.some(it => it.id === Number(tf)))
-                    ).map((item, index) =>
+                    {services.filter(item => {
+                        if (!item.name.includes(input)) {
+                            return false
+                        }
+
+                        if (activeFilter !== null && item.enabled !== activeFilter) {
+                            return false
+                        }
+
+                        if (stateFilter !== null) {
+                            if (!item.bars.length) return false
+
+                            const lastBar = item.bars[item.bars.length - 1]
+                            const status =
+                                lastBar.status
+                                    ? 'up'
+                                    : lastBar.expectedDown
+                                        ? 'maintenance'
+                                        : item.maxConsecutiveFailures > 0
+                                            ? 'pending'
+                                            : 'down'
+
+                            if (!stateFilter.includes(status)) return false
+                        }
+
+                        if (selectedTags.length) {
+                            if (!selectedTags.some(tf =>
+                                item.tags.some(it => it.id === Number(tf))
+                            )) return false
+                        }
+
+                        return true
+                    }).map((item, index) =>
                         <ServiceRow
                             onClick={() => { setSelected(item); setAdding(false); setEditing(null) }}
                             onEditClick={() => { setEditing(item); setSelected(null); setAdding(false) }}
                             key={index}
-                            name={item.name}
+                            service={item}
                             uptime={item.uptime}
                             bars={item.bars}
                         />
@@ -169,6 +196,8 @@ export default function PageClient({
                     setRefresh={setRefresh}
                     setRefreshNotifications={setRefreshNotifications}
                     service={editing}
+                    setEditing={setEditing}
+                    setSelected={setSelected}
                 />}
             </div>
         </div>

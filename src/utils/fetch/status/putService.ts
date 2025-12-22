@@ -1,10 +1,10 @@
 import config from '@config'
 import { getCookie } from '@utils/cookies'
 
-export default async function putService(form: NewService) {
+export default async function putService(id: number, form: NewService) {
     try {
         const token = getCookie('access_token')
-        const response = await fetch(`${config.beekeeper.api}${config.workerbeeApi.beekeeper.status.services.post}`, {
+        const response = await fetch(`${config.beekeeper.api}${config.workerbeeApi.beekeeper.status.services.put}/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -20,6 +20,6 @@ export default async function putService(form: NewService) {
         const data = await response.json()
         return data
     } catch (error) {
-        return `Failed to post service: ${error}`
+        return `Failed to put service: ${error}`
     }
 }
