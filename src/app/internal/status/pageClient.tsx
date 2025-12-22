@@ -8,8 +8,9 @@ import ServiceRow from '@components/status/serviceRow'
 import ServiceStatus from '@components/status/serviceStatus'
 import Statistics from '@components/status/statistics'
 import { getNotifications, getServices, getTags } from '@utils/api'
-import { Search } from 'lucide-react'
+import { LayoutDashboard, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { Button } from 'uibee/components'
 
 export default function PageClient({
     services: serverServices,
@@ -74,16 +75,13 @@ export default function PageClient({
         <div className='grid lg:grid-cols-7 gap-2'>
             <NewTag display={addingTag} setAddingTag={setAddingTag} setRefresh={setRefreshTags} />
             <div className='col-span-3 flex gap-2'>
-                <h1 onClick={() => { setAdding(true); setEditing(null) }} className={`
-                    bg-login/80 outline outline-login/80 px-8 py-0.5 select-none
-                    hover:bg-login hover:outline-login hover:brightness-110 rounded-lg
-                    w-fit cursor-pointer
-                `}>Add new service</h1>
-                <h1 onClick={() => { setAdding(false); setEditing(null); setSelected(null) }} className={`
-                    bg-white/20 outline outline-white/40 px-8 py-0.5 select-none
-                    hover:bg-white/40 hover:outline-white/60 hover:brightness-110 rounded-lg
-                    w-fit cursor-pointer
-                `}>Dashboard</h1>
+                <Button text='Add new service' icon='+' onClick={() => { setAdding(true); setEditing(null) }} />
+                <Button
+                    text='Dashboard'
+                    color='secondary'
+                    icon={<LayoutDashboard />}
+                    onClick={() => { setAdding(false); setEditing(null); setSelected(null) }}
+                />
             </div>
             <div className='col-span-4'>
                 <h1 className='text-xl font-semibold'>Statistics</h1>

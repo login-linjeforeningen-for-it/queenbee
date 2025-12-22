@@ -1,7 +1,5 @@
 'use client'
 
-import { Button } from 'uibee/components'
-
 export default function ToolTipsButton() {
     function display() {
         function setLocalStorageItem(key: string, value: string) {
@@ -14,5 +12,10 @@ export default function ToolTipsButton() {
         setLocalStorageItem('tooltips', 'true')
     }
 
-    return <Button text='Tooltips' icon='Q' onClick={display} />
+    return (
+        <button className='flex w-full p-2 bg-login-600 rounded-lg' onClick={display}>
+            <h1 className='px-2 bg-login-400 rounded-lg grid place-items-center mr-2'>Q</h1>
+            <h1 className='grid place-items-center'>Tooltips</h1>
+        </button>
+    )
 }
