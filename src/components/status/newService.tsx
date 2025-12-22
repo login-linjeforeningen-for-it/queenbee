@@ -188,8 +188,8 @@ export default function NewService({ notifications, setRefresh, setRefreshNotifi
                     </div>
                     <select
                         className='w-full rounded bg-white/10 px-3 py-2'
-                        value={form.type}
-                        onChange={(e) => updateField('type', e.target.value as 'fetch' | 'post')}
+                        value={form.notification || 'None'}
+                        onChange={(e) => updateField('notification', e.target.value)}
                     >
                         {notifications.map((notification) =>
                             <option key={notification.name} value={notification.name}>{notification.name}</option>
