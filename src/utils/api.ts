@@ -568,3 +568,9 @@ export async function getTags(): Promise<Tag[] | string> {
 export async function deleteTag(id: string): Promise<ServiceNotification[] | string> {
     return await deleteWrapper({ path: `${config.workerbeeApi.beekeeper.status.tags.delete}/${id}`, custom: 'beekeeper' })
 }
+
+// ---------------------------------- Backups ----------------------------------
+
+export async function getBackups(): Promise<BackupProps[] | string> {
+    return await getWrapper({ path: config.workerbeeApi.system.backups.get, custom: 'system' })
+}

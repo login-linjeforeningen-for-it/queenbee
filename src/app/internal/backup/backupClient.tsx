@@ -4,12 +4,17 @@ import { useState } from 'react'
 import Button from '@components/button/button'
 import Input from '@components/inputs/input'
 import Select from '@components/inputs/select'
+import formatNextBackup from '@utils/date/formatNextBackup'
+import prettyDate from '@utils/date/prettyDate'
 
-export default function BackupClient({ docker }: { docker: Docker }) {
-    const dbContainers = docker?.containers?.filter(c =>
-        c.name.toLowerCase().includes('postgres') ||
-        c.name.toLowerCase().includes('database')
-    ) || []
+export default function BackupClient({ backups }: { backups: BackupProps[] | string }) {
+    if (typeof backups === 'string') {
+        return (
+            <div className='w-full p-4'>
+                <p className='text-red-500'>Error: {backups}</p>
+            </div>
+        )
+    }
 
     return (
         <div className='w-full p-4 space-y-6'>
@@ -22,19 +27,19 @@ export default function BackupClient({ docker }: { docker: Docker }) {
             </div>
 
             <div className='grid gap-6'>
-                {dbContainers.length > 0 ? (
-                    dbContainers.map(container => (
-                        <BackupCard key={container.id} container={container} />
+                {backups.length > 0 ? (
+                    backups.map(backup => (
+                        <BackupCard key={backup.id} backup={backup} />
                     ))
                 ) : (
-                    <p>No database containers found.</p>
+                    <p>No backups found.</p>
                 )}
             </div>
         </div>
     )
 }
 
-function BackupCard({ container }: { container: Container }) {
+function BackupCard({ backup }: { backup: BackupProps }) {
     const [frequency, setFrequency] = useState('Daily')
     const [time, setTime] = useState('00:00')
     const [retention, setRetention] = useState(30)
@@ -43,13 +48,32 @@ function BackupCard({ container }: { container: Container }) {
         <div className='bg-login-600 rounded-lg shadow p-6 border border-login-600'>
             <div className='flex justify-between items-start mb-4'>
                 <div>
-                    <h3 className='font-bold text-lg'>{container.name}</h3>
-                    <p className='text-sm text-login-200'>ID: {container.id.substring(0, 12)}</p>
+                    <h3 className='font-bold text-lg'>{backup.name}</h3>
+                    <p className='text-sm text-login-200'>ID: {backup.id.substring(0, 12)}</p>
                 </div>
                 <div className={`px-2 py-1 rounded text-xs font-bold ${
-                    container.status.includes('Up') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                    backup.status.toLowerCase().includes('up') ? 'bg-green-500/40 text-white' : 'bg-red-500/40 text-white'
                 }`}>
-                    {container.status}
+                    {backup.status}
+                </div>
+            </div>
+
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6'>
+                <div className='bg-login-700 p-3 rounded'>
+                    <p className='text-xs text-login-200 uppercase'>Last Backup</p>
+                    <p className='font-medium'>{backup.lastBackup ? prettyDate(backup.lastBackup) : 'Never'}</p>
+                </div>
+                <div className='bg-login-700 p-3 rounded'>
+                    <p className='text-xs text-login-200 uppercase'>Next Backup</p>
+                    <p className='font-medium'>{formatNextBackup(backup.nextBackup)}</p>
+                </div>
+                <div className='bg-login-700 p-3 rounded'>
+                    <p className='text-xs text-login-200 uppercase'>DB Size</p>
+                    <p className='font-medium'>{backup.dbSize}</p>
+                </div>
+                <div className='bg-login-700 p-3 rounded'>
+                    <p className='text-xs text-login-200 uppercase'>Total Backup Storage</p>
+                    <p className='font-medium'>{backup.totalStorage}</p>
                 </div>
             </div>
 

@@ -72,6 +72,9 @@ const config = {
             },
             ingress: '/ingress',
             stats: '/stats',
+            backups: {
+                get: '/backup'
+            }
         },
         beekeeper: {
             status: {

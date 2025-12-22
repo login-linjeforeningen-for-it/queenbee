@@ -1,8 +1,8 @@
-import { getDocker } from '@utils/api'
+import { getBackups } from '@utils/api'
 import BackupClient from './backupClient'
 
 export default async function Page() {
-    const docker = await getDocker()
+    const backups = await getBackups()
 
-    return <BackupClient docker={docker} />
+    return <BackupClient backups={backups} />
 }

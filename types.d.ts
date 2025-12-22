@@ -454,7 +454,17 @@ declare global {
         request_time: number
         status: number
         timestamp: string
+    }
 
+    // ---------------------------------- Backup -----------------------------------
+    type BackupProps = {
+        id: string
+        name: string
+        status: string
+        lastBackup: string | null
+        nextBackup: string
+        totalStorage: string
+        dbSize: string
     }
 
     // Other
