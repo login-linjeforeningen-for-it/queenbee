@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import NewNotification from './newNotification'
 import { Plus } from 'lucide-react'
-import postService from '@utils/fetch/status/postService'
+import putService from '@utils/fetch/status/postService'
 import { getService } from '@utils/api'
+import TrashShift from './trashShift'
 
 type EditServiceProps = {
     notifications: ServiceNotification[]
@@ -58,7 +59,7 @@ export default function EditService({ notifications, setRefresh, setRefreshNotif
             return
         }
 
-        const response = await postService(form)
+        const response = await putService(form)
         if (typeof response === 'object' && 'message' in response) {
             clearForm()
             setRefresh(true)
@@ -234,16 +235,19 @@ export default function EditService({ notifications, setRefresh, setRefreshNotif
                 {error?.length && <h1 className='text-sm text-red-500'>{error}</h1>}
 
                 {/* Submit */}
-                <button
-                    type='submit'
-                    className={`
-                        rounded-lg bg-login/80 outline outline-login
-                        hover:bg-login/90 px-4 py-0.5 font-medium
-                        hover:brightness-110
-                    `}
-                >
-                    Update Service
-                </button>
+                <div className='flex justify-between items-center'>
+                    <button
+                        type='submit'
+                        className={`
+                            rounded-lg bg-login/80 outline outline-login
+                            hover:bg-login/90 px-4 py-0.5 font-medium
+                            hover:brightness-110
+                            `}
+                    >
+                        Update Service
+                    </button>
+                    <TrashShift />
+                </div>
             </form>
         </div>
     )

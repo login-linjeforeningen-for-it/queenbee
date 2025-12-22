@@ -1,6 +1,5 @@
 import smallDate from '@utils/date/smallDate'
 import barColor from '@utils/status/barColor'
-import TrashShift from './trashShift'
 
 type ServiceStatusProps = {
     service?: Service
@@ -15,7 +14,6 @@ export default function ServiceStatus({ service }: ServiceStatusProps) {
         <>
             <div className='flex w-full justify-between items-center'>
                 <h1 className='text-xl font-semibold'>{service.name}</h1>
-                <TrashShift />
             </div>
             <table className='rounded-lg w-full p-2 bg-white/5'>
                 <thead>
