@@ -1,14 +1,14 @@
 'use client'
 
 import EditService from '@components/status/editService'
-import MultiSelect from '@components/status/multiSelect'
 import NewService from '@components/status/newService'
 import NewTag from '@components/status/newTag'
-import ServiceRow from '@components/status/serviceRow'
+import ServiceList from '@components/status/serviceList'
+import ServiceListHeader from '@components/status/serviceListHeader'
 import ServiceStatus from '@components/status/serviceStatus'
 import Statistics from '@components/status/statistics'
 import { getNotifications, getServices, getTags } from '@utils/api'
-import { LayoutDashboard, Search } from 'lucide-react'
+import { LayoutDashboard } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Button } from 'uibee/components'
 
@@ -33,12 +33,6 @@ export default function PageClient({
     const [refreshTags, setRefreshTags] = useState(false)
     const [refreshNotifications, setRefreshNotifications] = useState(false)
 
-    function addTag(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
-        e.preventDefault()
-        e.stopPropagation()
-        setAddingTag(true)
-    }
-
     useEffect(() => {
         if (refresh) {
             (async () => {
@@ -56,7 +50,7 @@ export default function PageClient({
             if (Array.isArray(response)) {
                 setServices(response)
             }
-        }, 60000)
+        }, 30000)
 
         return () => clearInterval(interval)
     }, [])
@@ -104,96 +98,29 @@ export default function PageClient({
             </div>
             <div className='col-span-3 bg-white/10 p-2 rounded-lg grid gap-2 max-w-full h-fit'>
                 {/* left side */}
-                <div className='flex gap-2 h-fit'>
-                    <MultiSelect
-                        options={[
-                            { label: 'Up', value: 'up' },
-                            { label: 'Down', value: 'down' },
-                            { label: 'Pending', value: 'pending' },
-                            { label: 'Maintenance', value: 'maintenance' }
-                        ]}
-                        value={stateFilter ?? []}
-                        onChange={(values: string[]) => setStateFilter(values.length ? values : null)}
-                        placeholder='Status'
-                    />
-                    <select
-                        className='px-2 py-0.5 rounded-lg '
-                        value={activeFilter === null ? '' : String(activeFilter)}
-                        onChange={(e) =>
-                            setActiveFilter(
-                                e.target.value === '' ? null : e.target.value === 'true'
-                            )
-                        }
-                    >
-                        <option value=''>All</option>
-                        <option value='true'>Active</option>
-                        <option value='false'>Inactive</option>
-                    </select>
-                    <MultiSelect
-                        options={tags.map((tag) => ({
-                            label: tag.name,
-                            value: tag.name,
-                        }))}
-                        value={selectedTags}
-                        onChange={setSelectedTags}
-                        placeholder='Tags'
-                        plusAction={addTag}
-                    />
-                    <div className='flex rounded-lg bg-white/10 outline outline-white/20 items-center px-2 w-fit'>
-                        <Search className='h-4 w-4' />
-                        <input
-                            placeholder='Search..'
-                            className='w-full rounded-lg px-2'
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                        />
-                    </div>
-                </div>
+                <ServiceListHeader
+                    stateFilter={stateFilter}
+                    setStateFilter={setStateFilter}
+                    activeFilter={activeFilter}
+                    setActiveFilter={setActiveFilter}
+                    tags={tags}
+                    setAddingTag={setAddingTag}
+                    setSelectedTags={setSelectedTags}
+                    selectedTags={selectedTags}
+                    input={input}
+                    setInput={setInput}
+                />
 
-                <div className='grid gap-2 h-fit'>
-                    {services.filter(item => {
-                        if (!item.name.includes(input)) {
-                            return false
-                        }
-
-                        if (activeFilter !== null && item.enabled !== activeFilter) {
-                            return false
-                        }
-
-                        if (stateFilter !== null) {
-                            if (!item.bars.length) return false
-
-                            const lastBar = item.bars[item.bars.length - 1]
-                            const status =
-                                lastBar.status
-                                    ? 'up'
-                                    : lastBar.expectedDown
-                                        ? 'maintenance'
-                                        : item.maxConsecutiveFailures > 0
-                                            ? 'pending'
-                                            : 'down'
-
-                            if (!stateFilter.includes(status)) return false
-                        }
-
-                        if (selectedTags.length) {
-                            if (!selectedTags.some(tf =>
-                                item.tags.some(it => it.id === Number(tf))
-                            )) return false
-                        }
-
-                        return true
-                    }).map((item, index) =>
-                        <ServiceRow
-                            onClick={() => { setSelected(item); setAdding(false); setEditing(null) }}
-                            onEditClick={() => { setEditing(item); setSelected(null); setAdding(false) }}
-                            key={index}
-                            service={item}
-                            uptime={item.uptime}
-                            bars={item.bars}
-                        />
-                    )}
-                </div>
+                <ServiceList
+                    services={services}
+                    input={input}
+                    activeFilter={activeFilter}
+                    stateFilter={stateFilter}
+                    selectedTags={selectedTags}
+                    setSelected={setSelected}
+                    setAdding={setAdding}
+                    setEditing={setEditing}
+                />
             </div>
             <div className='col-span-4 rounded-lg grid gap-2 h-fit'>
                 <Statistics services={services} />

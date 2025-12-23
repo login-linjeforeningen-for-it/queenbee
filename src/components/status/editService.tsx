@@ -59,7 +59,7 @@ export default function EditService({
 
     function isValid() {
         if (!form.name || !form.type || !form.url || !form.interval ||
-            form.maxConsecutiveFailures == null || !form.note
+            form.maxConsecutiveFailures === null || !form.note
         ) {
             return false
         }
@@ -100,7 +100,7 @@ export default function EditService({
                 interval: response.interval,
                 notification: response.notification,
                 userAgent: response.userAgent,
-                maxConsecutiveFailures: response.maxConsecutiveFailures,
+                maxConsecutiveFailures: Number(response.maxConsecutiveFailures) || 0,
                 note: response.note,
                 tags: response.tags,
                 type: response.type as 'fetch' | 'post',
