@@ -1,65 +1,38 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import NewNotification from './newNotification'
-import { Copy, Plus, RefreshCcw } from 'lucide-react'
-import putService from '@utils/fetch/status/putService'
-import { getService } from '@utils/api'
-import TrashShift from './trashShift'
+import { Dispatch, SetStateAction, useState } from 'react'
+import { Plus } from 'lucide-react'
+import postService from '@utils/fetch/status/postService'
 import { Button } from 'uibee/components'
-import config from '@config'
-import useClearStateAfter from '@/hooks/useClearStateAfter'
 
-type EditServiceProps = {
+type NewServiceFormProps = {
+    form: NewService
+    setForm: Dispatch<SetStateAction<NewService>>
+    service: Service | null
     notifications: ServiceNotification[]
+    clearForm: () => void
     setRefresh: Dispatch<SetStateAction<boolean>>
-    setRefreshNotifications: Dispatch<SetStateAction<boolean>>
-    service: Service
-    setEditing: Dispatch<SetStateAction<Service | null>>
-    setSelected: Dispatch<SetStateAction<Service | null>>
+    setService: Dispatch<SetStateAction<Service | null>>
+    setAddingNotification: Dispatch<SetStateAction<boolean>>
 }
 
-export default function EditService({
-    notifications,
-    setRefresh,
-    setRefreshNotifications,
+export default function NewServiceForm({
+    form,
+    setForm,
     service,
-    setEditing,
-    setSelected
-}: EditServiceProps) {
-    const [addingNotification, setAddingNotification] = useState(false)
+    notifications,
+    clearForm,
+    setRefresh,
+    setService,
+    setAddingNotification
+}: NewServiceFormProps) {
     const [error, setError] = useState<string | null>(null)
-    const { condition: copy, setCondition: setCopy } = useClearStateAfter({ timeout: 500 })
-    const copyText = `${config.beekeeper.api}${config.beekeeper.status.services.post}/${service.id}`
-    const initialForm = {
-        id: service.id,
-        name: service.name,
-        type: 'fetch' as 'fetch' | 'post',
-        url: 'Loading...',
-        interval: 60,
-        status: false,
-        notification: null,
-        expectedDown: false,
-        userAgent: null,
-        maxConsecutiveFailures: 0,
-        uptime: 0,
-        tags: [{ id: 0, name: 'Loading...' }],
-        note: 'Loading...',
-        enabled: true,
-        bars: [] as { status: Bar; date: string; message: string; }[]
-    }
-
-    const [form, setForm] = useState<NewService>(initialForm)
 
     function updateField<K extends keyof typeof form>(key: K, value: typeof form[K]) {
         setForm((prev) => ({ ...prev, [key]: value }))
     }
 
-    function clearForm() {
-        setForm(initialForm)
-    }
-
     function isValid() {
         if (!form.name || !form.type || !form.url || !form.interval ||
-            form.maxConsecutiveFailures == null || !form.note
+            form.maxConsecutiveFailures == null
         ) {
             return false
         }
@@ -75,50 +48,25 @@ export default function EditService({
             return
         }
 
-        const response = await putService(service.id, form)
+        const response = await postService(form)
         if (typeof response === 'object' && 'message' in response) {
             clearForm()
             setRefresh(true)
-            setEditing(null)
-            setSelected(service)
+            if (form.type === 'post') {
+                setService(response)
+            }
         } else {
             setError('Unable to reach server. Please try again later.')
         }
     }
 
-    useEffect(() => {
-        (async () => {
-            const response = await getService(service.id)
-            if (typeof response === 'string') {
-                return setError('Unable to reach server.')
-            }
-
-            const updatedForm = {
-                ...form,
-                enabled: response.enabled,
-                expectedDown: response.expectedDown,
-                interval: response.interval,
-                notification: response.notification,
-                userAgent: response.userAgent,
-                maxConsecutiveFailures: response.maxConsecutiveFailures,
-                note: response.note,
-                tags: response.tags,
-                type: response.type as 'fetch' | 'post',
-                url: response.url
-            }
-
-            setForm(updatedForm)
-        })()
-    }, [service])
+    if (service) {
+        return
+    }
 
     return (
-        <div className='w-full space-y-4'>
-            <NewNotification
-                display={addingNotification}
-                setAddingNotification={setAddingNotification}
-                setRefresh={setRefreshNotifications}
-            />
-            <h1 className='text-xl font-semibold'>Editing {service.name}</h1>
+        <>
+            <h1 className='text-xl font-semibold'>New Service</h1>
 
             <form onSubmit={handleSubmit} className='space-y-4'>
                 <div className='flex gap-2'>
@@ -146,17 +94,6 @@ export default function EditService({
                             <option value='post'>Post</option>
                         </select>
                     </div>
-
-                    {form.type === 'post' && <div className='w-fit'>
-                        <label className='block text-sm font-medium'>Send updates to</label>
-                        <h1
-                            className='w-full rounded bg-white/10 px-3 py-2 flex gap-2 cursor-pointer text-login-100'
-                            onClick={() => { setCopy(true); navigator.clipboard.writeText(copyText) }}
-                        >
-                            <Copy className={`w-5 text-login-50 ${copy && 'stroke-green-500'}`} />
-                            {copyText}
-                        </h1>
-                    </div>}
                 </div>
 
                 <div className='flex gap-2'>
@@ -203,7 +140,7 @@ export default function EditService({
                         />
                     </div>
 
-                    {/* Max consecutive failures */}
+                    {/* User Agent */}
                     <div className='w-fit'>
                         <label className='block text-sm font-medium'>
                             Max Consecutive Failures
@@ -235,6 +172,7 @@ export default function EditService({
                 <div className='space-y-2'>
                     <label className='flex items-center gap-2 cursor-pointer'>
                         <input
+                            className='cursor-pointer'
                             type='checkbox'
                             checked={form.expectedDown}
                             onChange={(e) => updateField('expectedDown', e.target.checked)}
@@ -244,6 +182,7 @@ export default function EditService({
 
                     <label className='flex items-center gap-2 cursor-pointer'>
                         <input
+                            className='cursor-pointer'
                             type='checkbox'
                             checked={form.enabled}
                             onChange={(e) => updateField('enabled', e.target.checked)}
@@ -262,15 +201,14 @@ export default function EditService({
                         value={form.notification || 'None'}
                         onChange={(e) => updateField('notification', Number(e.target.value))}
                     >
-                        <option value=''>None</option>
                         {notifications.map((notification) =>
-                            <option key={notification.name} value={notification.id}>{notification.name}</option>
+                            <option key={notification.name} value={notification.name}>{notification.name}</option>
                         )}
                     </select>
                 </div>
 
                 {!notifications.length && <h1 className='text-sm text-red-500'>
-                    No notifications are set up. If it goes down no alert will be sent.<br />
+                    No notifications are set up. Services can be created without, but if they go down, no alert will be sent.<br />
                     Click <a className='text-blue-400 cursor-pointer select-none' onClick={() => setAddingNotification(true)}>here</a> or
                     the plus icon next to 'Notifications' to add one.
                 </h1>}
@@ -278,11 +216,8 @@ export default function EditService({
                 {error?.length && <h1 className='text-sm text-red-500'>{error}</h1>}
 
                 {/* Submit */}
-                <div className='flex justify-between items-center'>
-                    <Button type='submit' icon={<RefreshCcw />} text='Update Service' />
-                    <TrashShift />
-                </div>
+                <Button type='submit' icon='+' text='Create Service' />
             </form>
-        </div>
+        </>
     )
 }

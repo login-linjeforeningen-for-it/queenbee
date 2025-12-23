@@ -1093,7 +1093,7 @@ declare global {
         uptime: number
         name: string
         enabled: boolean
-        notification: number
+        notification: number | null
         maxConsecutiveFailures: number
         tags: { id: number, name: string }[]
         bars: Bar[]
@@ -1122,12 +1122,11 @@ declare global {
 
     type NewService = {
         name: string
-        type: string
+        type: 'fetch' | 'post'
         url: string
         interval: number
-        status: boolean
         userAgent: null | string
-        notification: null | string
+        notification: null | number
         expectedDown: boolean
         maxConsecutiveFailures: number
         note: string
@@ -1140,16 +1139,15 @@ declare global {
         type: string
         name: string
         enabled: boolean
-        notification: string | null
+        notification: number | null
         tags: { id: number, name: string }[]
-        bars: { status: Bar, date: string, message: string }[]
+        bars: Bar[]
         url: string
-        status: boolean
-        user_agent: string | null
-        expected_down: boolean
+        userAgent: string | null
+        expectedDown: boolean
         interval: number
         note: string
-        max_consecutive_failures: number
+        maxConsecutiveFailures: number
     }
 }
 

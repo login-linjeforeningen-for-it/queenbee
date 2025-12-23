@@ -4,7 +4,7 @@ import { getCookie } from '@utils/cookies'
 export default async function putService(id: number, form: NewService) {
     try {
         const token = getCookie('access_token')
-        const response = await fetch(`${config.beekeeper.api}${config.workerbeeApi.beekeeper.status.services.put}/${id}`, {
+        const response = await fetch(`${config.beekeeper.api}${config.beekeeper.status.services.put}/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

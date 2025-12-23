@@ -19,6 +19,7 @@ export default function PageClient({
 }: { services: Service[], notifications: ServiceNotification[], tags: Tag[] }) {
     const [services, setServices] = useState<Service[]>(serverServices)
     const [notifications, setNotifications] = useState<ServiceNotification[]>(serverNotifications)
+    const [service, setService] = useState<Service | null>(null)
     const [tags, setTags] = useState<{ id: string, name: string }[]>(serverTags)
     const [input, setInput] = useState('')
     const [stateFilter, setStateFilter] = useState<string[] | null>(null)
@@ -50,7 +51,7 @@ export default function PageClient({
     }, [refresh])
 
     useEffect(() => {
-        const interval = setInterval(async() => {
+        const interval = setInterval(async () => {
             const response = await getServices()
             if (Array.isArray(response)) {
                 setServices(response)
@@ -84,9 +85,13 @@ export default function PageClient({
 
     return (
         <div className='grid lg:grid-cols-7 gap-2'>
-            <NewTag display={addingTag} setAddingTag={setAddingTag} setRefresh={setRefreshTags} />
+            <NewTag
+                display={addingTag}
+                setAddingTag={setAddingTag}
+                setRefresh={setRefreshTags}
+            />
             <div className='col-span-3 flex gap-2'>
-                <Button text='Add new service' icon='+' onClick={() => { setAdding(true); setEditing(null) }} />
+                <Button text='Add new service' icon='+' onClick={() => { setAdding(true); setEditing(null); setService(null) }} />
                 <Button
                     text='Dashboard'
                     color='secondary'
@@ -194,8 +199,13 @@ export default function PageClient({
                 <Statistics services={services} />
                 {adding
                     ? <NewService
+                        services={services}
+                        service={service}
+                        setService={setService}
                         notifications={notifications}
                         setRefresh={setRefresh}
+                        setAdding={setAdding}
+                        setSelected={setSelected}
                         setRefreshNotifications={setRefreshNotifications}
                     />
                     : editing ? null : <ServiceStatus service={services.find((service) => service.name === selected?.name)} />

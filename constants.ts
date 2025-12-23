@@ -60,45 +60,6 @@ const config = {
         statistics: {
             PATH: '/stats/',
         },
-        system: {
-            ws: {
-                docker: '/ws/docker/',
-                stats: '/ws/stats/',
-            },
-            docker: {
-                path: '/docker',
-                restart_service: '/restart/service/',
-                restart: '/restart/'
-            },
-            ingress: '/ingress',
-            stats: '/stats',
-            backups: {
-                get: '/backup'
-            }
-        },
-        beekeeper: {
-            status: {
-                services: {
-                    get: '/monitoring',
-                    put: '/monitoring',
-                    post: '/monitoring',
-                },
-                notifications: {
-                    get: '/monitoring/notifications',
-                    post: '/monitoring/notification',
-                },
-                tags: {
-                    get: '/monitoring/tags',
-                    post: '/monitoring/tag',
-                    delete: '/monitoring/tag'
-                }
-            },
-            traffic: {
-                metrics: '/traffic/metrics',
-                records: '/traffic/records',
-                domains: '/traffic/domains',
-            },
-        },
     },
     tekkomBotApi: {
         ANNOUNCEMENT_PATH: '/announcements',
@@ -139,7 +100,44 @@ const config = {
         DB_MAX_CONN: env.DB_MAX_CONN,
         DB_IDLE_TIMEOUT_MS: env.DB_IDLE_TIMEOUT_MS,
         DB_TIMEOUT_MS: env.DB_TIMEOUT_MS,
-        CACHE_TTL: Number(env.CACHE_TTL) || 60000
+        CACHE_TTL: Number(env.CACHE_TTL) || 60000,
+        status: {
+            services: {
+                get: '/monitoring',
+                put: '/monitoring',
+                post: '/monitoring',
+            },
+            notifications: {
+                get: '/monitoring/notifications',
+                post: '/monitoring/notification',
+            },
+            tags: {
+                get: '/monitoring/tags',
+                post: '/monitoring/tag',
+                delete: '/monitoring/tag'
+            }
+        },
+        traffic: {
+            metrics: '/traffic/metrics',
+            records: '/traffic/records',
+            domains: '/traffic/domains',
+        },
+        system: {
+            ws: {
+                docker: '/ws/docker/',
+                stats: '/ws/stats/',
+            },
+            docker: {
+                path: '/docker',
+                restart_service: '/restart/service/',
+                restart: '/restart/'
+            },
+            ingress: '/ingress',
+            stats: '/stats',
+            backups: {
+                get: '/backup'
+            }
+        },
     },
     version: packageInfo.version,
 }

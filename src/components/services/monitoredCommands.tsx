@@ -156,7 +156,7 @@ function GlobalCommand({ command }: GlobalCommandProps) {
                 <div className='flex flex-1'>
                     <Field className='text-login-200' placeholder='Command' value={value} setValue={setValue} editing={editing} />
                 </div>
-                <div className={`${editing ? 'max-w-[30%] pt-1' : 'max-w-[16%] pr-[3px]'} flex gap-2`}>
+                <div className={`${editing ? 'max-w-[30%] pt-1' : 'max-w-[16%] pr-0.75'} flex gap-2`}>
                     <h1 className='text-login-400 text-sm'>{command.author.user_name}</h1>
                     <CancelSaveAndDelete
                         editing={editing}
@@ -270,7 +270,7 @@ function LocalCommand({ command }: LocalCommandProps) {
                             <h1 className='text-login-400 text-sm min-w-fit'>{new Date(command.timestamp).toLocaleString('no-NO')}</h1>
                             {!editing && <h1 onClick={() => setEditing(true)} className='mr-1 text-login-200 cursor-pointer'>✎</h1>}
                         </div>
-                        <div className='text-login-400 text-sm flex gap-2 pr-[3px]'>
+                        <div className='text-login-400 text-sm flex gap-2 pr-0.75'>
                             <Field placeholder='Namespace' value={namespace} setValue={setNamespace} editing={editing} />
                             <h1>-</h1>
                             <Field placeholder='Context' value={context} setValue={setContext} editing={editing} />

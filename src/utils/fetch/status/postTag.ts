@@ -4,7 +4,7 @@ import { getCookie } from '@utils/cookies'
 export default async function postTag(name: string, color: string) {
     try {
         const token = getCookie('access_token')
-        const response = await fetch(`${config.beekeeper.api}${config.workerbeeApi.beekeeper.status.tags.post}`, {
+        const response = await fetch(`${config.beekeeper.api}${config.beekeeper.status.tags.post}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -4,7 +4,7 @@ import { getCookie } from '@utils/cookies'
 export default async function postNotification(name: string, message: string, webhook: string) {
     try {
         const token = getCookie('access_token')
-        const response = await fetch(`${config.beekeeper.api}${config.workerbeeApi.beekeeper.status.notifications.post}`, {
+        const response = await fetch(`${config.beekeeper.api}${config.beekeeper.status.notifications.post}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

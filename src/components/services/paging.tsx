@@ -90,7 +90,7 @@ export default function Paging({
     }, [error])
 
     return (
-        <div className='w-full flex gap-2 items-center px-[3px] pt-1'>
+        <div className='w-full flex gap-2 items-center px-0.75 pt-1'>
             <input
                 className={`${buttonStyle} flex-1 min-w-0 transition-all duration-200`}
                 placeholder='Search...'

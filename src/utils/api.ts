@@ -479,27 +479,27 @@ export async function getStatisticsYearlyActivity(): Promise<GetStatisticsYearly
 // ---------------------------------- System -----------------------------------
 
 export async function getStats(): Promise<Stats> {
-    const path = `${config.workerbeeApi.system.stats}`
+    const path = `${config.beekeeper.system.stats}`
     return await getWrapper({ path, custom: 'system' })
 }
 
 export async function getDocker(): Promise<Docker> {
-    const path = `${config.workerbeeApi.system.docker.path}`
+    const path = `${config.beekeeper.system.docker.path}`
     return await getWrapper({ path, custom: 'system' })
 }
 
 export async function getContainer(id: string): Promise<DockerContainer> {
-    const path = `${config.workerbeeApi.system.docker.path}/${id}`
+    const path = `${config.beekeeper.system.docker.path}/${id}`
     return await getWrapper({ path, custom: 'system' })
 }
 
 export async function getIngress(port: number): Promise<GetIngressProps> {
-    const path = `${config.workerbeeApi.system.ingress}${port}`
+    const path = `${config.beekeeper.system.ingress}${port}`
     return await getWrapper({ path, custom: 'system' })
 }
 
 export async function deleteContainer(id: number) {
-    const path = `${config.workerbeeApi.system.docker.path}${id}`
+    const path = `${config.beekeeper.system.docker.path}${id}`
     return await deleteWrapper({ path, custom: 'system' })
 }
 
@@ -521,7 +521,7 @@ export async function getTrafficMetrics(
     if (end) queryParts.append('end', end)
     if (domain) queryParts.append('domain', domain)
 
-    const path = `${config.workerbeeApi.beekeeper.traffic.metrics}?${queryParts.toString()}`
+    const path = `${config.beekeeper.traffic.metrics}?${queryParts.toString()}`
     return await getWrapper({ path, custom: 'beekeeper' })
 }
 
@@ -539,38 +539,38 @@ export async function getTrafficRecords({
     if (page) queryParts.append('page', String(page))
     if (domain) queryParts.append('domain', domain)
 
-    const path = `${config.workerbeeApi.beekeeper.traffic.records}?${queryParts.toString()}`
+    const path = `${config.beekeeper.traffic.records}?${queryParts.toString()}`
     return await getWrapper({ path, custom: 'beekeeper' })
 }
 
 export async function getTrafficDomains() {
-    return await getWrapper({ path: config.workerbeeApi.beekeeper.traffic.domains, custom: 'beekeeper' })
+    return await getWrapper({ path: config.beekeeper.traffic.domains, custom: 'beekeeper' })
 }
 
 // ---------------------------------- Services ---------------------------------
 
 export async function getServices(): Promise<Service[] | string> {
-    return await getWrapper({ path: config.workerbeeApi.beekeeper.status.services.get, custom: 'beekeeper' })
+    return await getWrapper({ path: config.beekeeper.status.services.get, custom: 'beekeeper' })
 }
 
 export async function getService(id: number): Promise<DetailedService | string> {
-    return await getWrapper({ path: `${config.workerbeeApi.beekeeper.status.services.get}/${id}`, custom: 'beekeeper' })
+    return await getWrapper({ path: `${config.beekeeper.status.services.get}/${id}`, custom: 'beekeeper' })
 }
 
 export async function getNotifications(): Promise<ServiceNotification[] | string> {
-    return await getWrapper({ path: config.workerbeeApi.beekeeper.status.notifications.get, custom: 'beekeeper' })
+    return await getWrapper({ path: config.beekeeper.status.notifications.get, custom: 'beekeeper' })
 }
 
 export async function getTags(): Promise<Tag[] | string> {
-    return await getWrapper({ path: config.workerbeeApi.beekeeper.status.tags.get, custom: 'beekeeper' })
+    return await getWrapper({ path: config.beekeeper.status.tags.get, custom: 'beekeeper' })
 }
 
 export async function deleteTag(id: string): Promise<ServiceNotification[] | string> {
-    return await deleteWrapper({ path: `${config.workerbeeApi.beekeeper.status.tags.delete}/${id}`, custom: 'beekeeper' })
+    return await deleteWrapper({ path: `${config.beekeeper.status.tags.delete}/${id}`, custom: 'beekeeper' })
 }
 
 // ---------------------------------- Backups ----------------------------------
 
 export async function getBackups(): Promise<BackupProps[] | string> {
-    return await getWrapper({ path: config.workerbeeApi.system.backups.get, custom: 'system' })
+    return await getWrapper({ path: config.beekeeper.system.backups.get, custom: 'system' })
 }
