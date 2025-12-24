@@ -199,7 +199,7 @@ export default function NewServiceForm({
                     <select
                         className='w-full rounded bg-white/10 px-3 py-2'
                         value={form.notification || 'None'}
-                        onChange={(e) => updateField('notification', Number(e.target.value))}
+                        onChange={(e) => updateField('notification', e.target.value)}
                     >
                         {notifications.map((notification) =>
                             <option key={notification.name} value={notification.name}>{notification.name}</option>

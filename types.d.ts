@@ -1126,7 +1126,7 @@ declare global {
         url: string
         interval: number
         userAgent: null | string
-        notification: null | number
+        notification: null | string
         expectedDown: boolean
         maxConsecutiveFailures: number
         note: string

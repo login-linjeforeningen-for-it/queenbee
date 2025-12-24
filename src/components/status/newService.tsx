@@ -49,7 +49,7 @@ export default function NewService({
     async function handleCloseWebhook() {
         clearForm()
         setRefresh(true)
-        console.log('set refresh to true')
+
         if (service) {
             const found = services.find((s) => s.id === service.id)
             if (found) {
