@@ -71,7 +71,6 @@ export default function NewNotification({ display, setAddingNotification, setRef
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder='@Frontend'
                         className='px-3 py-2 rounded-md bg-white/10 outline outline-white/20 focus:outline-blue-500'
-                        required
                     />
                 </div>
 
