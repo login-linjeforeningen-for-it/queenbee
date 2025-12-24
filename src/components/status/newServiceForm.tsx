@@ -140,7 +140,7 @@ export default function NewServiceForm({
                         />
                     </div>
 
-                    {/* User Agent */}
+                    {/* Max consecutive failures */}
                     <div className='w-fit'>
                         <label className='block text-sm font-medium'>
                             Max Consecutive Failures
@@ -202,7 +202,7 @@ export default function NewServiceForm({
                         onChange={(e) => updateField('notification', e.target.value)}
                     >
                         {notifications.map((notification) =>
-                            <option key={notification.name} value={notification.name}>{notification.name}</option>
+                            <option key={notification.name} value={notification.id}>{notification.name}</option>
                         )}
                     </select>
                 </div>
