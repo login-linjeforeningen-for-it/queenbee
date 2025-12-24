@@ -10,6 +10,7 @@ type ServiceListProps = {
     setSelected: Dispatch<SetStateAction<Service | null>>
     setAdding: Dispatch<SetStateAction<boolean>>
     setEditing: Dispatch<SetStateAction<Service | null>>
+    setViewNotifications: Dispatch<SetStateAction<boolean>>
 }
 
 export default function ServiceList({
@@ -20,7 +21,8 @@ export default function ServiceList({
     selectedTags,
     setSelected,
     setAdding,
-    setEditing
+    setEditing,
+    setViewNotifications
 }: ServiceListProps) {
     return (
         <div className='grid gap-2 h-fit'>
@@ -64,8 +66,8 @@ export default function ServiceList({
                 return true
             }).map((item, index) =>
                 <ServiceRow
-                    onClick={() => { setSelected(item); setAdding(false); setEditing(null) }}
-                    onEditClick={() => { setEditing(item); setSelected(null); setAdding(false) }}
+                    onClick={() => { setSelected(item); setAdding(false); setEditing(null); setViewNotifications(false) }}
+                    onEditClick={() => { setEditing(item); setSelected(null); setAdding(false); setViewNotifications(false) }}
                     key={index}
                     service={item}
                     uptime={item.uptime}

@@ -149,6 +149,7 @@ export default function PageClient({
                     setSelected={setSelected}
                     setAdding={setAdding}
                     setEditing={setEditing}
+                    setViewNotifications={setViewNotifications}
                 />
             </div>
             <div className='col-span-4 rounded-lg grid gap-2 h-fit'>
