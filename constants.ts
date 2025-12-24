@@ -138,7 +138,8 @@ const config = {
             ingress: '/ingress',
             stats: '/stats',
             backups: {
-                get: '/backup'
+                get: '/backup',
+                files : '/backup/files'
             }
         },
     },

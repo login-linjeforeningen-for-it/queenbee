@@ -457,6 +457,7 @@ declare global {
     }
 
     // ---------------------------------- Backup -----------------------------------
+
     type BackupProps = {
         id: string
         name: string
@@ -466,6 +467,19 @@ declare global {
         totalStorage: string
         dbSize: string
     }
+
+    type GetBackupFilesProps = {
+        service?: string
+        date?: string
+    }
+
+    type BackupFileProps = {
+        service?: string
+        file?: string
+        size?: string
+        mtime?: string
+    }
+
 
     // Other
     type DeleteParamsProps = {

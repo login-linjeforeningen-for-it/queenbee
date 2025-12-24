@@ -5,23 +5,22 @@ import Input from '@components/inputs/input'
 import Link from 'next/link'
 import { ArrowLeft, DatabaseBackup } from 'lucide-react'
 import { Button } from 'uibee/components'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-export default function RestoreClient() {
-    // Mock data for backups
-    const [backups] = useState([
-        { id: 1, container: 'beekeeper_database', date: '2023-10-27 00:00', size: '1.2 TB' },
-        { id: 2, container: 'workerbee_database', date: '2023-10-27 01:00', size: '500 MB' },
-        { id: 3, container: 'tekkom_bot_database', date: '2023-10-26 00:00', size: '1.2 GB' },
-    ])
+export default function RestoreClient({ backups }: { backups: BackupFileProps[] }) {
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
 
-    const [serviceFilter, setServiceFilter] = useState('')
-    const [dateFilter, setDateFilter] = useState('')
+    const [serviceFilter, setServiceFilter] = useState(searchParams.get('service') || '')
+    const [dateFilter, setDateFilter] = useState(searchParams.get('date') || '')
 
-    const filteredBackups = backups.filter(backup => {
-        const matchesService = backup.container.toLowerCase().includes(serviceFilter.toLowerCase())
-        const matchesDate = dateFilter ? backup.date.startsWith(dateFilter) : true
-        return matchesService && matchesDate
-    })
+    const updateParams = (key: string, value: string) => {
+        const params = new URLSearchParams(searchParams.toString())
+        if (value) params.set(key, value)
+        else params.delete(key)
+        router.push(`${pathname}?${params.toString()}`)
+    }
 
     return (
         <div className='w-full p-4 space-y-6'>
@@ -39,7 +38,10 @@ export default function RestoreClient() {
                         type='text'
                         label='Filter by Service'
                         value={serviceFilter}
-                        setValue={(v) => setServiceFilter(String(v))}
+                        setValue={(v) => {
+                            setServiceFilter(String(v))
+                            updateParams('service', String(v))
+                        }}
                     />
                 </div>
                 <div className='flex-1'>
@@ -48,7 +50,10 @@ export default function RestoreClient() {
                         type='date'
                         label='Filter by Date'
                         value={dateFilter}
-                        setValue={(v) => setDateFilter(String(v))}
+                        setValue={(v) => {
+                            setDateFilter(String(v))
+                            updateParams('date', String(v))
+                        }}
                     />
                 </div>
             </div>
@@ -80,14 +85,14 @@ export default function RestoreClient() {
                         </tr>
                     </thead>
                     <tbody className='bg-login-600 divide-y divide-login-600'>
-                        {filteredBackups.length > 0 ? (
-                            filteredBackups.map((backup) => (
-                                <tr key={backup.id}>
+                        {backups.length > 0 ? (
+                            backups.map((backup, index) => (
+                                <tr key={backup.file || index}>
                                     <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-white'>
-                                        {backup.container}
+                                        {backup.service}
                                     </td>
                                     <td className='px-6 py-4 whitespace-nowrap text-sm text-login-200'>
-                                        {backup.date}
+                                        {backup.mtime}
                                     </td>
                                     <td className='px-6 py-4 whitespace-nowrap text-sm text-login-200'>
                                         {backup.size}
@@ -96,7 +101,7 @@ export default function RestoreClient() {
                                         <Button
                                             icon={<DatabaseBackup className='w-5' />}
                                             text='Restore'
-                                            onClick={() => alert(`Restoring ${backup.id} (mock)`)}
+                                            onClick={() => alert(`Restoring ${backup.file} (mock)`)}
                                         />
                                     </td>
                                 </tr>

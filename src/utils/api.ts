@@ -574,3 +574,11 @@ export async function deleteTag(id: string): Promise<ServiceNotification[] | str
 export async function getBackups(): Promise<BackupProps[] | string> {
     return await getWrapper({ path: config.beekeeper.system.backups.get, custom: 'system' })
 }
+
+export async function getBackupFiles({service, date}: GetBackupFilesProps): Promise<BackupFileProps[] | string> {
+    const queryParts = new URLSearchParams()
+    if (service) queryParts.append('service', service)
+    if (date) queryParts.append('date', date)
+
+    return await getWrapper({ path: `${config.beekeeper.system.backups.files}?${queryParts.toString()}`, custom: 'system' })
+}
