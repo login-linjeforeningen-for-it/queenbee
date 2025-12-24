@@ -85,7 +85,7 @@ export default function NewNotification({ display, setAddingNotification, setRef
                         className='px-3 py-2 rounded-md bg-white/10 outline outline-white/20 focus:outline-blue-500'
                         required
                     />
-                    {(!webhook.startsWith('https://') || webhook.includes('https://.')|| !(webhook.includes('.com') || webhook.includes('.no')))
+                    {(!webhook.startsWith('https://') || webhook.includes('https://.') || !(webhook.includes('.com') || webhook.includes('.no')))
                         && <span className='text-sm text-red-500'>
                             Must include 'https://' and a valid top level domain (.com, .no)
                         </span>
@@ -95,7 +95,12 @@ export default function NewNotification({ display, setAddingNotification, setRef
                 {error && <span className='text-sm text-red-500'>{error}</span>}
 
                 <div className='flex justify-end gap-2 pt-2'>
-                    <Button text='Cancel' icon={<X className='w-5' />} onClick={() => setAddingNotification(false)} />
+                    <Button
+                        text='Cancel'
+                        color='secondary'
+                        icon={<X className='w-5' />}
+                        onClick={() => setAddingNotification(false)}
+                    />
                     <Button type='submit' text='Create' icon='+' />
                 </div>
             </form>

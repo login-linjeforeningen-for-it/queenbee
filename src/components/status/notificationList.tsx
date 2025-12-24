@@ -68,7 +68,7 @@ export default function NotificationList({ notifications: serverNotifications }:
     }
 
     useEffect(() => {
-        (async() => {
+        (async () => {
             const newNotifications = await getNotifications()
             if (Array.isArray(newNotifications)) {
                 setNotifications(newNotifications)
@@ -126,8 +126,17 @@ export default function NotificationList({ notifications: serverNotifications }:
                 </div>
 
                 <div className='flex gap-2'>
-                    <Button onClick={resetForm} color='secondary' icon={<X className='w-5' />} text='Cancel' />
-                    <Button type='submit' icon={<Save className='w-5' />} text='Save' />
+                    <Button
+                        onClick={resetForm}
+                        color='secondary'
+                        icon={<X className='w-5' />}
+                        text='Cancel'
+                    />
+                    <Button
+                        type='submit'
+                        icon={<Save className='w-5' />}
+                        text='Save'
+                    />
                 </div>
             </form>
         )
@@ -180,8 +189,17 @@ export default function NotificationList({ notifications: serverNotifications }:
                 </div>
 
                 <div className='flex gap-2'>
-                    <Button onClick={resetForm} color='secondary' icon={<X className='w-5' />} text='Cancel' />
-                    <Button type='submit' icon='+' text='Add Notification' />
+                    <Button
+                        onClick={resetForm}
+                        color='secondary'
+                        icon={<X className='w-5' />}
+                        text='Cancel'
+                    />
+                    <Button
+                        type='submit'
+                        icon='+'
+                        text='Add Notification'
+                    />
                 </div>
             </form>
         )
