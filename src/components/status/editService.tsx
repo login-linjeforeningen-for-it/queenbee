@@ -7,6 +7,7 @@ import TrashShift from './trashShift'
 import { Button } from 'uibee/components'
 import config from '@config'
 import useClearStateAfter from '@/hooks/useClearStateAfter'
+import deleteService from '@utils/fetch/status/deleteService'
 
 type EditServiceProps = {
     notifications: ServiceNotification[]
@@ -83,6 +84,18 @@ export default function EditService({
             setSelected(service)
         } else {
             setError('Unable to reach server. Please try again later.')
+        }
+    }
+
+    async function handleDelete(e: React.FormEvent) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        const response = await deleteService(service.id)
+        if ('message' in response) {
+            clearForm()
+            setRefresh(true)
+            setEditing(null)
         }
     }
 
@@ -226,7 +239,7 @@ export default function EditService({
                     <label className='block text-sm font-medium'>Note</label>
                     <textarea
                         className='w-full rounded bg-white/10 px-3 py-2'
-                        value={form.note}
+                        value={form.note || ''}
                         onChange={(e) => updateField('note', e.target.value)}
                     />
                 </div>
@@ -280,7 +293,7 @@ export default function EditService({
                 {/* Submit */}
                 <div className='flex justify-between items-center'>
                     <Button type='submit' icon={<RefreshCcw />} text='Update Service' />
-                    <TrashShift />
+                    <TrashShift handleDelete={handleDelete} />
                 </div>
             </form>
         </div>

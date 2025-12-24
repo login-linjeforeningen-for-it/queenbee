@@ -3,12 +3,13 @@
 import EditService from '@components/status/editService'
 import NewService from '@components/status/newService'
 import NewTag from '@components/status/newTag'
+import NotificationList from '@components/status/notificationList'
 import ServiceList from '@components/status/serviceList'
 import ServiceListHeader from '@components/status/serviceListHeader'
 import ServiceStatus from '@components/status/serviceStatus'
 import Statistics from '@components/status/statistics'
 import { getNotifications, getServices, getTags } from '@utils/api'
-import { LayoutDashboard } from 'lucide-react'
+import { LayoutDashboard, TriangleAlert } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Button } from 'uibee/components'
 
@@ -32,6 +33,28 @@ export default function PageClient({
     const [refresh, setRefresh] = useState(false)
     const [refreshTags, setRefreshTags] = useState(false)
     const [refreshNotifications, setRefreshNotifications] = useState(false)
+    const [viewNotifications, setViewNotifications] = useState(false)
+
+    function addNewService() {
+        setAdding(true)
+        setEditing(null)
+        setService(null)
+        setViewNotifications(false)
+    }
+
+    function handleViewNotifications() {
+        setAdding(false)
+        setEditing(null)
+        setSelected(null)
+        setViewNotifications(true)
+    }
+
+    function dashboard() {
+        setAdding(false)
+        setEditing(null)
+        setSelected(null)
+        setViewNotifications(false)
+    }
 
     useEffect(() => {
         if (refresh) {
@@ -85,12 +108,18 @@ export default function PageClient({
                 setRefresh={setRefreshTags}
             />
             <div className='col-span-3 flex gap-2'>
-                <Button text='Add new service' icon='+' onClick={() => { setAdding(true); setEditing(null); setService(null) }} />
+                <Button text='Add new service' icon='+' onClick={addNewService} />
+                <Button
+                    text='Notifications'
+                    color='secondary'
+                    icon={<TriangleAlert />}
+                    onClick={handleViewNotifications}
+                />
                 <Button
                     text='Dashboard'
                     color='secondary'
                     icon={<LayoutDashboard />}
-                    onClick={() => { setAdding(false); setEditing(null); setSelected(null) }}
+                    onClick={dashboard}
                 />
             </div>
             <div className='col-span-4'>
@@ -145,6 +174,7 @@ export default function PageClient({
                     setEditing={setEditing}
                     setSelected={setSelected}
                 />}
+                {viewNotifications && <NotificationList notifications={notifications} />}
             </div>
         </div>
     )

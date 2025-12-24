@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Trash2 } from 'lucide-react'
 
-export default function TrashShift() {
+export default function TrashShift({ handleDelete }: { handleDelete: (e: React.FormEvent) => void }) {
     const [shift, setShift] = useState(false)
 
     useEffect(() => {
@@ -23,6 +23,6 @@ export default function TrashShift() {
     }, [])
 
     return shift
-        ? <Trash2 className='w-6 h-6 hover:stroke-red-500 cursor-pointer' />
-        : <h1 className='text-white/30'>Press shift to delete</h1>
+        ? <Trash2 onClick={handleDelete} className='w-6 h-6 hover:stroke-red-500 cursor-pointer select-none' />
+        : <h1 className='text-white/30 select-none'>Press shift to delete</h1>
 }

@@ -106,10 +106,13 @@ const config = {
                 get: '/monitoring',
                 put: '/monitoring',
                 post: '/monitoring',
+                delete: '/monitoring',
             },
             notifications: {
                 get: '/monitoring/notifications',
+                put: '/monitoring/notification',
                 post: '/monitoring/notification',
+                delete: '/monitoring/notification',
             },
             tags: {
                 get: '/monitoring/tags',

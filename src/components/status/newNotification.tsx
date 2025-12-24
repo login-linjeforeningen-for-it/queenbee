@@ -23,7 +23,7 @@ export default function NewNotification({ display, setAddingNotification, setRef
             return
         }
 
-        const response = await postNotification(name, message, webhook)
+        const response = await postNotification({ name, message, webhook })
         if ('message' in response) {
             setName('')
             setMessage('')

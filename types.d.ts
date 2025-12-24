@@ -1108,7 +1108,7 @@ declare global {
     }
 
     type ServiceNotification = {
-        id: string
+        id: number
         name: string
         message: string
         webhook: string
