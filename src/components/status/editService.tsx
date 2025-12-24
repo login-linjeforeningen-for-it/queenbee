@@ -111,7 +111,7 @@ export default function EditService({
                 enabled: response.enabled,
                 expectedDown: response.expectedDown,
                 interval: response.interval,
-                notification: response.notification,
+                notification: String(response.notification),
                 userAgent: response.userAgent,
                 maxConsecutiveFailures: Number(response.maxConsecutiveFailures) || 0,
                 note: response.note,
@@ -273,7 +273,7 @@ export default function EditService({
                     <select
                         className='w-full rounded bg-white/10 px-3 py-2'
                         value={form.notification || 'None'}
-                        onChange={(e) => updateField('notification', Number(e.target.value))}
+                        onChange={(e) => updateField('notification', e.target.value)}
                     >
                         <option value=''>None</option>
                         {notifications.map((notification) =>
