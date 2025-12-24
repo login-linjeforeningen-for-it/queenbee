@@ -59,8 +59,8 @@ export default function EditService({
     }
 
     function isValid() {
-        if (!form.name || !form.type || (form.type === 'fetch' && !form.url) || !form.interval ||
-            form.maxConsecutiveFailures === null
+        if (!form.name || !form.type || (form.type === 'fetch' && !form.url) ||
+            !form.interval || form.maxConsecutiveFailures === null
         ) {
             return false
         }
