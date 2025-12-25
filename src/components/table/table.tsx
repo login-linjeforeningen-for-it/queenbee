@@ -17,7 +17,7 @@ export default function Table({ list, headers, deleteAction, roles, systemTable 
     headers = headers || keys
 
     return (
-        <div className='relative flex-1 noscroll w-full overflow-auto bg-white/5 rounded-lg'>
+        <div className='relative flex-1 noscroll w-full overflow-auto bg-login-50/5 rounded-lg'>
             <table className='w-full relative border-collapse rounded-lg pl-2'>
                 <Header
                     keys={keys}

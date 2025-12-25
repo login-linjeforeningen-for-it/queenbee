@@ -28,7 +28,7 @@ export default function NewService({
     const [addingNotification, setAddingNotification] = useState(false)
     const initialForm = {
         name: '',
-        type: 'fetch' as 'fetch' | 'post',
+        type: 'fetch' as MonitoredServiceType,
         url: '',
         interval: 60,
         status: false,
@@ -36,6 +36,7 @@ export default function NewService({
         expectedDown: false,
         notification: null,
         maxConsecutiveFailures: 0,
+        port: 22,
         note: '',
         enabled: true,
     }

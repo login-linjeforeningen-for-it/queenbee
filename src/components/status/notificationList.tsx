@@ -89,7 +89,7 @@ export default function NotificationList({ notifications: serverNotifications }:
                         <label className='block text-sm font-medium'>Name</label>
                         <input
                             type='text'
-                            className='w-full rounded bg-white/10 px-3 py-2'
+                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.name}
                             onChange={(e) => updateField('name', e.target.value)}
                             required
@@ -103,7 +103,7 @@ export default function NotificationList({ notifications: serverNotifications }:
                         <label className='block text-sm font-medium'>Message</label>
                         <input
                             type='text'
-                            className='w-full rounded bg-white/10 px-3 py-2'
+                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.message}
                             onChange={(e) => updateField('message', e.target.value)}
                             required
@@ -117,7 +117,7 @@ export default function NotificationList({ notifications: serverNotifications }:
                         <label className='block text-sm font-medium'>Webhook</label>
                         <input
                             type='text'
-                            className='w-full rounded bg-white/10 px-3 py-2'
+                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.webhook}
                             onChange={(e) => updateField('webhook', e.target.value)}
                             required
@@ -152,7 +152,7 @@ export default function NotificationList({ notifications: serverNotifications }:
                         <label className='block text-sm font-medium'>Name</label>
                         <input
                             type='text'
-                            className='w-full rounded bg-white/10 px-3 py-2'
+                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.name}
                             onChange={(e) => updateField('name', e.target.value)}
                             required
@@ -166,7 +166,7 @@ export default function NotificationList({ notifications: serverNotifications }:
                         <label className='block text-sm font-medium'>Message</label>
                         <input
                             type='text'
-                            className='w-full rounded bg-white/10 px-3 py-2'
+                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.message}
                             onChange={(e) => updateField('message', e.target.value)}
                             required
@@ -180,7 +180,7 @@ export default function NotificationList({ notifications: serverNotifications }:
                         <label className='block text-sm font-medium'>Webhook</label>
                         <input
                             type='text'
-                            className='w-full rounded bg-white/10 px-3 py-2'
+                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.webhook}
                             onChange={(e) => updateField('webhook', e.target.value)}
                             required
@@ -208,13 +208,13 @@ export default function NotificationList({ notifications: serverNotifications }:
     return (
         <table className='table-auto w-full border-collapse overflow-hidden'>
             <thead>
-                <tr className='bg-white/10 font-semibold'>
+                <tr className='bg-login-50/5 font-semibold'>
                     <th className='px-4 py-2 text-left rounded-tl-lg'>ID</th>
                     <th className='px-4 py-2 text-left'>Name</th>
                     <th className='px-4 py-2 text-left'>Message</th>
                     <th className='px-4 py-2 text-left rounded-tr-lg flex justify-between items-center'>
                         <h1>Webhook</h1>
-                        <h1 onClick={handleAdd} className='rounded cursor-pointer px-2 bg-white/10 hover:bg-white/20'>+</h1>
+                        <h1 onClick={handleAdd} className='rounded cursor-pointer px-2 bg-login-50/5 hover:bg-login-50/20'>+</h1>
                     </th>
                 </tr>
             </thead>
@@ -223,7 +223,7 @@ export default function NotificationList({ notifications: serverNotifications }:
                     <tr
                         key={notification.id}
                         onClick={() => handleEdit(notification)}
-                        className='bg-white/5 border-b border-white/5 hover:bg-white/5 cursor-pointer'
+                        className='bg-login-50/5 border-b border-white/5 hover:bg-login-50/5 cursor-pointer'
                     >
                         <td className='px-4 py-2'>{notification.id}</td>
                         <td className='px-4 py-2'>{notification.name}</td>

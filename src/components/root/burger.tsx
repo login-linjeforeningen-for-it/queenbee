@@ -11,9 +11,9 @@ export function Burger() {
 
     return (
         <div className='lg:hidden grid place-self-center w-[4vh] h-[4vh] relative' onClick={handleClick}>
-            <div className='bg-white rounded-lg h-[3px] self-center' />
-            <div className='bg-white rounded-lg h-[3px] self-center' />
-            <div className='bg-white rounded-lg h-[3px] self-center' />
+            <div className='bg-login-50 rounded-lg h-0.75 self-center' />
+            <div className='bg-login-50 rounded-lg h-0.75 self-center' />
+            <div className='bg-login-50 rounded-lg h-0.75 self-center' />
         </div>
     )
 }

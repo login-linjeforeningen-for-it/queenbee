@@ -30,7 +30,7 @@ export default function Statistics({ services }: { services: Service[] }) {
     }
 
     return (
-        <div className='bg-white/10 p-2 rounded-lg flex gap-2 h-fit justify-evenly'>
+        <div className='bg-login-50/5 p-2 rounded-lg flex gap-2 h-fit justify-evenly'>
             <div className='text-center text-lg font-semibold'>
                 <h1>Up</h1>
                 <h1 className='text-2xl text-green-500'>{up}</h1>

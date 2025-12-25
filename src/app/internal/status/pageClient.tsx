@@ -125,7 +125,7 @@ export default function PageClient({
             <div className='col-span-4'>
                 <h1 className='text-xl font-semibold'>Statistics</h1>
             </div>
-            <div className='col-span-3 bg-white/10 p-2 rounded-lg grid gap-2 max-w-full h-fit'>
+            <div className='col-span-3 bg-login-50/5 p-2 rounded-lg grid gap-2 max-w-full h-fit'>
                 {/* left side */}
                 <ServiceListHeader
                     stateFilter={stateFilter}

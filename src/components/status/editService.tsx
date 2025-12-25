@@ -33,13 +33,14 @@ export default function EditService({
     const initialForm = {
         id: service.id,
         name: service.name,
-        type: 'fetch' as 'fetch' | 'post',
+        type: 'fetch' as MonitoredServiceType,
         url: 'Loading...',
         interval: 60,
         status: false,
         notification: null,
         expectedDown: false,
         userAgent: null,
+        port: service.port || 22,
         maxConsecutiveFailures: 0,
         uptime: 0,
         tags: [{ id: 0, name: 'Loading...' }],
@@ -116,7 +117,7 @@ export default function EditService({
                 maxConsecutiveFailures: Number(response.maxConsecutiveFailures) || 0,
                 note: response.note,
                 tags: response.tags,
-                type: response.type as 'fetch' | 'post',
+                type: response.type as MonitoredServiceType,
                 url: response.url
             }
 
@@ -140,7 +141,7 @@ export default function EditService({
                         <label className='block text-sm font-medium'>Name</label>
                         <input
                             type='text'
-                            className='w-full rounded bg-white/10 px-3 py-2'
+                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.name}
                             onChange={(e) => updateField('name', e.target.value)}
                             required
@@ -151,19 +152,31 @@ export default function EditService({
                     <div className='w-fit'>
                         <label className='block text-sm font-medium'>Type</label>
                         <select
-                            className='w-full rounded bg-white/10 px-3 py-2 cursor-pointer'
+                            className='w-full rounded bg-login-50/5 px-3 py-2 cursor-pointer'
                             value={form.type}
-                            onChange={(e) => updateField('type', e.target.value as 'fetch' | 'post')}
+                            onChange={(e) => updateField('type', e.target.value as MonitoredServiceType)}
                         >
                             <option value='fetch'>Fetch</option>
                             <option value='post'>Post</option>
+                            <option value='tcp'>TCP</option>
                         </select>
                     </div>
+
+                    {/* Port */}
+                    {form.type === 'tcp' && <div className='w-fit'>
+                        <label className='block text-sm font-medium'>Port</label>
+                        <input
+                            type='number'
+                            className='w-full rounded bg-login-50/5 px-3 py-2'
+                            value={form.port || 22}
+                            onChange={(e) => updateField('port', Number(e.target.value))}
+                        />
+                    </div>}
 
                     {form.type === 'post' && <div className='w-fit'>
                         <label className='block text-sm font-medium'>Send updates to</label>
                         <h1
-                            className='w-full rounded bg-white/10 px-3 py-2 flex gap-2 cursor-pointer text-login-100'
+                            className='w-full rounded bg-login-50/5 px-3 py-2 flex gap-2 cursor-pointer text-login-100'
                             onClick={() => { setCopy(true); navigator.clipboard.writeText(copyText) }}
                         >
                             <Copy className={`w-5 text-login-50 ${copy && 'stroke-green-500'}`} />
@@ -177,15 +190,20 @@ export default function EditService({
                     <div className='w-1/2'>
                         <label className='block text-sm font-medium'>URL</label>
                         <input
-                            type='url'
-                            className='w-full rounded bg-white/10 px-3 py-2'
+                            type={form.type === 'tcp' ? 'text' : 'url'}
+                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.url}
                             onChange={(e) => updateField('url', e.target.value)}
                         />
-                        {((!form.url.startsWith('https://') && !form.url.startsWith('http://')) || form.url.includes('https://.')
-                            || !(form.url.includes('.com') || form.url.includes('.no')))
+                        {(form.type === 'fetch' && !form.url.startsWith('https://') && !form.url.startsWith('http://')) && !form.url.startsWith('https://.')
+                            && !(form.url.includes('.com') && form.url.includes('.no'))
                             && <span className='text-xs text-red-500'>
                                 Must include 'http(s)://' and a valid top level domain (.com, .no)
+                            </span>
+                        }
+                        {(form.type === 'tcp' && !form.url.includes('/') && !form.url.includes('.com') && !form.url.includes('.no'))
+                            && <span className='text-xs text-red-500'>
+                                Must include a valid top level domain (.com, .no) without any path.
                             </span>
                         }
                     </div>
@@ -196,7 +214,7 @@ export default function EditService({
                         <input
                             type='number'
                             min={1}
-                            className='w-full rounded bg-white/10 px-3 py-2'
+                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.interval}
                             onChange={(e) => updateField('interval', Number(e.target.value))}
                             required
@@ -210,7 +228,7 @@ export default function EditService({
                         <label className='block text-sm font-medium'>User Agent</label>
                         <input
                             type='text'
-                            className='w-full rounded bg-white/10 px-3 py-2'
+                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.userAgent || ''}
                             onChange={(e) => updateField('userAgent', e.target.value)}
                         />
@@ -224,7 +242,7 @@ export default function EditService({
                         <input
                             type='number'
                             min={0}
-                            className='w-full rounded bg-white/10 px-3 py-2'
+                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.maxConsecutiveFailures}
                             onChange={(e) =>
                                 updateField('maxConsecutiveFailures', Number(e.target.value))
@@ -238,7 +256,7 @@ export default function EditService({
                 <div>
                     <label className='block text-sm font-medium'>Note</label>
                     <textarea
-                        className='w-full rounded bg-white/10 px-3 py-2'
+                        className='w-full rounded bg-login-50/5 px-3 py-2'
                         value={form.note || ''}
                         onChange={(e) => updateField('note', e.target.value)}
                     />
@@ -271,7 +289,7 @@ export default function EditService({
                         <Plus onClick={() => setAddingNotification(true)} className='w-4 h-4 cursor-pointer hover:stroke-login' />
                     </div>
                     <select
-                        className='w-full rounded bg-white/10 px-3 py-2'
+                        className='w-full rounded bg-login-50/5 px-3 py-2'
                         value={form.notification || 'None'}
                         onChange={(e) => updateField('notification', e.target.value)}
                     >

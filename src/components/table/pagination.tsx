@@ -150,7 +150,7 @@ export default function Pagination({
                                     border-[0.10rem] ${
                             p === current
                                 ? 'bg-login-600 border-login-50'
-                                : `bg-white/0 border-login-200
+                                : `bg-login-50/0 border-login-200
                                     'hover:bg-login-400`
                             }
                                 `}

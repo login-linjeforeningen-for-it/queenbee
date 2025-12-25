@@ -22,7 +22,7 @@ export default function ServiceRow({ onClick, service, onEditClick }: ServiceRow
     }
 
     return (
-        <div onClick={onClick} className='flex gap-2 w-full cursor-pointer hover:bg-white/5 select-none group'>
+        <div onClick={onClick} className='flex gap-2 w-full cursor-pointer hover:bg-login-50/5 select-none group'>
             <div className='flex gap-2 w-full'>
                 <h1 className={`${uptimeColor} rounded-lg outline px-2 w-14 text-center`}>{Number(service.uptime).toFixed(0)}%</h1>
                 <h1 className='font-semibold overflow-auto noscroll flex-1 w-full'>{service.name}</h1>
@@ -62,7 +62,7 @@ export default function ServiceRow({ onClick, service, onEditClick }: ServiceRow
                 })}
             </div>
             <h1
-                className='hidden group-hover:grid px-4 place-items-center rounded outline outline-white/30 bg-white/10 text-xs'
+                className='hidden group-hover:grid px-4 place-items-center rounded outline outline-white/30 bg-login-50/5 text-xs'
                 onClick={handleEdit}
             >Edit</h1>
         </div>

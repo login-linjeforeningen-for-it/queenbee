@@ -1109,8 +1109,10 @@ declare global {
         enabled: boolean
         notification: number | null
         maxConsecutiveFailures: number
+        port: number | null
         tags: { id: number, name: string }[]
         bars: Bar[]
+        certificate?: Certificate | InvalidCertificate
     }
 
     type Bar = {
@@ -1136,8 +1138,9 @@ declare global {
 
     type NewService = {
         name: string
-        type: 'fetch' | 'post'
+        type: MonitoredServiceType
         url: string
+        port: number
         interval: number
         userAgent: null | string
         notification: null | string
@@ -1154,6 +1157,7 @@ declare global {
         name: string
         enabled: boolean
         notification: number | null
+        port: number | null
         tags: { id: number, name: string }[]
         bars: Bar[]
         url: string
@@ -1162,6 +1166,54 @@ declare global {
         interval: number
         note: string
         maxConsecutiveFailures: number
+        certificate: Certificate | InvalidCertificate
+    }
+
+    type MonitoredServiceType = 'fetch' | 'post' | 'tcp'
+
+    type Certificate = {
+        valid: true
+        subjectCN: string
+        issuer: {
+            cn: string
+            name: string
+        }
+        validFrom: string
+        validTo: string
+        keyType: string
+        signatureAlgorithm: string | undefined
+        publicKeyAlgorithm: string
+        dnsNames: string
+        raw: {
+            subject: object
+            issuer: object
+            subjectaltname: string
+            infoAccess: object
+            ca: boolean
+            modulus: unknown | undefined
+            exponent: unknown | undefined
+            pubkey: Buffer
+            bits: number
+            valid_from: string
+            valid_to: string
+            fingerprint: string
+            fingerprint256: string
+            fingerprint512: string
+            ext_key_usage: unknown[]
+            serialNumber: string
+            raw: Buffer
+            asn1Curve: string
+            nistCurve: string
+            issuerCertificate: object[]
+        }
+    }
+
+    type InvalidCertificate = {
+        valid: false
+        message: string
+        reason?: string
+        code?: string
+        service: string
     }
 }
 

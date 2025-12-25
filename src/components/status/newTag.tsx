@@ -45,7 +45,7 @@ export default function NewTag({ display, setAddingTag, setRefresh }: NewTagProp
             <form
                 onClick={(e) => e.stopPropagation()}
                 onSubmit={handleSubmit}
-                className='bg-white/10 backdrop-blur-md rounded-xl p-6 w-full max-w-md grid gap-4'
+                className='bg-login-50/5 backdrop-blur-md rounded-xl p-6 w-full max-w-md grid gap-4'
             >
                 <h1 className='text-2xl font-semibold text-center'>New Tag</h1>
 
@@ -56,7 +56,7 @@ export default function NewTag({ display, setAddingTag, setRefresh }: NewTagProp
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder='Tag name'
-                        className='px-3 py-2 rounded-md bg-white/10 outline outline-white/20 focus:outline-blue-500'
+                        className='px-3 py-2 rounded-md bg-login-50/5 outline outline-white/20 focus:outline-blue-500'
                         required
                     />
                 </div>

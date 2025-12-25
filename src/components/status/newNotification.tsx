@@ -47,7 +47,7 @@ export default function NewNotification({ display, setAddingNotification, setRef
             <form
                 onClick={(e) => e.stopPropagation()}
                 onSubmit={handleSubmit}
-                className='bg-white/10 backdrop-blur-md rounded-xl p-6 w-full max-w-md grid gap-4 text-white'
+                className='bg-login-50/5 backdrop-blur-md rounded-xl p-6 w-full max-w-md grid gap-4 text-white'
             >
                 <h1 className='text-2xl font-semibold text-center'>New Notification</h1>
 
@@ -58,7 +58,7 @@ export default function NewNotification({ display, setAddingNotification, setRef
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder='beehive'
-                        className='px-3 py-2 rounded-md bg-white/10 outline outline-white/20 focus:outline-blue-500'
+                        className='px-3 py-2 rounded-md bg-login-50/5 outline outline-white/20 focus:outline-blue-500'
                         required
                     />
                 </div>
@@ -70,7 +70,7 @@ export default function NewNotification({ display, setAddingNotification, setRef
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder='@Frontend'
-                        className='px-3 py-2 rounded-md bg-white/10 outline outline-white/20 focus:outline-blue-500'
+                        className='px-3 py-2 rounded-md bg-login-50/5 outline outline-white/20 focus:outline-blue-500'
                     />
                 </div>
 
@@ -81,7 +81,7 @@ export default function NewNotification({ display, setAddingNotification, setRef
                         value={webhook}
                         onChange={(e) => setWebhook(e.target.value)}
                         placeholder='discord.com/webhooks/abc/def'
-                        className='px-3 py-2 rounded-md bg-white/10 outline outline-white/20 focus:outline-blue-500'
+                        className='px-3 py-2 rounded-md bg-login-50/5 outline outline-white/20 focus:outline-blue-500'
                         required
                     />
                     {(!webhook.startsWith('https://') || webhook.includes('https://.') || !(webhook.includes('.com') || webhook.includes('.no')))

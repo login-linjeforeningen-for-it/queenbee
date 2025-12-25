@@ -85,7 +85,7 @@ export default function TrafficDashboard({ metrics, records, selectedDomain }: T
                             }
                             if (isChart) {
                                 return (
-                                    <div className='bg-white/5 p-4 rounded-lg' key={title as string}>
+                                    <div className='bg-login-50/5 p-4 rounded-lg' key={title as string}>
                                         <h3 className='text-lg font-semibold mb-4'>{title as string}</h3>
                                         <RequestsOverTimeChart data={data as { key: string; count: number }[]} />
                                     </div>
@@ -93,7 +93,7 @@ export default function TrafficDashboard({ metrics, records, selectedDomain }: T
                             }
                             const set = data as Entry[]
                             return (
-                                <div className='bg-white/5 p-4 rounded-lg' key={title as string}>
+                                <div className='bg-login-50/5 p-4 rounded-lg' key={title as string}>
                                     <h3 className='text-lg font-semibold mb-4'>{title as string}</h3>
                                     <div className='space-y-2'>
                                         {set.map((entry) => (
@@ -113,13 +113,13 @@ export default function TrafficDashboard({ metrics, records, selectedDomain }: T
             )}
 
             {recs && recs.length > 0 &&
-                <div className='bg-white/5 rounded-lg overflow-hidden'>
+                <div className='bg-login-50/5 rounded-lg overflow-hidden'>
                     <div className='p-4 border-b border-white/10'>
                         <h3 className='text-lg font-semibold'>Recent Traffic</h3>
                     </div>
                     <div className='overflow-x-auto'>
                         <table className='w-full text-sm text-left table-fixed'>
-                            <thead className='text-xs uppercase bg-white/5 text-muted-foreground'>
+                            <thead className='text-xs uppercase bg-login-50/5 text-muted-foreground'>
                                 <tr>
                                     <th className='px-4 py-3'>Date</th>
                                     <th className='px-4 py-3'>Method</th>
@@ -131,7 +131,7 @@ export default function TrafficDashboard({ metrics, records, selectedDomain }: T
                             </thead>
                             <tbody>
                                 {recs.map((req, i) => (
-                                    <tr key={i} className='border-b border-white/5 hover:bg-white/5'>
+                                    <tr key={i} className='border-b border-white/5 hover:bg-login-50/5'>
                                         <td className='px-4 py-3 text-muted-foreground'>
                                             {new Date(req.timestamp).toLocaleString()}
                                         </td>
@@ -157,12 +157,12 @@ export default function TrafficDashboard({ metrics, records, selectedDomain }: T
 
 function StatCard({ title, value, icon }: { title: string, value: string | number, icon: React.ReactNode }) {
     return (
-        <div className='bg-white/5 p-4 rounded-lg flex items-center justify-between'>
+        <div className='bg-login-50/5 p-4 rounded-lg flex items-center justify-between'>
             <div>
                 <p className='text-sm text-muted-foreground'>{title}</p>
                 <p className='text-2xl font-bold mt-1'>{value}</p>
             </div>
-            <div className='p-3 bg-white/5 rounded-full'>
+            <div className='p-3 bg-login-50/5 rounded-full'>
                 {icon}
             </div>
         </div>
@@ -174,7 +174,7 @@ function Bar({ label, value, total }: { label: string, value: number, total: num
     return (
         <div className='flex items-center gap-4 min-w-0'>
             <div className='w-24 md:w-36 text-sm font-medium truncate' title={label}>{label}</div>
-            <div className='flex-1 h-2 bg-white/5 rounded-full overflow-hidden'>
+            <div className='flex-1 h-2 bg-login-50/5 rounded-full overflow-hidden'>
                 <div
                     className='h-full bg-blue-500 rounded-full'
                     style={{ width: `${percentage}%` }}
@@ -195,7 +195,7 @@ function CombinedMetrics({ title, data, total }: {
     const currentTitle = title[index]
     const buttonText = `Switch to ${title[1 - index]}`
     return (
-        <div className='bg-white/5 p-4 rounded-lg'>
+        <div className='bg-login-50/5 p-4 rounded-lg'>
             <div className='flex justify-between items-center mb-4'>
                 <h3 className='text-lg font-semibold'>{currentTitle}</h3>
                 <Button

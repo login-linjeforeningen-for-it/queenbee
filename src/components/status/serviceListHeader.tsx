@@ -69,7 +69,7 @@ export default function ServiceListHeader({
                 placeholder='Tags'
                 plusAction={addTag}
             />
-            <div className='flex rounded-lg bg-white/10 outline outline-white/20 items-center px-2 w-fit'>
+            <div className='flex rounded-lg bg-login-50/5 outline outline-white/20 items-center px-2 w-fit'>
                 <Search className='h-4 w-4' />
                 <input
                     placeholder='Search..'

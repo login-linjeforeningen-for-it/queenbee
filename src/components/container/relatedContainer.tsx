@@ -1,6 +1,6 @@
 export default function RelatedContainer({ container }: { container: RelatedContainer }) {
     return (
-        <div className='rounded-lg p-2 grid grid-cols-4 gap-2 bg-white/5 w-full'>
+        <div className='rounded-lg p-2 grid grid-cols-4 gap-2 bg-login-50/5 w-full'>
             <div>
                 <h1 className='text-sm'>ID</h1>
                 <h1>{container.id}</h1>

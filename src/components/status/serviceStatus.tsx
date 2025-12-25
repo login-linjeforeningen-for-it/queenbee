@@ -1,5 +1,7 @@
 import smallDate from '@utils/date/smallDate'
 import { barOutlineColor } from '@utils/status/barColor'
+import CertificateStatus from './certificateStatus'
+import CertificateDetails from './certificateDetails'
 
 type ServiceStatusProps = {
     service?: Service
@@ -14,11 +16,13 @@ export default function ServiceStatus({ service }: ServiceStatusProps) {
         <>
             <div className='flex w-full justify-between items-center'>
                 <h1 className='text-xl font-semibold'>{service.name}</h1>
+                <CertificateStatus service={service} />
             </div>
-            <table className='rounded-lg w-full p-2 bg-white/5'>
+            <CertificateDetails service={service} />
+            <table className='rounded-lg w-full p-2 bg-login-50/5'>
                 <thead>
                     <tr className='text-left'>
-                        <th className='pl-2 w-30'>Name</th>
+                        <th className='pl-2 w-50'>Name</th>
                         <th className='pl-2 w-20'>Status</th>
                         <th className='pl-2 w-40'>Time</th>
                         <th className='pl-2'>Message</th>
@@ -55,7 +59,8 @@ export default function ServiceStatus({ service }: ServiceStatusProps) {
                                     <span className={`
                                         inline-flex items-center justify-center 
                                         text-xs w-full min-h-full outline
-                                        px-2 rounded-md py-0.5 font-medium ${barOutlineColor(bar, service.maxConsecutiveFailures, status)} 
+                                        px-2 rounded-md py-0.5 font-medium
+                                        ${barOutlineColor(bar, service.maxConsecutiveFailures, status)} 
                                         `}>
                                         {status}
                                     </span>

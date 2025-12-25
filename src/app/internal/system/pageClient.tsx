@@ -95,7 +95,7 @@ export default function PageClient({ metrics: metricsServer, docker: dockerServe
                 <div className='flex gap-2 py-2'>
                     <div className='grid gap-2'>
                         <div className='flex gap-2'>
-                            <div className='bg-white/5 p-4 rounded-lg'>
+                            <div className='bg-login-50/5 p-4 rounded-lg'>
                                 <div className='flex gap-2 items-center'>
                                     <Server className='w-4 h-4' />
                                     <h1 className='text-sm'>Operating System (OS)</h1>
@@ -104,7 +104,7 @@ export default function PageClient({ metrics: metricsServer, docker: dockerServe
                                     <h1>{metrics?.system?.os || 'Unknown'}</h1>
                                 </div>
                             </div>
-                            <div className='bg-white/5 p-4 rounded-lg'>
+                            <div className='bg-login-50/5 p-4 rounded-lg'>
                                 <div className='flex gap-2 items-center'>
                                     <Boxes className='w-4 h-4' />
                                     <h1 className='text-sm'>Processes</h1>
@@ -113,7 +113,7 @@ export default function PageClient({ metrics: metricsServer, docker: dockerServe
                                     <h1>{metrics?.system?.processes || '0'}</h1>
                                 </div>
                             </div>
-                            <div className='bg-white/5 p-4 rounded-lg'>
+                            <div className='bg-login-50/5 p-4 rounded-lg'>
                                 <div className='flex gap-2 items-center'>
                                     <HardDrive className='w-4 h-4' />
                                     <h1 className='text-sm'>Disk</h1>
@@ -122,7 +122,7 @@ export default function PageClient({ metrics: metricsServer, docker: dockerServe
                                     <h1>{metrics?.system?.disk || 'Unknown'}</h1>
                                 </div>
                             </div>
-                            <div className='bg-white/5 p-4 rounded-lg'>
+                            <div className='bg-login-50/5 p-4 rounded-lg'>
                                 <div className='flex gap-2 items-center'>
                                     <Thermometer className='w-4 h-4' />
                                     <h1 className='text-sm'>Temperature</h1>
@@ -131,7 +131,7 @@ export default function PageClient({ metrics: metricsServer, docker: dockerServe
                                     <h1>{metrics?.system?.temperature || 'Unknown'}</h1>
                                 </div>
                             </div>
-                            <div className='bg-white/5 p-4 rounded-lg'>
+                            <div className='bg-login-50/5 p-4 rounded-lg'>
                                 <div className='flex gap-2 items-center'>
                                     <Zap className='w-4 h-4' />
                                     <h1 className='text-sm'>Power</h1>
@@ -142,7 +142,7 @@ export default function PageClient({ metrics: metricsServer, docker: dockerServe
                             </div>
                         </div>
                         <div className='flex gap-2'>
-                            <div className='bg-white/5 p-4 rounded-lg grid gap-2'>
+                            <div className='bg-login-50/5 p-4 rounded-lg grid gap-2'>
                                 <div className='flex gap-2 items-center'>
                                     <Boxes className='w-4 h-4' />
                                     <h1 className='text-sm'>Containers</h1>
@@ -151,7 +151,7 @@ export default function PageClient({ metrics: metricsServer, docker: dockerServe
                                     <h1>{docker.count}</h1>
                                 </div>
                             </div>
-                            <div className='bg-white/5 p-4 rounded-lg grid gap-2'>
+                            <div className='bg-login-50/5 p-4 rounded-lg grid gap-2'>
                                 <div className='flex gap-2 items-center'>
                                     <MemoryStick className='w-4 h-4' />
                                     <h1 className='text-sm'>Memory</h1>
@@ -160,7 +160,7 @@ export default function PageClient({ metrics: metricsServer, docker: dockerServe
                                     <h1>{usedMemory}GB used of {totalMemory}GB ({usedMemoryPercentage}%)</h1>
                                 </div>
                             </div>
-                            <div className='bg-white/5 p-4 rounded-lg grid gap-2'>
+                            <div className='bg-login-50/5 p-4 rounded-lg grid gap-2'>
                                 <div className='flex gap-2 items-center'>
                                     <Cpu className='w-4 h-4' />
                                     <h1 className='text-sm'>Load</h1>
@@ -173,7 +173,7 @@ export default function PageClient({ metrics: metricsServer, docker: dockerServe
                                     <h1>15m {metrics?.system?.load?.[2] || '0'}%</h1>
                                 </div>
                             </div>
-                            <div className='bg-white/5 p-4 rounded-lg'>
+                            <div className='bg-login-50/5 p-4 rounded-lg'>
                                 <div className='flex gap-2 items-center'>
                                     <MemoryStick className='w-4 h-4' />
                                     <h1 className='text-sm'>Swap</h1>
@@ -184,18 +184,18 @@ export default function PageClient({ metrics: metricsServer, docker: dockerServe
                             </div>
                         </div>
                     </div>
-                    <div className='bg-white/5 p-4 rounded-lg flex-1 space-y-2'>
+                    <div className='bg-login-50/5 p-4 rounded-lg flex-1 space-y-2'>
                         <div className='flex gap-2 items-center'>
                             <MemoryStick className='w-4 h-4' />
                             <h1 className='text-sm'>IPs</h1>
                         </div>
                         <div className='flex gap-2 max-h-26'>
-                            <div className='gap-2 rounded-md bg-white/5 p-2 overflow-auto w-3/7'>
+                            <div className='gap-2 rounded-md bg-login-50/5 p-2 overflow-auto w-3/7'>
                                 <h1 className='text-sm'>IPv4</h1>
                                 <div className='w-full h-px bg-login-300 rounded-lg' />
                                 <h1>{metrics?.system?.ipv4?.join('\n') || 'N/A'}</h1>
                             </div>
-                            <div className='gap-2 rounded-md bg-white/5 p-2 overflow-auto w-full'>
+                            <div className='gap-2 rounded-md bg-login-50/5 p-2 overflow-auto w-full'>
                                 <h1 className='text-sm'>IPv6</h1>
                                 <div className='w-full h-px bg-login-300 rounded-lg' />
                                 <h1>{metrics?.system?.ipv6?.join('\n') || 'N/A'}</h1>

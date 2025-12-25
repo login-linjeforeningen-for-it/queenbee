@@ -5,8 +5,8 @@ const MB = 1048576
 
 export default function page({ data }: { data: DockerContainer }) {
     const title = 'font-semibold text-lg'
-    const section = 'bg-white/5 rounded-lg p-2 space-y-2 space-x-2'
-    const box = 'bg-white/5 rounded-lg p-2 w-full overflow-auto'
+    const section = 'bg-login-50/5 rounded-lg p-2 space-y-2 space-x-2'
+    const box = 'bg-login-50/5 rounded-lg p-2 w-full overflow-auto'
     const boxTitle = 'text-sm'
     const maxCount = data.container.details.HostConfig.RestartPolicy.MaximumRetryCount
     const restartPolicyDetails = !maxCount ? '(∞ attempts)' : `(Max ${maxCount} attempts)`
@@ -261,18 +261,18 @@ export default function page({ data }: { data: DockerContainer }) {
                 </div>
                 <div className={section}>
                     <h1 className={title}>Environtment Variables</h1>
-                    <h1 className='whitespace-pre bg-white/5 p-2 rounded-md overflow-auto w-full'>
+                    <h1 className='whitespace-pre bg-login-50/5 p-2 rounded-md overflow-auto w-full'>
                         {data.container.details.Config.Env.join('\n')}
                     </h1>
                 </div>
                 <div className={section}>
                     <h1 className={title}>Ports</h1>
                     <h1>Ports</h1>
-                    <h1 className='whitespace-pre bg-white/5 p-2 rounded-md overflow-auto w-full'>
+                    <h1 className='whitespace-pre bg-login-50/5 p-2 rounded-md overflow-auto w-full'>
                         {JSON.stringify(data.container.details.NetworkSettings.Ports, null, 6)}
                     </h1>
                     <h1>Port Bindings</h1>
-                    <h1 className='whitespace-pre bg-white/5 p-2 rounded-md overflow-auto w-full'>
+                    <h1 className='whitespace-pre bg-login-50/5 p-2 rounded-md overflow-auto w-full'>
                         {JSON.stringify(data.container.details.HostConfig.PortBindings, null, 6)}
                     </h1>
                 </div>
@@ -292,19 +292,19 @@ export default function page({ data }: { data: DockerContainer }) {
                         <h1>{data.container.details.HostConfig.DnsSearch}</h1>
                     </div>
                     <h1>Details</h1>
-                    <h1 className='whitespace-pre bg-white/5 p-2 rounded-md overflow-auto w-full'>
+                    <h1 className='whitespace-pre bg-login-50/5 p-2 rounded-md overflow-auto w-full'>
                         {JSON.stringify(data.container.details.NetworkSettings.Networks, null, 6)}
                     </h1>
                 </div>
                 <div className={`${section} overflow-auto`}>
                     <h1 className={title}>Logs</h1>
-                    <h1 className='whitespace-pre bg-white/5 p-2 rounded-md overflow-auto w-full'>
+                    <h1 className='whitespace-pre bg-login-50/5 p-2 rounded-md overflow-auto w-full'>
                         {data.container.logs.join('\n')}
                     </h1>
                 </div>
                 <div className={`${section} overflow-auto`}>
                     <h1 className={title}>Raw output</h1>
-                    <h1 className='whitespace-pre bg-white/5 p-2 rounded-md overflow-auto w-full'>
+                    <h1 className='whitespace-pre bg-login-50/5 p-2 rounded-md overflow-auto w-full'>
                         {JSON.stringify(data, null, 6)}
                     </h1>
                 </div>
