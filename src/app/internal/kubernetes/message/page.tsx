@@ -9,8 +9,8 @@ import { cookies } from 'next/headers'
 import Link from 'next/link'
 
 export default async function Page() {
-    const messages = await getMessages('server')
     const Cookies = await cookies()
+    const messages = await getMessages('server')
     const title = Cookies.get('messageTitle')?.value || ''
     const content = Cookies.get('messageContent')?.value || ''
     const status = Cookies.get('messageStatus')?.value || ''
