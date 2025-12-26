@@ -11,7 +11,7 @@ export default function InternalInfo({ information }: InternalInfoProps) {
 
     return (
         <div className='flex gap-4'>
-            <Link href='/sites' className='p-4 bg-login-50/5 rounded-md w-42.5'>
+            <Link href='/internal/loadbalancing' className='p-4 bg-login-50/5 rounded-md w-42.5'>
                 <h1 className='flex items-center gap-2 text-sm text-muted-foreground capitalize pb-4'>
                     <Star className='w-5' /> Primary Site
                 </h1>
@@ -24,7 +24,7 @@ export default function InternalInfo({ information }: InternalInfoProps) {
                     <h1 className={secondary}>{information.primarySite.name}</h1>
                 </div>
             </Link>
-            <Link href='/sites' className='p-4 bg-login-50/5 rounded-md w-89'>
+            <Link href='/internal/system' className='p-4 bg-login-50/5 rounded-md w-89'>
                 <h1 className='flex items-center gap-2 text-sm text-muted-foreground capitalize pb-4'>
                     <Server className='w-5' /> System
                 </h1>
