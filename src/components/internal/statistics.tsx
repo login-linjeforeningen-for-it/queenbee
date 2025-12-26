@@ -12,7 +12,7 @@ export default function InternalStats({ statistics }: InternalStatsProps) {
             <Stat text='databases' link='backups' count={statistics.backups} item={<Database className='w-5 h-5' />} />
             <Stat text='sites' count={statistics.sites} item={<Scale className='w-5 h-5' />} />
             <Stat text='namespaces' link='kubernetes' count={statistics.kubernetes} item={<Server className='w-5 h-5' />} />
-            <Stat text='status' count={statistics.monitored} item={<Activity className='w-5 h-5' />} />
+            <Stat text='monitored sites' link='status' count={statistics.monitored} item={<Activity className='w-5 h-5' />} />
             <Stat text='requests today' link='traffic' count={statistics.requestsToday} item={<Waypoints className='w-5 h-5' />} />
         </div>
     )
