@@ -1,17 +1,21 @@
-FROM oven/bun:alpine 
+# Node image with Alpine Linux
+FROM node:lts-alpine
 
+# Workdir
 WORKDIR /app
 
-COPY package.json ./
+# Copies package.json and package-lock.json
+COPY package*.json ./
 
-COPY bun.lock ./
+# Installs dependencies
+RUN npm install
 
-RUN bun install --frozen-lockfile
-
+# Copies the rest of the UI source code
 COPY . .
 
-RUN bun run build
+RUN npm run build
 
+# Exposes port 3000
 EXPOSE 3000
 
-CMD ["bun", "run", "start"]
+CMD ["npm", "start"]
