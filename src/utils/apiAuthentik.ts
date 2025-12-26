@@ -9,7 +9,7 @@ type AuthentikApiWrapperProps = {
 }
 
 export async function authentikApiWrapper({ path, token }: AuthentikApiWrapperProps) {
-    const url = `${config.url.AUTHENTIK_URL}/api/v3${path}`
+    const url = `${config.url.authentik}/api/v3${path}`
 
     const headers = {
         'Content-Type': 'application/json',

@@ -1,5 +1,6 @@
-import { getChannels, getRoles } from '@utils/api'
+import getRoles from '@utils/api/announcements/getRoles'
 import AnnouncementFormInputsClient from '../client/announcements'
+import getChannels from '@utils/api/announcements/getChannels'
 
 export default async function AnnouncementFormInputs({
     defaultValues,

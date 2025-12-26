@@ -13,7 +13,7 @@ export default function Version() {
                 rounded-lg  tracking-[0.05em] font-semibold text-lg
             `}
             target='_blank'
-            href={`${config.url.GITLAB_URL}/tekkom/web/beehive/queenbee/-/tags/${config.version}`}
+            href={`${config.url.git}/tekkom/web/beehive/queenbee/-/tags/${config.version}`}
         >
             v{config.version}
         </Link>

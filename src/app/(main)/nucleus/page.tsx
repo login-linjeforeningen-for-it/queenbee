@@ -153,9 +153,9 @@ export default function page() {
                             <Link
                                 href={'/nucleus/documentation'}
                                 className={`
-                                    bg-login-600 text-foreground px-4 grid
+                                    bg-login-50/5 text-foreground px-4 grid
                                     place-items-center rounded-lg transition
-                                    font-medium hover:bg-login-600/80
+                                    font-medium hover:bg-login-50/15
                                 `}
                             >
                                 Documentation

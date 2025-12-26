@@ -6,14 +6,14 @@ type SQLParamType = (string | number | null | boolean | string[] | Date)[]
 const { beekeeper } = config
 const { Pool } = pg
 const pool = new Pool({
-    user: beekeeper.DB_USER || 'beekeeper',
-    host: beekeeper.DB_HOST,
-    database: beekeeper.DB || 'beekeeper',
-    password: beekeeper.DB_PASSWORD,
-    port: Number(beekeeper.DB_PORT) || 5432,
-    max: Number(beekeeper.DB_MAX_CONN) || 20,
-    idleTimeoutMillis: Number(beekeeper.DB_IDLE_TIMEOUT_MS) || 5000,
-    connectionTimeoutMillis: Number(beekeeper.DB_TIMEOUT_MS) || 3000,
+    user: beekeeper.db.user || 'beekeeper',
+    host: beekeeper.db.host,
+    database: beekeeper.db.base || 'beekeeper',
+    password: beekeeper.db.password,
+    port: Number(beekeeper.db.port) || 5432,
+    max: Number(beekeeper.db.max) || 20,
+    idleTimeoutMillis: Number(beekeeper.db.idle) || 5000,
+    connectionTimeoutMillis: Number(beekeeper.db.timeout) || 3000,
     keepAlive: true
 })
 
@@ -27,8 +27,8 @@ export default async function run(query: string, params?: SQLParamType) {
                 client.release()
             }
         } catch {
-            console.log(`Pool currently unavailable, retrying in ${beekeeper.CACHE_TTL / 1000}s...`)
-            await sleep(beekeeper.CACHE_TTL)
+            console.log(`Pool currently unavailable, retrying in ${beekeeper.cache.ttl / 1000}s...`)
+            await sleep(beekeeper.cache.ttl)
         }
     }
 }

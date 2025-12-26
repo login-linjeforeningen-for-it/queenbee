@@ -1,6 +1,7 @@
 'use server'
 
-import { putAnnouncement, postAnnouncement } from '@/utils/api'
+import postAnnouncement from '@utils/api/announcements/postAnnouncement'
+import putAnnouncement from '@utils/api/announcements/putAnnouncement'
 import { getOptionalDateTime, getOptionalString, getRequiredString } from '@utils/validate'
 
 type FormState =

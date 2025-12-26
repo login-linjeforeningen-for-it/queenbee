@@ -1,6 +1,7 @@
 'use server'
 
-import { putAlbum, postAlbum } from '@utils/api'
+import postAlbum from '@utils/api/albums/postAlbum'
+import putAlbum from '@utils/api/albums/putAlbum'
 import { getOptionalNumber, getRequiredString } from '@utils/validate'
 
 type FormState =

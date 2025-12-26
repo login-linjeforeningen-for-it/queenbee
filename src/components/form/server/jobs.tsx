@@ -1,5 +1,9 @@
-import { getAllOrganizations, getChannels, getImages, getRoles, getTypes } from '@utils/api'
+import getAllOrganizations from '@utils/api/organizations/getAllOrganizations'
 import JobFormInputsClient from '../client/jobs'
+import getTypes from '@utils/api/jobs/getTypes'
+import getImages from '@utils/api/images/getImages'
+import getRoles from '@utils/api/announcements/getRoles'
+import getChannels from '@utils/api/announcements/getChannels'
 
 export default async function JobFormInputs({ defaultValues, parent }: { defaultValues?: GetJobProps, parent?: { preview?: boolean }}) {
     const organizationsResponse = await getAllOrganizations()

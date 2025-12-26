@@ -74,7 +74,7 @@ export default function TagInput({
                         <span
                             key={tag + idx}
                             className={`
-                                bg-login-600 text-sm rounded px-2
+                                bg-login-50/5 text-sm rounded px-2
                                 py-0.75 flex items-center gap-0.5
                             `}
                         >

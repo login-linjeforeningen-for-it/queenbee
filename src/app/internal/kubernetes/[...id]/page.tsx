@@ -71,7 +71,7 @@ export default async function Service({ params }: { params: Promise<{ id: string
                     </div>
                 </div>
                 <div className='flex flex-col w-full h-full rounded-lg col-span-3 gap-2'>
-                    <div className='w-full h-full rounded-lg bg-login-600 p-2 overflow-auto noscroll max-h-[87vh]'>
+                    <div className='w-full h-full rounded-lg bg-login-50/5 p-2 overflow-auto noscroll max-h-[87vh]'>
                         <div className='flex flex-col gap-2'>
                             <Domains />
                             <Incidents />
@@ -79,7 +79,7 @@ export default async function Service({ params }: { params: Promise<{ id: string
                             <Ingress />
                         </div>
                     </div>
-                    <Link href='/internal/kubernetes/message' className='w-full p-2 bg-login-600 rounded-lg flex'>
+                    <Link href='/internal/kubernetes/message' className='w-full p-2 bg-login-50/5 rounded-lg flex'>
                         <h1 className='px-2 bg-login-400 rounded-lg grid place-items-center mr-2'>S</h1>
                         <h1 className='grid place-items-center'>Service Status</h1>
                     </Link>

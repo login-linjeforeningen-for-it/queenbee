@@ -1,11 +1,12 @@
-import { deleteLocation, getLocations } from '@utils/api'
 import Alert from '@components/alert/alert'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import LocationOption from '@components/locationOption/locationOption'
-import { cookies } from 'next/headers'
 import Pagination from '@components/table/pagination'
 import formatAlert from '@components/alert/formatAlert'
+import deleteLocation from '@utils/api/locations/deleteLocation'
+import getLocations from '@utils/api/locations/getLocations'
+import { cookies } from 'next/headers'
 import { Button } from 'uibee/components'
 
 const AddressHeaders = [

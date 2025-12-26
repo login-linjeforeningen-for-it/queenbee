@@ -1,11 +1,11 @@
-import { getOrganization } from '@utils/api'
+import FormWrapper from '@components/form/wrapper'
+import OrganizationFormInputs from '@components/form/server/organizations'
+import getOrganization from '@utils/api/organizations/getOrganization'
+import { notFound } from 'next/navigation'
 import {
     createOrganization,
     updateOrganization,
 } from '@components/form/actions/organizations'
-import FormWrapper from '@components/form/wrapper'
-import { notFound } from 'next/navigation'
-import OrganizationFormInputs from '@components/form/server/organizations'
 
 export default async function Page({
     params,

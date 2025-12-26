@@ -21,7 +21,7 @@ export default async function Header({ path }: HeaderProps) {
     const cols = `grid-cols-${contexts.length}`
 
     return (
-        <div className='bg-login-600 p-2 rounded-lg'>
+        <div className='bg-login-50/5 p-2 rounded-lg'>
             <div className={`grid ${cols} gap-2 justify-items-center ${contexts.length && 'pb-2'}`}>
                 {contexts.map((context) => <Context
                     key={context}
@@ -43,7 +43,7 @@ function Context({ context, service, activeContext }: ContextProps) {
     return (
         <Link
             href={`/internal/kubernetes/${context.toLowerCase()}/${service ? service : 'global'}`}
-            className={`${cursorStyle} ${color} w-full rounded-lg w-full px-2 content-center text-login-200 flex text-lg`}
+            className={`${cursorStyle} ${color} w-full rounded-lg px-2 content-center text-login-200 flex text-lg`}
         >
             <h1 className='mr-1'>≡</h1>
             <h1 className='grid text-base place-self-center'>{context}</h1>

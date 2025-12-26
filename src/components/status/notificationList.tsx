@@ -1,4 +1,4 @@
-import { getNotifications } from '@utils/api'
+import getNotifications from '@utils/api/services/getNotifications'
 import deleteNotification from '@utils/fetch/status/deleteNotification'
 import postNotification from '@utils/fetch/status/postNotification'
 import putNotification from '@utils/fetch/status/putNotification'

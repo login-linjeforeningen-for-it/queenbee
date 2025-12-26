@@ -3,8 +3,8 @@ import { authLogin } from 'uibee/utils'
 
 export async function GET() {
     return await authLogin({
-        authURL: config.authentik.AUTH_URL,
-        clientID: config.authentik.CLIENT_ID,
-        redirectURL: config.auth.REDIRECT_URL,
+        authURL: config.authentik.url.auth,
+        clientID: config.authentik.client.id,
+        redirectURL: config.auth.url.redirect,
     })
 }

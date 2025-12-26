@@ -1,10 +1,12 @@
-import { deleteHoney, getHoneys, getHoneyServices } from '@utils/api'
 import Alert from '@components/alert/alert'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Option from '@components/locationOption/serviceOption'
 import Pagination from '@components/table/pagination'
 import formatAlert from '@components/alert/formatAlert'
+import deleteHoney from '@utils/api/honey/deleteHoney'
+import getHoneyList from '@utils/api/honey/getList'
+import getHoneyServices from '@utils/api/honey/getServices'
 import { Button } from 'uibee/components'
 
 const headers = [
@@ -29,7 +31,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         : 'asc'
     const activeType = filters.type ?? 'beehive'
 
-    const honey = await getHoneys({
+    const honey = await getHoneyList({
         search,
         offset: offset * limit,
         limit,

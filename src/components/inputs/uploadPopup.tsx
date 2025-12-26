@@ -71,7 +71,7 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
                     <h1 className='text-2xl font-bold'>Upload Preview</h1>
                     <button
                         onClick={onClose}
-                        className='transition-colors rounded-lg hover:bg-login-600 p-2 select-none'
+                        className='transition-colors rounded-lg hover:bg-login-50/5 p-2 select-none'
                         aria-label='Close'
                     >
                         <X className='w-5 h-5' />

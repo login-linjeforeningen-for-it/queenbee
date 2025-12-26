@@ -16,7 +16,7 @@ export default async function ProdOrDev({ services, path }: ServicesProps) {
     })
 
     return (
-        <div className='h-full w-full bg-login-600 rounded-lg overflow-auto max-h-full noscroll'>
+        <div className='h-full w-full bg-login-50/5 rounded-lg overflow-auto max-h-full noscroll'>
             {filteredServices.map(service =>
                 <Service
                     key={service.name}

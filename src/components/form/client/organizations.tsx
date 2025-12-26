@@ -3,9 +3,9 @@
 import Input from '@components/inputs/input'
 import Markdown from '@components/inputs/markdown'
 import Select from '@components/inputs/select'
-import { useState } from 'react'
-import { uploadImage } from '@utils/api'
 import Upload from '@components/inputs/upload'
+import postImage from '@utils/api/images/postImage'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from 'uibee/components'
 
@@ -155,7 +155,7 @@ export default function OrganizationFormInputsClient({
             <h1 className='text-xl pt-10 col-span-2'>Logo</h1>
             <Upload
                 handleFile={async function (file: File): Promise<void> {
-                    const result = await uploadImage('organizations', file)
+                    const result = await postImage('organizations', file)
                     if (result.status >= 200 && result.status < 300) {
                         toast.success('Image uploaded successfully')
                         const existingImage = images.find(img => img.value === result.data)

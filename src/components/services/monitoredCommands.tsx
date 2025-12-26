@@ -43,14 +43,14 @@ export default function MonitoredCommands({ globalCommands, localCommands }: Mon
 
     if (active) {
         return (
-            <div className='w-full h-[50vh] max-h-[50vh] bg-login-600 rounded-lg p-2'>
+            <div className='w-full h-[50vh] max-h-[50vh] bg-login-50/5 rounded-lg p-2'>
                 <div className='w-full h-full overflow-auto mb-2 noscroll text-foreground'>
                     <h1
                         onClick={() => setActive(false)}
                         className={`
                             w-full overflow-auto mb-2 noscroll grid 
                             place-items-center text-login-200 cursor-pointer 
-                            bg-login-600 rounded-lg py-1
+                            bg-login-50/5 rounded-lg py-1
                         `}
                     >
                         ↓ Monitored commands ↓
@@ -75,7 +75,7 @@ export default function MonitoredCommands({ globalCommands, localCommands }: Mon
     }
 
     return (
-        <div className='w-full h-[4.7vh] max-h-[4.7vh] bg-login-600 rounded-lg pt-1 px-2 pb-2'>
+        <div className='w-full h-[4.7vh] max-h-[4.7vh] bg-login-50/5 rounded-lg pt-1 px-2 pb-2'>
             <h1
                 onClick={() => setActive(true)}
                 className='w-full h-full overflow-auto mb-2 noscroll grid place-items-center text-login-200 cursor-pointer'

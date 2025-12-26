@@ -59,7 +59,7 @@ export default function DomainsClient({ namespace, domains: Domains }: DomainsCl
                     <Pulse status={domainStatus} />
                 </div>
             </div>
-            {(domains.length > 0 || allowEdit) && <div className='h-[1px] bg-login-400 w-full' />}
+            {(domains.length > 0 || allowEdit) && <div className='h-px bg-login-400 w-full' />}
             {domains.toReversed().map((domain, index) => {
                 const status = domain.status >= 200 && domain.status < 300
                     ? ServiceStatus.OPERATIONAL
@@ -71,7 +71,7 @@ export default function DomainsClient({ namespace, domains: Domains }: DomainsCl
                     <Link
                         href={domain.url}
                         key={index}
-                        className='bg-login-600 w-full rounded-lg cursor-pointer text-login-200 py-1 px-2'
+                        className='bg-login-50/5 w-full rounded-lg cursor-pointer text-login-200 py-1 px-2'
                     >
                         <div className='flex justify-between items-center'>
                             <h1>{formattedDomain}</h1>

@@ -66,7 +66,7 @@ function RightSide({token}: {token: string | undefined}) {
                         <Link
                             className={`
                                 flex items-center justify-center p-2 rounded-md 
-                                transition-colors hover:bg-login-600 size-12
+                                transition-colors hover:bg-login-50/5 size-12
                             `}
                             href={pathname.startsWith('/internal') ? '/dashboard' : '/internal'}
                             prefetch={false}
@@ -77,7 +77,7 @@ function RightSide({token}: {token: string | undefined}) {
                     <Link
                         className={`
                             flex items-center justify-center p-2 rounded-md transition-colors
-                            hover:bg-login-600 size-12
+                            hover:bg-login-50/5 size-12
                         `}
                         href='/api/logout'
                         onClick={() => {

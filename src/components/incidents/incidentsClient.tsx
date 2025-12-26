@@ -122,7 +122,7 @@ export default function IncidentsClient({
                 <ArrowOutward className=' w-4 h-4 fill-login' />
             </div>)}
             {allowEdit && <div className={`pb-2 ${!incidents.length && 'pt-2'}`}>
-                {open ? <div className='grid space-between items-center text-login-200 bg-login-600 rounded-lg gap-2 p-2'>
+                {open ? <div className='grid space-between items-center text-login-200 bg-login-50/5 rounded-lg gap-2 p-2'>
                     {response && <h1
                         className={`w-full ${response.status === 200 ? 'bg-green-500/20' : 'bg-red-500/20'} rounded-lg py-1 text-center`}
                     >
@@ -154,7 +154,7 @@ export default function IncidentsClient({
                     onClick={() => setOpen(true)}
                     className={`
                         select-none flex justify-between items-center px-2
-                        text-login-200 bg-login-600 rounded-md py-1
+                        text-login-200 bg-login-50/5 rounded-md py-1
                     `}
                 >
                     <h1 className='select-none'>Add incident</h1>

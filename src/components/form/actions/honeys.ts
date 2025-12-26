@@ -1,6 +1,7 @@
 'use server'
 
-import { postHoney, putHoney } from '@utils/api'
+import postHoney from '@utils/api/honey/postHoney'
+import putHoney from '@utils/api/honey/putHoney'
 import { getRequiredJSON, getRequiredString } from '@utils/validate'
 
 type FormState =

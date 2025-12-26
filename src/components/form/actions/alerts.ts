@@ -1,6 +1,7 @@
 'use server'
 
-import { postAlert, putAlert } from '@utils/api'
+import postAlert from '@utils/api/alerts/postAlert'
+import putAlert from '@utils/api/alerts/putAlert'
 import { getRequiredString } from '@utils/validate'
 
 type FormState =

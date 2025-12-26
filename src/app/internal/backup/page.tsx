@@ -1,4 +1,4 @@
-import { getBackups } from '@utils/api'
+import getBackups from '@utils/api/backups/getBackups'
 import formatNextBackup from '@utils/date/formatNextBackup'
 import prettyDate from '@utils/date/prettyDate'
 import { DatabaseBackup } from 'lucide-react'
@@ -41,7 +41,7 @@ export default async function Page() {
 
 function BackupCard({ backup }: { backup: BackupProps }) {
     return (
-        <div className='bg-login-600 rounded-lg shadow p-6 border border-login-600'>
+        <div className='bg-login-50/5 rounded-lg shadow p-6 border border-login-600'>
             <div className='flex justify-between items-start mb-4'>
                 <div>
                     <h3 className='font-bold text-lg'>{backup.name}</h3>

@@ -13,15 +13,15 @@ export default async function Pods() {
     return (
         <div className='bg-login-500 w-full rounded-lg p-2'>
             <h1 className='flex justify-between items-center px-2 text-login-200'>Pods<Pulse status={status} /></h1>
-            {(pods.length > 0) && <div className='h-[1px] bg-login-400 w-full mb-2' />}
+            {(pods.length > 0) && <div className='h-px bg-login-400 w-full mb-2' />}
             <div className='grid gap-2 w-full'>
                 {Object.entries(groups).map(([label, pods]) => (
-                    <div className='w-full p-2 bg-login-600 rounded-lg' key={label}>
+                    <div className='w-full p-2 bg-login-50/5 rounded-lg' key={label}>
                         <h1 className='text-login-200 text-sm'>{label}</h1>
                         {pods.map((pod, index) => (
                             <div key={pod.name} className='w-full'>
                                 <Pod pod={pod} />
-                                {index === pods.length - 1 ? '' : <div className='w-full h-[1px] bg-login-400' />}
+                                {index === pods.length - 1 ? '' : <div className='w-full h-px bg-login-400' />}
                             </div>
                         ))}
                     </div>

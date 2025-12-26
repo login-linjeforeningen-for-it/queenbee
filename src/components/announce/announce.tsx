@@ -30,7 +30,7 @@ export default function Announce({ channels, roles }: { channels: Channel[], rol
         }
 
         return (
-            <div className='col-span-2 space-apart bg-login-600 rounded-lg p-2 px-4 cursor-pointer mt-10'>
+            <div className='col-span-2 space-apart bg-login-50/5 rounded-lg p-2 px-4 cursor-pointer mt-10'>
                 <div className='flex justify-between'>
                     <div className='flex gap-2'>
                         <h1 className={'text-2xl font-bold select-none text-login-200'}>
@@ -51,7 +51,7 @@ export default function Announce({ channels, roles }: { channels: Channel[], rol
     return (
         <div
             onClick={handleClick}
-            className='col-span-2 space-apart bg-login-600 rounded-lg p-2 px-4 cursor-pointer mt-10 select-none'
+            className='col-span-2 space-apart bg-login-50/5 rounded-lg p-2 px-4 cursor-pointer mt-10 select-none'
         >
             <div className='flex justify-between'>
                 <h1 className={
@@ -102,7 +102,7 @@ function OpenAnnouncement({
                     channels={channels}
                     roles={roles}
                     nested={true}
-                    color='bg-login-600'
+                    color='bg-login-50/5'
                     buttonColor='bg-login-500'
                     buttonColorHighlighted='bg-login-400'
                     required={false}

@@ -1,9 +1,10 @@
-import { deleteAlbum, getAlbums } from '@utils/api'
 import Alert from '@components/alert/alert'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import formatAlert from '@components/alert/formatAlert'
+import getAlbums from '@utils/api/albums/getAlbums'
+import deleteAlbum from '@utils/api/albums/deleteAlbum'
 import { Button } from 'uibee/components'
 
 async function deleteAction(id: string) {

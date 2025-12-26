@@ -1,10 +1,12 @@
 'use server'
 
-import { putJob, postAnnouncement, postJob } from '@utils/api'
 import {
     getOptionalBoolean, getRequiredNumber, getOptionalString, getRequiredString, getRequiredDateTime, getOptionalArray
 } from '@utils/validate'
 import { extractAnnouncementProps, anyMandatoryFieldSet } from './announcements'
+import postAnnouncement from '@utils/api/announcements/postAnnouncement'
+import postJob from '@utils/api/jobs/postJob'
+import putJob from '@utils/api/jobs/putJob'
 
 type FormState =
     | null

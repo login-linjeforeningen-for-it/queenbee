@@ -13,7 +13,7 @@ export default async function Home() {
     return <LoginPage
         title='Queenbee'
         description='Content Management System'
-        redirectURL={config.auth.LOGIN_URL}
+        redirectURL={config.auth.url.login}
         version={config.version}
     />
 }

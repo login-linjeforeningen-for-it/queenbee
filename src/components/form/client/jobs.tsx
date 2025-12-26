@@ -9,10 +9,10 @@ import TagInput from '@components/inputs/tag'
 import TimeInput from '@components/inputs/time'
 import Announce from '@components/announce/announce'
 import fallBackDate from '@utils/fallbackDate'
+import postImage from '@utils/api/images/postImage'
+import Upload from '@components/inputs/upload'
 import { useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
-import { uploadImage } from '@utils/api'
-import Upload from '@components/inputs/upload'
 import { toast } from 'sonner'
 import { Button } from 'uibee/components'
 
@@ -312,7 +312,7 @@ export default function JobFormInputsClient({
             <h1 className='text-xl pt-10 col-span-2'>Image</h1>
             <Upload
                 handleFile={async function (file: File): Promise<void> {
-                    const result = await uploadImage('jobs', file)
+                    const result = await postImage('jobs', file)
                     if (result.status >= 200 && result.status < 300) {
                         toast.success('Image uploaded successfully')
                         const existingImage = images.find(img => img.value === result.data)

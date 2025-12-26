@@ -121,7 +121,7 @@ export default function Pagination({
                     disabled={current <= 1}
                     className={`
                         flex items-center gap-2 p-1 rounded-lg
-                        bg-login-600 hover:bg-login-500 disabled:opacity-50
+                        bg-login-50/5 hover:bg-login-500 disabled:opacity-50
                         border-[0.10rem] border-login-200 text-sm
                     `}
                 >
@@ -149,7 +149,7 @@ export default function Pagination({
                                     px-3 py-1 rounded-lg text-sm
                                     border-[0.10rem] ${
                             p === current
-                                ? 'bg-login-600 border-login-50'
+                                ? 'bg-login-50/5 border-login-50'
                                 : `bg-login-50/0 border-login-200
                                     'hover:bg-login-400`
                             }
@@ -166,7 +166,7 @@ export default function Pagination({
                     onClick={goNext}
                     disabled={current >= totalPages}
                     className={`
-                        flex items-center gap-2 p-1 rounded-lg bg-login-600
+                        flex items-center gap-2 p-1 rounded-lg bg-login-50/5
                         hover:bg-login-500 disabled:opacity-50 select-none
                         border-[0.10rem] border-login-200 text-sm
                     `}

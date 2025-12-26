@@ -2,7 +2,7 @@ import config from '@config'
 import debug from '@/utils/debug'
 
 export default async function getLocalCommands(location: 'server' | 'client', service: string): Promise<LocalCommand[]> {
-    const api = location === 'server' ? config.beekeeper.serverAPI : config.beekeeper.api
+    const api = location === 'server' ? config.beekeeper.server : config.beekeeper.api
     const url = `${api}/commands/local`
 
     try {

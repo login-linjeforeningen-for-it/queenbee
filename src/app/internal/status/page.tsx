@@ -1,5 +1,7 @@
-import { getNotifications, getServices, getTags } from '@utils/api'
+import getServices from '@utils/api/services/getServices'
 import PageClient from './pageClient'
+import getNotifications from '@utils/api/services/getNotifications'
+import getTags from '@utils/api/services/getTags'
 
 export default async function Page() {
     const serverServices = await getServices()

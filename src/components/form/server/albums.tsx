@@ -1,4 +1,4 @@
-import { getAllEvents } from '@utils/api'
+import getAllEvents from '@utils/api/events/getAllEvents'
 import AlbumFormInputsClient from '../client/albums'
 
 export default async function AlbumFormInputs(

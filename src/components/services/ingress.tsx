@@ -51,7 +51,7 @@ async function Ingress({ingress}: IngressProps) {
     const status = ingress.events.length > 0 ? ServiceStatus.DOWN : ServiceStatus.OPERATIONAL
 
     return (
-        <div className='w-full bg-login-600 rounded-lg p-2 overflow-hidden'>
+        <div className='w-full bg-login-50/5 rounded-lg p-2 overflow-hidden'>
             <h1 className='text-login-400 text-[0.8rem] flex justify-between items-center'>
                 {`${ingress.name} - ${ingress.class}`}<Pulse status={status} />
             </h1>

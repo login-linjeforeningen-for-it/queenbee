@@ -1,7 +1,15 @@
-export default function Page() {
+import InternalInfo from '@components/internal/info'
+import InternalStats from '@components/internal/statistics'
+import getInternalDashboard from '@utils/api/dashboard/internal/get'
+
+export default async function Page() {
+    const dashboard = await getInternalDashboard()
+
     return (
-        <div>
-            Internal Home Page
+        <div className='grid gap-4'>
+            <h1 className='text-lg font-semibold'>Internal Dashboard</h1>
+            <InternalStats statistics={dashboard.statistics} />
+            <InternalInfo information={dashboard.information} />
         </div>
     )
 }

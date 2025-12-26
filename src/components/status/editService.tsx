@@ -1,13 +1,13 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import NewNotification from './newNotification'
-import { Copy, Plus, RefreshCcw } from 'lucide-react'
 import putService from '@utils/fetch/status/putService'
-import { getService } from '@utils/api'
 import TrashShift from './trashShift'
-import { Button } from 'uibee/components'
 import config from '@config'
 import useClearStateAfter from '@/hooks/useClearStateAfter'
 import deleteService from '@utils/fetch/status/deleteService'
+import getService from '@utils/api/services/getService'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Copy, Plus, RefreshCcw } from 'lucide-react'
+import { Button } from 'uibee/components'
 
 type EditServiceProps = {
     notifications: ServiceNotification[]
@@ -29,7 +29,7 @@ export default function EditService({
     const [addingNotification, setAddingNotification] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const { condition: copy, setCondition: setCopy } = useClearStateAfter({ timeout: 500 })
-    const copyText = `${config.beekeeper.api}${config.beekeeper.status.services.post}/${service.id}`
+    const copyText = `${config.beekeeper.api}/${config.beekeeper.status.services.post}/${service.id}`
     const initialForm = {
         id: service.id,
         name: service.name,

@@ -9,7 +9,7 @@ type PostWebhookConfirmationDialogProps = {
 }
 
 export default function PostWebhookConfirmationDialog({ service, onClick }: PostWebhookConfirmationDialogProps) {
-    const copyText = `${config.beekeeper.api}${config.beekeeper.status.services.post}/${service?.id}`
+    const copyText = `${config.beekeeper.api}/${config.beekeeper.status.services.post}/${service?.id}`
     const { condition: copy, setCondition: setCopy } = useClearStateAfter({ timeout: 500 })
 
     if (!service) {

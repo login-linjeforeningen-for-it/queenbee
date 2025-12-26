@@ -153,7 +153,7 @@ function SelectContent({
                                     className={`
                                         cursor-pointer w-full flex items-center
                                         gap-3 px-2 py-2 text-sm hover:bg-surface
-                                        rounded hover:bg-login-600
+                                        rounded hover:bg-login-50/5
                                     `}
                                     onMouseDown={(e) => {
                                         e.preventDefault()
@@ -177,7 +177,7 @@ function SelectContent({
 }
 
 function SelectedOption({ value, selectedOption }: SelectedOptionProps) {
-    const url = `${config.url.CDN_URL}/${selectedOption?.image}`
+    const url = `${config.url.cdn}/${selectedOption?.image}`
 
     if (!value) {
         ;<></>
@@ -187,7 +187,7 @@ function SelectedOption({ value, selectedOption }: SelectedOptionProps) {
         <div
             className={`
                 sticky top-0 bg-surface px-2 py-2 z-10 border-b
-                border-login-200 bg-login-600
+                border-login-200 bg-login-50/5
             `}
         >
             <div className='flex items-center gap-3'>
@@ -219,7 +219,7 @@ function OptionImage({ image, label }: { image?: string; label: string }) {
     return (
         <div className='overflow-hidden rounded w-24 h-10'>
             <Image
-                src={`${config.url.CDN_URL}/${image}`}
+                src={`${config.url.cdn}/${image}`}
                 alt={label}
                 width={100}
                 height={40}

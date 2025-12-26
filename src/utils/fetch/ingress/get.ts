@@ -2,7 +2,7 @@ import config from '@config'
 import { debug } from 'console'
 
 export default async function getIngress(location: 'server' | 'client', context: string, namespace: string): Promise<Ingress[]> {
-    const api = location === 'server' ? config.beekeeper.serverAPI : config.beekeeper.api
+    const api = location === 'server' ? config.beekeeper.server : config.beekeeper.api
     const url = `${api}/namespaces/ingress/${context}/${namespace}`
 
     try {

@@ -4,7 +4,9 @@ import StatisticsCategories from '@components/dashboard/statisticsCategories'
 import StatisticsNewAdditions from '@components/dashboard/statisticsNewAdditions'
 import getStatics from '@utils/stats/getStatistics'
 import formatDate from '@utils/date/formatDate'
-import { getStatisticsCategories, getStatisticsNewAdditions, getStatisticsYearlyActivity } from '@utils/api'
+import getStatisticsCategories from '@utils/api/statistics/categories'
+import getStatisticsNewAdditions from '@utils/api/statistics/newAdditions'
+import getStatisticsYearlyActivity from '@utils/api/statistics/yearlyActivity'
 
 export default async function Home() {
     const [stats, categories, additionsData, yearlyActivity] = await Promise.all([

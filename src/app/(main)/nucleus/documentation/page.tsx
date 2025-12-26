@@ -28,7 +28,7 @@ export default function Page() {
                         Documentation
                     </h1>
                 </div>
-                <article className='max-w-none bg-login-600 rounded-lg p-6 md:p-10 transition-all'>
+                <article className='max-w-none bg-login-50/5 rounded-lg p-6 md:p-10 transition-all'>
                     <h2 className='text-primary font-extrabold mt-0'>{text.title}</h2>
                     <p className='leading-relaxed'>
                         {text.descriptionBefore}

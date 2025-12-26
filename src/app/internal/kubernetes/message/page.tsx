@@ -22,7 +22,7 @@ export default async function Page() {
             <div className='col-span-10 w-full rounded-lg grid grid-cols-12 gap-2 h-full max-h-[calc((100vh-var(--h-navbar))-1rem)]'>
                 <div className='w-full col-span-9 max-h-full overflow-hidden grid grid-cols-2 gap-2'>
                     <PostMessage title={title} content={content} status={status} />
-                    <div className='w-full h-full bg-login-600 rounded-lg p-2 flex flex-col overflow-hidden'>
+                    <div className='w-full h-full bg-login-50/5 rounded-lg p-2 flex flex-col overflow-hidden'>
                         <h1>Recent service messages</h1>
                         <div className='flex flex-col h-full overflow-auto noscroll gap-2'>
                             {messages.map(async(message) => {
@@ -34,13 +34,13 @@ export default async function Page() {
                     </div>
                 </div>
                 <div className='inline-flex flex-col w-full h-full rounded-lg col-span-3 overflow-auto noscroll gap-2'>
-                    <div className='w-full h-full rounded-lg bg-login-600 p-2'>
+                    <div className='w-full h-full rounded-lg bg-login-50/5 p-2'>
                         <div className='flex flex-col gap-2 h-full'>
                             <Domains />
                             <Incidents />
                         </div>
                     </div>
-                    <Link href='/internal/kubernetes/prod/global' className='flex w-full p-2 bg-login-600 rounded-lg'>
+                    <Link href='/internal/kubernetes/prod/global' className='flex w-full p-2 bg-login-50/5 rounded-lg'>
                         <h1 className='px-2 bg-login-400 rounded-lg grid place-items-center mr-2'>B</h1>
                         <h1 className='grid place-items-center'>Back</h1>
                     </Link>

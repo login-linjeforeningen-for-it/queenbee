@@ -1,8 +1,9 @@
 import TrafficDashboard from '@components/traffic/traffic'
-import { getTrafficDomains, getTrafficRecords } from '@utils/api'
 import DomainSelector from '@components/traffic/domainSelector'
 import ViewToggle from '@components/traffic/viewToggle'
 import Pagination from '@components/table/pagination'
+import getTrafficDomains from '@utils/api/traffic/domains'
+import getTrafficRecords from '@utils/api/traffic/records'
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
     const params = await searchParams

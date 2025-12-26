@@ -27,10 +27,10 @@ type PutWrapperProps = {
     custom?: 'tekkom' | 'system' | 'beekeeper'
 }
 
-const baseUrl = config.url.API_URL
-const tekkomBotApiUrl = config.url.TEKKOM_BOT_API_URL
+const baseUrl = config.url.api
+const tekkomBotApiUrl = config.url.bot
 const systemUrl = config.url.system
-const beekeeperUrl = config.beekeeper.serverAPI
+const beekeeperUrl = config.beekeeper.server
 
 export async function getWrapper({ path, options = {}, custom }: GetWrapperProps) {
     const Cookies = await cookies()
@@ -57,7 +57,7 @@ export async function getWrapper({ path, options = {}, custom }: GetWrapperProps
     const finalOptions = { ...defaultOptions, ...options }
 
     try {
-        const response = await fetch(`${url}${path}`, finalOptions)
+        const response = await fetch(`${url}/${path}`, finalOptions)
         if (!response.ok) {
             throw new Error(await response.text())
         }
@@ -97,7 +97,7 @@ export async function postWrapper({ path, data, custom, status }: PostWrapper) {
     }
 
     try {
-        const response = await fetch(`${url}${path}`, defaultOptions)
+        const response = await fetch(`${url}/${path}`, defaultOptions)
         if (!response.ok) {
             throw new Error(await response.text())
         }
@@ -140,7 +140,7 @@ export async function putWrapper({ path, data = {}, options = {}, custom }: PutW
     const finalOptions = { ...defaultOptions, ...options }
 
     try {
-        const response = await fetch(`${url}${path}`, finalOptions)
+        const response = await fetch(`${url}/${path}`, finalOptions)
         if (!response.ok) {
             throw new Error(await response.text())
         }
@@ -178,7 +178,7 @@ export async function deleteWrapper({ path, options, custom }: DeleteWrapperProp
     const finalOptions = { ...defaultOptions, ...options }
 
     try {
-        const response = await fetch(`${url}${path}`, finalOptions)
+        const response = await fetch(`${url}/${path}`, finalOptions)
         const data = await response.json()
 
         if (!response.ok) {

@@ -11,7 +11,7 @@ type PutNotificationProps = {
 export default async function putNotification({ id, name, message, webhook }: PutNotificationProps) {
     try {
         const token = getCookie('access_token')
-        const response = await fetch(`${config.beekeeper.api}${config.beekeeper.status.notifications.put}/${id}`, {
+        const response = await fetch(`${config.beekeeper.api}/${config.beekeeper.status.notifications.put}/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

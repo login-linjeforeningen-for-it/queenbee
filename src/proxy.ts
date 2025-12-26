@@ -65,7 +65,7 @@ function pathIsAllowedWhileUnauthorized(path: string) {
 
 async function tokenIsValid(token: string): Promise<{ valid: boolean; groups?: string[] }> {
     try {
-        const userInfo = await fetch(appConfig.authentik.USERINFO_URL, {
+        const userInfo = await fetch(appConfig.authentik.url.userinfo, {
             headers: { Authorization: `Bearer ${token}` },
         })
 
@@ -92,7 +92,7 @@ async function tokenIsValid(token: string): Promise<{ valid: boolean; groups?: s
 
 async function btgTokenIsValid(token: string, name: string): Promise<boolean> {
     try {
-        const response = await fetch(`${appConfig.url.TEKKOM_BOT_API_URL}/token`, {
+        const response = await fetch(`${appConfig.url.bot}/token`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 name,

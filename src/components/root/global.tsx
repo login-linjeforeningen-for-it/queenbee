@@ -11,7 +11,7 @@ export default async function Global() {
     const context = segmentedPathname[1] || 'prod'
     const isGlobal = path.includes('global')
     const { meta } = await worstAndBestServiceStatus('prod', true)
-    const globalStyles = isGlobal ? 'bg-login-600 text-login-200 cursor-not-allowed' : 'bg-login-500 text-foreground cursor-pointer'
+    const globalStyles = isGlobal ? 'bg-login-50/5 text-login-200 cursor-not-allowed' : 'bg-login-500 text-foreground cursor-pointer'
 
     return (
         <Link

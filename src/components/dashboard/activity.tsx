@@ -46,7 +46,7 @@ export default function Activity({ stats }: { stats: GetStatisticsYearlyActivity
     return (
         <div>
             <div className='font-semibold text-lg py-4 text-center'>Activity last year</div>
-            <div className='flex gap-0.5 bg-login-600 p-6 rounded-md'>
+            <div className='flex gap-0.5 bg-login-50/5 p-6 rounded-md'>
                 {grid.map((week, wi) => (
                     <div key={wi} className='flex flex-col gap-0.5 flex-1'>
                         {week.map((val, di) => {

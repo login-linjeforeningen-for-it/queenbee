@@ -3,6 +3,6 @@ import { authLogout } from 'uibee/utils'
 
 export async function GET() {
     return await authLogout({
-        frontendURL: config.auth.BASE_URL
+        frontendURL: config.auth.url.base
     })
 }

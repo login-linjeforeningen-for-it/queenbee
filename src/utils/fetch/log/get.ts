@@ -28,7 +28,7 @@ export default async function getLogs({
     search,
     resultsPerPage
 }: LogParams): Promise<Log> {
-    const api = location === 'server' ? config.beekeeper.serverAPI : config.beekeeper.api
+    const api = location === 'server' ? config.beekeeper.server : config.beekeeper.api
     const baseUrl = `${api}/log/${path}`
     const params = new URLSearchParams({ page: String(page) })
     const isGlobal = namespace === 'global'

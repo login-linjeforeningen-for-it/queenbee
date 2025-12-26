@@ -88,7 +88,7 @@ export default function Album({ album, deleteAction, pageSize, coverAction }: Al
                 {paginatedImages.map((image: string) => (
                     <div key={image} className='aspect-3/2 overflow-hidden rounded-md relative group'>
                         <Image
-                            src={`${config.url.CDN_URL}/albums/${album.id}/${image}`}
+                            src={`${config.url.cdn}/albums/${album.id}/${image}`}
                             width={150}
                             height={100}
                             alt={`Album Image ${image}`}

@@ -2,7 +2,7 @@ import config from '@config'
 import debug from '@/utils/debug'
 
 export default async function getPods(location: 'server' | 'client'): Promise<Pod[]> {
-    const api = location === 'server' ? config.beekeeper.serverAPI : config.beekeeper.api
+    const api = location === 'server' ? config.beekeeper.server : config.beekeeper.api
     const url = `${api}/pods`
 
     try {

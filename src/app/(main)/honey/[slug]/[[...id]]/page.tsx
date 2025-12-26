@@ -1,7 +1,7 @@
-import { getHoney } from '@utils/api'
-import { createHoney, updateHoney } from '@components/form/actions/honeys'
 import FormWrapper from '@components/form/wrapper'
 import HoneyFormInputs from '@components/form/server/honeys'
+import getHoney from '@utils/api/honey/get'
+import { createHoney, updateHoney } from '@components/form/actions/honeys'
 import { notFound } from 'next/navigation'
 
 export default async function Page({ params }: { params: Promise<{ slug: string; id?: string[] }> }) {

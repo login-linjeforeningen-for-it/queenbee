@@ -35,7 +35,7 @@ export default function Terminal({ namespace, command, name: Name, reason: Reaso
     const legitimateStrings = ['kubectl', 'docker', 'flux', 'helm', 'kubelet', 'grafana', 'prometheus', 'helmfile', 'k9s', 'namespace']
     const terminalStyle = `
         w-full h-full h-[9vh]
-        bg-login-600 rounded-lg cursor-pointer p-2
+        bg-login-50/5 rounded-lg cursor-pointer p-2
         hover:bg-login-700 overflow-auto max-h-[45vh]
         ${isFocused ? 'scale-[0.99] mt-1 min-h-[calc(9vh-2px)] h-[calc(9.2vh-2px)] cursor-text' : 'scale-100 min-h-[9.2vh]'}
     `

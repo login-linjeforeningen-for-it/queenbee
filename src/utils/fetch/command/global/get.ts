@@ -2,7 +2,7 @@ import debug from '@/utils/debug'
 import config from '@config'
 
 export default async function getGlobalCommands(location: 'server' | 'client'): Promise<GlobalCommand[]> {
-    const api = location === 'server' ? config.beekeeper.serverAPI : config.beekeeper.api
+    const api = location === 'server' ? config.beekeeper.server : config.beekeeper.api
     const url = `${api}/commands/global`
 
     try {

@@ -1,4 +1,3 @@
-import { deleteEvent, getEvents } from '@utils/api'
 import Alert from '@components/alert/alert'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
@@ -6,6 +5,8 @@ import Pagination from '@components/table/pagination'
 import HistoricalSwitch from '@components/inputs/historical'
 import formatAlert from '@components/alert/formatAlert'
 import { Button } from 'uibee/components'
+import deleteEvent from '@utils/api/events/deleteEvent'
+import getEvents from '@utils/api/events/getEvents'
 
 const headers = [
     'id',

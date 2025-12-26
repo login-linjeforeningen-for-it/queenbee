@@ -1,7 +1,7 @@
-import { getLocation } from '@utils/api'
-import { createLocation, updateLocation } from '@components/form/actions/locations'
 import FormWrapper from '@components/form/wrapper'
 import LocationFormInputs from '@components/form/server/locations'
+import getLocation from '@utils/api/locations/getLocation'
+import { createLocation, updateLocation } from '@components/form/actions/locations'
 import { notFound } from 'next/navigation'
 
 export default async function Page({ params }: { params: Promise<{ slug: string; id?: string[] }> }) {

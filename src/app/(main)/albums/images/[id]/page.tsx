@@ -3,7 +3,9 @@ import Search from '@components/inputs/search'
 import UploadAlbumImages from '@components/inputs/uploadAlbumImages'
 import BackButton from '@components/navigation/back'
 import Pagination from '@components/table/pagination'
-import { deleteAlbumImage, getAlbum, putCoverImage } from '@utils/api'
+import deleteAlbumImage from '@utils/api/albums/deleteAlbumImage'
+import getAlbum from '@utils/api/albums/getAlbum'
+import putCoverImage from '@utils/api/albums/putCoverImage'
 import { notFound } from 'next/navigation'
 
 async function deleteAction(id: string, name: string): Promise<DeleteParamsProps | string> {

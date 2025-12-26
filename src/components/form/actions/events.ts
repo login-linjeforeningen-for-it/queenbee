@@ -1,6 +1,8 @@
 'use server'
 
-import { putEvent, postAnnouncement, postEvent } from '@utils/api'
+import postAnnouncement from '@utils/api/announcements/postAnnouncement'
+import postEvent from '@utils/api/events/postEvent'
+import putEvent from '@utils/api/events/putEvent'
 import {
     getOptionalBoolean, getOptionalNumber, getOptionalString, getRequiredString, getRequiredDateTime, getOptionalDateTime,
     getRequiredNumber,

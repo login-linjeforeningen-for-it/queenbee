@@ -1,7 +1,7 @@
-import { getEvent } from '@utils/api'
-import { createEvent, updateEvent } from '@components/form/actions/events'
 import FormWrapper from '@components/form/wrapper'
 import EventFormInputs from '@components/form/server/events'
+import getEvent from '@utils/api/events/getEvent'
+import { createEvent, updateEvent } from '@components/form/actions/events'
 import { notFound } from 'next/navigation'
 
 export default async function Page({ params }: { params: Promise<{ slug: string; id?: string[] }> }) {

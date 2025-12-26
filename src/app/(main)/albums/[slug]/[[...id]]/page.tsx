@@ -1,8 +1,8 @@
-import { getAlbum } from '@utils/api'
-import { createAlbum, updateAlbum } from '@components/form/actions/albums'
 import FormWrapper from '@components/form/wrapper'
-import { notFound } from 'next/navigation'
 import AlbumFormInputs from '@components/form/server/albums'
+import getAlbum from '@utils/api/albums/getAlbum'
+import { createAlbum, updateAlbum } from '@components/form/actions/albums'
+import { notFound } from 'next/navigation'
 
 export default async function Page({ params }: { params: Promise<{ slug: string; id?: string[] }>
 }) {

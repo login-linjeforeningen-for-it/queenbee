@@ -58,7 +58,7 @@ export default function RestoreClient({ backups }: { backups: BackupFileProps[] 
                 </div>
             </div>
 
-            <div className='bg-login-600 rounded-lg shadow overflow-hidden border border-login-600'>
+            <div className='bg-login-50/5 rounded-lg shadow overflow-hidden border border-login-600'>
                 <table className='min-w-full divide-y divide-login-600'>
                     <thead className='bg-login-700'>
                         <tr>
@@ -84,7 +84,7 @@ export default function RestoreClient({ backups }: { backups: BackupFileProps[] 
                             </th>
                         </tr>
                     </thead>
-                    <tbody className='bg-login-600 divide-y divide-login-600'>
+                    <tbody className='bg-login-50/5 divide-y divide-login-600'>
                         {backups.length > 0 ? (
                             backups.map((backup, index) => (
                                 <tr key={backup.file || index}>

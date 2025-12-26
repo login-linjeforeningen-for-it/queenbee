@@ -1,8 +1,8 @@
-import { getAlert } from '@utils/api'
-import { createAlert, updateAlert } from '@components/form/actions/alerts'
 import FormWrapper from '@components/form/wrapper'
-import { notFound } from 'next/navigation'
 import AlertFormInputs from '@components/form/server/alerts'
+import getAlert from '@utils/api/alerts/getAlert'
+import { createAlert, updateAlert } from '@components/form/actions/alerts'
+import { notFound } from 'next/navigation'
 
 export default async function Page({ params }: { params: Promise<{ slug: string; id?: string[] }> }) {
     const { id, slug } = await params

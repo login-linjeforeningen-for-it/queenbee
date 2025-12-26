@@ -1,10 +1,11 @@
-import { deleteJob, getJobs } from '@utils/api'
 import Alert from '@components/alert/alert'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import HistoricalSwitch from '@components/inputs/historical'
 import formatAlert from '@components/alert/formatAlert'
+import deleteJob from '@utils/api/jobs/deleteJob'
+import getJobs from '@utils/api/jobs/getJobs'
 import { Button } from 'uibee/components'
 
 const headers = [

@@ -1,15 +1,13 @@
-import {
-    getAllLocations,
-    getAllOrganizations,
-    getAllRules,
-    getAudiences,
-    getCategories,
-    getChannels,
-    getImages,
-    getRoles,
-    getTimeTypes,
-} from '@utils/api'
-import { EventFormInputsClient } from '../client/events'
+import getImages from '@utils/api/images/getImages'
+import EventFormInputsClient from '../client/events'
+import getCategories from '@utils/api/events/getCategories'
+import getAllOrganizations from '@utils/api/organizations/getAllOrganizations'
+import getAllRules from '@utils/api/rules/getAllRules'
+import getAllLocations from '@utils/api/locations/getAllLocations'
+import getAudiences from '@utils/api/events/getAudiences'
+import getTimeTypes from '@utils/api/events/getTimeTypes'
+import getRoles from '@utils/api/announcements/getRoles'
+import getChannels from '@utils/api/announcements/getChannels'
 
 type EventFormsInputsProps = {
     defaultValues?: GetEventProps

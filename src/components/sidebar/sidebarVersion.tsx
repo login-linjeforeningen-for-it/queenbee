@@ -14,7 +14,7 @@ export default function SidebarVersion() {
                     text-white text-center tracking-wide font-bold
                 `}
                 target='_blank'
-                href={`${config.url.GITLAB_URL}/tekkom/web/beehive/queenbee/-/tags/${config.version}`}
+                href={`${config.url.git}/tekkom/web/beehive/queenbee/-/tags/${config.version}`}
                 aria-label={`Queenbee version ${config.version}`}
             >
                 <span>v{config.version}</span>

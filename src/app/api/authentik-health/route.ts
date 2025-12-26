@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 
 export async function GET() {
     try {
-        const response = await fetch(config.url.AUTHENTIK_URL, {
+        const response = await fetch(config.url.authentik, {
             cache: 'no-store',
         })
 

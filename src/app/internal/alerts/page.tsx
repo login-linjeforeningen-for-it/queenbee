@@ -1,9 +1,10 @@
-import { deleteAlert, getAlerts } from '@utils/api'
 import Alert from '@components/alert/alert'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import formatAlert from '@components/alert/formatAlert'
+import deleteAlert from '@utils/api/alerts/deleteAlert'
+import getAlerts from '@utils/api/alerts/getAlerts'
 import { Button } from 'uibee/components'
 
 async function deleteAction(id: string) {

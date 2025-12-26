@@ -1,6 +1,7 @@
 'use server'
 
-import { putRule, postRule } from '@utils/api'
+import postRule from '@utils/api/rules/postRule'
+import putRule from '@utils/api/rules/putRule'
 import { getRequiredString } from '@utils/validate'
 
 type FormState =

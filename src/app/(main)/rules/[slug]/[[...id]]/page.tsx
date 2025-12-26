@@ -1,8 +1,8 @@
-import { getRule } from '@utils/api'
-import { createRule, updateRule } from '@components/form/actions/rules'
 import FormWrapper from '@components/form/wrapper'
-import { notFound } from 'next/navigation'
 import RuleFormInputs from '@components/form/server/rules'
+import getRule from '@utils/api/rules/getRule'
+import { createRule, updateRule } from '@components/form/actions/rules'
+import { notFound } from 'next/navigation'
 
 export default async function Page({
     params,

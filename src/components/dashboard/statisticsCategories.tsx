@@ -31,7 +31,7 @@ export default function StatisticsCategories({ categories }: { categories: GetSt
     return (
         <div className='w-full flex flex-col pt-6'>
             <h2 className='font-semibold text-lg pb-4 mx-auto'>Event Categories</h2>
-            <div className='flex flex-col items-center w-full bg-login-600 rounded-md'>
+            <div className='flex flex-col items-center w-full bg-login-50/5 rounded-md'>
                 <svg width='300' height='300' viewBox='0 0 300 300'>
                     {slices.map((slice, i) => (
                         <path

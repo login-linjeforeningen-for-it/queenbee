@@ -1,4 +1,9 @@
-import { getAlbums, getAnnouncements, getEvents, getJobs, getLocations, getOrganizations } from '@utils/api'
+import getAlbums from '@utils/api/albums/getAlbums'
+import getAnnouncements from '@utils/api/announcements/getAnnouncements'
+import getEvents from '@utils/api/events/getEvents'
+import getJobs from '@utils/api/jobs/getJobs'
+import getLocations from '@utils/api/locations/getLocations'
+import getOrganizations from '@utils/api/organizations/getOrganizations'
 
 export default async function getStatics() {
     const [events, jobs, announcements, organizations, locations, albums] = await Promise.all([

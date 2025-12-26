@@ -15,7 +15,7 @@ export default async function Logs({ logs, pages }: LogsProps) {
     const namespace = segmentedPathname[2] || ''
 
     return (
-        <div className='w-full flex-1 overflow-auto mb-2 flex flex-col h-full bg-login-600 rounded-lg px-2 pb-2 pt-1'>
+        <div className='w-full flex-1 overflow-auto mb-2 flex flex-col h-full bg-login-50/5 rounded-lg px-2 pb-2 pt-1'>
             <LogClient logs={logs} pages={pages} namespace={namespace} context={context} />
         </div>
     )

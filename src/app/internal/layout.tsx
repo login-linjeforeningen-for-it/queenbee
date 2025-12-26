@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import '../globals.css'
-import { getDocker } from '@utils/api'
 import SidebarInternal from '@components/sidebar/sidebarInternal'
 import worstAndBestServiceStatus from '@components/services/worstAndBestServiceStatus'
+import getDocker from '@utils/api/system/getDocker'
+import '../globals.css'
 
 export const metadata: Metadata = {
     title: 'QueenBee',

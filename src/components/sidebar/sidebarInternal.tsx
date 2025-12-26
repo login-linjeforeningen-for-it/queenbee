@@ -12,9 +12,9 @@ import {
     Waypoints
 } from 'lucide-react'
 import SidebarVersion from './sidebarVersion'
-import { useEffect, useState } from 'react'
-import { getDocker } from '@utils/api'
 import PulseDot from '@components/pulse/pulse'
+import getDocker from '@utils/api/system/getDocker'
+import { useEffect, useState } from 'react'
 import { ServiceStatus } from '@utils/interfaces'
 
 export default function Sidebar({ docker: serverDocker, meta: serverMeta }: { docker: Docker, meta: ServiceStatus }) {

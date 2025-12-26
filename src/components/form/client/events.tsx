@@ -7,14 +7,14 @@ import Select from '@components/inputs/select'
 import Switch from '@components/inputs/switch'
 import TimeInput from '@components/inputs/time'
 import Announce from '@components/announce/announce'
+import Upload from '@components/inputs/upload'
+import postImage from '@utils/api/images/postImage'
 import { useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
-import Upload from '@components/inputs/upload'
-import { uploadImage } from '@utils/api'
 import { toast } from 'sonner'
 import { Button } from 'uibee/components'
 
-export function EventFormInputsClient({
+export default function EventFormInputsClient({
     defaultValues,
     defaultImages,
     categories,
@@ -90,7 +90,7 @@ export function EventFormInputsClient({
     }
 
     async function handleFile(file: File): Promise<void> {
-        const result = await uploadImage('events', file)
+        const result = await postImage('events', file)
         if (result.status >= 200 && result.status < 300) {
             toast.success('Image uploaded successfully')
             const existingImage = images.find(img => img.value === result.data)

@@ -2,7 +2,7 @@ import config from '@config'
 import debug from '@/utils/debug'
 
 export default async function getNotes(location: 'server' | 'client', context: string, service: string): Promise<Domain[]> {
-    const api = location === 'server' ? config.beekeeper.serverAPI : config.beekeeper.api
+    const api = location === 'server' ? config.beekeeper.server : config.beekeeper.api
     const url = `${api}/namespaces/notes/${context}/${service}`
 
     try {

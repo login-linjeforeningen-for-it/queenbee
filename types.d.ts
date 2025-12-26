@@ -395,7 +395,7 @@ declare global {
         updated_at: string
     }
 
-    type GetHoneysProps = {
+    type GetHoneyListProps = {
         honeys: GetHoneyProps[]
         total_count: number
     }
@@ -1214,6 +1214,47 @@ declare global {
         reason?: string
         code?: string
         service: string
+    }
+
+    type Entry = { key: string, count?: number, avg_time?: number }
+
+    type GetParamsProps = {
+        type?: string
+        search?: string
+        offset?: number
+        limit?: number
+        orderBy?: string
+        sort?: 'asc' | 'desc'
+        historical?: boolean
+    }
+
+    type InternalDashboard = {
+        statistics: InternalDashboardStatistics
+        information: InternalDashboardInformation
+    }
+
+    type InternalDashboardStatistics = {
+        alerts: number
+        backups: number
+        sites: number
+        kubernetes: number
+        monitored: number
+        requestsToday: number
+    }
+
+    type InternalDashboardInformation = {
+        primarySite: {
+            id: number
+            name: string
+            ip: string
+        }
+        system: {
+            ram: string
+            processes: number
+            disk: string
+            load: string
+            containers: number
+        }
     }
 }
 

@@ -1,9 +1,10 @@
-import { deleteOrganization, getOrganizations } from '@utils/api'
 import Alert from '@components/alert/alert'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import formatAlert from '@components/alert/formatAlert'
+import deleteOrganization from '@utils/api/organizations/deleteOrganization'
+import getOrganizations from '@utils/api/organizations/getOrganizations'
 import { Button } from 'uibee/components'
 
 const headers = [

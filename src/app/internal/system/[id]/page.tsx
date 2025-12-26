@@ -1,4 +1,4 @@
-import { getContainer } from '@utils/api'
+import getContainer from '@utils/api/system/getContainer'
 import PageClient from './pageClient'
 
 type PageProps = {

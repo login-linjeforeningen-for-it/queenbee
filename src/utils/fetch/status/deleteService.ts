@@ -4,7 +4,7 @@ import { getCookie } from '@utils/cookies'
 export default async function deleteService(id: number) {
     try {
         const token = getCookie('access_token')
-        const response = await fetch(`${config.beekeeper.api}${config.beekeeper.status.services.delete}/${id}`, {
+        const response = await fetch(`${config.beekeeper.api}/${config.beekeeper.status.services.delete}/${id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`

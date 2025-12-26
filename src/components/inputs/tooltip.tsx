@@ -11,7 +11,7 @@ export default function ToolTip({
         >
             <span className={`
                 peer cursor-pointer rounded-sm px-3 py-1 bg-login-800
-                hover:bg-login-600
+                hover:bg-login-50/5
             `}>
                 ?
             </span>

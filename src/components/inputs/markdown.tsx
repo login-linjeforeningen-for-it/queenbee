@@ -39,7 +39,7 @@ export default function Markdown({
     const textareaRef = useRef<HTMLTextAreaElement | null>(null)
     const smallButtonStyle = `px-2 py-1 rounded select-none
         ${buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-500'}
-        ${' '}${buttonColor ? buttonColor : 'bg-login-600'}`
+        ${' '}${buttonColor ? buttonColor : 'bg-login-50/5'}`
 
     function wrapSelection(before: string, after = before, placeHolder = '') {
         const textarea = textareaRef.current
@@ -147,16 +147,16 @@ export default function Markdown({
                         icon={<Edit className='w-5' />}
                         text='Edit'
                         className={mode === 'edit'
-                            ? buttonColor ? buttonColor : 'bg-login-600'
-                            : buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-600'}
+                            ? buttonColor ? buttonColor : 'bg-login-50/5'
+                            : buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-50/5'}
                         onClick={() => setMode('preview')}
                     />
                     <Button
                         icon={<View className='w-5' />}
                         text='Preview'
                         className={mode === 'preview'
-                            ? buttonColor ? buttonColor : 'bg-login-600'
-                            : buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-600'}
+                            ? buttonColor ? buttonColor : 'bg-login-50/5'
+                            : buttonColorHighlighted ? `hover:${buttonColorHighlighted}` : 'hover:bg-login-50/5'}
                         onClick={() => setMode('preview')}
                     />
                 </div>

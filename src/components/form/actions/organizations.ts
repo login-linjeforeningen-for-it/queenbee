@@ -1,6 +1,7 @@
 'use server'
 
-import { putOrganization, postOrganization } from '@utils/api'
+import postOrganization from '@utils/api/organizations/postOrganization'
+import putOrganization from '@utils/api/organizations/putOrganization'
 import { getOptionalString, getRequiredString } from '@utils/validate'
 
 type FormState =

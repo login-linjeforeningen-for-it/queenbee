@@ -12,7 +12,7 @@ export default function StatisticsNewAdditions({ additions }: { additions: GetSt
                     <Link
                         href={`/${addition.source}/update/${addition.id}`}
                         key={index}
-                        className='p-3 bg-login-600 rounded-md flex items-center justify-between'
+                        className='p-3 bg-login-50/5 rounded-md flex items-center justify-between'
                     >
                         <div className='flex items-center justify-between gap-2'>
                             {

@@ -1,6 +1,7 @@
 'use server'
 
-import { putLocation, postLocation } from '@utils/api'
+import postLocation from '@utils/api/locations/postLocation'
+import putLocation from '@utils/api/locations/putLocation'
 import { getOptionalNumber, getOptionalString, getRequiredString } from '@utils/validate'
 
 type FormState =
