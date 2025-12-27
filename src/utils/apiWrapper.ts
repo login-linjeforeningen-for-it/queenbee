@@ -50,20 +50,21 @@ async function apiRequest({ service, method, path, options, data }: APIRequestPr
     try {
         const response = await fetch(`${url}/${path}`, finalOptions)
         if (!response.ok) {
-            throw new Error(await response.text())
+            const text = await response.json()
+            const message = text.message || text.error || text
+            throw new Error(message)
         }
 
         const data = await response.json()
         return data
 
-        // eslint-disable-next-line
-    } catch (error: any) {
-        console.error(error)
-        return (
-            JSON.stringify(error.error) ||
-            JSON.stringify(error.message) ||
-            'Unknown error! Please contact TekKom'
-        )
+    } catch (error: unknown) {
+        console.error('Fetch error', error)
+        if (error instanceof Error) {
+            return `Error: ${error.message}`
+        } else {
+            return 'Error: Unknown! Please contact TekKom'
+        }
     }
 }
 
