@@ -25,6 +25,6 @@ export default async function getRules({ search, offset, limit, orderBy, sort }:
         queryParts.append('sort', String(sort))
     }
 
-    const path = `${config.beehive.rules}/?${queryParts.toString()}`
+    const path = `${config.workerbee.rules.path}/?${queryParts.toString()}`
     return await getWrapper({ path })
 }

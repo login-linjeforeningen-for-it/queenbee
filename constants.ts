@@ -11,11 +11,6 @@ const config = {
         authentik: 'https://authentik.login.no',
         system: 'https://internal.login.no/api'
     },
-    beehive: {
-        organizations: 'organizations',
-        rules: 'rules',
-        images: 'images',
-    },
     workerbee: {
         albums: {
             path: 'albums',
