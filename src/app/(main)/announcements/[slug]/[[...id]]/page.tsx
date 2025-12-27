@@ -1,8 +1,8 @@
 import FormWrapper from '@components/form/wrapper'
 import AnnouncementFormInputs from '@components/form/server/announcements'
-import getRoles from '@utils/api/workerbee/announcements/getRoles'
-import getChannels from '@utils/api/workerbee/announcements/getChannels'
-import getAnnouncement from '@utils/api/workerbee/announcements/getAnnouncement'
+import getRoles from '@utils/api/bot/announcements/getRoles'
+import getChannels from '@utils/api/bot/announcements/getChannels'
+import getAnnouncement from '@utils/api/bot/announcements/getAnnouncement'
 import { createAnnouncement, updateAnnouncement } from '@components/form/actions/announcements'
 import { notFound } from 'next/navigation'
 

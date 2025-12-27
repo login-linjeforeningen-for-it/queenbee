@@ -26,5 +26,5 @@ export default async function getAlerts({ search, offset, limit, orderBy, sort }
     }
 
     const path = `${config.workerbee.alerts.path}/?${queryParts.toString()}`
-    return await getWrapper({ path })
+    return await getWrapper({ path, service: 'workerbee' })
 }

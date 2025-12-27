@@ -1,6 +1,6 @@
 'use server'
 
-import postAnnouncement from '@utils/api/workerbee/announcements/postAnnouncement'
+import postAnnouncement from '@utils/api/bot/announcements/postAnnouncement'
 import postEvent from '@utils/api/workerbee/events/postEvent'
 import putEvent from '@utils/api/workerbee/events/putEvent'
 import {

@@ -30,6 +30,6 @@ export default async function getAnnouncements({
     queryParts.append('includePlaceholders', 'true')
 
     const path = `${config.bot.announcements}/?${queryParts.toString()}`
-    const data = await getWrapper({ path, custom: 'tekkom' })
+    const data = await getWrapper({ path, service: 'bot' })
     return data
 }

@@ -37,5 +37,5 @@ export default async function getJobs({
     }
 
     const path = `${config.workerbee.jobs.path_protected}/?${queryParts.toString()}`
-    return await getWrapper({ path })
+    return await getWrapper({ path, service: 'workerbee' })
 }

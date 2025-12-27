@@ -26,5 +26,5 @@ export default async function getAlbums({ search, offset, limit, orderBy, sort }
     }
 
     const path = `${config.workerbee.albums.path}/?${queryParts.toString()}`
-    return await getWrapper({ path })
+    return await getWrapper({ path, service: 'workerbee' })
 }

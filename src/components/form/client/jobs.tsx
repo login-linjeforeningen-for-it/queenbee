@@ -313,21 +313,21 @@ export default function JobFormInputsClient({
             <Upload
                 handleFile={async function (file: File): Promise<void> {
                     const result = await postImage('jobs', file)
-                    if (result.status >= 200 && result.status < 300) {
+                    if (typeof result === 'string') {
+                        toast.error(result)
+                    } else {
                         toast.success('Image uploaded successfully')
-                        const existingImage = images.find(img => img.value === result.data)
+                        const existingImage = images.find(img => img.value === result.image)
                         if (!existingImage) {
                             setImages([
                                 ...images,
                                 {
-                                    label: result.data,
-                                    value: result.data,
-                                    image: `img/jobs/${result.data}`,
+                                    label: result.image,
+                                    value: result.image,
+                                    image: result.image,
                                 }
                             ])
                         }
-                    } else {
-                        toast.error('Error uploading image')
                     }
                 }}
             />

@@ -19,5 +19,5 @@ export default async function getTrafficMetrics(
     }
 
     const path = `${config.beekeeper.traffic.metrics}?${queryParts.toString()}`
-    return await getWrapper({ path, custom: 'beekeeper' })
+    return await getWrapper({ path, service: 'beekeeper' })
 }

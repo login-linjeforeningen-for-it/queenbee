@@ -15,6 +15,6 @@ export default async function getBackupFiles({ service, date }: GetBackupFilesPr
 
     return await getWrapper({
         path: `${config.internal.backups.files}?${queryParts.toString()}`,
-        custom: 'system'
+        service: 'internal'
     })
 }

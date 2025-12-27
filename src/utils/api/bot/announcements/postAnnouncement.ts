@@ -7,6 +7,6 @@ export default async function postAnnouncement(body: PostAnnouncementProps): Pro
     return await postWrapper({
         path: config.bot.announcements,
         data: body,
-        custom: 'tekkom'
+        service: 'bot'
     })
 }

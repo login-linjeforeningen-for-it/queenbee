@@ -7,6 +7,6 @@ export default async function putAnnouncement(body: PutAnnouncementProps): Promi
     return await putWrapper({
         path: config.bot.announcements,
         data: body,
-        custom: 'tekkom'
+        service: 'bot'
     })
 }

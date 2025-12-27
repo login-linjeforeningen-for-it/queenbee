@@ -8,6 +8,6 @@ export default async function deleteAnnouncement(id: number) {
     return await deleteWrapper({
         path,
         options: { body: JSON.stringify({ id }) },
-        custom: 'tekkom'
+        service: 'bot'
     })
 }

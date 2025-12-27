@@ -14,6 +14,6 @@ export default async function postBackupRestore(data: BackupRestoreProps): Promi
     return await postWrapper({
         path: config.internal.backups.restore,
         data,
-        custom: 'system'
+        service: 'internal'
     })
 }

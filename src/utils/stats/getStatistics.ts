@@ -1,5 +1,5 @@
 import getAlbums from '@utils/api/workerbee/albums/getAlbums'
-import getAnnouncements from '@utils/api/workerbee/announcements/getAnnouncements'
+import getAnnouncements from '@utils/api/bot/announcements/getAnnouncements'
 import getEvents from '@utils/api/workerbee/events/getEvents'
 import getJobs from '@utils/api/workerbee/jobs/getJobs'
 import getLocations from '@utils/api/workerbee/locations/getLocations'

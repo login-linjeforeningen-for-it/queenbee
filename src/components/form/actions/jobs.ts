@@ -4,7 +4,7 @@ import {
     getOptionalBoolean, getRequiredNumber, getOptionalString, getRequiredString, getRequiredDateTime, getOptionalArray
 } from '@utils/validate'
 import { extractAnnouncementProps, anyMandatoryFieldSet } from './announcements'
-import postAnnouncement from '@utils/api/workerbee/announcements/postAnnouncement'
+import postAnnouncement from '@utils/api/bot/announcements/postAnnouncement'
 import postJob from '@utils/api/workerbee/jobs/postJob'
 import putJob from '@utils/api/workerbee/jobs/putJob'
 

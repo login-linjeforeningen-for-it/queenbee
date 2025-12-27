@@ -5,5 +5,5 @@ import { deleteWrapper } from '@utils/apiWrapper'
 
 export default async function deleteAlert(id: number) {
     const path = `${config.workerbee.alerts.path}/${id}`
-    return await deleteWrapper({ path })
+    return await deleteWrapper({ path, service: 'workerbee' })
 }

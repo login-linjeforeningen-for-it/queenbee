@@ -18,5 +18,5 @@ export default async function postEvent(
     }
 
     const path = `${config.workerbee.events.path}/?${queryParts.toString()}`
-    return await postWrapper({ path, data: body })
+    return await postWrapper({ path, data: body, service: 'workerbee' })
 }

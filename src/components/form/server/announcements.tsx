@@ -1,6 +1,6 @@
-import getRoles from '@utils/api/workerbee/announcements/getRoles'
+import getRoles from '@utils/api/bot/announcements/getRoles'
 import AnnouncementFormInputsClient from '../client/announcements'
-import getChannels from '@utils/api/workerbee/announcements/getChannels'
+import getChannels from '@utils/api/bot/announcements/getChannels'
 
 export default async function AnnouncementFormInputs({
     defaultValues,

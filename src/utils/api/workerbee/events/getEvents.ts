@@ -37,5 +37,5 @@ export default async function getEvents({
     }
 
     const path = `${config.workerbee.events.path_protected}/?${queryParts.toString()}`
-    return await getWrapper({ path })
+    return await getWrapper({ path, service: 'workerbee' })
 }

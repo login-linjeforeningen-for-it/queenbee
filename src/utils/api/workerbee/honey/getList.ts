@@ -33,5 +33,5 @@ export default async function getHoneyList({
     }
 
     const path = `${config.workerbee.honey.services}/${service}?${queryParts.toString()}`
-    return await getWrapper({ path })
+    return await getWrapper({ path, service: 'workerbee' })
 }

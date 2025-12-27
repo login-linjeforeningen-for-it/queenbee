@@ -1,7 +1,7 @@
 'use server'
 
-import postAnnouncement from '@utils/api/workerbee/announcements/postAnnouncement'
-import putAnnouncement from '@utils/api/workerbee/announcements/putAnnouncement'
+import postAnnouncement from '@utils/api/bot/announcements/postAnnouncement'
+import putAnnouncement from '@utils/api/bot/announcements/putAnnouncement'
 import { getOptionalDateTime, getOptionalString, getRequiredString } from '@utils/validate'
 
 type FormState =

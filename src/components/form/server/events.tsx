@@ -6,8 +6,8 @@ import getAllRules from '@utils/api/workerbee/rules/getAllRules'
 import getAllLocations from '@utils/api/workerbee/locations/getAllLocations'
 import getAudiences from '@utils/api/workerbee/events/getAudiences'
 import getTimeTypes from '@utils/api/workerbee/events/getTimeTypes'
-import getRoles from '@utils/api/workerbee/announcements/getRoles'
-import getChannels from '@utils/api/workerbee/announcements/getChannels'
+import getRoles from '@utils/api/bot/announcements/getRoles'
+import getChannels from '@utils/api/bot/announcements/getChannels'
 
 type EventFormsInputsProps = {
     defaultValues?: GetEventProps

@@ -37,5 +37,5 @@ export default async function getLocations({
     }
 
     const path = `${config.workerbee.locations.path}/?${queryParts.toString()}`
-    return await getWrapper({ path })
+    return await getWrapper({ path, service: 'workerbee' })
 }
