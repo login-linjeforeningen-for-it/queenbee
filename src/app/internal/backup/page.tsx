@@ -1,6 +1,8 @@
 import getBackups from '@utils/api/internal/backups/getBackups'
 import formatNextBackup from '@utils/date/formatNextBackup'
 import prettyDate from '@utils/date/prettyDate'
+import Alert from '@components/alert/alert'
+import formatAlert from '@components/alert/formatAlert'
 import { DatabaseBackup } from 'lucide-react'
 import { Button } from 'uibee/components'
 
@@ -10,7 +12,9 @@ export default async function Page() {
     if (typeof backups === 'string') {
         return (
             <div className='w-full p-4'>
-                <p className='text-red-500'>Error: {backups}</p>
+                <Alert>
+                    {formatAlert(backups, 'Error loading backups')}
+                </Alert>
             </div>
         )
     }
@@ -32,7 +36,9 @@ export default async function Page() {
                         <BackupCard key={backup.id} backup={backup} />
                     ))
                 ) : (
-                    <p>No backups found.</p>
+                    <Alert>
+                        {formatAlert(null, 'No backups found')}
+                    </Alert>
                 )}
             </div>
         </div>
@@ -47,10 +53,17 @@ function BackupCard({ backup }: { backup: BackupProps }) {
                     <h3 className='font-bold text-lg'>{backup.name}</h3>
                     <p className='text-sm text-login-200'>ID: {backup.id.substring(0, 12)}</p>
                 </div>
-                <div className={`px-2 py-1 rounded text-xs font-bold ${
-                    backup.status.toLowerCase().includes('up') ? 'bg-green-500/40 text-white' : 'bg-red-500/40 text-white'
-                }`}>
-                    {backup.status}
+                <div className='flex gap-2'>
+                    <div className={`px-2 py-1 rounded text-xs font-bold ${
+                        backup.status.toLowerCase().includes('up') ? 'bg-green-500/40 text-white' : 'bg-red-500/40 text-white'
+                    }`}>
+                        {backup.status}
+                    </div>
+                    {backup.status.toLowerCase().includes('up') &&
+                        <div className='px-2 py-1 rounded text-xs font-bold bg-red-500/40 text-white'>
+                            {backup.error}
+                        </div>
+                    }
                 </div>
             </div>
 
@@ -64,11 +77,11 @@ function BackupCard({ backup }: { backup: BackupProps }) {
                     <p className='font-medium'>{formatNextBackup(backup.nextBackup)}</p>
                 </div>
                 <div className='bg-login-700 p-3 rounded'>
-                    <p className='text-xs text-login-200 uppercase'>DB Size</p>
+                    <p className='text-xs text-login-200 uppercase'>Database Size</p>
                     <p className='font-medium'>{backup.dbSize}</p>
                 </div>
                 <div className='bg-login-700 p-3 rounded'>
-                    <p className='text-xs text-login-200 uppercase'>Total Backup Storage</p>
+                    <p className='text-xs text-login-200 uppercase'>Backup Storage Used</p>
                     <p className='font-medium'>{backup.totalStorage}</p>
                 </div>
             </div>

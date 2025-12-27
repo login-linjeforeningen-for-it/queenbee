@@ -466,6 +466,7 @@ declare global {
         nextBackup: string
         totalStorage: string
         dbSize: string
+        error: string | null
     }
 
     type GetBackupFilesProps = {
