@@ -9,7 +9,7 @@ const config = {
         bot: env.TEKKOM_BOT_API_URL,
         git: 'https://gitlab.login.no',
         authentik: 'https://authentik.login.no',
-        system: 'https://internal.login.no/api'
+        system: env.INTERNAL_API_URL || 'https://internal.login.no/api'
     },
     workerbee: {
         albums: {
@@ -135,6 +135,7 @@ const config = {
         stats: 'stats',
         backups: {
             get: 'backup',
+            restore: 'backup/restore',
             files : 'backup/files'
         }
     },

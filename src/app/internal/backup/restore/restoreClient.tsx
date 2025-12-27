@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { ArrowLeft, DatabaseBackup } from 'lucide-react'
 import { Button } from 'uibee/components'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { toast } from 'sonner'
+import postBackupRestore from '@utils/api/internal/backups/postBackup'
 
 export default function RestoreClient({ backups }: { backups: BackupFileProps[] }) {
     const router = useRouter()
@@ -14,12 +16,30 @@ export default function RestoreClient({ backups }: { backups: BackupFileProps[] 
 
     const [serviceFilter, setServiceFilter] = useState(searchParams.get('service') || '')
     const [dateFilter, setDateFilter] = useState(searchParams.get('date') || '')
+    const [restoring, setRestoring] = useState<string | null>(null)
 
     const updateParams = (key: string, value: string) => {
         const params = new URLSearchParams(searchParams.toString())
         if (value) params.set(key, value)
         else params.delete(key)
         router.push(`${pathname}?${params.toString()}`)
+    }
+
+    async function handleRestore(backup: BackupFileProps) {
+        if (!backup.service || !backup.file) return
+        setRestoring(backup.file)
+        try {
+            const result = await postBackupRestore({ service: backup.service, file: backup.file })
+            if (typeof result === 'string') {
+                toast.error(`Error: ${result}`)
+            } else {
+                toast.success(result.message)
+            }
+        } catch (error) {
+            toast.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`)
+        } finally {
+            setRestoring(null)
+        }
     }
 
     return (
@@ -97,12 +117,15 @@ export default function RestoreClient({ backups }: { backups: BackupFileProps[] 
                                     <td className='px-6 py-4 whitespace-nowrap text-sm text-login-200'>
                                         {backup.size}
                                     </td>
-                                    <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium'>
-                                        <Button
-                                            icon={<DatabaseBackup className='w-5' />}
-                                            text='Restore'
-                                            onClick={() => alert(`Restoring ${backup.file} (mock)`)}
-                                        />
+                                    <td className='px-6 py-4 whitespace-nowrap flex justify-end text-sm font-medium'>
+                                        <div className='flex justify-end w-1'>
+                                            <Button
+                                                icon={<DatabaseBackup className='w-5' />}
+                                                text={restoring === backup.file ? 'Restoring...' : 'Restore'}
+                                                onClick={() => handleRestore(backup)}
+                                                disabled={restoring !== null}
+                                            />
+                                        </div>
                                     </td>
                                 </tr>
                             ))
