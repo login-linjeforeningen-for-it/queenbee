@@ -18,7 +18,6 @@ export default function Label({
 }: labelProps) {
     return (
         <label
-            // prettier-ignore
             className={`
                 w-[calc(100%-10px)] truncate pointer-events-none
                 absolute text-sm duration-300 transform z-10

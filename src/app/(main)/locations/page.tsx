@@ -65,15 +65,12 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         : 'asc'
 
     const cookieLocation = cookieStore.get('location')?.value
-    // prettier-ignore
-    const activeType =
-        typeof cookieLocation === 'string' &&
-            Object.values(Location).includes(cookieLocation as Location)
-            ? (cookieLocation as Location)
-            : typeof filters.type === 'string' &&
-                Object.values(Location).includes(filters.t as Location)
-                ? (filters.type as Location)
-                : Location.Address
+
+    const activeType = typeof cookieLocation === 'string' && Object.values(Location).includes(cookieLocation as Location)
+        ? (cookieLocation as Location)
+        : typeof filters.type === 'string' && Object.values(Location).includes(filters.t as Location)
+            ? (filters.type as Location)
+            : Location.Address
 
     const locations = await getLocations({
         type: LocationAPI[activeType],

@@ -1,4 +1,3 @@
-// prettier-ignore
 type FallbackDateProps =
     | string
     | {

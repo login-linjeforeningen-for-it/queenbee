@@ -2,10 +2,7 @@ import Image from 'next/image'
 
 export default function page() {
     return (
-        // prettier-ignore
-        <div className={
-            'w-full h-full flex flex-col items-center justify-center'
-        }>
+        <div className='w-full h-full flex flex-col items-center justify-center'>
             <Image
                 src='/images/notFound.gif'
                 width={500}
