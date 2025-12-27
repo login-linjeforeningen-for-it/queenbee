@@ -1,9 +1,0 @@
-{
-    "tabWidth": 4,
-    "useTabs": false,
-    "printWidth": 140,
-    "semi": false,
-    "singleQuote": true,
-    "jsxSingleQuote": true,
-    "trailingComma": "es5"
-}
