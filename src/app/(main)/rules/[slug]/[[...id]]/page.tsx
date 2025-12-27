@@ -1,6 +1,6 @@
 import FormWrapper from '@components/form/wrapper'
 import RuleFormInputs from '@components/form/server/rules'
-import getRule from '@utils/api/rules/getRule'
+import getRule from '@utils/api/workerbee/rules/getRule'
 import { createRule, updateRule } from '@components/form/actions/rules'
 import { notFound } from 'next/navigation'
 

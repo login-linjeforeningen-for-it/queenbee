@@ -1,7 +1,7 @@
 'use server'
 
-import postAlbum from '@utils/api/albums/postAlbum'
-import putAlbum from '@utils/api/albums/putAlbum'
+import postAlbum from '@utils/api/workerbee/albums/postAlbum'
+import putAlbum from '@utils/api/workerbee/albums/putAlbum'
 import { getOptionalNumber, getRequiredString } from '@utils/validate'
 
 type FormState =

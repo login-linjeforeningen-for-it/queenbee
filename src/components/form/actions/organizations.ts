@@ -1,7 +1,7 @@
 'use server'
 
-import postOrganization from '@utils/api/organizations/postOrganization'
-import putOrganization from '@utils/api/organizations/putOrganization'
+import postOrganization from '@utils/api/workerbee/organizations/postOrganization'
+import putOrganization from '@utils/api/workerbee/organizations/putOrganization'
 import { getOptionalString, getRequiredString } from '@utils/validate'
 
 type FormState =

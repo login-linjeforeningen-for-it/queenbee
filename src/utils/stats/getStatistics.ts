@@ -1,9 +1,9 @@
-import getAlbums from '@utils/api/albums/getAlbums'
-import getAnnouncements from '@utils/api/announcements/getAnnouncements'
-import getEvents from '@utils/api/events/getEvents'
-import getJobs from '@utils/api/jobs/getJobs'
-import getLocations from '@utils/api/locations/getLocations'
-import getOrganizations from '@utils/api/organizations/getOrganizations'
+import getAlbums from '@utils/api/workerbee/albums/getAlbums'
+import getAnnouncements from '@utils/api/workerbee/announcements/getAnnouncements'
+import getEvents from '@utils/api/workerbee/events/getEvents'
+import getJobs from '@utils/api/workerbee/jobs/getJobs'
+import getLocations from '@utils/api/workerbee/locations/getLocations'
+import getOrganizations from '@utils/api/workerbee/organizations/getOrganizations'
 
 export default async function getStatics() {
     const [events, jobs, announcements, organizations, locations, albums] = await Promise.all([

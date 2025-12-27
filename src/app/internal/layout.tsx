@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import SidebarInternal from '@components/sidebar/sidebarInternal'
 import worstAndBestServiceStatus from '@components/services/worstAndBestServiceStatus'
-import getDocker from '@utils/api/system/getDocker'
+import getDocker from '@utils/api/internal/system/getDocker'
 import '../globals.css'
 
 export const metadata: Metadata = {

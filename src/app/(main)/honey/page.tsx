@@ -4,9 +4,9 @@ import Table from '@components/table/table'
 import Option from '@components/locationOption/serviceOption'
 import Pagination from '@components/table/pagination'
 import formatAlert from '@components/alert/formatAlert'
-import deleteHoney from '@utils/api/honey/deleteHoney'
-import getHoneyList from '@utils/api/honey/getList'
-import getHoneyServices from '@utils/api/honey/getServices'
+import deleteHoney from '@utils/api/workerbee/honey/deleteHoney'
+import getHoneyList from '@utils/api/workerbee/honey/getList'
+import getHoneyServices from '@utils/api/workerbee/honey/getServices'
 import { Button } from 'uibee/components'
 
 const headers = [

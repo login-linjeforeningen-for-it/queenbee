@@ -4,8 +4,8 @@ import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import HistoricalSwitch from '@components/inputs/historical'
 import formatAlert from '@components/alert/formatAlert'
-import deleteJob from '@utils/api/jobs/deleteJob'
-import getJobs from '@utils/api/jobs/getJobs'
+import deleteJob from '@utils/api/workerbee/jobs/deleteJob'
+import getJobs from '@utils/api/workerbee/jobs/getJobs'
 import { Button } from 'uibee/components'
 
 const headers = [

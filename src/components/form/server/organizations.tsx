@@ -1,4 +1,4 @@
-import getImages from '@utils/api/images/getImages'
+import getImages from '@utils/api/workerbee/images/getImages'
 import OrganizationFormInputsClient from '../client/organizations'
 
 export default async function OrganizationFormInputs({ defaultValues, parent }:

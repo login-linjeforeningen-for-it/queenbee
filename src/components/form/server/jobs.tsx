@@ -1,9 +1,9 @@
-import getAllOrganizations from '@utils/api/organizations/getAllOrganizations'
+import getAllOrganizations from '@utils/api/workerbee/organizations/getAllOrganizations'
 import JobFormInputsClient from '../client/jobs'
-import getTypes from '@utils/api/jobs/getTypes'
-import getImages from '@utils/api/images/getImages'
-import getRoles from '@utils/api/announcements/getRoles'
-import getChannels from '@utils/api/announcements/getChannels'
+import getTypes from '@utils/api/workerbee/jobs/getTypes'
+import getImages from '@utils/api/workerbee/images/getImages'
+import getRoles from '@utils/api/workerbee/announcements/getRoles'
+import getChannels from '@utils/api/workerbee/announcements/getChannels'
 
 export default async function JobFormInputs({ defaultValues, parent }: { defaultValues?: GetJobProps, parent?: { preview?: boolean }}) {
     const organizationsResponse = await getAllOrganizations()

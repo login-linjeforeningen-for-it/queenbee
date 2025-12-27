@@ -1,6 +1,6 @@
 import FormWrapper from '@components/form/wrapper'
 import AlertFormInputs from '@components/form/server/alerts'
-import getAlert from '@utils/api/alerts/getAlert'
+import getAlert from '@utils/api/workerbee/alerts/getAlert'
 import { createAlert, updateAlert } from '@components/form/actions/alerts'
 import { notFound } from 'next/navigation'
 

@@ -1,6 +1,6 @@
 import FormWrapper from '@components/form/wrapper'
 import AlbumFormInputs from '@components/form/server/albums'
-import getAlbum from '@utils/api/albums/getAlbum'
+import getAlbum from '@utils/api/workerbee/albums/getAlbum'
 import { createAlbum, updateAlbum } from '@components/form/actions/albums'
 import { notFound } from 'next/navigation'
 

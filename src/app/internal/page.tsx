@@ -1,6 +1,6 @@
 import InternalInfo from '@components/internal/information'
 import InternalStats from '@components/internal/statistics'
-import getInternalDashboard from '@utils/api/dashboard/internal/get'
+import getInternalDashboard from '@utils/api/internal/dashboard/get'
 
 export default async function Page() {
     const dashboard = await getInternalDashboard()

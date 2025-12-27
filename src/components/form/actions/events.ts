@@ -1,8 +1,8 @@
 'use server'
 
-import postAnnouncement from '@utils/api/announcements/postAnnouncement'
-import postEvent from '@utils/api/events/postEvent'
-import putEvent from '@utils/api/events/putEvent'
+import postAnnouncement from '@utils/api/workerbee/announcements/postAnnouncement'
+import postEvent from '@utils/api/workerbee/events/postEvent'
+import putEvent from '@utils/api/workerbee/events/putEvent'
 import {
     getOptionalBoolean, getOptionalNumber, getOptionalString, getRequiredString, getRequiredDateTime, getOptionalDateTime,
     getRequiredNumber,

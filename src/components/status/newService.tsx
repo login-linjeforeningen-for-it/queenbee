@@ -1,7 +1,7 @@
 import NewNotification from './newNotification'
 import PostWebhookConfirmationDialog from './postWebhookConfirmationDialog'
 import NewServiceForm from './newServiceForm'
-import getService from '@utils/api/services/getService'
+import getService from '@utils/api/beekeeper/services/getService'
 import { Dispatch, SetStateAction, useState } from 'react'
 
 type NewServiceProps = {

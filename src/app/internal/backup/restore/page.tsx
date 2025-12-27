@@ -1,4 +1,4 @@
-import getBackupFiles from '@utils/api/backups/getFiles'
+import getBackupFiles from '@utils/api/internal/backups/getFiles'
 import RestoreClient from './restoreClient'
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ service?: string, date?: string }> }) {

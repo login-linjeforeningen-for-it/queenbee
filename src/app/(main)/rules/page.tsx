@@ -3,8 +3,8 @@ import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import formatAlert from '@components/alert/formatAlert'
-import deleteRule from '@utils/api/rules/deleteRule'
-import getRules from '@utils/api/rules/getRules'
+import deleteRule from '@utils/api/workerbee/rules/deleteRule'
+import getRules from '@utils/api/workerbee/rules/getRules'
 import { Button } from 'uibee/components'
 
 async function deleteAction(id: string) {

@@ -5,8 +5,8 @@ import Pagination from '@components/table/pagination'
 import HistoricalSwitch from '@components/inputs/historical'
 import formatAlert from '@components/alert/formatAlert'
 import { Button } from 'uibee/components'
-import deleteEvent from '@utils/api/events/deleteEvent'
-import getEvents from '@utils/api/events/getEvents'
+import deleteEvent from '@utils/api/workerbee/events/deleteEvent'
+import getEvents from '@utils/api/workerbee/events/getEvents'
 
 const headers = [
     'id',

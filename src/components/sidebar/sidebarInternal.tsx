@@ -13,7 +13,7 @@ import {
 } from 'lucide-react'
 import SidebarVersion from './sidebarVersion'
 import PulseDot from '@components/pulse/pulse'
-import getDocker from '@utils/api/system/getDocker'
+import getDocker from '@utils/api/internal/system/getDocker'
 import { useEffect, useState } from 'react'
 import { ServiceStatus } from '@utils/interfaces'
 

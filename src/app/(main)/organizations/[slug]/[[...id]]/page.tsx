@@ -1,6 +1,6 @@
 import FormWrapper from '@components/form/wrapper'
 import OrganizationFormInputs from '@components/form/server/organizations'
-import getOrganization from '@utils/api/organizations/getOrganization'
+import getOrganization from '@utils/api/workerbee/organizations/getOrganization'
 import { notFound } from 'next/navigation'
 import {
     createOrganization,

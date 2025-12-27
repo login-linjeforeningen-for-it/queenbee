@@ -1,6 +1,6 @@
 import FormWrapper from '@components/form/wrapper'
 import JobFormInputs from '@components/form/server/jobs'
-import getJob from '@utils/api/jobs/getJob'
+import getJob from '@utils/api/workerbee/jobs/getJob'
 import { createJob, updateJob } from '@components/form/actions/jobs'
 import { notFound } from 'next/navigation'
 

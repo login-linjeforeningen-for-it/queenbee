@@ -1,8 +1,8 @@
 'use client'
 
 import Input from '@components/inputs/input'
-import getShareURLs from '@utils/api/albums/getShareURLs'
-import compressAlbums from '@utils/api/albums/compressAlbums'
+import getShareURLs from '@utils/api/workerbee/albums/getShareURLs'
+import compressAlbums from '@utils/api/workerbee/albums/compressAlbums'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import { Upload, Loader } from 'lucide-react'

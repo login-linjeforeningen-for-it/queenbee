@@ -1,7 +1,7 @@
 'use server'
 
-import postLocation from '@utils/api/locations/postLocation'
-import putLocation from '@utils/api/locations/putLocation'
+import postLocation from '@utils/api/workerbee/locations/postLocation'
+import putLocation from '@utils/api/workerbee/locations/putLocation'
 import { getOptionalNumber, getOptionalString, getRequiredString } from '@utils/validate'
 
 type FormState =

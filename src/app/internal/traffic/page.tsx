@@ -1,8 +1,8 @@
 import TrafficDashboard from '@components/traffic/traffic'
 import DomainSelector from '@components/traffic/domainSelector'
 import ViewToggle from '@components/traffic/viewToggle'
-import getTrafficDomains from '@utils/api/traffic/domains'
-import getTrafficMetrics from '@utils/api/traffic/metrics'
+import getTrafficDomains from '@utils/api/beekeeper/traffic/domains'
+import getTrafficMetrics from '@utils/api/beekeeper/traffic/metrics'
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
     const params = await searchParams

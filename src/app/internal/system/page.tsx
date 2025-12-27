@@ -1,7 +1,7 @@
-import getStats from '@utils/api/system/getStats'
+import getStats from '@utils/api/internal/system/getStats'
 import PageClient from './pageClient'
-import deleteContainer from '@utils/api/system/deleteContainer'
-import getDocker from '@utils/api/system/getDocker'
+import deleteContainer from '@utils/api/internal/system/deleteContainer'
+import getDocker from '@utils/api/internal/system/getDocker'
 
 async function deleteAction(id: string) {
     'use server'

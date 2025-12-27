@@ -4,9 +4,9 @@ import StatisticsCategories from '@components/dashboard/statisticsCategories'
 import StatisticsNewAdditions from '@components/dashboard/statisticsNewAdditions'
 import getStatics from '@utils/stats/getStatistics'
 import formatDate from '@utils/date/formatDate'
-import getStatisticsCategories from '@utils/api/statistics/categories'
-import getStatisticsNewAdditions from '@utils/api/statistics/newAdditions'
-import getStatisticsYearlyActivity from '@utils/api/statistics/yearlyActivity'
+import getStatisticsCategories from '@utils/api/workerbee/statistics/categories'
+import getStatisticsNewAdditions from '@utils/api/workerbee/statistics/newAdditions'
+import getStatisticsYearlyActivity from '@utils/api/workerbee/statistics/yearlyActivity'
 
 export default async function Home() {
     const [stats, categories, additionsData, yearlyActivity] = await Promise.all([

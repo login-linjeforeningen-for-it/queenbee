@@ -1,6 +1,6 @@
 import FormWrapper from '@components/form/wrapper'
 import EventFormInputs from '@components/form/server/events'
-import getEvent from '@utils/api/events/getEvent'
+import getEvent from '@utils/api/workerbee/events/getEvent'
 import { createEvent, updateEvent } from '@components/form/actions/events'
 import { notFound } from 'next/navigation'
 

@@ -3,8 +3,8 @@ import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import formatAlert from '@components/alert/formatAlert'
-import deleteOrganization from '@utils/api/organizations/deleteOrganization'
-import getOrganizations from '@utils/api/organizations/getOrganizations'
+import deleteOrganization from '@utils/api/workerbee/organizations/deleteOrganization'
+import getOrganizations from '@utils/api/workerbee/organizations/getOrganizations'
 import { Button } from 'uibee/components'
 
 const headers = [

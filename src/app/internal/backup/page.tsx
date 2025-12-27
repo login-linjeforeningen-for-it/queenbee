@@ -1,4 +1,4 @@
-import getBackups from '@utils/api/backups/getBackups'
+import getBackups from '@utils/api/internal/backups/getBackups'
 import formatNextBackup from '@utils/date/formatNextBackup'
 import prettyDate from '@utils/date/prettyDate'
 import { DatabaseBackup } from 'lucide-react'

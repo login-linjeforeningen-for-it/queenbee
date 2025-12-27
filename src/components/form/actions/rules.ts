@@ -1,7 +1,7 @@
 'use server'
 
-import postRule from '@utils/api/rules/postRule'
-import putRule from '@utils/api/rules/putRule'
+import postRule from '@utils/api/workerbee/rules/postRule'
+import putRule from '@utils/api/workerbee/rules/putRule'
 import { getRequiredString } from '@utils/validate'
 
 type FormState =

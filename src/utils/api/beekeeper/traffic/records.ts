@@ -39,6 +39,6 @@ export default async function getTrafficRecords({
         queryParts.append('domain', domain)
     }
 
-    const path = `${config.beekeeper.traffic.records}/?${queryParts.toString()}`
+    const path = `${config.beekeeper.traffic.records}?${queryParts.toString()}`
     return await getWrapper({ path, custom: 'beekeeper' })
 }

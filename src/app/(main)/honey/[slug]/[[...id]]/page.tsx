@@ -1,6 +1,6 @@
 import FormWrapper from '@components/form/wrapper'
 import HoneyFormInputs from '@components/form/server/honeys'
-import getHoney from '@utils/api/honey/get'
+import getHoney from '@utils/api/workerbee/honey/get'
 import { createHoney, updateHoney } from '@components/form/actions/honeys'
 import { notFound } from 'next/navigation'
 

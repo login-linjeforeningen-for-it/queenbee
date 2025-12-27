@@ -1,7 +1,7 @@
 'use server'
 
-import postAlert from '@utils/api/alerts/postAlert'
-import putAlert from '@utils/api/alerts/putAlert'
+import postAlert from '@utils/api/workerbee/alerts/postAlert'
+import putAlert from '@utils/api/workerbee/alerts/putAlert'
 import { getRequiredString } from '@utils/validate'
 
 type FormState =

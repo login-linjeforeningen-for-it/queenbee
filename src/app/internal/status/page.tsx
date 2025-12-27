@@ -1,7 +1,7 @@
-import getServices from '@utils/api/services/getServices'
+import getServices from '@utils/api/beekeeper/services/getServices'
 import PageClient from './pageClient'
-import getNotifications from '@utils/api/services/getNotifications'
-import getTags from '@utils/api/services/getTags'
+import getNotifications from '@utils/api/beekeeper/services/getNotifications'
+import getTags from '@utils/api/beekeeper/services/getTags'
 
 export default async function Page() {
     const serverServices = await getServices()

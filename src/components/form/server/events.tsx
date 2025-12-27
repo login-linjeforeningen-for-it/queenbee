@@ -1,13 +1,13 @@
-import getImages from '@utils/api/images/getImages'
+import getImages from '@utils/api/workerbee/images/getImages'
 import EventFormInputsClient from '../client/events'
-import getCategories from '@utils/api/events/getCategories'
-import getAllOrganizations from '@utils/api/organizations/getAllOrganizations'
-import getAllRules from '@utils/api/rules/getAllRules'
-import getAllLocations from '@utils/api/locations/getAllLocations'
-import getAudiences from '@utils/api/events/getAudiences'
-import getTimeTypes from '@utils/api/events/getTimeTypes'
-import getRoles from '@utils/api/announcements/getRoles'
-import getChannels from '@utils/api/announcements/getChannels'
+import getCategories from '@utils/api/workerbee/events/getCategories'
+import getAllOrganizations from '@utils/api/workerbee/organizations/getAllOrganizations'
+import getAllRules from '@utils/api/workerbee/rules/getAllRules'
+import getAllLocations from '@utils/api/workerbee/locations/getAllLocations'
+import getAudiences from '@utils/api/workerbee/events/getAudiences'
+import getTimeTypes from '@utils/api/workerbee/events/getTimeTypes'
+import getRoles from '@utils/api/workerbee/announcements/getRoles'
+import getChannels from '@utils/api/workerbee/announcements/getChannels'
 
 type EventFormsInputsProps = {
     defaultValues?: GetEventProps

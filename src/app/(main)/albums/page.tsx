@@ -3,8 +3,8 @@ import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import formatAlert from '@components/alert/formatAlert'
-import getAlbums from '@utils/api/albums/getAlbums'
-import deleteAlbum from '@utils/api/albums/deleteAlbum'
+import getAlbums from '@utils/api/workerbee/albums/getAlbums'
+import deleteAlbum from '@utils/api/workerbee/albums/deleteAlbum'
 import { Button } from 'uibee/components'
 
 async function deleteAction(id: string) {
