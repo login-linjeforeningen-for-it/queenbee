@@ -9,7 +9,7 @@ type GetIngressEventsProps = {
 }
 
 export default async function getIngressEvents({ location, context, namespace, name }: GetIngressEventsProps): Promise<string[]> {
-    const api = location === 'server' ? config.beekeeper.server : config.beekeeper.api
+    const api = location === 'server' ? config.url.beekeeper : config.beekeeper.api
     const url = `${api}/namespaces/ingress/events/${context}/${namespace}/${name}`
 
     try {

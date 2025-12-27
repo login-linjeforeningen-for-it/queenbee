@@ -2,7 +2,7 @@ import config from '@config'
 import debug from '@/utils/debug'
 
 export default async function getAuthor(location: 'server' | 'client', email: string): Promise<User | null> {
-    const api = location === 'server' ? config.beekeeper.server : config.beekeeper.api
+    const api = location === 'server' ? config.url.beekeeper : config.beekeeper.api
     const url = `${api}/user/${email}`
 
     try {

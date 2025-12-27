@@ -2,7 +2,7 @@ import config from '@config'
 import debug from '@/utils/debug'
 
 export default async function getDomains(location: 'server' | 'client', context: string, service: string): Promise<Domain[]> {
-    const api = location === 'server' ? config.beekeeper.server : config.beekeeper.api
+    const api = location === 'server' ? config.url.beekeeper : config.beekeeper.api
     const url =  `${api}/namespaces/domains/${context}/${service}`
     try {
         const response = await fetch(url, {

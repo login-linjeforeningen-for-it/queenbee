@@ -2,7 +2,7 @@ import config from '@config'
 import debug from '@/utils/debug'
 
 export default async function getMessages(location: 'server' | 'client'): Promise<Message[]> {
-    const api = location === 'server' ? config.beekeeper.server : config.beekeeper.api
+    const api = location === 'server' ? config.url.beekeeper : config.beekeeper.api
     const url = `${api}/messages`
 
     debug({

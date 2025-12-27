@@ -3,8 +3,8 @@ import { cookies } from 'next/headers'
 
 const baseUrl = config.url.api
 const tekkomBotApiUrl = config.url.bot
-const systemUrl = config.url.system
-const beekeeperUrl = config.beekeeper.server
+const systemUrl = config.url.internal
+const beekeeperUrl = config.url.beekeeper
 
 type APIRequestProps = {
     service: 'bot' | 'internal' | 'beekeeper' | 'workerbee'
