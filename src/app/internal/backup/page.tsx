@@ -59,7 +59,7 @@ function BackupCard({ backup }: { backup: BackupProps }) {
                     }`}>
                         {backup.status}
                     </div>
-                    {backup.status.toLowerCase().includes('up') &&
+                    {backup.status.toLowerCase().includes('up') && backup.error &&
                         <div className='px-2 py-1 rounded text-xs font-bold bg-red-500/40 text-white'>
                             {backup.error}
                         </div>
