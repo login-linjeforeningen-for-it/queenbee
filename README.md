@@ -1,27 +1,61 @@
-# QueenBee
+# 🐝 QueenBee
 
-This is the repo for QueenBee, the admin tool for Beehive. This tool will be used for managing events and job ads that Login display on Beehive.
-In addition, it will be capable of managing other information relevant to the events and job ads, such as locations, rules and organizations.
+QueenBee is the administrative heart of the bee ecosystem. It serves as a powerful Content Management System (CMS) for [BeeHive](https://login.no) and monitoring and managment tool for our services and systems. This application ties together various APIs and services to provide a seamless experience, like [BeeKeeper](https://beekeeper.login.no), [WorkerBee](https://workerbee.login.no), [TekKom-Bot](https://bot.login.no) and [Internal](https://internal.login.no) API.
 
-Visit [dbdiagram.io](https://dbdiagram.io/d/BeehiveDB-63d03590296d97641d7bdaa1) to see the database design.
+## 🛠️ Tech Stack
 
-## Development server
+- **Framework**: [NextJS](https://nextjs.org/) (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind](https://tailwindcss.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
 
-### NextJS frontend
+## 🏁 Getting Started
 
-You can install the dependencies using `npm install`.
+### Prerequisites
 
-Run `npm run dev` for a dev server. Navigate to `http://localhost:3000/`. The application will automatically reload if you change any of the source files.
+- NodeJS
+- npm
 
-### BeeKeeper Status
-![Current Status](https://cdn.login.no/img/beekeeper/beekeeper_initial.png)
+### Installation
 
-### API integrations
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Login-Linjeforening-for-IT/queenbee.git
+   cd queenbee
+   ```
 
-The website can be run without APIs, but then the functionality is naturally limited. To connect to the Admin API and database, look at the respective repositories.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-The website is connected to a S3 bucket in Digital Ocean, to use that you respective secret keys. This is not vital for development, since it only affects image selection and other image interactions. If you need keys contact a TekKom member with "verv".
+3. Set up environment variables:
+   Create and edit `.env` and fill in the required secrets.
 
-## Further help
+### Development
 
-To get more help on [NextJS](https://nextjs.org) or [Tailwind](https://tailwindcss.com), browse the docs.
+Run the development server:
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 🐳 Docker Setup
+
+You can run QueenBee using Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+The application will be available at `http://localhost:8000`.
+
+## 📂 Project Structure
+
+- `src/app/`: Next.js App Router pages and layouts.
+  - `(main)/`: Core CMS features (events, jobs, etc.).
+  - `internal/`: Monitoring and system tools.
+- `src/components/`: React components.
+- `src/utils/`: Helper functions.
+- `src/hooks/`: Custom React hooks.
+- `public/`: Static assets.
