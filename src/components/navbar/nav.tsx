@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { getCookie } from '@utils/cookies'
+import { getCookie } from 'utilbee/utils'
 import { LogOut, Shield, ShieldOff } from 'lucide-react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'

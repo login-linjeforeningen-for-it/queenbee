@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import postIncident from '@/utils/fetch/namespace/incident/post'
-import { removeCookie, setCookie } from '@/utils/cookies'
+import { removeCookie, setCookie } from 'utilbee/utils'
 import ArrowOutward from '../svg/arrowOutward'
 import FancyField from '../root/fancyField'
 import { usePathname } from 'next/navigation'

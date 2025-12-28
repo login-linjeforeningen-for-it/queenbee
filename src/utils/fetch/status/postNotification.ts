@@ -1,5 +1,5 @@
 import config from '@config'
-import { getCookie } from '@utils/cookies'
+import { getCookie } from 'utilbee/utils'
 
 type PostNotificationProps = {
     name: string

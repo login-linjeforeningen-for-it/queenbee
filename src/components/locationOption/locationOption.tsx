@@ -1,6 +1,6 @@
 'use client'
 
-import { setCookie } from '@utils/cookies'
+import { setCookie } from 'utilbee/utils'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 
 enum Location {

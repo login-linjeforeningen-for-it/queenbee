@@ -1,5 +1,5 @@
 import config from '@config'
-import { getCookie } from '@utils/cookies'
+import { getCookie } from 'utilbee/utils'
 
 export default async function putService(id: number, form: NewService) {
     try {
