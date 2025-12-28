@@ -3,7 +3,7 @@
 import Input from '@components/inputs/input'
 import getShareURLs from '@utils/api/workerbee/albums/getShareURLs'
 import compressAlbums from '@utils/api/workerbee/albums/compressAlbums'
-import { toast } from 'sonner'
+import { toast } from 'uibee/components'
 import { useState } from 'react'
 import { Upload, Loader } from 'lucide-react'
 

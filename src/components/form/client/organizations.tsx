@@ -6,7 +6,7 @@ import Select from '@components/inputs/select'
 import Upload from '@components/inputs/upload'
 import postImage from '@utils/api/workerbee/images/postImage'
 import { useState } from 'react'
-import { toast } from 'sonner'
+import { toast } from 'uibee/components'
 import { Button } from 'uibee/components'
 
 export default function OrganizationFormInputsClient({

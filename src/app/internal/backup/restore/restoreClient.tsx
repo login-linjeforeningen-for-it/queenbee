@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft, DatabaseBackup } from 'lucide-react'
 import { Button } from 'uibee/components'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { toast } from 'sonner'
+import { toast } from 'uibee/components'
 import postBackupRestore from '@utils/api/internal/backups/postBackup'
 
 export default function RestoreClient({ backups }: { backups: BackupFileProps[] }) {

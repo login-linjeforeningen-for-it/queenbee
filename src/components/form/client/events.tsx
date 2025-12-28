@@ -11,7 +11,7 @@ import Upload from '@components/inputs/upload'
 import postImage from '@utils/api/workerbee/images/postImage'
 import { useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
-import { toast } from 'sonner'
+import { toast } from 'uibee/components'
 import { Button } from 'uibee/components'
 
 export default function EventFormInputsClient({

@@ -3,7 +3,7 @@ import './globals.css'
 import 'uibee/styles'
 import { cookies } from 'next/headers'
 import Nav from '@/components/navbar/nav'
-import { Toaster } from 'sonner'
+import { Toaster } from 'uibee/components'
 
 export const metadata: Metadata = {
     title: 'QueenBee',
@@ -22,16 +22,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                 <main className='flex flex-1 overflow-hidden'>
                     <div className='w-full bg-login-800'>{children}</div>
                 </main>
-                <Toaster
-                    position='bottom-right'
-                    style={
-                        {
-                            '--normal-bg': '#121212',
-                            '--normal-text': 'white',
-                            '--normal-border': '#6b6b6b',
-                        } as React.CSSProperties
-                    }
-                />
+                <Toaster />
             </body>
         </html>
     )

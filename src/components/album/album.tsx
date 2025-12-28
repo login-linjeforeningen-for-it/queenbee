@@ -4,7 +4,7 @@ import config from '@config'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
-import { toast } from 'sonner'
+import { toast } from 'uibee/components'
 import { Trash2, Star } from 'lucide-react'
 import { Button } from 'uibee/components'
 

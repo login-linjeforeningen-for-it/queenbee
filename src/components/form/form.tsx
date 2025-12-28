@@ -1,6 +1,6 @@
 'use client'
 
-import { toast } from 'sonner'
+import { toast } from 'uibee/components'
 import Form from 'next/form'
 import { useActionState, useEffect, useState } from 'react'
 import { Save } from 'lucide-react'
