@@ -101,7 +101,7 @@ export default function Pagination({
     )
 
     return (
-        <div className='flex items-center justify-between w-full'>
+        <div className='flex items-center justify-between w-full pt-4'>
             <div className='text-sm /70'>
                 {typeof totalRows === 'number' ? (
                     totalRows === 0 ? (

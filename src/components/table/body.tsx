@@ -28,7 +28,7 @@ export default function Body({ list, headers, deleteAction, roles }: BodyProps) 
 
         return (
             <tbody key={index} className='h-8'>
-                <tr className='border-y border-login-900'>
+                <tr className='border-y border-login-300'>
                     {entries.map(([key, value]) => {
                         if (!headers.includes(key)) return null
                         return (
