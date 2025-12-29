@@ -1,7 +1,7 @@
 'use client'
 
-import { toast } from 'uibee/components'
 import Form from 'next/form'
+import { toast } from 'uibee/components'
 import { useActionState, useEffect, useState } from 'react'
 import { Save } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
