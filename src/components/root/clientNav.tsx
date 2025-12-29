@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Burger } from '../root/burger'
 import ThemeSwitch from '@components/navbar/theme'
-import { getCookie } from '@/utils/cookies'
+import { getCookie } from 'utilbee/utils'
 import { useRouter } from 'next/navigation'
 
 const API_URL = process.env.NEXT_PUBLIC_BROWSER_API

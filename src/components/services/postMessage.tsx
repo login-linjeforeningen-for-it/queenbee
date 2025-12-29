@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import FancyField from '../root/fancyField'
 import postMessage from '@/utils/fetch/message/post'
-import { getCookie, removeCookie, setCookie } from '@/utils/cookies'
+import { getCookie, removeCookie, setCookie } from 'utilbee/utils'
 import { usePathname, useRouter } from 'next/navigation'
 import { Button } from 'uibee/components'
 

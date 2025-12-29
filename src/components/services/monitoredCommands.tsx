@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import Trash from '../svg/trash'
-import { getCookie } from '@/utils/cookies'
+import { getCookie } from 'utilbee/utils'
 import { useRouter } from 'next/navigation'
 import putLocalCommand from '@/utils/fetch/command/local/put'
 import putGlobalCommand from '@/utils/fetch/command/global/put'

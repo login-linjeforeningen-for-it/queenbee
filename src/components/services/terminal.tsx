@@ -1,6 +1,6 @@
 'use client'
 
-import { getCookie, removeCookie, setCookie } from '@/utils/cookies'
+import { getCookie, removeCookie, setCookie } from 'utilbee/utils'
 import getSegmentedPathname from '@/utils/pathname'
 import postGlobalCommand from '@/utils/fetch/command/global/post'
 import postLocalCommand from '@/utils/fetch/command/local/post'

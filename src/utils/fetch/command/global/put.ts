@@ -1,4 +1,4 @@
-import { setCookie } from '@/utils/cookies'
+import { setCookie } from 'utilbee/utils'
 import debug from '@/utils/debug'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 

@@ -3,7 +3,7 @@
 import { ServiceStatus } from '@utils/interfaces'
 import Pulse from '../root/pulse'
 import { useEffect, useState } from 'react'
-import { getCookie, removeCookie, setCookie } from '@/utils/cookies'
+import { getCookie, removeCookie, setCookie } from 'utilbee/utils'
 import FancyField from '../root/fancyField'
 import Trash from '../svg/trash'
 import { usePathname, useRouter } from 'next/navigation'
