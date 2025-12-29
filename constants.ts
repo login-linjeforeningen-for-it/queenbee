@@ -79,19 +79,6 @@ const config = {
     beekeeper: {
         api: env.NEXT_PUBLIC_BEEKEEPER_API_URL || 'https://beekeeper.login.no/api',
         defaultCluster: 'infra-prod-cluster',
-        db: {
-            base: env.DB,
-            user: env.BEEKEEPER_DB_USER,
-            host: env.BEEKEEPER_DB_HOST,
-            password: env.BEEKEEPER_DB_PASSWORD,
-            port: env.BEEKEEPER_DB_PORT,
-            max: env.DB_MAX_CONN,
-            idle: env.DB_IDLE_TIMEOUT_MS,
-            timeout: env.DB_TIMEOUT_MS,
-        },
-        cache: {
-            ttl: Number(env.CACHE_TTL) || 60000,
-        },
         status: {
             services: {
                 get: 'monitoring',
