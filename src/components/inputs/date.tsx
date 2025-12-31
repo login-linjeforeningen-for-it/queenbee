@@ -14,6 +14,7 @@ type DateProps = {
     className?: string
     tooltip?: string
     required?: boolean
+    color?: string
 }
 
 export default function DateInput({
@@ -24,19 +25,20 @@ export default function DateInput({
     tooltip,
     required,
     setValue,
+    color
 }: DateProps) {
     const [hasBlured, setHasBlured] = useState(false)
 
     return (
         <div className={`w-full ${className}`}>
-            <div className='relative flex items-center'>
+            <div className='relative flex items-center gap-2'>
                 <input
                     type='date'
                     name={name}
                     className={`
                         peer no-calendar bg-login-800 block
                         px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg
-                        border-[0.10rem] appearance-none
+                        border-[0.10rem] appearance-none h-9 md:h-full
                         border-login-200 focus:outline-none focus:ring-0
                         focus:border-login-50 cursor-pointer
                     `}
@@ -47,12 +49,14 @@ export default function DateInput({
                     required={required}
                 />
                 <Label
+                    color={color}
                     label={label}
                     value={value}
                     required={required}
                     showRequired={required && !value && hasBlured}
                 />
                 {value && <Button
+                    className='h-full'
                     icon={<Eraser className='w-5' />}
                     text='Erase'
                     onClick={() => setValue('')}

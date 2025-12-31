@@ -7,7 +7,7 @@ type InternalStatsProps = {
 
 export default function InternalStats({ statistics }: InternalStatsProps) {
     return (
-        <div className='grid grid-cols-2 md:grid-cols-6 gap-4'>
+        <div className='grid md:grid-cols-2 lg:grid-cols-6 gap-4'>
             <Stat text='alerts' link='internal/alerts' count={statistics.alerts} item={<AlertCircle className='w-5 h-5' />} />
             <Stat text='databases' link='internal/backup' count={statistics.backups} item={<Database className='w-5 h-5' />} />
             <Stat text='sites' link='internal/loadbalancing' count={statistics.sites} item={<Scale className='w-5 h-5' />} />

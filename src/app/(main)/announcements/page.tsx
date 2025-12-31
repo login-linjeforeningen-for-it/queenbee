@@ -42,7 +42,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         offset,
         limit,
         orderBy,
-        sort,
+        sort
     })
     const rolesResponse = await getRoles()
     const channelsResponse = await getChannels()
@@ -54,18 +54,16 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         : []
 
     return (
-        <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden flex flex-col'>
+        <div className='h-full lg:max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden flex flex-col'>
             <div className='flex-none'>
                 <h1 className='font-semibold text-lg'>Announcements</h1>
-                <div className='flex items-center justify-between py-3'>
+                <div className='flex items-center justify-between py-3 gap-2'>
                     <Search />
-                    <div className='flex flex-row gap-4'>
-                        <Button
-                            text='New announcement'
-                            icon='+'
-                            path='announcements/create'
-                        />
-                    </div>
+                    <Button
+                        text='New announcement'
+                        icon='+'
+                        path='announcements/create'
+                    />
                 </div>
             </div>
             <Sort tempSort={list} channels={channels} roles={roles} limit={limit} />

@@ -30,22 +30,22 @@ export default function Statistics({ services }: { services: Service[] }) {
     }
 
     return (
-        <div className='bg-login-50/5 p-2 rounded-lg flex gap-2 h-fit justify-evenly'>
+        <div className='bg-login-50/5 p-2 rounded-lg flex h-fit justify-evenly'>
             <div className='text-center text-lg font-semibold'>
-                <h1>Up</h1>
-                <h1 className='text-2xl text-green-500'>{up}</h1>
+                <h1 className='text-sm md:text-base'>Up</h1>
+                <h1 className='text-lg md:text-2xl text-green-500'>{up}</h1>
             </div>
             <div className='text-center text-lg font-semibold'>
-                <h1>Down</h1>
-                <h1 className='text-2xl text-red-500'>{down}</h1>
+                <h1 className='text-sm md:text-base'>Down</h1>
+                <h1 className='text-lg md:text-2xl text-red-500'>{down}</h1>
             </div>
             <div className='text-center text-lg font-semibold'>
-                <h1>Maintenance</h1>
-                <h1 className='text-2xl text-purple-500'>{maintenance}</h1>
+                <h1 className='text-sm md:text-base'>Maintenance</h1>
+                <h1 className='text-lg md:text-2xl text-purple-500'>{maintenance}</h1>
             </div>
             <div className='text-center text-lg font-semibold'>
-                <h1>Pending</h1>
-                <h1 className='text-2xl text-login'>{pending}</h1>
+                <h1 className='text-sm md:text-base'>Pending</h1>
+                <h1 className='text-lg md:text-2xl text-login'>{pending}</h1>
             </div>
         </div>
     )

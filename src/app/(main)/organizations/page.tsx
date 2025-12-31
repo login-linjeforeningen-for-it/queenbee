@@ -38,23 +38,19 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     })
 
     return (
-        <div
-            className={`
-                h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)]
-                overflow-hidden flex flex-col
-            `}
-        >
+        <div className={`
+            h-full lg:max-w-[calc(100vw-var(--w-sidebar)-2rem)]
+            overflow-hidden flex flex-col
+        `}>
             <div className='flex-none'>
                 <h1 className='font-semibold text-lg'>Organizations</h1>
                 <div className='flex items-center justify-between py-3'>
                     <Search />
-                    <div className='flex flex-row gap-4'>
-                        <Button
-                            text='New organization'
-                            icon='+'
-                            path='organizations/create'
-                        />
-                    </div>
+                    <Button
+                        text='New organization'
+                        icon='+'
+                        path='organizations/create'
+                    />
                 </div>
             </div>
             { typeof organizations === 'string' || !Array.isArray(organizations.organizations) || organizations.organizations.length < 1

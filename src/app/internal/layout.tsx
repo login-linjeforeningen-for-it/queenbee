@@ -15,7 +15,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
     return (
         <main className='flex flex-1 h-full'>
-            <SidebarInternal meta={meta} docker={docker} />
+            <div className='hidden lg:grid!'>
+                <SidebarInternal meta={meta} docker={docker} />
+            </div>
             <div
                 className='relative p-2 w-full h-full bg-login-800 overflow-scroll'>
                 {children}

@@ -65,7 +65,7 @@ function ThemeIcon({ theme }: { theme: 'dark' | 'light' }) {
             {/* Moon */}
             <circle
                 className={`origin-center transition-all duration-400 ${color}`}
-                mask={'url(#theme-toggle_clip-path)'}
+                mask='url(#theme-toggle_clip-path)'
                 cx='50'
                 cy='50'
                 r='23'

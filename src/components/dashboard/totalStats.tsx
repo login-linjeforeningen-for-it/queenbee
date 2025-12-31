@@ -12,7 +12,7 @@ import Stat from './stat'
 
 export default function TotalStats({ stats }: { stats: DashboardTotalStats }) {
     return (
-        <div className='mt-4 grid grid-cols-2 md:grid-cols-6 gap-4'>
+        <div className='mt-4 grid md:grid-cols-2 lg:grid-cols-6 gap-4'>
             <Stat text='events' count={stats.events} item={<Calendar className='w-5 h-5' />} />
             <Stat text='jobs' count={stats.jobs} item={<BriefcaseBusiness className='w-5 h-5' />} />
             <Stat text='announcements' count={stats.announcements} item={<Megaphone className='w-5 h-5' />} />

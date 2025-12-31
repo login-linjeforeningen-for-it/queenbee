@@ -22,7 +22,7 @@ const headers = [
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
     const filters = await searchParams
     const search = typeof filters.q === 'string' ? filters.q : ''
-    const offset = typeof filters.page === 'string' ? Number(filters.page)-1 : 0
+    const offset = typeof filters.page === 'string' ? Number(filters.page) - 1 : 0
     const limit = 14
     const orderBy = typeof filters.column === 'string' ? filters.column : 'id'
     const sort = typeof filters.order === 'string' && (filters.order === 'asc' || filters.order === 'desc')
@@ -38,22 +38,22 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     })
 
     return (
-        <div
-            className={`
-                h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)]
-                overflow-hidden flex flex-col
-            `}
-        >
+        <div className={`
+            h-full lg:max-w-[calc(100vw-var(--w-sidebar)-2rem)]
+            overflow-hidden flex flex-col
+        `}>
             <div className='flex-none'>
                 <h1 className='font-semibold text-lg'>Rules</h1>
                 <div className='flex items-center justify-between py-3'>
                     <Search />
-                    <div className='flex flex-row gap-4'>
-                        <Button text='New rule' icon='+' path='rules/create' />
-                    </div>
+                    <Button
+                        text='New rule'
+                        icon='+'
+                        path='rules/create'
+                    />
                 </div>
             </div>
-            { typeof rules === 'string' || !Array.isArray(rules.rules) || rules.rules.length < 1
+            {typeof rules === 'string' || !Array.isArray(rules.rules) || rules.rules.length < 1
                 ? (
                     <div className='w-full h-full flex items-center justify-center'>
                         <Alert>

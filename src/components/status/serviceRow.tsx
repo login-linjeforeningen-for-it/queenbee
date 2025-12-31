@@ -24,8 +24,13 @@ export default function ServiceRow({ onClick, service, onEditClick }: ServiceRow
     return (
         <div onClick={onClick} className='flex gap-2 w-full cursor-pointer hover:bg-login-50/5 select-none group'>
             <div className='flex gap-2 w-full'>
-                <h1 className={`${uptimeColor} rounded-lg outline px-2 w-14 text-center`}>{Number(service.uptime).toFixed(0)}%</h1>
-                <h1 className='font-semibold overflow-auto noscroll flex-1 w-full'>{service.name}</h1>
+                <h1 className={`
+                    ${uptimeColor} rounded-lg outline px-2 w-14 text-center
+                    text-sm md:text-base
+                `}>
+                    {Number(service.uptime).toFixed(0)}%
+                </h1>
+                <h1 className='font-semibold overflow-auto noscroll flex-1 w-full text-sm md:text-base'>{service.name}</h1>
             </div>
             <div className='flex gap-1'>
                 {service.bars.toReversed().map((bar, index) => {
@@ -54,7 +59,7 @@ export default function ServiceRow({ onClick, service, onEditClick }: ServiceRow
                     return <div
                         key={index}
                         className={`
-                            w-1.5 h-full rounded-lg 
+                            w-1 md:w-1.5 h-full rounded-lg 
                             ${barColor(bar, service.maxConsecutiveFailures, status)} 
                             hover:scale-110 hover:brightness-110
                         `}

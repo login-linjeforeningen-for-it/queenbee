@@ -75,7 +75,10 @@ export default function Sidebar() {
 
     return (
         <div className='relative'>
-            <div className={'h-full min-w-(--w-sidebar) bg-login-900 flex flex-col pt-2 overflow-x-scroll gap-[0.2rem]'} >
+            <div className={`
+                h-screen max-h-[calc(100vh-var(--h-navbar))] min-w-(--w-sidebar)
+                bg-login-900 flex flex-col pt-2 overflow-x-scroll gap-[0.2rem]    
+            `}>
                 {Object.entries(paths).map(([, value], index) => (
                     <Link
                         key={index}

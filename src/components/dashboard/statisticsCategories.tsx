@@ -52,7 +52,7 @@ export default function StatisticsCategories({ categories }: { categories: GetSt
                 <div className='flex flex-wrap justify-center mt-4 pb-4'>
                     {slices.map((slice, i) => (
                         <div key={i} className='flex items-center mr-4 mb-2'>
-                            <div className='w-4 h-4 rounded' style={{backgroundColor: slice.color}}></div>
+                            <div className='w-4 h-4 rounded' style={{ backgroundColor: slice.color }}></div>
                             <span className='ml-2 text-sm text-white'>{slice.label} ({slice.count})</span>
                         </div>
                     ))}

@@ -22,7 +22,7 @@ export default async function Page() {
     return (
         <div className='w-full p-4 space-y-6'>
             <div className='flex justify-between items-center'>
-                <h1 className='text-2xl font-bold'>Backup Management</h1>
+                <h1 className='md:text-2xl font-bold'>Backup Management</h1>
                 <Button
                     icon={<DatabaseBackup className='w-5' />}
                     text='Go to Restore'
@@ -50,7 +50,7 @@ function BackupCard({ backup }: { backup: BackupProps }) {
         <div className='bg-login-50/5 rounded-lg shadow p-6 border border-login-600'>
             <div className='flex justify-between items-start mb-4'>
                 <div>
-                    <h3 className='font-bold text-lg'>{backup.name}</h3>
+                    <h3 className='font-bold md:text-lg'>{backup.name}</h3>
                     <p className='text-sm text-login-200'>ID: {backup.id.substring(0, 12)}</p>
                 </div>
                 <div className='flex gap-2'>

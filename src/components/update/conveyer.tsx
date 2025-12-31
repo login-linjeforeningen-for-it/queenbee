@@ -31,7 +31,7 @@ export default function Conveyer({ className, wheels, belt, containers, middleCo
             {/* cross */}
             <rect
                 className='stroke stroke-2 hidden group-hover:block'
-                fill={'red'}
+                fill='red'
                 x='126.12'
                 y='-13.03'
                 width='6'
@@ -42,7 +42,7 @@ export default function Conveyer({ className, wheels, belt, containers, middleCo
             />
             <rect
                 className='stroke stroke-2 hidden group-hover:block'
-                fill={'red'}
+                fill='red'
                 x='126.12'
                 y='-13.03'
                 width='6'

@@ -1,9 +1,8 @@
 'use client'
 import sendNotificationClient from '@utils/notification/sendNotificationClient'
-import Link from 'next/link'
 import { useState } from 'react'
 import Input from '@components/inputs/input'
-import { Send } from 'lucide-react'
+import { File, Send } from 'lucide-react'
 import Preview from '@components/preview/preview'
 import { Button } from 'uibee/components'
 
@@ -33,9 +32,11 @@ export default function page() {
                 message: 'Example values should not be sent!',
                 status: 500,
             })
+
             setTimeout(() => {
                 setResult(null)
             }, 2000)
+
             return
         }
 
@@ -53,11 +54,7 @@ export default function page() {
         <div className='flex h-full w-full gap-4'>
             <div className='w-120'>
                 <div className='mb-8'>
-                    <h1
-                        className={
-                            'text-2xl font-bold tracking-tight text-foreground'
-                        }
-                    >
+                    <h1 className='text-2xl font-bold tracking-tight text-foreground'>
                         Nucleus
                     </h1>
                     <p className='text-muted-foreground text-base mt-1'>
@@ -80,7 +77,7 @@ export default function page() {
                         const formData = new FormData(e.currentTarget)
                         handleSend(formData)
                     }}
-                    className='flex flex-col gap-4 max-w-xl'
+                    className='flex flex-col gap-4 max-w-md'
                 >
                     <Input
                         name='title'
@@ -141,8 +138,7 @@ export default function page() {
                             />
                         </div>
                     )}
-                    <div className='flex items-center justify-between'>
-                        <Button icon={<Send className='w-5' />} text='Send' type='submit' />
+                    <div className='grid md:flex! items-center justify-between gap-2'>
                         <div className='flex justify-between gap-2'>
                             <Button
                                 color='secondary'
@@ -150,25 +146,19 @@ export default function page() {
                                 icon='+'
                                 onClick={() => setExample(setFormValues)}
                             />
-                            <Link
-                                href={'/nucleus/documentation'}
-                                className={`
-                                    bg-login-50/5 text-foreground px-4 grid
-                                    place-items-center rounded-lg transition
-                                    font-medium hover:bg-login-50/15
-                                `}
-                            >
-                                Documentation
-                            </Link>
+                            <Button
+                                color='secondary'
+                                icon={<File className='w-5' />}
+                                path='/nucleus/documentation'
+                                text='Documentation'
+                            />
                         </div>
+                        <Button icon={<Send className='w-5' />} text='Send' type='submit' />
                     </div>
                 </form>
             </div>
             <div className='hidden lg:block w-104'>
-                <Preview
-                    title={formValues.title}
-                    description={formValues.description}
-                />
+                <Preview title={formValues.title} description={formValues.description} />
             </div>
         </div>
     )

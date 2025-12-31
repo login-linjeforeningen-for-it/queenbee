@@ -62,7 +62,7 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
     const channelName = channels?.find((c) => c.value === channel)?.label
     let roleColor = '#fd8738'
     const roleNames = Roles.map((role) => {
-        const match = roles.find((r) => r.value === role)
+        const match = roles?.find((r) => r.value === role)
         if (match !== undefined) {
             roleColor = match.color
             return `@${match.label}`

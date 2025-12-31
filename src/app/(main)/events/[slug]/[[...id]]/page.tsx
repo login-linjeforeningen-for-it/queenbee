@@ -18,10 +18,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                         type='create'
                         formAction={createEvent}
                     >
-                        <EventFormInputs
-                            defaultValues={event}
-                            type='create'
-                        />
+                        <EventFormInputs defaultValues={event} type='create' />
                     </FormWrapper>
                 )
             } else if (slug === 'update') {
@@ -33,10 +30,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                         id={id[0]}
                         formAction={updateEvent}
                     >
-                        <EventFormInputs
-                            defaultValues={event}
-                            type='update'
-                        />
+                        <EventFormInputs defaultValues={event} type='update' />
                     </FormWrapper>
                 )
             }
@@ -49,9 +43,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                 type='create'
                 formAction={createEvent}
             >
-                <EventFormInputs
-                    type='create'
-                />
+                <EventFormInputs type='create' />
             </FormWrapper>
         )
     }

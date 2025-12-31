@@ -10,7 +10,9 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <main className='flex flex-1 h-full'>
-            <Sidebar />
+            <div className='hidden lg:grid!'>
+                <Sidebar />
+            </div>
             <div className='relative p-4 w-full h-full bg-login-800 overflow-scroll'>
                 {children}
             </div>

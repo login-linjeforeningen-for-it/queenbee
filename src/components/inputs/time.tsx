@@ -15,6 +15,7 @@ type TimeProps = {
     tooltip?: string
     required?: boolean
     disabled?: boolean
+    color?: string
 }
 
 export default function TimeInput({
@@ -26,18 +27,19 @@ export default function TimeInput({
     required,
     disabled,
     setValue,
+    color
 }: TimeProps) {
     const [hasBlured, setHasBlured] = useState(false)
 
     return (
         <div className={`w-full ${className}`}>
-            <div className='relative flex items-center'>
+            <div className='relative flex items-center gap-2'>
                 <input
                     type='time'
                     name={name}
                     className={`
                         ${disabled ? 'text-login-400' : ''} peer block
-                        px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg
+                        px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg h-9 md:h-full
                         border-[0.10rem] appearance-none border-login-200
                         focus:outline-none focus:ring-0
                         focus:border-login-50
@@ -48,6 +50,7 @@ export default function TimeInput({
                     required={required}
                 />
                 <Label
+                    color={color}
                     label={label}
                     required={required}
                     value={value}

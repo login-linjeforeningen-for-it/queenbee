@@ -1,5 +1,5 @@
 export function RoleRenderer({roleId, roles}: {roleId: string, roles: Role[]}): React.ReactElement | null {
-    const role = roles.find(r => r.value === roleId)
+    const role = roles?.find(r => r.value === roleId)
     if (!role) {
         return null
     }

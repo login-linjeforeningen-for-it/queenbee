@@ -53,13 +53,13 @@ export default function Select({
 
     return (
         <div className={`w-full ${className}`}>
-            <div className='relative flex items-center'>
+            <div className='relative flex items-center gap-2'>
                 <select
                     ref={selectRef}
                     name={name}
                     className={`
-                        peer cursor-pointer block px-2.5 pb-2.5 pt-4
-                        w-full text-sm rounded-lg border-[0.10rem]
+                        peer cursor-pointer block px-2.5 py-2 md:pb-2.5 md:pt-4
+                        w-full text-sm rounded-lg border-[0.10rem] h-9
                         appearance-none border-login-200 focus:ring-0
                         focus:outline-none focus:border-login-50
                         ${color ? color : 'bg-login-800'}

@@ -43,26 +43,22 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     })
 
     return (
-        <div
-            className={`
-                h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)]
-                overflow-hidden flex flex-col
-            `}
-        >
+        <div className={`
+            h-full lg:max-w-[calc(100vw-var(--w-sidebar)-2rem)]
+            overflow-hidden flex flex-col
+        `}>
             <div className='flex-none'>
                 <div className='flex flex-row justify-between'>
                     <h1 className='font-semibold text-lg'>Events</h1>
-                    <HistoricalSwitch name={'historical'} label={'Historical'} />
+                    <HistoricalSwitch name='historical' label='Historical' />
                 </div>
-                <div className='flex items-center justify-between py-3'>
+                <div className='flex items-center justify-between py-3 gap-2'>
                     <Search />
-                    <div className='flex flex-row gap-4'>
-                        <Button
-                            text='New event'
-                            icon='+'
-                            path='events/create'
-                        />
-                    </div>
+                    <Button
+                        text='New event'
+                        icon='+'
+                        path='events/create'
+                    />
                 </div>
             </div>
             { typeof events === 'string' || !Array.isArray(events.events) || events.events.length < 1

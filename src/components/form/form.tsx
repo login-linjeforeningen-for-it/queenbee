@@ -26,7 +26,7 @@ export default function CustomForm({
     id,
     formAction,
     customRedirect,
-    children,
+    children
 }: ContentFormProps) {
     const [state, action, pending] = useActionState(formAction, initialState)
     const [submitPressed, setSubmitPressed] = useState(false)
@@ -54,7 +54,6 @@ export default function CustomForm({
                     {type === 'update' && id != null && (
                         <input type='hidden' name='id' value={String(id)} />
                     )}
-
                     {children}
                 </div>
 

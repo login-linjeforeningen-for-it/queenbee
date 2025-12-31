@@ -48,11 +48,11 @@ export default async function Service({ params }: { params: Promise<{ id: string
     const commandReason = Cookies.get('commandReason')?.value || ''
 
     return (
-        <div className='grid grid-cols-12 gap-2 w-full h-full max-h-full'>
+        <div className='grid md:grid-cols-12 gap-2 w-full h-full max-h-full'>
             <div className='rounded-lg grid col-span-3 sm:col-span-2 max-h-[calc((100vh-var(--h-navbar))-1rem)]'>
                 <Services />
             </div>
-            <div className='col-span-10 w-full rounded-lg grid grid-cols-12 gap-2 h-full max-h-[calc((100vh-var(--h-navbar))-1rem)]'>
+            <div className='col-span-10 w-full rounded-lg grid md:grid-cols-12 gap-2 h-full max-h-[calc((100vh-var(--h-navbar))-1rem)]'>
                 <div className='w-full col-span-9 max-h-full overflow-hidden flex flex-col'>
                     <div className='w-full shrink-0'>
                         <Terminal

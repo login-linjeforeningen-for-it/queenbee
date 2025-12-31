@@ -101,7 +101,7 @@ export default function Markdown({
                 {tooltip && <ToolTip info={tooltip} />}
             </div>
 
-            <div className='flex items-center justify-between gap-2 mt-2'>
+            <div className='grid md:flex! items-center justify-between gap-2 mt-2'>
                 <div className='flex gap-2'>
                     <button
                         type='button'

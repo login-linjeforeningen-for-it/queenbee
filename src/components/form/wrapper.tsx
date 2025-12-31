@@ -25,7 +25,7 @@ type FormWrapperProps = {
     id?: string
     preview?: boolean
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    formAction: ( prevState: any, formData: FormData ) => any | Promise<any>
+    formAction: (prevState: any, formData: FormData) => any | Promise<any>
     children: ReactElement<ChildProps> | ReactElement<ChildProps>[]
     customRedirect?: string
     channels?: Channel[]
@@ -46,7 +46,10 @@ export default function FormWrapper({
 }: FormWrapperProps) {
     const [title, setTitle] = useState('')
     const pathname = usePathname()
-    const displayPreview = !pathname.includes('events/create') && !pathname.includes('jobs/create')
+    const displayPreview =
+        pathname.includes('events/create')
+        || pathname.includes('jobs/create')
+        || pathname.includes('announcements/create')
 
     useEffect(() => {
         function handleStorageChange(e: Event) {
@@ -58,23 +61,18 @@ export default function FormWrapper({
         window.addEventListener('customStorageChange', handleStorageChange)
 
         return () => {
-            window.removeEventListener('customStorageChange',
-                handleStorageChange)
+            window.removeEventListener('customStorageChange', handleStorageChange)
         }
     }, [])
 
     return (
-        <div
-            className={
-                'h-(--h-pageInfo) w-full flex flex-col items-center'
-            }
-        >
+        <div className='h-(--h-pageInfo) w-full flex flex-col items-center'>
             <div className={
-                `w-full px-16 py-4 ${preview ? 'grid grid-cols-2 gap-4' : ''}`
+                `w-full md:px-16 md:py-4 ${preview ? 'grid md:grid-cols-2 gap-4' : ''}`
             }>
                 <div className='flex flex-col gap-4'>
                     <BackButton pushURL={path ? `/${path}` : undefined} />
-                    <h1 className='font-semibold text-2xl capitalize'>
+                    <h1 className='font-semibold text-lg md:text-2xl capitalize'>
                         {type} {name}
                     </h1>
                 </div>
@@ -82,7 +80,7 @@ export default function FormWrapper({
                     <h1 className='font-semibold text-2xl mt-10'>
                         Preview
                     </h1>
-                </div> : <div className='flex flex-col gap-4 mt-4'></div>}
+                </div> : <div className='flex flex-col gap-4 mt-4' />}
                 <CustomForm
                     name={name}
                     type={type}
@@ -94,6 +92,7 @@ export default function FormWrapper({
                         if (isValidElement(child)) {
                             return cloneElement(child, { preview })
                         }
+
                         return child
                     })}
                 </CustomForm>

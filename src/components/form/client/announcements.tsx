@@ -88,9 +88,9 @@ export default function AnnouncementFormInputsClient({
     return (
         <div className='flex flex-col gap-4 relative'>
             {/* prettier-ignore */}
-            {!nested && <div className={
-                `absolute flex flex-row gap-4 w-full justify-end ${mt}`
-            }>
+            {!nested && <div className={`
+                absolute flex flex-row gap-4 w-full justify-end ${mt}
+            `}>
                 <Button
                     color='secondary'
                     text='Example'
@@ -102,7 +102,6 @@ export default function AnnouncementFormInputsClient({
                 name='title'
                 type='text'
                 label='Title'
-                color={color}
                 required={required}
                 value={formValues.title}
                 setValue={(input) =>
@@ -131,7 +130,6 @@ export default function AnnouncementFormInputsClient({
                 name='channel'
                 label='Discord channel'
                 options={channels}
-                color={color}
                 value={formValues.channel || ''}
                 required={required}
                 setValue={(input) =>
@@ -171,7 +169,6 @@ export default function AnnouncementFormInputsClient({
                 name='color'
                 type='text'
                 label='Embed color'
-                color={color}
                 value={formValues.color}
                 setValue={(input) =>
                     setFormValues({
@@ -184,7 +181,6 @@ export default function AnnouncementFormInputsClient({
                 name='interval'
                 type='text'
                 label='Interval'
-                color={color}
                 value={formValues.interval}
                 setValue={(input) =>
                     setFormValues({

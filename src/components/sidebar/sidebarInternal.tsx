@@ -17,15 +17,15 @@ import getDocker from '@utils/api/internal/system/getDocker'
 import { useEffect, useState } from 'react'
 import { ServiceStatus } from '@utils/interfaces'
 
-export default function Sidebar({ docker: serverDocker, meta: serverMeta }: { docker: Docker, meta: ServiceStatus }) {
+export default function SidebarInternal({ docker: serverDocker, meta: serverMeta }: { docker: Docker | null, meta: ServiceStatus | null }) {
     const path = usePathname()
     const [docker, setDocker] = useState(serverDocker)
-    const color = {
+    const color = serverMeta ? {
         operational: 'bg-green-500',
         degraded: 'bg-login',
         down: 'bg-red-500',
         inactive: 'bg-login-300',
-    }[serverMeta] || 'bg-gray-500'
+    }[serverMeta] || 'bg-gray-500' : 'bg-gray-500'
 
     useEffect(() => {
         setInterval(async() => {
@@ -64,15 +64,15 @@ export default function Sidebar({ docker: serverDocker, meta: serverMeta }: { do
             status: <PulseDot color={color} />
         },
         status: {
-            name: 'Status',
-            path: '/internal/status',
+            name: 'Monitoring',
+            path: '/internal/monitoring',
             image: <Activity className='w-6' />
         },
         system: {
             name: 'System',
             path: '/internal/system',
             image: <Server className='w-6' />,
-            status: <PulseDot status={docker.status} />
+            status: <PulseDot status={docker?.status} />
         },
         traffic: {
             name: 'Traffic',
@@ -81,9 +81,16 @@ export default function Sidebar({ docker: serverDocker, meta: serverMeta }: { do
         },
     }
 
+    if (!docker) {
+        return
+    }
+
     return (
         <div className='relative'>
-            <div className={'h-full min-w-(--w-sidebar) bg-login-900 flex flex-col pt-2 overflow-x-scroll gap-[0.2rem]'} >
+            <div className={`
+                h-screen max-h-[calc(100vh-var(--h-navbar))] min-w-(--w-sidebar)
+                bg-login-900 flex flex-col pt-2 overflow-x-scroll gap-[0.2rem]    
+            `}>
                 {Object.entries(paths).map(([, value], index) => (
                     <Link
                         key={index}

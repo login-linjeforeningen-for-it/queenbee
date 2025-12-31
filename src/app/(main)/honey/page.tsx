@@ -46,7 +46,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         : []
 
     return (
-        <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden flex flex-col'>
+        <div className='h-full lg:max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden flex flex-col'>
             <div className='flex-none'>
                 <h1 className='font-semibold text-lg'>Honey</h1>
                 <div className='flex items-center justify-between py-3'>
@@ -60,13 +60,11 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                             />
                         ))}
                     </div>
-                    <div className='flex flex-row gap-4'>
-                        <Button
-                            text='New honey'
-                            icon='+'
-                            path='honeys/create'
-                        />
-                    </div>
+                    <Button
+                        text='New honey'
+                        icon='+'
+                        path='honeys/create'
+                    />
                 </div>
             </div>
             {typeof honey === 'string' || !Array.isArray(honey.honeys) || honey.honeys.length < 1 ? (

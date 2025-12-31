@@ -10,8 +10,8 @@ export default async function Services() {
     const path = Headers.get('x-current-path') || ''
 
     return (
-        <div className='w-full h-full overflow-hidden grid grid-rows-12'>
-            <div className='w-full row-span-12 flex flex-col h-full overflow-hidden gap-2'>
+        <div className='w-full h-full lg:overflow-hidden grid grid-rows-12'>
+            <div className='w-full row-span-12 flex flex-col h-full lg:overflow-hidden gap-2'>
                 <Header path={path} />
                 <ProdOrDev services={services} path={path} />
                 <ToolTipsButton />

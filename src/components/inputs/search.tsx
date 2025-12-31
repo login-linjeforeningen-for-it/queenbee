@@ -5,9 +5,9 @@ import { useState } from 'react'
 import Label from './label'
 
 export default function Search({ className }: { className?: string }) {
-    const router = useRouter(),
-        pathname = usePathname(),
-        searchParams = useSearchParams()
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
     const [text, setText] = useState(searchParams?.get('q') ?? '')
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -27,7 +27,7 @@ export default function Search({ className }: { className?: string }) {
                 onChange={handleChange}
                 type='text'
                 className={`
-                    block px-2.5 py-2 w-full text-sm rounded-lg cursor-text
+                    block h-8 py-2 w-full text-sm rounded-lg cursor-text
                     border-[0.08rem] appearance-none border-login-200
                     focus:outline-none focus:ring-0 focus:border-login-50 peer
                 `}

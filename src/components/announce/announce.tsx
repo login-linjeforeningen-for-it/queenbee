@@ -33,7 +33,7 @@ export default function Announce({ channels, roles }: { channels: Channel[], rol
             <div className='col-span-2 space-apart bg-login-50/5 rounded-lg p-2 px-4 cursor-pointer mt-10'>
                 <div className='flex justify-between'>
                     <div className='flex gap-2'>
-                        <h1 className={'text-2xl font-bold select-none text-login-200'}>
+                        <h1 className='text-2xl font-bold select-none text-login-200'>
                             Announce
                         </h1>
                         <h1 className='text-login-300 self-center mt-[1.2]'>
@@ -102,7 +102,6 @@ function OpenAnnouncement({
                     channels={channels}
                     roles={roles}
                     nested={true}
-                    color='bg-login-50/5'
                     buttonColor='bg-login-500'
                     buttonColorHighlighted='bg-login-400'
                     required={false}

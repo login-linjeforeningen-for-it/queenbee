@@ -37,10 +37,11 @@ async function Service({ context, service, segmentedPathname }: ServiceProps) {
     const currentServiceStyle = currentService === service.name
         ? '*:fill-login text-login pl-[1.2rem] border-l-[0.3rem]'
         : ''
+
     const serviceStyle = `
         flex flex-row px-[1rem] items-center gap-[0.5rem] py-[0.8rem] 
-        hover:pl-[1.5rem] duration-[500ms] transition-[padding] 
-        ${currentServiceStyle} hover:*:fill-login hover:text-login font-medium justify-between
+        hover:pl-[1.5rem] duration-[500ms] transition-[padding] justify-between
+        ${currentServiceStyle} hover:*:fill-login hover:text-login font-medium
     `
 
     const status = await serviceStatus(context, 'server', service)

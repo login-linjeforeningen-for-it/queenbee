@@ -40,7 +40,7 @@ export default function HistoricalSwitch({
             label={label}
             value={value}
             setValue={handleChange}
-            className={'py-1.5! px-2! w-fit!'}
+            className='py-1.5! px-2! w-fit!'
             tooltip={tooltip}
         />
     )

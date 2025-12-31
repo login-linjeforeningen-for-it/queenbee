@@ -109,20 +109,22 @@ export default function PageClient({
                 setAddingTag={setAddingTag}
                 setRefresh={setRefreshTags}
             />
-            <div className='col-span-3 flex gap-2'>
+            <div className='col-span-3 md:flex! grid gap-2'>
                 <Button text='Add new service' icon='+' onClick={addNewService} />
-                <Button
-                    text='Notifications'
-                    color='secondary'
-                    icon={<TriangleAlert />}
-                    onClick={handleViewNotifications}
-                />
-                <Button
-                    text='Dashboard'
-                    color='secondary'
-                    icon={<LayoutDashboard />}
-                    onClick={dashboard}
-                />
+                <div className='flex gap-2'>
+                    <Button
+                        text='Notifications'
+                        color='secondary'
+                        icon={<TriangleAlert />}
+                        onClick={handleViewNotifications}
+                    />
+                    <Button
+                        text='Dashboard'
+                        color='secondary'
+                        icon={<LayoutDashboard />}
+                        onClick={dashboard}
+                    />
+                </div>
             </div>
             <div className='col-span-4'>
                 <h1 className='text-xl font-semibold'>Statistics</h1>
