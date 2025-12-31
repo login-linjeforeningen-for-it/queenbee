@@ -7,6 +7,7 @@ import postImage from '@utils/api/workerbee/images/postImage'
 import { useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
 import { toast, Button, Input, Switch, Select } from 'uibee/components'
+import config from '@config'
 
 export default function EventFormInputsClient({
     defaultValues,
@@ -96,7 +97,7 @@ export default function EventFormInputsClient({
                     {
                         label: result.image,
                         value: result.image,
-                        image: result.image,
+                        image: `${config}/img/events/${result.image}`,
                     }
                 ])
             }
