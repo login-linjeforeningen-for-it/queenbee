@@ -1,12 +1,11 @@
 'use client'
 
-import Markdown from '@components/inputs/markdown'
 import Announce from '@components/announce/announce'
 import Upload from '@components/inputs/upload'
 import postImage from '@utils/api/workerbee/images/postImage'
 import { useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
-import { toast, Button, Input, Switch, Select } from 'uibee/components'
+import { toast, Button, Input, Switch, Select, Textarea } from 'uibee/components'
 import config from '@config'
 
 export default function EventFormInputsClient({
@@ -159,30 +158,30 @@ export default function EventFormInputsClient({
                     informational_en: e.target.value,
                 })}
             />
-            <Markdown
+            <Textarea
                 name='description_no'
                 label='Description (Norwegian)'
                 value={formValues.description_no}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        description_no: input.toString(),
+                        description_no: e.target.value,
                     })
                 }
-                className='pb-4'
+                markdown
                 required
             />
-            <Markdown
+            <Textarea
                 name='description_en'
                 label='Description (English)'
                 value={formValues.description_en}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        description_en: input.toString(),
+                        description_en: e.target.value,
                     })
                 }
-                className='pb-4'
+                markdown
                 required
             />
             <div className='flex flex-col'>
