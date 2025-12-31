@@ -8,6 +8,7 @@ import getAudiences from '@utils/api/workerbee/events/getAudiences'
 import getTimeTypes from '@utils/api/workerbee/events/getTimeTypes'
 import getRoles from '@utils/api/bot/announcements/getRoles'
 import getChannels from '@utils/api/bot/announcements/getChannels'
+import config from '@config'
 
 type EventFormsInputsProps = {
     defaultValues?: GetEventProps
@@ -23,7 +24,7 @@ export default async function EventFormInputs({ defaultValues, type, parent }: E
         ? imagesResponse.map((image) => ({
             label: image,
             value: image,
-            image: `img/events/${image}`,
+            image: `${config.url.cdn}/img/events/${image}`,
         }))
         : []
 
