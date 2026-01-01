@@ -161,6 +161,7 @@ export default function EventFormInputsClient({
             <Textarea
                 name='description_no'
                 label='Description (Norwegian)'
+                type='markdown'
                 value={formValues.description_no}
                 onChange={(e) =>
                     setFormValues({
@@ -168,12 +169,12 @@ export default function EventFormInputsClient({
                         description_no: e.target.value,
                     })
                 }
-                markdown
                 required
             />
             <Textarea
                 name='description_en'
                 label='Description (English)'
+                type='markdown'
                 value={formValues.description_en}
                 onChange={(e) =>
                     setFormValues({
@@ -181,7 +182,6 @@ export default function EventFormInputsClient({
                         description_en: e.target.value,
                     })
                 }
-                markdown
                 required
             />
             <div className='flex flex-col'>

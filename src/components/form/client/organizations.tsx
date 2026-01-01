@@ -74,6 +74,7 @@ export default function OrganizationFormInputsClient({
             <Textarea
                 name='description_no'
                 label='Description (Norwegian)'
+                type='markdown'
                 value={formValues.description_no}
                 onChange={(e) =>
                     setFormValues({
@@ -81,12 +82,12 @@ export default function OrganizationFormInputsClient({
                         description_no: e.target.value,
                     })
                 }
-                markdown
                 required
             />
             <Textarea
                 name='description_en'
                 label='Description (English)'
+                type='markdown'
                 value={formValues.description_en}
                 onChange={(e) =>
                     setFormValues({
@@ -94,7 +95,6 @@ export default function OrganizationFormInputsClient({
                         description_en: e.target.value,
                     })
                 }
-                markdown
                 required
             />
             <h1 className='text-xl pt-10 pb-4 col-span-2'>Social Links</h1>

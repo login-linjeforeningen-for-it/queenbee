@@ -64,7 +64,7 @@ export default function RuleFormInputsClient({
             <Textarea
                 name='description_no'
                 label='Description (Norwegian)'
-                required
+                type='markdown'
                 value={formValues.description_no}
                 onChange={(e) =>
                     setFormValues({
@@ -72,12 +72,12 @@ export default function RuleFormInputsClient({
                         description_no: e.target.value,
                     })
                 }
-                markdown
+                required
             />
             <Textarea
                 name='description_en'
                 label='Description (English)'
-                required
+                type='markdown'
                 value={formValues.description_en}
                 onChange={(e) =>
                     setFormValues({
@@ -85,7 +85,7 @@ export default function RuleFormInputsClient({
                         description_en: e.target.value,
                     })
                 }
-                markdown
+                required
             />
         </div>
     )
