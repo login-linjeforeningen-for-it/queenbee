@@ -96,7 +96,7 @@ export default function EventFormInputsClient({
                     {
                         label: result.image,
                         value: result.image,
-                        image: `${config}/img/events/${result.image}`,
+                        image: `${config.url.cdn}/img/events/${result.image}`,
                     }
                 ])
             }
