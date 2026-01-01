@@ -101,6 +101,7 @@ export default function AnnouncementFormInputsClient({
             <Textarea
                 name='description'
                 label='Description'
+                type='markdown'
                 required={required}
                 value={formValues.description}
                 onChange={(e) =>
@@ -109,7 +110,6 @@ export default function AnnouncementFormInputsClient({
                         description: e.target.value,
                     })
                 }
-                markdown
             />
             <Select
                 name='channel'

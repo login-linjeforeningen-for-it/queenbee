@@ -102,8 +102,6 @@ function OpenAnnouncement({
                     channels={channels}
                     roles={roles}
                     nested={true}
-                    buttonColor='bg-login-500'
-                    buttonColorHighlighted='bg-login-400'
                     required={false}
                 />
                 <DiscordPreview channels={channels} roles={roles} />
