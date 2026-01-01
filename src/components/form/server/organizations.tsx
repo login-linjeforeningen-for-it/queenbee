@@ -1,5 +1,6 @@
 import getImages from '@utils/api/workerbee/images/getImages'
 import OrganizationFormInputsClient from '../client/organizations'
+import config from '@config'
 
 export default async function OrganizationFormInputs({ defaultValues, parent }:
 { defaultValues?: GetOrganizationProps, parent?: { preview?: boolean }}) {
@@ -8,7 +9,7 @@ export default async function OrganizationFormInputs({ defaultValues, parent }:
         ? imagesResponse.map((image) => ({
             label: image,
             value: image,
-            image: `img/organizations/${image}`,
+            image: `${config.url.cdn}/img/organizations/${image}`,
         }))
         : []
 

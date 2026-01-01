@@ -1,6 +1,7 @@
 'use client'
 
 import Upload from '@components/inputs/upload'
+import config from '@config'
 import postImage from '@utils/api/workerbee/images/postImage'
 import { useState } from 'react'
 import { toast, Button, Input, Textarea, Select } from 'uibee/components'
@@ -165,7 +166,7 @@ export default function OrganizationFormInputsClient({
                                 {
                                     label: result.image,
                                     value: result.image,
-                                    image: result.image,
+                                    image: `${config.url.cdn}/img/organizations/${result.image}`,
                                 }
                             ])
                         }
