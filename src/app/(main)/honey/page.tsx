@@ -63,7 +63,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     <Button
                         text='New honey'
                         icon='+'
-                        path='honeys/create'
+                        path='honey/create'
                     />
                 </div>
             </div>

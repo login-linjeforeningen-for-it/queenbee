@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                 return (
                     <FormWrapper
                         name='honey'
-                        path='honeys'
+                        path='honey'
                         type='create'
                         formAction={createHoney}
                     >
@@ -25,7 +25,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                 return (
                     <FormWrapper
                         name='honey'
-                        path='honeys'
+                        path='honey'
                         type='update'
                         id={id[0]}
                         formAction={updateHoney}
@@ -39,7 +39,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
         return (
             <FormWrapper
                 name='honey'
-                path='honeys'
+                path='honey'
                 type='create'
                 formAction={createHoney}
             >
