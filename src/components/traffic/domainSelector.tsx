@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import Select from '@components/inputs/select'
+import { Select } from 'uibee/components'
 
 type DomainSelectorProps = {
     domains: string[]
@@ -18,8 +18,8 @@ export default function DomainSelector({ domains, selectedDomain }: DomainSelect
         ...domains.map(domain => ({ value: domain, label: domain }))
     ]
 
-    function handleChange(newValue: string | number) {
-        const domain = newValue as string
+    function handleChange(newValue: string | number | null) {
+        const domain = newValue ? newValue.toString() : ''
         setValue(domain)
         const params = new URLSearchParams(window.location.search)
 
@@ -37,7 +37,7 @@ export default function DomainSelector({ domains, selectedDomain }: DomainSelect
             name='domain-select'
             label='Select Domain'
             value={value}
-            setValue={handleChange}
+            onChange={handleChange}
             options={domainOptions}
             className='max-w-2xs'
         />

@@ -12,7 +12,7 @@ export default function ViewToggle() {
         <div className='inline-flex p-1'>
             <button
                 onClick={() => router.push('/internal/traffic')}
-                className={`bg-login-500 px-4 py-2 rounded-l-full text-sm font-medium transition-colors cursor-pointer ${
+                className={`bg-login-500 p-4 h-fit rounded-l-full text-sm font-medium transition-colors cursor-pointer ${
                     view === 'metrics'
                         ? 'bg-login/90! text-white'
                         : 'text-white hover:bg-login-400'
@@ -22,7 +22,7 @@ export default function ViewToggle() {
             </button>
             <button
                 onClick={() => router.push('/internal/traffic/records')}
-                className={`bg-login-500 px-4 py-2 rounded-r-full text-sm font-medium transition-colors cursor-pointer ${
+                className={`bg-login-500 p-4 h-fit rounded-r-full text-sm font-medium transition-colors cursor-pointer ${
                     view === 'records'
                         ? 'bg-login/90! text-white'
                         : 'text-white hover:bg-login-400'
