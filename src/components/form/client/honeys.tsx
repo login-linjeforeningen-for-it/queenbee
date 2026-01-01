@@ -28,7 +28,7 @@ export default function HoneyFormInputsClient({
     }
 
     return (
-        <div className='grid grid-cols-1 gap-y-4 pt-10 relative'>
+        <div className='grid grid-cols-1 pt-10 relative'>
             <div className={`absolute flex flex-row gap-4 w-full ${mt} justify-end`}>
                 <Button
                     color='secondary'

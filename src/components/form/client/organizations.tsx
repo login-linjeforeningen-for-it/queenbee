@@ -35,7 +35,7 @@ export default function OrganizationFormInputsClient({
     }
 
     return (
-        <div className='grid grid-cols-2 gap-y-4 gap-x-8 pt-10 relative'>
+        <div className='grid grid-cols-2 gap-x-8 pt-10 relative'>
             <div className={`absolute flex flex-row gap-4 w-full ${mt} justify-end`}
             >
                 <Button
@@ -97,7 +97,7 @@ export default function OrganizationFormInputsClient({
                 markdown
                 required
             />
-            <h1 className='text-xl pt-10 col-span-2'>Social Links</h1>
+            <h1 className='text-xl pt-10 pb-4 col-span-2'>Social Links</h1>
             <Input
                 name='link_homepage'
                 type='text'

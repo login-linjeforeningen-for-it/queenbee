@@ -35,7 +35,7 @@ export default function LocationFormInputsClient({
     }
 
     return (
-        <div className='grid grid-cols-1 gap-y-4 pt-10 relative'>
+        <div className='grid grid-cols-1 pt-10 relative'>
             <div
                 className={
                     `absolute flex flex-row gap-4 w-full ${mt} ` +
@@ -100,7 +100,7 @@ export default function LocationFormInputsClient({
                 }
                 required
             />
-            <div className='grid grid-flow-col gap-x-8 pt-4'>
+            <div className='grid grid-flow-col gap-x-8'>
                 {formValues.type === 'mazemap' && <>
                     <Input
                         name='mazemap_campus_id'
@@ -203,7 +203,7 @@ export default function LocationFormInputsClient({
                 }
             </div>
             {formValues.type === 'mazemap' && (
-                <div className='pt-4'>
+                <div className=''>
                     <Input
                         name='notUsed'
                         type='text'
