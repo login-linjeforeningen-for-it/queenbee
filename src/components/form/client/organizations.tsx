@@ -1,13 +1,9 @@
 'use client'
 
-import Input from '@components/inputs/input'
-import Markdown from '@components/inputs/markdown'
-import Select from '@components/inputs/select'
 import Upload from '@components/inputs/upload'
 import postImage from '@utils/api/workerbee/images/postImage'
 import { useState } from 'react'
-import { toast } from 'uibee/components'
-import { Button } from 'uibee/components'
+import { toast, Button, Input, Textarea, Select } from 'uibee/components'
 
 export default function OrganizationFormInputsClient({
     defaultValues,
@@ -53,10 +49,10 @@ export default function OrganizationFormInputsClient({
                 type='text'
                 label='Name (Norwegian)'
                 value={formValues.name_no}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        name_no: input as string,
+                        name_no: e.target.value,
                     })
                 }
                 required
@@ -66,36 +62,38 @@ export default function OrganizationFormInputsClient({
                 type='text'
                 label='Name (English)'
                 value={formValues.name_en}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        name_en: input as string,
+                        name_en: e.target.value,
                     })
                 }
                 required
             />
-            <Markdown
+            <Textarea
                 name='description_no'
                 label='Description (Norwegian)'
                 value={formValues.description_no}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        description_no: input as string,
+                        description_no: e.target.value,
                     })
                 }
+                markdown
                 required
             />
-            <Markdown
+            <Textarea
                 name='description_en'
                 label='Description (English)'
                 value={formValues.description_en}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        description_en: input as string,
+                        description_en: e.target.value,
                     })
                 }
+                markdown
                 required
             />
             <h1 className='text-xl pt-10 col-span-2'>Social Links</h1>
@@ -104,10 +102,10 @@ export default function OrganizationFormInputsClient({
                 type='text'
                 label='Homepage Link'
                 value={formValues.link_homepage}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        link_homepage: input as string,
+                        link_homepage: e.target.value,
                     })
                 }
                 className='col-span-2'
@@ -118,10 +116,10 @@ export default function OrganizationFormInputsClient({
                 type='text'
                 label='Linkedin Link'
                 value={formValues.link_linkedin}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        link_linkedin: input as string,
+                        link_linkedin: e.target.value,
                     })
                 }
                 className='col-span-2'
@@ -131,10 +129,10 @@ export default function OrganizationFormInputsClient({
                 type='text'
                 label='Facebook Link'
                 value={formValues.link_facebook}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        link_facebook: input as string,
+                        link_facebook: e.target.value,
                     })
                 }
                 className='col-span-2'
@@ -144,10 +142,10 @@ export default function OrganizationFormInputsClient({
                 type='text'
                 label='Instagram Link'
                 value={formValues.link_instagram}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        link_instagram: input as string,
+                        link_instagram: e.target.value,
                     })
                 }
                 className='col-span-2'
@@ -179,10 +177,10 @@ export default function OrganizationFormInputsClient({
                 label='Organization Logo'
                 options={images}
                 value={formValues.logo}
-                setValue={(input) =>
+                onChange={(value) =>
                     setFormValues({
                         ...formValues,
-                        logo: input as string,
+                        logo: String(value || ''),
                     })
                 }
                 className='col-span-2'

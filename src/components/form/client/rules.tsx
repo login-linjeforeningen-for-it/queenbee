@@ -1,9 +1,7 @@
 'use client'
 
-import Input from '@components/inputs/input'
-import Markdown from '@components/inputs/markdown'
 import { useState } from 'react'
-import { Button } from 'uibee/components'
+import { Button, Input, Textarea } from 'uibee/components'
 
 export default function RuleFormInputsClient({
     defaultValues,
@@ -43,10 +41,10 @@ export default function RuleFormInputsClient({
                 label='Name (Norwegian)'
                 required
                 value={formValues.name_no}
-                setValue={(input) =>
+                onChange={(input) =>
                     setFormValues({
                         ...formValues,
-                        name_no: input as string,
+                        name_no: input.target.value,
                     })
                 }
             />
@@ -56,36 +54,38 @@ export default function RuleFormInputsClient({
                 label='Name (English)'
                 required
                 value={formValues.name_en}
-                setValue={(input) =>
+                onChange={(input) =>
                     setFormValues({
                         ...formValues,
-                        name_en: input as string,
+                        name_en: input.target.value,
                     })
                 }
             />
-            <Markdown
+            <Textarea
                 name='description_no'
                 label='Description (Norwegian)'
                 required
                 value={formValues.description_no}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        description_no: input as string,
+                        description_no: e.target.value,
                     })
                 }
+                markdown
             />
-            <Markdown
+            <Textarea
                 name='description_en'
                 label='Description (English)'
                 required
                 value={formValues.description_en}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        description_en: input as string,
+                        description_en: e.target.value,
                     })
                 }
+                markdown
             />
         </div>
     )

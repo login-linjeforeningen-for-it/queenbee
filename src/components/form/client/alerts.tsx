@@ -1,9 +1,7 @@
 'use client'
 
-import Input from '@components/inputs/input'
-import Markdown from '@components/inputs/markdown'
 import { useState } from 'react'
-import { Button } from 'uibee/components'
+import { Button, Input, Textarea } from 'uibee/components'
 
 export default function RuleFormInputsClient({
     defaultValues,
@@ -45,10 +43,10 @@ export default function RuleFormInputsClient({
                 label='Title (Norwegian)'
                 required
                 value={formValues.title_no}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        title_no: input as string,
+                        title_no: e.target.value,
                     })
                 }
             />
@@ -58,36 +56,38 @@ export default function RuleFormInputsClient({
                 label='Title (English)'
                 required
                 value={formValues.title_en}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        title_en: input as string,
+                        title_en: e.target.value,
                     })
                 }
             />
-            <Markdown
+            <Textarea
                 name='description_no'
                 label='Description (Norwegian)'
                 required
                 value={formValues.description_no}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        description_no: input as string,
+                        description_no: e.target.value,
                     })
                 }
+                markdown
             />
-            <Markdown
+            <Textarea
                 name='description_en'
                 label='Description (English)'
                 required
                 value={formValues.description_en}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        description_en: input as string,
+                        description_en: e.target.value,
                     })
                 }
+                markdown
             />
             <Input
                 name='service'
@@ -95,10 +95,10 @@ export default function RuleFormInputsClient({
                 label='Service'
                 required
                 value={formValues.service}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        service: input as string,
+                        service: e.target.value,
                     })
                 }
             />
@@ -108,10 +108,10 @@ export default function RuleFormInputsClient({
                 label='Page'
                 required
                 value={formValues.page}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        page: input as string,
+                        page: e.target.value,
                     })
                 }
             />

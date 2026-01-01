@@ -1,10 +1,8 @@
 'use client'
 
-import Input from '@components/inputs/input'
 import { useState } from 'react'
-import Select from '@components/inputs/select'
 import JsonInput from '@components/inputs/json'
-import { Button } from 'uibee/components'
+import { Button, Input, Select } from 'uibee/components'
 
 export default function HoneyFormInputsClient({
     defaultValues,
@@ -44,10 +42,10 @@ export default function HoneyFormInputsClient({
                 type='text'
                 label='Page'
                 value={formValues.page}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        page: input as string,
+                        page: e.target.value,
                     })
                 }
                 required
@@ -57,10 +55,10 @@ export default function HoneyFormInputsClient({
                 type='text'
                 label='Service'
                 value={formValues.service}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        service: input as string,
+                        service: e.target.value,
                     })
                 }
                 required
@@ -73,10 +71,10 @@ export default function HoneyFormInputsClient({
                     { label: 'Norwegian', value: 'no' }
                 ]}
                 value={formValues.language ?? 'en'}
-                setValue={(input) =>
+                onChange={(value) =>
                     setFormValues({
                         ...formValues,
-                        language: input as string,
+                        language: value as string,
                     })
                 }
                 required
