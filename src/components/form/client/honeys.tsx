@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import JsonInput from '@components/inputs/json'
-import { Button, Input, Select } from 'uibee/components'
+import { Button, Input, Textarea, Select } from 'uibee/components'
 
 export default function HoneyFormInputsClient({
     defaultValues,
@@ -79,14 +78,15 @@ export default function HoneyFormInputsClient({
                 }
                 required
             />
-            <JsonInput
+            <Textarea
                 name='text'
                 label='Text'
+                type='json'
                 value={formValues.text}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        text: input,
+                        text: e.target.value,
                     })
                 }
                 required
