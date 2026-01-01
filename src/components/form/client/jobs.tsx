@@ -1,20 +1,13 @@
 'use client'
 
-import DateInput from '@components/inputs/date'
-import Input from '@components/inputs/input'
-import Markdown from '@components/inputs/markdown'
-import Select from '@components/inputs/select'
-import Switch from '@components/inputs/switch'
 import TagInput from '@components/inputs/tag'
-import TimeInput from '@components/inputs/time'
 import Announce from '@components/announce/announce'
 import fallBackDate from '@utils/fallbackDate'
 import postImage from '@utils/api/workerbee/images/postImage'
 import Upload from '@components/inputs/upload'
 import { useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
-import { toast } from 'uibee/components'
-import { Button } from 'uibee/components'
+import { toast, Button, Input, Textarea, Select, Switch } from 'uibee/components'
 
 export default function JobFormInputsClient({
     defaultValues,
@@ -48,9 +41,11 @@ export default function JobFormInputsClient({
         cities: defaultValues?.cities,
         job_type_id: defaultValues?.job_type.id,
         skills: defaultValues?.skills,
-        time_publish: defaultValues?.time_publish || new Date().toISOString(),
+        publish_date: defaultValues?.time_publish?.split('T')[0] || '',
+        publish_time: toLocalTimeString(defaultValues?.time_publish) || '',
         highlight: defaultValues?.highlight,
-        time_expire: defaultValues?.time_expire || fallBackDate('one month'),
+        expire_date: defaultValues?.time_expire?.split('T')[0] || '',
+        expire_time: toLocalTimeString(defaultValues?.time_expire) || '',
         application_url: defaultValues?.application_url,
     })
 
@@ -61,7 +56,7 @@ export default function JobFormInputsClient({
     }
 
     return (
-        <div className='grid grid-cols-2 gap-y-4 gap-x-8 pt-10 relative'>
+        <div className='grid grid-cols-2 gap-x-8 pt-10 relative'>
             <div className={`absolute flex flex-row gap-4 w-full ${mt} justify-end`}>
                 <Button
                     color='secondary'
@@ -75,10 +70,10 @@ export default function JobFormInputsClient({
                 type='text'
                 label='Title (Norwegian)'
                 value={formValues.title_no}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        title_no: input as string,
+                        title_no: e.target.value,
                     })
                 }
                 required
@@ -88,10 +83,10 @@ export default function JobFormInputsClient({
                 type='text'
                 label='Title (English)'
                 value={formValues.title_en}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        title_en: input as string,
+                        title_en: e.target.value,
                     })
                 }
                 required
@@ -101,10 +96,10 @@ export default function JobFormInputsClient({
                 type='text'
                 label='Position (Norwegian)'
                 value={formValues.position_title_no}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        position_title_no: input as string,
+                        position_title_no: e.target.value,
                     })
                 }
                 required
@@ -114,10 +109,10 @@ export default function JobFormInputsClient({
                 type='text'
                 label='Position (English)'
                 value={formValues.position_title_en}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        position_title_en: input as string,
+                        position_title_en: e.target.value,
                     })
                 }
                 required
@@ -127,10 +122,10 @@ export default function JobFormInputsClient({
                 type='text'
                 label='Short Description (Norwegian)'
                 value={formValues.description_short_no}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        description_short_no: input as string,
+                        description_short_no: e.target.value,
                     })
                 }
                 required
@@ -140,34 +135,36 @@ export default function JobFormInputsClient({
                 type='text'
                 label='Short Description (English)'
                 value={formValues.description_short_en}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        description_short_en: input as string,
+                        description_short_en: e.target.value,
                     })
                 }
                 required
             />
-            <Markdown
+            <Textarea
                 name='description_long_no'
                 label='Description (Norwegian)'
+                type='markdown'
                 value={formValues.description_long_no}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        description_long_no: input as string,
+                        description_long_no: e.target.value,
                     })
                 }
                 required
             />
-            <Markdown
+            <Textarea
                 name='description_long_en'
                 label='Description (English)'
+                type='markdown'
                 value={formValues.description_long_en}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        description_long_en: input as string,
+                        description_long_en: e.target.value,
                     })
                 }
                 required
@@ -177,10 +174,10 @@ export default function JobFormInputsClient({
                 label='Organization'
                 options={organizations}
                 value={formValues.organization || ''}
-                setValue={(input) =>
+                onChange={(value) =>
                     setFormValues({
                         ...formValues,
-                        organization: input as string,
+                        organization: value as string,
                     })
                 }
                 required
@@ -201,10 +198,10 @@ export default function JobFormInputsClient({
                 label='Application Type'
                 options={applicationTypes}
                 value={formValues.job_type_id || ''}
-                setValue={(input) =>
+                onChange={(value) =>
                     setFormValues({
                         ...formValues,
-                        job_type_id: Number(input),
+                        job_type_id: Number(value),
                     })
                 }
                 required
@@ -221,89 +218,82 @@ export default function JobFormInputsClient({
                 }
             />
             <div className='flex flex-row gap-x-4'>
-                <DateInput
+                <Input
+                    type='date'
                     name='publish_date'
                     label='Publish Date'
-                    value={formValues.time_publish.split('T')[0]}
-                    setValue={(input) => {
-                        const time =
-                            toLocalTimeString(formValues.time_publish) ||
-                            '00:00'
+                    value={formValues.publish_date}
+                    onChange={(e) =>
                         setFormValues({
                             ...formValues,
-                            time_publish: `${input}T${time}`,
+                            publish_date: e.target.value,
                         })
-                    }}
+                    }
                     required
                 />
-                <TimeInput
+                <Input
+                    type='time'
                     name='publish_time'
                     label='Publish Time'
-                    value={toLocalTimeString(formValues.time_publish)}
-                    setValue={(input) => {
-                        const date = formValues.time_publish.split('T')[0] ??
-                            new Date().toISOString().split('T')[0]
+                    value={formValues.publish_time}
+                    onChange={(e) =>
                         setFormValues({
                             ...formValues,
-                            time_publish: `${date}T${input}`,
+                            publish_time: e.target.value,
                         })
-                    }}
+                    }
                     required
                 />
             </div>
             <Switch
                 name='highlight'
                 label='Highlight Ad'
-                value={formValues.highlight || false}
-                setValue={(input) =>
+                checked={formValues.highlight || false}
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        highlight: input,
+                        highlight: e.target.checked,
                     })
                 }
             />
             <div className='flex flex-row gap-x-4'>
-                <DateInput
+                <Input
+                    type='date'
                     name='expire_date'
                     label='Expire Date'
-                    value={formValues.time_expire.split('T')[0]}
-                    setValue={(date) => {
-                        const time =
-                            toLocalTimeString(formValues.time_expire) ??
-                            '00:00'
+                    value={formValues.expire_date}
+                    onChange={(e) =>
                         setFormValues({
                             ...formValues,
-                            time_expire: `${date}T${time}`,
+                            expire_date: e.target.value,
                         })
-                    }}
+                    }
                     required
                 />
-                <TimeInput
+                <Input
+                    type='time'
                     name='expire_time'
                     label='Expire Time'
-                    value={toLocalTimeString(formValues.time_expire)}
-                    setValue={(time) => {
-                        const date =
-                            formValues.time_expire.split('T')[0] ??
-                            new Date().toISOString().split('T')[0]
+                    value={formValues.expire_time}
+                    onChange={(e) =>
                         setFormValues({
                             ...formValues,
-                            time_expire: `${date}T${time}`,
+                            expire_time: e.target.value,
                         })
-                    }}
+                    }
                     required
                 />
             </div>
-            <h1 className='text-xl pt-10 col-span-2'>Application</h1>
+            <h1 className='text-xl pt-10 pb-4 col-span-2'>Application</h1>
             <Input
                 name='application_url'
                 type='text'
-                label='Application URL'
+                label='URL'
                 value={formValues.application_url ?? ''}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        application_url: input as string,
+                        application_url: e.target.value,
                     })
                 }
                 className='col-span-2'
@@ -336,10 +326,10 @@ export default function JobFormInputsClient({
                 label='Banner Image'
                 options={images}
                 value={formValues.banner_image || ''}
-                setValue={(input) =>
+                onChange={(value) =>
                     setFormValues({
                         ...formValues,
-                        banner_image: input as string,
+                        banner_image: value as string,
                     })
                 }
                 className='col-span-2'
@@ -371,8 +361,10 @@ const sampleJob = {
     cities: ['Gjøvik'],
     job_type_id: 1,
     skills: ['Figma', 'Adobe XD', 'Creativity', 'Attention to detail'],
-    time_publish: new Date().toISOString(),
+    publish_date: new Date().toISOString().split('T')[0],
+    publish_time: '09:00',
     highlight: true,
-    time_expire: fallBackDate('one month'),
+    expire_date: fallBackDate('one month').split('T')[0],
+    expire_time: '23:59',
     application_url: 'https://login.no/jobs',
 }

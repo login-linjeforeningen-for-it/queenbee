@@ -4,6 +4,7 @@ import getTypes from '@utils/api/workerbee/jobs/getTypes'
 import getImages from '@utils/api/workerbee/images/getImages'
 import getRoles from '@utils/api/bot/announcements/getRoles'
 import getChannels from '@utils/api/bot/announcements/getChannels'
+import config from '@config'
 
 export default async function JobFormInputs({ defaultValues, parent }: { defaultValues?: GetJobProps, parent?: { preview?: boolean }}) {
     const organizationsResponse = await getAllOrganizations()
@@ -29,7 +30,7 @@ export default async function JobFormInputs({ defaultValues, parent }: { default
         ? imagesResponse.map((image) => ({
             label: image,
             value: image,
-            image: `img/jobs/${image}`,
+            image: `${config.url.cdn}/img/jobs/${image}`,
         }))
         : []
 
