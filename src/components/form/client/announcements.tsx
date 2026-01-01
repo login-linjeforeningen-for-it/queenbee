@@ -1,15 +1,9 @@
 'use client'
 
-import DateInput from '@components/inputs/date'
-import Input from '@components/inputs/input'
-import Markdown from '@components/inputs/markdown'
-import Select from '@components/inputs/select'
-import Switch from '@components/inputs/switch'
-import TimeInput from '@components/inputs/time'
+import { Input, Textarea, Select, Switch, Button } from 'uibee/components'
 import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
 import { toLocalTimeString } from '@utils/timeZone'
 import { useEffect, useState } from 'react'
-import { Button } from 'uibee/components'
 
 export default function AnnouncementFormInputsClient({
     channels,
@@ -17,9 +11,6 @@ export default function AnnouncementFormInputsClient({
     defaultValues,
     preview,
     nested,
-    color,
-    buttonColor,
-    buttonColorHighlighted,
     required: req = true
 }: {
     channels: Option[]
@@ -27,9 +18,6 @@ export default function AnnouncementFormInputsClient({
     defaultValues?: GetAnnouncementProps
     preview?: boolean
     nested?: boolean
-    color?: string
-    buttonColor?: string
-    buttonColorHighlighted?: string
     required?: boolean
 }) {
     const [required, setRequired] = useState(req)
@@ -86,8 +74,7 @@ export default function AnnouncementFormInputsClient({
     }
 
     return (
-        <div className='flex flex-col gap-4 relative'>
-            {/* prettier-ignore */}
+        <div className='flex flex-col relative'>
             {!nested && <div className={`
                 absolute flex flex-row gap-4 w-full justify-end ${mt}
             `}>
@@ -104,27 +91,25 @@ export default function AnnouncementFormInputsClient({
                 label='Title'
                 required={required}
                 value={formValues.title}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        title: input as string,
+                        title: e.target.value,
                     })
                 }
             />
-            <Markdown
+            <Textarea
                 name='description'
                 label='Description'
-                color={color}
                 required={required}
-                buttonColor={buttonColor}
-                buttonColorHighlighted={buttonColorHighlighted}
                 value={formValues.description}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        description: input as string,
+                        description: e.target.value,
                     })
                 }
+                markdown
             />
             <Select
                 name='channel'
@@ -132,10 +117,10 @@ export default function AnnouncementFormInputsClient({
                 options={channels}
                 value={formValues.channel || ''}
                 required={required}
-                setValue={(input) =>
+                onChange={(value) =>
                     setFormValues({
                         ...formValues,
-                        channel: input as string,
+                        channel: value as string,
                     })
                 }
                 className='col-span-2'
@@ -144,12 +129,11 @@ export default function AnnouncementFormInputsClient({
                 name='roles'
                 label='Role'
                 options={roles}
-                color={color}
                 value={formValues.roles || ''}
-                setValue={(input) =>
+                onChange={(value) =>
                     setFormValues({
                         ...formValues,
-                        roles: input as string,
+                        roles: value as string,
                     })
                 }
                 className='col-span-2'
@@ -157,11 +141,11 @@ export default function AnnouncementFormInputsClient({
             <Switch
                 name='embed'
                 label='Embed'
-                value={formValues.embed || false}
-                setValue={(input) =>
+                checked={formValues.embed || false}
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        embed: input,
+                        embed: e.target.checked,
                     })
                 }
             />
@@ -170,10 +154,10 @@ export default function AnnouncementFormInputsClient({
                 type='text'
                 label='Embed color'
                 value={formValues.color}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        color: input as string,
+                        color: e.target.value,
                     })
                 }
             />
@@ -182,18 +166,20 @@ export default function AnnouncementFormInputsClient({
                 type='text'
                 label='Interval'
                 value={formValues.interval}
-                setValue={(input) =>
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        interval: input as string,
+                        interval: e.target.value,
                     })
                 }
             />
-            <DateInput
+            <Input
                 name='publish_date'
                 label='Publish Date'
+                type='date'
                 value={formValues.time.split('T')[0]}
-                setValue={(date) => {
+                onChange={(e) => {
+                    const date = e.target.value
                     const time =
                         toLocalTimeString(formValues.time) ??
                         '00:00'
@@ -203,11 +189,13 @@ export default function AnnouncementFormInputsClient({
                     })
                 }}
             />
-            <TimeInput
+            <Input
                 name='publish_time'
                 label='Publish Time'
+                type='time'
                 value={toLocalTimeString(formValues.time)}
-                setValue={(time) => {
+                onChange={(e) => {
+                    const time = e.target.value
                     const date =
                         formValues.time.split('T')[0] ??
                         new Date().toISOString().split('T')[0]
