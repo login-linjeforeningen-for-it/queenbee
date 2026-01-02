@@ -1,6 +1,6 @@
 'use client'
 
-import Input from '@components/inputs/input'
+import { Input } from 'uibee/components'
 import getShareURLs from '@utils/api/workerbee/albums/getShareURLs'
 import compressAlbums from '@utils/api/workerbee/albums/compressAlbums'
 import { toast } from 'uibee/components'
@@ -28,15 +28,16 @@ export default function UploadAlbumImages({ albumId }: { albumId: number }) {
 
     return (
         <div className='flex flex-row items-center gap-4 w-md'>
-            <Input
-                key={inputKey}
-                name='images'
-                label='Images'
-                type='file'
-                multiple
-                files={files}
-                setFiles={(newFiles) => setFiles(newFiles || [])}
-            />
+            <div>
+                <label>Images</label>
+                <Input
+                    key={inputKey}
+                    name='images'
+                    type='file'
+                    multiple
+                    onChange={(e) => setFiles(e.target.files ? Array.from(e.target.files) : [])}
+                />
+            </div>
             <button
                 type='button'
                 disabled={isUploading}

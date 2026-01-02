@@ -1,8 +1,9 @@
 'use client'
 
+import { SearchIcon } from 'lucide-react'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
-import Label from './label'
+import { Input } from 'uibee/components'
 
 export default function Search({ className }: { className?: string }) {
     const router = useRouter()
@@ -20,24 +21,14 @@ export default function Search({ className }: { className?: string }) {
     }
 
     return (
-        <div className={`relative flex items-center ${className}`}>
-            <input
+        <div className={`relative flex items-center m-1 ${className}`}>
+            <Input
                 name='search'
                 value={text}
                 onChange={handleChange}
                 type='text'
-                className={`
-                    block h-8 py-2 w-full text-sm rounded-lg cursor-text
-                    border-[0.08rem] appearance-none border-login-200
-                    focus:outline-none focus:ring-0 focus:border-login-50 peer
-                `}
-                placeholder=''
-            />
-            <Label
-                label='Filter'
-                value={text}
-                required={false}
-                showRequired={false}
+                placeholder='Search...'
+                icon={<SearchIcon />}
             />
         </div>
     )
