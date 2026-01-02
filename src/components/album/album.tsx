@@ -57,7 +57,7 @@ export default function Album({ album, deleteAction, pageSize, coverAction }: Al
         }
     }
 
-    const handleSetCoverImage = async (imageName: string) => {
+    async function handleSetCoverImage(imageName: string) {
         if (!coverAction) return
 
         try {
@@ -105,13 +105,14 @@ export default function Album({ album, deleteAction, pageSize, coverAction }: Al
                                 {coverAction && (
                                     <Button
                                         icon={<Star size={20} />}
-                                        text='Set as cover image'
+                                        text='Cover'
                                         onClick={() => handleSetCoverImage(image)}
+                                        disabled={image.startsWith('coverimg_')}
                                     />
                                 )}
                                 <Button
                                     icon={<Trash2 size={20} />}
-                                    text='Delete image'
+                                    text='Delete'
                                     onClick={() => handleDeleteImage(image)}
                                 />
                             </div>
