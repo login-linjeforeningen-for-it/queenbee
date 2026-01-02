@@ -1,13 +1,12 @@
 'use client'
 
-import TagInput from '@components/inputs/tag'
 import Announce from '@components/announce/announce'
 import fallBackDate from '@utils/fallbackDate'
 import postImage from '@utils/api/workerbee/images/postImage'
 import Upload from '@components/inputs/upload'
 import { useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
-import { toast, Button, Input, Textarea, Select, Switch } from 'uibee/components'
+import { toast, Button, Input, Textarea, Select, Switch, TagInput } from 'uibee/components'
 
 export default function JobFormInputsClient({
     defaultValues,
@@ -186,7 +185,7 @@ export default function JobFormInputsClient({
                 name='cities'
                 label='Cities'
                 value={formValues.cities || []}
-                setValue={(input) =>
+                onChange={(input) =>
                     setFormValues({
                         ...formValues,
                         cities: input,
@@ -210,7 +209,7 @@ export default function JobFormInputsClient({
                 name='skills'
                 label='Skills'
                 value={formValues.skills || []}
-                setValue={(input) =>
+                onChange={(input) =>
                     setFormValues({
                         ...formValues,
                         skills: input,
