@@ -5,19 +5,18 @@ import cropImage from '@/utils/image/cropImage'
 import { X } from 'lucide-react'
 import NextImage from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
-import Switch from './switch'
 import getWidth from '@utils/image/getWidth'
-import { Button } from 'uibee/components'
+import { Button, Switch } from 'uibee/components'
 
 
 type UploadPopupProps = {
     file: File
-    handleFile: (file: File) => void
-    onClose: () => void
+    handleFileAction: (file: File) => void
+    onCloseAction: () => void
     showSwitch?: boolean
 }
 
-export default function UploadPopup({ file, handleFile, onClose, showSwitch }: UploadPopupProps) {
+export default function UploadPopup({ file, handleFileAction, onCloseAction, showSwitch }: UploadPopupProps) {
     const image = URL.createObjectURL(file)
     const [showTag, setShowTag] = useState(showSwitch)
     const [crop, setCrop] = useState({ x: 0, y: 0 })
@@ -46,12 +45,12 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
         if (needsCrop && croppedAreaPixels) {
             const blob = await cropImage(image, croppedAreaPixels)
             const croppedFile = new File([blob], file.name, { type: file.type })
-            handleFile(croppedFile)
+            handleFileAction(croppedFile)
         } else {
-            handleFile(file)
+            handleFileAction(file)
         }
 
-        onClose()
+        onCloseAction()
     }
 
     useEffect(() => {
@@ -70,7 +69,7 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
                 <div className='flex items-center justify-between mb-6 pt-2'>
                     <h1 className='text-2xl font-bold'>Upload Preview</h1>
                     <button
-                        onClick={onClose}
+                        onClick={onCloseAction}
                         className='transition-colors rounded-lg hover:bg-login-50/5 p-2 select-none'
                         aria-label='Close'
                     >
@@ -132,8 +131,8 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
                             <Switch
                                 name='showTag'
                                 label='Show Tag'
-                                value={showTag}
-                                setValue={setShowTag}
+                                checked={showTag}
+                                onChange={(e) => setShowTag(e.target.checked)}
                                 className='border-transparent bg-login-500/60'
                             />
                         )}
@@ -143,7 +142,7 @@ export default function UploadPopup({ file, handleFile, onClose, showSwitch }: U
                             icon={<X className='w-5' />}
                             color='secondary'
                             text='Cancel'
-                            onClick={onClose}
+                            onClick={onCloseAction}
                         />
                         <Button
                             icon='+'

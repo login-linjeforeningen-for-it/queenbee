@@ -39,7 +39,7 @@ export default function Upload({ handleFile, showSwitch }: UploadProps) {
                 />
             </label>
             {open && file && (
-                <UploadPopup onClose={handleClose} file={file} handleFile={handleFile} showSwitch={showSwitch} />
+                <UploadPopup onCloseAction={handleClose} file={file} handleFileAction={handleFile} showSwitch={showSwitch} />
             )}
         </>
     )

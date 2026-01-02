@@ -2,18 +2,16 @@
 
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
-import Switch from './switch'
+import { Switch } from 'uibee/components'
 
 type HistoricalSwitchProps = {
     name: string
     label: string
-    tooltip?: string
 }
 
 export default function HistoricalSwitch({
     name,
     label,
-    tooltip,
 }: HistoricalSwitchProps) {
     const router = useRouter()
     const pathname = usePathname()
@@ -38,10 +36,9 @@ export default function HistoricalSwitch({
         <Switch
             name={name}
             label={label}
-            value={value}
-            setValue={handleChange}
-            className='py-1.5! px-2! w-fit!'
-            tooltip={tooltip}
+            checked={value}
+            onChange={(e) => handleChange(e.target.checked)}
+            switchOnly
         />
     )
 }
