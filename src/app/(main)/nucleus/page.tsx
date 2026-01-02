@@ -1,10 +1,9 @@
 'use client'
 import sendNotificationClient from '@utils/notification/sendNotificationClient'
 import { useState } from 'react'
-import Input from '@components/inputs/input'
 import { File, Send } from 'lucide-react'
 import Preview from '@components/preview/preview'
-import { Button } from 'uibee/components'
+import { Button, Input } from 'uibee/components'
 
 export default function page() {
     const [result, setResult] = useState<SendResponseClient | null>()
@@ -77,7 +76,7 @@ export default function page() {
                         const formData = new FormData(e.currentTarget)
                         handleSend(formData)
                     }}
-                    className='flex flex-col gap-4 max-w-md'
+                    className='flex flex-col max-w-md'
                 >
                     <Input
                         name='title'
@@ -85,10 +84,10 @@ export default function page() {
                         label='Title'
                         required
                         className=''
-                        setValue={(input) =>
+                        onChange={(e) =>
                             setFormValues({
                                 ...formValues,
-                                title: input.toString(),
+                                title: e.target.value,
                             })
                         }
                         value={formValues.title || ''}
@@ -99,10 +98,10 @@ export default function page() {
                         label='Description'
                         required
                         className=''
-                        setValue={(input) =>
+                        onChange={(e) =>
                             setFormValues({
                                 ...formValues,
-                                description: input.toString(),
+                                description: e.target.value,
                             })
                         }
                         value={formValues.description || ''}
@@ -113,8 +112,8 @@ export default function page() {
                         label='Topic'
                         required
                         className=''
-                        setValue={(input) =>
-                            setFormValues({ ...formValues, topic: input })
+                        onChange={(e) =>
+                            setFormValues({ ...formValues, topic: e.target.value })
                         }
                         value={formValues.topic || ''}
                     />
@@ -124,8 +123,8 @@ export default function page() {
                         label='Screen'
                         required
                         className=''
-                        setValue={(input) =>
-                            setFormValues({ ...formValues, screen: input })
+                        onChange={(e) =>
+                            setFormValues({ ...formValues, screen: e.target.value })
                         }
                         value={formValues.screen || ''}
                     />

@@ -26,7 +26,7 @@ export default function RuleFormInputsClient({
     }
 
     return (
-        <div className='grid grid-cols-2 gap-y-4 gap-x-8 pt-10 relative'>
+        <div className='grid grid-cols-2 gap-x-8 pt-10 relative'>
             <div className={
                 `absolute flex flex-row gap-4 w-full ${mt} justify-end`
             }>
