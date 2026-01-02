@@ -1,12 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import Input from '@components/inputs/input'
 import Link from 'next/link'
 import { ArrowLeft, DatabaseBackup } from 'lucide-react'
-import { Button } from 'uibee/components'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { toast } from 'uibee/components'
+import { toast, Button, Input } from 'uibee/components'
 import postBackupRestore from '@utils/api/internal/backups/postBackup'
 
 export default function RestoreClient({ backups }: { backups: BackupFileProps[] }) {
@@ -18,7 +16,7 @@ export default function RestoreClient({ backups }: { backups: BackupFileProps[] 
     const [dateFilter, setDateFilter] = useState(searchParams.get('date') || '')
     const [restoring, setRestoring] = useState<string | null>(null)
 
-    const updateParams = (key: string, value: string) => {
+    function updateParams(key: string, value: string) {
         const params = new URLSearchParams(searchParams.toString())
         if (value) params.set(key, value)
         else params.delete(key)
@@ -58,9 +56,9 @@ export default function RestoreClient({ backups }: { backups: BackupFileProps[] 
                         type='text'
                         label='Filter by Service'
                         value={serviceFilter}
-                        setValue={(v) => {
-                            setServiceFilter(String(v))
-                            updateParams('service', String(v))
+                        onChange={(e) => {
+                            setServiceFilter(String(e.target.value))
+                            updateParams('service', String(e.target.value))
                         }}
                     />
                 </div>
@@ -70,9 +68,9 @@ export default function RestoreClient({ backups }: { backups: BackupFileProps[] 
                         type='date'
                         label='Filter by Date'
                         value={dateFilter}
-                        setValue={(v) => {
-                            setDateFilter(String(v))
-                            updateParams('date', String(v))
+                        onChange={(e) => {
+                            setDateFilter(String(e.target.value))
+                            updateParams('date', String(e.target.value))
                         }}
                     />
                 </div>
