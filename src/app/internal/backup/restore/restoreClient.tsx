@@ -5,6 +5,7 @@ import { DatabaseBackup } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { toast, Button, Input } from 'uibee/components'
 import postBackupRestore from '@utils/api/internal/backups/postBackup'
+import GeneralTable, { Column } from '@components/table/generalTable'
 
 export default function RestoreClient({ backups }: { backups: BackupFileProps[] }) {
     const router = useRouter()
@@ -39,6 +40,39 @@ export default function RestoreClient({ backups }: { backups: BackupFileProps[] 
         }
     }
 
+    const columns: Column<BackupFileProps>[] = [
+        {
+            header: 'Container',
+            accessorKey: 'service',
+            className: 'font-medium text-white'
+        },
+        {
+            header: 'Date',
+            accessorKey: 'mtime',
+            className: 'text-login-200'
+        },
+        {
+            header: 'Size',
+            accessorKey: 'size',
+            className: 'text-login-200'
+        },
+        {
+            header: 'Action',
+            align: 'right',
+            className: 'font-medium',
+            cell: (backup) => (
+                <div className='flex justify-end'>
+                    <Button
+                        icon={<DatabaseBackup className='w-5' />}
+                        text={restoring === backup.file ? 'Restoring...' : 'Restore'}
+                        onClick={() => handleRestore(backup)}
+                        disabled={restoring !== null}
+                    />
+                </div>
+            )
+        }
+    ]
+
     return (
         <div className='flex flex-col gap-6'>
             <div className='flex gap-4 mb-4'>
@@ -68,67 +102,13 @@ export default function RestoreClient({ backups }: { backups: BackupFileProps[] 
                 </div>
             </div>
 
-            <div className='bg-login-50/5 rounded-lg shadow overflow-hidden border border-login-600'>
-                <table className='min-w-full divide-y divide-login-600'>
-                    <thead className='bg-login-700'>
-                        <tr>
-                            <th className={
-                                'px-6 py-3 text-left text-xs font-medium text-login-200 uppercase tracking-wider'
-                            }>
-                                Container
-                            </th>
-                            <th className={
-                                'px-6 py-3 text-left text-xs font-medium text-login-200 uppercase tracking-wider'
-                            }>
-                                Date
-                            </th>
-                            <th className={
-                                'px-6 py-3 text-left text-xs font-medium text-login-200 uppercase tracking-wider'
-                            }>
-                                Size
-                            </th>
-                            <th className={
-                                'px-6 py-3 text-right text-xs font-medium text-login-200 uppercase tracking-wider'
-                            }>
-                                Action
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody className='bg-login-50/5 divide-y divide-login-600'>
-                        {backups.length > 0 ? (
-                            backups.map((backup, index) => (
-                                <tr key={backup.file || index}>
-                                    <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-white'>
-                                        {backup.service}
-                                    </td>
-                                    <td className='px-6 py-4 whitespace-nowrap text-sm text-login-200'>
-                                        {backup.mtime}
-                                    </td>
-                                    <td className='px-6 py-4 whitespace-nowrap text-sm text-login-200'>
-                                        {backup.size}
-                                    </td>
-                                    <td className='px-6 py-4 whitespace-nowrap flex justify-end text-sm font-medium'>
-                                        <div className='flex justify-end w-1'>
-                                            <Button
-                                                icon={<DatabaseBackup className='w-5' />}
-                                                text={restoring === backup.file ? 'Restoring...' : 'Restore'}
-                                                onClick={() => handleRestore(backup)}
-                                                disabled={restoring !== null}
-                                            />
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan={4} className='px-6 py-4 text-center text-sm text-login-200'>
-                                    No backups found matching filters.
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
+            <GeneralTable
+                data={backups}
+                columns={columns}
+                keyExtractor={(item, index) => item.file || index}
+                noDataMessage='No backups found matching filters.'
+            />
         </div>
     )
 }
+
