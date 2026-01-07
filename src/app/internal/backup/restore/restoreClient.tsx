@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { DatabaseBackup } from 'lucide-react'
+import { DatabaseBackup, ArrowLeft } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { toast, Button, Input } from 'uibee/components'
 import postBackupRestore from '@utils/api/internal/backups/postBackup'
@@ -74,40 +74,50 @@ export default function RestoreClient({ backups }: { backups: BackupFileProps[] 
     ]
 
     return (
-        <div className='flex flex-col gap-6'>
-            <div className='flex gap-4 mb-4'>
-                <div className='flex-1'>
-                    <Input
-                        name='serviceFilter'
-                        type='text'
-                        label='Filter by Service'
-                        value={serviceFilter}
-                        onChange={(e) => {
-                            setServiceFilter(String(e.target.value))
-                            updateParams('service', String(e.target.value))
-                        }}
-                    />
+        <div className='flex flex-col h-full'>
+            <div className='flex-none py-3 flex items-center justify-between gap-4'>
+                <div className='flex gap-4 items-center'>
+                    <div className='w-64'>
+                        <Input
+                            name='serviceFilter'
+                            type='text'
+                            placeholder='Filter by Service'
+                            value={serviceFilter}
+                            onChange={(e) => {
+                                setServiceFilter(String(e.target.value))
+                                updateParams('service', String(e.target.value))
+                            }}
+                        />
+                    </div>
+                    <div className='w-auto'>
+                        <Input
+                            name='dateFilter'
+                            type='date'
+                            placeholder='Filter by Date'
+                            value={dateFilter}
+                            onChange={(e) => {
+                                setDateFilter(String(e.target.value))
+                                updateParams('date', String(e.target.value))
+                            }}
+                        />
+                    </div>
                 </div>
-                <div className='flex-1'>
-                    <Input
-                        name='dateFilter'
-                        type='date'
-                        label='Filter by Date'
-                        value={dateFilter}
-                        onChange={(e) => {
-                            setDateFilter(String(e.target.value))
-                            updateParams('date', String(e.target.value))
-                        }}
-                    />
-                </div>
+                <Button
+                    icon={<ArrowLeft className='w-5' />}
+                    text='Back to Settings'
+                    path='/internal/backup'
+                    className='self-start'
+                />
             </div>
 
-            <GeneralTable
-                data={backups}
-                columns={columns}
-                keyExtractor={(item, index) => item.file || index}
-                noDataMessage='No backups found matching filters.'
-            />
+            <div className='flex-1 overflow-y-auto min-h-0'>
+                <GeneralTable
+                    data={backups}
+                    columns={columns}
+                    keyExtractor={(item, index) => item.file || index}
+                    noDataMessage='No backups found matching filters.'
+                />
+            </div>
         </div>
     )
 }
