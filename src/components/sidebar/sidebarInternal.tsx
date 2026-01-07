@@ -6,6 +6,7 @@ import {
     Activity,
     Database,
     LayoutDashboard,
+    Logs,
     Scale,
     Server,
     TriangleAlert,
@@ -56,6 +57,11 @@ export default function SidebarInternal({ docker: serverDocker, meta: serverMeta
             name: 'Load Balancing',
             path: '/internal/loadbalancing',
             image: <Scale className='w-6' />,
+        },
+        logs: {
+            name: 'Logs',
+            path: '/internal/logs',
+            image: <Logs className='w-6' />,
         },
         kubernetes: {
             name: 'Kubernetes',
