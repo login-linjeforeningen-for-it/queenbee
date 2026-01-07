@@ -3,44 +3,60 @@ import formatNextBackup from '@utils/date/formatNextBackup'
 import prettyDate from '@utils/date/prettyDate'
 import Alert from '@components/alert/alert'
 import formatAlert from '@components/alert/formatAlert'
+import Search from '@components/inputs/search'
 import { DatabaseBackup } from 'lucide-react'
 import { Button } from 'uibee/components'
 
-export default async function Page() {
-    const backups = await getBackups()
+export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
+    const list = await getBackups()
+    const { q } = await searchParams
+    const search = typeof q === 'string' ? q.toLowerCase() : ''
 
-    if (typeof backups === 'string') {
-        return (
-            <div className='w-full p-4'>
-                <Alert>
-                    {formatAlert(backups, 'Error loading backups')}
-                </Alert>
-            </div>
-        )
-    }
+    const error = typeof list === 'string' ? list : null
+    const backupList = Array.isArray(list) ? list : []
+
+    const backups = backupList.filter(backup =>
+        backup.name.toLowerCase().includes(search) ||
+        backup.id.toLowerCase().includes(search)
+    )
 
     return (
-        <div className='w-full p-4 space-y-6'>
-            <div className='flex justify-between items-center'>
-                <h1 className='md:text-2xl font-bold'>Backup Management</h1>
-                <Button
-                    icon={<DatabaseBackup className='w-5' />}
-                    text='Go to Restore'
-                    path='/internal/backup/restore'
-                />
+        <div className='h-full lg:max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden flex flex-col'>
+            <div className='flex-none'>
+                <h1 className='font-semibold text-lg'>Backup Management</h1>
+                <div className='flex items-center justify-between py-3'>
+                    <Search />
+                    <Button
+                        icon={<DatabaseBackup className='w-5' />}
+                        text='Go to Restore'
+                        path='/internal/backup/restore'
+                        className='self-start'
+                    />
+                </div>
             </div>
 
-            <div className='grid gap-6'>
-                {backups.length > 0 ? (
-                    backups.map(backup => (
-                        <BackupCard key={backup.id} backup={backup} />
-                    ))
+            <div className='flex-1 overflow-y-auto min-h-0'>
+                {error ? (
+                    <div className='h-full flex items-center justify-center'>
+                        <Alert>
+                            {formatAlert(error, 'Error loading backups')}
+                        </Alert>
+                    </div>
+                ) : backups.length > 0 ? (
+                    <div className='grid gap-6'>
+                        {backups.map(backup => (
+                            <BackupCard key={backup.id} backup={backup} />
+                        ))}
+                    </div>
                 ) : (
-                    <Alert>
-                        {formatAlert(null, 'No backups found')}
-                    </Alert>
+                    <div className='h-full flex items-center justify-center'>
+                        <Alert>
+                            {formatAlert(null, 'No backups found')}
+                        </Alert>
+                    </div>
                 )}
             </div>
+
         </div>
     )
 }

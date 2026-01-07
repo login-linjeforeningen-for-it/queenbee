@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { ArrowLeft, DatabaseBackup } from 'lucide-react'
+import { DatabaseBackup } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { toast, Button, Input } from 'uibee/components'
 import postBackupRestore from '@utils/api/internal/backups/postBackup'
@@ -41,14 +40,7 @@ export default function RestoreClient({ backups }: { backups: BackupFileProps[] 
     }
 
     return (
-        <div className='w-full p-4 space-y-6'>
-            <div className='flex justify-between items-center'>
-                <h1 className='text-2xl font-bold'>Restore Backup</h1>
-                <Link href='/internal/backup'>
-                    <Button icon={<ArrowLeft className='w-5' />} text='Back to Settings' />
-                </Link>
-            </div>
-
+        <div className='flex flex-col gap-6'>
             <div className='flex gap-4 mb-4'>
                 <div className='flex-1'>
                     <Input
