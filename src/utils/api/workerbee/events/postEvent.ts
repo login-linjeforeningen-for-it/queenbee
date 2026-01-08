@@ -17,6 +17,6 @@ export default async function postEvent(
         queryParts.append('repeat_until', String(repeat_until))
     }
 
-    const path = `${config.workerbee.events.path}/?${queryParts.toString()}`
+    const path = `${config.workerbee.events.path}?${queryParts.toString()}`
     return await postWrapper({ path, data: body, service: 'workerbee' })
 }

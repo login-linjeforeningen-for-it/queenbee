@@ -36,6 +36,6 @@ export default async function getJobs({
         queryParts.append('historical', String(historical))
     }
 
-    const path = `${config.workerbee.jobs.path_protected}/?${queryParts.toString()}`
+    const path = `${config.workerbee.jobs.path_protected}?${queryParts.toString()}`
     return await getWrapper({ path, service: 'workerbee' })
 }

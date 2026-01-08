@@ -31,6 +31,6 @@ export default async function getOrganizations({
         queryParts.append('sort', String(sort))
     }
 
-    const path = `${config.workerbee.organizations.path}/?${queryParts.toString()}`
+    const path = `${config.workerbee.organizations.path}?${queryParts.toString()}`
     return await getWrapper({ path, service: 'workerbee' })
 }
