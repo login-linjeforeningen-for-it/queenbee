@@ -30,7 +30,7 @@ export default function AlbumFormInputsClient({
 
     return (
         <div className='grid md:grid-cols-2 gap-x-8 pt-10 relative'>
-            <div className='absolute grid md:flex! flex-row gap-4 w-full justify-end'>
+            <div className='absolute grid md:flex! flex-row gap-4 w-full justify-end -mt-13'>
                 <Button
                     color='secondary'
                     text='Example'

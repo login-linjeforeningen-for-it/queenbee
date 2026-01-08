@@ -65,7 +65,7 @@ export default function AnnouncementFormInputsClient({
 
     return (
         <div className='flex flex-col relative'>
-            {!nested && <div className='absolute flex flex-row gap-4 w-full justify-end'>
+            {!nested && <div className='absolute flex flex-row gap-4 w-full justify-end -mt-13'>
                 <Button
                     color='secondary'
                     text='Example'

@@ -17,7 +17,7 @@ export default function RuleFormInputsClient({ defaultValues }: { defaultValues?
 
     return (
         <div className='grid grid-cols-2 gap-x-8 pt-10 relative'>
-            <div className='absolute flex flex-row gap-4 w-full justify-end'>
+            <div className='absolute flex flex-row gap-4 w-full justify-end -mt-13'>
                 <Button
                     color='secondary'
                     text='Example'
