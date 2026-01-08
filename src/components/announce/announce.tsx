@@ -1,36 +1,19 @@
 import AnnouncementFormInputsClient from '@components/form/client/announcements'
 import DiscordPreview from '@components/preview/discord'
-import ArrowDown from '@components/shared/arrowDown'
-import ArrowRight from '@components/shared/arrowRight'
-import { getCookie, setCookie } from 'utilbee/utils'
 import { MessageSquareWarning } from 'lucide-react'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { Switch } from 'uibee/components'
 
 export default function Announce({ channels, roles }: { channels: Channel[], roles: Role[] }) {
-    const [state, setState] = useState('closed')
+    const [enabled, setEnabled] = useState<boolean>(false)
     const pathname = usePathname()
-    const isOpen = state === 'open'
-
-    useEffect(() => {
-        const cookie = getCookie('announceBar')
-        if (cookie) {
-            setState(cookie)
-        }
-    }, [])
-
-    function handleClick() {
-        setState((prev) => prev === 'closed' ? 'open' : 'closed')
-        setCookie('announceBar', state === 'closed' ? 'open' : 'closed')
-    }
 
     if (pathname.includes('update/')) {
-        if (state === 'open') {
-            setState('closed')
-        }
+        setEnabled(false)
 
         return (
-            <div className='col-span-2 space-apart bg-login-50/5 rounded-lg p-2 px-4 cursor-pointer mt-10'>
+            <div className='col-span-2 space-apart bg-login-50/5 rounded-lg p-2 px-4 cursor-not-allowed mt-10'>
                 <div className='flex justify-between'>
                     <div className='flex gap-2'>
                         <h1 className='text-2xl font-bold select-none text-login-200'>
@@ -40,9 +23,6 @@ export default function Announce({ channels, roles }: { channels: Channel[], rol
                             Announcements can currently not be edited from this page.
                         </h1>
                     </div>
-                    <div className='h-5 w-5 self-center'>
-                        <ArrowRight color='#fd8738' />
-                    </div>
                 </div>
             </div>
         )
@@ -50,21 +30,26 @@ export default function Announce({ channels, roles }: { channels: Channel[], rol
 
     return (
         <div
-            onClick={handleClick}
-            className='col-span-2 space-apart bg-login-50/5 rounded-lg p-2 px-4 cursor-pointer mt-10 select-none'
+            onClick={() => setEnabled(!enabled)}
+            className='col-span-2 space-apart bg-login-50/5 rounded-lg p-2 px-4 mt-10 select-none'
         >
             <div className='flex justify-between'>
                 <h1 className={
                     'text-2xl font-bold select-none '
-                    + `${isOpen ? 'text-foreground' : 'text-login-200'}`
+                    + `${enabled ? 'text-foreground' : 'text-login-200'}`
                 }>
                     Announce
                 </h1>
-                <div className='h-5 w-5 self-center'>
-                    {isOpen ? <ArrowDown color='#fd8738' /> : <ArrowRight color='#fd8738' />}
-                </div>
+                <Switch
+                    name='announcement_enabled'
+                    label='Disable | Enable '
+                    checked={enabled}
+                    onChange={() => setEnabled((prev) => !prev)}
+                    switchOnly
+                    className='self-center'
+                />
             </div>
-            <OpenAnnouncement isOpen={isOpen} channels={channels} roles={roles} />
+            <OpenAnnouncement isOpen={enabled} channels={channels} roles={roles} />
         </div>
     )
 }
@@ -102,7 +87,6 @@ function OpenAnnouncement({
                     channels={channels}
                     roles={roles}
                     nested={true}
-                    required={false}
                 />
                 <DiscordPreview channels={channels} roles={roles} />
             </div>

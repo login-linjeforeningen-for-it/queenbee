@@ -29,10 +29,8 @@ export async function extractAnnouncementProps<T extends Unparsed>(formData: For
     } as T
 }
 
-export async function anyMandatoryFieldSet(formData: FormData): Promise<boolean> {
-    return Boolean(
-        getOptionalString(formData, 'title') || getOptionalString(formData, 'description') || getOptionalString(formData, 'channel')
-    )
+export async function isEnabled(formData: FormData): Promise<boolean> {
+    return formData.get('announcement_enabled') === 'on'
 }
 
 export async function createAnnouncement(_: FormState, formData: FormData): Promise<PostFormState> {

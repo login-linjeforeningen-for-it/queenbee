@@ -3,7 +3,7 @@
 import {
     getOptionalBoolean, getRequiredNumber, getOptionalString, getRequiredString, getRequiredDateTime, getOptionalArray
 } from '@utils/validate'
-import { extractAnnouncementProps, anyMandatoryFieldSet } from './announcements'
+import { extractAnnouncementProps, isEnabled } from './announcements'
 import postAnnouncement from '@utils/api/bot/announcements/postAnnouncement'
 import postJob from '@utils/api/workerbee/jobs/postJob'
 import putJob from '@utils/api/workerbee/jobs/putJob'
@@ -43,19 +43,16 @@ export async function createJob(_: PostFormState, formData: FormData): Promise<P
     try {
         const jobProps = extractJobsProps<PostJobProps>(formData)
 
-        let announcementProps: PostAnnouncementPropsUnparsed | string
-        try {
+        const isAnnouncementEnabled = await isEnabled(formData)
+        let announcementProps: PostAnnouncementPropsUnparsed | undefined = undefined
+        if (isAnnouncementEnabled) {
             announcementProps = await extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
-        } catch(error) {
-            announcementProps = error instanceof Error ? error.message : 'Unknown error'
         }
 
         const response = await postJob(jobProps)
 
-        if (typeof announcementProps !== 'string' && await anyMandatoryFieldSet(formData)) {
+        if (isAnnouncementEnabled && announcementProps !== undefined) {
             await postAnnouncement({ ...announcementProps, roles: announcementProps.roles?.split(' ') || [] })
-        } else if (typeof announcementProps === 'string' && await anyMandatoryFieldSet(formData)) {
-            throw new Error(typeof announcementProps === 'string' ? announcementProps : 'No mandatory fields set for announcement')
         }
 
         return response

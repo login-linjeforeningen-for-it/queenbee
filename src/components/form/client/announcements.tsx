@@ -1,7 +1,6 @@
 'use client'
 
 import { Input, Textarea, Select, Switch, Button } from 'uibee/components'
-import anyMandatoryFieldSet from '@utils/announce/anyMandatoryFieldSet'
 import { toLocalTimeString } from '@utils/timeZone'
 import { useEffect, useState } from 'react'
 
@@ -10,15 +9,12 @@ export default function AnnouncementFormInputsClient({
     roles,
     defaultValues,
     nested,
-    required: req = true
 }: {
     channels: Option[]
     roles: Option[]
     defaultValues?: GetAnnouncementProps
     nested?: boolean
-    required?: boolean
 }) {
-    const [required, setRequired] = useState(req)
     const [formValues, setFormValues] = useState({
         title: defaultValues?.title ?? '',
         description: defaultValues?.description ?? '',
@@ -50,13 +46,6 @@ export default function AnnouncementFormInputsClient({
         setLocalStorageItem('interval', formValues.interval)
         setLocalStorageItem('time', formValues.time || '')
 
-        if (!req && anyMandatoryFieldSet(formValues)) {
-            setRequired(true)
-        }
-
-        if (!req && !anyMandatoryFieldSet(formValues)) {
-            setRequired(false)
-        }
     }, [formValues])
 
     function example() {
@@ -77,7 +66,7 @@ export default function AnnouncementFormInputsClient({
                 name='title'
                 type='text'
                 label='Title'
-                required={required}
+                required
                 value={formValues.title}
                 onChange={(e) =>
                     setFormValues({
@@ -90,7 +79,7 @@ export default function AnnouncementFormInputsClient({
                 name='description'
                 label='Description'
                 type='markdown'
-                required={required}
+                required
                 value={formValues.description}
                 onChange={(e) =>
                     setFormValues({
@@ -104,7 +93,7 @@ export default function AnnouncementFormInputsClient({
                 label='Discord channel'
                 options={channels}
                 value={formValues.channel || ''}
-                required={required}
+                required
                 onChange={(value) =>
                     setFormValues({
                         ...formValues,
