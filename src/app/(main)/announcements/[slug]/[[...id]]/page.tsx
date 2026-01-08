@@ -1,7 +1,5 @@
 import FormWrapper from '@components/form/wrapper'
 import AnnouncementFormInputs from '@components/form/server/announcements'
-import getRoles from '@utils/api/bot/announcements/getRoles'
-import getChannels from '@utils/api/bot/announcements/getChannels'
 import getAnnouncement from '@utils/api/bot/announcements/getAnnouncement'
 import { createAnnouncement, updateAnnouncement } from '@components/form/actions/announcements'
 import { notFound } from 'next/navigation'
@@ -12,14 +10,6 @@ export default async function Page({
     params: Promise<{ slug: string; id?: string[] }>
 }) {
     const { id, slug } = await params
-    const rolesResponse = await getRoles()
-    const channelsResponse = await getChannels()
-    const roles = Array.isArray(rolesResponse)
-        ? rolesResponse.map((role) => ({ label: role.name, value: role.id, color: role.color }))
-        : []
-    const channels = Array.isArray(channelsResponse)
-        ? channelsResponse.map((channel) => ({ label: channel.name, value: channel.id }))
-        : []
 
     if (id) {
         const announcements = await getAnnouncement(Number(id[0]))
@@ -34,10 +24,7 @@ export default async function Page({
                         name='announcement'
                         path='announcements'
                         type='create'
-                        preview={true}
                         formAction={createAnnouncement}
-                        channels={channels}
-                        roles={roles}
                     >
                         <AnnouncementFormInputs defaultValues={announcement} />
                     </FormWrapper>
@@ -49,10 +36,7 @@ export default async function Page({
                         path='announcements'
                         type='update'
                         id={id[0]}
-                        preview={true}
                         formAction={updateAnnouncement}
-                        roles={roles}
-                        channels={channels}
                     >
                         <AnnouncementFormInputs defaultValues={announcement} />
                     </FormWrapper>
@@ -65,10 +49,7 @@ export default async function Page({
                 name='announcement'
                 path='announcements'
                 type='create'
-                preview={true}
                 formAction={createAnnouncement}
-                roles={roles}
-                channels={channels}
             >
                 <AnnouncementFormInputs />
             </FormWrapper>

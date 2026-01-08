@@ -1,6 +1,7 @@
+'use client'
+
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import Image from 'next/image'
-import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { useEffect, useRef, useState } from 'react'
 import { Markdown } from './markdown'
