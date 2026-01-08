@@ -13,7 +13,6 @@ export default function JobFormInputsClient({
     organizations,
     applicationTypes,
     defaultImages,
-    preview,
     channels,
     roles
 }: {
@@ -21,7 +20,6 @@ export default function JobFormInputsClient({
     organizations: { label: string; value: number }[]
     applicationTypes: OptionsProps[]
     defaultImages: Option[]
-    preview?: boolean
     channels: Channel[]
     roles: Role[]
 }) {
@@ -48,15 +46,13 @@ export default function JobFormInputsClient({
         application_url: defaultValues?.application_url,
     })
 
-    const mt = preview ? '-mt-12' : '-mt-13'
-
     function example() {
         setFormValues(sampleJob)
     }
 
     return (
         <div className='grid grid-cols-2 gap-x-8 pt-10 relative'>
-            <div className={`absolute flex flex-row gap-4 w-full ${mt} justify-end`}>
+            <div className='absolute flex flex-row gap-4 w-full justify-end'>
                 <Button
                     color='secondary'
                     text='Example'

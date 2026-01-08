@@ -6,7 +6,7 @@ import getRoles from '@utils/api/bot/announcements/getRoles'
 import getChannels from '@utils/api/bot/announcements/getChannels'
 import config from '@config'
 
-export default async function JobFormInputs({ defaultValues, parent }: { defaultValues?: GetJobProps, parent?: { preview?: boolean }}) {
+export default async function JobFormInputs({ defaultValues }: { defaultValues?: GetJobProps }) {
     const organizationsResponse = await getAllOrganizations()
     const organizations = typeof organizationsResponse !== 'string' ? organizationsResponse : []
     const organizationsOptions = Array.isArray(organizations)
@@ -50,7 +50,6 @@ export default async function JobFormInputs({ defaultValues, parent }: { default
             organizations={organizationsOptions}
             applicationTypes={jobTypesOptions}
             defaultImages={images}
-            preview={parent?.preview}
             channels={channels}
             roles={roles}
         />

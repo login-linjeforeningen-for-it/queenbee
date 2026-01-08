@@ -13,12 +13,10 @@ import config from '@config'
 type EventFormsInputsProps = {
     defaultValues?: GetEventProps
     type: 'create' | 'update'
-    parent?: {
-        preview?: boolean
-    }
+
 }
 
-export default async function EventFormInputs({ defaultValues, type, parent }: EventFormsInputsProps){
+export default async function EventFormInputs({ defaultValues, type }: EventFormsInputsProps){
     const imagesResponse = await getImages('events')
     const images = Array.isArray(imagesResponse)
         ? imagesResponse.map((image) => ({
@@ -106,7 +104,6 @@ export default async function EventFormInputs({ defaultValues, type, parent }: E
             locations={locationsOptions}
             channels={channels}
             roles={roles}
-            preview={parent?.preview}
             type={type}
         />
     )

@@ -3,13 +3,7 @@
 import { useState } from 'react'
 import { Button, Input, Textarea } from 'uibee/components'
 
-export default function RuleFormInputsClient({
-    defaultValues,
-    preview,
-}: {
-    defaultValues?: GetRuleProps,
-    preview?: boolean
-}) {
+export default function RuleFormInputsClient({ defaultValues }: { defaultValues?: GetRuleProps }) {
     const [formValues, setFormValues] = useState({
         name_no: defaultValues?.name_no ?? '',
         name_en: defaultValues?.name_en ?? '',
@@ -17,17 +11,13 @@ export default function RuleFormInputsClient({
         description_en: defaultValues?.description_en ?? '',
     })
 
-    const mt = preview ? '-mt-12' : '-mt-13'
-
     function example() {
         setFormValues(sampleRule)
     }
 
     return (
         <div className='grid grid-cols-2 gap-x-8 pt-10 relative'>
-            <div className={
-                `absolute flex flex-row gap-4 w-full ${mt} justify-end`
-            }>
+            <div className='absolute flex flex-row gap-4 w-full justify-end'>
                 <Button
                     color='secondary'
                     text='Example'

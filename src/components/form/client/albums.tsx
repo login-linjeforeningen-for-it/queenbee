@@ -7,12 +7,10 @@ import { Button, Input, Textarea, Select } from 'uibee/components'
 
 export default function AlbumFormInputsClient({
     defaultValues,
-    preview,
     type,
     eventsOptions
 }: {
     defaultValues?: GetAlbumProps,
-    preview?: boolean
     type: 'create' | 'update'
     eventsOptions: Option[]
 }) {
@@ -26,17 +24,13 @@ export default function AlbumFormInputsClient({
         images: [] as File[],
     })
 
-    const mt = preview ? '-mt-12' : '-mt-13'
-
     function example() {
         setFormValues(sampleAlbum)
     }
 
     return (
         <div className='grid md:grid-cols-2 gap-x-8 pt-10 relative'>
-            <div className={`
-                absolute grid md:flex! flex-row gap-4 w-full ${mt} justify-end
-            `}>
+            <div className='absolute grid md:flex! flex-row gap-4 w-full justify-end'>
                 <Button
                     color='secondary'
                     text='Example'

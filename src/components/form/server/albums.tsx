@@ -1,9 +1,7 @@
 import getAllEvents from '@utils/api/workerbee/events/getAllEvents'
 import AlbumFormInputsClient from '../client/albums'
 
-export default async function AlbumFormInputs(
-    { defaultValues, type, parent }:
-    { defaultValues?: GetAlbumProps, type: 'create' | 'update', parent?: { preview?: boolean }})
+export default async function AlbumFormInputs({ defaultValues, type }: { defaultValues?: GetAlbumProps, type: 'create' | 'update'})
 {
     const eventsResponse = await getAllEvents()
     const events = typeof eventsResponse !== 'string' ? eventsResponse : []
@@ -16,7 +14,6 @@ export default async function AlbumFormInputs(
 
     return <AlbumFormInputsClient
         defaultValues={defaultValues}
-        preview={parent?.preview}
         type={type}
         eventsOptions={eventsOptions}
     />

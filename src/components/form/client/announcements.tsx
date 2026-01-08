@@ -9,14 +9,12 @@ export default function AnnouncementFormInputsClient({
     channels,
     roles,
     defaultValues,
-    preview,
     nested,
     required: req = true
 }: {
     channels: Option[]
     roles: Option[]
     defaultValues?: GetAnnouncementProps
-    preview?: boolean
     nested?: boolean
     required?: boolean
 }) {
@@ -61,23 +59,13 @@ export default function AnnouncementFormInputsClient({
         }
     }, [formValues])
 
-    useEffect(() => {
-        if (req) {
-            setRequired(true)
-        }
-    }, [])
-
-    const mt = preview ? '-mt-12' : '-mt-13'
-
     function example() {
         setFormValues(sampleAnnouncement)
     }
 
     return (
         <div className='flex flex-col relative'>
-            {!nested && <div className={`
-                absolute flex flex-row gap-4 w-full justify-end ${mt}
-            `}>
+            {!nested && <div className='absolute flex flex-row gap-4 w-full justify-end'>
                 <Button
                     color='secondary'
                     text='Example'

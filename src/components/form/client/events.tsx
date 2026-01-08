@@ -17,7 +17,6 @@ export default function EventFormInputsClient({
     timeTypes,
     rules,
     locations,
-    preview,
     channels,
     roles,
     type
@@ -30,7 +29,6 @@ export default function EventFormInputsClient({
     timeTypes: OptionsProps[]
     rules: Option[]
     locations: Option[]
-    preview?: boolean
     channels: Channel[]
     roles: Role[]
     type: 'create' | 'update'
@@ -77,8 +75,6 @@ export default function EventFormInputsClient({
         repeat_until: ''
     })
 
-    const mt = preview ? '-mt-12' : '-mt-13'
-
     function example() {
         setFormValues(sampleEvent)
     }
@@ -105,10 +101,7 @@ export default function EventFormInputsClient({
 
     return (
         <div className='md:grid md:grid-cols-2 gap-x-8 md:pt-4 relative'>
-            <div className={`
-                absolute grid md:flex! flex-row gap-4 w-full ${mt}
-                justify-end
-            `}>
+            <div className='absolute grid md:flex! flex-row gap-4 w-full justify-end'>
                 <Button
                     color='secondary'
                     text='Example'

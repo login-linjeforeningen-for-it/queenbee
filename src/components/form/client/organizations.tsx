@@ -6,14 +6,9 @@ import postImage from '@utils/api/workerbee/images/postImage'
 import { useState } from 'react'
 import { toast, Button, Input, Textarea, Select } from 'uibee/components'
 
-export default function OrganizationFormInputsClient({
-    defaultValues,
-    defaultImages,
-    preview
-}: {
+export default function OrganizationFormInputsClient({ defaultValues, defaultImages }: {
     defaultValues?: GetOrganizationProps
     defaultImages: Option[]
-    preview?: boolean
 }) {
     const [images, setImages] = useState<Option[]>(defaultImages)
     const [formValues, setFormValues] = useState({
@@ -28,16 +23,13 @@ export default function OrganizationFormInputsClient({
         logo: defaultValues?.logo ?? '',
     })
 
-    const mt = preview ? '-mt-12' : '-mt-13'
-
     function example() {
         setFormValues(sampleOrganization)
     }
 
     return (
         <div className='grid grid-cols-2 gap-x-8 pt-10 relative'>
-            <div className={`absolute flex flex-row gap-4 w-full ${mt} justify-end`}
-            >
+            <div className='absolute flex flex-row gap-4 w-full justify-end'>
                 <Button
                     color='secondary'
                     text='Example'

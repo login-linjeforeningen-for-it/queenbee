@@ -1,10 +1,9 @@
 import HoneyFormInputsClient from '../client/honeys'
 
-export default function HoneyFormInputs({ defaultValues, parent }: { defaultValues?: GetHoneyProps, parent?: { preview?: boolean }}) {
+export default function HoneyFormInputs({ defaultValues }: { defaultValues?: GetHoneyProps }) {
     return (
         <HoneyFormInputsClient
             defaultValues={defaultValues}
-            preview={parent?.preview}
         />
     )
 }

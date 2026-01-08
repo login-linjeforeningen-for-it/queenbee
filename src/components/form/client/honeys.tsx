@@ -3,21 +3,13 @@
 import { useState } from 'react'
 import { Button, Input, Textarea, Select } from 'uibee/components'
 
-export default function HoneyFormInputsClient({
-    defaultValues,
-    preview
-}: {
-    defaultValues?: GetHoneyProps
-    preview?: boolean
-}) {
+export default function HoneyFormInputsClient({ defaultValues }: { defaultValues?: GetHoneyProps }) {
     const [formValues, setFormValues] = useState({
         service: defaultValues?.service,
         page: defaultValues?.page,
         language: defaultValues?.language,
         text: defaultValues?.text ? JSON.stringify(JSON.parse(defaultValues.text as unknown as string), null, 4) : '',
     })
-
-    const mt = preview ? '-mt-12' : '-mt-13'
 
     function example() {
         setFormValues({
@@ -28,7 +20,7 @@ export default function HoneyFormInputsClient({
 
     return (
         <div className='grid grid-cols-1 pt-10 relative'>
-            <div className={`absolute flex flex-row gap-4 w-full ${mt} justify-end`}>
+            <div className='absolute flex flex-row gap-4 w-full justify-end'>
                 <Button
                     color='secondary'
                     text='Example'

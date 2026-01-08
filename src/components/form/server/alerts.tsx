@@ -1,8 +1,7 @@
 import AlertFormInputsClient from '../client/alerts'
 
-export default function AlertFormInputs({ defaultValues, parent }: { defaultValues?: GetAlertProps, parent?: { preview?: boolean }}) {
+export default function AlertFormInputs({ defaultValues }: { defaultValues?: GetAlertProps }) {
     return <AlertFormInputsClient
         defaultValues={defaultValues}
-        preview={parent?.preview}
     />
 }

@@ -5,10 +5,8 @@ import DiscordPreview from '@components/preview/discord'
 
 export default async function AnnouncementFormInputs({
     defaultValues,
-    parent
 }: {
     defaultValues?: GetAnnouncementProps
-    parent?: { preview?: boolean }
 }) {
     const rolesResponse = await getRoles()
     const channelsResponse = await getChannels()
@@ -25,7 +23,6 @@ export default async function AnnouncementFormInputs({
                 channels={channels}
                 roles={roles}
                 defaultValues={defaultValues}
-                preview={parent?.preview}
             />
             <DiscordPreview channels={channels} roles={roles} />
         </div>

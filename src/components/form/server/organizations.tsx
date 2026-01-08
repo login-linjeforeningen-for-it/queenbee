@@ -2,8 +2,7 @@ import getImages from '@utils/api/workerbee/images/getImages'
 import OrganizationFormInputsClient from '../client/organizations'
 import config from '@config'
 
-export default async function OrganizationFormInputs({ defaultValues, parent }:
-{ defaultValues?: GetOrganizationProps, parent?: { preview?: boolean }}) {
+export default async function OrganizationFormInputs({ defaultValues }: { defaultValues?: GetOrganizationProps }) {
     const imagesResponse = await getImages('organizations')
     const images = Array.isArray(imagesResponse)
         ? imagesResponse.map((image) => ({
@@ -17,7 +16,6 @@ export default async function OrganizationFormInputs({ defaultValues, parent }:
         <OrganizationFormInputsClient
             defaultValues={defaultValues}
             defaultImages={images}
-            preview={parent?.preview}
         />
     )
 }

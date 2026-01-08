@@ -3,14 +3,9 @@
 import { useState } from 'react'
 import { Button, Input, Select } from 'uibee/components'
 
-export default function LocationFormInputsClient({
-    defaultValues,
-    locationTypes,
-    preview
-}: {
+export default function LocationFormInputsClient({ defaultValues, locationTypes }: {
     defaultValues?: GetLocationProps
     locationTypes: LocationTypes[]
-    preview?: boolean
 }) {
     const [formValues, setFormValues] = useState({
         name_no: defaultValues?.name_no ?? '',
@@ -28,20 +23,13 @@ export default function LocationFormInputsClient({
 
     const [mazemapURL, setMazemapURL] = useState('')
 
-    const mt = preview ? '-mt-12' : '-mt-13'
-
     function example() {
         setFormValues(sampleEventLocation)
     }
 
     return (
         <div className='grid grid-cols-1 pt-10 relative'>
-            <div
-                className={
-                    `absolute flex flex-row gap-4 w-full ${mt} ` +
-                    'justify-end'
-                }
-            >
+            <div className='absolute flex flex-row gap-4 w-full justify-end'>
                 <Button
                     color='secondary'
                     text='Example'
