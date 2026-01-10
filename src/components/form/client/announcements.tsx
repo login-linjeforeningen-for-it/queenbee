@@ -9,25 +9,28 @@ export default function AnnouncementFormInputsClient({
     roles,
     defaultValues,
     nested,
-    title,
-    description,
-    publishDate,
-    publishTime,
+    formData
 }: {
     channels: Option[]
     roles: Option[]
     defaultValues?: GetAnnouncementProps
     nested?: boolean
-    title?: string
-    description?: string
-    publishDate?: string
-    publishTime?: string
+    formData: {
+        titleNo?: string
+        titleEn?: string
+        descriptionNo?: string
+        descriptionEn?: string
+        publishDate?: string
+        publishTime?: string
+    }
 }) {
+    const { titleNo, titleEn, descriptionNo, descriptionEn, publishDate, publishTime } = formData
+
     const [formValues, setFormValues] = useState({
-        title_no: title || defaultValues?.title?.[0] || '',
-        title_en: title || defaultValues?.title?.[1] || '',
-        description_no: description || defaultValues?.description?.[0] || '',
-        description_en: description || defaultValues?.description?.[1] || '',
+        title_no: titleNo || defaultValues?.title?.[0] || '',
+        title_en: titleEn || defaultValues?.title?.[1] || '',
+        description_no: descriptionNo || defaultValues?.description?.[0] || '',
+        description_en: descriptionEn || defaultValues?.description?.[1] || '',
         channel: defaultValues?.channel ?? '',
         roles: defaultValues?.roles?.join(' ') ?? '',
         embed: defaultValues?.embed ?? true,
@@ -37,16 +40,16 @@ export default function AnnouncementFormInputsClient({
     })
 
     useEffect(() => {
-        if (title || description) {
+        if (titleNo || descriptionNo) {
             setFormValues((prev) => ({
                 ...prev,
-                title_no: title || prev.title_no,
-                title_en: title || prev.title_en,
-                description_no: description || prev.description_no,
-                description_en: description || prev.description_en,
+                title_no: titleNo || prev.title_no,
+                title_en: titleEn || prev.title_en,
+                description_no: descriptionNo || prev.description_no,
+                description_en: descriptionEn || prev.description_en,
             }))
         }
-    }, [title, description])
+    }, [titleNo, titleEn, descriptionNo, descriptionEn])
 
     useEffect(() => {
         if (publishDate && publishTime) {
@@ -95,7 +98,7 @@ export default function AnnouncementFormInputsClient({
                     onClick={example}
                 />
             </div>}
-            <div className={title ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-4'}>
+            <div className={titleNo || titleEn ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-4'}>
                 <Input
                     name='title_no'
                     type='text'
@@ -122,7 +125,7 @@ export default function AnnouncementFormInputsClient({
                 />
             </div>
 
-            <div className={description ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-4'}>
+            <div className={descriptionNo || descriptionEn ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-4'}>
                 <Textarea
                     name='description_no'
                     label='Description (Norwegian)'

@@ -654,10 +654,14 @@ export default function EventFormInputsClient({
             <Announce
                 channels={channels}
                 roles={roles}
-                title={formValues.name_no}
-                description={formValues.description_no}
-                publishDate={formValues.publish_date}
-                publishTime={formValues.publish_time}
+                formData={{
+                    titleNo: formValues.name_no,
+                    titleEn: formValues.name_en,
+                    descriptionNo: formValues.description_no,
+                    descriptionEn: formValues.description_en,
+                    publishDate: formValues.publish_date,
+                    publishTime: formValues.publish_time,
+                }}
             />
         </div>
     )

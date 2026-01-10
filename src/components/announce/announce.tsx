@@ -8,13 +8,17 @@ import { Switch } from 'uibee/components'
 type AnnounceProps = {
     channels: Channel[]
     roles: Role[]
-    title?: string
-    description?: string
-    publishDate?: string
-    publishTime?: string
+    formData: {
+        titleNo?: string
+        titleEn?: string
+        descriptionNo?: string
+        descriptionEn?: string
+        publishDate?: string
+        publishTime?: string
+    }
 }
 
-export default function Announce({ channels, roles, title, description, publishDate, publishTime }: AnnounceProps) {
+export default function Announce({ channels, roles, formData }: AnnounceProps) {
     const [enabled, setEnabled] = useState<boolean>(false)
     const pathname = usePathname()
 
@@ -76,10 +80,7 @@ export default function Announce({ channels, roles, title, description, publishD
                                     channels={channels}
                                     roles={roles}
                                     nested={true}
-                                    title={title}
-                                    description={description}
-                                    publishDate={publishDate}
-                                    publishTime={publishTime}
+                                    formData={formData}
                                 />
                                 <DiscordPreview channels={channels} roles={roles} />
                             </div>

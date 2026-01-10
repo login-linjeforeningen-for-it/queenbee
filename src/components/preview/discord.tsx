@@ -3,23 +3,26 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import Image from 'next/image'
 import { renderToString } from 'react-dom/server'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Markdown } from './markdown'
 import { RoleRenderer } from './discordRole'
 
 export default function DiscordPreview({ channels, roles }: { channels: Channel[], roles: Role[] }) {
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
+    const [titleNo, setTitleNo] = useState('')
+    const [titleEn, setTitleEn] = useState('')
+    const [descriptionNo, setDescriptionNo] = useState('')
+    const [descriptionEn, setDescriptionEn] = useState('')
     const [channel, setChannel] = useState('')
     const [Roles, setRoles] = useState([] as string[])
     const [embed, setEmbed] = useState(true)
     const [color, setColor] = useState('')
     const formattedColor = formatColor(color)
-    const boxRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        setTitle(localStorage.getItem('title') || '')
-        setDescription(localStorage.getItem('description') || '')
+        setTitleNo(localStorage.getItem('title_no') || '')
+        setTitleEn(localStorage.getItem('title_en') || '')
+        setDescriptionNo(localStorage.getItem('description_no') || '')
+        setDescriptionEn(localStorage.getItem('description_en') || '')
         setChannel(localStorage.getItem('channel') || '')
         setRoles((localStorage.getItem('roles') || '').split(' '))
         setEmbed(localStorage.getItem('embed') === 'true')
@@ -27,25 +30,16 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
     }, [])
 
     useEffect(() => {
-        if (boxRef.current) {
-            const el = boxRef.current
-            el.style.borderColor = embed ? formattedColor : 'none'
-            el.style.borderLeft = embed ? `4px solid ${formattedColor}` : 'none'
-            el.style.borderTop = '0px solid #2f3136'
-            el.style.borderRight = '0px solid #2f3136'
-            el.style.borderBottom = '0px solid #2f3136'
-        }
-    }, [formattedColor, embed])
-
-    useEffect(() => {
         function handleStorageChange(e: Event) {
             const event = e as CustomEvent
-            event.detail.key === 'title' && setTitle(event.detail.value)
+            event.detail.key === 'title_no' && setTitleNo(event.detail.value)
+            event.detail.key === 'title_en' && setTitleEn(event.detail.value)
+            event.detail.key === 'description_no' && setDescriptionNo(event.detail.value)
+            event.detail.key === 'description_en' && setDescriptionEn(event.detail.value)
             event.detail.key === 'channel' && setChannel(event.detail.value)
             event.detail.key === 'roles' && setRoles(event.detail.value.split(' '))
             event.detail.key === 'embed' && setEmbed(event.detail.value === 'true')
             event.detail.key === 'color' && setColor(event.detail.value)
-            event.detail.key === 'description' && setDescription(event.detail.value)
         }
 
         window.addEventListener('customStorageChange', handleStorageChange)
@@ -56,7 +50,7 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
         }
     }, [])
 
-    if (!title) {
+    if (!titleNo && !titleEn) {
         return <></>
     }
 
@@ -97,9 +91,7 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
                     />
                 </div>
                 {/* Message Bubble */}
-                <div className={
-                    'flex flex-col'
-                }>
+                <div className='flex flex-col'>
                     <div className='flex gap-2'>
                         <span className='font-semibold text-blue-400 text-sm'>
                             TekKom
@@ -120,35 +112,68 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
                             {ping && (
                                 <Ping color={roleColor} names={roleNames} />
                             )}
-                            <div
-                                className='p-3 mt-2 rounded-lg'
-                                style={{
-                                    backgroundColor: '#2f3136',
-                                    borderLeft: embed ? `4px solid ${formattedColor}` : 'none',
-                                    borderTop: 'none',
-                                    borderRight: '12px solid #00000000',
-                                    borderBottom: 'none'
-                                }}
-                            >
-                                {title && (
-                                    <div className='max-w-100 wrap-break-word overflow-hidden'>
-                                        <Markdown className='font-semibold text-foreground' markdown={format(title, roles)} />
-                                    </div>
-                                )}
-                                {description && (
-                                    <div className='max-w-100 wrap-break-word overflow-hidden -mb-1 text-[#dcddde]'>
-                                        <Markdown markdown={format(description, roles)} />
-                                    </div>
-                                )}
-                            </div>
+                            {(titleNo || descriptionNo) && (
+                                <div
+                                    className='p-3 mt-2 rounded-lg'
+                                    style={{
+                                        backgroundColor: '#2f3136',
+                                        borderLeft: embed ? `4px solid ${formattedColor}` : 'none',
+                                        borderTop: 'none',
+                                        borderRight: '12px solid #00000000',
+                                        borderBottom: 'none'
+                                    }}
+                                >
+                                    {titleNo && (
+                                        <div className='max-w-100 wrap-break-word overflow-hidden'>
+                                            <Markdown className='font-semibold text-foreground' markdown={format(titleNo, roles)} />
+                                        </div>
+                                    )}
+                                    {descriptionNo && (
+                                        <div className='max-w-100 wrap-break-word overflow-hidden -mb-1 text-[#dcddde]'>
+                                            <Markdown markdown={format(descriptionNo, roles)} />
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {(titleEn || descriptionEn) && (
+                                <div
+                                    className='p-3 mt-2 rounded-lg'
+                                    style={{
+                                        backgroundColor: '#2f3136',
+                                        borderLeft: embed ? `4px solid ${formattedColor}` : 'none',
+                                        borderTop: 'none',
+                                        borderRight: '12px solid #00000000',
+                                        borderBottom: 'none'
+                                    }}
+                                >
+                                    {titleEn && (
+                                        <div className='max-w-100 wrap-break-word overflow-hidden'>
+                                            <Markdown className='font-semibold text-foreground' markdown={format(titleEn, roles)} />
+                                        </div>
+                                    )}
+                                    {descriptionEn && (
+                                        <div className='max-w-100 wrap-break-word overflow-hidden -mb-1 text-[#dcddde]'>
+                                            <Markdown markdown={format(descriptionEn, roles)} />
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     ) : <div className='grid'>
-                        <span className='font-semibold text-foreground'>
-                            <Markdown markdown={format(title, roles)} />
-                        </span>
-                        <span className='text-[#dcddde] max-w-100 wrap-break-word overflow-hidden'>
-                            <Markdown markdown={format(description, roles)} />
-                        </span>
+                        {titleNo && <span className='font-semibold text-foreground'>
+                            <Markdown markdown={format(titleNo, roles)} />
+                        </span>}
+                        {descriptionNo && <span className='text-[#dcddde] max-w-100 wrap-break-word overflow-hidden'>
+                            <Markdown markdown={format(descriptionNo, roles)} />
+                        </span>}
+                        {(titleNo || descriptionNo) && (titleEn || descriptionEn) && <div className='h-4' />}
+                        {titleEn && <span className='font-semibold text-foreground'>
+                            <Markdown markdown={format(titleEn, roles)} />
+                        </span>}
+                        {descriptionEn && <span className='text-[#dcddde] max-w-100 wrap-break-word overflow-hidden'>
+                            <Markdown markdown={format(descriptionEn, roles)} />
+                        </span>}
                     </div>}
                 </div>
             </div>
