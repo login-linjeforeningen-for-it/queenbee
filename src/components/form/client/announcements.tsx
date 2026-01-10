@@ -15,7 +15,7 @@ export default function AnnouncementFormInputsClient({
     roles: Option[]
     defaultValues?: GetAnnouncementProps
     nested?: boolean
-    formData: {
+    formData?: {
         titleNo?: string
         titleEn?: string
         descriptionNo?: string
@@ -24,7 +24,7 @@ export default function AnnouncementFormInputsClient({
         publishTime?: string
     }
 }) {
-    const { titleNo, titleEn, descriptionNo, descriptionEn, publishDate, publishTime } = formData
+    const { titleNo, titleEn, descriptionNo, descriptionEn, publishDate, publishTime } = formData || {}
 
     const [formValues, setFormValues] = useState({
         title_no: titleNo || defaultValues?.title?.[0] || '',

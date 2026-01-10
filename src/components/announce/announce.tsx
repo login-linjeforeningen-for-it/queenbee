@@ -8,7 +8,7 @@ import { Switch } from 'uibee/components'
 type AnnounceProps = {
     channels: Channel[]
     roles: Role[]
-    formData: {
+    formData?: {
         titleNo?: string
         titleEn?: string
         descriptionNo?: string
