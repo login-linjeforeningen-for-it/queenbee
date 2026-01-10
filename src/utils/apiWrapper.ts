@@ -92,8 +92,8 @@ export async function patchWrapper({ service, path, options, data }: WrapperProp
     })
 }
 
-export async function deleteWrapper({ service, path, options }: WrapperProps) {
+export async function deleteWrapper({ service, path, options, data }: WrapperProps) {
     return await apiRequest({
-        service, method: 'DELETE', path, options
+        service, method: 'DELETE', path, options, data
     })
 }

@@ -5,7 +5,16 @@ import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { Switch } from 'uibee/components'
 
-export default function Announce({ channels, roles }: { channels: Channel[], roles: Role[] }) {
+type AnnounceProps = {
+    channels: Channel[]
+    roles: Role[]
+    title?: string
+    description?: string
+    publishDate?: string
+    publishTime?: string
+}
+
+export default function Announce({ channels, roles, title, description, publishDate, publishTime }: AnnounceProps) {
     const [enabled, setEnabled] = useState<boolean>(false)
     const pathname = usePathname()
 
@@ -49,47 +58,35 @@ export default function Announce({ channels, roles }: { channels: Channel[], rol
                     className='self-center'
                 />
             </div>
-            <OpenAnnouncement isOpen={enabled} channels={channels} roles={roles} />
-        </div>
-    )
-}
-
-function OpenAnnouncement({
-    isOpen,
-    channels,
-    roles
-}: {
-    isOpen: boolean,
-    channels: Channel[],
-    roles: Role[]
-}) {
-    if (!isOpen) {
-        return <></>
-    }
-
-    if (!channels.length) {
-        return (
-            <div className='w-full space-y-4 mt-2 select-none' onClick={(e) => e.stopPropagation()}>
-                <div className='w-full h-0.5 bg-login-400 rounded-lg' />
-                <div className='flex gap-2 w-full rounded-lg p-2 bg-red-900'>
-                    <MessageSquareWarning />
-                    <h1 className='font-semibold'>Fail to connect to API</h1>
-                </div>
-            </div>
-        )
-    }
-
-    return (
-        <div className='w-full space-y-4 mt-2 select-none' onClick={(e) => e.stopPropagation()}>
-            <div className='w-full h-0.5 bg-login-400 rounded-lg' />
-            <div className='grid grid-cols-2 gap-4'>
-                <AnnouncementFormInputsClient
-                    channels={channels}
-                    roles={roles}
-                    nested={true}
-                />
-                <DiscordPreview channels={channels} roles={roles} />
-            </div>
+            {enabled && (
+                <>
+                    {!channels.length ? (
+                        <div className='w-full space-y-4 mt-2 select-none' onClick={(e) => e.stopPropagation()}>
+                            <div className='w-full h-0.5 bg-login-400 rounded-lg' />
+                            <div className='flex gap-2 w-full rounded-lg p-2 bg-red-900'>
+                                <MessageSquareWarning />
+                                <h1 className='font-semibold'>Fail to connect to API</h1>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className='w-full space-y-4 mt-2 select-none' onClick={(e) => e.stopPropagation()}>
+                            <div className='w-full h-0.5 bg-login-400 rounded-lg' />
+                            <div className='grid grid-cols-2 gap-4'>
+                                <AnnouncementFormInputsClient
+                                    channels={channels}
+                                    roles={roles}
+                                    nested={true}
+                                    title={title}
+                                    description={description}
+                                    publishDate={publishDate}
+                                    publishTime={publishTime}
+                                />
+                                <DiscordPreview channels={channels} roles={roles} />
+                            </div>
+                        </div>
+                    )}
+                </>
+            )}
         </div>
     )
 }

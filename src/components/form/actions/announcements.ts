@@ -2,7 +2,7 @@
 
 import postAnnouncement from '@utils/api/bot/announcements/postAnnouncement'
 import putAnnouncement from '@utils/api/bot/announcements/putAnnouncement'
-import { getOptionalDateTime, getOptionalString, getRequiredString } from '@utils/validate'
+import { getOptionalBoolean, getOptionalDateTime, getOptionalString, getRequiredString } from '@utils/validate'
 
 type FormState =
     | null
@@ -16,12 +16,20 @@ type Unparsed = PostAnnouncementPropsUnparsed | PutAnnouncementPropsUnparsed
 
 
 export async function extractAnnouncementProps<T extends Unparsed>(formData: FormData): Promise<T> {
+    const title_no = getOptionalString(formData, 'title_no')
+    const title_en = getOptionalString(formData, 'title_en')
+    const description_no = getOptionalString(formData, 'description_no')
+    const description_en = getOptionalString(formData, 'description_en')
+
+    if (!title_no && !title_en) throw new Error('Title is required')
+    if (!description_no && !description_en) throw new Error('Description is required')
+
     return {
-        title:          getRequiredString(formData, 'title'),
-        description:    getRequiredString(formData, 'description'),
+        title:          [title_no, title_en].filter((t) => t !== null) as string[],
+        description:    [description_no, description_en].filter((t) => t !== null) as string[],
         channel:        getRequiredString(formData, 'channel'),
         roles:          getOptionalString(formData, 'roles'),
-        embed:          getOptionalString(formData, 'embed') as embed_type === 'on',
+        embed:          getOptionalBoolean(formData, 'embed'),
         color:          getOptionalString(formData, 'color'),
         interval:       getOptionalString(formData, 'interval'),
         time:           getOptionalDateTime(formData, 'publish_date', 'publish_time'),

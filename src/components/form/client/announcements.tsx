@@ -9,22 +9,53 @@ export default function AnnouncementFormInputsClient({
     roles,
     defaultValues,
     nested,
+    title,
+    description,
+    publishDate,
+    publishTime,
 }: {
     channels: Option[]
     roles: Option[]
     defaultValues?: GetAnnouncementProps
     nested?: boolean
+    title?: string
+    description?: string
+    publishDate?: string
+    publishTime?: string
 }) {
     const [formValues, setFormValues] = useState({
-        title: defaultValues?.title ?? '',
-        description: defaultValues?.description ?? '',
+        title_no: title || defaultValues?.title?.[0] || '',
+        title_en: title || defaultValues?.title?.[1] || '',
+        description_no: description || defaultValues?.description?.[0] || '',
+        description_en: description || defaultValues?.description?.[1] || '',
         channel: defaultValues?.channel ?? '',
         roles: defaultValues?.roles?.join(' ') ?? '',
         embed: defaultValues?.embed ?? true,
         color: defaultValues?.color ?? '',
         interval: defaultValues?.interval ?? '',
-        time: defaultValues?.time ?? new Date().toISOString(),
+        time: publishDate && publishTime ? `${publishDate}T${publishTime}` : defaultValues?.time ?? new Date().toISOString(),
     })
+
+    useEffect(() => {
+        if (title || description) {
+            setFormValues((prev) => ({
+                ...prev,
+                title_no: title || prev.title_no,
+                title_en: title || prev.title_en,
+                description_no: description || prev.description_no,
+                description_en: description || prev.description_en,
+            }))
+        }
+    }, [title, description])
+
+    useEffect(() => {
+        if (publishDate && publishTime) {
+            setFormValues((prev) => ({
+                ...prev,
+                time: `${publishDate}T${publishTime}`,
+            }))
+        }
+    }, [publishDate, publishTime])
 
     useEffect(() => {
         function setLocalStorageItem(key: string, value: string) {
@@ -37,8 +68,10 @@ export default function AnnouncementFormInputsClient({
             window.dispatchEvent(event)
         }
 
-        setLocalStorageItem('title', formValues.title)
-        setLocalStorageItem('description', formValues.description)
+        setLocalStorageItem('title_no', formValues.title_no)
+        setLocalStorageItem('title_en', formValues.title_en)
+        setLocalStorageItem('description_no', formValues.description_no)
+        setLocalStorageItem('description_en', formValues.description_en)
         setLocalStorageItem('channel', formValues.channel)
         setLocalStorageItem('roles', formValues.roles)
         setLocalStorageItem('embed', String(formValues.embed))
@@ -62,32 +95,60 @@ export default function AnnouncementFormInputsClient({
                     onClick={example}
                 />
             </div>}
-            <Input
-                name='title'
-                type='text'
-                label='Title'
-                required
-                value={formValues.title}
-                onChange={(e) =>
-                    setFormValues({
-                        ...formValues,
-                        title: e.target.value,
-                    })
-                }
-            />
-            <Textarea
-                name='description'
-                label='Description'
-                type='markdown'
-                required
-                value={formValues.description}
-                onChange={(e) =>
-                    setFormValues({
-                        ...formValues,
-                        description: e.target.value,
-                    })
-                }
-            />
+            <div className={title ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-4'}>
+                <Input
+                    name='title_no'
+                    type='text'
+                    label='Title (Norwegian)'
+                    value={formValues.title_no}
+                    onChange={(e) =>
+                        setFormValues({
+                            ...formValues,
+                            title_no: e.target.value,
+                        })
+                    }
+                />
+                <Input
+                    name='title_en'
+                    type='text'
+                    label='Title (English)'
+                    value={formValues.title_en}
+                    onChange={(e) =>
+                        setFormValues({
+                            ...formValues,
+                            title_en: e.target.value,
+                        })
+                    }
+                />
+            </div>
+
+            <div className={description ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-4'}>
+                <Textarea
+                    name='description_no'
+                    label='Description (Norwegian)'
+                    type='markdown'
+                    value={formValues.description_no}
+                    onChange={(e) =>
+                        setFormValues({
+                            ...formValues,
+                            description_no: e.target.value,
+                        })
+                    }
+                />
+                <Textarea
+                    name='description_en'
+                    label='Description (English)'
+                    type='markdown'
+                    value={formValues.description_en}
+                    onChange={(e) =>
+                        setFormValues({
+                            ...formValues,
+                            description_en: e.target.value,
+                        })
+                    }
+                />
+            </div>
+
             <Select
                 name='channel'
                 label='Discord channel'
@@ -150,46 +211,57 @@ export default function AnnouncementFormInputsClient({
                     })
                 }
             />
-            <Input
-                name='publish_date'
-                label='Publish Date'
-                type='date'
-                value={formValues.time.split('T')[0]}
-                onChange={(e) => {
-                    const date = e.target.value
-                    const time =
-                        toLocalTimeString(formValues.time) ??
-                        '00:00'
-                    setFormValues({
-                        ...formValues,
-                        time: `${date}T${time}`,
-                    })
-                }}
-            />
-            <Input
-                name='publish_time'
-                label='Publish Time'
-                type='time'
-                value={toLocalTimeString(formValues.time)}
-                onChange={(e) => {
-                    const time = e.target.value
-                    const date =
-                        formValues.time.split('T')[0] ??
-                        new Date().toISOString().split('T')[0]
-                    setFormValues({
-                        ...formValues,
-                        time: `${date}T${time}`,
-                    })
-                }}
-            />
+            <div className={publishDate ? 'hidden' : ''}>
+                <Input
+                    name='publish_date'
+                    label='Publish Date'
+                    type='date'
+                    value={formValues.time.split('T')[0]}
+                    onChange={(e) => {
+                        const date = e.target.value
+                        const time =
+                            toLocalTimeString(formValues.time) ??
+                            '00:00'
+                        setFormValues({
+                            ...formValues,
+                            time: `${date}T${time}`,
+                        })
+                    }}
+                />
+            </div>
+            <div className={publishTime ? 'hidden' : ''}>
+                <Input
+                    name='publish_time'
+                    label='Publish Time'
+                    type='time'
+                    value={toLocalTimeString(formValues.time)}
+                    onChange={(e) => {
+                        const time = e.target.value
+                        const date =
+                            formValues.time.split('T')[0] ??
+                            new Date().toISOString().split('T')[0]
+                        setFormValues({
+                            ...formValues,
+                            time: `${date}T${time}`,
+                        })
+                    }}
+                />
+            </div>
         </div>
     )
 }
 
 const sampleAnnouncement = {
-    title: '🍹 Mocktailkurs på Login Loungen',
-    description:
+    title_no: '🍹 Mocktailkurs på Login Loungen',
+    title_en: '🍹 Mocktail course at the Login Lounge',
+    description_no:
         `Hei <@&1143326743508308032>! Det arrangeres mocktailkurs på Login Loungen i dag kl 15.
+
+\`\`\`ts
+const a = 5
+\`\`\``,
+    description_en:
+        `Hi <@&1143326743508308032>! There is a mocktail course at the Login Lounge today at 15.
 
 \`\`\`ts
 const a = 5

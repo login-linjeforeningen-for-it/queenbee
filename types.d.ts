@@ -246,8 +246,8 @@ declare global {
     // Announcements
     type GetAnnouncementProps = {
         id: number
-        title: string
-        description: string
+        title: string[]
+        description: string[]
         channel: string
         roles: string[]
         embed: boolean
@@ -257,8 +257,8 @@ declare global {
     }
 
     type PostAnnouncementProps = {
-        title: string
-        description: string
+        title: string[]
+        description: string[]
         channel: string
         roles: string[]
         embed: boolean
@@ -269,8 +269,8 @@ declare global {
     }
 
     type PostAnnouncementPropsUnparsed = {
-        title: string
-        description: string
+        title: string[]
+        description: string[]
         channel: string
         roles: string
         embed: boolean
@@ -545,8 +545,8 @@ declare global {
 
     type Announcement = {
         id: string
-        title?: string
-        description?: string
+        title?: string[]
+        description?: string[]
         channel?: string
         roles?: string[]
         embed?: boolean

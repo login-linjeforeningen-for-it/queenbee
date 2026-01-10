@@ -7,7 +7,7 @@ export default async function deleteAnnouncement(id: number) {
     const path = config.bot.announcements
     return await deleteWrapper({
         path,
-        options: { body: JSON.stringify({ id }) },
+        data: { id },
         service: 'bot'
     })
 }

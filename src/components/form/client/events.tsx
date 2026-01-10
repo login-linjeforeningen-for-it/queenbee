@@ -651,7 +651,14 @@ export default function EventFormInputsClient({
                 })}
                 className='col-span-2'
             />
-            <Announce channels={channels} roles={roles} />
+            <Announce
+                channels={channels}
+                roles={roles}
+                title={formValues.name_no}
+                description={formValues.description_no}
+                publishDate={formValues.publish_date}
+                publishTime={formValues.publish_time}
+            />
         </div>
     )
 }

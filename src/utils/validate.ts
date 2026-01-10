@@ -27,9 +27,7 @@ export function getOptionalNumber(formData: FormData, key: string): number | nul
 
 export function getOptionalBoolean(formData: FormData, key: string): boolean | null {
     const value = formData.get(key)
-    if (value === null || value === '' || value === undefined) return null
     if (value === 'true' || value === 'on') return true
-    if (value === 'false') return false
     return false
 }
 
