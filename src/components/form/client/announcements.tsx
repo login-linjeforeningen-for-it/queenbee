@@ -22,9 +22,10 @@ export default function AnnouncementFormInputsClient({
         descriptionEn?: string
         publishDate?: string
         publishTime?: string
+        color?: string
     }
 }) {
-    const { titleNo, titleEn, descriptionNo, descriptionEn, publishDate, publishTime } = formData || {}
+    const { titleNo, titleEn, descriptionNo, descriptionEn, publishDate, publishTime, color } = formData || {}
 
     const [formValues, setFormValues] = useState({
         title_no: titleNo || defaultValues?.title?.[0] || '',
@@ -34,7 +35,7 @@ export default function AnnouncementFormInputsClient({
         channel: defaultValues?.channel ?? '',
         roles: defaultValues?.roles?.join(' ') ?? '',
         embed: defaultValues?.embed ?? true,
-        color: defaultValues?.color ?? '',
+        color: defaultValues?.color || color || '#fd8738',
         interval: defaultValues?.interval ?? '',
         time: publishDate && publishTime ? `${publishDate}T${publishTime}` : defaultValues?.time ?? new Date().toISOString(),
     })
@@ -59,6 +60,15 @@ export default function AnnouncementFormInputsClient({
             }))
         }
     }, [publishDate, publishTime])
+
+    useEffect(() => {
+        if (color) {
+            setFormValues((prev) => ({
+                ...prev,
+                color: color,
+            }))
+        }
+    }, [color])
 
     useEffect(() => {
         function setLocalStorageItem(key: string, value: string) {
@@ -192,7 +202,7 @@ export default function AnnouncementFormInputsClient({
             />
             <Input
                 name='color'
-                type='text'
+                type='color'
                 label='Embed color'
                 value={formValues.color}
                 onChange={(e) =>

@@ -33,6 +33,7 @@ export default async function EventFormInputs({ defaultValues, type }: EventForm
         ? categories.map((category) => ({
             label: category.name_en,
             value: category.id,
+            color: category.color,
         }))
         : []
 

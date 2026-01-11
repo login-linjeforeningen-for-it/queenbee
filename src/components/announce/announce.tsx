@@ -15,6 +15,7 @@ type AnnounceProps = {
         descriptionEn?: string
         publishDate?: string
         publishTime?: string
+        color?: string
     }
 }
 

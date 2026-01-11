@@ -23,7 +23,7 @@ export default function EventFormInputsClient({
 }: {
     defaultValues?: GetEventProps
     defaultImages: Option[]
-    categories: OptionsProps[]
+    categories: (OptionsProps & { color: string })[]
     audiences: OptionsProps[]
     organizations: Option[]
     timeTypes: OptionsProps[]
@@ -661,6 +661,7 @@ export default function EventFormInputsClient({
                     descriptionEn: formValues.description_en,
                     publishDate: formValues.publish_date,
                     publishTime: formValues.publish_time,
+                    color: categories.find(category => category.value === formValues.category)?.color || undefined,
                 }}
             />
         </div>
