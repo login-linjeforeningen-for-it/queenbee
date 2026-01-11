@@ -37,7 +37,7 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
             event.detail.key === 'description_no' && setDescriptionNo(event.detail.value)
             event.detail.key === 'description_en' && setDescriptionEn(event.detail.value)
             event.detail.key === 'channel' && setChannel(event.detail.value)
-            event.detail.key === 'roles' && setRoles(event.detail.value.split(' '))
+            event.detail.key === 'roles' && setRoles((event.detail.value || '').split(' '))
             event.detail.key === 'embed' && setEmbed(event.detail.value === 'true')
             event.detail.key === 'color' && setColor(event.detail.value)
         }

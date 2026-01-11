@@ -184,7 +184,7 @@ export default function AnnouncementFormInputsClient({
                 onChange={(value) =>
                     setFormValues({
                         ...formValues,
-                        roles: value as string,
+                        roles: String(value || ''),
                     })
                 }
                 className='col-span-2'
