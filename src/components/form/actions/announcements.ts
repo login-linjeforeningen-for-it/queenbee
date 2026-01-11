@@ -16,10 +16,10 @@ type Unparsed = PostAnnouncementPropsUnparsed | PutAnnouncementPropsUnparsed
 
 
 export async function extractAnnouncementProps<T extends Unparsed>(formData: FormData): Promise<T> {
-    const title_no = getOptionalString(formData, 'title_no')
-    const title_en = getOptionalString(formData, 'title_en')
-    const description_no = getOptionalString(formData, 'description_no')
-    const description_en = getOptionalString(formData, 'description_en')
+    const title_no = getOptionalString(formData, 'announcement_title_no')
+    const title_en = getOptionalString(formData, 'announcement_title_en')
+    const description_no = getOptionalString(formData, 'announcement_description_no')
+    const description_en = getOptionalString(formData, 'announcement_description_en')
 
     if (!title_no && !title_en) throw new Error('Title is required')
     if (!description_no && !description_en) throw new Error('Description is required')
@@ -27,12 +27,12 @@ export async function extractAnnouncementProps<T extends Unparsed>(formData: For
     return {
         title:          [title_no, title_en].filter((t) => t !== null) as string[],
         description:    [description_no, description_en].filter((t) => t !== null) as string[],
-        channel:        getRequiredString(formData, 'channel'),
-        roles:          getOptionalString(formData, 'roles'),
-        embed:          getOptionalBoolean(formData, 'embed'),
-        color:          getOptionalString(formData, 'color'),
-        interval:       getOptionalString(formData, 'interval'),
-        time:           getOptionalDateTime(formData, 'publish_date', 'publish_time'),
+        channel:        getRequiredString(formData, 'announcement_channel'),
+        roles:          getOptionalString(formData, 'announcement_roles'),
+        embed:          getOptionalBoolean(formData, 'announcement_embed'),
+        color:          getOptionalString(formData, 'announcement_color'),
+        interval:       getOptionalString(formData, 'announcement_interval'),
+        time:           getOptionalDateTime(formData, 'announcement_publish_date', 'announcement_publish_time'),
         active: true
     } as T
 }

@@ -28,7 +28,7 @@ export default function EventFormInputsClient({
     organizations: Option[]
     timeTypes: OptionsProps[]
     rules: Option[]
-    locations: Option[]
+    locations: (Option & { nameNo: string, nameEn: string })[]
     channels: Channel[]
     roles: Role[]
     type: 'create' | 'update'
@@ -98,6 +98,27 @@ export default function EventFormInputsClient({
             }
         }
     }
+
+    function formatDate(dateString: string) {
+        const d = new Date(dateString)
+        const day = d.getDate().toString().padStart(2, '0')
+        const month = (d.getMonth() + 1).toString().padStart(2, '0')
+        const year = d.getFullYear()
+        return `${day}.${month}.${year}`
+    }
+
+    const locationNameNo = formValues.location ? `**Hvor:** ${locations.find(loc => loc.value === formValues.location)?.nameNo}\n` : ''
+    const locationNameEn = formValues.location ? `**Where:** ${locations.find(loc => loc.value === formValues.location)?.nameEn}\n` : ''
+
+    const timeInfoNo = formValues.start_date && formValues.end_date ?
+        `**Når:** ${formatDate(formValues.start_date)} kl. ${formValues.start_time} - ${formValues.end_time}` +
+        `${formValues.end_date === formValues.start_date ? '' : ` (${formatDate(formValues.end_date)})`}\n` : ''
+    const timeInfoEn = formValues.start_date && formValues.end_date ?
+        `**When:** ${formatDate(formValues.start_date)} at ${formValues.start_time} - ${formValues.end_time}` +
+        `${formValues.end_date === formValues.start_date ? '' : ` (${formatDate(formValues.end_date)})`}\n` : ''
+
+    const announcementDescriptionNo = `${formValues.description_no}\n\n${locationNameNo}${timeInfoNo}`
+    const announcementDescriptionEn = `${formValues.description_en}\n\n${locationNameEn}${timeInfoEn}`
 
     return (
         <div className='md:grid md:grid-cols-2 gap-x-8 md:pt-4 relative'>
@@ -657,8 +678,8 @@ export default function EventFormInputsClient({
                 formData={{
                     titleNo: formValues.name_no,
                     titleEn: formValues.name_en,
-                    descriptionNo: formValues.description_no,
-                    descriptionEn: formValues.description_en,
+                    descriptionNo: announcementDescriptionNo,
+                    descriptionEn: announcementDescriptionEn,
                     publishDate: formValues.publish_date,
                     publishTime: formValues.publish_time,
                     color: categories.find(category => category.value === formValues.category)?.color || undefined,

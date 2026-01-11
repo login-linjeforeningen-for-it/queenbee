@@ -126,7 +126,7 @@ export default function AnnouncementFormInputsClient({
             </div>}
             <div className={titleNo || titleEn ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-4'}>
                 <Input
-                    name='title_no'
+                    name='announcement_title_no'
                     type='text'
                     label='Title (Norwegian)'
                     value={formValues.title_no}
@@ -138,7 +138,7 @@ export default function AnnouncementFormInputsClient({
                     }
                 />
                 <Input
-                    name='title_en'
+                    name='announcement_title_en'
                     type='text'
                     label='Title (English)'
                     value={formValues.title_en}
@@ -153,7 +153,7 @@ export default function AnnouncementFormInputsClient({
 
             <div className={descriptionNo || descriptionEn ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-4'}>
                 <Textarea
-                    name='description_no'
+                    name='announcement_description_no'
                     label='Description (Norwegian)'
                     type='markdown'
                     value={formValues.description_no}
@@ -165,7 +165,7 @@ export default function AnnouncementFormInputsClient({
                     }
                 />
                 <Textarea
-                    name='description_en'
+                    name='announcement_description_en'
                     label='Description (English)'
                     type='markdown'
                     value={formValues.description_en}
@@ -179,7 +179,7 @@ export default function AnnouncementFormInputsClient({
             </div>
 
             <Select
-                name='channel'
+                name='announcement_channel'
                 label='Discord channel'
                 options={channels}
                 value={formValues.channel || ''}
@@ -193,7 +193,7 @@ export default function AnnouncementFormInputsClient({
                 className='col-span-2'
             />
             <Select
-                name='roles'
+                name='announcement_roles'
                 label='Role'
                 options={roles}
                 value={formValues.roles || ''}
@@ -206,7 +206,7 @@ export default function AnnouncementFormInputsClient({
                 className='col-span-2'
             />
             <Switch
-                name='embed'
+                name='announcement_embed'
                 label='Embed'
                 checked={formValues.embed || false}
                 onChange={(e) =>
@@ -217,7 +217,7 @@ export default function AnnouncementFormInputsClient({
                 }
             />
             <Input
-                name='color'
+                name='announcement_color'
                 type='color'
                 label='Embed color'
                 value={formValues.color}
@@ -229,9 +229,9 @@ export default function AnnouncementFormInputsClient({
                 }
             />
             <Input
-                name='interval'
+                name='announcement_interval'
                 type='text'
-                label='Interval'
+                label='Interval (Cron)'
                 value={formValues.interval}
                 onChange={(e) => {
                     const value = e.target.value
@@ -249,7 +249,7 @@ export default function AnnouncementFormInputsClient({
             />
             <div className={publishDate ? 'hidden' : ''}>
                 <Input
-                    name='publish_date'
+                    name='announcement_publish_date'
                     label='Publish Date'
                     type='date'
                     value={formValues.time.split('T')[0]}
@@ -267,7 +267,7 @@ export default function AnnouncementFormInputsClient({
             </div>
             <div className={publishTime ? 'hidden' : ''}>
                 <Input
-                    name='publish_time'
+                    name='announcement_publish_time'
                     label='Publish Time'
                     type='time'
                     value={toLocalTimeString(formValues.time)}

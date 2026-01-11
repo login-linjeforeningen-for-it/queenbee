@@ -167,6 +167,7 @@ declare global {
     type GetAllLocationsProps = {
         id: number
         name_en: string
+        name_no: string
         type: string
     }[]
 

@@ -63,6 +63,8 @@ export default async function EventFormInputs({ defaultValues, type }: EventForm
         ? locations.map((location) => ({
             label: `${location.name_en} | ${location.type}`,
             value: location.id,
+            nameNo: location.name_no,
+            nameEn: location.name_en,
         }))
         : []
 

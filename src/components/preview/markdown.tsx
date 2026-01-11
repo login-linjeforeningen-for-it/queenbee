@@ -11,6 +11,7 @@ type MarkdownProps = {
 }
 
 marked.use({
+    breaks: true,
     renderer: {
         code(token) {
             const language = hljs.getLanguage(typeof token.lang === 'string'
@@ -39,10 +40,12 @@ marked.use({
 })
 
 export function Markdown({ markdown, className }: MarkdownProps) {
+    const processedMarkdown = markdown.replace(/^(\s*)$/mg, '\u00A0')
+
     return (
         <div
             className={`markdown-preview text-foreground text-md h-full wrap-break-word ${className}`}
-            dangerouslySetInnerHTML={{ __html: marked(markdown) }}
+            dangerouslySetInnerHTML={{ __html: marked(processedMarkdown) as string }}
         />
     )
 }
