@@ -40,6 +40,8 @@ export default function AnnouncementFormInputsClient({
         time: publishDate && publishTime ? `${publishDate}T${publishTime}` : defaultValues?.time ?? new Date().toISOString(),
     })
 
+    const [intervalError, setIntervalError] = useState<string | null>(null)
+
     useEffect(() => {
         if (titleNo || descriptionNo) {
             setFormValues((prev) => ({
@@ -96,6 +98,20 @@ export default function AnnouncementFormInputsClient({
 
     function example() {
         setFormValues(sampleAnnouncement)
+    }
+
+    function isValidCron(cron: string): boolean {
+        const parts = cron.trim().split(/\s+/)
+        if (parts.length === 5) {
+            const regex = /^[\d*,/-]+$/
+            return parts.every(part => regex.test(part))
+        } else if (parts.length === 6) {
+            const regex = /^[\d*,/-]+$/
+            const first5 = parts.slice(0, 5).every(part => regex.test(part))
+            const sixth = /^\/(\d+)$/.test(parts[5])
+            return first5 && sixth
+        }
+        return false
     }
 
     return (
@@ -217,12 +233,19 @@ export default function AnnouncementFormInputsClient({
                 type='text'
                 label='Interval'
                 value={formValues.interval}
-                onChange={(e) =>
+                onChange={(e) => {
+                    const value = e.target.value
                     setFormValues({
                         ...formValues,
-                        interval: e.target.value,
+                        interval: value,
                     })
-                }
+                    if (!isValidCron(value)) {
+                        setIntervalError('Invalid cron format')
+                    } else {
+                        setIntervalError(null)
+                    }
+                }}
+                error={intervalError || undefined}
             />
             <div className={publishDate ? 'hidden' : ''}>
                 <Input
