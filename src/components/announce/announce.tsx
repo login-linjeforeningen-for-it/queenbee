@@ -2,7 +2,7 @@ import AnnouncementFormInputsClient from '@components/form/client/announcements'
 import DiscordPreview from '@components/preview/discord'
 import { MessageSquareWarning } from 'lucide-react'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Switch } from 'uibee/components'
 
 type AnnounceProps = {
@@ -22,10 +22,15 @@ type AnnounceProps = {
 export default function Announce({ channels, roles, formData }: AnnounceProps) {
     const [enabled, setEnabled] = useState<boolean>(false)
     const pathname = usePathname()
+    const isUpdate = pathname.includes('update/')
 
-    if (pathname.includes('update/')) {
-        setEnabled(false)
+    useEffect(() => {
+        if (isUpdate) {
+            setEnabled(false)
+        }
+    }, [enabled])
 
+    if (isUpdate) {
         return (
             <div className='col-span-2 space-apart bg-login-50/5 rounded-lg p-2 px-4 cursor-not-allowed mt-10'>
                 <div className='flex justify-between'>
