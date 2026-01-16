@@ -22,8 +22,8 @@ export default function Nav({ docker, meta }: { docker: Docker, meta: ServiceSta
     return (
         <nav
             className={`
-                relative h-(--h-navbar) w-full
-                bg-login-950 flex justify-between
+                sticky top-0 z-50 h-(--h-navbar) w-full
+                bg-login-950/80 backdrop-blur-md border-b border-login-100/10 flex justify-between items-center px-4 shadow-sm
             `}
         >
             <LeftSide token={token} />
@@ -34,20 +34,24 @@ export default function Nav({ docker, meta }: { docker: Docker, meta: ServiceSta
 
 function LeftSide({ token }: { token: string | undefined }) {
     return (
-        <div className='flex gap-4 h-(--h-navbar)'>
+        <div className='flex gap-4 h-full items-center'>
             <Link
                 href={token ? '/dashboard' : '/'}
-                className='relative h-full aspect-square'
+                className='relative h-10 w-10 aspect-square hover:opacity-80 transition-opacity'
             >
                 <Image
                     alt='Logo'
                     src='/images/queenbee-logo.png'
                     fill={true}
                     quality={100}
-                    sizes='(max-width: 400px) 40vw, 40vw'
+                    priority
+                    sizes='40px'
+                    className='object-contain'
                 />
             </Link>
-            <h1 className='self-center font-semibold '>QUEENBEE - Admintool</h1>
+            <h1 className='font-bold text-lg tracking-wide hidden sm:block! text-login-50'>
+                QueenBee <span className='font-normal text-login-200 text-base'>- Management tool</span>
+            </h1>
         </div>
     )
 }
@@ -63,9 +67,9 @@ function RightSide({ token, docker, meta }: { token: string | undefined, docker:
     }, [])
 
     return (
-        <div className='flex gap-1 items-center pr-4'>
+        <div className='flex gap-1 items-center'>
             <ThemeToggle />
-            <div className='md:hidden absolute z-100 w-full h-full top-14 left-0'>
+            <div className='md:hidden absolute z-100 w-full left-0 top-(--h-navbar)'>
                 {sidebar && (isInternal ? <SidebarInternal meta={meta} docker={docker} /> : <Sidebar />)}
             </div>
             {token ? (
@@ -74,7 +78,7 @@ function RightSide({ token, docker, meta }: { token: string | undefined, docker:
                         <Link
                             className={`
                                 flex items-center justify-center p-2 rounded-md 
-                                transition-colors hover:bg-login-50/5 size-12
+                                transition-colors hover:bg-login-50/10 size-12
                             `}
                             href={pathname.startsWith('/internal') ? '/dashboard' : '/internal'}
                             prefetch={false}
@@ -85,7 +89,7 @@ function RightSide({ token, docker, meta }: { token: string | undefined, docker:
                     <Link
                         className={`
                             flex items-center justify-center p-2 rounded-md
-                            hover:bg-login-50/5 size-12 transition-colors
+                            hover:bg-login-50/10 size-12 transition-colors
                         `}
                         href='/api/logout'
                         onClick={() => {
@@ -98,8 +102,8 @@ function RightSide({ token, docker, meta }: { token: string | undefined, docker:
                     </Link>
                     <button
                         className={`
-                            flex items-center justify-center p-2 pr-4 rounded-md
-                            hover:bg-login-50/5 size-12 transition-colors
+                            flex items-center justify-center p-2 rounded-md
+                            hover:bg-login-50/10 size-12 transition-colors
                             md:hidden!
                         `}
                         onClick={() => setSidebar(prev => !prev)}

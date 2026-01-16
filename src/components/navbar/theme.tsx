@@ -26,7 +26,7 @@ export default function ThemeSwitch({ className }: { className?: string }) {
     }
 
     return (
-        <div className={`grid place-items-center justify-end rounded-md hover:bg-login-300/20 w-fit ${className}`}>
+        <div className={`grid place-items-center justify-end rounded-md hover:bg-login-50/10 w-fit ${className}`}>
             <label className='cursor-pointer'>
                 <input
                     type='checkbox'
