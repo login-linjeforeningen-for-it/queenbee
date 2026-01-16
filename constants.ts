@@ -102,6 +102,7 @@ const config = {
             metrics: 'traffic/metrics',
             records: 'traffic/records',
             domains: 'traffic/domains',
+            live: 'traffic/live',
         },
         dashboard: {
             internal: 'dashboard/internal'
