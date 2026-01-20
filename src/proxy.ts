@@ -7,7 +7,9 @@ export async function proxy(req: NextRequest) {
 
     if (!pathIsAllowedWhileUnauthorized(req.nextUrl.pathname)) {
         if (!tokenCookie) {
-            return NextResponse.redirect(new URL('/', req.url))
+            const res = NextResponse.redirect(new URL('/', req.url))
+            res.cookies.set('redirect_after_login', req.nextUrl.pathname)
+            return res
         }
 
         const btgCookie = req.cookies.get('btg_name')
