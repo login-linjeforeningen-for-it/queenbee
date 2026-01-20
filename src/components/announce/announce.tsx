@@ -20,7 +20,7 @@ type AnnounceProps = {
 }
 
 export default function Announce({ channels, roles, formData }: AnnounceProps) {
-    const [enabled, setEnabled] = useState<boolean>(false)
+    const [enabled, setEnabled] = useState<boolean>(true)
     const pathname = usePathname()
     const isUpdate = pathname.includes('update/')
 
@@ -28,7 +28,7 @@ export default function Announce({ channels, roles, formData }: AnnounceProps) {
         if (isUpdate) {
             setEnabled(false)
         }
-    }, [enabled])
+    }, [isUpdate])
 
     if (isUpdate) {
         return (
