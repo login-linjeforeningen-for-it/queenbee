@@ -13,6 +13,7 @@ export default async function JobFormInputs({ defaultValues }: { defaultValues?:
         ? organizations.map((organization) => ({
             label: organization.name_en,
             value: organization.id,
+            nameNo: organization.name_no,
         }))
         : []
 
@@ -22,6 +23,7 @@ export default async function JobFormInputs({ defaultValues }: { defaultValues?:
         ? jobTypes.map((type) => ({
             label: type.name_en,
             value: type.id,
+            nameNo: type.name_no,
         }))
         : []
 

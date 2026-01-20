@@ -17,20 +17,20 @@ export default function JobFormInputsClient({
     roles
 }: {
     defaultValues?: GetJobProps
-    organizations: { label: string; value: number }[]
-    applicationTypes: OptionsProps[]
+    organizations: { label: string; value: number, nameNo: string }[]
+    applicationTypes: { label: string; value: number, nameNo: string }[]
     defaultImages: Option[]
     channels: Channel[]
     roles: Role[]
 }) {
     const [images, setImages] = useState<Option[]>(defaultImages)
     const [formValues, setFormValues] = useState({
-        title_no: defaultValues?.title_no,
-        title_en: defaultValues?.title_en,
-        position_title_no: defaultValues?.position_title_no,
-        position_title_en: defaultValues?.position_title_en,
-        description_short_no: defaultValues?.description_short_no,
-        description_short_en: defaultValues?.description_short_en,
+        title_no: defaultValues?.title_no || '',
+        title_en: defaultValues?.title_en || '',
+        position_title_no: defaultValues?.position_title_no || '',
+        position_title_en: defaultValues?.position_title_en || '',
+        description_short_no: defaultValues?.description_short_no || '',
+        description_short_en: defaultValues?.description_short_en || '',
         description_long_no: defaultValues?.description_long_no || '',
         description_long_en: defaultValues?.description_long_en || '',
         organization: defaultValues?.organization.id || '',
@@ -49,6 +49,34 @@ export default function JobFormInputsClient({
     function example() {
         setFormValues(sampleJob)
     }
+
+    function formatDate(dateString: string) {
+        const d = new Date(dateString)
+        const day = d.getDate().toString().padStart(2, '0')
+        const month = (d.getMonth() + 1).toString().padStart(2, '0')
+        const year = d.getFullYear()
+        return `${day}.${month}.${year}`
+    }
+
+    const citiesNo = `**Byer:** ${formValues.cities?.join(', ') || ''}\n`
+    const deadlineNo = `**Søknadsfrist:** ${
+        formValues.expire_date ? formatDate(formValues.expire_date) + ' ' + formValues.expire_time : ''
+    }\n`
+    const applicationNo = `**Søknad:** ${formValues.application_url || ''}\n`
+    const organizationNo = `**Organisasjon:** ${organizations.find(org => org.value === Number(formValues.organization))?.nameNo || ''}\n`
+    const applicationTypeNo = `**Søknadstype:** ${applicationTypes.find(type => type.value === formValues.job_type_id)?.nameNo || ''}\n`
+    const citiesEn = `**Cities:** ${formValues.cities?.join(', ') || ''}\n`
+    const deadlineEn = `**Application Deadline:** ${
+        formValues.expire_date ? formatDate(formValues.expire_date) + ' ' + formValues.expire_time : ''
+    }\n`
+    const applicationEn = `**Apply:** ${formValues.application_url || ''}\n`
+    const organizationEn = `**Organization:** ${organizations.find(org => org.value === Number(formValues.organization))?.label || ''}\n`
+    const applicationTypeEn = `**Application Type:** ${applicationTypes.find(type => type.value === formValues.job_type_id)?.label || ''}\n`
+
+    const announcementDescriptionNo = `${formValues.description_long_no}\n\n${organizationNo}${
+        applicationTypeNo}${citiesNo}${deadlineNo}${applicationNo}`
+    const announcementDescriptionEn = `${formValues.description_long_en}\n\n${organizationEn}${
+        applicationTypeEn}${citiesEn}${deadlineEn}${applicationEn}`
 
     return (
         <div className='grid grid-cols-2 gap-x-8 pt-10 relative'>
@@ -329,7 +357,18 @@ export default function JobFormInputsClient({
                 }
                 className='col-span-2'
             />
-            <Announce channels={channels} roles={roles} />
+            <Announce
+                channels={channels}
+                roles={roles}
+                formData={{
+                    titleNo: formValues.title_no,
+                    titleEn: formValues.title_en,
+                    descriptionNo: announcementDescriptionNo,
+                    descriptionEn: announcementDescriptionEn,
+                    publishDate: formValues.publish_date,
+                    publishTime: formValues.publish_time,
+                }}
+            />
         </div>
     )
 }

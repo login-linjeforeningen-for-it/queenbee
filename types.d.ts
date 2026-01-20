@@ -133,6 +133,7 @@ declare global {
     type GetAllOrganizationsProps = {
         id: number
         name_en: string
+        name_no: string
     }[]
 
     type PostOrganizationProps = Organization
