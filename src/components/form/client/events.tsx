@@ -46,7 +46,7 @@ export default function EventFormInputsClient({
         rule: defaultValues?.rule?.id,
         location: defaultValues?.location?.id,
         audience_id: defaultValues?.audience?.id,
-        time_type: defaultValues?.time_type,
+        time_type: defaultValues?.time_type || 'default' as time_type,
         start_date: defaultValues?.time_start.split('T')[0],
         end_date: defaultValues?.time_end.split('T')[0],
         start_time: toLocalTimeString(defaultValues?.time_start),
@@ -289,21 +289,7 @@ export default function EventFormInputsClient({
                     }
                     required
                 />
-                <Input
-                    type='date'
-                    name='end_date'
-                    label='End Date'
-                    value={formValues.end_date || ''}
-                    onChange={(e) =>
-                        setFormValues({
-                            ...formValues,
-                            end_date: e.target.value,
-                        })
-                    }
-                    className='row-start-2'
-                    required
-                />
-                {!formValues.time_type && <>
+                {!formValues.time_type && (
                     <Input
                         type='time'
                         name='start_time'
@@ -314,19 +300,8 @@ export default function EventFormInputsClient({
                             start_time: e.target.value,
                         })}
                         required />
-                    <Input
-                        type='time'
-                        name='end_time'
-                        label='End Time'
-                        value={formValues.end_time || ''}
-                        onChange={(e) => setFormValues({
-                            ...formValues,
-                            end_time: e.target.value,
-                        })}
-                        required />
-                </>
-                }
-                {formValues.time_type === 'default' && <>
+                )}
+                {formValues.time_type === 'default' && (
                     <Input
                         type='time'
                         name='start_time'
@@ -342,24 +317,8 @@ export default function EventFormInputsClient({
                         }
                         required
                     />
-                    <Input
-                        type='time'
-                        name='end_time'
-                        label='End Time'
-                        value={
-                            formValues.default_end_time || ''
-                        }
-                        onChange={(input) =>
-                            setFormValues({
-                                ...formValues,
-                                default_end_time: input.target.value,
-                            })
-                        }
-                        required
-                    />
-                </>
-                }
-                {formValues.time_type === 'no_end' && <>
+                )}
+                {formValues.time_type === 'no_end' && (
                     <Input
                         type='time'
                         name='start_time'
@@ -375,6 +334,60 @@ export default function EventFormInputsClient({
                         }
                         required
                     />
+                )}
+                {(formValues.time_type === 'whole_day' || formValues.time_type === 'tbd') && (
+                    <Input
+                        type='time'
+                        name='start_time'
+                        label='Start Time'
+                        value='00:00'
+                        disabled
+                    />
+                )}
+                <Input
+                    type='date'
+                    name='end_date'
+                    label='End Date'
+                    value={formValues.end_date || ''}
+                    onChange={(e) =>
+                        setFormValues({
+                            ...formValues,
+                            end_date: e.target.value,
+                        })
+                    }
+                    required
+                />
+                {!formValues.time_type && (
+                    <Input
+                        type='time'
+                        name='end_time'
+                        label='End Time'
+                        value={formValues.end_time || ''}
+                        onChange={(e) => setFormValues({
+                            ...formValues,
+                            end_time: e.target.value,
+                        })}
+                        required
+                    />
+                )}
+                {formValues.time_type === 'default' && (
+                    <Input
+                        type='time'
+                        name='end_time'
+                        label='End Time'
+                        value={
+                            formValues.default_end_time || ''
+                        }
+                        onChange={(input) =>
+                            setFormValues({
+                                ...formValues,
+                                default_end_time: input.target.value,
+                            })
+                        }
+                        required
+                    />
+                )}
+                {formValues.time_type === 'no_end' && (
                     <Input
                         type='time'
                         name='end_time'
@@ -382,16 +395,8 @@ export default function EventFormInputsClient({
                         value='23:00'
                         disabled
                     />
-                </>
-                }
-                {formValues.time_type === 'whole_day' && <>
-                    <Input
-                        type='time'
-                        name='start_time'
-                        label='Start Time'
-                        value='00:00'
-                        disabled
-                    />
+                )}
+                {(formValues.time_type === 'whole_day' || formValues.time_type === 'tbd') && (
                     <Input
                         type='time'
                         name='end_time'
@@ -399,25 +404,7 @@ export default function EventFormInputsClient({
                         value='23:59'
                         disabled
                     />
-                </>
-                }
-                {formValues.time_type === 'tbd' && <>
-                    <Input
-                        type='time'
-                        name='start_time'
-                        label='Start Time'
-                        value='00:00'
-                        disabled
-                    />
-                    <Input
-                        type='time'
-                        name='end_time'
-                        label='End Time'
-                        value='23:59'
-                        disabled
-                    />
-                </>
-                }
+                )}
                 <Input
                     type='date'
                     name='publish_date'
