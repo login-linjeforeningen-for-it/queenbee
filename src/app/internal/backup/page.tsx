@@ -4,6 +4,7 @@ import formatAlert from '@components/alert/formatAlert'
 import Search from '@components/inputs/search'
 import { DatabaseBackup } from 'lucide-react'
 import { Button } from 'uibee/components'
+import BackupAllButton from '@components/internal/backupAllButton'
 import GeneralTable, { Column } from '@components/table/generalTable'
 import prettyDate from '@utils/date/prettyDate'
 import formatNextBackup from '@utils/date/formatNextBackup'
@@ -76,12 +77,15 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                 <h1 className='font-semibold text-lg'>Backup Management</h1>
                 <div className='flex items-center justify-between py-3'>
                     <Search />
-                    <Button
-                        icon={<DatabaseBackup className='w-5' />}
-                        text='Go to Restore'
-                        path='/internal/backup/restore'
-                        className='self-start'
-                    />
+                    <div className='flex gap-2'>
+                        <BackupAllButton />
+                        <Button
+                            icon={<DatabaseBackup className='w-5' />}
+                            text='Go to Restore'
+                            path='/internal/backup/restore'
+                            className='self-start'
+                        />
+                    </div>
                 </div>
             </div>
 
