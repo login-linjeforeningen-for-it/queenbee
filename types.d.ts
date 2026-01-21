@@ -481,6 +481,7 @@ declare global {
         file?: string
         size?: string
         mtime?: string
+        location?: 'local' | 'remote'
     }
 
 
