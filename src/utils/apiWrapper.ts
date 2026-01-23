@@ -40,15 +40,21 @@ async function apiRequest({ service, method, path, options, data }: APIRequestPr
         btg: 'tekkom-bot'
     } : baseHeaders
 
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 3000)
+
     const finalOptions = {
         method,
         headers,
         ...options,
+        signal: controller.signal,
         body: data ? isFormData ? data : JSON.stringify(data) : undefined
     }
 
     try {
         const response = await fetch(`${url}/${path}`, finalOptions)
+        clearTimeout(timeoutId)
+
         if (!response.ok) {
             const text = await response.json()
             const message = text.message || text.error || text
@@ -59,10 +65,16 @@ async function apiRequest({ service, method, path, options, data }: APIRequestPr
         return data
 
     } catch (error: unknown) {
-        console.error('Fetch error', error)
+        clearTimeout(timeoutId)
+
         if (error instanceof Error) {
+            console.error(`Fetch error: ${error.name} - ${error.message}`)
+            if (error.name === 'AbortError') {
+                return 'Error: Request timed out after 3 seconds'
+            }
             return `Error: ${error.message}`
         } else {
+            console.error('Fetch error: ', error)
             return 'Error: Unknown! Please contact TekKom'
         }
     }
