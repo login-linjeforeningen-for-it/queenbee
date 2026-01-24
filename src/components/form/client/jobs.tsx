@@ -3,10 +3,11 @@
 import Announce from '@components/announce/announce'
 import fallBackDate from '@utils/fallbackDate'
 import postImage from '@utils/api/workerbee/images/postImage'
-import Upload from '@components/inputs/upload'
+import Upload from '@components/image/upload'
 import { useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
 import { toast, Button, Input, Textarea, Select, Switch, TagInput } from 'uibee/components'
+import config from '@config'
 
 export default function JobFormInputsClient({
     defaultValues,
@@ -322,7 +323,7 @@ export default function JobFormInputsClient({
                 className='col-span-2'
                 required
             />
-            <h1 className='text-xl pt-10 col-span-2'>Image</h1>
+            <h1 className='text-xl pt-10 pb-4 col-span-2'>Image</h1>
             <Upload
                 handleFile={async function (file: File): Promise<void> {
                     const result = await postImage('jobs', file)
@@ -330,19 +331,20 @@ export default function JobFormInputsClient({
                         toast.error(result)
                     } else {
                         toast.success('Image uploaded successfully')
-                        const existingImage = images.find(img => img.value === result.image)
+                        const existingImage = images.find(img => img.value === result.name)
                         if (!existingImage) {
                             setImages([
                                 ...images,
                                 {
-                                    label: result.image,
-                                    value: result.image,
-                                    image: result.image,
+                                    label: result.name,
+                                    value: result.name,
+                                    image: `${config.url.cdn}/${result.image}`,
                                 }
                             ])
                         }
                     }
                 }}
+                showTag={false}
             />
             <Select
                 name='banner_image'

@@ -1,5 +1,5 @@
 import Domains from '@/components/domains/domains'
-import Incidents from '@/components/incidents/incidents'
+import Incidents from '@components/image/incidents/incidents'
 import Services from '@/components/root/services'
 import EditableMessage from '@/components/services/editableMessage'
 import PostMessage from '@/components/services/postMessage'

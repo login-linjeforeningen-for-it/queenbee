@@ -1,6 +1,6 @@
 'use client'
 
-import Upload from '@components/inputs/upload'
+import Upload from '@components/image/upload'
 import config from '@config'
 import postImage from '@utils/api/workerbee/images/postImage'
 import { useState } from 'react'
@@ -143,7 +143,7 @@ export default function OrganizationFormInputsClient({ defaultValues, defaultIma
                 }
                 className='col-span-2'
             />
-            <h1 className='text-xl pt-10 col-span-2'>Logo</h1>
+            <h1 className='text-xl pt-10 pb-4 col-span-2'>Logo</h1>
             <Upload
                 handleFile={async function (file: File): Promise<void> {
                     const result = await postImage('organizations', file)
@@ -151,19 +151,20 @@ export default function OrganizationFormInputsClient({ defaultValues, defaultIma
                         toast.error(result)
                     } else {
                         toast.success('Image uploaded successfully')
-                        const existingImage = images.find(img => img.value === result.image)
+                        const existingImage = images.find(img => img.value === result.name)
                         if (!existingImage) {
                             setImages([
                                 ...images,
                                 {
-                                    label: result.image,
-                                    value: result.image,
-                                    image: `${config.url.cdn}/img/organizations/${result.image}`,
+                                    label: result.name,
+                                    value: result.name,
+                                    image: `${config.url.cdn}/${result.image}`,
                                 }
                             ])
                         }
                     }
                 }}
+                showTag={false}
             />
             <Select
                 name='logo'

@@ -1,7 +1,7 @@
 'use client'
 
 import Announce from '@components/announce/announce'
-import Upload from '@components/inputs/upload'
+import Upload from '@components/image/upload'
 import postImage from '@utils/api/workerbee/images/postImage'
 import { useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
@@ -85,18 +85,19 @@ export default function EventFormInputsClient({
             toast.error(result)
         } else {
             toast.success('Image uploaded successfully')
-            const existingImage = images.find(img => img.value === result.image)
+            const existingImage = images.find(img => img.value === result.name)
             if (!existingImage) {
                 setImages([
                     ...images,
                     {
-                        label: result.image,
-                        value: result.image,
-                        image: `${config.url.cdn}/img/events/${result.image}`,
+                        label: result.name,
+                        value: result.name,
+                        image: `${config.url.cdn}/${result.image}`,
                     }
                 ])
             }
         }
+
     }
 
     function formatDate(dateString: string) {
@@ -594,10 +595,10 @@ export default function EventFormInputsClient({
                     })
                 }
             />
-            <h1 className='text-xl pt-10 col-span-2'>Image</h1>
+            <h1 className='text-xl pt-10 pb-4 col-span-2'>Image</h1>
             <Upload
-                showSwitch
                 handleFile={handleFile}
+                showTag={true}
             />
             <Select
                 name='image_banner'

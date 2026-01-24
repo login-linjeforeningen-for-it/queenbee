@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import UploadPopup from './uploadPopup'
+import UploadPopup from './popup'
+import { UploadIcon } from 'lucide-react'
 
 type UploadProps = {
     handleFile: (file: File) => void
-    showSwitch?: boolean
+    showTag?: boolean
 }
 
-export default function Upload({ handleFile, showSwitch }: UploadProps) {
+export default function Upload({ handleFile, showTag }: UploadProps) {
     const [open, setOpen] = useState(false)
     const [file, setFile] = useState<File | null>(null)
     const inputRef = React.useRef<HTMLInputElement>(null)
@@ -28,8 +29,9 @@ export default function Upload({ handleFile, showSwitch }: UploadProps) {
 
     return (
         <>
-            <label className='bg-login text-login-700 px-5 py-2 my-4 rounded-md cursor-pointer hover:bg-login/90 w-fit'>
-                Upload Image
+            <label className='bg-login/70 outline-login hover:bg-login/90 cursor-pointer px-4 rounded-md min-h-8 h-8 flex
+                    justify-evenly items-center gap-2 select-none
+                    focus:outline-none border-0 outline w-fit mb-4'>
                 <input
                     ref={inputRef}
                     type='file'
@@ -37,9 +39,11 @@ export default function Upload({ handleFile, showSwitch }: UploadProps) {
                     onChange={handleFileChange}
                     className='hidden'
                 />
+                <UploadIcon className='size-4.5' />
+                Upload Image
             </label>
             {open && file && (
-                <UploadPopup onCloseAction={handleClose} file={file} handleFileAction={handleFile} showSwitch={showSwitch} />
+                <UploadPopup onCloseAction={handleClose} file={file} handleFileAction={handleFile} showTag={showTag} />
             )}
         </>
     )
