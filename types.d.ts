@@ -1149,6 +1149,7 @@ declare global {
         userAgent: null | string
         notification: null | string
         expectedDown: boolean
+        upsideDown: boolean
         maxConsecutiveFailures: number
         note: string
         enabled: boolean
@@ -1167,6 +1168,7 @@ declare global {
         url: string
         userAgent: string | null
         expectedDown: boolean
+        upsideDown: boolean
         interval: number
         note: string
         maxConsecutiveFailures: number

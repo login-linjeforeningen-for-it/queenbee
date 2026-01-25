@@ -34,6 +34,7 @@ export default function NewService({
         status: false,
         userAgent: null,
         expectedDown: false,
+        upsideDown: false,
         notification: null,
         maxConsecutiveFailures: 0,
         port: 22,

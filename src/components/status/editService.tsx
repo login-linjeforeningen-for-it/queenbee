@@ -39,6 +39,7 @@ export default function EditService({
         status: false,
         notification: null,
         expectedDown: false,
+        upsideDown: false,
         userAgent: null,
         port: service.port || 22,
         maxConsecutiveFailures: 0,
@@ -111,6 +112,7 @@ export default function EditService({
                 ...form,
                 enabled: response.enabled,
                 expectedDown: response.expectedDown,
+                upsideDown: response.upsideDown,
                 interval: response.interval,
                 notification: String(response.notification),
                 userAgent: response.userAgent,
@@ -271,6 +273,15 @@ export default function EditService({
                             onChange={(e) => updateField('expectedDown', e.target.checked)}
                         />
                         Expected down
+                    </label>
+
+                    <label className='flex items-center gap-2 cursor-pointer'>
+                        <input
+                            type='checkbox'
+                            checked={form.upsideDown}
+                            onChange={(e) => updateField('upsideDown', e.target.checked)}
+                        />
+                        Upside down
                     </label>
 
                     <label className='flex items-center gap-2 cursor-pointer'>

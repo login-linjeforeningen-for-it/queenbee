@@ -204,6 +204,16 @@ export default function NewServiceForm({
                         <input
                             className='cursor-pointer'
                             type='checkbox'
+                            checked={form.upsideDown}
+                            onChange={(e) => updateField('upsideDown', e.target.checked)}
+                        />
+                        Upside down
+                    </label>
+
+                    <label className='flex items-center gap-2 cursor-pointer'>
+                        <input
+                            className='cursor-pointer'
+                            type='checkbox'
                             checked={form.enabled}
                             onChange={(e) => updateField('enabled', e.target.checked)}
                         />
