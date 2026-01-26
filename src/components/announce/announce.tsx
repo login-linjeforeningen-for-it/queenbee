@@ -20,7 +20,7 @@ type AnnounceProps = {
 }
 
 export default function Announce({ channels, roles, formData }: AnnounceProps) {
-    const [enabled, setEnabled] = useState<boolean>(true)
+    const [enabled, setEnabled] = useState<boolean>(!!channels.length && !!roles.length)
     const pathname = usePathname()
     const isUpdate = pathname.includes('update/')
 
@@ -49,7 +49,10 @@ export default function Announce({ channels, roles, formData }: AnnounceProps) {
 
     return (
         <div
-            onClick={() => setEnabled(!enabled)}
+            onClick={() => {
+                if (!channels.length || !roles.length) return
+                setEnabled(!enabled)
+            }}
             className='col-span-2 space-apart bg-login-50/5 rounded-lg p-2 px-4 mt-10 select-none'
         >
             <div className='flex justify-between'>
@@ -66,33 +69,30 @@ export default function Announce({ channels, roles, formData }: AnnounceProps) {
                     onChange={() => setEnabled((prev) => !prev)}
                     switchOnly
                     className='self-center'
+                    disabled={!channels.length || !roles.length}
                 />
             </div>
-            {enabled && (
-                <>
-                    {!channels.length ? (
-                        <div className='w-full space-y-4 mt-2 select-none' onClick={(e) => e.stopPropagation()}>
-                            <div className='w-full h-0.5 bg-login-400 rounded-lg' />
-                            <div className='flex gap-2 w-full rounded-lg p-2 bg-red-900'>
-                                <MessageSquareWarning />
-                                <h1 className='font-semibold'>Fail to connect to API</h1>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className='w-full space-y-4 mt-2 select-none' onClick={(e) => e.stopPropagation()}>
-                            <div className='w-full h-0.5 bg-login-400 rounded-lg' />
-                            <div className='grid grid-cols-2 gap-4'>
-                                <AnnouncementFormInputsClient
-                                    channels={channels}
-                                    roles={roles}
-                                    nested={true}
-                                    formData={formData}
-                                />
-                                <DiscordPreview channels={channels} roles={roles} />
-                            </div>
-                        </div>
-                    )}
-                </>
+            {!channels.length ? (
+                <div className='w-full space-y-4 mt-2 select-none' onClick={(e) => e.stopPropagation()}>
+                    <div className='w-full h-0.5 bg-login-400 rounded-lg' />
+                    <div className='flex gap-2 w-full rounded-lg p-2 bg-red-900'>
+                        <MessageSquareWarning />
+                        <h1 className='font-semibold'>Fail to connect to API</h1>
+                    </div>
+                </div>
+            ) : enabled && (
+                <div className='w-full space-y-4 mt-2 select-none' onClick={(e) => e.stopPropagation()}>
+                    <div className='w-full h-0.5 bg-login-400 rounded-lg' />
+                    <div className='grid grid-cols-2 gap-4'>
+                        <AnnouncementFormInputsClient
+                            channels={channels}
+                            roles={roles}
+                            nested={true}
+                            formData={formData}
+                        />
+                        <DiscordPreview channels={channels} roles={roles} />
+                    </div>
+                </div>
             )}
         </div>
     )
