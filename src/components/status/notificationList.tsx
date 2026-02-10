@@ -57,7 +57,7 @@ export default function NotificationList({ notifications: serverNotifications }:
         setEditing(true)
     }
 
-    async function handleSubmit(e: React.MouseEvent<HTMLFormElement>) {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
         e.stopPropagation()
         const response = await putNotification({ ...form })
