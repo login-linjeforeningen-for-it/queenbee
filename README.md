@@ -11,18 +11,9 @@ QueenBee is the administrative heart of the bee ecosystem. It serves as a powerf
 
 ## 🏁 Getting Started
 
-### Prerequisites
-
-- NodeJS
-- npm
-
 ### Installation
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/Login-Linjeforening-for-IT/queenbee.git
-   cd queenbee
-   ```
 
 2. Install dependencies:
    ```bash
@@ -32,7 +23,7 @@ QueenBee is the administrative heart of the bee ecosystem. It serves as a powerf
 3. Set up environment variables:
    Create and edit `.env` and fill in the required secrets.
 
-### Development
+### Starting the Development Server
 
 Run the development server:
 ```bash
@@ -42,7 +33,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## 🐳 Docker Setup
 
-You can run QueenBee using Docker Compose:
+You can run QueenBee using Docker:
 
 ```bash
 docker compose up --build
@@ -52,10 +43,10 @@ The application will be available at `http://localhost:8000`.
 
 ## 📂 Project Structure
 
+- `public/`: Static assets.
 - `src/app/`: Next.js App Router pages and layouts.
   - `(main)/`: Core CMS features (events, jobs, etc.).
   - `internal/`: Monitoring and system tools.
 - `src/components/`: React components.
 - `src/utils/`: Helper functions.
 - `src/hooks/`: Custom React hooks.
-- `public/`: Static assets.
