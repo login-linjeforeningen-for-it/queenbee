@@ -12,7 +12,7 @@ export default async function Home() {
     const [stats, categories, additionsData, yearlyActivity] = await Promise.all([
         getStatics(),
         getStatisticsCategories(),
-        getStatisticsNewAdditions(),
+        getStatisticsNewAdditions({limit: 20}),
         getStatisticsYearlyActivity()
     ])
 
@@ -25,12 +25,12 @@ export default async function Home() {
     // const data = await getApplicationMetrics()
 
     return (
-        <div className='h-full flex flex-col'>
+        <div className='flex flex-col lg:h-full lg:overflow-hidden'>
             <h1 className='font-semibold text-lg'>Dashboard</h1>
             <TotalStats stats={stats} />
-            <div className='lg:flex h-full gap-4'>
+            <div className='lg:flex flex-1 gap-4 overflow-hidden lg:overflow-visible'>
                 {typeof additions !== 'object' || additions && <StatisticsNewAdditions additions={additions} />}
-                <div className='flex flex-col w-full max-w-4xl justify-between'>
+                <div className='flex flex-col w-full max-w-4xl justify-between lg:h-full'>
                     {typeof categories !== 'object' || categories && <StatisticsCategories categories={categories} />}
                     {typeof yearlyActivity !== 'object' || yearlyActivity && <Activity stats={yearlyActivity} />}
                 </div>

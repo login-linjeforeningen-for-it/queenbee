@@ -5,9 +5,9 @@ import Link from 'next/link'
 
 export default function StatisticsNewAdditions({ additions }: { additions: GetStatisticsNewAdditionsProps }) {
     return (
-        <div className='grow flex flex-col'>
+        <div className='h-full max-h-96 lg:max-h-none lg:grow flex flex-col'>
             <h2 className='pt-6 pb-4 text-center font-semibold text-lg shrink-0'>Recent Additions</h2>
-            <div className='flex flex-col gap-2 flex-1 overflow-hidden'>
+            <div className='flex-1 flex flex-col gap-2 overflow-y-auto'>
                 {additions.map((addition, index) => (
                     <Link
                         href={`/${addition.source}/update/${addition.id}`}
