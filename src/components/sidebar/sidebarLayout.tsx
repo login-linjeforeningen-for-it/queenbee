@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, LogOut } from 'lucide-react'
@@ -23,7 +23,6 @@ type SidebarLayoutProps = {
 export default function SidebarLayout({ items, bottomAction, mobile = false }: SidebarLayoutProps) {
     const [expanded, setExpanded] = useState(true)
     const path = usePathname()
-    const router = useRouter()
 
     return (
         <aside
@@ -121,7 +120,7 @@ export default function SidebarLayout({ items, bottomAction, mobile = false }: S
                 {bottomAction && bottomAction(expanded)}
 
                 <button
-                    onClick={() => router.push('/api/logout')}
+                    onClick={() => window.location.href = '/api/logout'}
                     className={`
                         flex items-center p-3 rounded-lg w-full overflow-hidden
                         hover:bg-red-500/10 text-login-200 hover:text-red-400

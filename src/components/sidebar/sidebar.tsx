@@ -38,6 +38,13 @@ type SidebarProps = {
 }
 
 export default function Sidebar({ docker: serverDocker, meta: serverMeta, mobile }: SidebarProps) {
+    const [hasToken, setHasToken] = useState(false)
+
+    useEffect(() => {
+        const token = getCookie('access_token')
+        setHasToken(!!token)
+    }, [])
+
     const [groups, setGroups] = useState<string | undefined>(undefined)
     const pathname = usePathname()
     const isInternal = pathname.startsWith('/internal')
@@ -63,6 +70,10 @@ export default function Sidebar({ docker: serverDocker, meta: serverMeta, mobile
             return () => clearInterval(interval)
         }
     }, [isInternal])
+
+    if (!hasToken) {
+        return null
+    }
 
     const mainPaths: SidebarItem[] = [
         {

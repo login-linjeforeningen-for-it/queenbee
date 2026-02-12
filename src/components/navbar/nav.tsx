@@ -16,6 +16,10 @@ export default function Nav({ docker, meta }: { docker: Docker, meta: ServiceSta
         setToken(getCookie('access_token') || undefined)
     }, [])
 
+    if (!token) {
+        return null
+    }
+
     return (
         <nav
             className={`
