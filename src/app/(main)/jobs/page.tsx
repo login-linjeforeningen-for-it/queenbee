@@ -42,10 +42,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     })
 
     return (
-        <div className={`
-            h-full lg:max-w-[calc(100vw-var(--w-sidebar)-2rem)]
-            overflow-hidden flex flex-col
-        `}>
+        <div className='h-full overflow-hidden flex flex-col'>
             <div className='flex-none'>
                 <div className='flex flex-row justify-between'>
                     <h1 className='font-semibold text-lg'>Jobs</h1>

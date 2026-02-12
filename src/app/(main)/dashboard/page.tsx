@@ -25,7 +25,7 @@ export default async function Home() {
     // const data = await getApplicationMetrics()
 
     return (
-        <div className='h-full lg:max-w-[calc(100vw-var(--w-sidebar)-2rem)] flex flex-col'>
+        <div className='h-full flex flex-col'>
             <h1 className='font-semibold text-lg'>Dashboard</h1>
             <TotalStats stats={stats} />
             <div className='lg:flex h-full gap-4'>

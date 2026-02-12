@@ -7,12 +7,9 @@ export default function SidebarVersion() {
     }
 
     return (
-        <div className='absolute w-full bottom-4 flex'>
+        <div className='w-full flex justify-center py-4'>
             <Link
-                className={`
-                    gap-3 px-2 py-1 rounded-lg mx-4 bg-login-700
-                    text-white text-center tracking-wide font-bold
-                `}
+                className='group flex items-center gap-2 text-xs font-medium text-login-200 hover:text-login-100 transition-colors'
                 target='_blank'
                 href={`${config.url.git}/tekkom/web/beehive/queenbee/-/tags/${config.version}`}
                 aria-label={`Queenbee version ${config.version}`}

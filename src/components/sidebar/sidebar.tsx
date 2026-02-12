@@ -1,7 +1,8 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import {
     BriefcaseBusiness,
     Building2,
@@ -12,95 +13,193 @@ import {
     LayoutDashboard,
     MapPin,
     Megaphone,
-    Smartphone
+    Smartphone,
+    Shield,
+    Activity,
+    Database,
+    Logs,
+    Scale,
+    Server,
+    TriangleAlert,
+    Waypoints,
+    ShieldOff
 } from 'lucide-react'
 import { hexagons7 } from '@lucide/lab'
-import SidebarVersion from './sidebarVersion'
+import { getCookie } from 'utilbee/utils'
+import SidebarLayout, { SidebarItem } from './sidebarLayout'
+import PulseDot from '@components/pulse/pulse'
+import { ServiceStatus } from '@utils/interfaces'
+import getDocker from '@utils/api/internal/system/getDocker'
 
-export default function Sidebar() {
-    const path = usePathname()
+type SidebarProps = {
+    docker?: Docker | null
+    meta?: ServiceStatus | null
+    mobile?: boolean
+}
 
-    const paths = {
-        dashboard: {
+export default function Sidebar({ docker: serverDocker, meta: serverMeta, mobile }: SidebarProps) {
+    const [groups, setGroups] = useState<string | undefined>(undefined)
+    const pathname = usePathname()
+    const isInternal = pathname.startsWith('/internal')
+
+    const [docker, setDocker] = useState(serverDocker)
+    const color = serverMeta ? {
+        operational: 'bg-green-500',
+        degraded: 'bg-login',
+        down: 'bg-red-500',
+        inactive: 'bg-login-300',
+    }[serverMeta] || 'bg-gray-500' : 'bg-gray-500'
+
+    useEffect(() => {
+        setGroups(getCookie('user_groups') || undefined)
+
+        if (isInternal) {
+            const interval = setInterval(async () => {
+                const updatedDocker = await getDocker()
+                if (updatedDocker) {
+                    setDocker(updatedDocker)
+                }
+            }, 30000)
+            return () => clearInterval(interval)
+        }
+    }, [isInternal])
+
+    const mainPaths: SidebarItem[] = [
+        {
             name: 'Dashboard',
             path: '/dashboard',
             image: <LayoutDashboard className='w-6' />,
         },
-        announce: {
+        {
             name: 'Announcements',
             path: '/announcements',
             image: <Megaphone className='w-6' />,
         },
-        albums: {
+        {
             name: 'Albums',
             path: '/albums',
             image: <Images className='w-6' />,
         },
-        events: {
+        {
             name: 'Events',
             path: '/events',
             image: <Calendar className='w-6' />,
         },
-        honey: {
+        {
             name: 'Honey',
             path: '/honey',
             image: <Icon iconNode={hexagons7} className='w-6' />,
         },
-        jobs: {
+        {
             name: 'Jobs',
             path: '/jobs',
             image: <BriefcaseBusiness className='w-6' />,
         },
-        locations: {
+        {
             name: 'Locations',
             path: '/locations',
             image: <MapPin className='w-6' />,
         },
-        nucleus: {
+        {
             name: 'Nucleus',
             path: '/nucleus',
             image: <Smartphone className='w-6' />,
         },
-        organizations: {
+        {
             name: 'Organizations',
             path: '/organizations',
             image: <Building2 className='w-6' />,
         },
-        rules: {
+        {
             name: 'Rules',
             path: '/rules',
             image: <Gavel className='w-6' />,
         },
-    }
+    ]
+
+    const internalPaths: SidebarItem[] = [
+        {
+            name: 'Dashboard',
+            path: '/internal',
+            image: <LayoutDashboard className='w-6' />
+        },
+        {
+            name: 'Alerts',
+            path: '/internal/alerts',
+            image: <TriangleAlert className='w-6' />,
+        },
+        {
+            name: 'Backup',
+            path: '/internal/backup',
+            image: <Database className='w-6' />,
+        },
+        {
+            name: 'Load Balancing',
+            path: '/internal/loadbalancing',
+            image: <Scale className='w-6' />,
+        },
+        {
+            name: 'Logs',
+            path: '/internal/logs',
+            image: <Logs className='w-6' />,
+        },
+        {
+            name: 'Kubernetes',
+            path: '/internal/kubernetes',
+            image: <Server className='w-6' />,
+            status: <PulseDot color={color} />
+        },
+        {
+            name: 'Monitoring',
+            path: '/internal/monitoring',
+            image: <Activity className='w-6' />
+        },
+        {
+            name: 'System',
+            path: '/internal/system',
+            image: <Server className='w-6' />,
+            status: <PulseDot status={docker?.status} />
+        },
+        {
+            name: 'Traffic',
+            path: '/internal/traffic',
+            image: <Waypoints className='w-6' />
+        },
+    ]
 
     return (
-        <div className='relative'>
-            <div className={`
-                h-screen max-h-[calc(100vh-var(--h-navbar))] min-w-(--w-sidebar)
-                bg-login-900 flex flex-col pt-2 overflow-x-scroll gap-[0.2rem]    
-            `}>
-                {Object.entries(paths).map(([, value], index) => (
+        <SidebarLayout
+            items={isInternal ? internalPaths : mainPaths}
+            mobile={mobile}
+            bottomAction={(expanded) => (
+                groups && groups.includes('TekKom') ? (
                     <Link
-                        key={index}
-                        href={value.path}
+                        href={isInternal ? '/dashboard' : '/internal'}
                         className={`
-                            flex flex-row px-4 items-center gap-2 py-[0.8rem]
-                            hover:pl-6 duration-300 transition-all justify-between
-                            ${path === value.path
-                        ? `*:stroke-login text-login pl-[1.2rem]
-                                bg-login-800 border-l-[0.3rem]`
-                        : ''} 
-                            hover:*:stroke-login hover:text-login font-medium
-                        `}
+                        flex items-center p-3 rounded-lg w-full overflow-hidden
+                        hover:bg-login-800 text-login-200 hover:text-login-100
+                        transition-colors group
+                    `}
+                        title={!expanded ? (isInternal ? 'Dashboard' : 'Internal') : ''}
                     >
-                        <div className='flex gap-2 items-center'>
-                            {value.image}
-                            {value.name}
+                        <div className={`
+                            min-w-6 w-6 flex items-center justify-center transition-all duration-300
+                            ${expanded ? '' : 'translate-x-1'}
+                        `}>
+                            {isInternal ? <ShieldOff className='w-6 min-w-6' /> : <Shield className='w-6 min-w-6' />}
                         </div>
+                        <span
+                            className={`
+                            whitespace-nowrap overflow-hidden transition-all duration-300
+                            ${expanded ? 'opacity-100 max-w-48 ml-3' : 'opacity-0 max-w-0 ml-0'}
+                        `}
+                        >
+                            {isInternal ? 'Dashboard' : 'Internal'}
+                        </span>
                     </Link>
-                ))}
-            </div>
-            <SidebarVersion />
-        </div>
+                ) : <></>
+            )}
+        />
     )
 }
+
