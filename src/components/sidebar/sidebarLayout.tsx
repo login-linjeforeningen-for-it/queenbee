@@ -21,7 +21,7 @@ type SidebarLayoutProps = {
 }
 
 export default function SidebarLayout({ items, bottomAction, mobile = false }: SidebarLayoutProps) {
-    const [expanded, setExpanded] = useState(mobile)
+    const [expanded, setExpanded] = useState(true)
     const path = usePathname()
     const router = useRouter()
 
