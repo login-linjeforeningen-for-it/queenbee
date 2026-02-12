@@ -39,7 +39,11 @@ export default function SidebarLayout({ items, bottomAction, mobile = false }: S
                     ${expanded ? 'h-16' : 'h-30'} 
                     p-4 mb-2
                 `}>
-                    <div className='flex items-center gap-3 transition-opacity duration-300  absolute top-4 left-4'>
+                    <div className={`
+                        flex items-center transition-all duration-300 
+                        absolute top-4
+                         ${expanded ? 'left-4 gap-3' : 'left-1/2 -translate-x-1/2 gap-0'}
+                    `}>
                         <div className='relative h-8 w-8 min-w-8'>
                             <Image
                                 src='/images/queenbee-logo.png'
