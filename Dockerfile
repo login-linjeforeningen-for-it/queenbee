@@ -1,15 +1,13 @@
-FROM oven/bun:alpine
+FROM oven/bun:latest
 
-WORKDIR /app
-
-COPY package.json bun.lock ./
-
-RUN bun install --frozen-lockfile
+WORKDIR /usr/src/app
 
 COPY . .
 
+RUN bun install
+
 RUN bun run build
 
-EXPOSE 3000
+EXPOSE 3000/tcp
 
-CMD ["bun", "run", "start"]
+ENTRYPOINT [ "bun", "run", "start" ]
