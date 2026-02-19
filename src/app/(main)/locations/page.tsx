@@ -1,7 +1,6 @@
 import Alert from '@components/alert/alert'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
-import LocationOption from '@components/locationOption/locationOption'
 import Pagination from '@components/table/pagination'
 import formatAlert from '@components/alert/formatAlert'
 import deleteLocation from '@utils/api/workerbee/locations/deleteLocation'
@@ -66,10 +65,10 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
 
     const cookieLocation = cookieStore.get('location')?.value
 
-    const activeType = typeof cookieLocation === 'string' && Object.values(Location).includes(cookieLocation as Location)
-        ? (cookieLocation as Location)
-        : typeof filters.type === 'string' && Object.values(Location).includes(filters.t as Location)
-            ? (filters.type as Location)
+    const activeType = typeof filters.type === 'string' && Object.values(Location).includes(filters.type as Location)
+        ? (filters.type as Location)
+        : typeof cookieLocation === 'string' && Object.values(Location).includes(cookieLocation as Location)
+            ? (cookieLocation as Location)
             : Location.Address
 
     const locations = await getLocations({
@@ -84,15 +83,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     return (
         <div className='h-full overflow-hidden flex flex-col'>
             <div className='flex-none'>
-                <h1 className='font-semibold text-lg'>Locations</h1>
+                <h1 className='font-semibold text-lg capitalize'>Locations - {activeType}</h1>
                 <div className='grid md:flex! items-center justify-between py-3 gap-2'>
                     <Search />
-                    <div className='flex gap-4'>
-                        <LocationOption value={Location.Address} active={activeType} />
-                        <LocationOption value={Location.Coordinate} active={activeType} />
-                        <LocationOption value={Location.Mazemap} active={activeType} />
-                        <LocationOption value={Location.Digital} active={activeType} />
-                    </div>
                     <Button
                         text='New location'
                         icon='+'

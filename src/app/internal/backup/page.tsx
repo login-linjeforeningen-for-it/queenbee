@@ -2,8 +2,6 @@ import getBackups from '@utils/api/internal/backups/getBackups'
 import Alert from '@components/alert/alert'
 import formatAlert from '@components/alert/formatAlert'
 import Search from '@components/inputs/search'
-import { DatabaseBackup } from 'lucide-react'
-import { Button } from 'uibee/components'
 import BackupAllButton from '@components/internal/backupAllButton'
 import GeneralTable, { Column } from '@components/table/generalTable'
 import prettyDate from '@utils/date/prettyDate'
@@ -79,12 +77,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     <Search />
                     <div className='flex gap-2'>
                         <BackupAllButton />
-                        <Button
-                            icon={<DatabaseBackup className='w-5' />}
-                            text='Go to Restore'
-                            path='/internal/backup/restore'
-                            className='self-start'
-                        />
                     </div>
                 </div>
             </div>

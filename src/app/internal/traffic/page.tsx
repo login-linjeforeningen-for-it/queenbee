@@ -1,6 +1,5 @@
 import TrafficDashboard from '@components/traffic/traffic'
 import DomainSelector from '@components/traffic/domainSelector'
-import ViewToggle from '@components/traffic/viewToggle'
 import getTrafficDomains from '@utils/api/beekeeper/traffic/domains'
 import getTrafficMetrics from '@utils/api/beekeeper/traffic/metrics'
 
@@ -18,7 +17,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     return (
         <div>
             <div className='flex justify-between mb-4'>
-                <ViewToggle />
                 <DomainSelector domains={domainOptions} selectedDomain={selectedDomain} />
             </div>
             <TrafficDashboard metrics={metrics} selectedDomain={selectedDomain} />
