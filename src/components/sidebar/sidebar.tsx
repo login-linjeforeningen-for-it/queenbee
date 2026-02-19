@@ -110,6 +110,12 @@ export default function Sidebar({ docker: serverDocker, meta: serverMeta, mobile
             name: 'Locations',
             path: '/locations',
             image: <MapPin className='w-6' />,
+            items: [
+                { name: 'Address', path: '/locations?type=address' },
+                { name: 'Coordinate', path: '/locations?type=coordinate' },
+                { name: 'Mazemap', path: '/locations?type=mazemap' },
+                { name: 'Digital', path: '/locations?type=digital' },
+            ]
         },
         {
             name: 'Nucleus',
@@ -143,6 +149,10 @@ export default function Sidebar({ docker: serverDocker, meta: serverMeta, mobile
             name: 'Backup',
             path: '/internal/backup',
             image: <Database className='w-6' />,
+            items: [
+                { name: 'Status', path: '/internal/backup' },
+                { name: 'Restore', path: '/internal/backup/restore' },
+            ]
         },
         {
             name: 'Load Balancing',
@@ -174,7 +184,12 @@ export default function Sidebar({ docker: serverDocker, meta: serverMeta, mobile
         {
             name: 'Traffic',
             path: '/internal/traffic',
-            image: <Waypoints className='w-6' />
+            image: <Waypoints className='w-6' />,
+            items: [
+                { name: 'Metrics', path: '/internal/traffic' },
+                { name: 'Records', path: '/internal/traffic/records' },
+                { name: 'Map', path: '/internal/traffic/map' },
+            ]
         },
     ]
 

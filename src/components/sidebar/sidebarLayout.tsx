@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, LogOut } from 'lucide-react'
@@ -12,6 +12,10 @@ export type SidebarItem = {
     path: string
     image: React.ReactNode
     status?: React.ReactNode
+    items?: {
+        name: string
+        path: string
+    }[]
 }
 
 type SidebarLayoutProps = {
@@ -22,7 +26,9 @@ type SidebarLayoutProps = {
 
 export default function SidebarLayout({ items, bottomAction, mobile = false }: SidebarLayoutProps) {
     const [expanded, setExpanded] = useState(true)
-    const path = usePathname()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+    const fullPath = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '')
 
     return (
         <aside
@@ -76,42 +82,71 @@ export default function SidebarLayout({ items, bottomAction, mobile = false }: S
 
             <div className='flex-1 flex flex-col gap-1 px-3 overflow-y-auto overflow-x-hidden no-scrollbar'>
                 {items.map((value, index) => {
-                    const isActive = path === value.path
+                    const isActive = pathname === value.path || (value.items && value.items.some(i => fullPath === i.path))
                     return (
-                        <Link
-                            key={index}
-                            href={value.path}
-                            className={`
-                                flex items-center p-3 rounded-lg overflow-hidden
-                                transition-all duration-200 group relative
-                                ${isActive ? 'bg-login-800 text-login' : 'hover:bg-login-800/50 text-login-200 hover:text-login-100'}
-                            `}
-                            title={!expanded ? value.name : ''}
-                        >
-                            <div className={`
-                                min-w-6 w-6 flex items-center justify-center transition-all duration-300
-                                ${expanded ? '' : 'translate-x-1'}
-                                ${isActive ? '[&>svg]:stroke-login' : 'group-hover:[&>svg]:stroke-login-100'}
-                            `}>
-                                {value.image}
-                            </div>
-                            <span
+                        <div key={index} className='flex flex-col gap-1'>
+                            <Link
+                                href={value.path}
                                 className={`
-                                    whitespace-nowrap overflow-hidden transition-all duration-300
-                                    ${expanded ? 'opacity-100 max-w-48 ml-3' : 'opacity-0 max-w-0 ml-0'}
+                                    flex items-center p-3 rounded-lg overflow-hidden
+                                    transition-all duration-200 group relative
+                                    ${isActive ? 'bg-login-800 text-login' : 'hover:bg-login-800/50 text-login-200 hover:text-login-100'}
                                 `}
+                                title={!expanded ? value.name : ''}
                             >
-                                {value.name}
-                            </span>
-                            {value.status && (
                                 <div className={`
-                                    flex items-center justify-center
-                                    ${expanded ? 'ml-auto' : 'absolute top-1 right-1 scale-75'}
+                                    min-w-6 w-6 flex items-center justify-center transition-all duration-300
+                                    ${expanded ? '' : 'translate-x-1'}
+                                    ${isActive ? '[&>svg]:stroke-login' : 'group-hover:[&>svg]:stroke-login-100'}
                                 `}>
-                                    {value.status}
+                                    {value.image}
+                                </div>
+                                <span
+                                    className={`
+                                        whitespace-nowrap overflow-hidden transition-all duration-300
+                                        ${expanded ? 'opacity-100 max-w-48 ml-3' : 'opacity-0 max-w-0 ml-0'}
+                                    `}
+                                >
+                                    {value.name}
+                                </span>
+                                {value.status && (
+                                    <div className={`
+                                        flex items-center justify-center
+                                        ${expanded ? 'ml-auto' : 'absolute top-1 right-1 scale-75'}
+                                    `}>
+                                        {value.status}
+                                    </div>
+                                )}
+                            </Link>
+                            {value.items && (
+                                <div className={`
+                                    flex flex-col gap-1 ml-6 border-l border-login-800 pl-2 overflow-hidden
+                                    transition-all duration-300 ease-in-out
+                                    ${expanded && isActive ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
+                                `}>
+                                    {value.items.map((subItem, subIndex) => {
+                                        const isSubActive = subItem.path.includes('?') 
+                                            ? fullPath.startsWith(subItem.path)
+                                            : fullPath === subItem.path
+                                        return (
+                                            <Link
+                                                key={`${index}-${subIndex}`}
+                                                href={subItem.path}
+                                                className={`
+                                                    p-2 rounded-lg text-sm transition-all duration-200
+                                                    ${isSubActive
+                                                ? 'text-login bg-login-800/50'
+                                                : 'text-login-300 hover:text-login-100 hover:bg-login-800/30'
+                                            }
+                                                `}
+                                            >
+                                                {subItem.name}
+                                            </Link>
+                                        )
+                                    })}
                                 </div>
                             )}
-                        </Link>
+                        </div>
                     )
                 })}
             </div>
