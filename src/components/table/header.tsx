@@ -33,48 +33,47 @@ export default function Header({ keys, headers }: HeaderProps) {
     }
 
     return (
-        <thead className='h-8'>
-            <tr>
+        <thead className='bg-login-700 block w-full'>
+            <tr className='flex w-full'>
                 {keys.map((key) => {
+                    if (!headers.includes(key)) {
+                        return null
+                    }
                     const value =
                         key.length < 3
                             ? key.toUpperCase()
                             : `${key[0].toUpperCase()}${key
                                 .slice(1)
                                 .replaceAll('_', ' ')}`
-                    if (!headers.includes(key)) {
-                        return null
-                    }
 
                     return (
-                        <th key={key} className='whitespace-nowrap text-left'>
+                        <th
+                            key={key}
+                            className='flex-1 px-6 py-3 text-xs font-medium text-login-200 uppercase tracking-wider text-left'
+                        >
                             <button
-                                className={`
-                                    w-full h-full p-2 flex flex-row
-                                    items-center justify-between group
-                                `}
+                                className='flex flex-row items-center gap-2 group uppercase'
                                 onClick={() => handleChange(key)}
                             >
-                                <h1>{value}</h1>
-                                {column === key ? (
-                                    order === 'asc' ? (
-                                        <ChevronUp className='h-6' />
+                                {value}
+                                <span className='flex flex-col'>
+                                    {column === key ? (
+                                        order === 'asc' ? (
+                                            <ChevronUp className='h-4 w-4' />
+                                        ) : (
+                                            <ChevronDown className='h-4 w-4' />
+                                        )
                                     ) : (
-                                        <ChevronDown className='h-6' />
-                                    )
-                                ) : (
-                                    <ChevronUp
-                                        className={`
-                                            h-6 stroke-login-200
-                                            opacity-0 group-hover:opacity-100
-                                        `}
-                                    />
-                                )}
+                                        <ChevronUp
+                                            className='h-4 w-4 stroke-login-200 opacity-0 group-hover:opacity-100'
+                                        />
+                                    )}
+                                </span>
                             </button>
                         </th>
                     )
                 })}
-                <th />
+                <th className='shrink-0 w-16 px-6 py-3' />
             </tr>
         </thead>
     )
