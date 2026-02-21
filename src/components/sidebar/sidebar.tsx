@@ -30,14 +30,13 @@ import SidebarLayout, { SidebarItem } from './sidebarLayout'
 import PulseDot from '@components/pulse/pulse'
 import { ServiceStatus } from '@utils/interfaces'
 import getDocker from '@utils/api/internal/system/getDocker'
+import getServiceMeta from '@utils/api/getServiceMeta'
 
 type SidebarProps = {
-    docker?: Docker | null
-    meta?: ServiceStatus | null
     mobile?: boolean
 }
 
-export default function Sidebar({ docker: serverDocker, meta: serverMeta, mobile }: SidebarProps) {
+export default function Sidebar({ mobile }: SidebarProps) {
     const [hasToken, setHasToken] = useState(false)
 
     useEffect(() => {
@@ -49,16 +48,19 @@ export default function Sidebar({ docker: serverDocker, meta: serverMeta, mobile
     const pathname = usePathname()
     const isInternal = pathname.startsWith('/internal')
 
-    const [docker, setDocker] = useState(serverDocker)
-    const color = serverMeta ? {
+    const [docker, setDocker] = useState<Docker | null>(null)
+    const [meta, setMeta] = useState<ServiceStatus | null>(null)
+    const color = meta ? {
         operational: 'bg-green-500',
         degraded: 'bg-login',
         down: 'bg-red-500',
         inactive: 'bg-login-300',
-    }[serverMeta] || 'bg-gray-500' : 'bg-gray-500'
+    }[meta] || 'bg-gray-500' : 'bg-gray-500'
 
     useEffect(() => {
         setGroups(getCookie('user_groups') || undefined)
+        getDocker().then(d => { if (d) setDocker(d) })
+        getServiceMeta().then(setMeta)
 
         if (isInternal) {
             const interval = setInterval(async () => {
