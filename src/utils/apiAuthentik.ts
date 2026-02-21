@@ -19,6 +19,7 @@ export async function authentikApiWrapper({ path, token }: AuthentikApiWrapperPr
     const options: RequestInit = {
         method: 'GET',
         headers,
+        signal: AbortSignal.timeout(3000),
     }
 
     try {

@@ -16,6 +16,7 @@ export default async function getMessages(location: 'server' | 'client'): Promis
             headers: {
                 'Content-Type': 'application/json',
             },
+            signal: AbortSignal.timeout(3000),
         })
 
         if (!response.ok) {

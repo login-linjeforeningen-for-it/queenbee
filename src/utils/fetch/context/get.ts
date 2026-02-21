@@ -12,6 +12,7 @@ export default async function getContexts(location: 'server' | 'client'): Promis
             headers: {
                 'Content-Type': 'application/json',
             },
+            signal: AbortSignal.timeout(3000),
         })
 
         if (!response.ok) {
