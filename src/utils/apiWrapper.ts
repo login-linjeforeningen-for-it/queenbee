@@ -68,7 +68,7 @@ async function apiRequest({ service, method, path, options, data }: APIRequestPr
         clearTimeout(timeoutId)
 
         if (error instanceof Error) {
-            console.error(`Fetch error: ${error.name} - ${error.message}`)
+            console.error(`Fetch error: ${error.name} - ${error.message} (${url}/${path})`)
             if (error.name === 'AbortError') {
                 return 'Error: Request timed out after 3 seconds'
             }
