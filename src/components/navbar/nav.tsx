@@ -6,9 +6,8 @@ import { getCookie } from 'utilbee/utils'
 import { Menu, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import Sidebar from '@components/sidebar/sidebar'
-import { ServiceStatus } from '@utils/interfaces'
 
-export default function Nav({ docker, meta }: { docker: Docker, meta: ServiceStatus }) {
+export default function Nav() {
     const [token, setToken] = useState<string | undefined>(undefined)
     const [sidebar, setSidebar] = useState(false)
 
@@ -49,7 +48,7 @@ export default function Nav({ docker, meta }: { docker: Docker, meta: ServiceSta
 
             <div className='flex gap-1 items-center'>
                 <div className='absolute z-100 w-full left-0 top-(--h-navbar)'>
-                    {sidebar && (<Sidebar docker={docker} meta={meta} mobile={true} />)}
+                    {sidebar && (<Sidebar mobile={true} />)}
                 </div>
                 {token ? (
                     <>
