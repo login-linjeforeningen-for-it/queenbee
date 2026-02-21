@@ -11,6 +11,7 @@ export default async function getDomains(location: 'server' | 'client', context:
             headers: {
                 'Content-Type': 'application/json',
             },
+            signal: AbortSignal.timeout(3000),
         })
 
         if (!response.ok) {

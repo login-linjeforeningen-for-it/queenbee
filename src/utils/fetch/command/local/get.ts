@@ -11,6 +11,7 @@ export default async function getLocalCommands(location: 'server' | 'client', se
             headers: {
                 'Content-Type': 'application/json',
             },
+            signal: AbortSignal.timeout(3000),
         })
 
         if (!response.ok) {

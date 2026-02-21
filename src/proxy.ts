@@ -73,6 +73,7 @@ async function tokenIsValid(token: string): Promise<{ valid: boolean; groups?: s
     try {
         const userInfo = await fetch(appConfig.authentik.url.userinfo, {
             headers: { Authorization: `Bearer ${token}` },
+            signal: AbortSignal.timeout(3000),
         })
 
         if (!userInfo.ok) {
@@ -104,7 +105,8 @@ async function btgTokenIsValid(token: string, name: string): Promise<boolean> {
                 name,
                 btg: 'queenbee-btg',
                 middleware: 'true'
-            }
+            },
+            signal: AbortSignal.timeout(3000),
         })
 
         if (!response.ok) {

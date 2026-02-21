@@ -19,6 +19,7 @@ export default async function getIngressEvents({ location, context, namespace, n
             headers: {
                 'Content-Type': 'application/json',
             },
+            signal: AbortSignal.timeout(3000),
         })
 
         if (!response.ok) {

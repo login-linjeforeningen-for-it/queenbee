@@ -12,6 +12,7 @@ export default async function getNamespaces(location: 'server' | 'client'): Prom
             headers: {
                 'Content-Type': 'application/json',
             },
+            signal: AbortSignal.timeout(3000),
         })
 
         if (!response.ok) {
