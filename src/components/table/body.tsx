@@ -55,7 +55,7 @@ export default function Body({ list, headers, deleteAction, roles, hideMenu }: B
                                     key={key}
                                     className='flex-1 px-6 py-4 whitespace-nowrap text-sm text-login-100 min-w-40 flex items-center'
                                 >
-                                    <div className='relative group'>
+                                    <div className='relative'>
                                         <h1>
                                             {key === 'roles' && roles ? (
                                                 (value as string[]).map((roleId, idx) => (

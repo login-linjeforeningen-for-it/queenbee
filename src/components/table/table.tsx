@@ -2,7 +2,6 @@
 
 import Body from './body'
 import Header from './header'
-import StatusBody from './statusBody'
 
 type TableProps = {
     list: object[]
@@ -13,7 +12,7 @@ type TableProps = {
     hideMenu?: boolean
 }
 
-export default function Table({ list, headers, deleteAction, roles, systemTable, hideMenu }: TableProps) {
+export default function Table({ list, headers, deleteAction, roles, hideMenu }: TableProps) {
     if (list.length === 0) {
         return <div className='p-4 text-center text-login-200'>No data found</div>
     }
@@ -28,22 +27,13 @@ export default function Table({ list, headers, deleteAction, roles, systemTable,
                     headers={headers}
                     hideMenu={hideMenu}
                 />
-                {systemTable ? (
-                    <StatusBody
-                        list={list}
-                        headers={headers}
-                        deleteAction={deleteAction}
-                        roles={roles}
-                    />
-                ) : (
-                    <Body
-                        list={list}
-                        headers={headers}
-                        deleteAction={deleteAction}
-                        roles={roles}
-                        hideMenu={hideMenu}
-                    />
-                )}
+                <Body
+                    list={list}
+                    headers={headers}
+                    deleteAction={deleteAction}
+                    roles={roles}
+                    hideMenu={hideMenu}
+                />
             </table>
         </div>
     )
