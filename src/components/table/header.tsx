@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react'
 type HeaderProps = {
     keys: string[]
     headers: string[]
+    hideMenu?: boolean
 }
 
-export default function Header({ keys, headers }: HeaderProps) {
+export default function Header({ keys, headers, hideMenu }: HeaderProps) {
     const [column, setColumn] = useState(keys[0])
     const [order, setOrder] = useState<'asc' | 'desc'>('asc')
     const router = useRouter()
@@ -73,7 +74,7 @@ export default function Header({ keys, headers }: HeaderProps) {
                         </th>
                     )
                 })}
-                <th className='shrink-0 w-16 px-6 py-3' />
+                {!hideMenu && <th className='shrink-0 w-16 px-6 py-3' />}
             </tr>
         </thead>
     )

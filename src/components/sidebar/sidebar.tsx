@@ -110,7 +110,7 @@ export default function Sidebar({ mobile }: SidebarProps) {
         },
         {
             name: 'Locations',
-            path: '/locations',
+            path: '/locations?type=address',
             image: <MapPin className='w-6' />,
             items: [
                 { name: 'Address', path: '/locations?type=address' },

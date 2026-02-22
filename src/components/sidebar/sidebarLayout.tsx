@@ -82,7 +82,10 @@ export default function SidebarLayout({ items, bottomAction, mobile = false }: S
 
             <div className='flex-1 flex flex-col gap-1 px-3 overflow-y-auto overflow-x-hidden no-scrollbar'>
                 {items.map((value, index) => {
-                    const isActive = pathname === value.path || (value.items && value.items.some(i => fullPath === i.path))
+                    const isActive = pathname === value.path || (value.items && value.items.some(i => i.path.includes('?')
+                        ? fullPath.startsWith(i.path) :
+                        pathname.startsWith(i.path))
+                    )
                     return (
                         <div key={index} className='flex flex-col gap-1'>
                             <Link
@@ -125,9 +128,9 @@ export default function SidebarLayout({ items, bottomAction, mobile = false }: S
                                     ${expanded && isActive ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
                                 `}>
                                     {value.items.map((subItem, subIndex) => {
-                                        const isSubActive = subItem.path.includes('?') 
+                                        const isSubActive = subItem.path.includes('?')
                                             ? fullPath.startsWith(subItem.path)
-                                            : fullPath === subItem.path
+                                            : pathname === subItem.path
                                         return (
                                             <Link
                                                 key={`${index}-${subIndex}`}

@@ -2,17 +2,19 @@ import { RoleRenderer } from '@components/preview/discordRole'
 import { BoxesIcon, Edit, EllipsisVertical, X } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState, useRef, RefObject, useEffect } from 'react'
+import React from 'react'
 import useClickOutside from '@hooks/useClickOutside'
 import Menu, { MenuButton } from './menu'
 
 type BodyProps = {
     list: object[]
     headers: string[]
-    deleteAction: (id: string) => void
+    deleteAction?: (id: string) => void
     roles?: Role[]
+    hideMenu?: boolean
 }
 
-export default function Body({ list, headers, deleteAction, roles }: BodyProps) {
+export default function Body({ list, headers, deleteAction, roles, hideMenu }: BodyProps) {
     const [openMenuId, setOpenMenuId] = useState<string | null>(null)
     const [anchor, setAnchor] = useState<{ top: number; right: number } | null>(null)
     const pathname = usePathname()
@@ -51,7 +53,7 @@ export default function Body({ list, headers, deleteAction, roles }: BodyProps) 
                             return (
                                 <td
                                     key={key}
-                                    className='flex-1 px-6 py-4 whitespace-nowrap text-sm text-login-100 min-w-40'
+                                    className='flex-1 px-6 py-4 whitespace-nowrap text-sm text-login-100 min-w-40 flex items-center'
                                 >
                                     <div className='relative group'>
                                         <h1>
@@ -63,71 +65,78 @@ export default function Body({ list, headers, deleteAction, roles }: BodyProps) 
                                                         roles={roles}
                                                     />
                                                 ))
+                                            ) : React.isValidElement(value) ? (
+                                                value
                                             ) : (
-                                                formatValue(key, value)
+                                                formatValue(key, value as string | number)
                                             )}
                                         </h1>
                                     </div>
                                 </td>
                             )
                         })}
-                        <td className='shrink-0 w-16 flex flex-row justify-end p-2 px-4 whitespace-nowrap text-right text-sm font-medium'>
-                            <div className='relative'>
-                                <button
-                                    type='button'
-                                    className={`
-                                    p-1.5 rounded flex items-start
-                                    hover:bg-login-400 justify-center
-                                    ${openMenuId === id ? 'bg-login-400' : ''}
-                                `}
-                                    onClick={(e) => {
-                                        const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect()
-                                        const coords = { top: rect.bottom + 4, right: window.innerWidth - rect.right }
-                                        setAnchor(openMenuId === id ? null : coords)
-                                        setOpenMenuId(openMenuId === id ? null : id)
-                                    }}
-                                >
-                                    <span
-                                        className={`text-xl leading-none select-none ${openMenuId === id ? 'text-login-100' : ''}`}
+                        {!hideMenu && (
+                            <td
+                                className='shrink-0 w-16 flex flex-row justify-end p-2 px-4
+                                    whitespace-nowrap text-right text-sm font-medium'
+                            >
+                                <div className='relative'>
+                                    <button
+                                        type='button'
+                                        className={`
+                                        p-1.5 rounded flex items-start
+                                        hover:bg-login-400 justify-center
+                                        ${openMenuId === id ? 'bg-login-400' : ''}
+                                    `}
+                                        onClick={(e) => {
+                                            const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect()
+                                            const coords = { top: rect.bottom + 4, right: window.innerWidth - rect.right }
+                                            setAnchor(openMenuId === id ? null : coords)
+                                            setOpenMenuId(openMenuId === id ? null : id)
+                                        }}
                                     >
-                                        <EllipsisVertical className='h-5 w-5' />
-                                    </span>
-                                </button>
-                                {openMenuId === id && anchor && (
-                                    <Menu
-                                        ref={menuRef}
-                                        anchor={anchor}
-                                    >
-                                        <MenuButton
-                                            icon={<Edit />}
-                                            text='Edit'
-                                            onClick={() => {
-                                                setOpenMenuId(null)
-                                                router.push(`${pathname}/update/${id}`)
-                                            }}
-                                        />
-                                        <MenuButton
-                                            icon={<BoxesIcon />}
-                                            text='Duplicate'
-                                            onClick={() => {
-                                                setOpenMenuId(null)
-                                                router.push(`${pathname}/create/${id}`)
-                                            }}
-                                        />
-                                        <MenuButton
-                                            icon={<X />}
-                                            text='Delete'
-                                            onClick={() => {
-                                                setOpenMenuId(null)
-                                                deleteAction(id)
-                                                router.refresh()
-                                            }}
-                                            className='text-red-400'
-                                        />
-                                    </Menu>
-                                )}
-                            </div>
-                        </td>
+                                        <span
+                                            className={`text-xl leading-none select-none ${openMenuId === id ? 'text-login-100' : ''}`}
+                                        >
+                                            <EllipsisVertical className='h-5 w-5' />
+                                        </span>
+                                    </button>
+                                    {openMenuId === id && anchor && (
+                                        <Menu
+                                            ref={menuRef}
+                                            anchor={anchor}
+                                        >
+                                            <MenuButton
+                                                icon={<Edit />}
+                                                text='Edit'
+                                                onClick={() => {
+                                                    setOpenMenuId(null)
+                                                    router.push(`${pathname}/update/${id}`)
+                                                }}
+                                            />
+                                            <MenuButton
+                                                icon={<BoxesIcon />}
+                                                text='Duplicate'
+                                                onClick={() => {
+                                                    setOpenMenuId(null)
+                                                    router.push(`${pathname}/create/${id}`)
+                                                }}
+                                            />
+                                            <MenuButton
+                                                icon={<X />}
+                                                text='Delete'
+                                                onClick={() => {
+                                                    setOpenMenuId(null)
+                                                    deleteAction?.(id)
+                                                    router.refresh()
+                                                }}
+                                                className='text-red-400'
+                                            />
+                                        </Menu>
+                                    )}
+                                </div>
+                            </td>
+                        )}
                     </tr>
                 )
             })}

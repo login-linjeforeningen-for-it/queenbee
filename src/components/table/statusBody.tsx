@@ -9,7 +9,7 @@ import { useState } from 'react'
 type BodyProps = {
     list: object[]
     headers: string[]
-    deleteAction: (id: string) => void
+    deleteAction?: (id: string) => void
     roles?: Role[]
 }
 

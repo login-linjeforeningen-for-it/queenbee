@@ -7,12 +7,13 @@ import StatusBody from './statusBody'
 type TableProps = {
     list: object[]
     headers?: string[]
-    deleteAction: (id: string) => void
+    deleteAction?: (id: string) => void
     roles?: Role[]
     systemTable?: boolean
+    hideMenu?: boolean
 }
 
-export default function Table({ list, headers, deleteAction, roles, systemTable }: TableProps) {
+export default function Table({ list, headers, deleteAction, roles, systemTable, hideMenu }: TableProps) {
     if (list.length === 0) {
         return <div className='p-4 text-center text-login-200'>No data found</div>
     }
@@ -20,9 +21,13 @@ export default function Table({ list, headers, deleteAction, roles, systemTable 
     headers = headers || keys
 
     return (
-        <div className='bg-login-500/50 flex-1 flex flex-col min-h-0 rounded-lg shadow border border-login-600 overflow-x-auto'>
+        <div className='bg-login-500/50 flex-1 flex flex-col min-h-0 rounded-lg shadow border border-login-600 overflow-x-auto h-full'>
             <table className='min-w-full w-max divide-y divide-login-600 flex flex-col flex-1 min-h-0'>
-                <Header keys={list.length > 0 ? Object.keys(list[0]) : []} headers={headers} />
+                <Header
+                    keys={list.length > 0 ? Object.keys(list[0]) : []}
+                    headers={headers}
+                    hideMenu={hideMenu}
+                />
                 {systemTable ? (
                     <StatusBody
                         list={list}
@@ -36,6 +41,7 @@ export default function Table({ list, headers, deleteAction, roles, systemTable 
                         headers={headers}
                         deleteAction={deleteAction}
                         roles={roles}
+                        hideMenu={hideMenu}
                     />
                 )}
             </table>

@@ -21,14 +21,14 @@ export default function Search({ className }: { className?: string }) {
     }
 
     return (
-        <div className={`relative flex items-center m-1 ${className}`}>
+        <div className={`relative flex items-center ${className}`}>
             <Input
                 name='search'
                 value={text}
                 onChange={handleChange}
                 type='text'
                 placeholder='Search...'
-                icon={<SearchIcon />}
+                icon={<SearchIcon className='size-5' />}
             />
         </div>
     )

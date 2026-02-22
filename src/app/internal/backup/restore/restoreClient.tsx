@@ -5,7 +5,7 @@ import { DatabaseBackup } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { toast, Button, Input } from 'uibee/components'
 import postBackupRestore from '@utils/api/internal/backups/postBackup'
-import GeneralTable, { Column } from '@components/table/generalTable'
+import Table from '@components/table/table'
 import prettyDate from '@utils/date/prettyDate'
 
 interface GroupedBackup extends BackupFileProps {
@@ -60,60 +60,40 @@ export default function RestoreClient({ backups }: { backups: BackupFileProps[] 
         }
     }
 
-    const columns: Column<GroupedBackup>[] = [
-        {
-            header: 'Container',
-            accessorKey: 'service',
-            className: 'font-medium text-white'
-        },
-        {
-            header: 'Location',
-            cell: (backup) => (
-                <div className='flex gap-2'>
-                    {backup.locations.includes('local') && (
-                        <span className='px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider
-                            bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'>
-                            Local
-                        </span>
-                    )}
-                    {backup.locations.includes('remote') && (
-                        <span className='px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider
-                            bg-sky-500/10 text-sky-400 border border-sky-500/20'>
-                            Remote
-                        </span>
-                    )}
-                </div>
-            )
-        },
-        {
-            header: 'Date',
-            cell: (backup) => (
-                <span className='text-login-200'>
-                    {backup.mtime ? prettyDate(backup.mtime) : 'N/A'}
-                </span>
-            )
-        },
-        {
-            header: 'Size',
-            accessorKey: 'size',
-            className: 'text-login-200'
-        },
-        {
-            header: 'Action',
-            align: 'right',
-            className: 'font-medium',
-            cell: (backup) => (
-                <div className='flex justify-end'>
-                    <Button
-                        icon={<DatabaseBackup className='w-5' />}
-                        text={restoring === `${backup.service}-${backup.file}` ? 'Restoring...' : 'Restore'}
-                        onClick={() => handleRestore(backup)}
-                        disabled={restoring !== null}
-                    />
-                </div>
-            )
-        }
-    ]
+    const tableList: Record<string, React.ReactNode | string | number>[] = groupedBackups.map((backup) => ({
+        container: <span className='font-medium text-white'>{backup.service}</span>,
+        location: (
+            <div className='flex gap-2'>
+                {backup.locations.includes('local') && (
+                    <span className='px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider
+                        bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'>
+                        Local
+                    </span>
+                )}
+                {backup.locations.includes('remote') && (
+                    <span className='px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider
+                         bg-sky-500/10 text-sky-400 border border-sky-500/20'>
+                        Remote
+                    </span>
+                )}
+            </div>
+        ),
+        date: <span className='text-login-200'>{backup.mtime ? prettyDate(backup.mtime) : 'N/A'}</span>,
+        size: <span className='text-login-200'>{backup.size}</span>,
+        action: (
+            <div className='flex justify-end w-full'>
+                <Button
+                    icon={<DatabaseBackup className='w-5' />}
+                    text={restoring === `${backup.service}-${backup.file}` ? 'Restoring...' : 'Restore'}
+                    onClick={() => handleRestore(backup)}
+                    disabled={restoring !== null}
+                    className='text-login-50'
+                />
+            </div>
+        )
+    }))
+
+    const headers = ['container', 'location', 'date', 'size', 'action']
 
     return (
         <div className='flex flex-col h-full'>
@@ -146,12 +126,11 @@ export default function RestoreClient({ backups }: { backups: BackupFileProps[] 
                 </div>
             </div>
 
-            <div className='flex-1 overflow-y-auto min-h-0'>
-                <GeneralTable
-                    data={groupedBackups}
-                    columns={columns}
-                    keyExtractor={(item, index) => (item.service && item.file ? `${item.service}-${item.file}` : index)}
-                    noDataMessage='No backups found matching filters.'
+            <div className='flex-1 min-h-0 flex flex-col'>
+                <Table
+                    list={tableList}
+                    headers={headers}
+                    hideMenu={true}
                 />
             </div>
         </div>
