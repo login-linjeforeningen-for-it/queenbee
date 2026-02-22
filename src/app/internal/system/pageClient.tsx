@@ -164,7 +164,7 @@ export default function PageClient({ metrics: metricsServer, docker: dockerServe
     }
 
     return (
-        <div className='h-full max-w-[calc(100vw-var(--w-sidebar)-2rem)] overflow-hidden flex flex-col'>
+        <div className='h-full overflow-hidden flex flex-col'>
             <div className='flex-none'>
                 <div className='flex w-full justify-between'>
                     <div className='flex gap-2 items-center'>
