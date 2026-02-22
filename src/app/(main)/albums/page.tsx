@@ -59,6 +59,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                             list={albums.albums}
                             headers={headers}
                             deleteAction={deleteAction}
+                            redirectPath='/albums/update'
                         />
                         <Pagination pageSize={limit} totalRows={albums.total_count} />
                     </div>

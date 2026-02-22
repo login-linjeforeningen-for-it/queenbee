@@ -114,6 +114,7 @@ function Sort({ tempSort, channels, roles, limit }: {
                 headers={announcementList}
                 deleteAction={deleteAction}
                 roles={roles}
+                redirectPath='/announcements/update'
             />
             <Pagination pageSize={limit} totalRows={Number(totalCount)} />
         </div>

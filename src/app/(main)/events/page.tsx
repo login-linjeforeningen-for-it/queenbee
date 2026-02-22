@@ -71,6 +71,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                             list={events.events}
                             headers={headers}
                             deleteAction={deleteAction}
+                            redirectPath='/events/update'
                         />
                         <Pagination pageSize={limit} totalRows={events.total_count} />
                     </div>

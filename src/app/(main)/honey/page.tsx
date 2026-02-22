@@ -79,6 +79,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                         list={honey.honeys}
                         headers={headers}
                         deleteAction={deleteAction}
+                        redirectPath='/honey/update'
                     />
                     <Pagination pageSize={limit} totalRows={honey.total_count} />
                 </div>

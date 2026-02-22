@@ -10,9 +10,10 @@ type TableProps = {
     roles?: Role[]
     systemTable?: boolean
     hideMenu?: boolean
+    redirectPath?: string | { path: string, key?: string }
 }
 
-export default function Table({ list, headers, deleteAction, roles, hideMenu }: TableProps) {
+export default function Table({ list, headers, deleteAction, roles, hideMenu, redirectPath }: TableProps) {
     if (list.length === 0) {
         return <div className='p-4 text-center text-login-200'>No data found</div>
     }
@@ -33,6 +34,7 @@ export default function Table({ list, headers, deleteAction, roles, hideMenu }: 
                     deleteAction={deleteAction}
                     roles={roles}
                     hideMenu={hideMenu}
+                    redirectPath={redirectPath}
                 />
             </table>
         </div>

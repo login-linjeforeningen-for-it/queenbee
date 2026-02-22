@@ -106,6 +106,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                             list={locations.locations}
                             headers={AddressHeaders}
                             deleteAction={deleteAction}
+                            redirectPath='/locations/update'
                         />
                     )}
                     {activeType === Location.Mazemap && (
@@ -113,6 +114,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                             list={locations.locations}
                             headers={MazemapHeaders}
                             deleteAction={deleteAction}
+                            redirectPath='/locations/update'
                         />
                     )}
                     {activeType === Location.Coordinate && (
@@ -120,6 +122,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                             list={locations.locations}
                             headers={CoordinateHeaders}
                             deleteAction={deleteAction}
+                            redirectPath='/locations/update'
                         />
                     )}
                     {activeType === Location.Digital && (
@@ -127,6 +130,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                             list={locations.locations}
                             headers={['id', 'name_no', 'url', 'updated_at']}
                             deleteAction={deleteAction}
+                            redirectPath='/locations/update'
                         />
                     )}
                     <Pagination pageSize={limit} totalRows={locations.total_count} />

@@ -70,6 +70,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                             list={jobs.jobs}
                             headers={headers}
                             deleteAction={deleteAction}
+                            redirectPath='/jobs/update'
                         />
                         <Pagination pageSize={limit} totalRows={jobs.total_count} />
                     </div>

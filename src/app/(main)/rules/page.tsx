@@ -63,6 +63,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                             list={rules.rules}
                             headers={headers}
                             deleteAction={deleteAction}
+                            redirectPath='/rules/update'
                         />
                         <Pagination pageSize={limit} totalRows={rules.total_count} />
                     </div>

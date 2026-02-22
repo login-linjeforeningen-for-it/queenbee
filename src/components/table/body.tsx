@@ -12,9 +12,10 @@ type BodyProps = {
     deleteAction?: (id: string) => void
     roles?: Role[]
     hideMenu?: boolean
+    redirectPath?: string | { path: string, key?: string }
 }
 
-export default function Body({ list, headers, deleteAction, roles, hideMenu }: BodyProps) {
+export default function Body({ list, headers, deleteAction, roles, hideMenu, redirectPath }: BodyProps) {
     const [openMenuId, setOpenMenuId] = useState<string | null>(null)
     const [anchor, setAnchor] = useState<{ top: number; right: number } | null>(null)
     const pathname = usePathname()
@@ -34,14 +35,30 @@ export default function Body({ list, headers, deleteAction, roles, hideMenu }: B
 
     return (
         <tbody ref={tbodyRef} className='bg-login-500/50 divide-y divide-login-600 block overflow-y-auto flex-1 min-h-0'>
-            {list.map((_, index) => {
-                const entries = Object.entries(list[index])
+            {list.map((item, index) => {
+                const entries = Object.entries(item)
                 const id = String(entries[0][1])
+
+                const redirectConfig = (typeof redirectPath === 'object' && redirectPath) ? redirectPath : { path: redirectPath as string }
+                const redirectKey = redirectConfig.key || entries[0][0]
+                const redirectId = redirectConfig.key ? String((item as Record<string, unknown>)[redirectKey]) : id
 
                 return (
                     <tr
                         key={index}
-                        className='flex w-full'
+                        className={`
+                            flex w-full group/row transition-colors 
+                            ${redirectConfig.path ? 'cursor-pointer hover:bg-login-600/30' : ''}
+                        `}
+                        onClick={() => {
+                            if (redirectConfig.path) {
+                                if (redirectConfig.path.includes('?')) {
+                                    router.push(`${redirectConfig.path}${redirectId}`)
+                                } else {
+                                    router.push(`${redirectConfig.path}/${redirectId}`)
+                                }
+                            }
+                        }}
                         onContextMenu={(e) => {
                             e.preventDefault()
                             setAnchor({ top: e.clientY, right: window.innerWidth - e.clientX })

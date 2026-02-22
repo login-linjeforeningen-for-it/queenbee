@@ -315,6 +315,7 @@ export default function PageClient({ metrics: metricsServer, docker: dockerServe
                         headers={headers}
                         deleteAction={deleteAction}
                         hideMenu={true}
+                        redirectPath='/internal/system'
                     />
                     <Pagination pageSize={limit} totalRows={docker.count} />
                 </div>
