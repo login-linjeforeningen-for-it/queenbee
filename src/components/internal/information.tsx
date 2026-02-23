@@ -1,4 +1,4 @@
-import { Server, Star } from 'lucide-react'
+import { Star } from 'lucide-react'
 import Link from 'next/link'
 
 type InternalInfoProps = {
@@ -6,42 +6,34 @@ type InternalInfoProps = {
 }
 
 export default function InternalInfo({ information }: InternalInfoProps) {
-    const primary = 'text-sm'
-    const secondary = 'text-sm text-login-200 pb-2'
+    const primary = 'text-xs text-muted-foreground uppercase font-semibold'
+    const secondary = 'text-sm font-medium'
 
     return (
-        <div className='grid md:grid-cols-2 gap-4'>
-            <Link href='/internal/loadbalancing' className='p-4 bg-login-50/5 rounded-md'>
-                <h1 className='flex items-center gap-2 text-sm text-muted-foreground capitalize pb-4'>
-                    <Star className='w-5' /> Primary Site
-                </h1>
-                <div>
-                    <h1 className={primary}>ID</h1>
-                    <h1 className={secondary}>{information.primarySite.id}</h1>
-                    <h1 className={primary}>IP</h1>
-                    <h1 className={secondary}>{information.primarySite.ip}</h1>
-                    <h1 className={primary}>Name</h1>
-                    <h1 className={secondary}>{information.primarySite.name}</h1>
-                </div>
-            </Link>
-            <Link href='/internal/system' className='p-4 bg-login-50/5 rounded-md'>
-                <h1 className='flex items-center gap-2 text-sm text-muted-foreground capitalize pb-4'>
-                    <Server className='w-5' /> System
-                </h1>
-                <div className='grid grid-cols-2 gap-4'>
-                    <div>
-                        <h1 className={primary}>RAM</h1>
-                        <h1 className={secondary}>{information.system.ram}</h1>
-                        <h1 className={primary}>Processes</h1>
-                        <h1 className={secondary}>{information.system.processes}</h1>
-                        <h1 className={primary}>Disk</h1>
-                        <h1 className={secondary}>{information.system.disk}</h1>
+        <div className='h-full'>
+            <Link
+                href='/internal/loadbalancing'
+                className='flex flex-col justify-between h-full p-6 bg-login-50/5
+                    rounded-xl border border-white/5 hover:bg-white/5 transition-colors'
+            >
+                <div className='flex items-center gap-3 pb-6'>
+                    <div className='p-2 bg-emerald-500/10 rounded-lg'>
+                        <Star className='w-5 h-5 text-emerald-500' />
                     </div>
-                    <div>
-                        <h1 className={primary}>Load</h1>
-                        <h1 className={secondary}>{information.system.load}</h1>
-                        <h1 className={primary}>Containers</h1>
-                        <h1 className={secondary}>{information.system.containers}</h1>
+                    <span className='font-medium'>Primary Site</span>
+                </div>
+                <div className='space-y-4'>
+                    <div className='flex justify-between items-center border-b border-white/5 pb-2'>
+                        <span className={primary}>ID</span>
+                        <span className={secondary}>{information.primarySite.id}</span>
+                    </div>
+                    <div className='flex justify-between items-center border-b border-white/5 pb-2'>
+                        <span className={primary}>IP</span>
+                        <span className={secondary}>{information.primarySite.ip}</span>
+                    </div>
+                    <div className='flex justify-between items-center pt-1'>
+                        <span className={primary}>Name</span>
+                        <span className={secondary}>{information.primarySite.name}</span>
                     </div>
                 </div>
             </Link>

@@ -4,16 +4,14 @@ import Alert from '@components/alert/alert'
 import Search from '@components/inputs/search'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
-import getStats from '@utils/api/internal/system/getStats'
 import getDocker from '@utils/api/internal/system/getDocker'
 import Conveyer from '@components/update/conveyer'
 import ConveyerStopped from '@components/update/conveyerStopped'
-import { Boxes, Cpu, HardDrive, MemoryStick, Server, Thermometer, Zap, ArrowUpCircle, RefreshCcw } from 'lucide-react'
+import { ArrowUpCircle, RefreshCcw } from 'lucide-react'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
 type PageClientProps = {
-    metrics: Stats
     docker: Docker
     deleteAction: (id: string) => Promise<void>
 }
@@ -104,13 +102,9 @@ function ActionButtons({ id, initialAutoUpdate }: { id: string, initialAutoUpdat
     )
 }
 
-export default function PageClient({ metrics: metricsServer, docker: dockerServer, deleteAction }: PageClientProps) {
-    const [metrics, setMetrics] = useState(metricsServer)
+export default function PageClient({ docker: dockerServer, deleteAction }: PageClientProps) {
     const [docker, setDocker] = useState(dockerServer)
     const [autoRefresh, setAutoRefresh] = useState(10000)
-    const usedMemory = metrics?.system?.memory?.used ? (metrics.system.memory.used / 1073741824).toFixed(2) : '0.00'
-    const totalMemory = metrics?.system?.memory?.total ? (metrics.system.memory.total / 1073741824).toFixed(2) : '0.00'
-    const usedMemoryPercentage = metrics?.system?.memory?.percent || '0'
     const searchParams = useSearchParams()
     const query = searchParams?.get('q')?.toLowerCase() ?? ''
     const limit = 25
@@ -147,9 +141,7 @@ export default function PageClient({ metrics: metricsServer, docker: dockerServe
         }
 
         const intervalId = setInterval(async () => {
-            const updatedMetrics = await getStats()
             const updatedDocker = await getDocker()
-            setMetrics(updatedMetrics)
             setDocker(updatedDocker)
         }, autoRefresh)
 
@@ -185,118 +177,7 @@ export default function PageClient({ metrics: metricsServer, docker: dockerServe
                         </select>
                     </div>
                 </div>
-                <div className='flex gap-2 py-2'>
-                    <div className='grid gap-2'>
-                        <div className='flex gap-2'>
-                            <div className='bg-login-50/5 p-4 rounded-lg'>
-                                <div className='flex gap-2 items-center'>
-                                    <Server className='w-4 h-4' />
-                                    <h1 className='text-sm'>Operating System (OS)</h1>
-                                </div>
-                                <div className='flex gap-2'>
-                                    <h1>{metrics?.system?.os || 'Unknown'}</h1>
-                                </div>
-                            </div>
-                            <div className='bg-login-50/5 p-4 rounded-lg'>
-                                <div className='flex gap-2 items-center'>
-                                    <Boxes className='w-4 h-4' />
-                                    <h1 className='text-sm'>Processes</h1>
-                                </div>
-                                <div className='flex gap-2'>
-                                    <h1>{metrics?.system?.processes || '0'}</h1>
-                                </div>
-                            </div>
-                            <div className='bg-login-50/5 p-4 rounded-lg'>
-                                <div className='flex gap-2 items-center'>
-                                    <HardDrive className='w-4 h-4' />
-                                    <h1 className='text-sm'>Disk</h1>
-                                </div>
-                                <div className='flex gap-2'>
-                                    <h1>{metrics?.system?.disk || 'Unknown'}</h1>
-                                </div>
-                            </div>
-                            <div className='bg-login-50/5 p-4 rounded-lg'>
-                                <div className='flex gap-2 items-center'>
-                                    <Thermometer className='w-4 h-4' />
-                                    <h1 className='text-sm'>Temperature</h1>
-                                </div>
-                                <div className='flex gap-2'>
-                                    <h1>{metrics?.system?.temperature || 'Unknown'}</h1>
-                                </div>
-                            </div>
-                            <div className='bg-login-50/5 p-4 rounded-lg'>
-                                <div className='flex gap-2 items-center'>
-                                    <Zap className='w-4 h-4' />
-                                    <h1 className='text-sm'>Power</h1>
-                                </div>
-                                <div className='flex gap-2'>
-                                    <h1>{metrics?.system?.powerUsage || 'Unknown'}</h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex gap-2'>
-                            <div className='bg-login-50/5 p-4 rounded-lg grid gap-2'>
-                                <div className='flex gap-2 items-center'>
-                                    <Boxes className='w-4 h-4' />
-                                    <h1 className='text-sm'>Containers</h1>
-                                </div>
-                                <div className='flex gap-2'>
-                                    <h1>{docker.count}</h1>
-                                </div>
-                            </div>
-                            <div className='bg-login-50/5 p-4 rounded-lg grid gap-2'>
-                                <div className='flex gap-2 items-center'>
-                                    <MemoryStick className='w-4 h-4' />
-                                    <h1 className='text-sm'>Memory</h1>
-                                </div>
-                                <div className='flex gap-2'>
-                                    <h1>{usedMemory}GB used of {totalMemory}GB ({usedMemoryPercentage}%)</h1>
-                                </div>
-                            </div>
-                            <div className='bg-login-50/5 p-4 rounded-lg grid gap-2'>
-                                <div className='flex gap-2 items-center'>
-                                    <Cpu className='w-4 h-4' />
-                                    <h1 className='text-sm'>Load</h1>
-                                </div>
-                                <div className='flex gap-2'>
-                                    <h1>1m {metrics?.system?.load?.[0] || '0'}%</h1>
-                                    <h1 className='text-login-400'>|</h1>
-                                    <h1>5m {metrics?.system?.load?.[1] || '0'}%</h1>
-                                    <h1 className='text-login-400'>|</h1>
-                                    <h1>15m {metrics?.system?.load?.[2] || '0'}%</h1>
-                                </div>
-                            </div>
-                            <div className='bg-login-50/5 p-4 rounded-lg'>
-                                <div className='flex gap-2 items-center'>
-                                    <MemoryStick className='w-4 h-4' />
-                                    <h1 className='text-sm'>Swap</h1>
-                                </div>
-                                <div className='flex gap-2'>
-                                    <h1>{metrics?.system?.swap || 'Unknown'}</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='bg-login-50/5 p-4 rounded-lg flex-1 space-y-2'>
-                        <div className='flex gap-2 items-center'>
-                            <MemoryStick className='w-4 h-4' />
-                            <h1 className='text-sm'>IPs</h1>
-                        </div>
-                        <div className='flex gap-2 max-h-26'>
-                            <div className='gap-2 rounded-md bg-login-50/5 p-2 overflow-auto w-3/7'>
-                                <h1 className='text-sm'>IPv4</h1>
-                                <div className='w-full h-px bg-login-300 rounded-lg' />
-                                <h1>{metrics?.system?.ipv4?.join('\n') || 'N/A'}</h1>
-                            </div>
-                            <div className='gap-2 rounded-md bg-login-50/5 p-2 overflow-auto w-full'>
-                                <h1 className='text-sm'>IPv6</h1>
-                                <div className='w-full h-px bg-login-300 rounded-lg' />
-                                <h1>{metrics?.system?.ipv6?.join('\n') || 'N/A'}</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className='flex w-full justify-between items-center'>
+                <div className='flex w-full justify-between items-center py-2'>
                     <Search />
                 </div>
             </div>
