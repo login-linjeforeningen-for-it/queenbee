@@ -178,8 +178,8 @@ export default function Sidebar({ mobile }: SidebarProps) {
             image: <Activity className='w-6' />
         },
         {
-            name: 'System',
-            path: '/internal/system',
+            name: 'Services',
+            path: '/internal/services',
             image: <Server className='w-6' />,
             status: <PulseDot status={docker?.status} />
         },

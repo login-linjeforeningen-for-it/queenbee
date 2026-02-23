@@ -160,7 +160,7 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
             <div className='flex-none'>
                 <div className='flex w-full justify-between'>
                     <div className='flex gap-2 items-center'>
-                        <h1 className='font-semibold text-lg'>System</h1>
+                        <h1 className='font-semibold text-lg'>Services</h1>
                     </div>
                     <div className='flex items-center gap-2'>
                         <h1 className='font-semibold text-sm'>Autorefresh</h1>
@@ -196,7 +196,7 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
                         headers={headers}
                         deleteAction={deleteAction}
                         hideMenu={true}
-                        redirectPath='/internal/system'
+                        redirectPath='/internal/services'
                     />
                     <Pagination pageSize={limit} totalRows={docker.count} />
                 </div>
