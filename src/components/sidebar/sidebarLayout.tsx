@@ -5,6 +5,7 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, LogOut } from 'lucide-react'
+import { setCookie } from 'utilbee/utils'
 import SidebarVersion from './sidebarVersion'
 
 export type SidebarItem = {
@@ -22,10 +23,17 @@ type SidebarLayoutProps = {
     items: SidebarItem[]
     bottomAction?: (expanded: boolean) => React.ReactNode
     mobile?: boolean
+    initialExpanded?: boolean
 }
 
-export default function SidebarLayout({ items, bottomAction, mobile = false }: SidebarLayoutProps) {
-    const [expanded, setExpanded] = useState(true)
+export default function SidebarLayout({ items, bottomAction, mobile = false, initialExpanded = true }: SidebarLayoutProps) {
+    const [expanded, setExpanded] = useState(initialExpanded)
+
+    function toggleExpanded() {
+        const next = !expanded
+        setCookie('sidebar_expanded', String(next))
+        setExpanded(next)
+    }
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const fullPath = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '')
@@ -67,7 +75,7 @@ export default function SidebarLayout({ items, bottomAction, mobile = false }: S
                     </div>
 
                     <button
-                        onClick={() => setExpanded((curr) => !curr)}
+                        onClick={toggleExpanded}
                         className={`
                             absolute p-1.5 rounded-lg hover:bg-login-800 text-login-200 transition-all duration-300
                             ${expanded ? 'top-4 right-4' : 'top-18 left-1/2 -translate-x-1/2'}

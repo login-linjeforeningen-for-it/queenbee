@@ -34,15 +34,12 @@ import getServiceMeta from '@utils/api/getServiceMeta'
 
 type SidebarProps = {
     mobile?: boolean
+    initialExpanded?: boolean
+    initialHasToken?: boolean
 }
 
-export default function Sidebar({ mobile }: SidebarProps) {
-    const [hasToken, setHasToken] = useState(false)
-
-    useEffect(() => {
-        const token = getCookie('access_token')
-        setHasToken(!!token)
-    }, [])
+export default function Sidebar({ mobile, initialExpanded = true, initialHasToken = false }: SidebarProps) {
+    const [hasToken] = useState(initialHasToken)
 
     const [groups, setGroups] = useState<string | undefined>(undefined)
     const pathname = usePathname()
@@ -199,6 +196,7 @@ export default function Sidebar({ mobile }: SidebarProps) {
         <SidebarLayout
             items={isInternal ? internalPaths : mainPaths}
             mobile={mobile}
+            initialExpanded={initialExpanded}
             bottomAction={(expanded) => (
                 groups && groups.includes('TekKom') ? (
                     <Link
