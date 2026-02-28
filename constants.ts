@@ -13,12 +13,12 @@ const config = {
         beekeeper: env.BEEKEEPER_API_URL || 'https://beekeeper.login.no/api',
     },
     auth: {
-        url: {
-            base: env.BASE_URL,
-            login: `${env.BASE_URL}/api/login`,
-            redirect: `${env.BASE_URL}/api/callback`,
-            token: `${env.BASE_URL}/api/token`,
-        }
+        paths: {
+            login: '/api/login',
+            callback: '/api/callback',
+            token: '/api/token',
+            logout: '/api/logout',
+        },
     },
     authentik: {
         client: {

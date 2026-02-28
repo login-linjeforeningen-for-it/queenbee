@@ -8,8 +8,8 @@ export async function GET(request: NextRequest) {
         tokenURL: config.authentik.url.token,
         clientID: config.authentik.client.id,
         clientSecret: config.authentik.client.secret,
-        redirectURL: config.auth.url.redirect,
+        redirectPath: config.auth.paths.callback,
         userInfoURL: config.authentik.url.userinfo,
-        tokenRedirectURL: config.auth.url.token
+        tokenRedirectPath: config.auth.paths.token,
     })
 }
