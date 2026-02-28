@@ -1,10 +1,13 @@
 'use server'
 
-import config from '@config'
 import { getWrapper } from '@utils/apiWrapper'
 
 export default async function getInternalDashboard(): Promise<InternalDashboard> {
-    const data = await getWrapper({ path: config.beekeeper.dashboard.internal, service: 'beekeeper' })
+    const data = await getWrapper({
+        path: 'dashboard/internal',
+        service: 'beekeeper'
+    })
+
     if (typeof data === 'string') {
         return {
             statistics: {

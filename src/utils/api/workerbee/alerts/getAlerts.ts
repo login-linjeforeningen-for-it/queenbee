@@ -1,6 +1,5 @@
 'use server'
 
-import config from '@config'
 import { getWrapper } from '@utils/apiWrapper'
 
 export default async function getAlerts({ search, offset, limit, orderBy, sort }: GetParamsProps = {}): Promise<GetAlertsProps | string> {
@@ -25,6 +24,8 @@ export default async function getAlerts({ search, offset, limit, orderBy, sort }
         queryParts.append('sort', String(sort))
     }
 
-    const path = `${config.workerbee.alerts.path}?${queryParts.toString()}`
-    return await getWrapper({ path, service: 'workerbee' })
+    return await getWrapper({
+        path: `alerts?${queryParts.toString()}`,
+        service: 'workerbee'
+    })
 }

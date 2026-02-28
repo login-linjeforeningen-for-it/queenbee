@@ -1,6 +1,5 @@
 'use server'
 
-import config from '@config'
 import { getWrapper } from '@utils/apiWrapper'
 
 export default async function getOrganizations({
@@ -31,6 +30,8 @@ export default async function getOrganizations({
         queryParts.append('sort', String(sort))
     }
 
-    const path = `${config.workerbee.organizations.path}?${queryParts.toString()}`
-    return await getWrapper({ path, service: 'workerbee' })
+    return await getWrapper({
+        path: `organizations?${queryParts.toString()}`,
+        service: 'workerbee'
+    })
 }

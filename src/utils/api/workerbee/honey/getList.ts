@@ -1,6 +1,5 @@
 'use server'
 
-import config from '@config'
 import { getWrapper } from '@utils/apiWrapper'
 
 export default async function getHoneyList({
@@ -32,6 +31,8 @@ export default async function getHoneyList({
         queryParts.append('sort', String(sort))
     }
 
-    const path = `${config.workerbee.honey.services}/${service}?${queryParts.toString()}`
-    return await getWrapper({ path, service: 'workerbee' })
+    return await getWrapper({
+        path: `text/${service}?${queryParts.toString()}`,
+        service: 'workerbee'
+    })
 }

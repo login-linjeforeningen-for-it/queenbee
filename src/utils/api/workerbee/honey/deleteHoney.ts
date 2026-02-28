@@ -1,9 +1,10 @@
 'use server'
 
-import config from '@config'
 import { deleteWrapper } from '@utils/apiWrapper'
 
 export default async function deleteHoney(id: number) {
-    const path = `${config.workerbee.honey.path}/${id}`
-    return await deleteWrapper({ path, service: 'workerbee' })
+    return await deleteWrapper({
+        path: `honeys/${id}`,
+        service: 'workerbee'
+    })
 }

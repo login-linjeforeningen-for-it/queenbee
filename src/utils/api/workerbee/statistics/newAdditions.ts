@@ -1,6 +1,5 @@
 'use server'
 
-import config from '@config'
 import { getWrapper } from '@utils/apiWrapper'
 
 type APIProps = {
@@ -14,6 +13,8 @@ export default async function getStatisticsNewAdditions({limit}: APIProps): Prom
         queryParts.append('limit', String(limit))
     }
 
-    const path = `${config.workerbee.statistics.path}/new-additions?${queryParts.toString()}`
-    return await getWrapper({ path, service: 'workerbee' })
+    return await getWrapper({
+        path: `stats/new-additions?${queryParts.toString()}`,
+        service: 'workerbee'
+    })
 }

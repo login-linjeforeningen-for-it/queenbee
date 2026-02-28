@@ -1,6 +1,5 @@
 'use server'
 
-import config from '@config'
 import { getWrapper } from '@utils/apiWrapper'
 
 export default async function getRules({ search, offset, limit, orderBy, sort }: GetParamsProps = {}): Promise<GetRulesProps | string> {
@@ -25,6 +24,8 @@ export default async function getRules({ search, offset, limit, orderBy, sort }:
         queryParts.append('sort', String(sort))
     }
 
-    const path = `${config.workerbee.rules.path}?${queryParts.toString()}`
-    return await getWrapper({ path, service: 'workerbee' })
+    return await getWrapper({
+        path: `rules?${queryParts.toString()}`,
+        service: 'workerbee'
+    })
 }

@@ -1,6 +1,5 @@
 'use server'
 
-import config from '@config'
 import { getWrapper } from '@utils/apiWrapper'
 
 export default async function getAnnouncements({
@@ -29,7 +28,8 @@ export default async function getAnnouncements({
 
     queryParts.append('includePlaceholders', 'true')
 
-    const path = `${config.bot.announcements}?${queryParts.toString()}`
-    const data = await getWrapper({ path, service: 'bot' })
-    return data
+    return await getWrapper({
+        path: `announcements?${queryParts.toString()}`,
+        service: 'bot'
+    })
 }

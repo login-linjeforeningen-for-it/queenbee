@@ -1,6 +1,5 @@
 'use server'
 
-import config from '@config'
 import { getWrapper } from '@utils/apiWrapper'
 
 export default async function getTrafficMetrics(
@@ -18,6 +17,8 @@ export default async function getTrafficMetrics(
         queryParts.append('domain', domain)
     }
 
-    const path = `${config.beekeeper.traffic.metrics}?${queryParts.toString()}`
-    return await getWrapper({ path, service: 'beekeeper' })
+    return await getWrapper({
+        path: `traffic/metrics?${queryParts.toString()}`,
+        service: 'beekeeper'
+    })
 }

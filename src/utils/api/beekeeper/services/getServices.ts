@@ -1,8 +1,10 @@
 'use server'
 
-import config from '@config'
 import { getWrapper } from '@utils/apiWrapper'
 
 export default async function getServices(): Promise<Service[] | string> {
-    return await getWrapper({ path: config.beekeeper.status.services.get, service: 'beekeeper' })
+    return await getWrapper({
+        path: 'monitoring',
+        service: 'beekeeper'
+    })
 }

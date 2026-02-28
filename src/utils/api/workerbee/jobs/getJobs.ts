@@ -1,6 +1,5 @@
 'use server'
 
-import config from '@config'
 import { getWrapper } from '@utils/apiWrapper'
 
 export default async function getJobs({
@@ -36,6 +35,8 @@ export default async function getJobs({
         queryParts.append('historical', String(historical))
     }
 
-    const path = `${config.workerbee.jobs.path_protected}?${queryParts.toString()}`
-    return await getWrapper({ path, service: 'workerbee' })
+    return await getWrapper({
+        path: `jobs/protected?${queryParts.toString()}`,
+        service: 'workerbee'
+    })
 }

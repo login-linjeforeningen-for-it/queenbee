@@ -12,50 +12,6 @@ const config = {
         internal: env.INTERNAL_API_URL || 'https://internal.login.no/api',
         beekeeper: env.BEEKEEPER_API_URL || 'https://beekeeper.login.no/api',
     },
-    workerbee: {
-        albums: {
-            path: 'albums',
-        },
-        alerts: {
-            path: 'alerts',
-        },
-        events: {
-            path: 'events',
-            path_protected: 'events/protected',
-            categories: 'categories',
-            audiences: 'audiences',
-            time_types: 'events/time',
-        },
-        honey: {
-            path: 'honeys',
-            services: 'text',
-        },
-        images: {
-            path: 'images',
-        },
-        jobs: {
-            path: 'jobs',
-            path_protected: 'jobs/protected',
-            types: 'jobs/types/all',
-        },
-        locations: {
-            path: 'locations',
-        },
-        organizations: {
-            path: 'organizations',
-        },
-        rules: {
-            path: 'rules',
-        },
-        statistics: {
-            path: 'stats',
-        },
-    },
-    bot: {
-        announcements: 'announcements',
-        channels: 'channels',
-        roles: 'roles',
-    },
     auth: {
         url: {
             base: env.BASE_URL,
@@ -106,24 +62,6 @@ const config = {
         },
         dashboard: {
             internal: 'dashboard/internal'
-        }
-    },
-    internal: {
-        ws: {
-            docker: 'ws/docker',
-            stats: 'ws/stats',
-        },
-        docker: {
-            path: 'docker',
-            restart_service: 'restart/service',
-            restart: 'restart'
-        },
-        ingress: 'ingress',
-        stats: 'stats',
-        backups: {
-            get: 'backup',
-            restore: 'backup/restore',
-            files : 'backup/files'
         }
     },
     version: packageInfo.version,

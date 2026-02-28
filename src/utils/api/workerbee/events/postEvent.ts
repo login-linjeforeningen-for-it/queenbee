@@ -1,6 +1,5 @@
 'use server'
 
-import config from '@config'
 import { postWrapper } from '@utils/apiWrapper'
 
 export default async function postEvent(
@@ -17,6 +16,9 @@ export default async function postEvent(
         queryParts.append('repeat_until', String(repeat_until))
     }
 
-    const path = `${config.workerbee.events.path}?${queryParts.toString()}`
-    return await postWrapper({ path, data: body, service: 'workerbee' })
+    return await postWrapper({
+        path: `events?${queryParts.toString()}`,
+        data: body,
+        service: 'workerbee'
+    })
 }
