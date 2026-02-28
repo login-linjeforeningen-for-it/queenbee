@@ -105,7 +105,9 @@ export default function Body({ list, headers, deleteAction, roles, hideMenu, red
                                         hover:bg-login-400 justify-center
                                         ${openMenuId === id ? 'bg-login-400' : ''}
                                     `}
+                                        onMouseDown={(e) => e.nativeEvent.stopImmediatePropagation()}
                                         onClick={(e) => {
+                                            e.stopPropagation()
                                             const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect()
                                             const coords = { top: rect.bottom + 4, right: window.innerWidth - rect.right }
                                             setAnchor(openMenuId === id ? null : coords)
