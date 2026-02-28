@@ -22,6 +22,7 @@ export default function Body({ list, headers, deleteAction, roles, hideMenu, red
     const router = useRouter()
     const menuRef = useRef<HTMLDivElement>(null)
     const tbodyRef = useRef<HTMLTableSectionElement>(null)
+    const menuWasOpenOnMouseDown = useRef(false)
 
     useClickOutside(menuRef as RefObject<HTMLElement>, () => setOpenMenuId(null))
 
@@ -50,7 +51,14 @@ export default function Body({ list, headers, deleteAction, roles, hideMenu, red
                             flex w-full group/row transition-colors 
                             ${redirectConfig.path ? 'cursor-pointer hover:bg-login-600/30' : ''}
                         `}
+                        onMouseDown={() => {
+                            menuWasOpenOnMouseDown.current = openMenuId !== null
+                        }}
                         onClick={() => {
+                            if (menuWasOpenOnMouseDown.current) {
+                                menuWasOpenOnMouseDown.current = false
+                                return
+                            }
                             if (redirectConfig.path) {
                                 if (redirectConfig.path.includes('?')) {
                                     router.push(`${redirectConfig.path}${redirectId}`)
