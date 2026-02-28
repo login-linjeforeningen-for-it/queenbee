@@ -30,7 +30,7 @@ export default function ServiceStatus({ service }: ServiceStatusProps) {
                 </thead>
                 <tbody>
                     {service.bars.map((bar, index) => {
-                        let status: 'up' | 'down' | 'maintenance' | 'pending' | null = null
+                        let status: 'up' | 'down' | 'maintenance' | 'pending' | null
                         if (service.enabled && bar.status) {
                             status = 'up'
                         } else if (service.enabled && !bar.status && bar.expectedDown) {

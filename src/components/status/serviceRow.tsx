@@ -34,7 +34,7 @@ export default function ServiceRow({ onClick, service, onEditClick }: ServiceRow
             </div>
             <div className='flex gap-1'>
                 {service.bars.toReversed().map((bar, index) => {
-                    let status: 'up' | 'down' | 'maintenance' | 'pending' | null = null
+                    let status: 'up' | 'down' | 'maintenance' | 'pending' | null
                     if (service.enabled && bar.status) {
                         status = 'up'
                     } else if (service.enabled && !bar.status && bar.expectedDown) {

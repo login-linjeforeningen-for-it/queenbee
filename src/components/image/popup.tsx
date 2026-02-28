@@ -169,7 +169,6 @@ export default function UploadPopup({ file, handleFileAction, onCloseAction, sho
                             onMouseLeave={handleMouseUp}
                         >
                             {imageSrc && (
-                                // eslint-disable-next-line @next/next/no-img-element
                                 <img
                                     ref={imgRef}
                                     src={imageSrc}

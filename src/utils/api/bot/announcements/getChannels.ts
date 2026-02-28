@@ -3,8 +3,8 @@
 import { getWrapper } from '@utils/apiWrapper'
 
 export default async function getChannels(): Promise<ChannelResponse[] | string> {
-    return await getWrapper({ 
+    return await getWrapper({
         path: 'channels',
-        service: 'bot' 
+        service: 'bot'
     })
 }

@@ -101,7 +101,7 @@ export default function RequestsOverTimeChart({ data }: { data: { key: string, c
 
             {xTicks.map((tick, i) => {
                 const date = parseDate(tick.label)
-                let label = tick.label
+                let label: string
                 if (date) {
                     if (showDate) {
                         label = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })

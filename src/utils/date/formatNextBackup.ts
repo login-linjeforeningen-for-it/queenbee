@@ -14,7 +14,7 @@ export default function formatNextBackup(dateString: string) {
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
 
     if (diffDays < 7) {
-        let dayStr = ''
+        let dayStr: string
         if (diffDays <= 0) dayStr = 'Today'
         else if (diffDays === 1) dayStr = 'Tomorrow'
         else dayStr = `in ${diffDays} days`
