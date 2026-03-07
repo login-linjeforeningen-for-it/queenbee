@@ -14,9 +14,15 @@ services:
       - TZ=Europe/Oslo
     networks:
       - workerbee_default
+      - beekeeper_default
+      - tekkom_bot_default
     mem_limit: 1g
     cpus: "2.0"
 
 networks:
   workerbee_default:
+    external: true
+  beekeeper_default:
+    external: true
+  tekkom_bot_default:
     external: true
