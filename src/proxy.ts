@@ -57,10 +57,7 @@ function pathIsAllowedWhileUnauthorized(path: string) {
         path.startsWith('/_next/image') ||
         path.startsWith('/images/') ||
         path.startsWith('/api/authentik-health') ||
-        path.startsWith('/api/login') ||
-        path.startsWith('/api/token') ||
-        path.startsWith('/api/callback') ||
-        path.startsWith('/api/logout') ||
+        path.startsWith('/api/auth') ||
         path.startsWith('/_next/webpack-hmr')
     ) {
         return true

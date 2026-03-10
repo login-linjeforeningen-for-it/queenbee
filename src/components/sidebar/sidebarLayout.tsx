@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { ChevronLeft, ChevronRight, LogOut } from 'lucide-react'
 import { setCookie } from 'utilbee/utils'
 import SidebarVersion from './sidebarVersion'
+import config from '@config'
 
 export type SidebarItem = {
     name: string
@@ -166,7 +167,7 @@ export default function SidebarLayout({ items, bottomAction, mobile = false, ini
                 {bottomAction && bottomAction(expanded)}
 
                 <button
-                    onClick={() => window.location.href = '/api/logout'}
+                    onClick={() => window.location.href = config.authPath.logout}
                     className={`
                         flex items-center p-3 rounded-lg w-full overflow-hidden
                         hover:bg-red-500/10 text-login-200 hover:text-red-400

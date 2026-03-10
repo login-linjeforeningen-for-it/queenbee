@@ -12,13 +12,11 @@ const config = {
         internal: env.INTERNAL_API_URL || 'https://internal.login.no/api',
         beekeeper: env.BEEKEEPER_API_URL || 'https://beekeeper.login.no/api',
     },
-    auth: {
-        paths: {
-            login: '/api/login',
-            callback: '/api/callback',
-            token: '/api/token',
-            logout: '/api/logout',
-        },
+    authPath: {
+        login:    '/api/auth/login',
+        callback: '/api/auth/callback',
+        token:    '/api/auth/token',
+        logout:   '/api/auth/logout',
     },
     authentik: {
         client: {

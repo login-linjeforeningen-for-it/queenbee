@@ -7,6 +7,6 @@ export async function GET(request: NextRequest) {
         req: request,
         authURL: config.authentik.url.auth,
         clientID: config.authentik.client.id,
-        redirectPath: config.auth.paths.callback,
+        redirectPath: config.authPath.callback,
     })
 }
