@@ -125,7 +125,7 @@ export default function EventFormInputsClient({
         <div className='md:grid md:grid-cols-2 gap-x-8 md:pt-4 relative'>
             <div className='absolute grid md:flex! flex-row gap-4 w-full justify-end -mt-13'>
                 <Button
-                    color='secondary'
+                    variant='secondary'
                     text='Example'
                     icon='+'
                     onClick={example}

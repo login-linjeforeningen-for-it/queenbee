@@ -114,13 +114,13 @@ export default function PageClient({
                 <div className='flex gap-2'>
                     <Button
                         text='Notifications'
-                        color='secondary'
+                        variant='secondary'
                         icon={<TriangleAlert />}
                         onClick={handleViewNotifications}
                     />
                     <Button
                         text='Dashboard'
-                        color='secondary'
+                        variant='secondary'
                         icon={<LayoutDashboard />}
                         onClick={dashboard}
                     />

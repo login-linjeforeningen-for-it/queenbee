@@ -76,7 +76,7 @@ export default function NewTag({ display, setAddingTag, setRefresh }: NewTagProp
                 <div className='flex justify-end gap-2 pt-2'>
                     <Button
                         text='Cancel'
-                        color='secondary'
+                        variant='secondary'
                         icon={<X className='w-5' />}
                         onClick={() => setAddingTag(false)}
                     />

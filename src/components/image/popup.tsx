@@ -219,7 +219,7 @@ export default function UploadPopup({ file, handleFileAction, onCloseAction, sho
                 <div className='flex justify-end gap-3 px-6 py-4 bg-login-900/20 border-t border-login-500/40'>
                     <Button
                         icon={<X className='w-4 h-4' />}
-                        color='secondary'
+                        variant='secondary'
                         text='Cancel'
                         onClick={onCloseAction}
                     />

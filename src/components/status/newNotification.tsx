@@ -96,7 +96,7 @@ export default function NewNotification({ display, setAddingNotification, setRef
                 <div className='flex justify-end gap-2 pt-2'>
                     <Button
                         text='Cancel'
-                        color='secondary'
+                        variant='secondary'
                         icon={<X className='w-5' />}
                         onClick={() => setAddingNotification(false)}
                     />

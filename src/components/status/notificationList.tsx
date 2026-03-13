@@ -81,7 +81,12 @@ export default function NotificationList({ notifications: serverNotifications }:
             <form onSubmit={handleSubmit} className='space-y-2'>
                 <div className='flex justify-between'>
                     <h1 className='text-lg font-semibold'>Editing {form.name}</h1>
-                    <Button icon={<Trash className='w-5' />} color='secondary' text='Delete' onClick={handleDelete} />
+                    <Button
+                        icon={<Trash className='w-5' />}
+                        variant='secondary'
+                        text='Delete'
+                        onClick={handleDelete}
+                    />
                 </div>
                 <div className='flex gap-2'>
                     {/* Name */}
@@ -128,7 +133,7 @@ export default function NotificationList({ notifications: serverNotifications }:
                 <div className='flex gap-2'>
                     <Button
                         onClick={resetForm}
-                        color='secondary'
+                        variant='secondary'
                         icon={<X className='w-5' />}
                         text='Cancel'
                     />
@@ -191,7 +196,7 @@ export default function NotificationList({ notifications: serverNotifications }:
                 <div className='flex gap-2'>
                     <Button
                         onClick={resetForm}
-                        color='secondary'
+                        variant='secondary'
                         icon={<X className='w-5' />}
                         text='Cancel'
                     />

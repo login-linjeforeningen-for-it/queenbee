@@ -140,13 +140,13 @@ export default function page() {
                     <div className='grid md:flex! items-center justify-between gap-2'>
                         <div className='flex justify-between gap-2'>
                             <Button
-                                color='secondary'
+                                variant='secondary'
                                 text='Example'
                                 icon='+'
                                 onClick={() => setExample(setFormValues)}
                             />
                             <Button
-                                color='secondary'
+                                variant='secondary'
                                 icon={<File className='w-5' />}
                                 path='/nucleus/documentation'
                                 text='Documentation'

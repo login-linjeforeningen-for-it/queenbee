@@ -131,7 +131,7 @@ export default function IncidentsClient({
                     <Button
                         icon={<X className='w-5' />}
                         text='Cancel'
-                        color='secondary'
+                        variant='secondary'
                         onClick={handleCancel}
                     />
                     <div className='relative grid gap-2'>

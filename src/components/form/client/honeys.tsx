@@ -22,7 +22,7 @@ export default function HoneyFormInputsClient({ defaultValues }: { defaultValues
         <div className='grid grid-cols-1 pt-10 relative'>
             <div className='absolute flex flex-row gap-4 w-full justify-end -mt-13'>
                 <Button
-                    color='secondary'
+                    variant='secondary'
                     text='Example'
                     icon='+'
                     onClick={example}
