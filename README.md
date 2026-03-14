@@ -17,7 +17,7 @@ QueenBee is the administrative heart of the bee ecosystem. It serves as a powerf
 
 2. Install dependencies:
    ```bash
-   npm install
+   bun install
    ```
 
 3. Set up environment variables:
@@ -27,7 +27,7 @@ QueenBee is the administrative heart of the bee ecosystem. It serves as a powerf
 
 Run the development server:
 ```bash
-npm run dev
+bun run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

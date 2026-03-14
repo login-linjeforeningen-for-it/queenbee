@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
+    "dev": "bun --bun next dev",
+    "build": "bun --bun next build",
+    "start": "bun --bun next start",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix"
   },
@@ -25,6 +25,7 @@
     "utilbee": "^1.4.1"
   },
   "devDependencies": {
+    "@types/bun": "^1.3.10",
     "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@tailwindcss/postcss": "^4.2.1",
