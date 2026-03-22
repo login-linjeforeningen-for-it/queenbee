@@ -22,7 +22,8 @@ import {
     Server,
     TriangleAlert,
     Waypoints,
-    ShieldOff
+    ShieldOff,
+    ShieldAlert
 } from 'lucide-react'
 import { hexagons7 } from '@lucide/lab'
 import { getCookie } from 'utilbee/utils'
@@ -190,6 +191,11 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
                 { name: 'Map', path: '/internal/traffic/map' },
             ]
         },
+        {
+            name: 'Vulnerabilities',
+            path: '/internal/vulnerabilities',
+            image: <ShieldAlert className='w-6' />
+        }
     ]
 
     return (
