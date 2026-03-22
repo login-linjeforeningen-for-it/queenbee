@@ -35,7 +35,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
             <div className='flex-1 overflow-hidden'>
                 <Table
                     list={list}
-                    headers={['image', 'total', 'vulnerabilityBreakdown', 'groupDependencyBreakdown']}
+                    headers={['image', 'total', 'vulnerability_breakdown', 'group_dependency_breakdown']}
                     hideMenu={true}
                 />
             </div>
@@ -49,8 +49,8 @@ function getRows(data: GetVulnerabilities, query: string) {
         .map((img) => ({
             image: img.image,
             total: img.totalVulnerabilities,
-            vulnerabilityBreakdown: `${img.severity.critical}/${img.severity.high}/${img.severity.medium}/${img.severity.low}`,
-            groupDependencyBreakdown: img.groups
+            vulnerability_breakdown: `${img.severity.critical}/${img.severity.high}/${img.severity.medium}/${img.severity.low}`,
+            group_dependency_breakdown: img.groups
                 .map((g) => {
                     const parts = g.source.split(':')
                     return `${parts[1] || parts[0]}: ${g.severity.critical}/${g.severity.high}/${g.severity.medium}/${g.severity.low}`
