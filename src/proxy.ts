@@ -19,7 +19,7 @@ export async function proxy(req: NextRequest) {
         if (btg) {
             validToken = await btgTokenIsValid(token, btg)
             if (!validToken) {
-                return NextResponse.redirect(new URL('/api/logout', req.url))
+                return NextResponse.redirect(new URL('/api/auth/logout', req.url))
             }
         }
 
@@ -27,7 +27,7 @@ export async function proxy(req: NextRequest) {
             const response = await tokenIsValid(token)
             validToken = response.valid
             if (!validToken) {
-                return NextResponse.redirect(new URL('/api/logout', req.url))
+                return NextResponse.redirect(new URL('/api/auth/logout', req.url))
             }
         }
 
