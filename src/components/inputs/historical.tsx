@@ -39,6 +39,7 @@ export default function HistoricalSwitch({
             checked={value}
             onChange={(e) => handleChange(e.target.checked)}
             switchOnly
+            className='flex-row! w-fit!'
         />
     )
 }
