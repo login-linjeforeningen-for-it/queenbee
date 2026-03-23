@@ -9,7 +9,8 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             { protocol: 'https', hostname: 'cdn.login.no', pathname: '/**' },
         ],
-    }
+    },
+    output: 'standalone'
 }
 
 export default nextConfig
