@@ -24,7 +24,7 @@
 .DS_Store
 *.pem
 
-# Containing credentials, DO NOT REMOVE!! 
+# Containing credentials, DO NOT REMOVE!!
 src/app/config/env.ts
 .env
 # debug

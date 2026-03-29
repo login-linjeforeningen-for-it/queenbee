@@ -83,7 +83,6 @@ declare global {
         time_expire: string
         banner_image: string | null
         application_url: string | null
-
     }
 
     type GetJobProps = Job & {
@@ -484,7 +483,6 @@ declare global {
         location?: 'local' | 'remote'
     }
 
-
     // Other
     type DeleteParamsProps = {
         message: string
@@ -534,17 +532,7 @@ declare global {
 
     type Option = { value: string | number; label: string; image?: string }
 
-    type FormName =
-        | 'event'
-        | 'job'
-        | 'organization'
-        | 'location'
-        | 'rule'
-        | 'announcement'
-        | 'form'
-        | 'album'
-        | 'alert'
-        | 'honey'
+    type FormName = 'event' | 'job' | 'organization' | 'location' | 'rule' | 'announcement' | 'form' | 'album' | 'alert' | 'honey'
 
     type Announcement = {
         id: string
@@ -1114,7 +1102,7 @@ declare global {
         notification: number | null
         maxConsecutiveFailures: number
         port: number | null
-        tags: { id: number, name: string }[]
+        tags: { id: number; name: string }[]
         bars: Bar[]
         certificate?: Certificate | InvalidCertificate
     }
@@ -1163,7 +1151,7 @@ declare global {
         enabled: boolean
         notification: number | null
         port: number | null
-        tags: { id: number, name: string }[]
+        tags: { id: number; name: string }[]
         bars: Bar[]
         url: string
         userAgent: string | null
@@ -1222,7 +1210,7 @@ declare global {
         service: string
     }
 
-    type Entry = { key: string, count?: number, avg_time?: number }
+    type Entry = { key: string; count?: number; avg_time?: number }
 
     type GetParamsProps = {
         type?: string
@@ -1264,4 +1252,4 @@ declare global {
     }
 }
 
-export { }
+export {}

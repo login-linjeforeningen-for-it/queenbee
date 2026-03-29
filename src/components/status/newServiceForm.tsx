@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react'
 import { Plus } from 'lucide-react'
 import postService from '@utils/fetch/status/postService'
-import { Button } from 'uibee/components'
+import { Button, Input, Select, Textarea, Switch } from 'uibee/components'
 
 type NewServiceFormProps = {
     form: NewService
@@ -73,10 +73,10 @@ export default function NewServiceForm({
                 <div className='flex gap-2'>
                     {/* Name */}
                     <div className='w-1/2'>
-                        <label className='block text-sm font-medium'>Name</label>
-                        <input
+                        <Input
+                            name='name'
+                            label='Name'
                             type='text'
-                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.name}
                             onChange={(e) => updateField('name', e.target.value)}
                             required
@@ -85,26 +85,27 @@ export default function NewServiceForm({
 
                     {/* Type */}
                     <div className='w-fit'>
-                        <label className='block text-sm font-medium'>Type</label>
-                        <select
-                            className='w-full rounded bg-login-50/5 px-3 py-2 cursor-pointer'
+                        <Select
+                            name='type'
+                            label='Type'
                             value={form.type}
-                            onChange={(e) => updateField('type', e.target.value as MonitoredServiceType)}
-                        >
-                            <option value='fetch'>Fetch</option>
-                            <option value='post'>Post</option>
-                            <option value='tcp'>TCP</option>
-                        </select>
+                            onChange={(val) => updateField('type', val as MonitoredServiceType)}
+                            options={[
+                                { value: 'fetch', label: 'Fetch' },
+                                { value: 'post', label: 'Post' },
+                                { value: 'tcp', label: 'TCP' }
+                            ]}
+                        />
                     </div>
 
                     {/* Port */}
                     {form.type === 'tcp' && <div className='w-fit'>
-                        <label className='block text-sm font-medium'>Port</label>
-                        <input
+                        <Input
+                            name='port'
+                            label='Port'
                             type='number'
                             max={65565}
                             min={1}
-                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.port}
                             onChange={(e) => updateField('port', Number(e.target.value))}
                         />
@@ -114,10 +115,10 @@ export default function NewServiceForm({
                 <div className='flex gap-2'>
                     {/* URL */}
                     <div className='w-1/2'>
-                        <label className='block text-sm font-medium'>URL</label>
-                        <input
+                        <Input
+                            name='url'
+                            label='URL'
                             type={form.type === 'tcp' ? 'text' : 'url'}
-                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.url}
                             onChange={(e) => updateField('url', e.target.value)}
                         />
@@ -136,11 +137,11 @@ export default function NewServiceForm({
 
                     {/* Interval */}
                     <div className='w-fit'>
-                        <label className='block text-sm font-medium'>Interval (seconds)</label>
-                        <input
+                        <Input
+                            name='interval'
+                            label='Interval (seconds)'
                             type='number'
                             min={1}
-                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.interval}
                             onChange={(e) => updateField('interval', Number(e.target.value))}
                             required
@@ -151,10 +152,10 @@ export default function NewServiceForm({
                 <div className='flex gap-2'>
                     {/* User Agent */}
                     <div className='w-1/2'>
-                        <label className='block text-sm font-medium'>User Agent</label>
-                        <input
+                        <Input
+                            name='userAgent'
+                            label='User Agent'
                             type='text'
-                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.userAgent || ''}
                             onChange={(e) => updateField('userAgent', e.target.value)}
                         />
@@ -162,13 +163,11 @@ export default function NewServiceForm({
 
                     {/* Max consecutive failures */}
                     <div className='w-fit'>
-                        <label className='block text-sm font-medium'>
-                            Max Consecutive Failures
-                        </label>
-                        <input
+                        <Input
+                            name='maxConsecutiveFailures'
+                            label='Max Consecutive Failures'
                             type='number'
                             min={0}
-                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.maxConsecutiveFailures}
                             onChange={(e) =>
                                 updateField('maxConsecutiveFailures', Number(e.target.value))
@@ -180,61 +179,55 @@ export default function NewServiceForm({
 
                 {/* Note */}
                 <div>
-                    <label className='block text-sm font-medium'>Note</label>
-                    <textarea
-                        className='w-full rounded bg-login-50/5 px-3 py-2'
-                        value={form.note}
+                    <Textarea
+                        name='note'
+                        label='Note'
+                        value={form.note || ''}
                         onChange={(e) => updateField('note', e.target.value)}
                     />
                 </div>
 
                 {/* Booleans */}
                 <div className='space-y-2'>
-                    <label className='flex items-center gap-2 cursor-pointer'>
-                        <input
-                            className='cursor-pointer'
-                            type='checkbox'
-                            checked={form.expectedDown}
-                            onChange={(e) => updateField('expectedDown', e.target.checked)}
-                        />
-                        Expected down
-                    </label>
+                    <Switch
+                        name='expectedDown'
+                        label='Expected down'
+                        checked={form.expectedDown}
+                        onChange={(e) => updateField('expectedDown', e.target.checked)}
+                        switchOnly
+                    />
 
-                    <label className='flex items-center gap-2 cursor-pointer'>
-                        <input
-                            className='cursor-pointer'
-                            type='checkbox'
-                            checked={form.upsideDown}
-                            onChange={(e) => updateField('upsideDown', e.target.checked)}
-                        />
-                        Upside down
-                    </label>
+                    <Switch
+                        name='upsideDown'
+                        label='Upside down'
+                        checked={form.upsideDown}
+                        onChange={(e) => updateField('upsideDown', e.target.checked)}
+                        switchOnly
+                    />
 
-                    <label className='flex items-center gap-2 cursor-pointer'>
-                        <input
-                            className='cursor-pointer'
-                            type='checkbox'
-                            checked={form.enabled}
-                            onChange={(e) => updateField('enabled', e.target.checked)}
-                        />
-                        Enabled
-                    </label>
+                    <Switch
+                        name='enabled'
+                        label='Enabled'
+                        checked={form.enabled}
+                        onChange={(e) => updateField('enabled', e.target.checked)}
+                        switchOnly
+                    />
                 </div>
 
                 <div className='w-fit'>
-                    <div className='flex justify-between items-center'>
+                    <div className='flex justify-between items-center mb-1'>
                         <label className='block text-sm font-medium'>Notification</label>
                         <Plus onClick={() => setAddingNotification(true)} className='w-4 h-4 cursor-pointer hover:stroke-login' />
                     </div>
-                    <select
-                        className='w-full rounded bg-login-50/5 px-3 py-2'
-                        value={form.notification || 'None'}
-                        onChange={(e) => updateField('notification', e.target.value)}
-                    >
-                        {notifications.map((notification) =>
-                            <option key={notification.name} value={notification.id}>{notification.name}</option>
-                        )}
-                    </select>
+                    <Select
+                        name='notification'
+                        value={form.notification || ''}
+                        onChange={(val) => updateField('notification', val as string)}
+                        options={[
+                            { value: '', label: 'None' },
+                            ...notifications.map((notification) => ({ value: notification.id, label: notification.name }))
+                        ]}
+                    />
                 </div>
 
                 {!notifications.length && <h1 className='text-sm text-red-500'>

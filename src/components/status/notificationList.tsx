@@ -2,9 +2,9 @@ import getNotifications from '@utils/api/beekeeper/services/getNotifications'
 import deleteNotification from '@utils/fetch/status/deleteNotification'
 import postNotification from '@utils/fetch/status/postNotification'
 import putNotification from '@utils/fetch/status/putNotification'
-import { Save, Trash, X } from 'lucide-react'
+import { Save, Trash, X, Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Button } from 'uibee/components'
+import { Button, Input } from 'uibee/components'
 
 export default function NotificationList({ notifications: serverNotifications }: { notifications: ServiceNotification[] }) {
     const [notifications, setNotifications] = useState(serverNotifications)
@@ -36,9 +36,10 @@ export default function NotificationList({ notifications: serverNotifications }:
         }
     }
 
-    async function handleAdd(e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLElement>) {
-        e.preventDefault()
-        e.stopPropagation()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async function handleAdd(e?: React.SubmitEvent<HTMLFormElement> | React.MouseEvent<HTMLElement> | any) {
+        e?.preventDefault()
+        e?.stopPropagation()
 
         if (!adding) {
             setAdding(true)
@@ -57,7 +58,7 @@ export default function NotificationList({ notifications: serverNotifications }:
         setEditing(true)
     }
 
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
         e.stopPropagation()
         const response = await putNotification({ ...form })
@@ -91,10 +92,10 @@ export default function NotificationList({ notifications: serverNotifications }:
                 <div className='flex gap-2'>
                     {/* Name */}
                     <div className='w-1/2'>
-                        <label className='block text-sm font-medium'>Name</label>
-                        <input
+                        <Input
+                            name='name'
+                            label='Name'
                             type='text'
-                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.name}
                             onChange={(e) => updateField('name', e.target.value)}
                             required
@@ -105,10 +106,10 @@ export default function NotificationList({ notifications: serverNotifications }:
                 <div className='flex gap-2'>
                     {/* Message */}
                     <div className='w-1/2'>
-                        <label className='block text-sm font-medium'>Message</label>
-                        <input
+                        <Input
+                            name='message'
+                            label='Message'
                             type='text'
-                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.message}
                             onChange={(e) => updateField('message', e.target.value)}
                             required
@@ -119,10 +120,10 @@ export default function NotificationList({ notifications: serverNotifications }:
                 <div className='flex gap-2'>
                     {/* Webhook */}
                     <div className='w-1/2'>
-                        <label className='block text-sm font-medium'>Webhook</label>
-                        <input
+                        <Input
+                            name='webhook'
+                            label='Webhook'
                             type='text'
-                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.webhook}
                             onChange={(e) => updateField('webhook', e.target.value)}
                             required
@@ -154,10 +155,10 @@ export default function NotificationList({ notifications: serverNotifications }:
                 <div className='flex gap-2'>
                     {/* Name */}
                     <div className='w-1/2'>
-                        <label className='block text-sm font-medium'>Name</label>
-                        <input
+                        <Input
+                            name='name'
+                            label='Name'
                             type='text'
-                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.name}
                             onChange={(e) => updateField('name', e.target.value)}
                             required
@@ -168,10 +169,10 @@ export default function NotificationList({ notifications: serverNotifications }:
                 <div className='flex gap-2'>
                     {/* Message */}
                     <div className='w-1/2'>
-                        <label className='block text-sm font-medium'>Message</label>
-                        <input
+                        <Input
+                            name='message'
+                            label='Message'
                             type='text'
-                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.message}
                             onChange={(e) => updateField('message', e.target.value)}
                             required
@@ -182,10 +183,10 @@ export default function NotificationList({ notifications: serverNotifications }:
                 <div className='flex gap-2'>
                     {/* Webhook */}
                     <div className='w-1/2'>
-                        <label className='block text-sm font-medium'>Webhook</label>
-                        <input
+                        <Input
+                            name='webhook'
+                            label='Webhook'
                             type='text'
-                            className='w-full rounded bg-login-50/5 px-3 py-2'
                             value={form.webhook}
                             onChange={(e) => updateField('webhook', e.target.value)}
                             required
@@ -211,33 +212,38 @@ export default function NotificationList({ notifications: serverNotifications }:
     }
 
     return (
-        <table className='table-auto w-full border-collapse overflow-hidden'>
-            <thead>
-                <tr className='bg-login-50/5 font-semibold'>
-                    <th className='px-4 py-2 text-left rounded-tl-lg'>ID</th>
-                    <th className='px-4 py-2 text-left'>Name</th>
-                    <th className='px-4 py-2 text-left'>Message</th>
-                    <th className='px-4 py-2 text-left rounded-tr-lg flex justify-between items-center'>
-                        <h1>Webhook</h1>
-                        <h1 onClick={handleAdd} className='rounded cursor-pointer px-2 bg-login-50/5 hover:bg-login-50/20'>+</h1>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {notifications.map((notification) => (
-                    <tr
-                        key={notification.id}
-                        onClick={() => handleEdit(notification)}
-                        className='bg-login-50/5 border-b border-white/5 hover:bg-login-50/5 cursor-pointer'
-                    >
-                        <td className='px-4 py-2'>{notification.id}</td>
-                        <td className='px-4 py-2'>{notification.name}</td>
-                        <td className='px-4 py-2'>{notification.message}</td>
-                        <td className='px-4 py-2 max-w-xs wrap-break-word'>{notification.webhook}</td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
+        <div className='flex flex-col gap-4 bg-login-50/5 p-4 rounded-xl border border-white/5'>
+            <div className='flex justify-between items-center'>
+                <h2 className='text-xl font-semibold'>Notifications</h2>
+                <Button onClick={handleAdd} icon={<Plus className='w-4 h-4' />} text='Add notification' />
+            </div>
 
+            <div className='overflow-x-auto rounded-lg border border-white/5'>
+                <table className='w-full text-sm text-left'>
+                    <thead className='text-xs text-muted-foreground uppercase bg-black/20'>
+                        <tr>
+                            <th className='px-4 py-3 font-medium'>ID</th>
+                            <th className='px-4 py-3 font-medium'>Name</th>
+                            <th className='px-4 py-3 font-medium'>Message</th>
+                            <th className='px-4 py-3 font-medium'>Webhook</th>
+                        </tr>
+                    </thead>
+                    <tbody className='divide-y divide-white/5'>
+                        {notifications.map((notification) => (
+                            <tr
+                                key={notification.id}
+                                onClick={() => handleEdit(notification)}
+                                className='hover:bg-white/5 cursor-pointer transition-colors'
+                            >
+                                <td className='px-4 py-3'>{notification.id}</td>
+                                <td className='px-4 py-3 font-medium text-foreground'>{notification.name}</td>
+                                <td className='px-4 py-3 text-muted-foreground'>{notification.message}</td>
+                                <td className='px-4 py-3 text-muted-foreground break-all max-w-xs'>{notification.webhook}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     )
 }

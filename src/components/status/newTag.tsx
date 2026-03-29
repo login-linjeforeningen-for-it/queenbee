@@ -1,7 +1,7 @@
 import postTag from '@utils/fetch/status/postTag'
 import { X } from 'lucide-react'
 import { Dispatch, SetStateAction, useState } from 'react'
-import { Button } from 'uibee/components'
+import { Button, Input } from 'uibee/components'
 
 type NewTagProps = {
     display: boolean
@@ -50,24 +50,24 @@ export default function NewTag({ display, setAddingTag, setRefresh }: NewTagProp
                 <h1 className='text-2xl font-semibold text-center'>New Tag</h1>
 
                 <div className='grid gap-1'>
-                    <label className='font-medium'>Name</label>
-                    <input
+                    <Input
+                        name='name'
+                        label='Name'
                         type='text'
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder='Tag name'
-                        className='px-3 py-2 rounded-md bg-login-50/5 outline outline-white/20 focus:outline-blue-500'
                         required
                     />
                 </div>
 
                 <div className='grid gap-1'>
-                    <label className='font-medium'>Color</label>
-                    <input
+                    <Input
+                        name='color'
+                        label='Color'
                         type='color'
                         value={color}
                         onChange={(e) => setColor(e.target.value)}
-                        className='w-full h-10 rounded-md cursor-pointer border-none p-0'
                     />
                     <span className='text-sm text-white/50'>Selected color: {color}</span>
                     {error && <span className='text-sm text-red-500'>{error}</span>}

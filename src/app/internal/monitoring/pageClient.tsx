@@ -4,16 +4,17 @@ import EditService from '@components/status/editService'
 import NewService from '@components/status/newService'
 import NewTag from '@components/status/newTag'
 import NotificationList from '@components/status/notificationList'
-import ServiceList from '@components/status/serviceList'
 import ServiceListHeader from '@components/status/serviceListHeader'
 import ServiceStatus from '@components/status/serviceStatus'
 import Statistics from '@components/status/statistics'
 import getNotifications from '@utils/api/beekeeper/services/getNotifications'
 import getServices from '@utils/api/beekeeper/services/getServices'
 import getTags from '@utils/api/beekeeper/services/getTags'
-import { LayoutDashboard, TriangleAlert } from 'lucide-react'
+import { TriangleAlert, Plus, Activity, Edit, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Button } from 'uibee/components'
+import Table from '@components/table/table'
+import barColor from '@utils/status/barColor'
 
 export default function PageClient({
     services: serverServices,
@@ -102,85 +103,182 @@ export default function PageClient({
         }
     }, [refreshNotifications])
 
+    const filteredServices = services.filter(item => {
+        if (input && !item.name.toLowerCase().includes(input.toLowerCase())) return false
+        if (activeFilter !== null && item.enabled !== activeFilter) return false
+
+        let status: 'up' | 'down' | 'maintenance' | 'pending' | null
+        if (item.bars.length) {
+            const lastBar = item.bars[item.bars.length - 1]
+            status = lastBar.status ? 'up' : lastBar.expectedDown ? 'maintenance' : item.maxConsecutiveFailures > 0 ? 'pending' : 'down'
+        } else {
+            status = 'down'
+        }
+
+        if (stateFilter !== null && (!status || !stateFilter.includes(status))) return false
+        if (selectedTags.length) {
+            if (!selectedTags.some(tf => item.tags.some(it => it.name === tf))) return false
+        }
+
+        return true
+    })
+
+    const tableList = filteredServices.map(item => {
+        let status: 'up' | 'down' | 'maintenance' | 'pending' | null
+        if (item.bars.length) {
+            const lastBar = item.bars[item.bars.length - 1]
+            status = lastBar.status ? 'up' : lastBar.expectedDown ? 'maintenance' : item.maxConsecutiveFailures > 0 ? 'pending' : 'down'
+        } else {
+            status = 'down'
+        }
+
+        return {
+            system_table_id: item.id,
+            name: <span className='font-medium text-white'>{item.name}</span>,
+            status: (
+                <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
+                    status === 'up' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+                        status === 'maintenance' ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' :
+                            status === 'pending' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
+                                'bg-red-500/10 text-red-400 border-red-500/20'
+                }`}>
+                    {status}
+                </span>
+            ),
+            history: (
+                <div className='flex gap-1 h-6 items-center'>
+                    {item.bars.map((bar, index) => {
+                        let barStat: 'up' | 'down' | 'maintenance' | 'pending' | null
+                        if (item.enabled && bar.status) barStat = 'up'
+                        else if (item.enabled && !bar.status && bar.expectedDown) barStat = 'maintenance'
+                        else if (item.enabled && !bar.status && item.maxConsecutiveFailures > 0) barStat = 'pending'
+                        else barStat = 'down'
+                        return <div
+                            key={index}
+                            className={`w-1 lg:w-1.5 h-full rounded-full cursor-crosshair hover:scale-110
+                                ${barColor(bar, item.maxConsecutiveFailures, barStat)}`}
+                        />
+                    }).toReversed()}
+                </div>
+            ),
+            uptime: <span className='font-mono'>{Number(item.uptime).toFixed(0)}%</span>,
+            tags: item.tags.map(t => t.name).join(', ') || '-',
+            actions: (
+                <div className='flex gap-2 justify-end' onClick={(e) => { e.stopPropagation(); e.preventDefault() }}>
+                    <button
+                        type='button'
+                        onClick={() => setSelected(item)}
+                        className='p-1.5 hover:bg-white/10 rounded-lg transition-colors group'
+                    >
+                        <Activity className='w-4 h-4 text-muted-foreground group-hover:text-login-200' />
+                    </button>
+                    <button
+                        type='button'
+                        onClick={() => setEditing(item)}
+                        className='p-1.5 hover:bg-white/10 rounded-lg transition-colors group'>
+                        <Edit className='w-4 h-4 text-muted-foreground group-hover:text-login-200' />
+                    </button>
+                </div>
+            )
+        }
+    })
+
     return (
-        <div className='grid lg:grid-cols-7 gap-2'>
+        <div className='h-full overflow-hidden flex flex-col gap-4 relative'>
             <NewTag
                 display={addingTag}
                 setAddingTag={setAddingTag}
                 setRefresh={setRefreshTags}
             />
-            <div className='col-span-3 md:flex! grid gap-2'>
-                <Button text='Add new service' icon='+' onClick={addNewService} />
-                <div className='flex gap-2'>
-                    <Button
-                        text='Notifications'
-                        variant='secondary'
-                        icon={<TriangleAlert />}
-                        onClick={handleViewNotifications}
-                    />
-                    <Button
-                        text='Dashboard'
-                        variant='secondary'
-                        icon={<LayoutDashboard />}
-                        onClick={dashboard}
-                    />
-                </div>
-            </div>
-            <div className='col-span-4'>
-                <h1 className='text-xl font-semibold'>Statistics</h1>
-            </div>
-            <div className='col-span-3 bg-login-50/5 p-2 rounded-lg grid gap-2 max-w-full h-fit'>
-                {/* left side */}
-                <ServiceListHeader
-                    stateFilter={stateFilter}
-                    setStateFilter={setStateFilter}
-                    activeFilter={activeFilter}
-                    setActiveFilter={setActiveFilter}
-                    tags={tags}
-                    setAddingTag={setAddingTag}
-                    setSelectedTags={setSelectedTags}
-                    selectedTags={selectedTags}
-                    input={input}
-                    setInput={setInput}
-                />
 
-                <ServiceList
-                    services={services}
-                    input={input}
-                    activeFilter={activeFilter}
-                    stateFilter={stateFilter}
-                    selectedTags={selectedTags}
-                    setSelected={setSelected}
-                    setAdding={setAdding}
-                    setEditing={setEditing}
-                    setViewNotifications={setViewNotifications}
-                />
-            </div>
-            <div className='col-span-4 rounded-lg grid gap-2 h-fit'>
-                <Statistics services={services} />
-                {adding
-                    ? <NewService
-                        services={services}
-                        service={service}
-                        setService={setService}
-                        notifications={notifications}
-                        setRefresh={setRefresh}
-                        setAdding={setAdding}
-                        setSelected={setSelected}
-                        setRefreshNotifications={setRefreshNotifications}
-                    />
-                    : editing ? null : <ServiceStatus service={services.find((service) => service.name === selected?.name)} />
-                }
-                {editing && <EditService
-                    notifications={notifications}
-                    setRefresh={setRefresh}
-                    setRefreshNotifications={setRefreshNotifications}
-                    service={editing}
-                    setEditing={setEditing}
-                    setSelected={setSelected}
-                />}
-                {viewNotifications && <NotificationList notifications={notifications} />}
-            </div>
+            {(adding || editing || selected || viewNotifications) ? (
+                <div className='flex-1 overflow-y-auto w-full'>
+                    <div className='flex flex-col gap-4 md:px-16 md:py-4'>
+                        <div className='flex justify-start w-full'>
+                            <Button
+                                text='Back to list'
+                                icon={<X className='w-4 h-4' />}
+                                variant='secondary'
+                                onClick={dashboard}
+                            />
+                        </div>
+                        {adding && (
+                            <NewService
+                                services={services}
+                                service={service}
+                                setService={setService}
+                                notifications={notifications}
+                                setRefresh={setRefresh}
+                                setAdding={setAdding}
+                                setSelected={setSelected}
+                                setRefreshNotifications={setRefreshNotifications}
+                            />
+                        )}
+                        {editing && (
+                            <EditService
+                                notifications={notifications}
+                                setRefresh={setRefresh}
+                                setRefreshNotifications={setRefreshNotifications}
+                                service={editing}
+                                setEditing={setEditing}
+                                setSelected={setSelected}
+                            />
+                        )}
+                        {selected && !editing && (
+                            <ServiceStatus service={services.find((s) => s.name === selected?.name)} />
+                        )}
+                        {viewNotifications && (
+                            <NotificationList notifications={notifications} />
+                        )}
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <div className='flex-none'>
+                        <div className='flex w-full justify-between items-start md:items-center'>
+                            <div className='flex gap-2 items-center'>
+                                <h1 className='font-semibold text-lg'>Monitoring</h1>
+                            </div>
+                            <div className='flex flex-wrap gap-2 items-center'>
+                                <Button text='Add new service' icon={<Plus className='w-4 h-4' />} onClick={addNewService} />
+                                <Button
+                                    text='Notifications'
+                                    variant='secondary'
+                                    icon={<TriangleAlert className='w-4 h-4' />}
+                                    onClick={handleViewNotifications}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='flex-none'>
+                        <Statistics services={services} />
+                    </div>
+
+                    <div className='flex-none bg-login-50/5 p-4 rounded-xl border border-white/5'>
+                        <ServiceListHeader
+                            stateFilter={stateFilter}
+                            setStateFilter={setStateFilter}
+                            activeFilter={activeFilter}
+                            setActiveFilter={setActiveFilter}
+                            tags={tags}
+                            setAddingTag={setAddingTag}
+                            setSelectedTags={setSelectedTags}
+                            selectedTags={selectedTags}
+                            input={input}
+                            setInput={setInput}
+                        />
+                    </div>
+
+                    <div className='flex-1 flex flex-col min-h-0 overflow-hidden'>
+                        <Table
+                            list={tableList}
+                            headers={['name', 'status', 'history', 'uptime', 'tags', 'actions']}
+                            hideMenu={true}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     )
 }

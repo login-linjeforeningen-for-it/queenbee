@@ -16,6 +16,7 @@ QueenBee is the administrative heart of the bee ecosystem. It serves as a powerf
 1. Clone the repository:
 
 2. Install dependencies:
+
    ```bash
    bun install
    ```
@@ -26,9 +27,11 @@ QueenBee is the administrative heart of the bee ecosystem. It serves as a powerf
 ### Starting the Development Server
 
 Run the development server:
+
 ```bash
 bun run dev
 ```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## 🐳 Docker Setup

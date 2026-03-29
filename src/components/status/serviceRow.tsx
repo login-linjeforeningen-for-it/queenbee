@@ -15,24 +15,28 @@ export default function ServiceRow({ onClick, service, onEditClick }: ServiceRow
             ? 'bg-[#fd8738]/50 outline-[#fd8738]/70'
             : 'bg-red-500/50 outline-red-500/80'
 
-    function handleEdit(e: React.MouseEvent<HTMLHeadingElement, MouseEvent>) {
+    function handleEdit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         e.preventDefault()
         e.stopPropagation()
         onEditClick()
     }
 
     return (
-        <div onClick={onClick} className='flex gap-2 w-full cursor-pointer hover:bg-login-50/5 select-none group'>
-            <div className='flex gap-2 w-full'>
+        <div
+            onClick={onClick}
+            className='flex items-center gap-4 w-full cursor-pointer hover:bg-login-50/10 select-none group p-3
+                rounded-lg border border-transparent hover:border-white/5 transition-all'
+        >
+            <div className='flex items-center gap-3 w-full'>
                 <h1 className={`
-                    ${uptimeColor} rounded-lg outline px-2 w-14 text-center
-                    text-sm md:text-base
+                    ${uptimeColor} rounded-md outline px-2 py-0.5 w-14 text-center
+                    text-xs font-semibold
                 `}>
                     {Number(service.uptime).toFixed(0)}%
                 </h1>
-                <h1 className='font-semibold overflow-auto noscroll flex-1 w-full text-sm md:text-base'>{service.name}</h1>
+                <h1 className='font-medium truncate flex-1 w-full text-base'>{service.name}</h1>
             </div>
-            <div className='flex gap-1'>
+            <div className='flex gap-1 h-6 items-center'>
                 {service.bars.toReversed().map((bar, index) => {
                     let status: 'up' | 'down' | 'maintenance' | 'pending' | null
                     if (service.enabled && bar.status) {
@@ -59,17 +63,20 @@ export default function ServiceRow({ onClick, service, onEditClick }: ServiceRow
                     return <div
                         key={index}
                         className={`
-                            w-1 md:w-1.5 h-full rounded-lg 
-                            ${barColor(bar, service.maxConsecutiveFailures, status)} 
-                            hover:scale-110 hover:brightness-110
+                            w-1 md:w-1.5 h-full rounded-full
+                            ${barColor(bar, service.maxConsecutiveFailures, status)}
+                            hover:scale-110 hover:brightness-125 transition-transform cursor-crosshair
                         `}
                     />
                 })}
             </div>
-            <h1
-                className='hidden group-hover:grid px-4 place-items-center rounded outline outline-white/30 bg-login-50/5 text-xs'
+            <button
+                className='hidden group-hover:flex px-3 py-1 items-center justify-center rounded-lg border border-white/10 bg-black/20
+                    text-xs font-medium text-muted-foreground hover:bg-white/10 hover:text-white transition-colors'
                 onClick={handleEdit}
-            >Edit</h1>
+            >
+                Edit
+            </button>
         </div>
     )
 }

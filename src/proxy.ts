@@ -31,10 +31,10 @@ export async function proxy(req: NextRequest) {
             }
         }
 
-        if(req.nextUrl.pathname.startsWith('/internal')) {
+        if (req.nextUrl.pathname.startsWith('/internal')) {
             const response = await tokenIsValid(token)
             const groups = response.groups || []
-            const lowerGroups = groups.map(g => g.toLowerCase())
+            const lowerGroups = groups.map((g) => g.toLowerCase())
             if (!lowerGroups.includes('tekkom')) {
                 return NextResponse.redirect(new URL('/dashboard', req.url))
             }
@@ -74,13 +74,13 @@ async function tokenIsValid(token: string): Promise<{ valid: boolean; groups?: s
         })
 
         if (!userInfo.ok) {
-            return { valid: false}
+            return { valid: false }
         }
 
         const data = await userInfo.json()
 
         if (!Array.isArray(data.groups) || !data.groups.map((g: string) => g.toLowerCase()).includes('queenbee')) {
-            return { valid: false}
+            return { valid: false }
         }
 
         return { valid: true, groups: data.groups }
@@ -90,7 +90,7 @@ async function tokenIsValid(token: string): Promise<{ valid: boolean; groups?: s
             stack: (error as Error).stack,
         })
 
-        return { valid: false}
+        return { valid: false }
     }
 }
 
@@ -101,7 +101,7 @@ async function btgTokenIsValid(token: string, name: string): Promise<boolean> {
                 Authorization: `Bearer ${token}`,
                 name,
                 btg: 'queenbee-btg',
-                middleware: 'true'
+                middleware: 'true',
             },
             signal: AbortSignal.timeout(3000),
         })

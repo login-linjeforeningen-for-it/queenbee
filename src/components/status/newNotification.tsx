@@ -1,7 +1,7 @@
 import postNotification from '@utils/fetch/status/postNotification'
 import { X } from 'lucide-react'
 import { Dispatch, SetStateAction, useState } from 'react'
-import { Button } from 'uibee/components'
+import { Button, Input } from 'uibee/components'
 
 type NewTagProps = {
     display: boolean
@@ -52,36 +52,36 @@ export default function NewNotification({ display, setAddingNotification, setRef
                 <h1 className='text-2xl font-semibold text-center'>New Notification</h1>
 
                 <div className='grid gap-1'>
-                    <label className='font-medium'>Name</label>
-                    <input
+                    <Input
+                        name='name'
+                        label='Name'
                         type='text'
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder='beehive'
-                        className='px-3 py-2 rounded-md bg-login-50/5 outline outline-white/20 focus:outline-blue-500'
                         required
                     />
                 </div>
 
                 <div className='grid gap-1'>
-                    <label className='font-medium flex gap-2'>Message <h1 className='text-white/30'>(@role Website down!)</h1></label>
-                    <input
+                    <Input
+                        name='message'
+                        label='Message (@role Website down!)'
                         type='text'
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder='@Frontend'
-                        className='px-3 py-2 rounded-md bg-login-50/5 outline outline-white/20 focus:outline-blue-500'
                     />
                 </div>
 
                 <div className='grid gap-1'>
-                    <label className='font-medium'>Webhook</label>
-                    <input
+                    <Input
+                        name='webhook'
+                        label='Webhook'
                         type='text'
                         value={webhook}
                         onChange={(e) => setWebhook(e.target.value)}
                         placeholder='discord.com/webhooks/abc/def'
-                        className='px-3 py-2 rounded-md bg-login-50/5 outline outline-white/20 focus:outline-blue-500'
                         required
                     />
                     {(!webhook.startsWith('https://') || webhook.includes('https://.') || !(webhook.includes('.com') || webhook.includes('.no')))

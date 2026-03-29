@@ -1,6 +1,7 @@
 import { Search } from 'lucide-react'
 import MultiSelect from './multiSelect'
 import { Dispatch, SetStateAction } from 'react'
+import { Input, Select } from 'uibee/components'
 
 type ServiceListHeaderProps = {
     stateFilter: string[] | null
@@ -34,48 +35,51 @@ export default function ServiceListHeader({
     }
 
     return (
-        <div className='flex gap-2 h-fit'>
-            <MultiSelect
-                options={[
-                    { label: 'Up', value: 'up' },
-                    { label: 'Down', value: 'down' },
-                    { label: 'Pending', value: 'pending' },
-                    { label: 'Maintenance', value: 'maintenance' }
-                ]}
-                value={stateFilter ?? []}
-                onChange={(values: string[]) => setStateFilter(values.length ? values : null)}
-                placeholder='Status'
-            />
-            <select
-                className='px-2 py-0.5 rounded-lg '
-                value={activeFilter === null ? '' : String(activeFilter)}
-                onChange={(e) =>
-                    setActiveFilter(
-                        e.target.value === '' ? null : e.target.value === 'true'
-                    )
-                }
-            >
-                <option value=''>All</option>
-                <option value='true'>Active</option>
-                <option value='false'>Inactive</option>
-            </select>
-            <MultiSelect
-                options={tags.map((tag) => ({
-                    label: tag.name,
-                    value: tag.name,
-                }))}
-                value={selectedTags}
-                onChange={setSelectedTags}
-                placeholder='Tags'
-                plusAction={addTag}
-            />
-            <div className='flex rounded-lg bg-login-50/5 outline outline-white/20 items-center px-2 w-fit'>
-                <Search className='h-4 w-4' />
-                <input
+        <div className='flex flex-col xl:flex-row justify-between gap-3 w-full'>
+            <div className='flex flex-wrap gap-2'>
+                <MultiSelect
+                    options={[
+                        { label: 'Up', value: 'up' },
+                        { label: 'Down', value: 'down' },
+                        { label: 'Pending', value: 'pending' },
+                        { label: 'Maintenance', value: 'maintenance' }
+                    ]}
+                    value={stateFilter ?? []}
+                    onChange={(values: string[]) => setStateFilter(values.length ? values : null)}
+                    placeholder='Status'
+                />
+                <Select
+                    name='activeFilter'
+                    value={activeFilter === null ? '' : String(activeFilter)}
+                    onChange={(val) =>
+                        setActiveFilter(
+                            val === '' ? null : val === 'true'
+                        )
+                    }
+                    options={[
+                        { value: '', label: 'All' },
+                        { value: 'true', label: 'Active' },
+                        { value: 'false', label: 'Inactive' }
+                    ]}
+                />
+                <MultiSelect
+                    options={tags.map((tag) => ({
+                        label: tag.name,
+                        value: tag.name,
+                    }))}
+                    value={selectedTags}
+                    onChange={setSelectedTags}
+                    placeholder='Tags'
+                    plusAction={addTag}
+                />
+            </div>
+            <div className='flex-1 xl:flex-none w-full xl:w-64'>
+                <Input
+                    name='search'
                     placeholder='Search..'
-                    className='w-full rounded-lg px-2'
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
+                    icon={<Search className='h-4 w-4 text-muted-foreground' />}
                 />
             </div>
         </div>
