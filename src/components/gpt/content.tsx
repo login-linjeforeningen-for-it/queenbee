@@ -15,13 +15,11 @@ export default function GPT_Content({ clients }: { clients: GPT_Client[] }) {
     }
 
     return (
-        <div className='space-y-4'>
-            <div className='grid gap-4 xl:grid-cols-[minmax(0,1fr)_22rem]'>
-                <div className='grid gap-4 md:grid-cols-3'>
-                    <SummaryCard title='RAM load' icon={<MemoryStick className='h-4 w-4' />} metric={totalLoad.ram} />
-                    <SummaryCard title='CPU load' icon={<Cpu className='h-4 w-4' />} metric={totalLoad.cpu} />
-                    <SummaryCard title='GPU load' icon={<HardDrive className='h-4 w-4' />} metric={totalLoad.gpu} />
-                </div>
+        <div className='w-full space-y-4'>
+            <div className='grid w-full gap-4 md:grid-cols-2 xl:grid-cols-4'>
+                <SummaryCard title='RAM load' icon={<MemoryStick className='h-4 w-4' />} metric={totalLoad.ram} />
+                <SummaryCard title='CPU load' icon={<Cpu className='h-4 w-4' />} metric={totalLoad.cpu} />
+                <SummaryCard title='GPU load' icon={<HardDrive className='h-4 w-4' />} metric={totalLoad.gpu} />
                 <div className='rounded-2xl border border-login-100/10 bg-login-900/50 p-4'>
                     <div className='flex items-center justify-between'>
                         <div>
@@ -38,7 +36,7 @@ export default function GPT_Content({ clients }: { clients: GPT_Client[] }) {
                 </div>
             </div>
 
-            <div className='space-y-3'>
+            <div className='w-full rounded-2xl border border-login-100/10 bg-login-900/50 p-4 space-y-4'>
                 <div className='flex items-center justify-between'>
                     <h2 className='text-lg font-semibold text-login-50'>Clients</h2>
                     <span
@@ -48,7 +46,7 @@ export default function GPT_Content({ clients }: { clients: GPT_Client[] }) {
                         Live telemetry
                     </span>
                 </div>
-                <div className='grid gap-4'>
+                <div className='grid w-full gap-4'>
                     {clients.map((client) => <DisplayClient key={client.name} client={client} />)}
                 </div>
             </div>

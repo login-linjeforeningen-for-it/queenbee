@@ -70,9 +70,9 @@ export default function GPT_Page() {
     }, [isConnected])
 
     return (
-        <div className='h-full overflow-y-auto noscroll'>
-            <div className='flex flex-col gap-4 pb-4'>
-                <div className='rounded-2xl p-5 shadow-[0_20px_60px_rgba(0,0,0,0.25)]'>
+        <div className='h-full w-full overflow-y-auto noscroll'>
+            <div className='flex w-full flex-col gap-4 pb-4'>
+                <div className='w-full rounded-2xl p-5'>
                     <div className='flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between'>
                         <div>
                             <h1 className='font-semibold text-lg'>AI (Login GPT)</h1>
@@ -111,7 +111,7 @@ export default function GPT_Page() {
                 {clients.length ? (
                     <GPT_Content clients={clients} />
                 ) : (
-                    <div className='px-6 py-10 text-center'>
+                    <div className='w-full rounded-2xl px-6 py-10 text-center'>
                         <div className='mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-login-50/5 text-login'>
                             <Bot className='h-6 w-6' />
                         </div>
