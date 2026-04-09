@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import VulnerabilityView from '@components/vulnerabilities/view'
 import useExpandedImages from '@components/vulnerabilities/useExpandedImages'
 import usePageState from '@components/vulnerabilities/usePageState'
@@ -14,6 +15,18 @@ export default function PageClient(props: PageClientProps) {
     const sorting = useSortedImages(data, props.initialQuery)
     const expansion = useExpandedImages(sorting.images)
     const notice = useScanNotice(scanStatus)
+
+    useEffect(() => {
+        if (!scanStatus.isRunning) {
+            return
+        }
+
+        const intervalId = setInterval(() => {
+            void refresh()
+        }, 3000)
+
+        return () => clearInterval(intervalId)
+    }, [refresh, scanStatus.isRunning])
 
     return (
         <VulnerabilityView
