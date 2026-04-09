@@ -12,7 +12,7 @@ export default function ImageCard({
     onToggle: () => void
 }) {
     return (
-        <section className='w-full rounded-2xl border border-login-100/10 bg-login-900/55 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.2)]'>
+        <section className='w-full rounded-2xl border border-login-100/10 bg-login-900/55 p-5'>
             <ImageSummary image={image} isExpanded={isExpanded} onToggle={onToggle} />
             {isExpanded ? <ImageDetails image={image} /> : null}
         </section>

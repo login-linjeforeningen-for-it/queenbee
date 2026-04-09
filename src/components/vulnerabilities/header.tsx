@@ -20,7 +20,7 @@ type Props = Pick<PageClientProps, 'runScanAction'> & Pick<VulnerabilityPageStat
 
 export default function VulnerabilityHeader(props: Props) {
     return (
-        <header className='w-full rounded-2xl border border-login-100/10 bg-login-900/60 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.2)]'>
+        <header className='w-full rounded-2xl border border-login-100/10 bg-login-900/60 p-5'>
             <SummaryGrid data={props.data} scanStatus={props.scanStatus} />
             <ScanToolbar {...props} />
             {props.notice.scanNotice && (
