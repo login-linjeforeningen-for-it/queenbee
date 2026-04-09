@@ -1256,6 +1256,7 @@ declare global {
         ram: GPT_RAM[]
         cpu: GPT_CPU[]
         gpu: GPT_GPU[]
+        model: GPT_ModelMetrics
     }
 
     type GPT_RAM = {
@@ -1271,6 +1272,32 @@ declare global {
     type GPT_GPU = {
         name: string
         load: number
+    }
+
+    type GPT_ModelStatus = 'idle' | 'preparing' | 'generating' | 'error'
+
+    type GPT_ModelMetrics = {
+        conversationId: string | null
+        status: GPT_ModelStatus
+        currentTokens: number
+        maxTokens: number
+        promptTokens: number
+        generatedTokens: number
+        contextTokens: number
+        contextMaxTokens: number
+        tps: number
+        lastUpdated: string | null
+        lastError: string | null
+    }
+
+    type GPT_ChatRole = 'system' | 'user' | 'assistant'
+
+    type GPT_ChatMessage = {
+        id: string
+        role: GPT_ChatRole
+        content: string
+        pending?: boolean
+        error?: boolean
     }
 }
 

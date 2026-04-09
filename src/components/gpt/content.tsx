@@ -1,25 +1,36 @@
 import type { ReactNode } from 'react'
-import { Bot, Cpu, HardDrive, MemoryStick } from 'lucide-react'
+import { Bot, Cpu, Gauge, HardDrive, MemoryStick } from 'lucide-react'
 import DisplayClient from './displayClient'
 import Metric from './metric'
 
-export default function GPT_Content({ clients }: { clients: GPT_Client[] }) {
+export default function GPT_Content({
+    clients,
+    onTestClient,
+}: {
+    clients: GPT_Client[]
+    onTestClient: (client: GPT_Client) => void
+}) {
     const averageLoad = (values: number[]) => values.length
         ? Math.ceil(values.reduce((sum, value) => sum + value, 0) / values.length)
+        : 0
+    const averageValue = (values: number[]) => values.length
+        ? values.reduce((sum, value) => sum + value, 0) / values.length
         : 0
 
     const totalLoad = {
         ram: averageLoad(clients.map(client => averageLoad(client.ram.map(ram => ram.load * 100)))),
         cpu: averageLoad(clients.map(client => averageLoad(client.cpu.map(cpu => cpu.load * 100)))),
         gpu: averageLoad(clients.map(client => averageLoad(client.gpu.map(gpu => gpu.load * 100)))),
+        tps: averageValue(clients.map(client => client.model.tps || 0)),
     }
 
     return (
         <div className='w-full space-y-4'>
-            <div className='grid w-full gap-4 md:grid-cols-2 xl:grid-cols-4'>
+            <div className='grid w-full gap-4 md:grid-cols-2 xl:grid-cols-5'>
                 <SummaryCard title='RAM load' icon={<MemoryStick className='h-4 w-4' />} metric={totalLoad.ram} />
                 <SummaryCard title='CPU load' icon={<Cpu className='h-4 w-4' />} metric={totalLoad.cpu} />
                 <SummaryCard title='GPU load' icon={<HardDrive className='h-4 w-4' />} metric={totalLoad.gpu} />
+                <ThroughputCard tps={totalLoad.tps} />
                 <div className='rounded-2xl border border-login-100/10 bg-login-900/50 p-4'>
                     <div className='flex items-center justify-between'>
                         <div>
@@ -47,7 +58,13 @@ export default function GPT_Content({ clients }: { clients: GPT_Client[] }) {
                     </span>
                 </div>
                 <div className='grid w-full gap-4'>
-                    {clients.map((client) => <DisplayClient key={client.name} client={client} />)}
+                    {clients.map((client) => (
+                        <DisplayClient
+                            key={client.name}
+                            client={client}
+                            onTestClient={onTestClient}
+                        />
+                    ))}
                 </div>
             </div>
         </div>
@@ -68,6 +85,23 @@ function SummaryCard({ title, icon, metric }: { title: string, icon: ReactNode, 
                         className='h-full rounded-full bg-login transition-[width]'
                         style={{ width: `${Math.min(metric, 100)}%` }}
                     />
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function ThroughputCard({ tps }: { tps: number }) {
+    return (
+        <div className='rounded-2xl border border-login-100/10 bg-login-900/50 p-4'>
+            <div className='flex items-center justify-between text-login-200'>
+                <span className='text-xs font-medium uppercase tracking-[0.18em]'>Throughput</span>
+                <Gauge className='h-4 w-4' />
+            </div>
+            <div className='mt-3 flex items-end justify-between gap-4'>
+                <span className='text-2xl font-semibold text-login-50'>{tps.toFixed(1)} TPS</span>
+                <div className='text-right text-xs uppercase tracking-[0.18em] text-login-200'>
+                    Live generation
                 </div>
             </div>
         </div>
