@@ -1,312 +1,480 @@
 import RelatedContainer from '@components/container/relatedContainer'
 import smartDate from '@utils/date/smartDate'
+import {
+    Activity,
+    AlignLeft,
+    Box,
+    Cable,
+    Command,
+    Cpu,
+    FileCode2,
+    FileText,
+    HardDrive,
+    Logs,
+    Network,
+    Shield,
+    ScrollText,
+    Server,
+} from 'lucide-react'
 
 const MB = 1048576
 
-export default function page({ data }: { data: DockerContainer }) {
-    const title = 'font-semibold text-lg'
-    const section = 'bg-login-50/5 rounded-lg p-2 space-y-2 space-x-2'
-    const box = 'bg-login-50/5 rounded-lg p-2 w-full overflow-auto'
-    const boxTitle = 'text-sm'
-    const maxCount = data.container.details.HostConfig.RestartPolicy.MaximumRetryCount
-    const restartPolicyDetails = !maxCount ? '(∞ attempts)' : `(Max ${maxCount} attempts)`
+function formatBool(value: boolean) {
+    return value ? 'Yes' : 'No'
+}
+
+function formatValue(value: unknown, fallback = 'Not set') {
+    if (value === null || value === undefined || value === '') {
+        return fallback
+    }
+
+    if (Array.isArray(value)) {
+        return value.length ? value.join(', ') : fallback
+    }
+
+    return String(value)
+}
+
+function formatMegabytes(value: number) {
+    if (!value) {
+        return '0 MB'
+    }
+
+    return `${(value / MB).toFixed(value >= MB * 10 ? 0 : 1)} MB`
+}
+
+function Section({
+    title,
+    subtitle,
+    icon: Icon,
+    children,
+    className = '',
+    accent = 'slate',
+}: {
+    title: string
+    subtitle?: string
+    icon: typeof Server
+    children: React.ReactNode
+    className?: string
+    accent?: 'blue' | 'emerald' | 'amber' | 'rose' | 'violet' | 'cyan' | 'slate'
+}) {
+    const accentMap = {
+        blue: 'from-sky-500/20 to-blue-500/5 border-sky-400/20 text-sky-200',
+        emerald: 'from-emerald-500/20 to-green-500/5 border-emerald-400/20 text-emerald-200',
+        amber: 'from-amber-500/20 to-orange-500/5 border-amber-400/20 text-amber-200',
+        rose: 'from-rose-500/20 to-red-500/5 border-rose-400/20 text-rose-200',
+        violet: 'from-violet-500/20 to-fuchsia-500/5 border-violet-400/20 text-violet-200',
+        cyan: 'from-cyan-500/20 to-sky-500/5 border-cyan-400/20 text-cyan-200',
+        slate: 'from-login-50/10 to-login-50/5 border-login-100/10 text-login-100',
+    } as const
 
     return (
-        <div className='w-full h-full overflow-auto space-y-2'>
-            <h1 className='font-semibold text-lg'>Container {data.container.name} ({data.container.id})</h1>
-            <div className='grid gap-2 grid-cols-2'>
-                <div className={section}>
-                    <h1 className={title}>Overview</h1>
-                    <div className='space-y-2'>
-                        <div className='grid grid-cols-3 gap-2'>
-                            <div className={box}>
-                                <h1 className={boxTitle}>Service</h1>
-                                <h1>{data.service}</h1>
-                            </div>
-                            <div className={box}>
-                                <h1 className={boxTitle}>ID</h1>
-                                <h1>{data.container.id}</h1>
-                            </div>
-                            <div className={box}>
-                                <h1 className={boxTitle}>Name</h1>
-                                <h1>{data.container.name}</h1>
-                            </div>
-                            <div className={box}>
-                                <h1 className={boxTitle}>Status</h1>
-                                <h1>{data.container.status}</h1>
-                            </div>
-                            <div className={box}>
-                                <h1>Uptime</h1>
-                                <h1>{data.container.uptime}</h1>
-                            </div>
-                            <div className={box}>
-                                <h1>Pid</h1>
-                                <h1>{data.container.details.State.Pid}</h1>
-                            </div>
-                            <div className={box}>
-                                <h1>Created</h1>
-                                <h1>{smartDate(data.container.details.Created)}</h1>
-                            </div>
-                            <div className={box}>
-                                <h1>Platform</h1>
-                                <h1>{data.container.details.Platform}</h1>
-                            </div>
+        <section
+            className={`
+                w-full rounded-2xl border border-login-100/10 bg-login-900/55 p-5
+                shadow-[0_20px_60px_rgba(0,0,0,0.2)] ${className}
+            `}
+        >
+            <div className='mb-4 flex items-start gap-3'>
+                <div
+                    className={`
+                        flex h-11 w-11 shrink-0 items-center justify-center rounded-full border
+                        bg-linear-to-br ${accentMap[accent]}
+                    `}
+                >
+                    <Icon className='h-5 w-5' />
+                </div>
+                <div>
+                    <h2 className='font-semibold text-login-50 text-lg'>{title}</h2>
+                    {subtitle && <p className='mt-1 text-sm text-login-100'>{subtitle}</p>}
+                </div>
+            </div>
+            {children}
+        </section>
+    )
+}
+
+function StatCard({
+    label,
+    value,
+    mono = false,
+    tone = 'default',
+}: {
+    label: string
+    value: React.ReactNode
+    mono?: boolean
+    tone?: 'default' | 'good' | 'warn'
+}) {
+    const toneClasses = tone === 'good'
+        ? 'text-emerald-300'
+        : tone === 'warn'
+            ? 'text-amber-300'
+            : 'text-login-50'
+
+    return (
+        <div className='rounded-xl border border-login-100/10 bg-login-50/5 p-4'>
+            <div className='text-[11px] font-medium uppercase tracking-[0.18em] text-login-200'>
+                {label}
+            </div>
+            <div className={`mt-3 wrap-break-word text-sm font-medium ${toneClasses} ${mono ? 'font-mono' : ''}`}>
+                {value}
+            </div>
+        </div>
+    )
+}
+
+function CodePanel({
+    title,
+    content,
+    className = '',
+    tone = 'slate',
+    numbered = false,
+}: {
+    title: string
+    content: string
+    className?: string
+    tone?: 'blue' | 'emerald' | 'amber' | 'rose' | 'violet' | 'cyan' | 'slate'
+    numbered?: boolean
+}) {
+    const toneMap = {
+        blue: 'border-sky-400/15 bg-sky-950/25',
+        emerald: 'border-emerald-400/15 bg-emerald-950/25',
+        amber: 'border-amber-400/15 bg-amber-950/25',
+        rose: 'border-rose-400/15 bg-rose-950/25',
+        violet: 'border-violet-400/15 bg-violet-950/25',
+        cyan: 'border-cyan-400/15 bg-cyan-950/25',
+        slate: 'border-login-100/10 bg-login-950/60',
+    } as const
+
+    const lines = numbered ? content.split('\n') : null
+
+    return (
+        <div className={`rounded-xl border ${toneMap[tone]} ${className}`}>
+            <div
+                className='border-b border-login-100/10 px-4 py-3 text-[11px] font-medium uppercase
+                    tracking-[0.18em] text-login-200'
+            >
+                {title}
+            </div>
+            {numbered && lines ? (
+                <div className='max-h-128 overflow-auto px-4 py-4 font-mono text-[12px] leading-6'>
+                    {lines.map((line, index) => (
+                        <div key={`${title}-${index}`} className='grid grid-cols-[3rem_1fr] gap-3'>
+                            <span className='select-none text-right text-login-300/60'>{index + 1}</span>
+                            <span className='whitespace-pre-wrap wrap-break-word text-login-50'>{line || ' '}</span>
                         </div>
+                    ))}
+                </div>
+            ) : (
+                <pre
+                    className='max-h-128 overflow-auto whitespace-pre-wrap wrap-break-word px-4 py-4
+                        font-mono text-[12px] leading-6 text-login-50'
+                >
+                    {content}
+                </pre>
+            )}
+        </div>
+    )
+}
+
+export default function page({ data }: { data: DockerContainer }) {
+    const { container, related, service } = data
+    const { details } = container
+    const maxCount = details.HostConfig.RestartPolicy.MaximumRetryCount
+    const restartPolicyDetails = !maxCount ? 'Unlimited retries' : `Max ${maxCount} retries`
+    const logs = container.logs.length ? container.logs.join('\n') : 'No recent logs.'
+    const env = details.Config.Env.length ? details.Config.Env.join('\n') : 'No environment variables.'
+    const labels = JSON.stringify(details.Config.Labels, null, 2)
+    const ports = JSON.stringify(details.NetworkSettings.Ports, null, 2)
+    const exposedPorts = JSON.stringify(details.Config.ExposedPorts, null, 2)
+    const portBindings = JSON.stringify(details.HostConfig.PortBindings, null, 2)
+    const networks = JSON.stringify(details.NetworkSettings.Networks, null, 2)
+    const graphDriver = JSON.stringify(details.GraphDriver.Data, null, 2)
+    const mounts = JSON.stringify(details.Mounts, null, 2)
+    const command = [
+        details.Path,
+        ...details.Args,
+    ].filter(Boolean).join(' ')
+    const entrypoint = formatValue(details.Config.Entrypoint, 'Default entrypoint')
+    const cmd = formatValue(details.Config.Cmd, 'No explicit command')
+    const paths = [
+        `ResolvConfPath: ${formatValue(details.ResolvConfPath)}`,
+        `HostnamePath: ${formatValue(details.HostnamePath)}`,
+        `HostsPath: ${formatValue(details.HostsPath)}`,
+        `LogPath: ${formatValue(details.LogPath)}`,
+    ].join('\n')
+    const raw = JSON.stringify(data, null, 2)
+
+    return (
+        <div className='h-full w-full overflow-y-auto'>
+            <div className='flex w-full flex-col gap-4 pb-4'>
+                <Section
+                    title={`Container ${container.name}`}
+                    subtitle='Detailed runtime, resource, networking, and log information for this service container.'
+                    icon={Server}
+                    accent='blue'
+                >
+                    <div className='grid gap-3 sm:grid-cols-2 xl:grid-cols-4'>
+                        <StatCard label='Service' value={service} />
+                        <StatCard label='Container ID' value={container.id} mono />
+                        <StatCard
+                            label='Status'
+                            value={container.status}
+                            tone={container.status.toLowerCase().includes('up') ? 'good' : 'warn'}
+                        />
+                        <StatCard label='Uptime' value={container.uptime} />
+                        <StatCard label='Platform' value={formatValue(details.Platform)} />
+                        <StatCard label='PID' value={details.State.Pid} />
+                        <StatCard label='Created' value={smartDate(details.Created)} />
+                        <StatCard label='Image' value={details.Image} mono />
                     </div>
-                </div>
-                <div className={section}>
-                    <h1 className={title}>Related Containers {data.related.length && `(${data.related.length})`}</h1>
-                    {!data.related.length && <h1>This is a standalone service.</h1>}
-                    {data.related.map((container) => <RelatedContainer key={container.id} container={container} />)}
-                </div>
-                <div className={section}>
-                    <h1 className={title}>Details</h1>
-                    <h1>Details</h1>
-                    <div className='grid grid-cols-3 gap-2'>
-                        <div className={box}>
-                            <h1>Full ID</h1>
-                            <h1>{data.container.details.Id}</h1>
+                </Section>
+
+                <div className='grid gap-4 xl:grid-cols-[1.2fr_0.8fr]'>
+                    <Section
+                        title='Runtime Overview'
+                        subtitle='High-level container state and restart behavior.'
+                        icon={Activity}
+                        accent='emerald'
+                    >
+                        <div className='grid gap-3 md:grid-cols-2 xl:grid-cols-3'>
+                            <StatCard label='State' value={details.State.Status} />
+                            <StatCard label='Restart Policy' value={`${details.HostConfig.RestartPolicy.Name} • ${restartPolicyDetails}`} />
+                            <StatCard label='Restart Count' value={details.RestartCount} />
+                            <StatCard label='Running' value={formatBool(details.State.Running)} />
+                            <StatCard label='Paused' value={formatBool(details.State.Paused)} />
+                            <StatCard label='Restarting' value={formatBool(details.State.Restarting)} />
+                            <StatCard label='OOM Killed' value={formatBool(details.State.OOMKilled)} />
+                            <StatCard label='Dead' value={formatBool(details.State.Dead)} />
+                            <StatCard label='Exit Code' value={details.State.ExitCode} />
+                            <StatCard label='Started At' value={smartDate(details.State.StartedAt)} />
+                            <StatCard label='Finished At' value={smartDate(details.State.FinishedAt)} />
+                            <StatCard label='Last Error' value={formatValue(details.State.Error, 'No runtime error')} />
                         </div>
-                        <div className={box}>
-                            <h1>Args</h1>
-                            <h1>{data.container.details.Args.join(' ')}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Status</h1>
-                            <h1>{data.container.details.State.Status}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Working Directory</h1>
-                            <h1>{data.container.details.Config.WorkingDir}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Restart Policy</h1>
-                            <div className='flex gap-1'>
-                                <span>{data.container.details.HostConfig.RestartPolicy.Name}</span>
-                                <span>{restartPolicyDetails}</span>
+                    </Section>
+
+                    <Section
+                        title='Related Containers'
+                        subtitle='Sibling containers detected from the same service prefix.'
+                        icon={Box}
+                        accent='violet'
+                    >
+                        {related.length ? (
+                            <div className='flex flex-col gap-3'>
+                                {related.map((item) => <RelatedContainer key={item.id} container={item} />)}
                             </div>
-                        </div>
-                        <div className={box}>
-                            <h1>Restart Count</h1>
-                            <h1>{data.container.details.RestartCount}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Exit Code</h1>
-                            <h1>{data.container.details.State.ExitCode}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Image</h1>
-                            <h1>{data.container.details.Image}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Driver</h1>
-                            <h1>{data.container.details.Driver}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Network Mode</h1>
-                            <h1>{data.container.details.HostConfig.NetworkMode}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Image Size</h1>
-                            <h1>{data.container.details.HostConfig.ShmSize / MB}MB</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Running</h1>
-                            <h1>{data.container.details.State.Running}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Paused</h1>
-                            <h1>{data.container.details.State.Paused}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Restarting</h1>
-                            <h1>{data.container.details.State.Restarting}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>OOM Killed</h1>
-                            <h1>{data.container.details.State.OOMKilled}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Dead</h1>
-                            <h1>{data.container.details.State.Dead}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Error</h1>
-                            <h1>{data.container.details.State.Error}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Pids Limit</h1>
-                            <h1>{data.container.details.HostConfig.PidsLimit || 'Unlimited'}</h1>
-                        </div>
-                    </div>
+                        ) : (
+                            <div className='rounded-xl border border-login-100/10 bg-login-50/5 px-4 py-6 text-sm text-login-100'>
+                                This service appears to run as a standalone container.
+                            </div>
+                        )}
+                    </Section>
                 </div>
-                <div className={section}>
-                    <h1 className={title}>Metrics</h1>
-                    <h1>Memory</h1>
-                    <div className='grid grid-cols-3 gap-2'>
-                        <div className={box}>
-                            <h1>Memory</h1>
-                            <h1>{data.container.details.HostConfig.Memory}</h1>
+
+                <div className='grid gap-4 xl:grid-cols-2'>
+                    <Section
+                        title='Configuration'
+                        subtitle='Core runtime and image configuration values.'
+                        icon={ScrollText}
+                        accent='amber'
+                    >
+                        <div className='grid gap-3 md:grid-cols-2'>
+                            <StatCard label='Full ID' value={details.Id} mono />
+                            <StatCard label='Name' value={container.name} />
+                            <StatCard label='Driver' value={details.Driver} />
+                            <StatCard label='Network Mode' value={details.HostConfig.NetworkMode} />
+                            <StatCard label='Working Directory' value={formatValue(details.Config.WorkingDir)} mono />
+                            <StatCard label='TTY Enabled' value={formatBool(details.Config.Tty)} />
+                            <StatCard label='PIDs Limit' value={formatValue(details.HostConfig.PidsLimit, 'Unlimited')} />
+                            <StatCard label='Ulimits' value={formatValue(details.HostConfig.Ulimits, 'Default')} />
+                            <StatCard label='Sandbox ID' value={formatValue(details.NetworkSettings.SandboxID)} mono />
+                            <StatCard label='Sandbox Key' value={formatValue(details.NetworkSettings.SandboxKey)} mono />
+                            <StatCard label='Mounts' value={formatValue(details.Mounts, 'No mounts')} />
+                            <StatCard label='Arguments' value={formatValue(details.Args, 'No runtime arguments')} mono />
+                            <StatCard label='User' value={formatValue(details.Config.User, 'Container default')} />
+                            <StatCard label='Exec IDs' value={formatValue(details.ExecIDs, 'No active exec sessions')} />
                         </div>
-                        <div className={box}>
-                            <h1>Memory Reservation</h1>
-                            <h1>{data.container.details.HostConfig.MemoryReservation}</h1>
+                    </Section>
+
+                    <Section
+                        title='Resource Limits'
+                        subtitle='Memory, CPU, and IO settings assigned to the container.'
+                        icon={Cpu}
+                        accent='rose'
+                    >
+                        <div className='grid gap-3 md:grid-cols-2 xl:grid-cols-3'>
+                            <StatCard label='Shared Memory' value={formatMegabytes(details.HostConfig.ShmSize)} />
+                            <StatCard label='Memory Limit' value={formatMegabytes(details.HostConfig.Memory)} />
+                            <StatCard label='Memory Reservation' value={formatMegabytes(details.HostConfig.MemoryReservation)} />
+                            <StatCard label='Memory Swap' value={formatMegabytes(details.HostConfig.MemorySwap)} />
+                            <StatCard label='Swappiness' value={formatValue(details.HostConfig.MemorySwappiness, '30')} />
+                            <StatCard label='OOM Kill Disabled' value={formatBool(Boolean(details.HostConfig.OomKillDisable))} />
+                            <StatCard label='Nano CPUs' value={details.HostConfig.NanoCpus} />
+                            <StatCard label='CPU Shares' value={details.HostConfig.CpuShares} />
+                            <StatCard label='CPU Period' value={details.HostConfig.CpuPeriod} />
+                            <StatCard label='CPU Quota' value={details.HostConfig.CpuQuota} />
+                            <StatCard label='CPU Count' value={details.HostConfig.CpuCount} />
+                            <StatCard label='CPU Percent' value={details.HostConfig.CpuPercent} />
+                            <StatCard label='CPU Realtime Period' value={details.HostConfig.CpuRealtimePeriod} />
+                            <StatCard label='CPU Realtime Runtime' value={details.HostConfig.CpuRealtimeRuntime} />
+                            <StatCard label='Cpuset CPUs' value={formatValue(details.HostConfig.CpusetCpus)} mono />
+                            <StatCard label='Cpuset Mems' value={formatValue(details.HostConfig.CpusetMems)} mono />
+                            <StatCard label='IO Max IOPS' value={details.HostConfig.IOMaximumIOps} />
+                            <StatCard label='IO Max Bandwidth' value={details.HostConfig.IOMaximumBandwidth} />
                         </div>
-                        <div className={box}>
-                            <h1>Swap</h1>
-                            <h1>{data.container.details.HostConfig.MemorySwap}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Swappiness</h1>
-                            <h1>{data.container.details.HostConfig.MemorySwappiness || 30}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>OOM Kill Disabled</h1>
-                            <h1>{data.container.details.HostConfig.OomKillDisable || false}</h1>
-                        </div>
-                    </div>
-                    <h1>CPU</h1>
-                    <div className='grid grid-cols-3 gap-2'>
-                        <div className={box}>
-                            <h1>Nano Cpus</h1>
-                            <h1>{data.container.details.HostConfig.NanoCpus}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Cpu Shares</h1>
-                            <h1>{data.container.details.HostConfig.CpuShares}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Cpu Period</h1>
-                            <h1>{data.container.details.HostConfig.CpuPeriod}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Cpu Quota</h1>
-                            <h1>{data.container.details.HostConfig.CpuQuota}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Cpu Realtime Period</h1>
-                            <h1>{data.container.details.HostConfig.CpuRealtimePeriod}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Cpu Realtime Runtime</h1>
-                            <h1>{data.container.details.HostConfig.CpuRealtimeRuntime}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Cpuset Cpus</h1>
-                            <h1>{data.container.details.HostConfig.CpusetCpus}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Cpuset Mems</h1>
-                            <h1>{data.container.details.HostConfig.CpusetMems}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Cpu Count</h1>
-                            <h1>{data.container.details.HostConfig.CpuCount}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Cpu Percent</h1>
-                            <h1>{data.container.details.HostConfig.CpuPercent}</h1>
-                        </div>
-                    </div>
+                    </Section>
                 </div>
-                <div className={section}>
-                    <h1 className={title}>Misc</h1>
-                    <div className='grid grid-cols-2 gap-2'>
-                        <div className={box}>
-                            <h1>Started At</h1>
-                            <h1>{smartDate(data.container.details.State.StartedAt)}</h1>
+
+                <div className='grid gap-4 xl:grid-cols-2'>
+                    <Section
+                        title='Commands & Paths'
+                        subtitle='Startup command, entrypoint, and low-level file paths.'
+                        icon={Command}
+                        accent='cyan'
+                    >
+                        <div className='grid gap-3 md:grid-cols-2'>
+                            <StatCard label='Startup Command' value={command || 'Container default'} mono />
+                            <StatCard label='Entrypoint' value={entrypoint} mono />
+                            <StatCard label='Cmd' value={cmd} mono />
+                            <StatCard label='Container ID File' value={formatValue(details.HostConfig.ContainerIDFile)} mono />
                         </div>
-                        <div className={box}>
-                            <h1>Finished At</h1>
-                            <h1>{smartDate(data.container.details.State.FinishedAt)}</h1>
+                        <div className='mt-4'>
+                            <CodePanel title='Runtime Paths' content={paths} tone='cyan' />
                         </div>
-                        <div className={box}>
-                            <h1>Sandbox ID</h1>
-                            <h1>{data.container.details.NetworkSettings.SandboxID}</h1>
+                    </Section>
+
+                    <Section
+                        title='Environment'
+                        subtitle='Container environment variables and raw runtime arguments.'
+                        icon={AlignLeft}
+                        accent='violet'
+                    >
+                        <CodePanel title='Environment Variables' content={env} tone='violet' />
+                    </Section>
+
+                    <Section
+                        title='Networking'
+                        subtitle='Port exposure, bindings, DNS, and attached networks.'
+                        icon={Network}
+                        accent='blue'
+                    >
+                        <div className='grid gap-3 md:grid-cols-3'>
+                            <StatCard label='DNS' value={formatValue(details.HostConfig.Dns)} />
+                            <StatCard label='DNS Options' value={formatValue(details.HostConfig.DnsOptions)} />
+                            <StatCard label='DNS Search' value={formatValue(details.HostConfig.DnsSearch)} />
                         </div>
-                        <div className={box}>
-                            <h1>Sandbox Key</h1>
-                            <h1>{data.container.details.NetworkSettings.SandboxKey}</h1>
+                        <div className='mt-4 grid gap-4'>
+                            <CodePanel title='Ports' content={ports} tone='blue' />
+                            <CodePanel title='Exposed Ports' content={exposedPorts} tone='blue' />
+                            <CodePanel title='Port Bindings' content={portBindings} tone='blue' />
+                            <CodePanel title='Networks' content={networks} tone='blue' />
                         </div>
-                        <div className={box}>
-                            <h1>IO Maximum IOps</h1>
-                            <h1>{data.container.details.HostConfig.IOMaximumIOps}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>IO Maximum Bandwidth</h1>
-                            <h1>{data.container.details.HostConfig.IOMaximumBandwidth}</h1>
-                        </div>
-                        <div className={`${box} overflow-auto`}>
-                            <h1>Graph Driver</h1>
-                            <h1>Name</h1>
-                            <h1>{data.container.details.GraphDriver.Name}</h1>
-                            <h1>Data</h1>
-                            <h1 className='whitespace-pre'>
-                                {JSON.stringify(data.container.details.GraphDriver.Data, null, 6)}
-                            </h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Mounts</h1>
-                            <h1>{data.container.details.Mounts || 'No mounts.'}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Tty</h1>
-                            <h1>{data.container.details.Config.Tty}</h1>
-                        </div>
-                        <div className={box}>
-                            <h1>Ulimits</h1>
-                            <h1>{data.container.details.HostConfig.Ulimits || 1024}</h1>
-                        </div>
-                    </div>
+                    </Section>
                 </div>
-                <div className={section}>
-                    <h1 className={title}>Environtment Variables</h1>
-                    <h1 className='whitespace-pre bg-login-50/5 p-2 rounded-md overflow-auto w-full'>
-                        {data.container.details.Config.Env.join('\n')}
-                    </h1>
+
+                <div className='grid gap-4 xl:grid-cols-[0.9fr_1.1fr]'>
+                    <Section
+                        title='Graph Driver'
+                        subtitle='Storage backend metadata for the current image layers.'
+                        icon={HardDrive}
+                        accent='amber'
+                    >
+                        <div className='grid gap-3 md:grid-cols-2'>
+                            <StatCard label='Driver Name' value={details.GraphDriver.Name} />
+                            <StatCard label='AppArmor Profile' value={formatValue(details.AppArmorProfile)} />
+                        </div>
+                        <div className='mt-4'>
+                            <CodePanel title='Driver Data' content={graphDriver} tone='amber' />
+                        </div>
+                    </Section>
+
+                    <Section
+                        title='Recent Logs'
+                        subtitle='Latest container output captured from the internal API.'
+                        icon={Logs}
+                        accent='emerald'
+                    >
+                        <CodePanel
+                            title='docker logs --tail 500'
+                            content={logs}
+                            className='min-h-112'
+                            tone='emerald'
+                            numbered
+                        />
+                    </Section>
                 </div>
-                <div className={section}>
-                    <h1 className={title}>Ports</h1>
-                    <h1>Ports</h1>
-                    <h1 className='whitespace-pre bg-login-50/5 p-2 rounded-md overflow-auto w-full'>
-                        {JSON.stringify(data.container.details.NetworkSettings.Ports, null, 6)}
-                    </h1>
-                    <h1>Port Bindings</h1>
-                    <h1 className='whitespace-pre bg-login-50/5 p-2 rounded-md overflow-auto w-full'>
-                        {JSON.stringify(data.container.details.HostConfig.PortBindings, null, 6)}
-                    </h1>
+
+                <div className='grid gap-4 xl:grid-cols-2'>
+                    <Section
+                        title='Security & Runtime Flags'
+                        subtitle='Container privilege, cgroup, and isolation-related settings.'
+                        icon={Shield}
+                        accent='rose'
+                    >
+                        <div className='grid gap-3 md:grid-cols-2 xl:grid-cols-3'>
+                            <StatCard label='Privileged' value={formatBool(Boolean(details.HostConfig.Privileged))} />
+                            <StatCard label='Readonly Root FS' value={formatBool(Boolean(details.HostConfig.ReadonlyRootfs))} />
+                            <StatCard label='Auto Remove' value={formatBool(Boolean(details.HostConfig.AutoRemove))} />
+                            <StatCard label='Publish All Ports' value={formatBool(Boolean(details.HostConfig.PublishAllPorts))} />
+                            <StatCard label='IPC Mode' value={formatValue(details.HostConfig.IpcMode)} />
+                            <StatCard label='PID Mode' value={formatValue(details.HostConfig.PidMode)} />
+                            <StatCard label='UTS Mode' value={formatValue(details.HostConfig.UTSMode)} />
+                            <StatCard label='Userns Mode' value={formatValue(details.HostConfig.UsernsMode)} />
+                            <StatCard label='Cgroupns Mode' value={formatValue(details.HostConfig.CgroupnsMode)} />
+                            <StatCard label='Runtime' value={formatValue(details.HostConfig.Runtime)} />
+                            <StatCard label='Isolation' value={formatValue(details.HostConfig.Isolation)} />
+                            <StatCard label='Cgroup Parent' value={formatValue(details.HostConfig.CgroupParent)} mono />
+                            <StatCard label='Cgroup' value={formatValue(details.HostConfig.Cgroup)} mono />
+                            <StatCard label='Oom Score Adj' value={details.HostConfig.OomScoreAdj} />
+                            <StatCard label='Volume Driver' value={formatValue(details.HostConfig.VolumeDriver)} />
+                        </div>
+                    </Section>
+
+                    <Section
+                        title='Low-Level Docker Metadata'
+                        subtitle='Labels, mounts, and detailed host/runtime configuration snapshots.'
+                        icon={Cable}
+                        accent='slate'
+                    >
+                        <div className='grid gap-4'>
+                            <CodePanel title='Container Labels' content={labels} tone='slate' />
+                            <CodePanel title='Mounts' content={mounts} tone='slate' />
+                        </div>
+                    </Section>
                 </div>
-                <div className={`${section}`}>
-                    <h1 className={title}>Networks</h1>
-                    <h1>DNS</h1>
-                    <div className={box}>
-                        <h1>Dns</h1>
-                        <h1>{data.container.details.HostConfig.Dns}</h1>
-                    </div>
-                    <div className={box}>
-                        <h1>Dns Options</h1>
-                        <h1>{data.container.details.HostConfig.DnsOptions}</h1>
-                    </div>
-                    <div className={box}>
-                        <h1>Dns Search</h1>
-                        <h1>{data.container.details.HostConfig.DnsSearch}</h1>
-                    </div>
-                    <h1>Details</h1>
-                    <h1 className='whitespace-pre bg-login-50/5 p-2 rounded-md overflow-auto w-full'>
-                        {JSON.stringify(data.container.details.NetworkSettings.Networks, null, 6)}
-                    </h1>
-                </div>
-                <div className={`${section} overflow-auto`}>
-                    <h1 className={title}>Logs</h1>
-                    <h1 className='whitespace-pre bg-login-50/5 p-2 rounded-md overflow-auto w-full'>
-                        {data.container.logs.join('\n')}
-                    </h1>
-                </div>
-                <div className={`${section} overflow-auto`}>
-                    <h1 className={title}>Raw output</h1>
-                    <h1 className='whitespace-pre bg-login-50/5 p-2 rounded-md overflow-auto w-full'>
-                        {JSON.stringify(data, null, 6)}
-                    </h1>
+
+                <div className='grid gap-4 xl:grid-cols-2'>
+                    <Section
+                        title='Raw Payload'
+                        subtitle='Full response from the internal API for debugging.'
+                        icon={FileCode2}
+                        accent='cyan'
+                    >
+                        <CodePanel title='Raw JSON' content={raw} className='min-h-112' tone='cyan' />
+                    </Section>
+
+                    <Section
+                        title='File & Logging Metadata'
+                        subtitle='Inspect paths and Docker logging configuration used by the container.'
+                        icon={FileText}
+                        accent='amber'
+                    >
+                        <div className='grid gap-3 md:grid-cols-2'>
+                            <StatCard label='Log Driver' value={formatValue(details.HostConfig.LogConfig.Type)} />
+                            <StatCard label='Hostname' value={formatValue(details.Config.Hostname)} />
+                            <StatCard label='Domainname' value={formatValue(details.Config.Domainname)} />
+                            <StatCard label='Working Dir' value={formatValue(details.Config.WorkingDir)} mono />
+                            <StatCard label='Mount Label' value={formatValue(details.MountLabel)} mono />
+                            <StatCard label='Process Label' value={formatValue(details.ProcessLabel)} mono />
+                        </div>
+                        <div className='mt-4'>
+                            <CodePanel
+                                title='Docker Log Config'
+                                content={JSON.stringify(details.HostConfig.LogConfig, null, 2)}
+                                tone='amber'
+                            />
+                        </div>
+                    </Section>
                 </div>
             </div>
         </div>

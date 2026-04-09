@@ -86,3 +86,7 @@ body {
         background 0.4s,
         color 0.4s;
 }
+
+button:not(:disabled) {
+    cursor: pointer;
+}
