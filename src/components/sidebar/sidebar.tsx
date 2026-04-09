@@ -23,7 +23,8 @@ import {
     TriangleAlert,
     Waypoints,
     ShieldOff,
-    ShieldAlert
+    ShieldAlert,
+    Bot
 } from 'lucide-react'
 import { hexagons7 } from '@lucide/lab'
 import { getCookie } from 'utilbee/utils'
@@ -139,6 +140,11 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
             name: 'Dashboard',
             path: '/internal',
             image: <LayoutDashboard className='w-6' />
+        },
+        {
+            name: 'AI',
+            path: '/internal/ai',
+            image: <Bot className='w-6' />,
         },
         {
             name: 'Alerts',

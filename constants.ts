@@ -11,6 +11,7 @@ const config = {
         bot: env.TEKKOM_BOT_API_URL || 'https://bot.login.no/api',
         internal: env.INTERNAL_API_URL || 'https://internal.login.no/api',
         beekeeper: env.BEEKEEPER_API_URL || 'https://beekeeper.login.no/api',
+        beekeeper_wss: env.BEEKEEPER_WSS_API_URL || 'wss://beekeeper.login.no/api',
     },
     authPath: {
         login:    '/api/auth/login',
