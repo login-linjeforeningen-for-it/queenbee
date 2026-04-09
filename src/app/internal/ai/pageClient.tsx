@@ -14,6 +14,32 @@ type ChatSession = {
     metrics: GPT_ModelMetrics
 }
 
+function defaultModelMetrics(): GPT_ModelMetrics {
+    return {
+        conversationId: null,
+        status: 'idle',
+        currentTokens: 0,
+        maxTokens: 0,
+        promptTokens: 0,
+        generatedTokens: 0,
+        contextTokens: 0,
+        contextMaxTokens: 0,
+        tps: 0,
+        lastUpdated: null,
+        lastError: null,
+    }
+}
+
+function normalizeClient(client: GPT_Client): GPT_Client {
+    return {
+        ...client,
+        model: {
+            ...defaultModelMetrics(),
+            ...(client.model || {}),
+        },
+    }
+}
+
 export default function GPT_Page() {
     const [clients, setClients] = useState<GPT_Client[]>([])
     const [reconnect, setReconnect] = useState(false)
@@ -56,36 +82,39 @@ export default function GPT_Page() {
                 }
 
                 switch (msg.type) {
-                    case 'update':
+                    case 'update': {
                         if (!msg.client) {
                             return
                         }
 
+                        const normalizedClient = normalizeClient(msg.client)
+
                         setParticipants(msg.participants || 0)
                         setClients((prev) => {
-                            const existing = prev.find(client => client.name === msg.client?.name)
+                            const existing = prev.find(client => client.name === normalizedClient.name)
                             if (!existing) {
-                                return [...prev, msg.client as GPT_Client]
+                                return [...prev, normalizedClient]
                             }
 
                             return prev.map(client =>
-                                client.name === msg.client?.name
-                                    ? { ...client, ...msg.client }
+                                client.name === normalizedClient.name
+                                    ? { ...client, ...normalizedClient, model: normalizedClient.model }
                                     : client
                             )
                         })
 
                         setChatSession((prev) => {
-                            if (!prev || prev.clientName !== msg.client?.name) {
+                            if (!prev || prev.clientName !== normalizedClient.name) {
                                 return prev
                             }
 
                             return {
                                 ...prev,
-                                metrics: msg.client.model,
+                                metrics: normalizedClient.model,
                             }
                         })
                         return
+                    }
 
                     case 'join':
                         setParticipants(msg.participants || 0)
@@ -240,7 +269,7 @@ export default function GPT_Page() {
                 conversationId: crypto.randomUUID(),
                 messages: [],
                 isSending: false,
-                metrics: client.model,
+                metrics: client.model || defaultModelMetrics(),
             }
         })
     }
