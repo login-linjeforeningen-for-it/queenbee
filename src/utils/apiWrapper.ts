@@ -40,8 +40,12 @@ async function apiRequest({ service, method, path, options, data }: APIRequestPr
         btg: 'tekkom-bot'
     } : baseHeaders
 
+    const timeoutMs = service === 'internal' && path.startsWith('docker/')
+        ? 10000
+        : 3000
+
     const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 3000)
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
 
     const finalOptions = {
         method,
@@ -70,7 +74,7 @@ async function apiRequest({ service, method, path, options, data }: APIRequestPr
         if (error instanceof Error) {
             console.error(`Fetch error: ${error.name} - ${error.message} (${url}/${path})`)
             if (error.name === 'AbortError') {
-                return 'Error: Request timed out after 3 seconds'
+                return `Error: Request timed out after ${timeoutMs / 1000} seconds`
             }
             return `Error: ${error.message}`
         } else {
