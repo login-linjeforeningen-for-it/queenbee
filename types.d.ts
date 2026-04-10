@@ -455,6 +455,7 @@ declare global {
         request_time: number
         status: number
         timestamp: string
+        country_iso?: string | null
     }
 
     // ---------------------------------- Backup -----------------------------------
