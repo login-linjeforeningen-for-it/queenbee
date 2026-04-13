@@ -16,7 +16,7 @@ export default function GPT_Header({
                     <h1 className='font-semibold text-lg'>AI (Login GPT)</h1>
                     <p className='max-w-2xl text-sm text-login-100'>Live metrics from connected inference clients.</p>
                 </div>
-                <div className='grid gap-3 sm:grid-cols-3 lg:min-w-[24rem]'>
+                <div className='grid gap-3 sm:grid-cols-3 lg:min-w-[25rem]'>
                     <GPT_HeaderCard label='Clients' value={String(clients)} icon={<Sparkles className='h-4 w-4 stroke-login' />} />
                     <GPT_HeaderCard label='Viewers' value={String(participants)} icon={<Eye className='h-4 w-4' />} />
                     <GPT_ConnectionCard isConnected={isConnected} />
