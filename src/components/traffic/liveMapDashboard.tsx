@@ -449,7 +449,7 @@ export default function LiveTrafficMapDashboard({
             <aside className='flex min-h-168 flex-col gap-4 overflow-auto'>
                 <InsightCard
                     title={selectedCountry === 'NO' ? 'Local Focus' : `Country Focus · ${selectedCountry}`}
-                    icon={<Search className='h-4 w-4' />}
+                    icon={<Search className='h-4 w-4 stroke-blue-400' />}
                 >
                     <div className='space-y-2 text-sm text-login-100'>
                         <div
@@ -514,7 +514,7 @@ export default function LiveTrafficMapDashboard({
                     </div>
                 </InsightCard>
 
-                <InsightCard title='Live Hotspots' icon={<Globe2 className='h-4 w-4' />}>
+                <InsightCard title='Live Hotspots' icon={<Globe2 className='h-4 w-4 stroke-green-500' />}>
                     <div className='space-y-2'>
                         {countryEntries.length ? countryEntries.slice(0, 8).map((entry) => (
                             <button
@@ -544,13 +544,13 @@ export default function LiveTrafficMapDashboard({
                     </div>
                 </InsightCard>
 
-                <InsightCard title='Traffic Signals' icon={<Activity className='h-4 w-4' />}>
+                <InsightCard title='Traffic Signals' icon={<Activity className='h-4 w-4 stroke-login' />}>
                     <SignalGroup title='Top Paths' entries={initialMetrics?.top_paths || []} valueLabel='requests' />
                     <SignalGroup title='Methods' entries={initialMetrics?.top_methods || []} valueLabel='requests' />
                     <SignalGroup title='Statuses' entries={initialMetrics?.top_status_codes || []} valueLabel='hits' />
                 </InsightCard>
 
-                <InsightCard title='Recent Requests' icon={<Clock3 className='h-4 w-4' />}>
+                <InsightCard title='Recent Requests' icon={<Clock3 className='h-4 w-4 stroke-green-500' />}>
                     <div className='space-y-2'>
                         {initialRecords.length ? selectedRecords.map((record) => (
                             <div key={record.id} className='rounded-xl border border-login-100/10 bg-login-900/60 p-3'>
