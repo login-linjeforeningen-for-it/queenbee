@@ -378,7 +378,7 @@ export default function LiveTrafficMapDashboard({
                             const coords = countryCentroids[entry.iso]
                             if (!coords) return null
                             const [x, y] = project(coords)
-                            const radius = 4 + ((entry.count / strongestCountryCount) * 18)
+                            const radius = 4 + ((entry.count / strongestCountryCount) * 12)
                             const active = selectedCountry === entry.iso
 
                             return (
