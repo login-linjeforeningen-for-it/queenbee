@@ -396,14 +396,14 @@ export default function LiveTrafficMapDashboard({
                                         cy={y}
                                         r={radius}
                                         className={active
-                                            ? 'fill-login stroke-white stroke-[1.5]'
+                                            ? 'fill-login/30 stroke-login stroke-1'
                                             : 'fill-amber-300/70 stroke-login-950/40 stroke-[1.5]'}
                                     />
                                     <text
                                         x={x}
                                         y={y - radius - 5}
                                         textAnchor='middle'
-                                        className='fill-login-50 text-[10px] font-semibold'
+                                        className='fill-login-50/30 text-[10px] font-semibold'
                                     >
                                         {entry.iso}
                                     </text>
