@@ -1,11 +1,13 @@
-import { Eye, Wifi, WifiOff } from 'lucide-react'
+import { Eye, Sparkles, Wifi, WifiOff } from 'lucide-react'
 
 export default function GPT_Header({
     isConnected,
     participants,
+    clients
 }: {
     isConnected: boolean
     participants: number
+    clients: number
 }) {
     return (
         <div className='w-full rounded-2xl border border-login-100/10 bg-login-900/70 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.25)]'>
@@ -15,6 +17,7 @@ export default function GPT_Header({
                     <p className='max-w-2xl text-sm text-login-100'>Live metrics from connected inference clients.</p>
                 </div>
                 <div className='grid gap-3 sm:grid-cols-2 lg:min-w-[24rem]'>
+                    <GPT_HeaderCard label='Clients' value={String(clients)} icon={<Sparkles className='h-4 w-4 stroke-login' />} />
                     <GPT_HeaderCard label='Viewers' value={String(participants)} icon={<Eye className='h-4 w-4' />} />
                     <GPT_ConnectionCard isConnected={isConnected} />
                 </div>

@@ -14,7 +14,11 @@ export default function GPT_Page() {
         <>
             <div className='h-full w-full overflow-y-auto noscroll'>
                 <div className='flex w-full flex-col gap-4 pb-4'>
-                    <GPT_Header isConnected={gpt.isConnected} participants={participants} />
+                    <GPT_Header
+                        clients={gpt.clients.length}
+                        isConnected={gpt.isConnected}
+                        participants={participants}
+                    />
                     {gpt.clients.length ? <GPT_Content clients={gpt.clients} onTestClient={gpt.openChat} /> : <GPT_EmptyState />}
                 </div>
             </div>
