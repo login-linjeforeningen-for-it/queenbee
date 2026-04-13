@@ -173,7 +173,7 @@ export default function LiveTrafficMapDashboard({
     }, [])
 
     useEffect(() => {
-        const tick = () => {
+        function tick() {
             const now = Date.now()
             setPings((prev) => prev.filter((ping) => now - ping.startTime < PING_LIFETIME_MS))
             setCountries((prev) => Object.fromEntries(

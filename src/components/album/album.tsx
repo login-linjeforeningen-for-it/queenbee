@@ -43,7 +43,7 @@ export default function Album({ album, deleteAction, pageSize, coverAction }: Al
         return filename
     }
 
-    const handleDeleteImage = async (imageName: string) => {
+    async function handleDeleteImage(imageName: string) {
         try {
             const response = await deleteAction(album.id.toString(), imageName)
             if (typeof response === 'string') {

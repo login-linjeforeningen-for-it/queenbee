@@ -27,7 +27,7 @@ export default function TestClientPopup({
     const scrollerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        const handleKeyDown = (event: KeyboardEvent) => {
+        function handleKeyDown(event: KeyboardEvent) {
             if (event.key === 'Escape') {
                 onClose()
             }

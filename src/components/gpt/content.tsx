@@ -10,12 +10,16 @@ export default function GPT_Content({
     clients: GPT_Client[]
     onTestClient: (client: GPT_Client) => void
 }) {
-    const averageLoad = (values: number[]) => values.length
-        ? Math.ceil(values.reduce((sum, value) => sum + value, 0) / values.length)
-        : 0
-    const averageValue = (values: number[]) => values.length
-        ? values.reduce((sum, value) => sum + value, 0) / values.length
-        : 0
+    function averageLoad(values: number[]) {
+        return values.length
+            ? Math.ceil(values.reduce((sum, value) => sum + value, 0) / values.length)
+            : 0
+    }
+    function averageValue(values: number[]) {
+        return values.length
+            ? values.reduce((sum, value) => sum + value, 0) / values.length
+            : 0
+    }
 
     const totalLoad = {
         ram: averageLoad(clients.map(client => averageLoad(client.ram.map(ram => ram.load * 100)))),

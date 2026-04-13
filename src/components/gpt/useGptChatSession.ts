@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react'
 import { createAssistantMessage, createUserMessage, toRequestMessages } from './chatMessages'
 import { applyClientMetrics, applyPromptEvent } from './chatReducers'
 import defaultModelMetrics from './defaultModelMetrics'
-import type { ChatSession, GptSocketMessage } from './types'
 import normalizeClient from './normalizeClient'
 
 export default function useGptChatSession(
