@@ -446,7 +446,7 @@ export default function LiveTrafficMapDashboard({
                 </div>
             </section>
 
-            <aside className='flex min-h-168 flex-col gap-4 overflow-hidden'>
+            <aside className='flex min-h-168 flex-col gap-4 overflow-auto'>
                 <InsightCard
                     title={selectedCountry === 'NO' ? 'Local Focus' : `Country Focus · ${selectedCountry}`}
                     icon={<Search className='h-4 w-4' />}
