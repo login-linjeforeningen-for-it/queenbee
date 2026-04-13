@@ -1,6 +1,5 @@
 import defaultModelMetrics from './defaultModelMetrics'
 import { createAssistantMessage } from './chatMessages'
-import type { ChatSession, GptSocketMessage } from './types'
 
 export function applyClientMetrics(session: ChatSession | null, client: GPT_Client) {
     if (!session || session.clientName !== client.name) return session

@@ -2,7 +2,6 @@ import config from '@config'
 import { useEffect, useState } from 'react'
 import normalizeClient from './normalizeClient'
 import useReconnect from './useReconnect'
-import type { GptSocketMessage } from './types'
 
 export default function useGptSocket(
     socketRef: React.RefObject<WebSocket | null>,
