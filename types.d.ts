@@ -1320,7 +1320,6 @@ declare global {
         error?: string
         metrics?: GPT_ModelMetrics
     }
-
 }
 
 export {}
