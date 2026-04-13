@@ -2,7 +2,6 @@ import config from '@config'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import defaultModelMetrics from './defaultModelMetrics'
 import normalizeClient from './normalizeClient'
-import type { ChatSession, GptSocketMessage } from './types'
 
 function createPendingAssistantMessage(conversationId: string): GPT_ChatMessage {
     return {
