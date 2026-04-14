@@ -6,7 +6,6 @@ import postIncident from '@/utils/fetch/namespace/incident/post'
 import { removeCookie, setCookie } from 'utilbee/utils'
 import ArrowOutward from '../svg/arrowOutward'
 import FancyField from '../root/fancyField'
-import { usePathname } from 'next/navigation'
 import { Button } from 'uibee/components'
 import { X } from 'lucide-react'
 
@@ -33,8 +32,7 @@ export default function IncidentsClient({
     const [time, setTime] = useState(incidentTimestamp)
     const [response, setResponse] = useState<{ status: number, message: string } | null>(null)
     const [open, setOpen] = useState(false)
-    const path = usePathname()
-    const allowEdit = namespace !== 'global' && !path.includes('/internal/kubernetes/message')
+    const allowEdit = namespace !== 'global'
 
     async function handleSubmit() {
         const response = await postIncident({

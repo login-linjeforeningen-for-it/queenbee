@@ -1,15 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import ToolTips from './toolTips'
-import Menu from './menu'
 import { RightSide } from './clientNav'
 import ArrowOutward from '@/components/svg/arrowOutward'
 
 export default function Navbar() {
     return (
         <div className='flex justify-between bg-black h-full w-full md:px-4 gap-2 overflow-hidden'>
-            <Menu />
-            <ToolTips />
             {/* logo */}
             <div className='flex items-center h-12 md:w-40'>
                 <Link href='/' className='relative block h-8 w-8'>

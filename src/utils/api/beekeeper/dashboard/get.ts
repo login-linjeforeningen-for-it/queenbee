@@ -14,7 +14,6 @@ export default async function getInternalDashboard(): Promise<InternalDashboard>
                 alerts: 0,
                 backups: 0,
                 sites: 0,
-                kubernetes: 0,
                 monitored: 0,
                 requestsToday: 0
             },

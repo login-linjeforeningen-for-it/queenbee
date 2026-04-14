@@ -1232,7 +1232,6 @@ declare global {
         alerts: number
         backups: number
         sites: number
-        kubernetes: number
         monitored: number
         requestsToday: number
     }

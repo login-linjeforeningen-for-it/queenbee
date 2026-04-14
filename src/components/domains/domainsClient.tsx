@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import Pulse from '../root/pulse'
 import { ServiceStatus } from '@utils/interfaces'
-import { usePathname } from 'next/navigation'
 
 type DomainsClientProps = {
     namespace: string
@@ -15,8 +14,7 @@ export default function DomainsClient({ namespace, domains: Domains }: DomainsCl
     const [domains, setDomains] = useState<DomainsWithStatus[]>([])
     const timerRef = useRef(3000)
     const [timeLeft, setTimeLeft] = useState(timerRef.current / 1000)
-    const path = usePathname()
-    const allowEdit = namespace !== 'global' && !path.includes('/internal/kubernetes/message')
+    const allowEdit = namespace !== 'global'
     const domainStatus = domains.length === 0
         ? ServiceStatus.INACTIVE
         : domains.every(domain => domain.status >= 200 && domain.status < 300)

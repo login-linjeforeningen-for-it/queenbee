@@ -30,9 +30,7 @@ import { hexagons7 } from '@lucide/lab'
 import { getCookie } from 'utilbee/utils'
 import SidebarLayout, { SidebarItem } from './sidebarLayout'
 import PulseDot from '@components/pulse/pulse'
-import { ServiceStatus } from '@utils/interfaces'
 import getDocker from '@utils/api/internal/system/getDocker'
-import getServiceMeta from '@utils/api/getServiceMeta'
 
 type SidebarProps = {
     mobile?: boolean
@@ -48,18 +46,10 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
     const isInternal = pathname.startsWith('/internal')
 
     const [docker, setDocker] = useState<Docker | null>(null)
-    const [meta, setMeta] = useState<ServiceStatus | null>(null)
-    const color = meta ? {
-        operational: 'bg-green-500',
-        degraded: 'bg-login',
-        down: 'bg-red-500',
-        inactive: 'bg-login-300',
-    }[meta] || 'bg-gray-500' : 'bg-gray-500'
 
     useEffect(() => {
         setGroups(getCookie('user_groups') || undefined)
         getDocker().then(d => { if (d) setDocker(d) })
-        getServiceMeta().then(setMeta)
 
         if (isInternal) {
             const interval = setInterval(async () => {
@@ -169,12 +159,6 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
             name: 'Logs',
             path: '/internal/logs',
             image: <Logs className='w-6' />,
-        },
-        {
-            name: 'Kubernetes',
-            path: '/internal/kubernetes',
-            image: <Server className='w-6' />,
-            status: <PulseDot color={color} />
         },
         {
             name: 'Monitoring',
