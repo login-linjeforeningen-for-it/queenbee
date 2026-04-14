@@ -1,7 +1,5 @@
 'use client'
 
-import React from 'react'
-
 function getColor(value: number, max: number) {
     if (value === 0) return '#181818'
     const levels = ['#653616', '#985122', '#ca6c2d', '#fd8738']

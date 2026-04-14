@@ -9,19 +9,6 @@ import './markdownRender.css'
 // import Link from 'next/link'
 // TODO: Add embeds
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type CustomLinkProps = {
-    href: number
-    children: ReactNode
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type ErrorMessageProps = {
-    // eslint-disable-next-line
-    err: any
-    title: string
-}
-
 const components = {
     // The md string should not contain a main header (#), the h1 header is
     // rendered by the parent component. If by mistake it cointains

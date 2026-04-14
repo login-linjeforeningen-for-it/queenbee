@@ -31,7 +31,7 @@ export function impactScore(image: ImageVulnerabilityReport) {
     return image.severity.critical * 1000 + image.severity.high * 100 + image.severity.medium * 10 + image.severity.low
 }
 
-export function formatDuration(totalSeconds: number) {
+function formatDuration(totalSeconds: number) {
     const minutes = Math.floor(totalSeconds / 60)
     const seconds = totalSeconds % 60
     return minutes <= 0 ? `${seconds}s` : `${minutes}m ${seconds}s`
