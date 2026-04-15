@@ -12,6 +12,14 @@ type TrafficDashboardProps = {
     selectedDomain?: string
 }
 
+type StatCardProps = {
+    title: string
+    value: string | number
+    accent?: 'blue' | 'emerald' | 'amber' | 'rose' | 'violet' | 'cyan' | 'slate'
+    outline?: string
+    icon: React.ReactNode
+}
+
 export default function TrafficDashboard({ metrics, records, selectedDomain }: TrafficDashboardProps) {
     const m = typeof metrics === 'object' && metrics !== null ? (metrics as TrafficMetricsProps) : undefined
 
@@ -50,24 +58,37 @@ export default function TrafficDashboard({ metrics, records, selectedDomain }: T
             {m && (
                 <>
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-                        {[
+                        {([
                             {
                                 title: 'Total Requests',
                                 value: totalRequests || '—',
-                                icon: <Activity className='w-5 h-5' />
+                                accent: 'amber',
+                                outline: 'outline outline-login/25',
+                                icon: <Activity className='w-5 h-5 stroke-login' />
                             },
                             {
                                 title: 'Avg Request Time',
                                 value: avgRequestTime ? `${avgRequestTime}ms` : '—',
-                                icon: <Clock className='w-5 h-5' />
+                                accent: 'blue',
+                                outline: 'outline outline-blue-500/25',
+                                icon: <Clock className='w-5 h-5 stroke-blue-500' />
                             },
                             {
                                 title: 'Error Rate',
                                 value: errorRate ? `${errorRate}%` : '—',
-                                icon: <AlertTriangle className='w-5 h-5' />
+                                accent: 'amber',
+                                outline: 'outline outline-yellow-500/25',
+                                icon: <AlertTriangle className='w-5 h-5 stroke-yellow-500' />
                             },
-                        ].map(({ title, value, icon }) =>
-                            <StatCard key={title} title={title} value={value} icon={icon} />
+                        ] as StatCardProps[]).map(({ title, value, icon, accent, outline }) =>
+                            <StatCard
+                                key={title}
+                                title={title}
+                                value={value}
+                                outline={outline}
+                                accent={accent}
+                                icon={icon}
+                            />
                         )}
                     </div>
 
@@ -155,14 +176,24 @@ export default function TrafficDashboard({ metrics, records, selectedDomain }: T
     )
 }
 
-function StatCard({ title, value, icon }: { title: string, value: string | number, icon: React.ReactNode }) {
+function StatCard({ title, value, accent = 'slate', icon, outline }: StatCardProps) {
+    const accentMap = {
+        blue: 'from-sky-500/20 to-blue-500/5 border-sky-400/20 text-sky-200',
+        emerald: 'from-emerald-500/20 to-green-500/5 border-emerald-400/20 text-emerald-200',
+        amber: 'from-amber-500/20 to-orange-500/5 border-amber-400/20 text-amber-200',
+        rose: 'from-rose-500/20 to-red-500/5 border-rose-400/20 text-rose-200',
+        violet: 'from-violet-500/20 to-fuchsia-500/5 border-violet-400/20 text-violet-200',
+        cyan: 'from-cyan-500/20 to-sky-500/5 border-cyan-400/20 text-cyan-200',
+        slate: 'from-login-50/10 to-login-50/5 border-login-100/10 text-login-100',
+    } as const
+
     return (
         <div className='bg-login-50/5 p-4 rounded-lg flex items-center justify-between'>
             <div>
                 <p className='text-sm text-muted-foreground'>{title}</p>
                 <p className='text-2xl font-bold mt-1'>{value}</p>
             </div>
-            <div className='p-3 bg-login-50/5 rounded-full'>
+            <div className={`p-2 bg-linear-to-br ${accentMap[accent]} rounded-full ${outline}`}>
                 {icon}
             </div>
         </div>
