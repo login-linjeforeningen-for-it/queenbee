@@ -5,7 +5,7 @@ import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { Input } from 'uibee/components'
 
-export default function Search({ className }: { className?: string }) {
+export default function Search() {
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
@@ -21,15 +21,18 @@ export default function Search({ className }: { className?: string }) {
     }
 
     return (
-        <div className={`relative flex items-center ${className}`}>
-            <Input
-                name='search'
-                value={text}
-                onChange={handleChange}
-                type='text'
-                placeholder='Search...'
-                icon={<SearchIcon className='size-5' />}
-            />
+        <div className='flex h-10 items-center justify-center'>
+            <div className='w-fit'>
+                <Input
+                    name='search'
+                    value={text}
+                    onChange={handleChange}
+                    type='text'
+                    placeholder='Search...'
+                    className='mt-5'
+                    icon={<SearchIcon className='size-5' />}
+                />
+            </div>
         </div>
     )
 }

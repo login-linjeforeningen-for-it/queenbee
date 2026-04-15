@@ -24,9 +24,9 @@ export default function ScanToolbar(props: Props) {
     const handleRunScan = useRunScan(props)
 
     return (
-        <div className='mt-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between'>
+        <div className='mt-4 flex gap-3 justify-between'>
             <Search />
-            <div className='flex items-center gap-3 self-end lg:self-auto'>
+            <div className='flex items-center gap-3'>
                 <div className='text-sm text-login-200'>
                     Showing {props.sorting.images.length} of {props.data?.images.length || 0} images
                 </div>
@@ -37,7 +37,7 @@ export default function ScanToolbar(props: Props) {
                 <RunScanButton
                     disabled={props.scanStatus.isRunning || props.isRefreshing}
                     isRunning={props.scanStatus.isRunning}
-                    onClick={() => void handleRunScan()}
+                    onClick={handleRunScan}
                 />
                 <LayoutToggle
                     areAllExpanded={props.expansion.areAllExpanded}
