@@ -35,8 +35,17 @@ export default function ServiceListHeader({
     }
 
     return (
-        <div className='flex flex-col xl:flex-row justify-between gap-3 w-full'>
-            <div className='flex flex-wrap gap-2'>
+        <div className='flex justify-between w-full -mb-4'>
+            <div className='w-fit'>
+                <Input
+                    name='search'
+                    placeholder='Search..'
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    icon={<Search className='h-4 w-4 text-muted-foreground' />}
+                />
+            </div>
+            <div className='flex gap-4'>
                 <MultiSelect
                     options={[
                         { label: 'Up', value: 'up' },
@@ -48,7 +57,18 @@ export default function ServiceListHeader({
                     onChange={(values: string[]) => setStateFilter(values.length ? values : null)}
                     placeholder='Status'
                 />
+                <MultiSelect
+                    options={tags.map((tag) => ({
+                        label: tag.name,
+                        value: tag.name,
+                    }))}
+                    value={selectedTags}
+                    onChange={setSelectedTags}
+                    placeholder='Tags'
+                    plusAction={addTag}
+                />
                 <Select
+                    className='min-w-30'
                     name='activeFilter'
                     value={activeFilter === null ? '' : String(activeFilter)}
                     onChange={(val) =>
@@ -61,25 +81,6 @@ export default function ServiceListHeader({
                         { value: 'true', label: 'Active' },
                         { value: 'false', label: 'Inactive' }
                     ]}
-                />
-                <MultiSelect
-                    options={tags.map((tag) => ({
-                        label: tag.name,
-                        value: tag.name,
-                    }))}
-                    value={selectedTags}
-                    onChange={setSelectedTags}
-                    placeholder='Tags'
-                    plusAction={addTag}
-                />
-            </div>
-            <div className='flex-1 xl:flex-none w-full xl:w-64'>
-                <Input
-                    name='search'
-                    placeholder='Search..'
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    icon={<Search className='h-4 w-4 text-muted-foreground' />}
                 />
             </div>
         </div>

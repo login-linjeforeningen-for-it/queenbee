@@ -57,9 +57,8 @@ export default function MultiSelect({
                 onClick={() => setOpen((o) => !o)}
                 className={`
                     flex cursor-pointer items-center justify-between gap-2
-                    rounded-lg bg-login-50/5 px-2 py-0.5 min-w-fit
-                    outline outline-white/20 select-none
-                    hover:bg-login-50/15
+                    rounded bg-login-50/5 px-2 py-[9.75px] min-w-fit select-none
+                    outline outline-white/10 hover:bg-login-50/15 mt-px
                 `}
             >
                 <div className='flex flex-wrap gap-1'>
@@ -71,7 +70,9 @@ export default function MultiSelect({
 
                     {value.map((val) => {
                         const option = options.find((o) => o.value === val)
-                        if (!option) return null
+                        if (!option) {
+                            return null
+                        }
 
                         return (
                             <span

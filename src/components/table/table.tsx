@@ -17,6 +17,7 @@ export default function Table({ list, headers, deleteAction, roles, hideMenu, re
     if (list.length === 0) {
         return <div className='p-4 text-center text-login-200'>No data found</div>
     }
+
     const keys = Object.keys(list[0])
     headers = headers || keys
 

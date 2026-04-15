@@ -18,7 +18,7 @@ export default function RunScanButton({
             type='button'
             onClick={onClick}
             disabled={disabled}
-            className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition ${className}`}
+            className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition ${className}`}
         >
             {disabled ? <LoaderCircle className='h-4 w-4 animate-spin' /> : <Play className='h-4 w-4' />}
             {isRunning ? 'Scanning…' : 'Run scan'}
