@@ -1,13 +1,13 @@
 import Search from '@components/inputs/search'
 import type { GetVulnerabilities } from '@utils/api/internal/vulnerabilities/get'
 import type { PageClientProps, VulnerabilityPageState } from './types'
-import LayoutToggle from './layoutToggle'
 import RunScanButton from './runScanButton'
-import SortToggle from './sortToggle'
 import type useExpandedImages from './useExpandedImages'
 import useRunScan from './useRunScan'
 import type useScanNotice from './useScanNotice'
 import type useSortedImages from './useSortedImages'
+import { Toggle } from 'uibee/components'
+import { LayoutGrid, Rows3 } from 'lucide-react'
 
 type Props = Pick<PageClientProps, 'runScanAction'> & {
     data: GetVulnerabilities | null
@@ -30,13 +30,31 @@ export default function ScanToolbar(props: Props) {
                 <div className='text-sm text-login-200'>
                     Showing {props.sorting.images.length} of {props.data?.images.length || 0} images
                 </div>
-                <SortToggle
-                    sortMode={props.sorting.sortMode}
-                    setSortMode={props.sorting.setSortMode}
+                <Toggle
+                    value={props.sorting.sortMode}
+                    onChange={props.sorting.setSortMode}
+                    left={{ value: 'impact', text: 'Impact' }}
+                    right={{ value: 'alphabetical', text: 'A-Z' }}
                 />
-                <LayoutToggle
-                    areAllExpanded={props.expansion.areAllExpanded}
-                    toggleExpandAll={props.expansion.toggleExpandAll}
+                <Toggle
+                    value={props.expansion.areAllExpanded}
+                    onChange={(next) => {
+                        if (next !== props.expansion.areAllExpanded) {
+                            props.expansion.toggleExpandAll()
+                        }
+                    }}
+                    left={{
+                        value: false,
+                        text: 'Compact',
+                        icon: <Rows3 className='h-4.5 w-4.5' />,
+                        label: 'Compact vulnerability list',
+                    }}
+                    right={{
+                        value: true,
+                        text: 'Expanded',
+                        icon: <LayoutGrid className='h-4.5 w-4.5' />,
+                        label: 'Expanded vulnerability cards',
+                    }}
                 />
                 <RunScanButton
                     disabled={props.scanStatus.isRunning || props.isRefreshing}

@@ -2,7 +2,7 @@ import type { ImageVulnerabilityReport } from '@utils/api/internal/vulnerabiliti
 import { ChevronDown } from 'lucide-react'
 import { severityOrder } from './constants'
 import MiniStat from './miniStat'
-import SeverityPill from './severityPill'
+import { SeverityPill } from 'uibee/components'
 
 export default function ImageSummaryActions({
     image,
