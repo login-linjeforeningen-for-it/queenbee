@@ -10,7 +10,6 @@ export default async function Page({
     const filters = await searchParams
     const search = typeof filters.q === 'string' ? filters.q : ''
     const query = search.toLowerCase()
-
     const data = await getVulnerabilities()
 
     return (

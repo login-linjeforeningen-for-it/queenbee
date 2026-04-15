@@ -10,7 +10,7 @@ export default function GPT_Header({
     clients: number
 }) {
     return (
-        <div className='w-full rounded-2xl border border-login-100/10 bg-login-900/70 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.25)]'>
+        <div className='w-full'>
             <div className='flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between'>
                 <div>
                     <h1 className='font-semibold text-lg'>AI (Login GPT)</h1>
