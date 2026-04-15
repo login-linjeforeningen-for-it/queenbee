@@ -26,7 +26,7 @@ export default function ScanToolbar(props: Props) {
     return (
         <div className='mt-4 flex gap-3 justify-between'>
             <Search />
-            <div className='flex items-center gap-3'>
+            <div className='flex items-center gap-3 pr-px'>
                 <div className='text-sm text-login-200'>
                     Showing {props.sorting.images.length} of {props.data?.images.length || 0} images
                 </div>
@@ -34,14 +34,14 @@ export default function ScanToolbar(props: Props) {
                     sortMode={props.sorting.sortMode}
                     setSortMode={props.sorting.setSortMode}
                 />
+                <LayoutToggle
+                    areAllExpanded={props.expansion.areAllExpanded}
+                    toggleExpandAll={props.expansion.toggleExpandAll}
+                />
                 <RunScanButton
                     disabled={props.scanStatus.isRunning || props.isRefreshing}
                     isRunning={props.scanStatus.isRunning}
                     onClick={handleRunScan}
-                />
-                <LayoutToggle
-                    areAllExpanded={props.expansion.areAllExpanded}
-                    toggleExpandAll={props.expansion.toggleExpandAll}
                 />
             </div>
         </div>
