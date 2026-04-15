@@ -45,13 +45,11 @@ export default function ScanToolbar(props: Props) {
                     }}
                     left={{
                         value: false,
-                        text: 'Compact',
                         icon: <Rows3 className='h-4.5 w-4.5' />,
                         label: 'Compact vulnerability list',
                     }}
                     right={{
                         value: true,
-                        text: 'Expanded',
                         icon: <LayoutGrid className='h-4.5 w-4.5' />,
                         label: 'Expanded vulnerability cards',
                     }}
