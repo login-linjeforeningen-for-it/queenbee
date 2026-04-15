@@ -1,7 +1,7 @@
 import type { SortMode } from './types'
 
 export default function SortToggle({ sortMode, setSortMode }: { sortMode: SortMode, setSortMode: (mode: SortMode) => void }) {
-    const base = 'rounded-full px-3 py-2 text-sm font-medium transition'
+    const base = 'rounded-full px-3 py-1 text-sm font-medium transition'
     const active = 'bg-login-200 text-login-950 shadow'
     const idle = 'text-login-200 hover:bg-login-50/10 hover:text-login-50'
 

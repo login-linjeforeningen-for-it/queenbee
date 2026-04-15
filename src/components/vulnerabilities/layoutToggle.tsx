@@ -11,7 +11,7 @@ export default function LayoutToggle({ areAllExpanded, toggleExpandAll }: { areA
                 onClick={() => areAllExpanded && toggleExpandAll()}
                 aria-label='Compact vulnerability list'
                 aria-pressed={!areAllExpanded}
-                className={`flex h-9 w-9 items-center justify-center rounded-full transition ${!areAllExpanded ? active : idle}`}
+                className={`flex h-7 w-7 items-center justify-center rounded-full transition ${!areAllExpanded ? active : idle}`}
             >
                 <Rows3 className='h-4.5 w-4.5' />
             </button>
@@ -20,7 +20,7 @@ export default function LayoutToggle({ areAllExpanded, toggleExpandAll }: { areA
                 onClick={() => !areAllExpanded && toggleExpandAll()}
                 aria-label='Expanded vulnerability cards'
                 aria-pressed={areAllExpanded}
-                className={`flex h-9 w-9 items-center justify-center rounded-full transition ${areAllExpanded ? active : idle}`}
+                className={`flex h-7 w-7 items-center justify-center rounded-full transition ${areAllExpanded ? active : idle}`}
             >
                 <LayoutGrid className='h-4.5 w-4.5' />
             </button>
