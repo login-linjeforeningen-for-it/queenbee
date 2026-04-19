@@ -3,10 +3,65 @@
 import Announce from '@components/announce/announce'
 import Upload from '@components/image/upload'
 import postImage from '@utils/api/workerbee/images/postImage'
-import { useState } from 'react'
+import apiRequestClient from '@utils/api/client/request'
+import { useEffect, useRef, useState } from 'react'
 import { toLocalTimeString } from '@utils/timeZone'
 import { toast, Button, Input, Switch, Select, Textarea } from 'uibee/components'
 import config from '@config'
+
+type PublicSignupFormMeta = {
+    published_at: string
+    expires_at: string
+    limit: number | null
+}
+
+function parseFormsLoginSlug(url: string | null | undefined): string | null {
+    if (!url || typeof url !== 'string') {
+        return null
+    }
+
+    const normalizedUrl = url.startsWith('http://') || url.startsWith('https://') ? url : `https://${url}`
+
+    try {
+        const parsedUrl = new URL(normalizedUrl)
+        if (!['forms.login.no'].includes(parsedUrl.hostname)) {
+            return null
+        }
+
+        const match = parsedUrl.pathname.match(/^\/f\/([a-z0-9-_]+)\/?$/)
+        return match?.[1] || null
+    } catch {
+        return null
+    }
+}
+
+function toInputDateString(date: string): string {
+    const isoDateMatch = date.match(/^(\d{4}-\d{2}-\d{2})T/)
+    if (isoDateMatch?.[1]) {
+        return isoDateMatch[1]
+    }
+
+    const localDate = new Date(date)
+    if (Number.isNaN(localDate.getTime())) {
+        return ''
+    }
+
+    return localDate.toISOString().split('T')[0]
+}
+
+function toInputTimeString(date: string): string {
+    const isoTimeMatch = date.match(/T(\d{2}:\d{2})/)
+    if (isoTimeMatch?.[1]) {
+        return isoTimeMatch[1]
+    }
+
+    const parsedDate = new Date(date)
+    if (Number.isNaN(parsedDate.getTime())) {
+        return ''
+    }
+
+    return parsedDate.toISOString().slice(11, 16)
+}
 
 export default function EventFormInputsClient({
     defaultValues,
@@ -34,6 +89,8 @@ export default function EventFormInputsClient({
     type: 'create' | 'update'
 }) {
     const [images, setImages] = useState<Option[]>(defaultImages)
+    const [lastFetchedSignupSlug, setLastFetchedSignupSlug] = useState<string | null>(null)
+    const latestSignupRequest = useRef(0)
     const [formValues, setFormValues] = useState({
         name_no: defaultValues?.name_no || '',
         name_en: defaultValues?.name_en || '',
@@ -60,7 +117,6 @@ export default function EventFormInputsClient({
         capacity: defaultValues?.capacity,
         deadline_date: defaultValues?.time_signup_deadline?.split('T')[0],
         deadline_time: toLocalTimeString(defaultValues?.time_signup_deadline ?? undefined),
-        isFull: defaultValues?.is_full,
         image_banner: defaultValues?.image_banner,
         image_small: defaultValues?.image_small,
         publish_time: toLocalTimeString(defaultValues?.time_publish),
@@ -74,6 +130,77 @@ export default function EventFormInputsClient({
         repeat_type: '',
         repeat_until: ''
     })
+
+    const signupSlug = parseFormsLoginSlug(formValues.link_signup)
+
+    const hasSignupLink = !!formValues.link_signup && formValues.link_signup.trim() !== ''
+    const hasReleaseDate = !!formValues.release_date && formValues.release_date.trim() !== ''
+    const hasReleaseTime = !!formValues.release_time && formValues.release_time.trim() !== ''
+    const hasDeadlineDate = !!formValues.deadline_date && formValues.deadline_date.trim() !== ''
+    const hasDeadlineTime = !!formValues.deadline_time && formValues.deadline_time.trim() !== ''
+
+    const shouldRequireSignupLink = hasReleaseDate || hasReleaseTime || hasDeadlineDate || hasDeadlineTime
+    const shouldRequireSignupFields = hasSignupLink || hasReleaseDate || hasReleaseTime || hasDeadlineDate || hasDeadlineTime
+
+    useEffect(() => {
+        if (!signupSlug) {
+            setLastFetchedSignupSlug(null)
+            return
+        }
+
+        if (signupSlug === lastFetchedSignupSlug) {
+            return
+        }
+
+        const timeoutHandle = setTimeout(async () => {
+            const requestId = latestSignupRequest.current + 1
+            latestSignupRequest.current = requestId
+
+            try {
+                const formMeta = await apiRequestClient<PublicSignupFormMeta>({
+                    method: 'GET',
+                    path: `api/forms/${encodeURIComponent(signupSlug)}`
+                })
+
+                if (typeof formMeta.published_at !== 'string' || typeof formMeta.expires_at !== 'string') {
+                    throw new Error('forms.login.no returned incomplete signup metadata')
+                }
+
+                if (latestSignupRequest.current !== requestId) {
+                    return
+                }
+
+                setFormValues((currentValues) => ({
+                    ...currentValues,
+                    release_date: toInputDateString(formMeta.published_at),
+                    release_time: toInputTimeString(formMeta.published_at),
+                    deadline_date: toInputDateString(formMeta.expires_at),
+                    deadline_time: toInputTimeString(formMeta.expires_at),
+                    capacity: formMeta.limit,
+                }))
+
+                toast.success('Signup release and deadline were auto-filled from forms.login.no.')
+            } catch {
+                if (latestSignupRequest.current === requestId) {
+                    toast.error('Could not fetch signup details from forms.login.no.')
+                }
+            } finally {
+                if (latestSignupRequest.current === requestId) {
+                    setLastFetchedSignupSlug(signupSlug)
+                }
+            }
+        }, 500)
+
+        return () => clearTimeout(timeoutHandle)
+    }, [lastFetchedSignupSlug, signupSlug])
+
+    function retrySignupFetch() {
+        if (!signupSlug) {
+            return
+        }
+
+        setLastFetchedSignupSlug(null)
+    }
 
     function example() {
         setFormValues(sampleEvent)
@@ -491,12 +618,8 @@ export default function EventFormInputsClient({
                     ...formValues,
                     link_signup: e.target.value,
                 })}
-                required = {
-                    formValues.release_date !== '' && formValues.release_date !== undefined ||
-                    formValues.release_time !== '' && formValues.release_time !== undefined ||
-                    formValues.deadline_date !== '' && formValues.deadline_date !== undefined ||
-                    formValues.deadline_time !== '' && formValues.deadline_time !== undefined
-                }
+                onBlur={retrySignupFetch}
+                required={shouldRequireSignupLink}
             />
             <div className='flex flex-col sm:flex-row! gap-x-4'>
                 <Input
@@ -510,12 +633,7 @@ export default function EventFormInputsClient({
                             release_date: input.target.value,
                         })
                     }
-                    required = {
-                        formValues.link_signup !== '' && formValues.link_signup !== undefined ||
-                        formValues.release_time !== '' && formValues.release_time !== undefined ||
-                        formValues.deadline_date !== '' && formValues.deadline_date !== undefined ||
-                        formValues.deadline_time !== '' && formValues.deadline_time !== undefined
-                    }
+                    required={shouldRequireSignupFields}
                 />
                 <Input
                     type='time'
@@ -528,12 +646,7 @@ export default function EventFormInputsClient({
                             release_time: input.target.value,
                         })
                     }
-                    required = {
-                        formValues.link_signup !== '' && formValues.link_signup !== undefined ||
-                        formValues.release_date !== '' && formValues.release_date !== undefined ||
-                        formValues.deadline_date !== '' && formValues.deadline_date !== undefined ||
-                        formValues.deadline_time !== '' && formValues.deadline_time !== undefined
-                    }
+                    required={shouldRequireSignupFields}
                 />
             </div>
             <Input
@@ -558,12 +671,7 @@ export default function EventFormInputsClient({
                             deadline_date: input.target.value,
                         })
                     }
-                    required = {
-                        formValues.link_signup !== '' && formValues.link_signup !== undefined ||
-                        formValues.release_time !== '' && formValues.release_time !== undefined ||
-                        formValues.release_date !== '' && formValues.release_date !== undefined ||
-                        formValues.deadline_time !== '' && formValues.deadline_time !== undefined
-                    }
+                    required={shouldRequireSignupFields}
                 />
                 <Input
                     type='time'
@@ -576,25 +684,9 @@ export default function EventFormInputsClient({
                             deadline_time: input.target.value,
                         })
                     }
-                    required = {
-                        formValues.link_signup !== '' && formValues.link_signup !== undefined ||
-                        formValues.release_time !== '' && formValues.release_time !== undefined ||
-                        formValues.release_date !== '' && formValues.release_date !== undefined ||
-                        formValues.deadline_date !== '' && formValues.deadline_date !== undefined
-                    }
+                    required={shouldRequireSignupFields}
                 />
             </div>
-            <Switch
-                name='isFull'
-                label='Is Full'
-                checked={formValues.isFull || false}
-                onChange={(e) =>
-                    setFormValues({
-                        ...formValues,
-                        isFull: e.target.checked,
-                    })
-                }
-            />
             <h1 className='text-xl pt-10 pb-4 col-span-2'>Image</h1>
             <Upload
                 handleFile={handleFile}
@@ -715,7 +807,6 @@ const sampleEvent = {
     release_time: '12:00',
     deadline_date: today.toISOString().split('T')[0],
     deadline_time: '20:00',
-    isFull: false,
     image_banner: '',
     image_small: '',
     highlight: true,

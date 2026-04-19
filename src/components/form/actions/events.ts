@@ -26,7 +26,7 @@ function extractEventProps<T extends PostEventProps | PutEventProps>(formData: F
         description_en:         getRequiredString(formData, 'description_en'),
         description_no:         getRequiredString(formData, 'description_no'),
         digital:                getOptionalBoolean(formData, 'digital') || false,
-        is_full:                getOptionalBoolean(formData, 'isFull') || false,
+        is_full:                false,
         highlight:              getOptionalBoolean(formData, 'highlight') || false,
         image_banner:           getOptionalString(formData, 'image_banner'),
         image_small:            getOptionalString(formData, 'image_small'),
