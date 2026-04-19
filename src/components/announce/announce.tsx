@@ -64,11 +64,10 @@ export default function Announce({ channels, roles, formData }: AnnounceProps) {
                 </h1>
                 <Switch
                     name='announcement_enabled'
-                    label='Disable | Enable '
                     checked={enabled}
                     onChange={() => setEnabled((prev) => !prev)}
                     switchOnly
-                    className='self-center'
+                    className='self-center w-fit!'
                     disabled={!channels.length || !roles.length}
                 />
             </div>
