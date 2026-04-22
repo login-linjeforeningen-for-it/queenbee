@@ -71,7 +71,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                         list={backups}
                         headers={headers}
                         hideMenu={true}
-                        redirectPath={{ path: '/internal/backup/restore?service=', key: 'rawName' }}
+                        redirectPath={{ path: '/internal/db/restore?service=', key: 'rawName' }}
                     />
                 ) : (
                     <div className='h-full flex items-center justify-center'>
