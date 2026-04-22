@@ -142,12 +142,13 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
             image: <TriangleAlert className='w-6' />,
         },
         {
-            name: 'Backup',
-            path: '/internal/backup',
+            name: 'Databases',
+            path: '/internal/db',
             image: <Database className='w-6' />,
             items: [
-                { name: 'Status', path: '/internal/backup' },
-                { name: 'Restore', path: '/internal/backup/restore' },
+                { name: 'Overview', path: '/internal/db' },
+                { name: 'Backup', path: '/internal/db/backups' },
+                { name: 'Restore', path: '/internal/db/restore' },
             ]
         },
         {

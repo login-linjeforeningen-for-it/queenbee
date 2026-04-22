@@ -17,14 +17,14 @@ export async function proxy(req: NextRequest) {
         const token = tokenCookie.value
 
         if (btg) {
-            validToken = await btgTokenIsValid(token, btg)
+            validToken = await btgTokenIsValid(token, btg, req.nextUrl.pathname)
             if (!validToken) {
                 return NextResponse.redirect(new URL('/api/auth/logout', req.url))
             }
         }
 
         if (!validToken) {
-            const response = await tokenIsValid(token)
+            const response = await tokenIsValid(token, req.nextUrl.pathname)
             validToken = response.valid
             if (!validToken) {
                 return NextResponse.redirect(new URL('/api/auth/logout', req.url))
@@ -32,7 +32,7 @@ export async function proxy(req: NextRequest) {
         }
 
         if (req.nextUrl.pathname.startsWith('/internal')) {
-            const response = await tokenIsValid(token)
+            const response = await tokenIsValid(token, req.nextUrl.pathname)
             const groups = response.groups || []
             const lowerGroups = groups.map((g) => g.toLowerCase())
             if (!lowerGroups.includes('tekkom')) {
@@ -45,6 +45,81 @@ export async function proxy(req: NextRequest) {
     const res = NextResponse.next()
     res.headers.set('x-theme', theme)
     return res
+}
+
+async function tokenIsValid(token: string, pathname?: string): Promise<{ valid: boolean; groups?: string[] }> {
+    try {
+        const userInfo = await fetch(appConfig.authentik.url.userinfo, {
+            headers: { Authorization: `Bearer ${token}` },
+            signal: AbortSignal.timeout(3000),
+        })
+
+        if (!userInfo.ok) {
+            return { valid: false }
+        }
+
+        const data = await userInfo.json()
+
+        if (!Array.isArray(data.groups) || !data.groups.map((g: string) => g.toLowerCase()).includes('queenbee')) {
+            return { valid: false }
+        }
+
+        return { valid: true, groups: data.groups }
+    } catch (error) {
+        logProxyError('proxy.auth.userinfo_failed', error, {
+            path: pathname,
+        })
+
+        return { valid: false }
+    }
+}
+
+async function btgTokenIsValid(token: string, name: string, pathname?: string): Promise<boolean> {
+    try {
+        const response = await fetch(`${appConfig.url.bot}/token`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                name,
+                btg: 'queenbee-btg',
+                middleware: 'true',
+            },
+            signal: AbortSignal.timeout(3000),
+        })
+
+        if (!response.ok) {
+            throw new Error(await response.text())
+        }
+
+        return true
+    } catch (error) {
+        logProxyError('proxy.auth.btg_validation_failed', error, {
+            name,
+            path: pathname,
+        })
+
+        return false
+    }
+}
+
+function logProxyError(message: string, error: unknown, context?: Record<string, unknown>) {
+    const normalizedError = error instanceof Error ? {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+    } : { message: String(error) }
+
+    console.log(JSON.stringify({
+        time: new Date().toISOString(),
+        level: 'error',
+        service: 'queenbee',
+        runtime: 'web',
+        environment: process.env.NODE_ENV ?? 'development',
+        pid: process.pid,
+        hostname: process.env.HOSTNAME,
+        msg: message,
+        err: normalizedError,
+        context,
+    }))
 }
 
 function pathIsAllowedWhileUnauthorized(path: string) {
@@ -64,59 +139,4 @@ function pathIsAllowedWhileUnauthorized(path: string) {
     }
 
     return false
-}
-
-async function tokenIsValid(token: string): Promise<{ valid: boolean; groups?: string[] }> {
-    try {
-        const userInfo = await fetch(appConfig.authentik.url.userinfo, {
-            headers: { Authorization: `Bearer ${token}` },
-            signal: AbortSignal.timeout(3000),
-        })
-
-        if (!userInfo.ok) {
-            return { valid: false }
-        }
-
-        const data = await userInfo.json()
-
-        if (!Array.isArray(data.groups) || !data.groups.map((g: string) => g.toLowerCase()).includes('queenbee')) {
-            return { valid: false }
-        }
-
-        return { valid: true, groups: data.groups }
-    } catch (error) {
-        console.log(`API Error (middleware.ts): ${error}`, {
-            message: (error as Error).message,
-            stack: (error as Error).stack,
-        })
-
-        return { valid: false }
-    }
-}
-
-async function btgTokenIsValid(token: string, name: string): Promise<boolean> {
-    try {
-        const response = await fetch(`${appConfig.url.bot}/token`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                name,
-                btg: 'queenbee-btg',
-                middleware: 'true',
-            },
-            signal: AbortSignal.timeout(3000),
-        })
-
-        if (!response.ok) {
-            throw new Error(await response.text())
-        }
-
-        return true
-    } catch (error) {
-        console.log(`API BTG Error (middleware.ts): ${error}`, {
-            message: (error as Error).message,
-            stack: (error as Error).stack,
-        })
-
-        return false
-    }
 }

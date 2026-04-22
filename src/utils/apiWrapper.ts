@@ -40,7 +40,7 @@ async function apiRequest({ service, method, path, options, data }: APIRequestPr
         btg: 'tekkom-bot'
     } : baseHeaders
 
-    const timeoutMs = service === 'internal' && path.startsWith('docker/')
+    const timeoutMs = service === 'internal' && (path.startsWith('docker/') || path === 'db')
         ? 10000
         : 3000
 

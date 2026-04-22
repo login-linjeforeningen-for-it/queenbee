@@ -33,6 +33,18 @@ export default function Header({ keys, headers, hideMenu }: HeaderProps) {
         setOrder((prev) => (key === column && prev === 'asc' ? 'desc' : 'asc'))
     }
 
+    function formatLabel(key: string) {
+        if (key.length < 3) {
+            return key.toUpperCase()
+        }
+
+        const spaced = key
+            .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+            .replaceAll('_', ' ')
+
+        return `${spaced[0].toUpperCase()}${spaced.slice(1)}`
+    }
+
     return (
         <thead className='bg-login-700 block w-full'>
             <tr className='flex w-full'>
@@ -40,12 +52,7 @@ export default function Header({ keys, headers, hideMenu }: HeaderProps) {
                     if (!headers.includes(key)) {
                         return null
                     }
-                    const value =
-                        key.length < 3
-                            ? key.toUpperCase()
-                            : `${key[0].toUpperCase()}${key
-                                .slice(1)
-                                .replaceAll('_', ' ')}`
+                    const value = formatLabel(key)
 
                     return (
                         <th

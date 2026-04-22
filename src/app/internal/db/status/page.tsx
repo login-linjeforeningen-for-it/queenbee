@@ -28,14 +28,14 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
             </div>
         ),
         status: (
-            <div className='flex gap-2'>
-                <div className={`px-2 py-1 rounded text-xs font-bold text-white ${
+            <div className='flex max-w-120 flex-wrap gap-2'>
+                <div className={`rounded px-2 py-1 text-xs font-bold text-white ${
                     backup.status.toLowerCase().includes('up') ? 'bg-green-500/40' : 'bg-red-500/40'
                 }`}>
                     {backup.status}
                 </div>
                 {backup.status.toLowerCase().includes('up') && backup.error &&
-                    <div className='px-2 py-1 rounded text-xs font-bold bg-red-500/40 text-white'>
+                    <div className='rounded bg-red-500/40 px-2 py-1 text-xs font-bold text-white wrap-break-word'>
                         {backup.error}
                     </div>
                 }
@@ -84,6 +84,3 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         </div>
     )
 }
-
-
-
