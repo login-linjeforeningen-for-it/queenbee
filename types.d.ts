@@ -648,21 +648,45 @@ declare global {
         status: 'available' | 'unavailable'
         count: number
         containers: Container[]
+        error?: string | null
+    }
+
+    type DeploymentStatus = {
+        id: string
+        name: string
+        repoPath: string
+        branch: string
+        serviceUnit: string
+        timerUnit: string
+        autoDeployEnabled: boolean
+        autoDeployActive: boolean
+        serviceActive: boolean
+        updateAvailable: boolean
+        behindCount: number
+        currentCommit: string | null
+        upstreamCommit: string | null
+        dirty: boolean
+        reachable: boolean
+        error: string | null
     }
 
     type Container = {
         id: string
         name: string
         status: string
+        project: string
+        deployment: DeploymentStatus | null
     }
 
     type DockerContainer = {
         service: string
+        deployment: DeploymentStatus | null
         container: {
             id: string
             name: string
             status: string
             uptime: string
+            project: string
             details: {
                 Id: string
                 Created: string
@@ -1381,6 +1405,37 @@ declare global {
         longestQuery: DatabaseOverviewQuery | null
         averageQuerySeconds: DatabaseOverviewAverageQuery
         clusters: DatabaseOverviewCluster[]
+    }
+
+    type AppNotificationHistoryEntry = {
+        id: string
+        title: string
+        body: string
+        topic: string
+        data: Record<string, string>
+        sentAt: string
+        delivered: number
+        failed: number
+        ticketIds: string[]
+    }
+
+    type ScheduledAppNotificationEntry = {
+        id: string
+        title: string
+        body: string
+        topic: string
+        data: Record<string, string>
+        scheduledAt: string
+        status: 'scheduled' | 'processing' | 'sent' | 'failed' | 'cancelled'
+        createdAt: string
+        updatedAt: string
+        sentAt: string | null
+        cancelledAt: string | null
+        lastError: string | null
+        delivered: number | null
+        failed: number | null
+        historyId: string | null
+        createdBy: string | null
     }
 }
 

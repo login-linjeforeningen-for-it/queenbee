@@ -14,6 +14,6 @@ export default async function getLogs(params?: URLSearchParams | Record<string, 
 
     return await getWrapper({
         path: query ? `docker/logs?${query}` : 'docker/logs',
-        service: 'internal'
+        service: 'beekeeper'
     })
 }

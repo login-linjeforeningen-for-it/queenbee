@@ -9,7 +9,7 @@ const config = {
         authentik: env.AUTHENTIK_URL || 'https://authentik.login.no',
         api: env.WORKERBEE_API_URL || 'https://workerbee.login.no/api/v2',
         bot: env.TEKKOM_BOT_API_URL || 'https://bot.login.no/api',
-        internal: env.INTERNAL_API_URL || 'https://internal.login.no/api',
+        app: env.APP_API_URL || 'https://app.login.no/api',
         beekeeper: env.BEEKEEPER_API_URL || 'https://beekeeper.login.no/api',
         beekeeper_wss: env.BEEKEEPER_WSS_API_URL || 'wss://beekeeper.login.no/api',
     },

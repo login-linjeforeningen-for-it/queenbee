@@ -4,7 +4,17 @@ export async function POST(req: Request) {
     try {
         const body = await req.json()
         const { title, description, screen, topic } = body
-        await sendNotification({ title, description, screen, topic })
+        const sent = await sendNotification({ title, description, screen, topic })
+
+        if (!sent) {
+            return new Response(JSON.stringify({
+                success: false,
+                error: 'Failed to send notification',
+            }), {
+                status: 502,
+                headers: { 'Content-Type': 'application/json' },
+            })
+        }
 
         return new Response(JSON.stringify({ success: true }), {
             status: 200,

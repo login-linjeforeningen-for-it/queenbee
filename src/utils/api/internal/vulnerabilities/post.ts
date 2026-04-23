@@ -12,6 +12,6 @@ export default async function triggerVulnerabilityScan(): Promise<TriggerVulnera
     return await postWrapper({
         path: 'vulnerabilities/scan',
         data: {},
-        service: 'internal'
+        service: 'beekeeper'
     })
 }

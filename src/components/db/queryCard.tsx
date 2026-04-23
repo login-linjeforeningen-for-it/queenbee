@@ -37,12 +37,12 @@ export default function QueryCard({ query }: { query: DatabaseOverviewQuery | nu
                     <div className='mt-1 text-sm font-semibold text-login-100'>{query.waitEventType || 'Running'}</div>
                 </div>
             </div>
-            <div className='mt-4 max-h-80 overflow-auto rounded-lg border
+            <div className='mt-4 max-h-80 max-w-full overflow-x-auto overflow-y-auto rounded-lg border
                 border-white/5 bg-login-950/60'
             >
                 <pre
-                    className='inline-block min-w-max p-3 font-mono text-xs
-                        text-login-200 whitespace-pre'
+                    className='min-w-full w-max p-3 font-mono text-xs
+                        leading-5 text-login-200 whitespace-pre'
                 >
                     {query.query}
                 </pre>

@@ -1,31 +1,22 @@
 import { NextRequest } from 'next/server'
-import config from '@config'
+import { getWrapper } from '@utils/apiWrapper'
 
 export async function GET(req: NextRequest) {
     try {
-        const token = req.cookies.get('access_token')?.value
-        if (!token) {
-            return Response.json({ error: 'Unauthorized' }, { status: 401 })
-        }
-
-        const base = config.url.internal.replace(/\/$/, '')
         const query = req.nextUrl.searchParams.toString()
-        const url = `${base}/docker/logs${query ? `?${query}` : ''}`
-
-        const response = await fetch(url, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            cache: 'no-store'
-        })
-
-        const text = await response.text()
-        return new Response(text, {
-            status: response.status,
-            headers: {
-                'Content-Type': response.headers.get('content-type') || 'application/json'
+        const response = await getWrapper({
+            path: query ? `docker/logs?${query}` : 'docker/logs',
+            service: 'beekeeper',
+            options: {
+                cache: 'no-store',
             }
         })
+
+        if (typeof response === 'string') {
+            return Response.json({ error: response }, { status: 500 })
+        }
+
+        return Response.json(response)
     } catch (error) {
         return Response.json({
             error: error instanceof Error ? error.message : 'Failed to proxy logs'

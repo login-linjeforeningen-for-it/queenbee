@@ -1,31 +1,43 @@
-// import run from '@utils/db'
 import { NextRequest } from 'next/server'
+import { getWrapper, putWrapper } from '@utils/apiWrapper'
 
 export async function GET(
-    _req: NextRequest,
+    req: NextRequest,
     context: RouteContext<'/api/system/autoRestart/[id]'>
 ) {
     const { id } = await context.params
-    const value = await getAutoRestart(id)
-    return Response.json({ ok: true, auto_restart: value })
+    const response = await getWrapper({
+        path: `deployments/${id}`,
+        service: 'beekeeper'
+    })
+
+    if (typeof response === 'string') {
+        return Response.json({ error: response }, { status: 500 })
+    }
+
+    return Response.json(response)
 }
 
-async function getAutoRestart(id: string): Promise<boolean> {
+export async function PUT(
+    req: NextRequest,
+    context: RouteContext<'/api/system/autoRestart/[id]'>
+) {
     try {
-        console.log(id)
-        return true
-        // const result = await run(
-        //     'SELECT auto_restart FROM containers WHERE id = $1',
-        //     [id]
-        // )
+        const { id } = await context.params
+        const body = await req.json().catch(() => ({}))
+        const response = await putWrapper({
+            path: `deployments/${id}/auto`,
+            service: 'beekeeper',
+            data: { enabled: Boolean(body.enabled) }
+        })
 
-        // if (result.rows.length === 0) {
-        //     return false
-        // }
+        if (typeof response === 'string') {
+            return Response.json({ error: response }, { status: 500 })
+        }
 
-        // return result.rows[0].auto_restart
-    } catch (err) {
-        console.error(err)
-        return false
+        return Response.json(response)
+    } catch (error) {
+        console.error(error)
+        return Response.json({ error: 'Failed to update auto deploy' }, { status: 500 })
     }
 }

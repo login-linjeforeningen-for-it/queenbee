@@ -13,6 +13,6 @@ export default async function postBackupRestore(data: BackupRestoreProps): Promi
     return await postWrapper({
         path: 'backup/restore',
         data,
-        service: 'internal'
+        service: 'beekeeper'
     })
 }

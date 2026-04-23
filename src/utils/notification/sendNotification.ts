@@ -1,62 +1,50 @@
+import config from '@config'
+
 type sendNotificationProps = {
     title: string
     description: string
-    screen?: DetailedEvent | EventWithOnlyID
+    screen?: DetailedEvent | EventWithOnlyID | Record<string, string | number | boolean | null>
     topic?: string
 }
 
-// A new type that is the same as DetailedEvent, but with id as a string
-interface DetailedEventStr extends Omit<DetailedEvent, 'id'> {
-    id: string
+function normalizeData(input?: Record<string, string | number | boolean | null>) {
+    if (!input) {
+        return {}
+    }
+
+    return Object.entries(input).reduce<Record<string, string>>((acc, [key, value]) => {
+        if (value !== undefined && value !== null) {
+            acc[key] = String(value)
+        }
+        return acc
+    }, {})
 }
 
-// Data in the message cannot be undefined so it is defined as an empty object or a DetailedEventStr
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-type Data = {} | DetailedEventStr
-
-/**
- * Posts notification to FCM.
- * @param title    Notification title
- * @param body     Notification body
- * @param screen   Event to navigate to in the app, give the full object.
- * @param topic    Notification topic
- */
 export default async function sendNotification({
     title,
     description,
     screen,
     topic,
 }: sendNotificationProps): Promise<boolean> {
-    if (!topic) {
-        topic = 'maintenance'
-    }
-
-    const data: Data = screen && screen.id ? screen : {}
-    const message: object = {
-        topic: topic,
-        notification: {
-            title: title,
-            body: description,
-        },
-        data,
-    }
-
     try {
-        console.log(message)
-        // const notification = await getMessaging().send(message)
+        const response = await fetch(`${config.url.app}/notifications`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...(process.env.APP_API_ADMIN_TOKEN
+                    ? { Authorization: `Bearer ${process.env.APP_API_ADMIN_TOKEN}` }
+                    : {}),
+            },
+            body: JSON.stringify({
+                title,
+                body: description,
+                topic: topic || 'maintenance',
+                data: normalizeData(screen as Record<string, string | number | boolean | null> | undefined),
+            }),
+        })
 
-        // if (notification) {
-        //     return true
-        // }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
+        return response.ok
+    } catch {
         return false
     }
-
-    return false
 }
-
-// Examples of direct notifications that can be sent by node sendNotifications.ts
-// Topics: norwegianTOPIC, englishTOPIC, ...
-
-// sendNotification({title: 'Tittel', description: 'Beskrivelse', topic: 'maintenance'})

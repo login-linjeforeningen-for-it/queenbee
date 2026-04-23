@@ -33,24 +33,77 @@ const refreshOptions = [
     { label: '5m', value: 300000 },
 ]
 
-function ActionButtons({ id, initialAutoUpdate }: { id: string, initialAutoUpdate: boolean }) {
-    const [autoUpdate, setAutoUpdate] = useState<boolean>(initialAutoUpdate)
+function DeploymentMeta({ deployment }: { deployment: DeploymentStatus | null }) {
+    if (!deployment) {
+        return <span className='text-xs text-white/40'>No deployment hooks</span>
+    }
+
+    return (
+        <div className='flex flex-wrap justify-end gap-1 text-[10px] font-semibold uppercase tracking-wider'>
+            <span className={`rounded border px-2 py-0.5 ${deployment.autoDeployEnabled
+                ? 'border-emerald-500/30 text-emerald-300 bg-emerald-500/10'
+                : 'border-white/10 text-white/50 bg-white/5'
+                }`}>
+                {deployment.autoDeployEnabled ? 'Autodeploy on' : 'Autodeploy off'}
+            </span>
+            <span className={`rounded border px-2 py-0.5 ${deployment.updateAvailable
+                ? 'border-amber-500/30 text-amber-300 bg-amber-500/10'
+                : 'border-white/10 text-white/50 bg-white/5'
+                }`}>
+                {deployment.updateAvailable ? `${deployment.behindCount} update${deployment.behindCount === 1 ? '' : 's'}` : 'Up to date'}
+            </span>
+        </div>
+    )
+}
+
+function ActionButtons({
+    deployment,
+    onUpdated
+}: {
+    deployment: DeploymentStatus | null
+    onUpdated: () => Promise<void>
+}) {
+    const [autoUpdate, setAutoUpdate] = useState<boolean>(Boolean(deployment?.autoDeployEnabled))
     const [refresh, setRefresh] = useState(false)
     const [update, setUpdate] = useState<boolean | 'inProgress'>(false)
 
     async function handleAutoUpdate() {
-        setAutoUpdate(prev => !prev)
-        console.log(`handling of autoupdate of ${id} - todo, value:`, autoUpdate)
+        if (!deployment) {
+            return
+        }
+
+        const nextValue = !autoUpdate
+        setAutoUpdate(nextValue)
+
+        const response = await fetch(`/api/system/autoRestart/${deployment.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ enabled: nextValue })
+        })
+
+        if (!response.ok) {
+            setAutoUpdate(!nextValue)
+        }
+
+        await onUpdated()
     }
 
     async function handleRefresh() {
-        console.log(`handling of refresh of ${id} - todo, value:`, refresh)
         setRefresh(prev => !prev)
+        await onUpdated()
     }
 
     async function handleUpdate() {
-        console.log(`handling of update of ${id} - todo, value:`, update)
+        if (!deployment) {
+            return
+        }
+
         setUpdate('inProgress')
+        await fetch(`/api/system/update/${deployment.id}`, {
+            method: 'POST'
+        }).catch(() => null)
+        setUpdate(false)
+        await onUpdated()
     }
 
     return (
@@ -62,8 +115,9 @@ function ActionButtons({ id, initialAutoUpdate }: { id: string, initialAutoUpdat
                     justify-center cursor-pointer bg-login-500 group
                 `}
                 onClick={handleUpdate}
+                disabled={!deployment}
             >
-                <ArrowUpCircle className='h-4 w-4 group-hover:stroke-green-500' />
+                <ArrowUpCircle className={`h-4 w-4 ${deployment?.updateAvailable ? 'stroke-amber-400' : 'group-hover:stroke-green-500'}`} />
             </button>}
             <button
                 type='button'
@@ -82,6 +136,7 @@ function ActionButtons({ id, initialAutoUpdate }: { id: string, initialAutoUpdat
                     items-center justify-center cursor-pointer
                 `}
                 onClick={handleAutoUpdate}
+                disabled={!deployment}
             >
                 <div className='group cursor-pointer'>
                     {autoUpdate ? <Conveyer
@@ -114,6 +169,11 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
         container.status.toLowerCase().includes(query)
     ) || []
 
+    async function refreshDocker() {
+        const updatedDocker = await getDocker()
+        setDocker(updatedDocker)
+    }
+
     const tableList = filteredContainers.map(container => ({
         system_table_id: container.id,
         id: <span className='font-mono text-xs text-login-200'>{container.id.substring(0, 12)}</span>,
@@ -128,10 +188,13 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
             </span>
         ),
         actions: (
-            <ActionButtons
-                id={container.id}
-                initialAutoUpdate={Boolean(Math.floor(Math.random() * 2))}
-            />
+            <div className='flex flex-col items-end gap-2'>
+                <DeploymentMeta deployment={container.deployment} />
+                <ActionButtons
+                    deployment={container.deployment}
+                    onUpdated={refreshDocker}
+                />
+            </div>
         )
     }))
 
@@ -141,8 +204,7 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
         }
 
         const intervalId = setInterval(async () => {
-            const updatedDocker = await getDocker()
-            setDocker(updatedDocker)
+            await refreshDocker()
         }, autoRefresh)
 
         return () => clearInterval(intervalId)
@@ -181,7 +243,11 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
                     <Search />
                 </div>
             </div>
-            {!filteredContainers.length && query.length ? (
+            {docker.error ? (
+                <div className='w-full h-full flex items-center justify-center'>
+                    <Alert>{docker.error}</Alert>
+                </div>
+            ) : !filteredContainers.length && query.length ? (
                 <div className='w-full h-full flex items-center justify-center'>
                     <Alert>No containers matches query '{query}'</Alert>
                 </div>

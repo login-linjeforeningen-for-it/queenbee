@@ -60,7 +60,7 @@ export type GetVulnerabilities = VulnerabilityReportFile & {
 export default async function getVulnerabilities(): Promise<GetVulnerabilities | string> {
     return await getWrapper({
         path: 'vulnerabilities',
-        service: 'internal',
+        service: 'beekeeper',
         options: {
             cache: 'no-store',
         }

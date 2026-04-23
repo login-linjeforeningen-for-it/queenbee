@@ -3,11 +3,10 @@ import { cookies } from 'next/headers'
 
 const baseUrl = config.url.api
 const tekkomBotApiUrl = config.url.bot
-const systemUrl = config.url.internal
 const beekeeperUrl = config.url.beekeeper
 
 type APIRequestProps = {
-    service: 'bot' | 'internal' | 'beekeeper' | 'workerbee'
+    service: 'bot' | 'beekeeper' | 'workerbee'
     method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD'
     path: string
     options?: RequestInit
@@ -22,11 +21,9 @@ async function apiRequest({ service, method, path, options, data }: APIRequestPr
 
     const url = service === 'bot'
         ? tekkomBotApiUrl
-        : service === 'internal'
-            ? systemUrl
-            : service === 'beekeeper'
-                ? beekeeperUrl
-                : baseUrl
+        : service === 'beekeeper'
+            ? beekeeperUrl
+            : baseUrl
 
     const isFormData = data instanceof FormData
 
@@ -40,8 +37,12 @@ async function apiRequest({ service, method, path, options, data }: APIRequestPr
         btg: 'tekkom-bot'
     } : baseHeaders
 
-    const timeoutMs = service === 'internal' && (path.startsWith('docker/') || path === 'db')
-        ? 10000
+    const timeoutMs = service === 'beekeeper'
+        ? path === 'docker/logs'
+            ? 30000
+            : (path.startsWith('docker/') || path === 'docker' || path === 'db')
+                ? 15000
+                : 3000
         : 3000
 
     const controller = new AbortController()

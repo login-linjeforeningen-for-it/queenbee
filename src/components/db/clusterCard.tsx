@@ -11,6 +11,7 @@ import DatabaseCard from '@components/db/databaseCard'
 
 export default function ClusterCard({ cluster }: { cluster: DatabaseOverviewCluster }) {
     const [expanded, setExpanded] = useState(false)
+    const databaseLabel = cluster.databaseCount === 1 ? 'database' : 'databases'
 
     return (
         <section className='w-full rounded-2xl border border-login-100/10 bg-login-900/55 p-5'>
@@ -44,7 +45,7 @@ export default function ClusterCard({ cluster }: { cluster: DatabaseOverviewClus
                         </div>
                         <div className='mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground'>
                             <span>{cluster.project || 'No compose project'}</span>
-                            <span>{cluster.databaseCount} databases</span>
+                            <span>{cluster.databaseCount} {databaseLabel}</span>
                             <span>{formatBytes(cluster.totalSizeBytes)}</span>
                             <span>{cluster.activeQueries} active queries</span>
                         </div>

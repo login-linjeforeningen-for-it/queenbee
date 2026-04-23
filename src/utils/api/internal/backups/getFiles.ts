@@ -14,6 +14,6 @@ export default async function getBackupFiles({ service, date }: GetBackupFilesPr
 
     return await getWrapper({
         path: `backup/files?${queryParts.toString()}`,
-        service: 'internal'
+        service: 'beekeeper'
     })
 }
