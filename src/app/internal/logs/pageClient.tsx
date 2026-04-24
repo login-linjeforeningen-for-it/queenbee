@@ -3,8 +3,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { AlertTriangle, ChevronDown, RefreshCcw, ServerCrash, TerminalSquare } from 'lucide-react'
 import { Toggle } from 'uibee/components'
+import { parseLogsHash } from '@utils/logsNavigation'
 
 type LogEntry = {
+    fingerprint: string
     raw: string
     message: string
     level: string
@@ -82,6 +84,9 @@ export default function LogsPageClient({ initialData }: { initialData: LogsPaylo
     const [error, setError] = useState<string | null>(null)
     const [viewMode, setViewMode] = useState<ViewMode>('compact')
     const [expandedServices, setExpandedServices] = useState<Record<string, boolean>>({})
+    const [hashTarget, setHashTarget] = useState(() =>
+        typeof window === 'undefined' ? null : parseLogsHash(window.location.hash)
+    )
 
     const serviceOptions = useMemo(() =>
         Array.from(new Set(data.containers.map(container => container.service))).sort((a, b) => a.localeCompare(b))
@@ -184,33 +189,75 @@ export default function LogsPageClient({ initialData }: { initialData: LogsPaylo
         return () => clearInterval(timer)
     }, [live, service, search, level])
 
+    useEffect(() => {
+        if (typeof window === 'undefined') {
+            return
+        }
+
+        const updateHashTarget = () => {
+            setHashTarget(parseLogsHash(window.location.hash))
+        }
+
+        updateHashTarget()
+        window.addEventListener('hashchange', updateHashTarget)
+        return () => window.removeEventListener('hashchange', updateHashTarget)
+    }, [])
+
+    useEffect(() => {
+        if (!hashTarget) {
+            return
+        }
+
+        const targetSource = data.containers.find(container => container.id === hashTarget.sourceId)
+        if (!targetSource) {
+            return
+        }
+
+        setExpandedServices(prev => ({
+            ...prev,
+            [targetSource.service]: true,
+        }))
+
+        const targetElementId = hashTarget.entryFingerprint
+            ? `log-entry-${targetSource.id}-${hashTarget.entryFingerprint}`
+            : `log-source-${targetSource.id}`
+
+        const timer = window.setTimeout(() => {
+            const targetElement = document.getElementById(targetElementId)
+                || document.getElementById(`log-source-${targetSource.id}`)
+            targetElement?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+        }, 80)
+
+        return () => window.clearTimeout(timer)
+    }, [data.containers, hashTarget])
+
     function getSourceTone(sourceType: LogContainer['sourceType']) {
         switch (sourceType) {
-        case 'deployment':
-            return 'border-cyan-500/20 bg-cyan-500/10 text-cyan-200'
-        case 'journal':
-            return 'border-violet-500/20 bg-violet-500/10 text-violet-200'
-        case 'file':
-            return 'border-emerald-500/20 bg-emerald-500/10 text-emerald-200'
-        case 'history':
-            return 'border-amber-500/20 bg-amber-500/10 text-amber-200'
-        default:
-            return 'border-login-100/10 bg-login-50/5 text-login-100'
+            case 'deployment':
+                return 'border-cyan-500/20 bg-cyan-500/10 text-cyan-200'
+            case 'journal':
+                return 'border-violet-500/20 bg-violet-500/10 text-violet-200'
+            case 'file':
+                return 'border-emerald-500/20 bg-emerald-500/10 text-emerald-200'
+            case 'history':
+                return 'border-amber-500/20 bg-amber-500/10 text-amber-200'
+            default:
+                return 'border-login-100/10 bg-login-50/5 text-login-100'
         }
     }
 
     function formatSourceType(sourceType: LogContainer['sourceType']) {
         switch (sourceType) {
-        case 'deployment':
-            return 'Deploy'
-        case 'journal':
-            return 'Journal'
-        case 'file':
-            return 'File'
-        case 'history':
-            return 'History'
-        default:
-            return 'Container'
+            case 'deployment':
+                return 'Deploy'
+            case 'journal':
+                return 'Journal'
+            case 'file':
+                return 'File'
+            case 'history':
+                return 'History'
+            default:
+                return 'Container'
         }
     }
 
@@ -389,6 +436,7 @@ export default function LogsPageClient({ initialData }: { initialData: LogsPaylo
                                             {group.sources.map((container) => (
                                                 <div
                                                     key={container.id}
+                                                    id={`log-source-${container.id}`}
                                                     className='overflow-hidden rounded-2xl border border-white/10 bg-black/10'
                                                 >
                                                     <div className={`
@@ -419,6 +467,7 @@ export default function LogsPageClient({ initialData }: { initialData: LogsPaylo
                                                         {container.entries.map((entry, index) => (
                                                             <div
                                                                 key={`${container.id}-${index}`}
+                                                                id={`log-entry-${container.id}-${entry.fingerprint}`}
                                                                 className={`
                                                                     grid grid-cols-[max-content_1fr]
                                                                     gap-3 border-b border-white/5
