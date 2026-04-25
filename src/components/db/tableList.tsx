@@ -3,7 +3,7 @@ import formatBytes from '@utils/db/formatBytes'
 export default function TableList({ database }: { database: DatabaseOverviewItem }) {
     if (!database.tables.length) {
         return (
-            <div className='rounded-xl border border-dashed border-white/10 bg-black/20 p-4 text-sm text-muted-foreground'>
+            <div className='rounded-xl border border-dashed border-white/8 bg-login-950/40 p-4 text-sm text-muted-foreground'>
                 No user tables were found in this database.
             </div>
         )
@@ -15,7 +15,7 @@ export default function TableList({ database }: { database: DatabaseOverviewItem
                 <div
                     key={`${database.name}-${table.schema}-${table.name}`}
                     className={`
-                        grid gap-3 rounded-xl border border-white/5 bg-black/20 p-4
+                        grid gap-3 rounded-xl border border-white/6 bg-login-950/40 p-4
                         md:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]
                     `}
                 >

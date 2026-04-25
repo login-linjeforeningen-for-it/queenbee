@@ -58,7 +58,7 @@ export default function PageClient({ overview }: PageClientProps) {
     if (typeof sortedOverview === 'string') {
         return (
             <div className='flex h-full items-center justify-center'>
-                <div className='max-w-xl rounded-2xl border border-red-500/20 bg-red-500/10 p-5 text-sm text-red-200'>
+                <div className='max-w-xl rounded-3xl border border-red-500/18 bg-red-500/9 p-5 text-sm text-red-200'>
                     {sortedOverview}
                 </div>
             </div>
@@ -103,14 +103,14 @@ export default function PageClient({ overview }: PageClientProps) {
                 </div>
 
                 <div className='grid gap-4 xl:grid-cols-[1.2fr_0.8fr]'>
-                    <div className='rounded-2xl border border-login-100/10 bg-login-900/55 p-5'>
+                    <div className='rounded-3xl border border-white/5 bg-login-50/5 p-5'>
                         <div className='mb-4 flex items-center gap-2'>
                             <TimerReset className='h-4 w-4 text-cyan-400' />
                             <h2 className='text-sm font-semibold text-white'>Average active query runtime</h2>
                         </div>
                         <QueryWindowGrid averageQuerySeconds={sortedOverview.averageQuerySeconds} />
                     </div>
-                    <div className='rounded-2xl border border-login-100/10 bg-login-900/55 p-5'>
+                    <div className='rounded-3xl border border-white/5 bg-login-50/5 p-5'>
                         <div className='mb-4 flex items-center gap-2'>
                             <Layers3 className='h-4 w-4 text-orange-400' />
                             <h2 className='text-sm font-semibold text-white'>Longest running query overall</h2>

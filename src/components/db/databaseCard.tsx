@@ -17,7 +17,7 @@ export default function DatabaseCard({
     const [detailsExpanded, setDetailsExpanded] = useState(false)
 
     return (
-        <section className='rounded-2xl border border-login-100/10 bg-login-900/40 p-5'>
+        <section className='rounded-xl border border-white/5 bg-login-50/5 px-5 py-4'>
             <div className='flex items-center gap-3'>
                 <div
                     role='button'
@@ -61,7 +61,7 @@ export default function DatabaseCard({
             {expanded ? (
                 <div className='mt-5 flex flex-col gap-5'>
                     <div className='grid gap-3 md:grid-cols-2 xl:grid-cols-4'>
-                        <div className='rounded-lg border border-white/5 bg-black/20 p-3'>
+                        <div className='rounded-xl border border-white/6 bg-login-950/40 p-3'>
                             <div className='text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground'>
                                 Largest table
                             </div>
@@ -69,7 +69,7 @@ export default function DatabaseCard({
                                 {database.largestTable || 'No tables'}
                             </div>
                         </div>
-                        <div className='rounded-lg border border-white/5 bg-black/20 p-3'>
+                        <div className='rounded-xl border border-white/6 bg-login-950/40 p-3'>
                             <div className='text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground'>
                                 Longest query
                             </div>
@@ -77,7 +77,7 @@ export default function DatabaseCard({
                                 {formatDuration(database.longestQuerySeconds)}
                             </div>
                         </div>
-                        <div className='rounded-lg border border-white/5 bg-black/20 p-3'>
+                        <div className='rounded-xl border border-white/6 bg-login-950/40 p-3'>
                             <div className='text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground'>
                                 Active queries
                             </div>
@@ -85,7 +85,7 @@ export default function DatabaseCard({
                                 {database.activeQueries}
                             </div>
                         </div>
-                        <div className='rounded-lg border border-white/5 bg-black/20 p-3'>
+                        <div className='rounded-xl border border-white/6 bg-login-950/40 p-3'>
                             <div className='text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground'>
                                 Open connections
                             </div>
@@ -103,7 +103,7 @@ export default function DatabaseCard({
                         <QueryWindowGrid averageQuerySeconds={database.averageQuerySeconds} />
                     </div>
 
-                    <div className='rounded-xl border border-white/5 bg-login-50/5 p-4'>
+                    <div className='rounded-2xl border border-white/6 bg-login-950/40 p-4'>
                         <div className='flex items-center gap-3'>
                             <div className='min-w-0 flex-1'>
                                 <h4 className='text-sm font-semibold text-white'>Table footprint</h4>

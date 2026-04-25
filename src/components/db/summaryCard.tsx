@@ -9,9 +9,9 @@ type SummaryCardProps = {
 
 export default function SummaryCard({ icon, label, value, tone }: SummaryCardProps) {
     return (
-        <div className='rounded-xl border border-white/5 bg-login-50/5 p-4'>
+        <div className='rounded-2xl border border-white/5 bg-login-50/5 p-4'>
             <div className='mb-3 flex items-center gap-3'>
-                <div className={`rounded-lg p-2 ${tone}`}>
+                <div className={`rounded-full p-2.5 ${tone}`}>
                     {icon}
                 </div>
                 <span className='text-sm font-medium text-muted-foreground'>{label}</span>
