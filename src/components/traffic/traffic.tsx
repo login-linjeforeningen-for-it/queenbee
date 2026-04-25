@@ -133,19 +133,16 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
                             title='Total Requests'
                             value={totalRequests.toLocaleString()}
                             icon={Globe}
-                            tone='blue'
                         />
                         <StatCard
                             title='Avg Response'
                             value={avgRequestTime ? `${avgRequestTime}ms` : '—'}
                             icon={Clock}
-                            tone='amber'
                         />
                         <StatCard
                             title='Error Rate'
                             value={errorRate ? `${errorRate}%` : '—'}
                             icon={ShieldAlert}
-                            tone='rose'
                         />
                     </div>
 
@@ -241,32 +238,17 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
 function StatCard({
     title,
     value,
-    tone = 'slate',
     icon: Icon
 }: {
     title: string
     value: string | number
-    tone?: 'blue' | 'amber' | 'emerald' | 'rose' | 'violet' | 'slate'
     icon: LucideIcon
 }) {
-    const tones = {
-        blue: { bg: 'bg-sky-500/15', icon: 'text-sky-400', border: 'border-sky-500/10' },
-        amber: { bg: 'bg-amber-500/15', icon: 'text-amber-400', border: 'border-amber-500/10' },
-        emerald: { bg: 'bg-emerald-500/15', icon: 'text-emerald-400', border: 'border-emerald-500/10' },
-        rose: { bg: 'bg-rose-500/15', icon: 'text-rose-400', border: 'border-rose-500/10' },
-        violet: { bg: 'bg-violet-500/15', icon: 'text-violet-400', border: 'border-violet-500/10' },
-        slate: { bg: 'bg-login-100/15', icon: 'text-login-300', border: 'border-login-100/10' },
-    } as const
-
-    const activeTone = tones[tone]
-
     return (
-        <div
-            className={`bg-login-50/5 p-4 rounded-xl border ${activeTone.border} transition-all hover:bg-login-50/10 group`}
-        >
+        <div className='group rounded-xl border border-white/5 bg-login-50/5 p-4 transition-colors hover:bg-login-50/10'>
             <div className='flex items-center gap-3 mb-3'>
-                <div className={`p-2 rounded-lg ${activeTone.bg} group-hover:scale-110 transition-transform`}>
-                    <Icon className={`w-4 h-4 ${activeTone.icon}`} strokeWidth={2.5} />
+                <div className='rounded-full bg-login-50/5 p-2 transition-transform group-hover:scale-110'>
+                    <Icon className='h-4 w-4 stroke-login' strokeWidth={2.3} />
                 </div>
                 <span className='text-sm font-medium text-muted-foreground capitalize'>{title}</span>
             </div>
