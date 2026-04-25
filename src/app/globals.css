@@ -90,3 +90,25 @@ body {
 button:not(:disabled) {
     cursor: pointer;
 }
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(0);
+    }
+
+    70% {
+        transform: translateX(calc(-1 * var(--scroll-distance)));
+    }
+
+    90% {
+        transform: translateX(calc(-1 * var(--scroll-distance)));
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}

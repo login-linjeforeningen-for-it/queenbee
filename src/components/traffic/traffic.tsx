@@ -7,6 +7,7 @@ import RequestsOverTimeChart from './requestsOverTimeChart'
 import CombinedMetrics from './combinedMetrics'
 import Bar from './bar'
 import Table from '@components/table/table'
+import Marquee from '@components/shared/marquee'
 import DomainSelector from './domainSelector'
 import { TrafficMetricsProps, TrafficRecordsProps, TrafficRecord, TrafficEntry } from '@utils/api/beekeeper/traffic/types'
 
@@ -95,20 +96,22 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
                             ),
                             method: <span className='text-sm font-bold text-login-50 uppercase'>{r.method}</span>,
                             path: (
-                                <span
-                                    className='truncate text-sm font-medium text-login-50 max-w-sm block'
-                                    title={r.path}
-                                >
-                                    {r.path}
-                                </span>
+                                <div className='block w-full max-w-sm min-w-0' title={r.path}>
+                                    <Marquee
+                                        text={r.path}
+                                        className='w-full'
+                                        innerClassName='text-sm font-medium text-login-50'
+                                    />
+                                </div>
                             ),
                             domain: (
-                                <span
-                                    className='truncate text-sm text-muted-foreground opacity-70'
-                                    title={r.domain}
-                                >
-                                    {r.domain}
-                                </span>
+                                <div className='block w-full max-w-52 min-w-0' title={r.domain}>
+                                    <Marquee
+                                        text={r.domain}
+                                        className='w-full'
+                                        innerClassName='text-sm text-muted-foreground opacity-70'
+                                    />
+                                </div>
                             ),
                             iso: (
                                 <span className='text-xs font-bold text-muted-foreground opacity-70 uppercase tracking-widest'>

@@ -658,6 +658,7 @@ declare global {
         branch: string
         serviceUnit: string
         timerUnit: string
+        unitScope: 'user' | 'system' | 'none'
         autoDeployEnabled: boolean
         autoDeployActive: boolean
         serviceActive: boolean
