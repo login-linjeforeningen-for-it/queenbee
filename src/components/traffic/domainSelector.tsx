@@ -35,11 +35,11 @@ export default function DomainSelector({ domains, selectedDomain }: DomainSelect
     return (
         <Select
             name='domain-select'
-            label='Select Domain'
             value={value}
             onChange={handleChange}
             options={domainOptions}
-            className='max-w-2xs'
+            textSize='md'
+            className='w-full max-w-2xs'
         />
     )
 }

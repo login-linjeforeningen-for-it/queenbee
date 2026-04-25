@@ -10,6 +10,7 @@ type TrafficDashboardProps = {
     metrics?: TrafficMetricsProps | string
     records?: TrafficRecordsProps | string
     selectedDomain?: string
+    domainOptions?: string[]
 }
 
 type StatCardProps = {
@@ -20,7 +21,9 @@ type StatCardProps = {
     icon: React.ReactNode
 }
 
-export default function TrafficDashboard({ metrics, records, selectedDomain }: TrafficDashboardProps) {
+import DomainSelector from './domainSelector'
+
+export default function TrafficDashboard({ metrics, records, selectedDomain, domainOptions = [] }: TrafficDashboardProps) {
     const m = typeof metrics === 'object' && metrics !== null ? (metrics as TrafficMetricsProps) : undefined
 
     const totalRequests = Number(m?.total_requests) || 0
@@ -54,45 +57,46 @@ export default function TrafficDashboard({ metrics, records, selectedDomain }: T
     const recs = (r?.result ?? []) as TrafficRecord[]
 
     return (
-        <div className='space-y-6 h-full'>
+        <div className='flex flex-col h-full'>
+            <div className='flex flex-row justify-between mt-3 mb-2'>
+                <h1 className='font-semibold text-lg text-login-50'>Traffic Metrics</h1>
+            </div>
+
             {m && (
                 <>
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-                        {([
-                            {
-                                title: 'Total Requests',
-                                value: totalRequests || '—',
-                                accent: 'amber',
-                                outline: 'outline outline-login/25',
-                                icon: <Activity className='w-5 h-5 stroke-login' />
-                            },
-                            {
-                                title: 'Avg Request Time',
-                                value: avgRequestTime ? `${avgRequestTime}ms` : '—',
-                                accent: 'blue',
-                                outline: 'outline outline-blue-500/25',
-                                icon: <Clock className='w-5 h-5 stroke-blue-500' />
-                            },
-                            {
-                                title: 'Error Rate',
-                                value: errorRate ? `${errorRate}%` : '—',
-                                accent: 'amber',
-                                outline: 'outline outline-yellow-500/25',
-                                icon: <AlertTriangle className='w-5 h-5 stroke-yellow-500' />
-                            },
-                        ] as StatCardProps[]).map(({ title, value, icon, accent, outline }) =>
-                            <StatCard
-                                key={title}
-                                title={title}
-                                value={value}
-                                outline={outline}
-                                accent={accent}
-                                icon={icon}
-                            />
-                        )}
+                        <StatCard
+                            title='Total Requests'
+                            value={totalRequests || '—'}
+                            tone='amber'
+                            icon={Activity}
+                        />
+                        <StatCard
+                            title='Avg Request Time'
+                            value={avgRequestTime ? `${avgRequestTime}ms` : '—'}
+                            tone='blue'
+                            icon={Clock}
+                        />
+                        <StatCard
+                            title='Error Rate'
+                            value={errorRate ? `${errorRate}%` : '—'}
+                            tone='rose'
+                            icon={AlertTriangle}
+                        />
                     </div>
 
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                    <div className='flex items-center py-3 gap-4 w-full'>
+                        <div className='flex items-center gap-4 flex-1 w-full'>
+                            <DomainSelector domains={domainOptions} selectedDomain={selectedDomain} />
+                            {selectedDomain && (
+                                <span className='text-sm text-muted-foreground'>
+                                    Viewing <span className='text-sky-400 font-medium'>{selectedDomain}</span>
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-2'>
                         {allMetrics.map(({ title, data, isChart }) => {
                             if (Array.isArray(data[0])) {
                                 return (
@@ -106,16 +110,16 @@ export default function TrafficDashboard({ metrics, records, selectedDomain }: T
                             }
                             if (isChart) {
                                 return (
-                                    <div className='bg-login-50/5 p-4 rounded-lg' key={title as string}>
-                                        <h3 className='text-lg font-semibold mb-4'>{title as string}</h3>
+                                    <div className='bg-login-50/5 p-4 rounded-xl border border-white/5 min-h-[200px]' key={title as string}>
+                                        <h3 className='text-xs font-semibold uppercase tracking-[0.15em] text-login-200 mb-4'>{title as string}</h3>
                                         <RequestsOverTimeChart data={data as { key: string; count: number }[]} />
                                     </div>
                                 )
                             }
                             const set = data as Entry[]
                             return (
-                                <div className='bg-login-50/5 p-4 rounded-lg' key={title as string}>
-                                    <h3 className='text-lg font-semibold mb-4'>{title as string}</h3>
+                                <div className='bg-login-50/5 p-4 rounded-xl border border-white/5 min-h-[200px]' key={title as string}>
+                                    <h3 className='text-xs font-semibold uppercase tracking-[0.15em] text-login-200 mb-4'>{title as string}</h3>
                                     <div className='space-y-2'>
                                         {set.map((entry) => (
                                             <Bar
@@ -133,68 +137,83 @@ export default function TrafficDashboard({ metrics, records, selectedDomain }: T
                 </>
             )}
 
-            {recs && recs.length > 0 &&
-                <div className='bg-login-50/5 rounded-lg overflow-hidden'>
+            {recs && recs.length > 0 && (
+                <div className='bg-login-50/5 rounded-xl border border-white/5 overflow-hidden mt-6'>
                     <div className='p-4 border-b border-white/10'>
-                        <h3 className='text-lg font-semibold'>Recent Traffic</h3>
+                        <h3 className='text-xs font-semibold uppercase tracking-[0.15em] text-login-200'>Recent Traffic</h3>
                     </div>
                     <div className='overflow-x-auto'>
                         <table className='w-full text-sm text-left table-fixed'>
-                            <thead className='text-xs uppercase bg-login-50/5 text-muted-foreground'>
+                            <thead className='text-[10px] uppercase tracking-wider bg-login-50/5 text-muted-foreground'>
                                 <tr>
-                                    <th className='px-4 py-3'>Date</th>
-                                    <th className='px-4 py-3'>Method</th>
-                                    <th className='px-4 py-3'>Path</th>
-                                    <th className='px-4 py-3'>Status</th>
-                                    <th className='px-4 py-3'>Duration</th>
-                                    <th className='px-4 py-3 max-w-[18rem] truncate'>Domain</th>
+                                    <th className='px-4 py-3 font-bold'>Date</th>
+                                    <th className='px-4 py-3 font-bold w-20'>Method</th>
+                                    <th className='px-4 py-3 font-bold'>Path</th>
+                                    <th className='px-4 py-3 font-bold w-24'>Status</th>
+                                    <th className='px-4 py-3 font-bold w-24'>Duration</th>
+                                    <th className='px-4 py-3 max-w-[18rem] truncate font-bold'>Domain</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className='divide-y divide-white/5'>
                                 {recs.map((req, i) => (
-                                    <tr key={i} className='border-b border-white/5 hover:bg-login-50/5'>
-                                        <td className='px-4 py-3 text-muted-foreground'>
-                                            {new Date(req.timestamp).toLocaleString()}
+                                    <tr key={i} className='hover:bg-login-50/5 transition-colors'>
+                                        <td className='px-4 py-2.5 text-xs text-muted-foreground tabular-nums'>
+                                            {new Date(req.timestamp).toLocaleString('nb-NO')}
                                         </td>
-                                        <td className='px-4 py-3 font-medium'>{req.method}</td>
-                                        <td className='px-4 py-3'>{req.path}</td>
-                                        <td className='px-4 py-3'>
-                                            <span className={`px-2 py-1 rounded text-xs ${statusClasses(req.status)}`}>
+                                        <td className='px-4 py-2.5'>
+                                            <span className='font-mono font-bold text-login-200 uppercase'>{req.method}</span>
+                                        </td>
+                                        <td className='px-4 py-2.5 truncate font-medium text-login-50' title={req.path}>{req.path}</td>
+                                        <td className='px-4 py-2.5'>
+                                            <span className={`px-2 py-0.5 rounded-full border text-[10px] font-bold uppercase tracking-wider ${statusClasses(req.status)}`}>
                                                 {req.status}
                                             </span>
                                         </td>
-                                        <td className='px-4 py-3'>{req.request_time}ms</td>
-                                        <td className='px-4 py-3 max-w-[18rem] truncate'>{req.domain}</td>
+                                        <td className='px-4 py-2.5 text-xs tabular-nums text-login-100'>{req.request_time}ms</td>
+                                        <td className='px-4 py-2.5 max-w-[18rem] truncate text-xs text-muted-foreground' title={req.domain}>{req.domain}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
                 </div>
-            }
+            )}
         </div>
     )
 }
 
-function StatCard({ title, value, accent = 'slate', icon, outline }: StatCardProps) {
-    const accentMap = {
-        blue: 'from-sky-500/20 to-blue-500/5 border-sky-400/20 text-sky-200',
-        emerald: 'from-emerald-500/20 to-green-500/5 border-emerald-400/20 text-emerald-200',
-        amber: 'from-amber-500/20 to-orange-500/5 border-amber-400/20 text-amber-200',
-        rose: 'from-rose-500/20 to-red-500/5 border-rose-400/20 text-rose-200',
-        violet: 'from-violet-500/20 to-fuchsia-500/5 border-violet-400/20 text-violet-200',
-        cyan: 'from-cyan-500/20 to-sky-500/5 border-cyan-400/20 text-cyan-200',
-        slate: 'from-login-50/10 to-login-50/5 border-login-100/10 text-login-100',
+function StatCard({
+    title,
+    value,
+    tone = 'slate',
+    icon: Icon
+}: {
+    title: string
+    value: string | number
+    tone?: 'blue' | 'amber' | 'emerald' | 'rose' | 'violet' | 'slate'
+    icon: any
+}) {
+    const tones = {
+        blue: { bg: 'bg-sky-500/15', icon: 'text-sky-400' },
+        amber: { bg: 'bg-amber-500/15', icon: 'text-amber-400' },
+        emerald: { bg: 'bg-emerald-500/15', icon: 'text-emerald-400' },
+        rose: { bg: 'bg-rose-500/15', icon: 'text-rose-400' },
+        violet: { bg: 'bg-violet-500/15', icon: 'text-violet-400' },
+        slate: { bg: 'bg-login-100/15', icon: 'text-login-300' },
     } as const
 
+    const activeTone = tones[tone]
+
     return (
-        <div className='bg-login-50/5 p-4 rounded-lg flex items-center justify-between'>
-            <div>
-                <p className='text-sm text-muted-foreground'>{title}</p>
-                <p className='text-2xl font-bold mt-1'>{value}</p>
+        <div className='bg-login-50/5 p-4 rounded-xl border border-white/5'>
+            <div className='flex items-center gap-3 mb-3'>
+                <div className={`p-2 rounded-lg ${activeTone.bg}`}>
+                    <Icon className={`w-4 h-4 ${activeTone.icon}`} strokeWidth={2.5} />
+                </div>
+                <span className='text-sm font-medium text-muted-foreground capitalize'>{title}</span>
             </div>
-            <div className={`p-2 bg-linear-to-br ${accentMap[accent]} rounded-full ${outline}`}>
-                {icon}
+            <div className='text-lg font-semibold truncate text-login-50' title={String(value)}>
+                {value}
             </div>
         </div>
     )

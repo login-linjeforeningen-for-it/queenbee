@@ -4,8 +4,8 @@ export default function RequestsOverTimeChart({ data }: { data: { key: string, c
     }
 
     const width = 620
-    const height = 132
-    const padding = { top: 10, right: 10, bottom: 20, left: 35 }
+    const height = 140
+    const padding = { top: 10, right: 10, bottom: 30, left: 45 }
 
     const maxCount = Math.max(...data.map(d => d.count))
     const minCount = 0
@@ -53,9 +53,13 @@ export default function RequestsOverTimeChart({ data }: { data: { key: string, c
         <svg viewBox={`0 0 ${width} ${height}`} className='w-full h-auto overflow-visible'>
             <defs>
                 <linearGradient id='chartGradient' x1='0' y1='0' x2='0' y2='1'>
-                    <stop offset='0%' stopColor='#3b82f6' stopOpacity='0.2' />
-                    <stop offset='100%' stopColor='#3b82f6' stopOpacity='0' />
+                    <stop offset='0%' stopColor='#fd8738' stopOpacity='0.15' />
+                    <stop offset='100%' stopColor='#fd8738' stopOpacity='0' />
                 </linearGradient>
+                <filter id='glow' x='-20%' y='-20%' width='140%' height='140%'>
+                    <feGaussianBlur stdDeviation='3' result='blur' />
+                    <feComposite in='SourceGraphic' in2='blur' operator='over' />
+                </filter>
             </defs>
 
             {yTicks.map((tick, i) => (
@@ -65,9 +69,8 @@ export default function RequestsOverTimeChart({ data }: { data: { key: string, c
                     y1={tick.y}
                     x2={width - padding.right}
                     y2={tick.y}
-                    stroke='currentColor'
-                    strokeOpacity={0.1}
-                    strokeDasharray='4 4'
+                    stroke='white'
+                    strokeOpacity={0.03}
                 />
             ))}
 
@@ -76,10 +79,12 @@ export default function RequestsOverTimeChart({ data }: { data: { key: string, c
             <polyline
                 points={points}
                 fill='none'
-                stroke='#3b82f6'
-                strokeWidth={2}
+                stroke='#fd8738'
+                strokeWidth={2.5}
                 strokeLinecap='round'
                 strokeLinejoin='round'
+                filter='url(#glow)'
+                className='drop-shadow-[0_0_8px_rgba(253,135,56,0.3)]'
             />
 
             {data.length < 30 && data.map((d, i) => (

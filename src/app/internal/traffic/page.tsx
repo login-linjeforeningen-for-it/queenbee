@@ -1,5 +1,4 @@
 import TrafficDashboard from '@components/traffic/traffic'
-import DomainSelector from '@components/traffic/domainSelector'
 import getTrafficDomains from '@utils/api/beekeeper/traffic/domains'
 import getTrafficMetrics from '@utils/api/beekeeper/traffic/metrics'
 
@@ -15,11 +14,10 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     const domainOptions = typeof domains === 'object' && 'domains' in domains ? domains.domains : []
 
     return (
-        <div>
-            <div className='flex justify-between mb-4'>
-                <DomainSelector domains={domainOptions} selectedDomain={selectedDomain} />
-            </div>
-            <TrafficDashboard metrics={metrics} selectedDomain={selectedDomain} />
-        </div>
+        <TrafficDashboard
+            metrics={metrics}
+            selectedDomain={selectedDomain}
+            domainOptions={domainOptions}
+        />
     )
 }

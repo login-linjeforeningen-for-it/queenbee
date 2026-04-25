@@ -14,14 +14,19 @@ export default function CombinedMetrics({ title, data, total }: {
     const buttonText = `Switch to ${title[1 - index]}`
 
     return (
-        <div className='bg-login-50/5 p-4 rounded-lg'>
+        <div className='bg-login-50/5 p-4 rounded-xl border border-white/5 min-h-[200px] flex flex-col'>
             <div className='flex justify-between items-center mb-4'>
-                <h3 className='text-lg font-semibold'>{currentTitle}</h3>
-                <Button
-                    icon={<LucideChartNoAxesGantt className='w-5' />}
-                    text={buttonText}
-                    onClick={() => setIndex(index === 0 ? 1 : 0)}
-                />
+                <div className='flex bg-white/5 p-0.5 rounded-lg border border-white/5'>
+                    {title.map((t, i) => (
+                        <button
+                            key={t}
+                            onClick={() => setIndex(i)}
+                            className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${index === i ? 'bg-white/10 text-white shadow-sm' : 'text-login-200 hover:text-login-100 hover:bg-white/5'}`}
+                        >
+                            {t}
+                        </button>
+                    ))}
+                </div>
             </div>
             <div className='space-y-2'>
                 {currentData.map((entry) => (
