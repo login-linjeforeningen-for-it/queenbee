@@ -87,6 +87,19 @@ function formatRelativeTime(timestamp: string | null) {
     return restMinutes ? `${hours}h ${restMinutes}m ago` : `${hours}h ago`
 }
 
+function getTimestampMs(timestamp: string | null) {
+    if (!timestamp) {
+        return 0
+    }
+
+    const parsed = new Date(timestamp).getTime()
+    return Number.isNaN(parsed) ? 0 : parsed
+}
+
+function getLatestEntryTimestamp(entries: LogEntry[]) {
+    return entries.reduce((latest, entry) => Math.max(latest, getTimestampMs(entry.timestamp)), 0)
+}
+
 export default function LogsPageClient({ initialData }: { initialData?: LogsPayload }) {
     const startingData = initialData || EMPTY_LOGS_PAYLOAD
     const [data, setData] = useState<LogsPayload>(startingData)
@@ -110,29 +123,38 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
         const groups = new Map<string, ServiceGroup>()
 
         data.containers.forEach((container) => {
+            const normalizedContainer = {
+                ...container,
+                entries: [...container.entries].sort((left, right) =>
+                    getTimestampMs(right.timestamp) - getTimestampMs(left.timestamp)
+                )
+            }
             const existing = groups.get(container.service)
             if (existing) {
-                existing.sources.push(container)
-                existing.matchedLines += container.matchedLines
+                existing.sources.push(normalizedContainer)
+                existing.matchedLines += normalizedContainer.matchedLines
                 return
             }
 
-            groups.set(container.service, {
-                service: container.service,
-                matchedLines: container.matchedLines,
-                sources: [container],
+            groups.set(normalizedContainer.service, {
+                service: normalizedContainer.service,
+                matchedLines: normalizedContainer.matchedLines,
+                sources: [normalizedContainer],
             })
         })
 
         return Array.from(groups.values())
             .sort((left, right) =>
-                right.matchedLines - left.matchedLines
+                Math.max(...right.sources.map((source) => getLatestEntryTimestamp(source.entries)))
+                - Math.max(...left.sources.map((source) => getLatestEntryTimestamp(source.entries)))
+                || right.matchedLines - left.matchedLines
                 || left.service.localeCompare(right.service)
             )
             .map(group => ({
                 ...group,
                 sources: group.sources.sort((left, right) =>
-                    right.matchedLines - left.matchedLines
+                    getLatestEntryTimestamp(right.entries) - getLatestEntryTimestamp(left.entries)
+                    || right.matchedLines - left.matchedLines
                     || left.name.localeCompare(right.name)
                 ),
             }))
