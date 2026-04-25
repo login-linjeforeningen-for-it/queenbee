@@ -157,7 +157,7 @@ function CodePanel({
                 {title}
             </div>
             {numbered && lines ? (
-                <div className='max-h-128 overflow-auto px-4 py-4 font-mono text-[12px] leading-6'>
+                <div className='max-h-128 overflow-auto px-4 py-4 font-mono text-xs leading-6'>
                     {lines.map((line, index) => (
                         <div key={`${title}-${index}`} className='grid grid-cols-[3rem_1fr] gap-3'>
                             <span className='select-none text-right text-login-300/60'>{index + 1}</span>
@@ -167,8 +167,9 @@ function CodePanel({
                 </div>
             ) : (
                 <pre
-                    className='max-h-128 overflow-auto whitespace-pre-wrap wrap-break-word px-4 py-4
-                        font-mono text-[12px] leading-6 text-login-50'
+                    className='max-h-128 overflow-auto whitespace-pre-wrap
+                        wrap-break-word px-4 py-4 font-mono text-xs leading-6
+                        text-login-50'
                 >
                     {content}
                 </pre>

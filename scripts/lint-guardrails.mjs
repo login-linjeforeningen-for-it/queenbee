@@ -42,6 +42,37 @@ const canonicalSpacingScale = new Map([
     ['20rem', '80'],
     ['24rem', '96'],
 ])
+const canonicalTextScale = new Map([
+    ['0.75rem', 'xs'],
+    ['0.875rem', 'sm'],
+    ['1rem', 'base'],
+    ['1.125rem', 'lg'],
+    ['1.25rem', 'xl'],
+    ['1.5rem', '2xl'],
+    ['1.875rem', '3xl'],
+    ['2.25rem', '4xl'],
+    ['3rem', '5xl'],
+    ['3.75rem', '6xl'],
+    ['4.5rem', '7xl'],
+    ['6rem', '8xl'],
+    ['8rem', '9xl'],
+])
+const canonicalLeadingScale = new Map([
+    ['0.75rem', '3'],
+    ['1rem', '4'],
+    ['1.25rem', '5'],
+    ['1.5rem', '6'],
+    ['1.75rem', '7'],
+    ['2rem', '8'],
+    ['2.25rem', '9'],
+    ['2.5rem', '10'],
+    ['3rem', '12'],
+])
+const canonicalAliasClasses = new Map([
+    ['break-words', 'wrap-break-words'],
+    ['wrap-words', 'wrap-break-words'],
+    ['wrap-break-word', 'wrap-break-words'],
+])
 
 const sourceFiles = await collectSourceFiles(srcRoot)
 
@@ -52,7 +83,7 @@ for (const filePath of sourceFiles) {
 
     visit(source, (node) => {
         if (!ts.isJsxOpeningLikeElement(node)) {
-            if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) {
+            if ((ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) && shouldValidateStringLiteral(node)) {
                 validateTokenString(filePath, source, node, node.text, 'string literal')
             }
             return
@@ -121,30 +152,65 @@ function validateTokenString(filePath, source, node, value, label) {
 }
 
 function getCanonicalClassSuggestion(token) {
-    const match = token.match(/^((?:[^:\s]+:)*)((?:-)?(?:p|m)(?:[trblxy])?|gap(?:-[xy])?|space-[xy]|(?:min-|max-)?[wh]|size)-\[(.+)\]$/)
-    if (!match) {
-        return null
+    const aliasMatch = token.match(/^((?:[^:\s]+:)*)((?:!?[^:\s]+))$/)
+    if (aliasMatch) {
+        const [, variants, utility] = aliasMatch
+        const canonicalAlias = canonicalAliasClasses.get(utility)
+        if (canonicalAlias) {
+            return `${variants}${canonicalAlias}`
+        }
     }
 
-    const [, variants, utility, rawValue] = match
-    const normalized = normalizeSpacingValue(rawValue)
-    if (!normalized) {
-        return null
+    const variableMatch = token.match(/^((?:[^:\s]+:)*)((?:!?[^:\s[]+))-\[var\((--[^)\]]+)\)\](\/[^\s]+)?$/)
+    if (variableMatch) {
+        const [, variants, utility, variableName, suffix = ''] = variableMatch
+        return `${variants}${utility}-(${variableName})${suffix}`
     }
 
-    const canonical = canonicalSpacingScale.get(normalized)
-    if (!canonical) {
-        return null
+    for (const [utilityPattern, scale] of [
+        [/^((?:[^:\s]+:)*)((?:-)?(?:p|m)(?:[trblxy])?|gap(?:-[xy])?|space-[xy]|(?:min-|max-)?[wh]|size)-\[(.+)\]$/, canonicalSpacingScale],
+        [/^((?:[^:\s]+:)*)((?:-)?text)-\[(.+)\]$/, canonicalTextScale],
+        [/^((?:[^:\s]+:)*)((?:-)?leading)-\[(.+)\]$/, canonicalLeadingScale],
+    ]) {
+        const match = token.match(utilityPattern)
+        if (!match) {
+            continue
+        }
+
+        const [, variants, utility, rawValue] = match
+        const normalized = normalizeSpacingValue(rawValue)
+        if (!normalized) {
+            continue
+        }
+
+        const canonical = scale.get(normalized)
+        if (canonical) {
+            return `${variants}${utility}-${canonical}`
+        }
     }
 
-    return `${variants}${utility}-${canonical}`
+    return null
 }
 
 function normalizeSpacingValue(rawValue) {
     const value = rawValue.trim().toLowerCase()
     const remMatch = value.match(/^(-?\d+(?:\.\d+)?)rem$/)
     if (!remMatch) {
-        return null
+        const pxMatch = value.match(/^(-?\d+(?:\.\d+)?)px$/)
+        if (!pxMatch) {
+            return null
+        }
+
+        const numericPx = Number(pxMatch[1])
+        if (!Number.isFinite(numericPx)) {
+            return null
+        }
+
+        if (numericPx === 1) {
+            return '1px'
+        }
+
+        return `${numericPx / 16}rem`
     }
 
     const numeric = Number(remMatch[1])
@@ -191,4 +257,16 @@ function formatLocation(filePath, source, node) {
 
 function relative(filePath) {
     return path.relative(root, filePath)
+}
+
+function shouldValidateStringLiteral(node) {
+    if (ts.isJsxAttribute(node.parent)) {
+        return false
+    }
+
+    if (ts.isJsxExpression(node.parent) && ts.isJsxAttribute(node.parent.parent)) {
+        return false
+    }
+
+    return true
 }
