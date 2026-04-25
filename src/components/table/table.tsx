@@ -11,9 +11,10 @@ type TableProps = {
     systemTable?: boolean
     hideMenu?: boolean
     redirectPath?: string | { path: string, key?: string }
+    onRowClick?: (id: string) => void
 }
 
-export default function Table({ list, headers, deleteAction, roles, hideMenu, redirectPath }: TableProps) {
+export default function Table({ list, headers, deleteAction, roles, hideMenu, redirectPath, onRowClick }: TableProps) {
     if (list.length === 0) {
         return <div className='p-4 text-center text-login-200'>No data found</div>
     }
@@ -40,6 +41,7 @@ export default function Table({ list, headers, deleteAction, roles, hideMenu, re
                     roles={roles}
                     hideMenu={hideMenu}
                     redirectPath={redirectPath}
+                    onRowClick={onRowClick}
                 />
             </table>
         </div>

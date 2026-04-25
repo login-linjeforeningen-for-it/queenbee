@@ -206,6 +206,14 @@ export default function PageClient({
         })
     }
 
+    function openServiceStatus(id: string) {
+        const nextSelected = services.find((item) => String(item.id) === id) || null
+        setAdding(false)
+        setEditing(null)
+        setViewNotifications(false)
+        setSelected(nextSelected)
+    }
+
     return (
         <div className='h-full overflow-hidden flex gap-4 relative'>
             <div className='h-full overflow-hidden flex flex-col gap-4 relative w-full'>
@@ -249,7 +257,10 @@ export default function PageClient({
                                 />
                             )}
                             {selected && !editing && !compressed && (
-                                <ServiceStatus service={services.find((s) => s.name === selected?.name)} />
+                                <ServiceStatus
+                                    service={services.find((s) => s.name === selected?.name)}
+                                    onEdit={setEditing}
+                                />
                             )}
                             {viewNotifications && (
                                 <NotificationList notifications={notifications} />
@@ -301,6 +312,7 @@ export default function PageClient({
                                 list={tableList}
                                 headers={['name', 'status', 'history', 'uptime', 'tags', 'actions']}
                                 hideMenu={true}
+                                onRowClick={openServiceStatus}
                             />
                         </div>
                     </>
@@ -308,7 +320,10 @@ export default function PageClient({
             </div>
             {compressed && !editing && !adding && (
                 <div className='w-2/3 h-full max-h-full overflow-auto'>
-                    <ServiceStatus service={!selected ? services[0] : services.find((s) => s.name === selected?.name)} />
+                    <ServiceStatus
+                        service={!selected ? services[0] : services.find((s) => s.name === selected?.name)}
+                        onEdit={setEditing}
+                    />
                 </div>
             )}
         </div>

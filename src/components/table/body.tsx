@@ -13,9 +13,10 @@ type BodyProps = {
     roles?: Role[]
     hideMenu?: boolean
     redirectPath?: string | { path: string, key?: string }
+    onRowClick?: (id: string) => void
 }
 
-export default function Body({ list, headers, deleteAction, roles, hideMenu, redirectPath }: BodyProps) {
+export default function Body({ list, headers, deleteAction, roles, hideMenu, redirectPath, onRowClick }: BodyProps) {
     const [openMenuId, setOpenMenuId] = useState<string | null>(null)
     const [anchor, setAnchor] = useState<{ top: number; right: number } | null>(null)
     const pathname = usePathname()
@@ -57,6 +58,10 @@ export default function Body({ list, headers, deleteAction, roles, hideMenu, red
                         onClick={() => {
                             if (menuWasOpenOnMouseDown.current) {
                                 menuWasOpenOnMouseDown.current = false
+                                return
+                            }
+                            if (onRowClick) {
+                                onRowClick(id)
                                 return
                             }
                             if (redirectConfig.path) {
