@@ -5,21 +5,20 @@ export default function ImageSummaryInfo({ image }: { image: ImageVulnerabilityR
     return (
         <>
             <div
-                className='flex h-11 w-11 shrink-0 items-center justify-center rounded-full
-                    border border-violet-400/20 bg-linear-to-br from-violet-500/20
-                    to-fuchsia-500/5 text-violet-200'
+                className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full
+                    bg-login-50/5 text-login-200 transition group-hover:bg-login-50/10'
             >
-                <Container className='h-5 w-5' />
+                <Container className='h-4.5 w-4.5' />
             </div>
-            <div className='min-w-0 flex-1 overflow-hidden'>
-                <div className='flex items-center gap-3 overflow-hidden'>
-                    <h2 className='truncate font-semibold text-login-50 text-base'>{image.image}</h2>
-                    <span className='shrink-0 text-sm text-login-100'>
-                        Scanned {new Date(image.scannedAt).toLocaleString('nb-NO')}
+            <div className='min-w-0 flex-1 overflow-hidden pr-4'>
+                <div className='flex items-baseline gap-3 overflow-hidden'>
+                    <h2 className='truncate font-medium text-login-50 text-base group-hover:text-login transition'>{image.image}</h2>
+                    <span className='shrink-0 text-xs text-login-100/70'>
+                        {new Date(image.scannedAt).toLocaleString('nb-NO')}
                     </span>
                 </div>
                 {image.scanError && (
-                    <div className='mt-2 truncate rounded-lg border border-rose-400/20 bg-rose-500/10 px-3 py-2 text-sm text-rose-200'>
+                    <div className='mt-2 truncate text-sm text-rose-300'>
                         {image.scanError}
                     </div>
                 )}

@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import type { ImageVulnerabilityReport } from '@utils/api/internal/vulnerabilities/get'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { Button } from 'uibee/components'
 import VulnerabilityCard from './vulnerabilityCard'
 
 const PAGE_SIZE = 3
@@ -19,35 +21,39 @@ export default function ImageFindings({ image }: { image: ImageVulnerabilityRepo
     }, [image.image])
 
     return (
-        <div className='rounded-xl border border-login-100/10 bg-login-50/5 p-4'>
-            <div className='flex items-center justify-between gap-3'>
-                <span className='text-xs font-medium uppercase tracking-[0.18em] text-login-200'>
+        <div className='flex flex-col h-[520px]'>
+            <div className='flex items-center justify-between gap-3 mb-4'>
+                <h3 className='text-xs font-semibold uppercase tracking-[0.15em] text-login-200'>
                     Vulnerability Details
-                </span>
-                <span className='text-xs uppercase tracking-[0.18em] text-login-200'>
+                </h3>
+                <span className='text-xs font-medium text-login-100'>
                     {image.vulnerabilities.length} findings
                 </span>
             </div>
-            <div className='mt-4 flex flex-col gap-3'>
+            
+            <div className='flex-1 flex flex-col gap-6 overflow-y-auto pr-1 custom-scrollbar'>
                 {visibleFindings.length ? visibleFindings.map((vulnerability) => (
                     <VulnerabilityCard
                         key={`${image.image}-${vulnerability.id}-${vulnerability.packageName || 'pkg'}`}
                         vulnerability={vulnerability}
                     />
                 )) : (
-                    <div className='rounded-xl border border-login-100/10 bg-login-900/50 px-4 py-6 text-sm text-login-100'>
+                    <div className='text-sm text-login-100 py-2'>
                         No per-vulnerability details are stored for this image yet. Run a new scan to populate them.
                     </div>
                 )}
-                {image.vulnerabilities.length > PAGE_SIZE ? (
+            </div>
+
+            {image.vulnerabilities.length > PAGE_SIZE && (
+                <div className='mt-4 pt-4 border-t border-login-100/10'>
                     <FindingPagination
                         page={page}
                         setPage={setPage}
                         totalPages={totalPages}
                         totalResults={image.vulnerabilities.length}
                     />
-                ) : null}
-            </div>
+                </div>
+            )}
         </div>
     )
 }
@@ -64,29 +70,29 @@ function FindingPagination({
     totalResults: number
 }) {
     return (
-        <div className='flex items-center justify-between gap-3 rounded-xl border border-login-100/10 bg-login-900/50 px-4 py-3'>
+        <div className='flex items-center justify-between gap-6 pt-2'>
             <div className='text-sm text-login-200'>
-                Page {page} of {totalPages} • {totalResults} findings
+                Page <span className='font-semibold text-login-50 h-5 inline-flex items-center px-1.5 bg-login-50/5 rounded mx-0.5'>{page}</span> 
+                <span className='mx-1 opacity-50'>of</span> 
+                <span className='font-semibold text-login-50'>{totalPages}</span> 
+                <span className='mx-3 opacity-30'>•</span> 
+                <span className='font-medium'>{totalResults} total findings</span>
             </div>
             <div className='flex items-center gap-2'>
-                <button
-                    type='button'
+                <Button
                     onClick={() => setPage((current) => Math.max(1, current - 1))}
                     disabled={page === 1}
-                    className='rounded-full border border-login-100/10 bg-login-50/5 px-3 py-1.5
-                        text-sm text-login-50 disabled:cursor-not-allowed disabled:opacity-40'
-                >
-                    Previous
-                </button>
-                <button
-                    type='button'
+                    variant='secondary'
+                    text='Previous'
+                    icon={<ChevronLeft className='h-4 w-4' />}
+                />
+                <Button
                     onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
                     disabled={page === totalPages}
-                    className='rounded-full border border-login-100/10 bg-login-50/5 px-3 py-1.5
-                        text-sm text-login-50 disabled:cursor-not-allowed disabled:opacity-40'
-                >
-                    Next
-                </button>
+                    variant='secondary'
+                    text='Next'
+                    icon={<ChevronRight className='h-4 w-4' />}
+                />
             </div>
         </div>
     )

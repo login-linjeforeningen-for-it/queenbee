@@ -20,9 +20,11 @@ type Props = Pick<PageClientProps, 'runScanAction'> & Pick<VulnerabilityPageStat
 
 export default function VulnerabilityView(props: Props) {
     return (
-        <div className='h-full overflow-y-auto'>
-            <div className='flex w-full flex-col gap-4 pb-4'>
+        <div className='h-full overflow-hidden flex flex-col'>
+            <div className='flex-none'>
                 <VulnerabilityHeader {...props} />
+            </div>
+            <div className='flex-1 overflow-y-auto pb-6'>
                 {props.error
                     ? <VulnerabilityErrorState error={props.error} />
                     : props.sorting.images.length

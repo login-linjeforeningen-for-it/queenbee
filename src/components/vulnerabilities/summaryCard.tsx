@@ -1,34 +1,40 @@
-import { Container } from 'lucide-react'
+import type { ElementType } from 'react'
 
 const tones = {
-    blue: 'border-sky-400/15 bg-sky-500/10 text-sky-200',
-    amber: 'border-amber-400/15 bg-amber-500/10 text-amber-200',
-    emerald: 'border-emerald-400/15 bg-emerald-500/10 text-emerald-200',
-    violet: 'border-violet-400/15 bg-violet-500/10 text-violet-200',
-    rose: 'border-rose-400/15 bg-rose-500/10 text-rose-200',
-    slate: 'border-login-100/10 bg-login-50/5 text-login-200',
+    blue: { bg: 'bg-sky-500/10', icon: 'text-sky-500' },
+    amber: { bg: 'bg-amber-500/10', icon: 'text-amber-500' },
+    emerald: { bg: 'bg-emerald-500/10', icon: 'text-emerald-500' },
+    violet: { bg: 'bg-violet-500/10', icon: 'text-violet-500' },
+    rose: { bg: 'bg-rose-500/10', icon: 'text-rose-500' },
+    slate: { bg: 'bg-login-50/10', icon: 'text-muted-foreground' },
 } as const
 
 export default function SummaryCard({
     title,
     value,
     icon: Icon,
-    tone,
+    tone = 'slate',
+    children,
 }: {
     title: string
     value: string
-    icon: typeof Container
-    tone: keyof typeof tones
+    icon: ElementType
+    tone?: keyof typeof tones
+    children?: React.ReactNode
 }) {
+    const activeTone = tones[tone]
     return (
-        <div className='rounded-xl border border-login-100/10 bg-login-50/5 p-4'>
-            <div className='flex items-center justify-between'>
-                <span className='text-xs font-medium uppercase tracking-[0.18em] text-login-200'>{title}</span>
-                <div className={`flex h-8 w-8 items-center justify-center rounded-full border ${tones[tone]}`}>
-                    <Icon className='h-4 w-4' />
+        <div className='bg-login-50/5 p-4 rounded-xl border border-white/5'>
+            <div className='flex items-center gap-3 mb-3'>
+                <div className={`p-2 rounded-lg ${activeTone.bg}`}>
+                    <Icon className={`w-4 h-4 ${activeTone.icon}`} />
                 </div>
+                <span className='text-sm font-medium text-muted-foreground capitalize'>{title}</span>
             </div>
-            <div className='mt-3 text-sm font-medium text-login-50'>{value}</div>
+            <div className='text-lg font-semibold truncate' title={value}>
+                {value}
+            </div>
+            {children && <div className='mt-2'>{children}</div>}
         </div>
     )
 }

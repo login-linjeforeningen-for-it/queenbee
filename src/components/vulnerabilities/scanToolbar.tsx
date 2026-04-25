@@ -24,10 +24,10 @@ export default function ScanToolbar(props: Props) {
     const handleRunScan = useRunScan(props)
 
     return (
-        <div className='mt-4 flex gap-3 justify-between'>
-            <Search className='h-10' innerClassname='mt-5' />
-            <div className='flex items-center gap-3 pr-px'>
-                <div className='text-sm text-login-200'>
+        <div className='flex items-center justify-between py-3 gap-2'>
+            <Search />
+            <div className='flex items-center gap-2'>
+                <div className='text-sm text-muted-foreground mr-2 hidden lg:block'>
                     Showing {props.sorting.images.length} of {props.data?.images.length || 0} images
                 </div>
                 <Toggle

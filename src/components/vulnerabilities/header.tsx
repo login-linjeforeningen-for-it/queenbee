@@ -5,8 +5,7 @@ import type useScanNotice from './useScanNotice'
 import type useSortedImages from './useSortedImages'
 import SummaryGrid from './summaryGrid'
 import ScanToolbar from './scanToolbar'
-import ScanNoticeCard from './scanNoticeCard'
-import ScanProgressCard from './scanProgressCard'
+
 
 type Props = Pick<PageClientProps, 'runScanAction'> & Pick<VulnerabilityPageState, 'data'> & {
     isRefreshing: boolean
@@ -19,20 +18,13 @@ type Props = Pick<PageClientProps, 'runScanAction'> & Pick<VulnerabilityPageStat
 }
 
 export default function VulnerabilityHeader(props: Props) {
+    const { notice: noticeState, scanStatus } = props
+    const { scanNotice, now } = noticeState
+
     return (
         <header className='w-full'>
-            <SummaryGrid data={props.data} scanStatus={props.scanStatus} />
+            <SummaryGrid data={props.data} scanStatus={props.scanStatus} notice={scanNotice} now={now} />
             <ScanToolbar {...props} />
-            {props.notice.scanNotice && (
-                <ScanNoticeCard
-                    notice={props.notice.scanNotice}
-                    dismissProgress={props.notice.dismissProgress}
-                    dismissSeconds={props.notice.dismissSeconds}
-                />
-            )}
-            {props.scanStatus.isRunning && (
-                <ScanProgressCard now={props.notice.now} scanStatus={props.scanStatus} />
-            )}
         </header>
     )
 }

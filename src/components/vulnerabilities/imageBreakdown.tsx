@@ -4,19 +4,19 @@ import InlineSeverityBadge from './inlineSeverityBadge'
 
 export default function ImageBreakdown({ image }: { image: ImageVulnerabilityReport }) {
     return (
-        <div className='rounded-xl border border-login-100/10 bg-login-50/5 p-4'>
-            <div className='text-xs font-medium uppercase tracking-[0.18em] text-login-200'>Dependency Breakdown</div>
-            <div className='mt-4 flex flex-col gap-3'>
+        <div className='flex flex-col gap-3 py-2'>
+            <h3 className='text-xs font-semibold uppercase tracking-[0.15em] text-login-200'>Dependency Breakdown</h3>
+            <div className='mt-2 flex flex-col gap-6 border-l-2 border-login-100/10 pl-4 py-2'>
                 {image.groups.length ? image.groups.map((group) => (
                     <div
                         key={`${image.image}-${group.source}`}
-                        className='rounded-xl border border-login-100/10 bg-login-900/50 p-4'
+                        className='flex flex-col gap-2'
                     >
                         <div>
-                            <div className='wrap-break-words font-medium text-login-50'>{group.source}</div>
-                            <div className='mt-1 text-sm text-login-200'>{group.total} findings</div>
+                            <div className='font-semibold text-login-50 wrap-break-word'>{group.source}</div>
+                            <div className='text-sm text-login-100'>{group.total} findings</div>
                         </div>
-                        <div className='mt-3 flex flex-wrap gap-2'>
+                        <div className='flex flex-wrap gap-2'>
                             {severityOrder.map((severity) => (
                                 <InlineSeverityBadge
                                     key={`${group.source}-${severity}`}
@@ -27,7 +27,7 @@ export default function ImageBreakdown({ image }: { image: ImageVulnerabilityRep
                         </div>
                     </div>
                 )) : (
-                    <div className='rounded-xl border border-login-100/10 bg-login-900/50 px-4 py-6 text-sm text-login-100'>
+                    <div className='text-sm text-login-100'>
                         No dependency grouping available for this image.
                     </div>
                 )}
