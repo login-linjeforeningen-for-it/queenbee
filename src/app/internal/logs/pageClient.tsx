@@ -47,6 +47,19 @@ type ServiceGroup = {
     sources: LogContainer[]
 }
 
+const DEFAULT_LOG_LEVEL: LogLevel = 'error'
+const DEFAULT_TAIL = 200
+const EMPTY_LOGS_PAYLOAD: LogsPayload = {
+    server: 'Loading...',
+    checkedAt: '',
+    filters: {
+        level: DEFAULT_LOG_LEVEL,
+        tail: DEFAULT_TAIL,
+    },
+    totalContainers: 0,
+    containers: [],
+}
+
 function formatRelativeTime(timestamp: string | null) {
     if (!timestamp) {
         return 'Unknown'
@@ -74,13 +87,14 @@ function formatRelativeTime(timestamp: string | null) {
     return restMinutes ? `${hours}h ${restMinutes}m ago` : `${hours}h ago`
 }
 
-export default function LogsPageClient({ initialData }: { initialData: LogsPayload }) {
-    const [data, setData] = useState(initialData)
+export default function LogsPageClient({ initialData }: { initialData?: LogsPayload }) {
+    const startingData = initialData || EMPTY_LOGS_PAYLOAD
+    const [data, setData] = useState<LogsPayload>(startingData)
     const [service, setService] = useState('')
     const [search, setSearch] = useState('')
-    const [level, setLevel] = useState<LogLevel>(initialData.filters.level)
+    const [level, setLevel] = useState<LogLevel>(startingData.filters.level)
     const [live, setLive] = useState(true)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(!initialData)
     const [error, setError] = useState<string | null>(null)
     const [viewMode, setViewMode] = useState<ViewMode>('compact')
     const [expandedServices, setExpandedServices] = useState<Record<string, boolean>>({})
@@ -176,6 +190,14 @@ export default function LogsPageClient({ initialData }: { initialData: LogsPaylo
             setLoading(false)
         }
     }
+
+    useEffect(() => {
+        if (initialData) {
+            return
+        }
+
+        void refresh('', '', DEFAULT_LOG_LEVEL)
+    }, [])
 
     useEffect(() => {
         if (!live) {
