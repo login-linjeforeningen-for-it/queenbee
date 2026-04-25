@@ -14,6 +14,7 @@ import { TriangleAlert, Plus, Activity, Edit, X, Columns, Square } from 'lucide-
 import { useEffect, useState } from 'react'
 import { Button, Toggle } from 'uibee/components'
 import Table from '@components/table/table'
+import Marquee from '@components/shared/marquee'
 import barColor from '@utils/status/barColor'
 import { setCookie } from 'utilbee'
 
@@ -137,7 +138,15 @@ export default function PageClient({
 
         return {
             system_table_id: item.id,
-            name: <span className='font-medium text-white'>{item.name}</span>,
+            name: (
+                <div className='block w-44 max-w-44 min-w-0 overflow-hidden' title={item.name}>
+                    <Marquee
+                        text={item.name}
+                        className='w-full max-w-44'
+                        innerClassName='font-medium text-white'
+                    />
+                </div>
+            ),
             status: (
                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
                     status === 'up' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
