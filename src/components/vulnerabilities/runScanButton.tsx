@@ -12,6 +12,7 @@ export default function RunScanButton({
 }) {
     return (
         <Button
+            className='mr-0.5 py-4.5'
             onClick={onClick}
             disabled={disabled}
             text={isRunning ? 'Scanning…' : 'Run scan'}

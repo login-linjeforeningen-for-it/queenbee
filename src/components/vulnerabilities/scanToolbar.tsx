@@ -26,7 +26,7 @@ export default function ScanToolbar(props: Props) {
     return (
         <div className='flex items-center justify-between gap-3 py-3'>
             <Search
-                className='flex-1 justify-start'
+                className='-mb-5'
                 innerClassname='w-full min-w-80 max-w-[28rem]'
             />
             <div className='flex shrink-0 items-center gap-2'>
