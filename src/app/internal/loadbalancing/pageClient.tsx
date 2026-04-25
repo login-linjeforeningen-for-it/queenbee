@@ -111,8 +111,8 @@ export default function LoadBalancingPageClient({ initialSites }: { initialSites
                 </div>
             </div>
 
-            <div className='flex items-center justify-between rounded-2xl border border-white/10 bg-login-900/50 p-4'>
-                <p className='text-sm text-login-100'>
+            <div className='flex items-center justify-between rounded-2xl border border-white/5 bg-login-50/5 p-4'>
+                <p className='text-sm text-muted-foreground'>
                     Automatic polling keeps the overview fresh while the backend owns the actual failover state.
                 </p>
                 <button

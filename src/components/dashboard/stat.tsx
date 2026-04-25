@@ -12,11 +12,14 @@ type Stat = {
 
 export default function Stat({ text, link, count, item }: Stat) {
     return (
-        <Link href={`/${link || text}`} className='p-4 bg-login-50/5 rounded-md flex flex-col justify-center h-24'>
+        <Link
+            href={`/${link || text}`}
+            className='flex h-24 flex-col justify-center rounded-xl border border-white/5 bg-login-50/5 p-4'
+        >
             <div className='flex items-center gap-2 text-sm text-muted-foreground capitalize'>
                 {item} {text}
             </div>
-            <div className='font-bold text-2xl'><CountUp end={count} /></div>
+            <div className='text-2xl font-bold text-login-50'><CountUp end={count} /></div>
         </Link>
     )
 }
