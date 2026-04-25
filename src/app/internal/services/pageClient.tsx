@@ -7,7 +7,7 @@ import Pagination from '@components/table/pagination'
 import getDocker from '@utils/api/internal/system/getDocker'
 import Conveyer from '@components/update/conveyer'
 import ConveyerStopped from '@components/update/conveyerStopped'
-import { ArrowUpCircle, LoaderCircle, RefreshCcw } from 'lucide-react'
+import { ArrowUpCircle, FishingHook, LoaderCircle, RefreshCcw } from 'lucide-react'
 import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
@@ -133,18 +133,29 @@ function DeploymentMeta({
     runState?: DeploymentRunState
 }) {
     if (!deployment) {
-        return <span className='text-xs text-white/40'>No deployment hooks</span>
+        return (
+            <div className='flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/35 bg-red-500/15'>
+                <FishingHook className='h-4 w-4 stroke-red-300' />
+            </div>
+        )
     }
 
     const lines = getDeploymentLines(deployment, runState)
 
     return (
-        <div className='flex max-w-64 flex-col items-end text-right'>
-            {lines.map(line => (
-                <span key={`${line.text}-${line.tone}`} className={`text-[11px] ${line.tone}`}>
-                    {line.text}
+        <div className='flex min-h-10 items-center justify-end gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 text-right'>
+            {!deployment.autoDeployEnabled && deployment.updateAvailable && (
+                <span className='rounded-md border border-amber-500/30 bg-amber-500/10 px-2 py-1 text-[10px] font-semibold text-amber-300'>
+                    {deployment.behindCount}
                 </span>
-            ))}
+            )}
+            <div className='flex flex-col items-end leading-tight'>
+                {lines.map(line => (
+                    <span key={`${line.text}-${line.tone}`} className={`text-[11px] ${line.tone}`}>
+                        {line.text}
+                    </span>
+                ))}
+            </div>
         </div>
     )
 }
@@ -369,7 +380,7 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
             </span>
         ),
         actions: (
-            <div className='flex flex-col items-end gap-2'>
+            <div className='flex items-center justify-end gap-2'>
                 <DeploymentMeta
                     deployment={container.deployment}
                     runState={container.deployment ? deploymentRuns[container.deployment.id] : undefined}
