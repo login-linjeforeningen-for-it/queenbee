@@ -24,9 +24,12 @@ export default function ScanToolbar(props: Props) {
     const handleRunScan = useRunScan(props)
 
     return (
-        <div className='flex items-center justify-between py-3 gap-2'>
-            <Search />
-            <div className='flex items-center gap-2'>
+        <div className='flex flex-col gap-3 py-3 xl:flex-row xl:items-center xl:justify-between'>
+            <Search
+                className='w-full xl:flex-1 xl:justify-start'
+                innerClassname='w-full min-w-[20rem] xl:w-[28rem]'
+            />
+            <div className='flex flex-wrap items-center gap-2 xl:justify-end'>
                 <div className='text-sm text-muted-foreground mr-2 hidden lg:block'>
                     Showing {props.sorting.images.length} of {props.data?.images.length || 0} images
                 </div>
