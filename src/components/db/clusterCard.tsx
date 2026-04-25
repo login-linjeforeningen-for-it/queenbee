@@ -30,7 +30,7 @@ export default function ClusterCard({ cluster }: { cluster: DatabaseOverviewClus
                     aria-label={expanded ? `Collapse ${cluster.name}` : `Expand ${cluster.name}`}
                     className='flex min-w-0 flex-1 cursor-pointer items-center gap-4'
                 >
-                    <div className='rounded-full bg-login-50/6 p-3'>
+                    <div className='rounded-full bg-login-50/5 p-3'>
                         <Database className='h-5 w-5 stroke-login' />
                     </div>
                     <div className='min-w-0 flex-1'>

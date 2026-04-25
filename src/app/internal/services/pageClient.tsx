@@ -143,7 +143,7 @@ function DeploymentMeta({
     const lines = getDeploymentLines(deployment, runState)
 
     return (
-        <div className='flex min-h-10 items-center justify-end gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 text-right'>
+        <div className='flex min-h-10 items-center justify-end gap-2 rounded-xl border border-white/10 bg-white/3 px-3 text-right'>
             {!deployment.autoDeployEnabled && deployment.updateAvailable && (
                 <span className='rounded-md border border-amber-500/30 bg-amber-500/10 px-2 py-1 text-[10px] font-semibold text-amber-300'>
                     {deployment.behindCount}
