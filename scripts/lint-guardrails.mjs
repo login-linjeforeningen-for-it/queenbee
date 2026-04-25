@@ -69,9 +69,8 @@ const canonicalLeadingScale = new Map([
     ['3rem', '12'],
 ])
 const canonicalAliasClasses = new Map([
-    ['break-words', 'wrap-break-words'],
-    ['wrap-words', 'wrap-break-words'],
-    ['wrap-break-word', 'wrap-break-words'],
+    ['break-words', 'wrap-break-word'],
+    ['wrap-words', 'wrap-break-word']
 ])
 
 const sourceFiles = await collectSourceFiles(srcRoot)
