@@ -7,8 +7,8 @@ import Pagination from '@components/table/pagination'
 import getDocker from '@utils/api/internal/system/getDocker'
 import Conveyer from '@components/update/conveyer'
 import ConveyerStopped from '@components/update/conveyerStopped'
-import { ArrowUpCircle, RefreshCcw } from 'lucide-react'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ArrowUpCircle, LoaderCircle, RefreshCcw } from 'lucide-react'
+import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
 type PageClientProps = {
@@ -33,61 +33,133 @@ const refreshOptions = [
     { label: '5m', value: 300000 },
 ]
 
-function DeploymentMeta({ deployment }: { deployment: DeploymentStatus | null }) {
+type DeploymentRunState = {
+    status: 'idle' | 'deploying' | 'success' | 'error'
+    message?: string
+    updatedAt?: number
+}
+
+function formatRelativeDate(value: string | null) {
+    if (!value) {
+        return null
+    }
+
+    const timestamp = new Date(value)
+    if (Number.isNaN(timestamp.getTime())) {
+        return null
+    }
+
+    const diffMs = timestamp.getTime() - Date.now()
+    const absSeconds = Math.abs(diffMs) / 1000
+    const formatter = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
+
+    if (absSeconds < 60) {
+        return formatter.format(Math.round(diffMs / 1000), 'second')
+    }
+
+    if (absSeconds < 3600) {
+        return formatter.format(Math.round(diffMs / 60000), 'minute')
+    }
+
+    if (absSeconds < 86400) {
+        return formatter.format(Math.round(diffMs / 3600000), 'hour')
+    }
+
+    return formatter.format(Math.round(diffMs / 86400000), 'day')
+}
+
+function getDeploymentSummary(deployment: DeploymentStatus, runState?: DeploymentRunState) {
+    if (runState?.status === 'deploying' || deployment.activeState === 'activating') {
+        return {
+            title: 'Deploying now',
+            detail: 'Redeploy in progress',
+            tone: 'text-amber-300'
+        }
+    }
+
+    if (runState?.status === 'error') {
+        return {
+            title: runState.message || 'Deploy failed',
+            detail: deployment.error || 'Check deployment logs',
+            tone: 'text-red-300'
+        }
+    }
+
+    if (deployment.autoDeployEnabled) {
+        return {
+            title: 'Autodeploy active',
+            detail: deployment.lastAutoDeployAt
+                ? `Last auto deploy ${formatRelativeDate(deployment.lastAutoDeployAt)}`
+                : 'Awaiting first auto deploy',
+            tone: 'text-emerald-300'
+        }
+    }
+
+    if (deployment.updateAvailable) {
+        return {
+            title: `${deployment.behindCount} update${deployment.behindCount === 1 ? '' : 's'} available`,
+            detail: deployment.lastDeploymentAt
+                ? `Last deploy ${formatRelativeDate(deployment.lastDeploymentAt)}`
+                : 'Ready to redeploy',
+            tone: 'text-amber-300'
+        }
+    }
+
+    return {
+        title: 'No update available',
+        detail: deployment.lastDeploymentAt
+            ? `Last deploy ${formatRelativeDate(deployment.lastDeploymentAt)}`
+            : 'No recent deploy recorded',
+        tone: 'text-white/70'
+    }
+}
+
+function DeploymentMeta({
+    deployment,
+    runState
+}: {
+    deployment: DeploymentStatus | null
+    runState?: DeploymentRunState
+}) {
     if (!deployment) {
         return <span className='text-xs text-white/40'>No deployment hooks</span>
     }
 
+    const summary = getDeploymentSummary(deployment, runState)
+    const deploymentStamp = !deployment.autoDeployEnabled && deployment.lastAutoDeployAt
+        ? `Autodeploy last ran ${formatRelativeDate(deployment.lastAutoDeployAt)}`
+        : null
+
     return (
-        <div className='flex flex-wrap justify-end gap-1 text-[10px] font-semibold uppercase tracking-wider'>
-            <span className={`rounded border px-2 py-0.5 ${deployment.autoDeployEnabled
-                ? 'border-emerald-500/30 text-emerald-300 bg-emerald-500/10'
-                : 'border-white/10 text-white/50 bg-white/5'
-            }`}>
-                {deployment.autoDeployEnabled ? 'Autodeploy on' : 'Autodeploy off'}
-            </span>
-            <span className={`rounded border px-2 py-0.5 ${deployment.updateAvailable
-                ? 'border-amber-500/30 text-amber-300 bg-amber-500/10'
-                : 'border-white/10 text-white/50 bg-white/5'
-            }`}>
-                {deployment.updateAvailable ? `${deployment.behindCount} update${deployment.behindCount === 1 ? '' : 's'}` : 'Up to date'}
-            </span>
+        <div className='flex max-w-[16rem] flex-col items-end text-right'>
+            <span className={`text-xs font-semibold ${summary.tone}`}>{summary.title}</span>
+            <span className='text-[11px] text-white/55'>{summary.detail}</span>
+            {deploymentStamp && <span className='text-[11px] text-white/40'>{deploymentStamp}</span>}
+            {runState?.status === 'success' && runState.message && (
+                <span className='text-[11px] text-emerald-300'>{runState.message}</span>
+            )}
+            {deployment.error && (
+                <span className='text-[11px] text-red-300'>{deployment.error}</span>
+            )}
         </div>
     )
 }
 
 function ActionButtons({
     deployment,
-    onUpdated
+    runState,
+    onRefresh,
+    onToggleAutoDeploy,
+    onRunDeployment,
 }: {
     deployment: DeploymentStatus | null
-    onUpdated: () => Promise<void>
+    runState?: DeploymentRunState
+    onRefresh: () => Promise<void>
+    onToggleAutoDeploy: (deployment: DeploymentStatus) => Promise<void>
+    onRunDeployment: (deployment: DeploymentStatus) => Promise<void>
 }) {
-    const [autoUpdate, setAutoUpdate] = useState<boolean>(Boolean(deployment?.autoDeployEnabled))
-
-    async function handleAutoUpdate() {
-        if (!deployment) {
-            return
-        }
-
-        const nextValue = !autoUpdate
-        setAutoUpdate(nextValue)
-
-        const response = await fetch(`/api/system/autoRestart/${deployment.id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ enabled: nextValue })
-        })
-
-        if (!response.ok) {
-            setAutoUpdate(!nextValue)
-        }
-
-        await onUpdated()
-    }
-
     async function handleRefresh() {
-        await onUpdated()
+        await onRefresh()
     }
 
     async function handleUpdate() {
@@ -95,24 +167,43 @@ function ActionButtons({
             return
         }
 
-        await fetch(`/api/system/update/${deployment.id}`, {
-            method: 'POST'
-        }).catch(() => null)
-        await onUpdated()
+        await onRunDeployment(deployment)
+    }
+
+    async function handleAutoUpdate() {
+        if (!deployment) {
+            return
+        }
+
+        await onToggleAutoDeploy(deployment)
     }
 
     return (
-        <div onClick={(e) => e.stopPropagation()} className='flex gap-2 w-full justify-end select-none'>
-            {!autoUpdate && <button
+        <div onClick={(e) => e.stopPropagation()} className='flex items-center gap-2 justify-end select-none'>
+            {!deployment?.autoDeployEnabled && <button
                 type='button'
                 className={`
-                    px-3 py-1.5 rounded flex items-center
-                    justify-center cursor-pointer bg-login-500 group
+                    px-3 py-1.5 rounded flex items-center gap-2
+                    justify-center cursor-pointer bg-login-500 group text-xs font-semibold
+                    disabled:cursor-not-allowed disabled:opacity-60
                 `}
                 onClick={handleUpdate}
-                disabled={!deployment}
+                disabled={!deployment || runState?.status === 'deploying'}
             >
-                <ArrowUpCircle className={`h-4 w-4 ${deployment?.updateAvailable ? 'stroke-amber-400' : 'group-hover:stroke-green-500'}`} />
+                {runState?.status === 'deploying'
+                    ? <LoaderCircle className='h-4 w-4 animate-spin stroke-amber-300' />
+                    : <ArrowUpCircle className={`h-4 w-4 ${deployment?.updateAvailable ? 'stroke-amber-400' : 'group-hover:stroke-green-500'}`} />}
+                <span>
+                    {runState?.status === 'deploying'
+                        ? 'Deploying...'
+                        : runState?.status === 'success'
+                            ? 'Redeployed'
+                            : runState?.status === 'error'
+                                ? 'Retry deploy'
+                                : deployment?.updateAvailable
+                                    ? 'Deploy update'
+                                    : 'Redeploy'}
+                </span>
             </button>}
             <button
                 type='button'
@@ -132,9 +223,10 @@ function ActionButtons({
                 `}
                 onClick={handleAutoUpdate}
                 disabled={!deployment}
+                title={deployment?.autoDeployEnabled ? 'Disable autodeploy' : 'Enable autodeploy'}
             >
                 <div className='group cursor-pointer'>
-                    {autoUpdate ? <Conveyer
+                    {deployment?.autoDeployEnabled ? <Conveyer
                         className='cursor-pointer w-8 h-8'
                         wheels='rounded-lg stroke stroke-login-200 stroke-3'
                         belt='stroke-login-200'
@@ -155,18 +247,104 @@ function ActionButtons({
 export default function PageClient({ docker: dockerServer, deleteAction }: PageClientProps) {
     const [docker, setDocker] = useState(dockerServer)
     const [autoRefresh, setAutoRefresh] = useState(10000)
+    const [autoDeployOverrides, setAutoDeployOverrides] = useState<Record<string, boolean>>({})
+    const [deploymentRuns, setDeploymentRuns] = useState<Record<string, DeploymentRunState>>({})
     const searchParams = useSearchParams()
     const query = searchParams?.get('q')?.toLowerCase() ?? ''
     const limit = 25
-    const filteredContainers = docker?.containers?.filter(container =>
+
+    const containers = useMemo(() => (
+        docker?.containers?.map(container => {
+            const deployment = container.deployment && autoDeployOverrides[container.deployment.id] !== undefined
+                ? {
+                    ...container.deployment,
+                    autoDeployEnabled: autoDeployOverrides[container.deployment.id]
+                }
+                : container.deployment
+
+            return {
+                ...container,
+                deployment,
+            }
+        }) || []
+    ), [autoDeployOverrides, docker?.containers])
+
+    const filteredContainers = containers.filter(container =>
         container.name.toLowerCase().includes(query) ||
         container.id.toLowerCase().includes(query) ||
-        container.status.toLowerCase().includes(query)
-    ) || []
+        container.status.toLowerCase().includes(query) ||
+        container.project.toLowerCase().includes(query) ||
+        container.deployment?.name.toLowerCase().includes(query)
+    )
 
     async function refreshDocker() {
         const updatedDocker = await getDocker()
         setDocker(updatedDocker)
+    }
+
+    async function handleToggleAutoDeploy(deployment: DeploymentStatus) {
+        const nextValue = !deployment.autoDeployEnabled
+        setAutoDeployOverrides(current => ({
+            ...current,
+            [deployment.id]: nextValue,
+        }))
+
+        const response = await fetch(`/api/system/autoRestart/${deployment.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ enabled: nextValue })
+        })
+
+        if (!response.ok) {
+            setAutoDeployOverrides(current => ({
+                ...current,
+                [deployment.id]: deployment.autoDeployEnabled,
+            }))
+        }
+
+        await refreshDocker()
+    }
+
+    async function handleRunDeployment(deployment: DeploymentStatus) {
+        setDeploymentRuns(current => ({
+            ...current,
+            [deployment.id]: {
+                status: 'deploying',
+                message: 'Starting redeploy',
+                updatedAt: Date.now()
+            }
+        }))
+
+        try {
+            const response = await fetch(`/api/system/update/${deployment.id}`, {
+                method: 'POST'
+            })
+            const payload = await response.json().catch(() => null)
+
+            if (!response.ok) {
+                throw new Error(payload?.error || 'Failed to trigger deployment')
+            }
+
+            await refreshDocker()
+
+            setDeploymentRuns(current => ({
+                ...current,
+                [deployment.id]: {
+                    status: 'success',
+                    message: payload?.mode === 'systemctl' ? 'Redeploy finished' : 'Redeploy completed',
+                    updatedAt: Date.now()
+                }
+            }))
+        } catch (error) {
+            setDeploymentRuns(current => ({
+                ...current,
+                [deployment.id]: {
+                    status: 'error',
+                    message: error instanceof Error ? error.message : 'Failed to trigger deployment',
+                    updatedAt: Date.now()
+                }
+            }))
+        }
     }
 
     const tableList = filteredContainers.map(container => ({
@@ -184,10 +362,16 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
         ),
         actions: (
             <div className='flex flex-col items-end gap-2'>
-                <DeploymentMeta deployment={container.deployment} />
+                <DeploymentMeta
+                    deployment={container.deployment}
+                    runState={container.deployment ? deploymentRuns[container.deployment.id] : undefined}
+                />
                 <ActionButtons
                     deployment={container.deployment}
-                    onUpdated={refreshDocker}
+                    runState={container.deployment ? deploymentRuns[container.deployment.id] : undefined}
+                    onRefresh={refreshDocker}
+                    onToggleAutoDeploy={handleToggleAutoDeploy}
+                    onRunDeployment={handleRunDeployment}
                 />
             </div>
         )
@@ -204,6 +388,51 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
 
         return () => clearInterval(intervalId)
     }, [autoRefresh])
+
+    useEffect(() => {
+        const deploymentIds = new Set(
+            (docker.containers || [])
+                .map(container => container.deployment?.id)
+                .filter((id): id is string => Boolean(id))
+        )
+
+        setAutoDeployOverrides(current => {
+            const next = Object.fromEntries(
+                Object.entries(current).filter(([id]) => deploymentIds.has(id))
+            )
+
+            return Object.keys(next).length === Object.keys(current).length ? current : next
+        })
+        setDeploymentRuns(current => {
+            const next = Object.fromEntries(
+                Object.entries(current).filter(([id]) =>
+                    deploymentIds.has(id)
+                )
+            )
+
+            return Object.keys(next).length === Object.keys(current).length ? current : next
+        })
+    }, [docker.containers])
+
+    useEffect(() => {
+        if (!Object.values(deploymentRuns).some(state => state.status === 'success' && state.updatedAt)) {
+            return
+        }
+
+        const timeoutId = setTimeout(() => {
+            setDeploymentRuns(current => {
+                const nextEntries = Object.entries(current).filter(([, state]) =>
+                    state.status !== 'success' || !state.updatedAt || Date.now() - state.updatedAt < 8000
+                )
+
+                return nextEntries.length === Object.keys(current).length
+                    ? current
+                    : Object.fromEntries(nextEntries)
+            })
+        }, 1000)
+
+        return () => clearTimeout(timeoutId)
+    }, [deploymentRuns])
 
     function handleAutoRefresh(e: ChangeEvent<HTMLSelectElement>) {
         const selectedOption = refreshOptions.find(opt => opt.label === e.target.value)

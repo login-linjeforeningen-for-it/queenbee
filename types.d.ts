@@ -667,6 +667,11 @@ declare global {
         upstreamCommit: string | null
         dirty: boolean
         reachable: boolean
+        activeState: string
+        subState: string
+        lastResult: string | null
+        lastDeploymentAt: string | null
+        lastAutoDeployAt: string | null
         error: string | null
     }
 
