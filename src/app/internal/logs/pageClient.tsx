@@ -475,9 +475,8 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                                                 event.stopPropagation()
                                                 toggleContainer(group.service)
                                             }}
-                                            className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl
-                                                border border-login-100/10 bg-login-50/5 text-login-100 transition
-                                                hover:border-login-100/20 hover:bg-login-50/10'
+                                            className='flex h-10 w-10 cursor-pointer items-center justify-center
+                                                text-login-100 transition hover:text-login-50'
                                         >
                                             <ChevronDown className={`h-4.5 w-4.5 transition-transform ${expanded ? 'rotate-180' : ''}`} />
                                         </button>
