@@ -68,9 +68,21 @@ const canonicalLeadingScale = new Map([
     ['2.5rem', '10'],
     ['3rem', '12'],
 ])
+const canonicalRadiusScale = new Map([
+    ['0rem', 'none'],
+    ['0.125rem', 'xs'],
+    ['0.25rem', 'sm'],
+    ['0.375rem', 'md'],
+    ['0.5rem', 'lg'],
+    ['0.75rem', 'xl'],
+    ['1rem', '2xl'],
+    ['1.5rem', '3xl'],
+    ['2rem', '4xl'],
+])
 const canonicalAliasClasses = new Map([
     ['break-words', 'wrap-break-word'],
-    ['wrap-words', 'wrap-break-word']
+    ['wrap-words', 'wrap-break-word'],
+    ['wrap-break-words', 'wrap-break-word'],
 ])
 
 const sourceFiles = await collectSourceFiles(srcRoot)
@@ -160,6 +172,20 @@ function getCanonicalClassSuggestion(token) {
         }
     }
 
+    const negativeTranslateMatch = token.match(/^((?:[^:\s]+:)*)-translate-([xy])-\[([^\]]+)\]$/)
+    if (negativeTranslateMatch) {
+        const [, variants, axis, rawValue] = negativeTranslateMatch
+        return `${variants}translate-${axis}-[-${rawValue}]`
+    }
+
+    const negativeVariableCalcMatch = token.match(
+        /^((?:[^:\s]+:)*)((?:!?)(?:m(?:[trblxy])?|inset(?:-[xy])?|top|right|bottom|left))-\[calc\(var\((--[^)\]]+)\)\s*\*\s*-1\)\]$/
+    )
+    if (negativeVariableCalcMatch) {
+        const [, variants, utility, variableName] = negativeVariableCalcMatch
+        return `${variants}-${utility}-(${variableName})`
+    }
+
     const variableMatch = token.match(/^((?:[^:\s]+:)*)((?:!?[^:\s[]+))-\[var\((--[^)\]]+)\)\](\/[^\s]+)?$/)
     if (variableMatch) {
         const [, variants, utility, variableName, suffix = ''] = variableMatch
@@ -170,6 +196,7 @@ function getCanonicalClassSuggestion(token) {
         [/^((?:[^:\s]+:)*)((?:-)?(?:p|m)(?:[trblxy])?|gap(?:-[xy])?|space-[xy]|(?:min-|max-)?[wh]|size)-\[(.+)\]$/, canonicalSpacingScale],
         [/^((?:[^:\s]+:)*)((?:-)?text)-\[(.+)\]$/, canonicalTextScale],
         [/^((?:[^:\s]+:)*)((?:-)?leading)-\[(.+)\]$/, canonicalLeadingScale],
+        [/^((?:[^:\s]+:)*)((?:!?rounded(?:-(?:t|r|b|l|tl|tr|br|bl|s|e|ss|se|ee|es))?))-\[(.+)\]$/, canonicalRadiusScale],
     ]) {
         const match = token.match(utilityPattern)
         if (!match) {
