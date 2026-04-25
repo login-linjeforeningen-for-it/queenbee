@@ -96,19 +96,19 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
                             ),
                             method: <span className='text-sm font-bold text-login-50 uppercase'>{r.method}</span>,
                             path: (
-                                <div className='block w-72 max-w-72 min-w-0 overflow-hidden' title={r.path}>
+                                <div className='block w-40 max-w-40 min-w-0 overflow-hidden' title={r.path}>
                                     <Marquee
                                         text={r.path}
-                                        className='w-full max-w-72'
+                                        className='w-full max-w-40'
                                         innerClassName='text-sm font-medium text-login-50'
                                     />
                                 </div>
                             ),
                             domain: (
-                                <div className='block w-48 max-w-48 min-w-0 overflow-hidden' title={r.domain}>
+                                <div className='block w-28 max-w-28 min-w-0 overflow-hidden' title={r.domain}>
                                     <Marquee
                                         text={r.domain}
-                                        className='w-full max-w-48'
+                                        className='w-full max-w-28'
                                         innerClassName='text-sm text-muted-foreground opacity-70'
                                     />
                                 </div>
