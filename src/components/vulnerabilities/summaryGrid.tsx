@@ -1,6 +1,6 @@
 import type { GetVulnerabilities } from '@utils/api/internal/vulnerabilities/get'
 import type { ScanNotice } from './types'
-import { AlertTriangle, CircleAlert, Container, Layers3, LoaderCircle, ShieldAlert, ShieldCheck } from 'lucide-react'
+import { CircleAlert, Container, Layers3, LoaderCircle, ShieldAlert, ShieldCheck } from 'lucide-react'
 import SummaryCard from './summaryCard'
 import { formatEta } from './helpers'
 
@@ -16,8 +16,12 @@ export default function SummaryGrid({
     now: number
 }) {
     const isScanning = scanStatus.isRunning
-    const statusTone = isScanning ? 'amber' : (notice?.tone === 'error' ? 'rose' : (notice?.tone === 'success' ? 'emerald' : 'emerald'))
-    const statusIcon = isScanning ? LoaderCircle : (notice?.tone === 'error' ? CircleAlert : (notice?.tone === 'success' ? ShieldCheck : ShieldCheck))
+    const statusTone = isScanning
+        ? 'amber'
+        : (notice?.tone === 'error' ? 'rose' : 'emerald')
+    const statusIcon = isScanning
+        ? LoaderCircle
+        : (notice?.tone === 'error' ? CircleAlert : ShieldCheck)
     const statusValue = isScanning ? 'Scanning' : (notice ? notice.title : 'Idle')
 
     return (
@@ -37,7 +41,8 @@ export default function SummaryGrid({
                         <div className='mt-2 space-y-1.5'>
                             <div className='flex justify-between items-end gap-2'>
                                 <div className='text-xs text-muted-foreground truncate'>
-                                    {scanStatus.currentImage || 'Queued image'} ({scanStatus.completedImages}/{scanStatus.totalImages ?? '?'})
+                                    {scanStatus.currentImage || 'Queued image'} (
+                                    {scanStatus.completedImages}/{scanStatus.totalImages ?? '?'})
                                 </div>
                                 <div className='text-[10px] text-muted-foreground/60 shrink-0 tabular-nums'>
                                     {formatEta(scanStatus.estimatedCompletionAt, now)}
@@ -46,7 +51,11 @@ export default function SummaryGrid({
                             <div className='h-1 w-full bg-white/5 rounded-full overflow-hidden'>
                                 <div
                                     className='h-full bg-amber-500 transition-[width] duration-500'
-                                    style={{ width: `${scanStatus.totalImages ? (scanStatus.completedImages / Math.max(scanStatus.totalImages, 1)) * 100 : 0}%` }}
+                                    style={{
+                                        width: `${scanStatus.totalImages
+                                            ? (scanStatus.completedImages / Math.max(scanStatus.totalImages, 1)) * 100
+                                            : 0}%`
+                                    }}
                                 />
                             </div>
                         </div>
@@ -59,7 +68,9 @@ export default function SummaryGrid({
                 </SummaryCard>
                 <SummaryCard
                     title='last scan'
-                    value={scanStatus.finishedAt ? new Date(scanStatus.finishedAt).toLocaleString('nb-NO') : 'No completed scan'}
+                    value={scanStatus.finishedAt
+                        ? new Date(scanStatus.finishedAt).toLocaleString('nb-NO')
+                        : 'No completed scan'}
                     icon={Layers3}
                     tone='violet'
                 />

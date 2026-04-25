@@ -17,7 +17,14 @@ export default function ImageBreakdown({ image }: { image: ImageVulnerabilityRep
                                 {group.source}
                             </div>
                             <div className='flex flex-wrap items-center gap-1.5'>
-                                <div className='text-[10px] font-bold uppercase tracking-wider text-white shrink-0 border border-white/10 bg-white/5 px-2 py-0.5 rounded-full'>
+                                <div
+                                    className={`
+                                        text-[10px] font-bold uppercase 
+                                        tracking-wider text-white shrink-0
+                                        border border-white/10 bg-white/5
+                                        px-2 py-0.5 rounded-full
+                                    `}
+                                >
                                     {group.total} Total
                                 </div>
                                 {severityOrder.map((severity) => (

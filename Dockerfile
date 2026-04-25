@@ -6,6 +6,7 @@ COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
 COPY . .
+RUN bun run lint
 RUN bun run build
 
 # Runtime
@@ -23,4 +24,4 @@ RUN chown app:app /app
 ENV HOSTNAME=0.0.0.0
 EXPOSE 3000
 
-CMD ["bun", "server.js"]
+CMD ["sh", "-lc", "bun server.js"]

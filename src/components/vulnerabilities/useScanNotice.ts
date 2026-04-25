@@ -24,7 +24,6 @@ export default function useScanNotice(scanStatus: GetVulnerabilities['scanStatus
                 : {
                     tone: 'success',
                     title: 'Scan complete',
-                    message: '',
                     dismissAt: Date.now() + 5000,
                 })
         }

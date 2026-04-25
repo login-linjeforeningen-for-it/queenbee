@@ -22,7 +22,11 @@ export default function Table({ list, headers, deleteAction, roles, hideMenu, re
     headers = headers || keys
 
     return (
-        <div className='bg-login-500/50 flex-1 flex flex-col min-h-0 rounded-lg shadow border border-login-600 overflow-x-auto h-full w-full max-w-full'>
+        <div className={`
+                bg-login-500/50 flex-1 flex flex-col min-h-0 rounded-lg 
+                shadow border border-login-600 overflow-x-auto h-full w-full
+                max-w-full
+        `}>
             <table className='min-w-full w-max divide-y divide-login-600 flex flex-col flex-1 min-h-0'>
                 <Header
                     keys={list.length > 0 ? Object.keys(list[0]) : []}

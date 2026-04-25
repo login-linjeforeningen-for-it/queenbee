@@ -1,5 +1,4 @@
 import TrafficDashboard from '@components/traffic/traffic'
-import DomainSelector from '@components/traffic/domainSelector'
 import getTrafficDomains from '@utils/api/beekeeper/traffic/domains'
 import getTrafficMetrics from '@utils/api/beekeeper/traffic/metrics'
 

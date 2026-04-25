@@ -5,7 +5,7 @@ export type SortMode = 'impact' | 'alphabetical'
 export type ScanNotice = {
     tone: 'info' | 'success' | 'error'
     title: string
-    message: string
+    message?: string
     dismissAt: number | null
 }
 

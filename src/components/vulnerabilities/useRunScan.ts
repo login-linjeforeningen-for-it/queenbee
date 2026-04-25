@@ -18,7 +18,6 @@ export default function useRunScan({ notice, refresh, runScanAction, setPageStat
             return notice.setScanNotice({
                 tone: 'error',
                 title: 'Scan could not start',
-                message: '',
                 dismissAt: null,
             })
         }
@@ -26,7 +25,6 @@ export default function useRunScan({ notice, refresh, runScanAction, setPageStat
         notice.setScanNotice({
             tone: 'info',
             title: 'Scan started in the background',
-            message: '',
             dismissAt: null,
         })
         startTransition(() => setPageState(prev => ({

@@ -18,7 +18,7 @@ type Props = Pick<PageClientProps, 'runScanAction'> & Pick<VulnerabilityPageStat
 }
 
 export default function VulnerabilityHeader(props: Props) {
-    const { notice: noticeState, scanStatus } = props
+    const { notice: noticeState } = props
     const { scanNotice, now } = noticeState
 
     return (

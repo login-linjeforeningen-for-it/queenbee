@@ -1,6 +1,7 @@
 'use client'
 
 import { Activity, Clock, Globe, ShieldAlert, Cpu, Monitor } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import statusClasses from './statusClasses'
 import RequestsOverTimeChart from './requestsOverTimeChart'
 import CombinedMetrics from './combinedMetrics'
@@ -77,13 +78,43 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
                     <Table
                         headers={['timestamp', 'status', 'duration', 'method', 'path', 'domain', 'iso']}
                         list={recs.map(r => ({
-                            timestamp: <span className='text-sm tabular-nums text-login-50 font-semibold'>{formatTime(r.timestamp)}</span>,
-                            status: <span className={`px-2 py-0.5 rounded text-sm font-bold border ${statusClasses(r.status)}`}>{r.status}</span>,
-                            duration: <span className={`tabular-nums text-sm font-bold ${getDurationColor(r.request_time)}`}>{r.request_time}ms</span>,
+                            timestamp: (
+                                <span className='text-sm tabular-nums text-login-50 font-semibold'>
+                                    {formatTime(r.timestamp)}
+                                </span>
+                            ),
+                            status: (
+                                <span className={`px-2 py-0.5 rounded text-sm font-bold border ${statusClasses(r.status)}`}>
+                                    {r.status}
+                                </span>
+                            ),
+                            duration: (
+                                <span className={`tabular-nums text-sm font-bold ${getDurationColor(r.request_time)}`}>
+                                    {r.request_time}ms
+                                </span>
+                            ),
                             method: <span className='text-sm font-bold text-login-50 uppercase'>{r.method}</span>,
-                            path: <span className='truncate text-sm font-medium text-login-50 max-w-sm block' title={r.path}>{r.path}</span>,
-                            domain: <span className='truncate text-sm text-muted-foreground text-xs opacity-70' title={r.domain}>{r.domain}</span>,
-                            iso: <span className='text-xs font-bold text-muted-foreground opacity-70 uppercase tracking-widest'>{r.country_iso || '??'}</span>
+                            path: (
+                                <span
+                                    className='truncate text-sm font-medium text-login-50 max-w-sm block'
+                                    title={r.path}
+                                >
+                                    {r.path}
+                                </span>
+                            ),
+                            domain: (
+                                <span
+                                    className='truncate text-sm text-muted-foreground opacity-70'
+                                    title={r.domain}
+                                >
+                                    {r.domain}
+                                </span>
+                            ),
+                            iso: (
+                                <span className='text-xs font-bold text-muted-foreground opacity-70 uppercase tracking-widest'>
+                                    {r.country_iso || '??'}
+                                </span>
+                            )
                         }))}
                         hideMenu
                     />
@@ -93,7 +124,7 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
             {m && (
                 <div className='flex flex-col gap-6 pt-2'>
                     {recs.length > 0 && <hr className='border-white/5' />}
-                    
+
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
                         <StatCard
                             title='Total Requests'
@@ -117,9 +148,17 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
 
                     <div className='flex justify-between items-center -my-2'>
                         <div className='flex items-center gap-4 flex-1'>
-                            <DomainSelector domains={domainOptions} selectedDomain={selectedDomain} />
+                            <DomainSelector
+                                domains={domainOptions}
+                                selectedDomain={selectedDomain}
+                            />
                             {selectedDomain && (
-                                <div className='flex items-center gap-2 px-3 py-1 bg-login-orange/10 border border-login-orange/20 rounded-full'>
+                                <div
+                                    className={[
+                                        'flex items-center gap-2 px-3 py-1 bg-login-orange/10',
+                                        'border border-login-orange/20 rounded-full'
+                                    ].join(' ')}
+                                >
                                     <span className='w-1.5 h-1.5 rounded-full bg-login-orange animate-pulse' />
                                     <span className='text-xs text-login-orange font-semibold uppercase tracking-wider'>
                                         Monitoring {selectedDomain}
@@ -143,9 +182,14 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
                             }
                             if (isChart) {
                                 return (
-                                    <div className='bg-login-50/5 p-4 rounded-xl border border-white/5 min-h-[200px] flex flex-col' key={title as string}>
+                                    <div
+                                        className='bg-login-50/5 p-4 rounded-xl border border-white/5 min-h-50 flex flex-col'
+                                        key={title as string}
+                                    >
                                         <div className='flex items-center justify-between mb-4'>
-                                            <h3 className='text-xs font-semibold uppercase tracking-[0.15em] text-login-200'>{title as string}</h3>
+                                            <h3 className='text-xs font-semibold uppercase tracking-[0.15em] text-login-200'>
+                                                {title as string}
+                                            </h3>
                                             <Activity className='w-3 h-3 text-login-200/40' />
                                         </div>
                                         <div className='flex-1'>
@@ -155,13 +199,20 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
                                 )
                             }
                             const set = data as TrafficEntry[]
-                            const isBrowserOrOS = Array.isArray(title) || (typeof title === 'string' && (title.includes('Operating') || title.includes('Browsers')))
+                            const isBrowserOrOS = Array.isArray(title)
+                                || (typeof title === 'string'
+                                    && (title.includes('Operating') || title.includes('Browsers')))
                             const Icon = isBrowserOrOS ? Monitor : Cpu
 
                             return (
-                                <div className='bg-login-50/5 p-4 rounded-xl border border-white/5 min-h-[200px]' key={typeof title === 'string' ? title : title[0]}>
+                                <div
+                                    className='bg-login-50/5 p-4 rounded-xl border border-white/5 min-h-50'
+                                    key={typeof title === 'string' ? title : title[0]}
+                                >
                                     <div className='flex items-center justify-between mb-4'>
-                                        <h3 className='text-xs font-semibold uppercase tracking-[0.15em] text-login-200'>{Array.isArray(title) ? title[0] : title}</h3>
+                                        <h3 className='text-xs font-semibold uppercase tracking-[0.15em] text-login-200'>
+                                            {Array.isArray(title) ? title[0] : title}
+                                        </h3>
                                         <Icon className='w-3 h-3 text-login-200/40' />
                                     </div>
                                     <div className='space-y-3'>
@@ -193,7 +244,7 @@ function StatCard({
     title: string
     value: string | number
     tone?: 'blue' | 'amber' | 'emerald' | 'rose' | 'violet' | 'slate'
-    icon: any
+    icon: LucideIcon
 }) {
     const tones = {
         blue: { bg: 'bg-sky-500/15', icon: 'text-sky-400', border: 'border-sky-500/10' },
@@ -207,7 +258,9 @@ function StatCard({
     const activeTone = tones[tone]
 
     return (
-        <div className={`bg-login-50/5 p-4 rounded-xl border ${activeTone.border} transition-all hover:bg-login-50/10 group`}>
+        <div
+            className={`bg-login-50/5 p-4 rounded-xl border ${activeTone.border} transition-all hover:bg-login-50/10 group`}
+        >
             <div className='flex items-center gap-3 mb-3'>
                 <div className={`p-2 rounded-lg ${activeTone.bg} group-hover:scale-110 transition-transform`}>
                     <Icon className={`w-4 h-4 ${activeTone.icon}`} strokeWidth={2.5} />

@@ -1,7 +1,5 @@
 import TrafficDashboard from '@components/traffic/traffic'
-import DomainSelector from '@components/traffic/domainSelector'
 import Pagination from '@components/table/pagination'
-import getTrafficDomains from '@utils/api/beekeeper/traffic/domains'
 import getTrafficRecords from '@utils/api/beekeeper/traffic/records'
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
@@ -11,12 +9,8 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     const page = typeof params.page === 'string' ? parseInt(params.page, 10) : 1
     const limit = 13
 
-    const [domains, records] = await Promise.all([
-        getTrafficDomains(),
-        getTrafficRecords({ limit, page, domain: selectedDomain }),
-    ])
+    const records = await getTrafficRecords({ limit, page, domain: selectedDomain })
 
-    const domainOptions = typeof domains === 'object' && 'domains' in domains ? domains.domains : []
     const totalCount = typeof records === 'object' && 'total' in records ? records.total : 0
 
     return (

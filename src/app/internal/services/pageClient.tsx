@@ -43,13 +43,13 @@ function DeploymentMeta({ deployment }: { deployment: DeploymentStatus | null })
             <span className={`rounded border px-2 py-0.5 ${deployment.autoDeployEnabled
                 ? 'border-emerald-500/30 text-emerald-300 bg-emerald-500/10'
                 : 'border-white/10 text-white/50 bg-white/5'
-                }`}>
+            }`}>
                 {deployment.autoDeployEnabled ? 'Autodeploy on' : 'Autodeploy off'}
             </span>
             <span className={`rounded border px-2 py-0.5 ${deployment.updateAvailable
                 ? 'border-amber-500/30 text-amber-300 bg-amber-500/10'
                 : 'border-white/10 text-white/50 bg-white/5'
-                }`}>
+            }`}>
                 {deployment.updateAvailable ? `${deployment.behindCount} update${deployment.behindCount === 1 ? '' : 's'}` : 'Up to date'}
             </span>
         </div>
@@ -64,8 +64,6 @@ function ActionButtons({
     onUpdated: () => Promise<void>
 }) {
     const [autoUpdate, setAutoUpdate] = useState<boolean>(Boolean(deployment?.autoDeployEnabled))
-    const [refresh, setRefresh] = useState(false)
-    const [update, setUpdate] = useState<boolean | 'inProgress'>(false)
 
     async function handleAutoUpdate() {
         if (!deployment) {
@@ -89,7 +87,6 @@ function ActionButtons({
     }
 
     async function handleRefresh() {
-        setRefresh(prev => !prev)
         await onUpdated()
     }
 
@@ -98,11 +95,9 @@ function ActionButtons({
             return
         }
 
-        setUpdate('inProgress')
         await fetch(`/api/system/update/${deployment.id}`, {
             method: 'POST'
         }).catch(() => null)
-        setUpdate(false)
         await onUpdated()
     }
 

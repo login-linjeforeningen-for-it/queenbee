@@ -21,7 +21,7 @@ export default function ImageFindings({ image }: { image: ImageVulnerabilityRepo
     }, [image.image])
 
     return (
-        <div className='flex flex-col h-[320px]'>
+        <div className='flex flex-col h-80'>
             <div className='flex items-center justify-between gap-3 mb-2'>
                 <h3 className='text-xs font-semibold uppercase tracking-[0.15em] text-login-200'>
                     Vulnerability Details
@@ -30,7 +30,7 @@ export default function ImageFindings({ image }: { image: ImageVulnerabilityRepo
                     {image.vulnerabilities.length} findings
                 </span>
             </div>
-            
+
             <div className='flex-1 flex flex-col gap-2.5 overflow-y-auto pr-1 custom-scrollbar'>
                 {visibleFindings.length ? visibleFindings.map((vulnerability) => (
                     <VulnerabilityCard
@@ -72,10 +72,13 @@ function FindingPagination({
     return (
         <div className='flex items-center justify-between gap-6 pt-2'>
             <div className='text-sm text-login-200'>
-                Page <span className='font-semibold text-login-50 h-5 inline-flex items-center px-1.5 bg-login-50/5 rounded mx-0.5'>{page}</span> 
-                <span className='mx-1 opacity-50'>of</span> 
-                <span className='font-semibold text-login-50'>{totalPages}</span> 
-                <span className='mx-3 opacity-30'>•</span> 
+                Page{' '}
+                <span className='font-semibold text-login-50 h-5 inline-flex items-center px-1.5 bg-login-50/5 rounded mx-0.5'>
+                    {page}
+                </span>
+                <span className='mx-1 opacity-50'>of</span>
+                <span className='font-semibold text-login-50'>{totalPages}</span>
+                <span className='mx-3 opacity-30'>•</span>
                 <span className='font-medium'>{totalResults} total findings</span>
             </div>
             <div className='flex items-center gap-2'>
