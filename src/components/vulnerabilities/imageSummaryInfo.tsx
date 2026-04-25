@@ -8,7 +8,7 @@ export default function ImageSummaryInfo({ image }: { image: ImageVulnerabilityR
                 className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full
                     bg-login-50/5 text-login-200 transition group-hover:bg-login-50/10'
             >
-                <Container className='h-4.5 w-4.5' />
+                <Container className='h-4.5 w-4.5 stroke-login' />
             </div>
             <div className='min-w-0 flex-1 overflow-hidden pr-4'>
                 <div className='flex items-baseline gap-3 overflow-hidden'>
