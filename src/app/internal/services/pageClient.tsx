@@ -131,7 +131,7 @@ function DeploymentMeta({
         : null
 
     return (
-        <div className='flex max-w-[16rem] flex-col items-end text-right'>
+        <div className='flex max-w-64 flex-col items-end text-right'>
             <span className={`text-xs font-semibold ${summary.tone}`}>{summary.title}</span>
             <span className='text-[11px] text-white/55'>{summary.detail}</span>
             {deploymentStamp && <span className='text-[11px] text-white/40'>{deploymentStamp}</span>}
@@ -192,7 +192,11 @@ function ActionButtons({
             >
                 {runState?.status === 'deploying'
                     ? <LoaderCircle className='h-4 w-4 animate-spin stroke-amber-300' />
-                    : <ArrowUpCircle className={`h-4 w-4 ${deployment?.updateAvailable ? 'stroke-amber-400' : 'group-hover:stroke-green-500'}`} />}
+                    : <ArrowUpCircle
+                        className={`h-4 w-4 ${deployment?.updateAvailable
+                            ? 'stroke-amber-400'
+                            : 'group-hover:stroke-green-500'}`}
+                    />}
                 <span>
                     {runState?.status === 'deploying'
                         ? 'Deploying...'
