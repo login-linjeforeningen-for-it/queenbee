@@ -9,7 +9,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
 
     const selectedDomain = typeof params.domain === 'string' ? params.domain : undefined
     const page = typeof params.page === 'string' ? parseInt(params.page, 10) : 1
-    const limit = 15
+    const limit = 13
 
     const [domains, records] = await Promise.all([
         getTrafficDomains(),
@@ -20,9 +20,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     const totalCount = typeof records === 'object' && 'total' in records ? records.total : 0
 
     return (
-        <div className='flex flex-col h-full'>
-            <div className='flex justify-between mb-4'>
-                <DomainSelector domains={domainOptions} selectedDomain={selectedDomain} />
+        <div className='flex flex-col gap-4'>
+            <div className='flex flex-row justify-between flex-none'>
+                <h1 className='font-semibold text-lg text-login-50'>Recent Traffic</h1>
             </div>
             <div className='flex-1'>
                 <TrafficDashboard records={records} />

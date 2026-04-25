@@ -2,6 +2,7 @@
 
 import { countryCentroids } from '@/utils/geo'
 import mapData from '@public/world.json'
+import { TrafficEntry as TrafficMetricProps, TrafficMetricsProps, TrafficRecord } from '@utils/api/beekeeper/traffic/types'
 import { Activity, Clock3, Globe2, MapPinned, Move, Route, Search, Zap } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import statusClasses from './statusClasses'

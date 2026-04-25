@@ -1,6 +1,7 @@
 'use server'
 
 import { getWrapper } from '@utils/apiWrapper'
+import { TrafficRecordsProps } from './types'
 
 type GetTrafficRecordsProps = {
     start?: string

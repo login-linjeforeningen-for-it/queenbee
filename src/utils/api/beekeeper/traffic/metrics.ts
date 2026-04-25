@@ -1,6 +1,7 @@
 'use server'
 
 import { getWrapper } from '@utils/apiWrapper'
+import { TrafficMetricsProps } from './types'
 
 export default async function getTrafficMetrics(
     { start, end, domain }: { start?: string, end?: string, domain?: string } = {}): Promise<TrafficMetricsProps | string> {
