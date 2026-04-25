@@ -68,50 +68,61 @@ function formatRelativeDate(value: string | null) {
     return formatter.format(Math.round(diffMs / 86400000), 'day')
 }
 
-function getDeploymentSummary(deployment: DeploymentStatus, runState?: DeploymentRunState) {
-    if (runState?.status === 'deploying' || deployment.activeState === 'activating') {
-        return {
-            title: 'Deploying now',
-            detail: 'Redeploy in progress',
-            tone: 'text-amber-300'
-        }
+function getDeploymentLines(deployment: DeploymentStatus, runState?: DeploymentRunState) {
+    const lines: { text: string, tone: string }[] = []
+
+    if (runState?.status === 'error' && runState.message) {
+        lines.push({
+            text: runState.message,
+            tone: 'text-red-300'
+        })
     }
 
-    if (runState?.status === 'error') {
-        return {
-            title: runState.message || 'Deploy failed',
-            detail: deployment.error || 'Check deployment logs',
-            tone: 'text-red-300'
-        }
+    if (runState?.status === 'success' && runState.message) {
+        lines.push({
+            text: runState.message,
+            tone: 'text-emerald-300'
+        })
+    }
+
+    if (runState?.status === 'deploying' || deployment.activeState === 'activating') {
+        lines.push({
+            text: 'Redeploy in progress',
+            tone: 'text-amber-300'
+        })
     }
 
     if (deployment.autoDeployEnabled) {
-        return {
-            title: 'Autodeploy active',
-            detail: deployment.lastAutoDeployAt
-                ? `Last auto deploy ${formatRelativeDate(deployment.lastAutoDeployAt)}`
-                : 'Awaiting first auto deploy',
-            tone: 'text-emerald-300'
-        }
+        const autoStamp = formatRelativeDate(deployment.lastAutoDeployAt)
+        lines.push({
+            text: autoStamp ? `Auto ${autoStamp}` : 'Auto enabled',
+            tone: 'text-white/60'
+        })
+        return lines
+    }
+
+    if (deployment.lastDeploymentAt) {
+        lines.push({
+            text: `Deploy ${formatRelativeDate(deployment.lastDeploymentAt)}`,
+            tone: 'text-white/60'
+        })
     }
 
     if (deployment.updateAvailable) {
-        return {
-            title: `${deployment.behindCount} update${deployment.behindCount === 1 ? '' : 's'} available`,
-            detail: deployment.lastDeploymentAt
-                ? `Last deploy ${formatRelativeDate(deployment.lastDeploymentAt)}`
-                : 'Ready to redeploy',
+        lines.push({
+            text: `${deployment.behindCount} update${deployment.behindCount === 1 ? '' : 's'}`,
             tone: 'text-amber-300'
-        }
+        })
     }
 
-    return {
-        title: 'No update available',
-        detail: deployment.lastDeploymentAt
-            ? `Last deploy ${formatRelativeDate(deployment.lastDeploymentAt)}`
-            : 'No recent deploy recorded',
-        tone: 'text-white/70'
+    if (!lines.length && deployment.error) {
+        lines.push({
+            text: 'Deploy data unavailable',
+            tone: 'text-red-300'
+        })
     }
+
+    return lines
 }
 
 function DeploymentMeta({
@@ -125,22 +136,15 @@ function DeploymentMeta({
         return <span className='text-xs text-white/40'>No deployment hooks</span>
     }
 
-    const summary = getDeploymentSummary(deployment, runState)
-    const deploymentStamp = !deployment.autoDeployEnabled && deployment.lastAutoDeployAt
-        ? `Autodeploy last ran ${formatRelativeDate(deployment.lastAutoDeployAt)}`
-        : null
+    const lines = getDeploymentLines(deployment, runState)
 
     return (
         <div className='flex max-w-64 flex-col items-end text-right'>
-            <span className={`text-xs font-semibold ${summary.tone}`}>{summary.title}</span>
-            <span className='text-[11px] text-white/55'>{summary.detail}</span>
-            {deploymentStamp && <span className='text-[11px] text-white/40'>{deploymentStamp}</span>}
-            {runState?.status === 'success' && runState.message && (
-                <span className='text-[11px] text-emerald-300'>{runState.message}</span>
-            )}
-            {deployment.error && (
-                <span className='text-[11px] text-red-300'>{deployment.error}</span>
-            )}
+            {lines.map(line => (
+                <span key={`${line.text}-${line.tone}`} className={`text-[11px] ${line.tone}`}>
+                    {line.text}
+                </span>
+            ))}
         </div>
     )
 }
