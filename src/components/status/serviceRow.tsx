@@ -24,8 +24,11 @@ export default function ServiceRow({ onClick, service, onEditClick }: ServiceRow
     return (
         <div
             onClick={onClick}
-            className='flex items-center gap-4 w-full cursor-pointer hover:bg-login-50/10 select-none group p-3
-                rounded-lg border border-transparent hover:border-white/5 transition-all'
+            className={`
+                flex items-center gap-4 w-full cursor-pointer hover:bg-red-50/10
+                select-none group p-3 rounded-lg border border-transparent
+                hover:border-white/5 transition-all
+            `}
         >
             <div className='flex items-center gap-3 w-full'>
                 <h1 className={`
