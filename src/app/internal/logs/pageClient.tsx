@@ -510,7 +510,10 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                                                                     {formatSourceType(container.sourceType)}
                                                                 </span>
                                                             </div>
-                                                            <div className='mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground'>
+                                                            <div className={`
+                                                                mt-1 flex flex-wrap items-center gap-2
+                                                                text-xs text-muted-foreground
+                                                            `}>
                                                                 <span>{container.status}</span>
                                                                 <span>{container.matchedLines} matching lines</span>
                                                                 <span>{container.service}</span>
