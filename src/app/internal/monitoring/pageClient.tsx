@@ -260,12 +260,10 @@ export default function PageClient({
                     <>
                         <div className='flex-none'>
                             <div className='flex w-full justify-between items-start md:items-center'>
-                                <div className='flex items-center gap-2 rounded-2xl border border-white/5 bg-login-50/5 px-4 py-3'>
-                                    <h1 className='text-lg font-semibold text-login-50'>Monitoring</h1>
-                                </div>
+                                <h1 className='text-lg font-semibold text-login-50'>Monitoring</h1>
                                 <div
                                     className='flex flex-wrap items-center gap-4 rounded-2xl border border-white/5
-                                        bg-login-50/5 p-2 pt-2.5 pr-2.5'
+                                        bg-transparent p-2 pt-2.5 pr-2.5'
                                 >
                                     <Button text='Add new service' icon={<Plus className='w-4 h-4' />} onClick={addNewService} />
                                     <Button
