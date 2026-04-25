@@ -21,8 +21,8 @@ export default function ImageFindings({ image }: { image: ImageVulnerabilityRepo
     }, [image.image])
 
     return (
-        <div className='flex flex-col h-[520px]'>
-            <div className='flex items-center justify-between gap-3 mb-4'>
+        <div className='flex flex-col h-[320px]'>
+            <div className='flex items-center justify-between gap-3 mb-2'>
                 <h3 className='text-xs font-semibold uppercase tracking-[0.15em] text-login-200'>
                     Vulnerability Details
                 </h3>
@@ -31,7 +31,7 @@ export default function ImageFindings({ image }: { image: ImageVulnerabilityRepo
                 </span>
             </div>
             
-            <div className='flex-1 flex flex-col gap-6 overflow-y-auto pr-1 custom-scrollbar'>
+            <div className='flex-1 flex flex-col gap-2.5 overflow-y-auto pr-1 custom-scrollbar'>
                 {visibleFindings.length ? visibleFindings.map((vulnerability) => (
                     <VulnerabilityCard
                         key={`${image.image}-${vulnerability.id}-${vulnerability.packageName || 'pkg'}`}

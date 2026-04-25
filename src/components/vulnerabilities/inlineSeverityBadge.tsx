@@ -5,7 +5,7 @@ export default function InlineSeverityBadge({ severity, count }: { severity: Sev
     if (count === 0) return null
 
     return (
-        <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wide uppercase ${severityClasses[severity]}`}>
+        <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${severityClasses[severity]}`}>
             {severityLabel[severity]} {count}
         </span>
     )
