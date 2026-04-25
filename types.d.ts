@@ -1250,11 +1250,12 @@ declare global {
     type InternalDashboard = {
         statistics: InternalDashboardStatistics
         information: InternalDashboardInformation
+        runtime: InternalDashboardRuntime
     }
 
     type InternalDashboardStatistics = {
         alerts: number
-        backups: number
+        databases: number
         sites: number
         monitored: number
         requestsToday: number
@@ -1273,6 +1274,12 @@ declare global {
             load: string
             containers: number
         }
+    }
+
+    type InternalDashboardRuntime = {
+        metrics: Stats
+        docker: Docker
+        databaseOverview: GetDatabaseOverview | null
     }
 
     type GPT_Client = {

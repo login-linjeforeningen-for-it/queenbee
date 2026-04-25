@@ -2,13 +2,10 @@
 
 import { Boxes, Cpu, HardDrive, MemoryStick, Server, Thermometer, Zap, Star } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import getStats from '@utils/api/internal/system/getStats'
-import getDocker from '@utils/api/internal/system/getDocker'
+import getInternalDashboard from '@utils/api/beekeeper/dashboard/get'
 
 type SystemStatsProps = {
-    initialMetrics: Stats
-    initialDocker: Docker
-    information: InternalDashboardInformation
+    initialDashboard: InternalDashboard
 }
 
 const refreshOptions = [
@@ -22,9 +19,10 @@ const refreshOptions = [
     { label: '5m', value: 300000 },
 ]
 
-export default function SystemStats({ initialMetrics, initialDocker, information }: SystemStatsProps) {
-    const [metrics, setMetrics] = useState(initialMetrics)
-    const [docker, setDocker] = useState(initialDocker)
+export default function SystemStats({ initialDashboard }: SystemStatsProps) {
+    const [metrics, setMetrics] = useState(initialDashboard.runtime.metrics)
+    const [docker, setDocker] = useState(initialDashboard.runtime.docker)
+    const [information, setInformation] = useState(initialDashboard.information)
     const [autoRefresh, setAutoRefresh] = useState(10000)
 
     const usedMemory = metrics?.system?.memory?.used ? (metrics.system.memory.used / 1073741824).toFixed(2) : '0.00'
@@ -37,10 +35,10 @@ export default function SystemStats({ initialMetrics, initialDocker, information
         }
 
         const intervalId = setInterval(async () => {
-            const updatedMetrics = await getStats()
-            const updatedDocker = await getDocker()
-            setMetrics(updatedMetrics)
-            setDocker(updatedDocker)
+            const updatedDashboard = await getInternalDashboard()
+            setMetrics(updatedDashboard.runtime.metrics)
+            setDocker(updatedDashboard.runtime.docker)
+            setInformation(updatedDashboard.information)
         }, autoRefresh)
 
         return () => clearInterval(intervalId)

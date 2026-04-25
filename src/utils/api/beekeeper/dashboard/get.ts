@@ -12,7 +12,7 @@ export default async function getInternalDashboard(): Promise<InternalDashboard>
         return {
             statistics: {
                 alerts: 0,
-                backups: 0,
+                databases: 0,
                 sites: 0,
                 monitored: 0,
                 requestsToday: 0
@@ -30,6 +30,33 @@ export default async function getInternalDashboard(): Promise<InternalDashboard>
                     load: 'No load',
                     containers: 0
                 }
+            },
+            runtime: {
+                metrics: {
+                    system: {
+                        load: [],
+                        memory: {
+                            used: 0,
+                            total: 0,
+                            percent: '0'
+                        },
+                        swap: '0',
+                        disk: 'N/A',
+                        temperature: 'N/A',
+                        powerUsage: 'N/A',
+                        processes: 0,
+                        ipv4: [],
+                        ipv6: [],
+                        os: 'Unknown'
+                    }
+                },
+                docker: {
+                    status: 'unavailable',
+                    count: 0,
+                    containers: [],
+                    error: 'Dashboard unavailable',
+                },
+                databaseOverview: null,
             }
         }
     }
