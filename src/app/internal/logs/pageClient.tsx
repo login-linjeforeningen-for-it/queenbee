@@ -306,53 +306,63 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
     }
 
     return (
-        <div className='flex h-full flex-col gap-4 overflow-hidden'>
+        <div className='flex h-full flex-col overflow-hidden'>
             <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-4'>
-                <div className='rounded-2xl border border-white/10 bg-login-50/5 p-4'>
-                    <div className='flex items-center gap-2 text-login-200'>
-                        <AlertTriangle className='h-4 w-4 text-red-400' />
-                        {level === 'error' ? 'Error entries' : 'Log entries'}
+                <div className='rounded-xl border border-white/5 bg-login-50/5 p-4'>
+                    <div className='mb-3 flex items-center gap-3'>
+                        <div className='rounded-lg bg-red-500/10 p-2'>
+                            <AlertTriangle className='h-4 w-4 text-red-400' />
+                        </div>
+                        <span className='text-sm font-medium text-muted-foreground'>
+                            {level === 'error' ? 'Error entries' : 'Log entries'}
+                        </span>
                     </div>
-                    <div className='mt-3 text-3xl font-semibold text-login-50'>{summary.totalEntries}</div>
-                    <div className='mt-1 text-xs text-login-200'>
+                    <div className='truncate text-lg font-semibold text-login-50'>{summary.totalEntries}</div>
+                    <div className='mt-2 text-xs text-muted-foreground'>
                         {level === 'error' ? 'Focused on recent error logs only' : 'Showing recent log activity across sources'}
                     </div>
                 </div>
-                <div className='rounded-2xl border border-white/10 bg-login-50/5 p-4'>
-                    <div className='flex items-center gap-2 text-login-200'>
-                        <TerminalSquare className='h-4 w-4 text-login' />
-                        Server
+                <div className='rounded-xl border border-white/5 bg-login-50/5 p-4'>
+                    <div className='mb-3 flex items-center gap-3'>
+                        <div className='rounded-lg bg-login/10 p-2'>
+                            <TerminalSquare className='h-4 w-4 text-login' />
+                        </div>
+                        <span className='text-sm font-medium text-muted-foreground'>Server</span>
                     </div>
-                    <div className='mt-3 text-xl font-semibold text-login-50'>{data.server}</div>
-                    <div className='mt-1 text-xs text-login-200'>Updated {formatRelativeTime(data.checkedAt)}</div>
+                    <div className='truncate text-lg font-semibold text-login-50' title={data.server}>{data.server}</div>
+                    <div className='mt-2 text-xs text-muted-foreground'>Updated {formatRelativeTime(data.checkedAt)}</div>
                 </div>
-                <div className='rounded-2xl border border-white/10 bg-login-50/5 p-4'>
-                    <div className='flex items-center gap-2 text-login-200'>
-                        <ServerCrash className='h-4 w-4 text-amber-400' />
-                        Noisiest service
+                <div className='rounded-xl border border-white/5 bg-login-50/5 p-4'>
+                    <div className='mb-3 flex items-center gap-3'>
+                        <div className='rounded-lg bg-amber-500/10 p-2'>
+                            <ServerCrash className='h-4 w-4 text-amber-400' />
+                        </div>
+                        <span className='text-sm font-medium text-muted-foreground'>Noisiest service</span>
                     </div>
-                    <div className='mt-3 text-xl font-semibold text-login-50'>
+                    <div className='truncate text-lg font-semibold text-login-50' title={summary.topService?.service || 'Quiet'}>
                         {summary.topService?.service || 'Quiet'}
                     </div>
-                    <div className='mt-1 text-xs text-login-200'>
+                    <div className='mt-2 text-xs text-muted-foreground'>
                         {summary.topService ? `${summary.topService.matchedLines} matching lines` : 'No recent matches'}
                     </div>
                 </div>
-                <div className='rounded-2xl border border-white/10 bg-login-50/5 p-4'>
-                    <div className='flex items-center gap-2 text-login-200'>
-                        <ServerCrash className='h-4 w-4 text-amber-400' />
-                        Extra sources
+                <div className='rounded-xl border border-white/5 bg-login-50/5 p-4'>
+                    <div className='mb-3 flex items-center gap-3'>
+                        <div className='rounded-lg bg-violet-500/10 p-2'>
+                            <ServerCrash className='h-4 w-4 text-violet-400' />
+                        </div>
+                        <span className='text-sm font-medium text-muted-foreground'>Extra sources</span>
                     </div>
-                    <div className='mt-3 text-xl font-semibold text-login-50'>
+                    <div className='truncate text-lg font-semibold text-login-50'>
                         {summary.hostSources}
                     </div>
-                    <div className='mt-1 text-xs text-login-200'>
+                    <div className='mt-2 text-xs text-muted-foreground'>
                         Host, journal, deploy, and shell sources mixed into the stream
                     </div>
                 </div>
             </div>
 
-            <div className='rounded-2xl border border-white/10 bg-login-900/50 p-4'>
+            <div className='flex items-center justify-between gap-3 py-3'>
                 <div className='flex flex-wrap items-center gap-3 xl:flex-nowrap'>
                     <select
                         value={service}
@@ -400,7 +410,7 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                         type='button'
                         onClick={() => void refresh()}
                         className={`
-                            inline-flex cursor-pointer items-center gap-2 rounded-xl bg-login px-3 py-2
+                            inline-flex h-10 cursor-pointer items-center gap-2 rounded-xl bg-login px-3
                             text-sm font-medium text-black
                         `}
                     >
@@ -408,13 +418,13 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                         Refresh
                     </button>
                 </div>
-                {error ? <p className='mt-3 text-sm text-red-300'>{error}</p> : null}
             </div>
+            {error ? <p className='mb-3 rounded-xl border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-200'>{error}</p> : null}
 
             <div className='flex-1 overflow-y-auto'>
                 <div className='grid gap-4'>
                     {groupedServices.length === 0 ? (
-                        <div className='rounded-2xl border border-white/10 bg-login-50/5 p-6 text-sm text-login-100'>
+                        <div className='rounded-xl border border-white/5 bg-login-50/5 p-6 text-sm text-login-100'>
                             {level === 'error' ? 'No matching error logs right now.' : 'No matching logs right now.'}
                         </div>
                     ) : null}
@@ -425,7 +435,7 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                         return (
                             <section
                                 key={group.service}
-                                className='rounded-2xl border border-white/10 bg-login-900/55'
+                                className='rounded-xl border border-white/5 bg-login-50/5 px-5 py-4'
                             >
                                 <div
                                     role='button'
@@ -439,16 +449,16 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                                     }}
                                     aria-expanded={expanded}
                                     aria-label={expanded ? `Collapse ${group.service}` : `Expand ${group.service}`}
-                                    className='flex cursor-pointer flex-wrap items-center justify-between gap-3 px-4 py-3'
+                                    className='flex cursor-pointer flex-wrap items-center justify-between gap-3'
                                 >
                                     <div>
                                         <div className='flex flex-wrap items-center gap-2'>
                                             <h2 className='text-base font-semibold text-login-50'>{group.service}</h2>
-                                            <span className='text-xs text-login-200'>
+                                            <span className='text-xs text-muted-foreground'>
                                                 {group.sources.length} {group.sources.length === 1 ? 'source' : 'sources'}
                                             </span>
                                         </div>
-                                        <p className='mt-1 text-xs text-login-200'>
+                                        <p className='mt-1 text-xs text-muted-foreground'>
                                             {group.matchedLines} error lines
                                         </p>
                                     </div>
@@ -465,28 +475,28 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                                                 event.stopPropagation()
                                                 toggleContainer(group.service)
                                             }}
-                                            className='flex h-11 w-11 cursor-pointer items-center justify-center rounded-full
+                                            className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl
                                                 border border-login-100/10 bg-login-50/5 text-login-100 transition
                                                 hover:border-login-100/20 hover:bg-login-50/10'
                                         >
-                                            <ChevronDown className={`h-5 w-5 transition-transform ${expanded ? 'rotate-180' : ''}`} />
+                                            <ChevronDown className={`h-4.5 w-4.5 transition-transform ${expanded ? 'rotate-180' : ''}`} />
                                         </button>
                                     </div>
                                 </div>
 
                                 {expanded ? (
-                                    <div className='border-t border-white/10 px-4 py-3'>
+                                    <div className='mt-4 border-t border-white/5 pt-4'>
                                         <div className='grid gap-4'>
                                             {group.sources.map((container) => (
                                                 <div
                                                     key={container.id}
                                                     id={`log-source-${container.id}`}
-                                                    className='overflow-hidden rounded-2xl border border-white/10 bg-black/10'
+                                                    className='overflow-hidden rounded-xl border border-white/5 bg-login-950/30'
                                                 >
                                                     <div className={`
                                                         flex flex-wrap items-center 
                                                         justify-between gap-3 border-b
-                                                        border-white/10 px-4 py-3
+                                                        border-white/5 px-4 py-3
                                                     `}>
                                                         <div>
                                                             <div className='flex flex-wrap items-center gap-2'>
@@ -500,7 +510,7 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                                                                     {formatSourceType(container.sourceType)}
                                                                 </span>
                                                             </div>
-                                                            <div className='mt-1 flex flex-wrap items-center gap-2 text-xs text-login-200'>
+                                                            <div className='mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground'>
                                                                 <span>{container.status}</span>
                                                                 <span>{container.matchedLines} matching lines</span>
                                                                 <span>{container.service}</span>
