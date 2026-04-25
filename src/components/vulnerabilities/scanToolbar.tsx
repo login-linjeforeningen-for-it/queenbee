@@ -27,7 +27,7 @@ export default function ScanToolbar(props: Props) {
         <div className='flex items-center justify-between gap-3 py-3'>
             <Search
                 className='flex-1 justify-start'
-                innerClassname='w-full min-w-[20rem] max-w-[28rem]'
+                innerClassname='w-full min-w-80 max-w-[28rem]'
             />
             <div className='flex shrink-0 items-center gap-2'>
                 <div className='mr-2 hidden text-sm text-muted-foreground lg:block'>

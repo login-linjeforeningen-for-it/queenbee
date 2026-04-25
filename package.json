@@ -1,13 +1,14 @@
 {
   "name": "queenbee",
-  "version": "4.6.1",
+  "version": "4.6.2",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "bun --bun next dev",
     "build": "bun --bun next build",
     "start": "bun --bun next start",
-    "lint": "eslint ./src",
+    "lint:guardrails": "node scripts/lint-guardrails.mjs",
+    "lint": "eslint ./src && bun run lint:guardrails",
     "lint:fix": "eslint ./src --fix"
   },
   "dependencies": {
