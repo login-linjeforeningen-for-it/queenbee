@@ -139,10 +139,10 @@ export default function PageClient({
         return {
             system_table_id: item.id,
             name: (
-                <div className='block w-44 max-w-44 min-w-0 overflow-hidden' title={item.name}>
+                <div className='block w-36 max-w-36 min-w-0 overflow-hidden' title={item.name}>
                     <Marquee
                         text={item.name}
-                        className='w-full max-w-44'
+                        className='w-full max-w-36'
                         innerClassName='font-medium text-white'
                     />
                 </div>
