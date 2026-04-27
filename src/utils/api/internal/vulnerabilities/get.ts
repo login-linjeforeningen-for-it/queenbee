@@ -6,6 +6,8 @@ export type SeverityLevel = 'critical' | 'high' | 'medium' | 'low' | 'unknown'
 
 export type SeverityCount = Record<SeverityLevel, number>
 
+export type VulnerabilityScanner = 'docker_scout' | 'trivy'
+
 export type VulnerabilityGroup = {
     source: string
     total: number
@@ -23,6 +25,15 @@ export type VulnerabilityDetail = {
     fixedVersion: string | null
     description: string | null
     references: string[]
+    scanners: VulnerabilityScanner[]
+}
+
+export type VulnerabilityScannerResult = {
+    scanner: VulnerabilityScanner
+    scannedAt: string
+    totalVulnerabilities: number
+    severity: SeverityCount
+    scanError: string | null
 }
 
 export type ImageVulnerabilityReport = {
@@ -32,6 +43,7 @@ export type ImageVulnerabilityReport = {
     severity: SeverityCount
     groups: VulnerabilityGroup[]
     vulnerabilities: VulnerabilityDetail[]
+    scannerResults: VulnerabilityScannerResult[]
     scanError: string | null
 }
 
