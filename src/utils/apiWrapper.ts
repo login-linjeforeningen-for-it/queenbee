@@ -40,7 +40,7 @@ async function apiRequest({ service, method, path, options, data }: APIRequestPr
     const timeoutMs = service === 'beekeeper'
         ? path.startsWith('docker/logs')
             ? 30000
-            : (path.startsWith('docker/') || path === 'docker' || path === 'db')
+            : (path.startsWith('backup') || path.startsWith('docker/') || path === 'docker' || path === 'db')
                 ? 15000
                 : 3000
         : 3000
