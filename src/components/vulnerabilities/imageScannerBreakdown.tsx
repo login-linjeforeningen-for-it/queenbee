@@ -34,6 +34,11 @@ export default function ImageScannerBreakdown({ image }: { image: ImageVulnerabi
                                 />
                             ))}
                         </div>
+                        {result.note ? (
+                            <div className='mt-3 text-xs text-login-100/60'>
+                                {result.note}
+                            </div>
+                        ) : null}
                         {result.scanError ? (
                             <div className='mt-3 rounded-lg border border-rose-400/20 bg-rose-400/10 px-3 py-2 text-xs text-rose-200'>
                                 {result.scanError}

@@ -10,6 +10,7 @@ const PAGE_SIZE = 3
 
 export default function ImageFindings({ image }: { image: ImageVulnerabilityReport }) {
     const [page, setPage] = useState(1)
+    const detailNotes = image.scannerResults.filter((result) => result.summaryOnly && result.note)
     const totalPages = Math.max(1, Math.ceil(image.vulnerabilities.length / PAGE_SIZE))
     const visibleFindings = useMemo(() => {
         const startIndex = (page - 1) * PAGE_SIZE
@@ -32,6 +33,11 @@ export default function ImageFindings({ image }: { image: ImageVulnerabilityRepo
             </div>
 
             <div className='flex-1 flex flex-col gap-2.5 overflow-y-auto pr-1 custom-scrollbar'>
+                {detailNotes.length ? (
+                    <div className='rounded-lg border border-white/8 bg-white/5 px-3 py-2 text-xs text-login-100/60'>
+                        {detailNotes.map((result) => result.note).join(' ')}
+                    </div>
+                ) : null}
                 {visibleFindings.length ? visibleFindings.map((vulnerability) => (
                     <VulnerabilityCard
                         key={`${image.image}-${vulnerability.id}-${vulnerability.packageName || 'pkg'}`}
