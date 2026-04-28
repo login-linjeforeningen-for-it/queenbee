@@ -1,4 +1,4 @@
-import AnnouncementFormInputsClient from '@components/form/client/announcements'
+import AnnouncementFields from '@components/form/client/announcementFields'
 import DiscordPreview from '@components/preview/discord'
 import { MessageSquareWarning } from 'lucide-react'
 import { usePathname } from 'next/navigation'
@@ -83,7 +83,7 @@ export default function Announce({ channels, roles, formData }: AnnounceProps) {
                 <div className='w-full space-y-4 mt-2 select-none' onClick={(e) => e.stopPropagation()}>
                     <div className='w-full h-0.5 bg-login-400 rounded-lg' />
                     <div className='grid grid-cols-2 gap-4'>
-                        <AnnouncementFormInputsClient
+                        <AnnouncementFields
                             channels={channels}
                             roles={roles}
                             nested={true}

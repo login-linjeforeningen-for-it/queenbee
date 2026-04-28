@@ -1,5 +1,5 @@
 import getRoles from '@utils/api/bot/announcements/getRoles'
-import AnnouncementFormInputsClient from '../client/announcements'
+import AnnouncementFields from '../client/announcementFields'
 import getChannels from '@utils/api/bot/announcements/getChannels'
 import DiscordPreview from '@components/preview/discord'
 
@@ -19,7 +19,7 @@ export default async function AnnouncementFormInputs({
 
     return (
         <div className='grid grid-cols-2 gap-4'>
-            <AnnouncementFormInputsClient
+            <AnnouncementFields
                 channels={channels}
                 roles={roles}
                 defaultValues={defaultValues}

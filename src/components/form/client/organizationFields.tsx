@@ -6,7 +6,7 @@ import postImage from '@utils/api/workerbee/images/postImage'
 import { useState } from 'react'
 import { toast, Button, Input, Textarea, Select } from 'uibee/components'
 
-export default function OrganizationFormInputsClient({ defaultValues, defaultImages }: {
+export default function OrganizationFields({ defaultValues, defaultImages }: {
     defaultValues?: GetOrganizationProps
     defaultImages: Option[]
 }) {

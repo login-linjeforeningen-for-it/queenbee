@@ -1,5 +1,5 @@
 import getImages from '@utils/api/workerbee/images/getImages'
-import OrganizationFormInputsClient from '../client/organizations'
+import OrganizationFields from '../client/organizationFields'
 import config from '@config'
 
 export default async function OrganizationFormInputs({ defaultValues }: { defaultValues?: GetOrganizationProps }) {
@@ -13,7 +13,7 @@ export default async function OrganizationFormInputs({ defaultValues }: { defaul
         : []
 
     return (
-        <OrganizationFormInputsClient
+        <OrganizationFields
             defaultValues={defaultValues}
             defaultImages={images}
         />

@@ -4,7 +4,7 @@ import { Input, Textarea, Select, Switch, Button } from 'uibee/components'
 import { toLocalTimeString } from '@utils/timeZone'
 import { useEffect, useState } from 'react'
 
-export default function AnnouncementFormInputsClient({
+export default function AnnouncementFields({
     channels,
     roles,
     defaultValues,

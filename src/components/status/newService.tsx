@@ -1,5 +1,5 @@
 import NewNotification from './newNotification'
-import PostWebhookConfirmationDialog from './postWebhookConfirmationDialog'
+import WebhookConfirm from './webhookConfirm'
 import NewServiceForm from './newServiceForm'
 import getService from '@utils/api/beekeeper/services/getService'
 import { Dispatch, SetStateAction, useState } from 'react'
@@ -74,7 +74,7 @@ export default function NewService({
                 setAddingNotification={setAddingNotification}
                 setRefresh={setRefreshNotifications}
             />
-            <PostWebhookConfirmationDialog
+            <WebhookConfirm
                 service={service}
                 onClick={handleCloseWebhook}
             />

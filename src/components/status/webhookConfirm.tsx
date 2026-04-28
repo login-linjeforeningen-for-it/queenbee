@@ -3,12 +3,12 @@ import config from '@config'
 import { Check, Copy } from 'lucide-react'
 import { Button } from 'uibee/components'
 
-type PostWebhookConfirmationDialogProps = {
+type WebhookConfirmProps = {
     service: Service | null
     onClick: () => void
 }
 
-export default function PostWebhookConfirmationDialog({ service, onClick }: PostWebhookConfirmationDialogProps) {
+export default function WebhookConfirm({ service, onClick }: WebhookConfirmProps) {
     const copyText = `${config.beekeeper.api}/${config.beekeeper.status.services.post}/${service?.id}`
     const { condition: copy, setCondition: setCopy } = useClearStateAfter({ timeout: 500 })
 
