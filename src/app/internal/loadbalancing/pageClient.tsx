@@ -24,7 +24,7 @@ function formatRelativeTime(timestamp: string) {
     return `${hours}h ago`
 }
 
-export default function LoadBalancingPageClient({ initialSites }: { initialSites: Site[] }) {
+export default function LoadBalancingClient({ initialSites }: { initialSites: Site[] }) {
     const [sites, setSites] = useState(initialSites)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)

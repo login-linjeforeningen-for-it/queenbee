@@ -1,4 +1,4 @@
-import LocationFormInputsClient from '../client/locations'
+import LocationFields from '../client/locationFields'
 
 export default function LocationFormInputs({ defaultValues }: { defaultValues?: GetLocationProps }) {
     const locationTypes: { label: string; value: location_type }[] = [
@@ -9,7 +9,7 @@ export default function LocationFormInputs({ defaultValues }: { defaultValues?: 
     ]
 
     return (
-        <LocationFormInputsClient
+        <LocationFields
             defaultValues={defaultValues}
             locationTypes={locationTypes}
         />

@@ -97,7 +97,7 @@ function getCountryFocusView(coords: [number, number]) {
     return clampViewBox({ x: x - 140, y: y - 80, width: 280, height: 160 })
 }
 
-export default function LiveTrafficMapDashboard({
+export default function TrafficMap({
     initialMetrics,
     initialRecords,
 }: {

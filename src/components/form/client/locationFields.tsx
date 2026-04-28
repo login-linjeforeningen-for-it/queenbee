@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Button, Input, Select } from 'uibee/components'
 
-export default function LocationFormInputsClient({ defaultValues, locationTypes }: {
+export default function LocationFields({ defaultValues, locationTypes }: {
     defaultValues?: GetLocationProps
     locationTypes: LocationTypes[]
 }) {

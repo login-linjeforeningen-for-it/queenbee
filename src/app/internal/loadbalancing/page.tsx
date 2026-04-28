@@ -1,5 +1,5 @@
 import getSites from '@utils/api/beekeeper/loadbalancing/getSites'
-import LoadBalancingPageClient from './pageClient'
+import LoadBalancingClient from './pageClient'
 
 export default async function Page() {
     const sites = await getSites()
@@ -22,7 +22,7 @@ export default async function Page() {
             <div className='flex-none pb-4'>
                 <h1 className='font-semibold text-lg'>Load Balancing</h1>
             </div>
-            <LoadBalancingPageClient initialSites={sites} />
+            <LoadBalancingClient initialSites={sites} />
         </div>
     )
 }
