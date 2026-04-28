@@ -1,8 +1,8 @@
 import type { VulnerabilityScanner } from '@utils/api/internal/vulnerabilities/get'
 
 export const scannerLabel: Record<VulnerabilityScanner, string> = {
-    docker_scout: 'Docker Scout',
-    trivy: 'Trivy',
+    docker_scout: 'docker scout',
+    trivy: 'trivy',
     npm_audit: 'npm audit',
 }
 
