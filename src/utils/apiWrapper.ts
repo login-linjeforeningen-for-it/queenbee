@@ -38,7 +38,7 @@ async function apiRequest({ service, method, path, options, data }: APIRequestPr
     } : baseHeaders
 
     const timeoutMs = service === 'beekeeper'
-        ? path.startsWith('docker/logs')
+        ? (path.startsWith('docker/logs') || path.startsWith('vulnerabilities'))
             ? 30000
             : (path.startsWith('backup') || path.startsWith('docker/') || path === 'docker' || path === 'db')
                 ? 15000
