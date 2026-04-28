@@ -1,6 +1,6 @@
 import type { ImageVulnerabilityReport } from '@utils/api/internal/vulnerabilities/get'
 import { Container } from 'lucide-react'
-import { scannerLabel } from './scannerMeta'
+import { scannerBadgeClass, scannerLabel } from './scannerMeta'
 
 export default function ImageSummaryInfo({ image }: { image: ImageVulnerabilityReport }) {
     return (
@@ -27,9 +27,9 @@ export default function ImageSummaryInfo({ image }: { image: ImageVulnerabilityR
                     {image.scannerResults.map((result) => (
                         <div
                             key={`${image.image}-${result.scanner}`}
-                            className='rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-login-100'
+                            className={`rounded-full border px-2.5 py-1 text-[11px] ${scannerBadgeClass[result.scanner]}`}
                         >
-                            <span className='font-semibold text-login-50'>{scannerLabel[result.scanner]}</span>
+                            <span className='font-semibold'>{scannerLabel[result.scanner]}</span>
                             <span className='ml-1.5'>{result.totalVulnerabilities}</span>
                             {result.scanError ? <span className='ml-1.5 text-rose-200'>error</span> : null}
                         </div>

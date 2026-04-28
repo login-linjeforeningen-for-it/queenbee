@@ -1,17 +1,17 @@
 import type { ImageVulnerabilityReport } from '@utils/api/internal/vulnerabilities/get'
 import { SeverityPill } from 'uibee/components'
 import { severityOrder } from './constants'
-import { scannerLabel } from './scannerMeta'
+import { scannerBadgeClass, scannerLabel } from './scannerMeta'
 
 export default function ImageScannerBreakdown({ image }: { image: ImageVulnerabilityReport }) {
     return (
         <div className='flex flex-col gap-3 py-2'>
             <h3 className='text-xs font-semibold uppercase tracking-[0.15em] text-login-200'>Scanner Coverage</h3>
-            <div className='grid gap-3 md:grid-cols-2'>
+            <div className='grid gap-3 md:grid-cols-2 xl:grid-cols-3'>
                 {image.scannerResults.map((result) => (
                     <div
                         key={`${image.image}-${result.scanner}`}
-                        className='rounded-xl border border-white/8 bg-white/3 px-4 py-3'
+                        className={`rounded-xl border px-4 py-3 ${scannerBadgeClass[result.scanner]}`}
                     >
                         <div className='flex items-center justify-between gap-3'>
                             <div>

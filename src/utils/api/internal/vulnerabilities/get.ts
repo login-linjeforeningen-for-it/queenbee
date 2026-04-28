@@ -6,7 +6,7 @@ export type SeverityLevel = 'critical' | 'high' | 'medium' | 'low' | 'unknown'
 
 export type SeverityCount = Record<SeverityLevel, number>
 
-export type VulnerabilityScanner = 'docker_scout' | 'trivy'
+export type VulnerabilityScanner = 'docker_scout' | 'trivy' | 'npm_audit'
 
 export type VulnerabilityGroup = {
     source: string
