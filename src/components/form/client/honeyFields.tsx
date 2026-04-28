@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Button, Input, Textarea, Select } from 'uibee/components'
 
-export default function HoneyFormInputsClient({ defaultValues }: { defaultValues?: GetHoneyProps }) {
+export default function HoneyFields({ defaultValues }: { defaultValues?: GetHoneyProps }) {
     const [formValues, setFormValues] = useState({
         service: defaultValues?.service,
         page: defaultValues?.page,

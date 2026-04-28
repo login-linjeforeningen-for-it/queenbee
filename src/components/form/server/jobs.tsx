@@ -1,12 +1,12 @@
 import getAllOrganizations from '@utils/api/workerbee/organizations/getAllOrganizations'
-import JobFormInputsClient from '../client/jobs'
+import JobFields from '../client/jobFields'
 import getTypes from '@utils/api/workerbee/jobs/getTypes'
 import getImages from '@utils/api/workerbee/images/getImages'
 import getRoles from '@utils/api/bot/announcements/getRoles'
 import getChannels from '@utils/api/bot/announcements/getChannels'
 import config from '@config'
 
-export default async function JobFormInputs({ defaultValues }: { defaultValues?: GetJobProps }) {
+export default async function JobForm({ defaultValues }: { defaultValues?: GetJobProps }) {
     const organizationsResponse = await getAllOrganizations()
     const organizations = typeof organizationsResponse !== 'string' ? organizationsResponse : []
     const organizationsOptions = Array.isArray(organizations)
@@ -47,7 +47,7 @@ export default async function JobFormInputs({ defaultValues }: { defaultValues?:
         : []
 
     return (
-        <JobFormInputsClient
+        <JobFields
             defaultValues={defaultValues}
             organizations={organizationsOptions}
             applicationTypes={jobTypesOptions}

@@ -1,7 +1,7 @@
-import RuleFormInputsClient from '../client/rules'
+import RuleFields from '../client/ruleFields'
 
-export default function RuleFormInputs({ defaultValues }: { defaultValues?: GetRuleProps }) {
-    return <RuleFormInputsClient
+export default function RuleForm({ defaultValues }: { defaultValues?: GetRuleProps }) {
+    return <RuleFields
         defaultValues={defaultValues}
     />
 }

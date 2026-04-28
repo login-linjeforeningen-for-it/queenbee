@@ -3,7 +3,7 @@ import AnnouncementFields from '../client/announcementFields'
 import getChannels from '@utils/api/bot/announcements/getChannels'
 import DiscordPreview from '@components/preview/discord'
 
-export default async function AnnouncementFormInputs({
+export default async function AnnouncementForm({
     defaultValues,
 }: {
     defaultValues?: GetAnnouncementProps

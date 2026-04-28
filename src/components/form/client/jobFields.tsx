@@ -9,7 +9,7 @@ import { toLocalTimeString } from '@utils/timeZone'
 import { toast, Button, Input, Textarea, Select, Switch, TagInput } from 'uibee/components'
 import config from '@config'
 
-export default function JobFormInputsClient({
+export default function JobFields({
     defaultValues,
     organizations,
     applicationTypes,

@@ -1,5 +1,5 @@
 import FormWrapper from '@components/form/wrapper'
-import AnnouncementFormInputs from '@components/form/server/announcements'
+import AnnouncementForm from '@components/form/server/announcements'
 import getAnnouncement from '@utils/api/bot/announcements/getAnnouncement'
 import { createAnnouncement, updateAnnouncement } from '@components/form/actions/announcements'
 import { notFound } from 'next/navigation'
@@ -26,7 +26,7 @@ export default async function Page({
                         type='create'
                         formAction={createAnnouncement}
                     >
-                        <AnnouncementFormInputs defaultValues={announcement} />
+                        <AnnouncementForm defaultValues={announcement} />
                     </FormWrapper>
                 )
             } else if (slug === 'update') {
@@ -38,7 +38,7 @@ export default async function Page({
                         id={id[0]}
                         formAction={updateAnnouncement}
                     >
-                        <AnnouncementFormInputs defaultValues={announcement} />
+                        <AnnouncementForm defaultValues={announcement} />
                     </FormWrapper>
                 )
             }
@@ -51,7 +51,7 @@ export default async function Page({
                 type='create'
                 formAction={createAnnouncement}
             >
-                <AnnouncementFormInputs />
+                <AnnouncementForm />
             </FormWrapper>
         )
     }

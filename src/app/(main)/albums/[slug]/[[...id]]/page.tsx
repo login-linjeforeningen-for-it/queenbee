@@ -1,5 +1,5 @@
 import FormWrapper from '@components/form/wrapper'
-import AlbumFormInputs from '@components/form/server/albums'
+import AlbumForm from '@components/form/server/albums'
 import getAlbum from '@utils/api/workerbee/albums/getAlbum'
 import { createAlbum, updateAlbum } from '@components/form/actions/albums'
 import { notFound } from 'next/navigation'
@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                         formAction={createAlbum}
                         customRedirect='images'
                     >
-                        <AlbumFormInputs type='update' defaultValues={album} />
+                        <AlbumForm type='update' defaultValues={album} />
                     </FormWrapper>
                 )
             } else if (slug === 'update') {
@@ -32,7 +32,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                         id={id[0]}
                         formAction={updateAlbum}
                     >
-                        <AlbumFormInputs type='update' defaultValues={album} />
+                        <AlbumForm type='update' defaultValues={album} />
                     </FormWrapper>
                 )
             }
@@ -46,7 +46,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                 formAction={createAlbum}
                 customRedirect='images'
             >
-                <AlbumFormInputs type='create' />
+                <AlbumForm type='create' />
             </FormWrapper>
         )
     }

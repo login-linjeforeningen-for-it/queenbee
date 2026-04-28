@@ -3,16 +3,18 @@
 import { useState } from 'react'
 import { Button, Input, Textarea } from 'uibee/components'
 
-export default function RuleFormInputsClient({ defaultValues }: { defaultValues?: GetRuleProps }) {
+export default function AlertFields({ defaultValues }: { defaultValues?: GetAlertProps }) {
     const [formValues, setFormValues] = useState({
-        name_no: defaultValues?.name_no ?? '',
-        name_en: defaultValues?.name_en ?? '',
+        title_no: defaultValues?.title_no ?? '',
+        title_en: defaultValues?.title_en ?? '',
         description_no: defaultValues?.description_no ?? '',
         description_en: defaultValues?.description_en ?? '',
+        service: defaultValues?.service ?? '',
+        page: defaultValues?.page ?? '',
     })
 
     function example() {
-        setFormValues(sampleRule)
+        setFormValues(sampleAlert)
     }
 
     return (
@@ -26,28 +28,28 @@ export default function RuleFormInputsClient({ defaultValues }: { defaultValues?
                 />
             </div>
             <Input
-                name='name_no'
+                name='title_no'
                 type='text'
-                label='Name (Norwegian)'
+                label='Title (Norwegian)'
                 required
-                value={formValues.name_no}
-                onChange={(input) =>
+                value={formValues.title_no}
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        name_no: input.target.value,
+                        title_no: e.target.value,
                     })
                 }
             />
             <Input
-                name='name_en'
+                name='title_en'
                 type='text'
-                label='Name (English)'
+                label='Title (English)'
                 required
-                value={formValues.name_en}
-                onChange={(input) =>
+                value={formValues.title_en}
+                onChange={(e) =>
                     setFormValues({
                         ...formValues,
-                        name_en: input.target.value,
+                        title_en: e.target.value,
                     })
                 }
             />
@@ -77,23 +79,41 @@ export default function RuleFormInputsClient({ defaultValues }: { defaultValues?
                 }
                 required
             />
+            <Input
+                name='service'
+                type='text'
+                label='Service'
+                required
+                value={formValues.service}
+                onChange={(e) =>
+                    setFormValues({
+                        ...formValues,
+                        service: e.target.value,
+                    })
+                }
+            />
+            <Input
+                name='page'
+                type='text'
+                label='Page'
+                required
+                value={formValues.page}
+                onChange={(e) =>
+                    setFormValues({
+                        ...formValues,
+                        page: e.target.value,
+                    })
+                }
+            />
         </div>
     )
 }
 
-const sampleRule = {
-    name_no: '📋 Deltakerretningslinjer',
-    name_en: '📋 Participant Guidelines',
-    description_no: `✨ Vennligst følg disse retningslinjene under arrangementet:
-- Møt opp til avtalt tid ⏰  
-- Respekter andre deltakere og arrangører 🤝  
-- Følg sikkerhetsinstruksjoner ⚠️  
-- Hold området ryddig 🧹  
-- Still spørsmål ✅`,
-    description_en: `✨ Please follow these guidelines during the event:  
-- Arrive on time ⏰  
-- Respect other participants and organizers 🤝  
-- Follow safety instructions ⚠️  
-- Keep the area tidy 🧹  
-- Ask questions ✅`,
+const sampleAlert = {
+    title_no: 'Vedlikehold pågår',
+    title_en: 'Maintenance in progress',
+    description_no: 'Vi utfører vedlikehold på systemet vårt. Tjenesten vil være utilgjengelig i omtrent 30 minutter.',
+    description_en: 'We are performing maintenance on our system. The service will be unavailable for approximately 30 minutes.',
+    service: 'beehive',
+    page: '/',
 }

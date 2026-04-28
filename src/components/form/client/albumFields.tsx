@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Upload } from 'lucide-react'
 import { Button, Input, Textarea, Select } from 'uibee/components'
 
-export default function AlbumFormInputsClient({
+export default function AlbumFields({
     defaultValues,
     type,
     eventsOptions

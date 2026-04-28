@@ -1,5 +1,5 @@
 import FormWrapper from '@components/form/wrapper'
-import EventFormInputs from '@components/form/server/events'
+import EventForm from '@components/form/server/events'
 import getEvent from '@utils/api/workerbee/events/getEvent'
 import { createEvent, updateEvent } from '@components/form/actions/events'
 import { notFound } from 'next/navigation'
@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                         type='create'
                         formAction={createEvent}
                     >
-                        <EventFormInputs defaultValues={event} type='create' />
+                        <EventForm defaultValues={event} type='create' />
                     </FormWrapper>
                 )
             } else if (slug === 'update') {
@@ -30,7 +30,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                         id={id[0]}
                         formAction={updateEvent}
                     >
-                        <EventFormInputs defaultValues={event} type='update' />
+                        <EventForm defaultValues={event} type='update' />
                     </FormWrapper>
                 )
             }
@@ -43,7 +43,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                 type='create'
                 formAction={createEvent}
             >
-                <EventFormInputs type='create' />
+                <EventForm type='create' />
             </FormWrapper>
         )
     }

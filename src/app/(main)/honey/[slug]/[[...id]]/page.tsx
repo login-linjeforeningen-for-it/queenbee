@@ -1,5 +1,5 @@
 import FormWrapper from '@components/form/wrapper'
-import HoneyFormInputs from '@components/form/server/honeys'
+import HoneyForm from '@components/form/server/honeys'
 import getHoney from '@utils/api/workerbee/honey/get'
 import { createHoney, updateHoney } from '@components/form/actions/honeys'
 import { notFound } from 'next/navigation'
@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                         type='create'
                         formAction={createHoney}
                     >
-                        <HoneyFormInputs defaultValues={honey} />
+                        <HoneyForm defaultValues={honey} />
                     </FormWrapper>
                 )
             } else if (slug === 'update') {
@@ -30,7 +30,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                         id={id[0]}
                         formAction={updateHoney}
                     >
-                        <HoneyFormInputs defaultValues={honey} />
+                        <HoneyForm defaultValues={honey} />
                     </FormWrapper>
                 )
             }
@@ -43,7 +43,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                 type='create'
                 formAction={createHoney}
             >
-                <HoneyFormInputs />
+                <HoneyForm />
             </FormWrapper>
         )
     }

@@ -1,5 +1,5 @@
 import FormWrapper from '@components/form/wrapper'
-import OrganizationFormInputs from '@components/form/server/organizations'
+import OrganizationForm from '@components/form/server/organizations'
 import getOrganization from '@utils/api/workerbee/organizations/getOrganization'
 import { notFound } from 'next/navigation'
 import {
@@ -28,7 +28,7 @@ export default async function Page({
                         type='create'
                         formAction={createOrganization}
                     >
-                        <OrganizationFormInputs defaultValues={organization} />
+                        <OrganizationForm defaultValues={organization} />
                     </FormWrapper>
                 )
             } else if (slug === 'update') {
@@ -40,7 +40,7 @@ export default async function Page({
                         id={id[0]}
                         formAction={updateOrganization}
                     >
-                        <OrganizationFormInputs defaultValues={organization} />
+                        <OrganizationForm defaultValues={organization} />
                     </FormWrapper>
                 )
             }
@@ -53,7 +53,7 @@ export default async function Page({
                 type='create'
                 formAction={createOrganization}
             >
-                <OrganizationFormInputs />
+                <OrganizationForm />
             </FormWrapper>
         )
     }

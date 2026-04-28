@@ -1,8 +1,8 @@
-import HoneyFormInputsClient from '../client/honeys'
+import HoneyFields from '../client/honeyFields'
 
-export default function HoneyFormInputs({ defaultValues }: { defaultValues?: GetHoneyProps }) {
+export default function HoneyForm({ defaultValues }: { defaultValues?: GetHoneyProps }) {
     return (
-        <HoneyFormInputsClient
+        <HoneyFields
             defaultValues={defaultValues}
         />
     )

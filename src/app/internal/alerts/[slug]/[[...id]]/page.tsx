@@ -1,5 +1,5 @@
 import FormWrapper from '@components/form/wrapper'
-import AlertFormInputs from '@components/form/server/alerts'
+import AlertForm from '@components/form/server/alerts'
 import getAlert from '@utils/api/workerbee/alerts/getAlert'
 import { createAlert, updateAlert } from '@components/form/actions/alerts'
 import { notFound } from 'next/navigation'
@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                         type='create'
                         formAction={createAlert}
                     >
-                        <AlertFormInputs defaultValues={alert} />
+                        <AlertForm defaultValues={alert} />
                     </FormWrapper>
                 )
             } else if (slug === 'update') {
@@ -30,7 +30,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                         id={id[0]}
                         formAction={updateAlert}
                     >
-                        <AlertFormInputs defaultValues={alert} />
+                        <AlertForm defaultValues={alert} />
                     </FormWrapper>
                 )
             }
@@ -43,7 +43,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                 type='create'
                 formAction={createAlert}
             >
-                <AlertFormInputs />
+                <AlertForm />
             </FormWrapper>
         )
     }

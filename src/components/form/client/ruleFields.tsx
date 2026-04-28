@@ -3,18 +3,16 @@
 import { useState } from 'react'
 import { Button, Input, Textarea } from 'uibee/components'
 
-export default function RuleFormInputsClient({ defaultValues }: { defaultValues?: GetAlertProps }) {
+export default function RuleFields({ defaultValues }: { defaultValues?: GetRuleProps }) {
     const [formValues, setFormValues] = useState({
-        title_no: defaultValues?.title_no ?? '',
-        title_en: defaultValues?.title_en ?? '',
+        name_no: defaultValues?.name_no ?? '',
+        name_en: defaultValues?.name_en ?? '',
         description_no: defaultValues?.description_no ?? '',
         description_en: defaultValues?.description_en ?? '',
-        service: defaultValues?.service ?? '',
-        page: defaultValues?.page ?? '',
     })
 
     function example() {
-        setFormValues(sampleAlert)
+        setFormValues(sampleRule)
     }
 
     return (
@@ -28,28 +26,28 @@ export default function RuleFormInputsClient({ defaultValues }: { defaultValues?
                 />
             </div>
             <Input
-                name='title_no'
+                name='name_no'
                 type='text'
-                label='Title (Norwegian)'
+                label='Name (Norwegian)'
                 required
-                value={formValues.title_no}
-                onChange={(e) =>
+                value={formValues.name_no}
+                onChange={(input) =>
                     setFormValues({
                         ...formValues,
-                        title_no: e.target.value,
+                        name_no: input.target.value,
                     })
                 }
             />
             <Input
-                name='title_en'
+                name='name_en'
                 type='text'
-                label='Title (English)'
+                label='Name (English)'
                 required
-                value={formValues.title_en}
-                onChange={(e) =>
+                value={formValues.name_en}
+                onChange={(input) =>
                     setFormValues({
                         ...formValues,
-                        title_en: e.target.value,
+                        name_en: input.target.value,
                     })
                 }
             />
@@ -79,41 +77,23 @@ export default function RuleFormInputsClient({ defaultValues }: { defaultValues?
                 }
                 required
             />
-            <Input
-                name='service'
-                type='text'
-                label='Service'
-                required
-                value={formValues.service}
-                onChange={(e) =>
-                    setFormValues({
-                        ...formValues,
-                        service: e.target.value,
-                    })
-                }
-            />
-            <Input
-                name='page'
-                type='text'
-                label='Page'
-                required
-                value={formValues.page}
-                onChange={(e) =>
-                    setFormValues({
-                        ...formValues,
-                        page: e.target.value,
-                    })
-                }
-            />
         </div>
     )
 }
 
-const sampleAlert = {
-    title_no: 'Vedlikehold pågår',
-    title_en: 'Maintenance in progress',
-    description_no: 'Vi utfører vedlikehold på systemet vårt. Tjenesten vil være utilgjengelig i omtrent 30 minutter.',
-    description_en: 'We are performing maintenance on our system. The service will be unavailable for approximately 30 minutes.',
-    service: 'beehive',
-    page: '/',
+const sampleRule = {
+    name_no: '📋 Deltakerretningslinjer',
+    name_en: '📋 Participant Guidelines',
+    description_no: `✨ Vennligst følg disse retningslinjene under arrangementet:
+- Møt opp til avtalt tid ⏰  
+- Respekter andre deltakere og arrangører 🤝  
+- Følg sikkerhetsinstruksjoner ⚠️  
+- Hold området ryddig 🧹  
+- Still spørsmål ✅`,
+    description_en: `✨ Please follow these guidelines during the event:  
+- Arrive on time ⏰  
+- Respect other participants and organizers 🤝  
+- Follow safety instructions ⚠️  
+- Keep the area tidy 🧹  
+- Ask questions ✅`,
 }

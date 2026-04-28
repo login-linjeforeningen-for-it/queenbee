@@ -1,6 +1,6 @@
 import LocationFields from '../client/locationFields'
 
-export default function LocationFormInputs({ defaultValues }: { defaultValues?: GetLocationProps }) {
+export default function LocationForm({ defaultValues }: { defaultValues?: GetLocationProps }) {
     const locationTypes: { label: string; value: location_type }[] = [
         { label: 'Mazemap', value: 'mazemap' },
         { label: 'Coordinates', value: 'coords' },

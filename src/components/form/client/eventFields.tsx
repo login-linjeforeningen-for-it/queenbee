@@ -63,7 +63,7 @@ function toInputTimeString(date: string): string {
     return parsedDate.toISOString().slice(11, 16)
 }
 
-export default function EventFormInputsClient({
+export default function EventFields({
     defaultValues,
     defaultImages,
     categories,

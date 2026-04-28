@@ -1,5 +1,5 @@
 import getImages from '@utils/api/workerbee/images/getImages'
-import EventFormInputsClient from '../client/events'
+import EventFields from '../client/eventFields'
 import getCategories from '@utils/api/workerbee/events/getCategories'
 import getAllOrganizations from '@utils/api/workerbee/organizations/getAllOrganizations'
 import getAllRules from '@utils/api/workerbee/rules/getAllRules'
@@ -16,7 +16,7 @@ type EventFormsInputsProps = {
 
 }
 
-export default async function EventFormInputs({ defaultValues, type }: EventFormsInputsProps){
+export default async function EventForm({ defaultValues, type }: EventFormsInputsProps){
     const imagesResponse = await getImages('events')
     const images = Array.isArray(imagesResponse)
         ? imagesResponse.map((image) => ({
@@ -96,7 +96,7 @@ export default async function EventFormInputs({ defaultValues, type }: EventForm
         : []
 
     return (
-        <EventFormInputsClient
+        <EventFields
             defaultValues={defaultValues}
             defaultImages={images}
             audiences={audiencesOptions}

@@ -1,7 +1,7 @@
-import AlertFormInputsClient from '../client/alerts'
+import AlertFields from '../client/alertFields'
 
-export default function AlertFormInputs({ defaultValues }: { defaultValues?: GetAlertProps }) {
-    return <AlertFormInputsClient
+export default function AlertForm({ defaultValues }: { defaultValues?: GetAlertProps }) {
+    return <AlertFields
         defaultValues={defaultValues}
     />
 }

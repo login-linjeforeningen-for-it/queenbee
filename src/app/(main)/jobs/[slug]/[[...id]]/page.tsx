@@ -1,5 +1,5 @@
 import FormWrapper from '@components/form/wrapper'
-import JobFormInputs from '@components/form/server/jobs'
+import JobForm from '@components/form/server/jobs'
 import getJob from '@utils/api/workerbee/jobs/getJob'
 import { createJob, updateJob } from '@components/form/actions/jobs'
 import { notFound } from 'next/navigation'
@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                         type='create'
                         formAction={createJob}
                     >
-                        <JobFormInputs defaultValues={job} />
+                        <JobForm defaultValues={job} />
                     </FormWrapper>
                 )
             } else if (slug === 'update') {
@@ -30,7 +30,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                         id={id[0]}
                         formAction={updateJob}
                     >
-                        <JobFormInputs defaultValues={job} />
+                        <JobForm defaultValues={job} />
                     </FormWrapper>
                 )
             }
@@ -43,7 +43,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
                 type='create'
                 formAction={createJob}
             >
-                <JobFormInputs />
+                <JobForm />
             </FormWrapper>
         )
     }
