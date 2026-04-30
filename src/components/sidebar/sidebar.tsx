@@ -7,6 +7,7 @@ import {
     BriefcaseBusiness,
     Building2,
     Calendar,
+    Cloud,
     Gavel,
     Icon,
     Images,
@@ -152,6 +153,11 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
             ]
         },
         {
+            name: 'S3',
+            path: '/internal/s3',
+            image: <Cloud className='w-6' />,
+        },
+        {
             name: 'Load Balancing',
             path: '/internal/loadbalancing',
             image: <Scale className='w-6' />,
@@ -225,4 +231,3 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
         />
     )
 }
-
