@@ -42,6 +42,7 @@ export default function ImageFindings({ image }: { image: ImageVulnerabilityRepo
                     <VulnerabilityCard
                         key={`${image.image}-${vulnerability.id}-${vulnerability.packageName || 'pkg'}`}
                         vulnerability={vulnerability}
+                        scannerResults={image.scannerResults}
                     />
                 )) : (
                     <div className='text-sm text-login-100 py-2'>

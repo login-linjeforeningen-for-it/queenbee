@@ -7,11 +7,11 @@ export default async function getTrafficMetrics(
     { start, end, domain }: { start?: string, end?: string, domain?: string } = {}): Promise<TrafficMetricsProps | string> {
     const queryParts = new URLSearchParams()
     if (start) {
-        queryParts.append('start', start)
+        queryParts.append('time_start', start)
     }
 
     if (end) {
-        queryParts.append('end', end)
+        queryParts.append('time_end', end)
     }
 
     if (domain) {
