@@ -209,8 +209,8 @@ export default function page() {
                                     onClick={() => void handleResend(item.id)}
                                     className='flex cursor-pointer items-center gap-1 text-xs text-login'
                                 >
-                                    <SendHorizontal className='h-4 w-4' />
                                     {resendingId === item.id ? 'Sending' : 'Resend'}
+                                    <SendHorizontal className='h-4 w-4' />
                                 </button>
                             </div>
                         </div>
