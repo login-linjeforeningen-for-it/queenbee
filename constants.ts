@@ -5,7 +5,7 @@ const { env } = process
 const config = {
     url: {
         git: env.GIT_URL || 'https://gitlab.login.no',
-        cdn: env.CDN_URL || 'https://cdn.login.no',
+        cdn: env.CDN_URL || 'https://s3.login.no/beehive',
         authentik: env.AUTHENTIK_URL || 'https://authentik.login.no',
         api: env.WORKERBEE_API_URL || 'https://workerbee.login.no/api/v2',
         bot: env.TEKKOM_BOT_API_URL || 'https://bot.login.no/api',

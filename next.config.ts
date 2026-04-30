@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
     images: {
         qualities: [25, 50, 75, 100],
         remotePatterns: [
-            { protocol: 'https', hostname: 'cdn.login.no', pathname: '/**' },
+            { protocol: 'https', hostname: 's3.login.no', pathname: '/beehive/**' },
         ],
     },
     output: 'standalone'
