@@ -15,6 +15,26 @@ type APIRequestProps = {
 
 type WrapperProps = Omit<APIRequestProps, 'method'>
 
+function getTimeoutMs(service: APIRequestProps['service'], method: APIRequestProps['method'], path: string) {
+    if (service === 'workerbee' && method === 'POST' && path.startsWith('images/')) {
+        return 60000
+    }
+
+    if (service !== 'beekeeper') {
+        return 3000
+    }
+
+    if (path.startsWith('docker/logs') || path.startsWith('vulnerabilities')) {
+        return 30000
+    }
+
+    if (path.startsWith('backup') || path.startsWith('docker/') || path === 'docker' || path === 'db') {
+        return 15000
+    }
+
+    return 3000
+}
+
 async function apiRequest({ service, method, path, options, data }: APIRequestProps) {
     const Cookies = await cookies()
     const token = Cookies.get('access_token')?.value || ''
@@ -37,15 +57,7 @@ async function apiRequest({ service, method, path, options, data }: APIRequestPr
         btg: 'tekkom-bot'
     } : baseHeaders
 
-    const timeoutMs = service === 'workerbee' && method === 'POST' && path.startsWith('images/')
-        ? 60000
-        : service === 'beekeeper'
-        ? (path.startsWith('docker/logs') || path.startsWith('vulnerabilities'))
-            ? 30000
-            : (path.startsWith('backup') || path.startsWith('docker/') || path === 'docker' || path === 'db')
-                ? 15000
-                : 3000
-        : 3000
+    const timeoutMs = getTimeoutMs(service, method, path)
 
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
