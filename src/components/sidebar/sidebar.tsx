@@ -149,7 +149,6 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
             items: [
                 { name: 'Overview', path: '/internal/db' },
                 { name: 'Backup', path: '/internal/db/backups' },
-                { name: 'Restore', path: '/internal/db/restore' },
             ]
         },
         {

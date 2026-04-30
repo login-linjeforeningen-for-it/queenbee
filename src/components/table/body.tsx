@@ -1,5 +1,5 @@
 import { RoleRenderer } from '@components/preview/discordRole'
-import { BoxesIcon, Edit, EllipsisVertical, X } from 'lucide-react'
+import { BoxesIcon, ChevronDown, Edit, EllipsisVertical, X } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState, useRef, RefObject, useEffect } from 'react'
 import React from 'react'
@@ -14,10 +14,12 @@ type BodyProps = {
     hideMenu?: boolean
     redirectPath?: string | { path: string, key?: string }
     onRowClick?: (id: string) => void
+    expandableRowKey?: string
 }
 
-export default function Body({ list, headers, deleteAction, roles, hideMenu, redirectPath, onRowClick }: BodyProps) {
+export default function Body({ list, headers, deleteAction, roles, hideMenu, redirectPath, onRowClick, expandableRowKey }: BodyProps) {
     const [openMenuId, setOpenMenuId] = useState<string | null>(null)
+    const [expandedRowId, setExpandedRowId] = useState<string | null>(null)
     const [anchor, setAnchor] = useState<{ top: number; right: number } | null>(null)
     const pathname = usePathname()
     const router = useRouter()
@@ -44,132 +46,158 @@ export default function Body({ list, headers, deleteAction, roles, hideMenu, red
                 const redirectConfig = (typeof redirectPath === 'object' && redirectPath) ? redirectPath : { path: redirectPath as string }
                 const redirectKey = redirectConfig.key || entries[0][0]
                 const redirectId = redirectConfig.key ? String((item as Record<string, unknown>)[redirectKey]) : id
+                const expandedContent = expandableRowKey
+                    ? (item as Record<string, React.ReactNode>)[expandableRowKey]
+                    : undefined
+                const hasExpandedContent = Boolean(expandedContent)
+                const isExpanded = expandedRowId === id
 
                 return (
-                    <tr
-                        key={index}
-                        className={`
+                    <React.Fragment key={index}>
+                        <tr
+                            className={`
                             flex w-full group/row transition-colors 
                             ${redirectConfig.path ? 'cursor-pointer hover:bg-login-600/30' : ''}
                         `}
-                        onMouseDown={() => {
-                            menuWasOpenOnMouseDown.current = openMenuId !== null
-                        }}
-                        onClick={() => {
-                            if (menuWasOpenOnMouseDown.current) {
-                                menuWasOpenOnMouseDown.current = false
-                                return
-                            }
-                            if (onRowClick) {
-                                onRowClick(id)
-                                return
-                            }
-                            if (redirectConfig.path) {
-                                if (redirectConfig.path.includes('?')) {
-                                    router.push(`${redirectConfig.path}${redirectId}`)
-                                } else {
-                                    router.push(`${redirectConfig.path}/${redirectId}`)
+                            onMouseDown={() => {
+                                menuWasOpenOnMouseDown.current = openMenuId !== null
+                            }}
+                            onClick={() => {
+                                if (menuWasOpenOnMouseDown.current) {
+                                    menuWasOpenOnMouseDown.current = false
+                                    return
                                 }
-                            }
-                        }}
-                        onContextMenu={(e) => {
-                            e.preventDefault()
-                            setAnchor({ top: e.clientY, right: window.innerWidth - e.clientX })
-                            setOpenMenuId(id)
-                        }}
-                    >
-                        {entries.map(([key, value]) => {
-                            if (!headers.includes(key)) return null
-                            return (
+                                if (hasExpandedContent) {
+                                    setExpandedRowId(isExpanded ? null : id)
+                                    return
+                                }
+                                if (onRowClick) {
+                                    onRowClick(id)
+                                    return
+                                }
+                                if (redirectConfig.path) {
+                                    if (redirectConfig.path.includes('?')) {
+                                        router.push(`${redirectConfig.path}${redirectId}`)
+                                    } else {
+                                        router.push(`${redirectConfig.path}/${redirectId}`)
+                                    }
+                                }
+                            }}
+                            onContextMenu={(e) => {
+                                e.preventDefault()
+                                setAnchor({ top: e.clientY, right: window.innerWidth - e.clientX })
+                                setOpenMenuId(id)
+                            }}
+                        >
+                            {entries.map(([key, value]) => {
+                                if (!headers.includes(key)) return null
+                                return (
+                                    <td
+                                        key={key}
+                                        className='flex-1 px-6 py-4 whitespace-nowrap text-sm text-login-100 min-w-40 flex items-center'
+                                    >
+                                        <div className='relative'>
+                                            <h1>
+                                                {key === 'roles' && roles ? (
+                                                    (value as string[]).map((roleId, idx) => (
+                                                        <RoleRenderer
+                                                            key={idx}
+                                                            roleId={roleId}
+                                                            roles={roles}
+                                                        />
+                                                    ))
+                                                ) : React.isValidElement(value) ? (
+                                                    value
+                                                ) : (
+                                                    formatValue(key, value as string | number)
+                                                )}
+                                            </h1>
+                                        </div>
+                                    </td>
+                                )
+                            })}
+                            {hasExpandedContent && (
+                                <td className='shrink-0 w-14 flex items-center justify-center text-login-200'>
+                                    <ChevronDown className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                                </td>
+                            )}
+                            {!hideMenu && (
                                 <td
-                                    key={key}
-                                    className='flex-1 px-6 py-4 whitespace-nowrap text-sm text-login-100 min-w-40 flex items-center'
+                                    className='shrink-0 w-16 flex flex-row justify-end p-2 px-4
+                                    whitespace-nowrap text-right text-sm font-medium'
                                 >
                                     <div className='relative'>
-                                        <h1>
-                                            {key === 'roles' && roles ? (
-                                                (value as string[]).map((roleId, idx) => (
-                                                    <RoleRenderer
-                                                        key={idx}
-                                                        roleId={roleId}
-                                                        roles={roles}
-                                                    />
-                                                ))
-                                            ) : React.isValidElement(value) ? (
-                                                value
-                                            ) : (
-                                                formatValue(key, value as string | number)
-                                            )}
-                                        </h1>
-                                    </div>
-                                </td>
-                            )
-                        })}
-                        {!hideMenu && (
-                            <td
-                                className='shrink-0 w-16 flex flex-row justify-end p-2 px-4
-                                    whitespace-nowrap text-right text-sm font-medium'
-                            >
-                                <div className='relative'>
-                                    <button
-                                        type='button'
-                                        className={`
+                                        <button
+                                            type='button'
+                                            className={`
                                         p-1.5 rounded flex items-start
                                         hover:bg-login-400 justify-center
                                         ${openMenuId === id ? 'bg-login-400' : ''}
                                     `}
-                                        onMouseDown={(e) => e.nativeEvent.stopImmediatePropagation()}
-                                        onClick={(e) => {
-                                            e.stopPropagation()
-                                            const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect()
-                                            const coords = { top: rect.bottom + 4, right: window.innerWidth - rect.right }
-                                            setAnchor(openMenuId === id ? null : coords)
-                                            setOpenMenuId(openMenuId === id ? null : id)
-                                        }}
-                                    >
-                                        <span
-                                            className={`text-xl leading-none select-none ${openMenuId === id ? 'text-login-100' : ''}`}
+                                            onMouseDown={(e) => e.nativeEvent.stopImmediatePropagation()}
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect()
+                                                const coords = { top: rect.bottom + 4, right: window.innerWidth - rect.right }
+                                                setAnchor(openMenuId === id ? null : coords)
+                                                setOpenMenuId(openMenuId === id ? null : id)
+                                            }}
                                         >
-                                            <EllipsisVertical className='h-5 w-5' />
-                                        </span>
-                                    </button>
-                                    {openMenuId === id && anchor && (
-                                        <Menu
-                                            ref={menuRef}
-                                            anchor={anchor}
-                                        >
-                                            <MenuButton
-                                                icon={<Edit />}
-                                                text='Edit'
-                                                onClick={() => {
-                                                    setOpenMenuId(null)
-                                                    router.push(`${pathname}/update/${id}`)
-                                                }}
-                                            />
-                                            <MenuButton
-                                                icon={<BoxesIcon />}
-                                                text='Duplicate'
-                                                onClick={() => {
-                                                    setOpenMenuId(null)
-                                                    router.push(`${pathname}/create/${id}`)
-                                                }}
-                                            />
-                                            <MenuButton
-                                                icon={<X />}
-                                                text='Delete'
-                                                onClick={() => {
-                                                    setOpenMenuId(null)
-                                                    deleteAction?.(id)
-                                                    router.refresh()
-                                                }}
-                                                className='text-red-400'
-                                            />
-                                        </Menu>
-                                    )}
-                                </div>
-                            </td>
+                                            <span
+                                                className={`text-xl leading-none select-none ${openMenuId === id ? 'text-login-100' : ''}`}
+                                            >
+                                                <EllipsisVertical className='h-5 w-5' />
+                                            </span>
+                                        </button>
+                                        {openMenuId === id && anchor && (
+                                            <Menu
+                                                ref={menuRef}
+                                                anchor={anchor}
+                                            >
+                                                <MenuButton
+                                                    icon={<Edit />}
+                                                    text='Edit'
+                                                    onClick={() => {
+                                                        setOpenMenuId(null)
+                                                        router.push(`${pathname}/update/${id}`)
+                                                    }}
+                                                />
+                                                <MenuButton
+                                                    icon={<BoxesIcon />}
+                                                    text='Duplicate'
+                                                    onClick={() => {
+                                                        setOpenMenuId(null)
+                                                        router.push(`${pathname}/create/${id}`)
+                                                    }}
+                                                />
+                                                <MenuButton
+                                                    icon={<X />}
+                                                    text='Delete'
+                                                    onClick={() => {
+                                                        setOpenMenuId(null)
+                                                        deleteAction?.(id)
+                                                        router.refresh()
+                                                    }}
+                                                    className='text-red-400'
+                                                />
+                                            </Menu>
+                                        )}
+                                    </div>
+                                </td>
+                            )}
+                        </tr>
+                        {hasExpandedContent && isExpanded && (
+                            <tr className='flex w-full bg-login-600/20 border-t border-login-600'>
+                                <td
+                                    className='w-full px-6 py-4'
+                                    onMouseDown={(e) => e.stopPropagation()}
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    {expandedContent}
+                                </td>
+                            </tr>
                         )}
-                    </tr>
+                    </React.Fragment>
                 )
             })}
         </tbody>
