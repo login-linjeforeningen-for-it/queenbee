@@ -8,12 +8,10 @@ type PreviewProps = {
 }
 
 export default function Preview({ title, description, small }: PreviewProps) {
-    if (!title.length) {
-        return <></>
-    }
+    const hasContent = title.length > 0
 
     return (
-        <div className='relative min-h-full max-h-full overflow-hidden'>
+        <div className='relative h-88 overflow-hidden rounded-2xl border border-login-100/10 bg-login-900/35 p-4'>
             <h1
                 className={`
                     relative text-2xl font-bold tracking-tight
@@ -22,11 +20,17 @@ export default function Preview({ title, description, small }: PreviewProps) {
             >
                 Preview
             </h1>
-            <Notification
-                title={title}
-                description={description}
-                small={small}
-            />
+            {hasContent ? (
+                <Notification
+                    title={title}
+                    description={description}
+                    small={small}
+                />
+            ) : (
+                <div className='mt-10 rounded-xl border border-login-100/10 bg-black/10 p-4 text-sm text-login-200'>
+                    Fill in a title to preview the notification.
+                </div>
+            )}
             <div className='hidden lg:block relative w-full aspect-1/2 -mt-10 -ml-10'>
                 <Image
                     alt='Logo'

@@ -172,9 +172,14 @@ export default function page() {
         }
     }
 
+    const listPanelClass = [
+        'flex h-full max-h-[calc(100vh-7rem)] min-h-0 flex-col overflow-hidden',
+        'rounded-2xl border border-login-100/10 bg-login-900/55 p-4',
+    ].join(' ')
+
     function RecentNotifications() {
         return (
-            <div className='rounded-2xl border border-login-100/10 bg-login-900/55 p-4'>
+            <div className={listPanelClass}>
                 <div className='mb-4 flex items-center justify-between'>
                     <div className='flex items-center gap-2'>
                         <Flag className='h-4 w-4 text-login' />
@@ -190,7 +195,7 @@ export default function page() {
                     </button>
                 </div>
 
-                <div className='grid gap-3'>
+                <div className='grid min-h-0 flex-1 gap-3 overflow-y-auto pr-1'>
                     {history.map((item) => (
                         <div
                             key={item.id}
@@ -222,7 +227,7 @@ export default function page() {
 
     function ScheduledNotifications() {
         return (
-            <div className='rounded-2xl border border-login-100/10 bg-login-900/55 p-4'>
+            <div className={listPanelClass}>
                 <div className='mb-4 flex items-center justify-between'>
                     <div className='flex items-center gap-2'>
                         <CalendarClock className='h-4 w-4 text-login' />
@@ -238,7 +243,7 @@ export default function page() {
                     </button>
                 </div>
 
-                <div className='grid gap-3'>
+                <div className='grid min-h-0 flex-1 gap-3 overflow-y-auto pr-1'>
                     {scheduled.map((item) => (
                         <div key={item.id} className='rounded-xl border border-login-100/10 bg-black/10 p-3'>
                             <div className='flex items-start justify-between gap-3'>
@@ -281,7 +286,7 @@ export default function page() {
     }
 
     return (
-        <div className='grid h-full w-full grid-cols-1 gap-4 xl:grid-cols-3'>
+        <div className='grid h-full min-h-0 w-full grid-cols-1 gap-4 overflow-hidden xl:grid-cols-3'>
             <div className='min-w-0'>
                 <div className='mb-8'>
                     <h1 className='text-2xl font-bold tracking-tight text-foreground'>
@@ -407,10 +412,10 @@ export default function page() {
                     </div>
                 </form>
             </div>
-            <div className='min-w-0'>
+            <div className='min-h-0 min-w-0'>
                 <ScheduledNotifications />
             </div>
-            <div className='min-w-0'>
+            <div className='min-h-0 min-w-0'>
                 <RecentNotifications />
             </div>
         </div>
