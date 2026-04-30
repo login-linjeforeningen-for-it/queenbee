@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, ReactNode, useEffect, useMemo, useState } from 'react'
+import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import {
     ArrowDownToLine,
     ArrowUp,
@@ -18,6 +18,7 @@ import {
     Trash2,
     Upload,
 } from 'lucide-react'
+import { Button, Highlight, Input, Select, Switch, toast } from 'uibee/components'
 
 type BucketSummary = {
     name: string
@@ -51,12 +52,6 @@ type FileEntry = {
 }
 
 type BrowserEntry = FolderEntry | FileEntry
-
-const panelClass = 'rounded-3xl border border-white/5 bg-login-50/5 p-4'
-const inputClass = 'rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm outline-none'
-const secondaryButtonClass = 'rounded-lg border border-white/10 bg-login-50/5 px-3 py-2 text-sm hover:bg-login-50/10'
-const primaryButtonClass = 'rounded-lg bg-orange-500/80 px-3 py-2 text-sm font-semibold text-white hover:bg-orange-500'
-const dangerButtonClass = 'rounded-lg border border-red-500/25 bg-red-500/10 px-3 py-2 text-sm text-red-100 hover:bg-red-500/15'
 
 export default function S3PageClient() {
     const [buckets, setBuckets] = useState<BucketSummary[]>([])
@@ -115,7 +110,9 @@ export default function S3PageClient() {
             }
             setStatus(data.buckets.length ? `Loaded ${data.buckets.length} buckets` : 'No buckets found')
         } catch (error) {
-            setStatus(error instanceof Error ? error.message : 'Failed to load S3 buckets')
+            const message = error instanceof Error ? error.message : 'Failed to load S3 buckets'
+            setStatus(message)
+            toast.error(message)
         } finally {
             setLoading(false)
         }
@@ -133,7 +130,9 @@ export default function S3PageClient() {
             setStatus(`Loaded ${data.objects.length} objects from ${bucket}`)
         } catch (error) {
             setObjects([])
-            setStatus(error instanceof Error ? error.message : 'Failed to load S3 objects')
+            const message = error instanceof Error ? error.message : 'Failed to load S3 objects'
+            setStatus(message)
+            toast.error(message)
         } finally {
             setLoading(false)
         }
@@ -157,8 +156,11 @@ export default function S3PageClient() {
             setSelectedBucket(bucket)
             setTargetBucket(bucket)
             setStatus(`Created ${bucket}`)
+            toast.success(`Created ${bucket}`)
         } catch (error) {
-            setStatus(error instanceof Error ? error.message : 'Failed to create bucket')
+            const message = error instanceof Error ? error.message : 'Failed to create bucket'
+            setStatus(message)
+            toast.error(message)
         } finally {
             setLoading(false)
         }
@@ -173,8 +175,11 @@ export default function S3PageClient() {
             setPrefix('')
             setSearch('')
             await loadBuckets()
+            toast.success(`Deleted ${selectedBucket}`)
         } catch (error) {
-            setStatus(error instanceof Error ? error.message : 'Failed to delete bucket')
+            const message = error instanceof Error ? error.message : 'Failed to delete bucket'
+            setStatus(message)
+            toast.error(message)
         } finally {
             setLoading(false)
         }
@@ -195,8 +200,11 @@ export default function S3PageClient() {
             await loadObjects()
             await loadBuckets()
             setStatus(`Uploaded ${key}`)
+            toast.success(`Uploaded ${key}`)
         } catch (error) {
-            setStatus(error instanceof Error ? error.message : 'Failed to upload object')
+            const message = error instanceof Error ? error.message : 'Failed to upload object'
+            setStatus(message)
+            toast.error(message)
         } finally {
             setLoading(false)
         }
@@ -219,8 +227,11 @@ export default function S3PageClient() {
             await loadObjects()
             await loadBuckets()
             setStatus(`${copyMode ? 'Copied' : 'Moved'} ${selectedKey}`)
+            toast.success(`${copyMode ? 'Copied' : 'Moved'} ${selectedKey}`)
         } catch (error) {
-            setStatus(error instanceof Error ? error.message : 'Failed to move object')
+            const message = error instanceof Error ? error.message : 'Failed to move object'
+            setStatus(message)
+            toast.error(message)
         } finally {
             setLoading(false)
         }
@@ -235,8 +246,11 @@ export default function S3PageClient() {
             await loadObjects()
             await loadBuckets()
             setStatus(`Deleted ${selectedKey}`)
+            toast.success(`Deleted ${selectedKey}`)
         } catch (error) {
-            setStatus(error instanceof Error ? error.message : 'Failed to delete object')
+            const message = error instanceof Error ? error.message : 'Failed to delete object'
+            setStatus(message)
+            toast.error(message)
         } finally {
             setLoading(false)
         }
@@ -266,53 +280,59 @@ export default function S3PageClient() {
             </div>
 
             <div className='grid shrink-0 gap-3 md:grid-cols-2 xl:grid-cols-5'>
-                <Summary icon={<Cloud />} label='Buckets' value={String(buckets.length)} />
-                <Summary icon={<Boxes />} label='Objects' value={String(totalObjects)} />
-                <Summary icon={<HardDrive />} label='Total size' value={formatBytes(totalSize)} />
-                <Summary icon={<RefreshCcw />} label='Status' value={loading ? 'Working' : 'Ready'} />
-                <div className='rounded-3xl border border-white/5 bg-login-50/5 p-3'>
+                {[
+                    { icon: <Cloud />, label: 'Buckets', value: String(buckets.length) },
+                    { icon: <Boxes />, label: 'Objects', value: String(totalObjects) },
+                    { icon: <HardDrive />, label: 'Total size', value: formatBytes(totalSize) },
+                    { icon: <RefreshCcw />, label: 'Status', value: loading ? 'Working' : 'Ready' },
+                ].map((item) => (
+                    <Highlight key={item.label} className='p-4'>
+                        <div className='mb-3 flex h-9 w-9 items-center justify-center rounded-xl bg-login/10 text-login'>
+                            {item.icon}
+                        </div>
+                        <div className='text-xs uppercase tracking-[0.18em] text-muted-foreground'>{item.label}</div>
+                        <div className='mt-1 text-xl font-semibold text-white'>{item.value}</div>
+                    </Highlight>
+                ))}
+                <Highlight className='p-3'>
                     <div className='mb-2 flex min-w-0 items-center gap-2 text-xs text-login-100'>
                         {loading && <LoaderCircle className='h-4 w-4 shrink-0 animate-spin text-orange-300' />}
                         <span className='truncate'>{status}</span>
                     </div>
-                    <div className='grid grid-cols-[auto_minmax(0,1fr)_auto_auto] gap-2'>
-                        <button
-                            className='rounded-lg border border-white/10 bg-login-50/5 px-2 py-2 text-xs hover:bg-login-50/10'
+                    <div className='grid grid-cols-[auto_minmax(0,1fr)] gap-2'>
+                        <Button
+                            text='Refresh'
+                            icon={<RefreshCcw className='h-3.5 w-3.5' />}
+                            variant='secondary'
+                            className='h-10.5! min-h-10.5!'
                             onClick={() => void loadBuckets()}
-                        >
-                            Refresh
-                        </button>
-                        <input
-                            className='min-w-0 rounded-lg border border-white/10 bg-black/20 px-2 py-2 text-xs outline-none'
+                        />
+                        <Input
+                            name='newBucket'
                             placeholder='new-bucket'
                             value={newBucket}
                             onChange={(event) => setNewBucket(normalizeBucketName(event.target.value))}
                         />
-                        <button
-                            className={`
-                                rounded-lg bg-orange-500/80 px-2 py-2 text-xs
-                                font-semibold text-white hover:bg-orange-500
-                                disabled:cursor-not-allowed disabled:opacity-45
-                            `}
+                        <Button
+                            text='Create'
+                            icon={<FolderPlus className='h-3.5 w-3.5' />}
                             disabled={loading || !canCreateBucket}
-                            title={canCreateBucket ? 'Create bucket' : 'Enter a valid bucket name first'}
+                            className='h-10.5! min-h-10.5!'
                             onClick={() => void createBucket()}
-                        >
-                            <FolderPlus className='mr-1 inline h-3.5 w-3.5' />
-                            Create
-                        </button>
-                        <button
-                            className='rounded-lg border border-red-500/25 bg-red-500/10 px-2 py-2 text-xs text-red-100 hover:bg-red-500/15'
+                        />
+                        <Button
+                            text='Delete'
+                            icon={<Trash2 className='h-3.5 w-3.5' />}
+                            variant='danger'
+                            className='h-10.5! min-h-10.5!'
                             onClick={() => void deleteSelectedBucket()}
-                        >
-                            Delete
-                        </button>
+                        />
                     </div>
-                </div>
+                </Highlight>
             </div>
 
             <div className='grid min-h-0 flex-1 gap-4 overflow-hidden xl:grid-cols-[22rem_minmax(0,1fr)]'>
-                <aside className={`${panelClass} flex min-h-0 flex-col overflow-hidden`}>
+                <Highlight className='flex min-h-0 flex-col overflow-hidden p-4'>
                     <div className='mb-3 flex items-center justify-between'>
                         <h2 className='font-semibold'>Buckets</h2>
                         <span className='text-xs text-muted-foreground'>{buckets.length}</span>
@@ -341,34 +361,36 @@ export default function S3PageClient() {
                             </button>
                         ))}
                     </div>
-                </aside>
+                </Highlight>
 
                 <main className='flex min-h-0 min-w-0 flex-col gap-4 overflow-hidden'>
-                    <div className={`${panelClass} shrink-0`}>
+                    <Highlight className='shrink-0 p-4'>
                         <div className='grid gap-3 lg:grid-cols-[1fr_1fr_auto]'>
-                            <label className='flex items-center gap-2 rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm'>
-                                <Search className='h-4 w-4 text-muted-foreground' />
-                                <input
-                                    className='w-full bg-transparent outline-none'
-                                    placeholder='Search objects'
-                                    value={search}
-                                    onChange={(event) => setSearch(event.target.value)}
-                                />
-                            </label>
-                            <input
-                                className={inputClass}
+                            <Input
+                                name='objectSearch'
+                                icon={<Search className='h-4 w-4' />}
+                                placeholder='Search objects'
+                                value={search}
+                                onChange={(event) => setSearch(event.target.value)}
+                            />
+                            <Input
+                                name='prefix'
                                 placeholder='Prefix filter'
                                 value={prefix}
                                 onChange={(event) => setPrefix(cleanPrefix(event.target.value))}
                             />
-                            <button className={secondaryButtonClass} onClick={() => void loadObjects()}>
-                                List objects
-                            </button>
+                            <Button
+                                text='List objects'
+                                icon={<RefreshCcw className='h-4 w-4' />}
+                                variant='secondary'
+                                className='h-10.5! min-h-10.5!'
+                                onClick={() => void loadObjects()}
+                            />
                         </div>
-                    </div>
+                    </Highlight>
 
                     <div className='grid min-h-0 flex-1 gap-4 overflow-hidden xl:grid-cols-[minmax(0,1fr)_22rem]'>
-                        <section className={`${panelClass} flex min-h-0 flex-col overflow-hidden`}>
+                        <Highlight className='flex min-h-0 flex-col overflow-hidden p-4'>
                             <div className='mb-3 flex flex-wrap items-center justify-between gap-3'>
                                 <div className='min-w-0'>
                                     <h2 className='font-semibold'>{selectedBucket || 'Select a bucket'}</h2>
@@ -431,28 +453,33 @@ export default function S3PageClient() {
                                     </tbody>
                                 </table>
                             </div>
-                        </section>
+                        </Highlight>
 
                         <aside className='flex min-h-0 flex-col gap-4 overflow-y-auto pr-1'>
-                            <Panel title='Upload'>
-                                <input
-                                    className={`${inputClass} w-full`}
+                            <Highlight className='flex flex-col gap-3 p-4'>
+                                <h2 className='font-semibold text-white'>Upload</h2>
+                                <Input
+                                    name='objectFile'
                                     type='file'
                                     onChange={onFileChange}
                                 />
-                                <input
-                                    className={`${inputClass} w-full`}
+                                <Input
+                                    name='uploadKey'
                                     placeholder='Object key'
                                     value={uploadKey}
                                     onChange={(event) => setUploadKey(event.target.value)}
                                 />
-                                <button className={`${primaryButtonClass} w-full`} onClick={() => void uploadSelectedFile()}>
-                                    <Upload className='mr-1 inline h-4 w-4' />
-                                    Upload
-                                </button>
-                            </Panel>
+                                <Button
+                                    text='Upload'
+                                    icon={<Upload className='h-4 w-4' />}
+                                    className='w-full!'
+                                    disabled={loading || !selectedBucket || !uploadFile}
+                                    onClick={() => void uploadSelectedFile()}
+                                />
+                            </Highlight>
 
-                            <Panel title='Selected object'>
+                            <Highlight className='flex flex-col gap-3 p-4'>
+                                <h2 className='font-semibold text-white'>Selected object</h2>
                                 {selectedObject ? (
                                     <>
                                         <div className='break-all rounded-lg bg-black/20 p-3 font-mono text-xs text-white'>
@@ -465,54 +492,58 @@ export default function S3PageClient() {
                                                 {formatDate(selectedObject.lastModified)}
                                             </span>
                                         </div>
-                                        <a className={`${secondaryButtonClass} text-center`} href={downloadHref}>
+                                        <a
+                                            className='flex h-8 w-full cursor-pointer items-center justify-center gap-2 rounded-md
+                                                bg-login-500/70 px-4 outline outline-login-500 select-none hover:bg-login-500/90'
+                                            href={downloadHref}
+                                        >
                                             <ArrowDownToLine className='mr-1 inline h-4 w-4' />
                                             Download
                                         </a>
-                                        <button className={dangerButtonClass} onClick={() => void deleteSelectedObject()}>
-                                            <Trash2 className='mr-1 inline h-4 w-4' />
-                                            Delete
-                                        </button>
+                                        <Button
+                                            text='Delete'
+                                            icon={<Trash2 className='h-4 w-4' />}
+                                            variant='danger'
+                                            className='w-full!'
+                                            onClick={() => void deleteSelectedObject()}
+                                        />
                                     </>
                                 ) : (
                                     <p className='text-sm text-muted-foreground'>
                                         Select an object to inspect, download, move, copy, or delete it.
                                     </p>
                                 )}
-                            </Panel>
+                            </Highlight>
 
-                            <Panel title={copyMode ? 'Copy object' : 'Move object'}>
-                                <select
-                                    className={`${inputClass} w-full`}
+                            <Highlight className='flex flex-col gap-3 p-4'>
+                                <h2 className='font-semibold text-white'>{copyMode ? 'Copy object' : 'Move object'}</h2>
+                                <Select
+                                    name='targetBucket'
                                     value={targetBucket}
-                                    onChange={(event) => setTargetBucket(event.target.value)}
-                                >
-                                    <option value=''>Target bucket</option>
-                                    {buckets.map(bucket => (
-                                        <option key={bucket.name} value={bucket.name}>{bucket.name}</option>
-                                    ))}
-                                </select>
-                                <input
-                                    className={`${inputClass} w-full`}
+                                    placeholder='Target bucket'
+                                    options={buckets.map(bucket => ({ label: bucket.name, value: bucket.name }))}
+                                    onChange={(value) => setTargetBucket(String(value || ''))}
+                                />
+                                <Input
+                                    name='targetKey'
                                     placeholder='Target key'
                                     value={targetKey}
                                     onChange={(event) => setTargetKey(event.target.value)}
                                 />
-                                <label className='flex items-center gap-2 text-sm text-muted-foreground'>
-                                    <input
-                                        type='checkbox'
-                                        checked={copyMode}
-                                        onChange={(event) => setCopyMode(event.target.checked)}
-                                    />
-                                    Copy instead of move
-                                </label>
-                                <button className={`${primaryButtonClass} w-full`} onClick={() => void moveSelectedObject()}>
-                                    {copyMode
-                                        ? <Copy className='mr-1 inline h-4 w-4' />
-                                        : <MoveRight className='mr-1 inline h-4 w-4' />}
-                                    {copyMode ? 'Copy' : 'Move'}
-                                </button>
-                            </Panel>
+                                <Switch
+                                    name='copyMode'
+                                    label='Copy instead of move'
+                                    checked={copyMode}
+                                    onChange={(event) => setCopyMode(event.target.checked)}
+                                />
+                                <Button
+                                    text={copyMode ? 'Copy' : 'Move'}
+                                    icon={copyMode ? <Copy className='h-4 w-4' /> : <MoveRight className='h-4 w-4' />}
+                                    className='w-full!'
+                                    disabled={loading || !selectedBucket || !selectedKey || !targetBucket || !targetKey.trim()}
+                                    onClick={() => void moveSelectedObject()}
+                                />
+                            </Highlight>
                         </aside>
                     </div>
                 </main>
@@ -584,27 +615,6 @@ function BrowserRow({
             <td className='py-2 pr-3 text-muted-foreground'>{formatDateTime(object.lastModified)}</td>
             <td className='py-2 text-muted-foreground'>{object.storageClass || 'standard'}</td>
         </tr>
-    )
-}
-
-function Summary({ icon, label, value }: { icon: ReactNode, label: string, value: string }) {
-    return (
-        <div className='rounded-3xl border border-white/5 bg-login-50/5 p-4'>
-            <div className='mb-3 flex h-9 w-9 items-center justify-center rounded-xl bg-orange-500/10 text-orange-300'>
-                {icon}
-            </div>
-            <div className='text-xs uppercase tracking-[0.18em] text-muted-foreground'>{label}</div>
-            <div className='mt-1 text-xl font-semibold text-white'>{value}</div>
-        </div>
-    )
-}
-
-function Panel({ title, children }: { title: string, children: ReactNode }) {
-    return (
-        <div className='flex flex-col gap-3 rounded-3xl border border-white/5 bg-login-50/5 p-4'>
-            <h2 className='font-semibold text-white'>{title}</h2>
-            {children}
-        </div>
     )
 }
 
