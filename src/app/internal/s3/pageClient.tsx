@@ -260,45 +260,52 @@ export default function S3PageClient() {
                 <div className='flex flex-col gap-1'>
                     <h1 className='text-xl font-semibold'>S3 Storage</h1>
                     <p className='text-sm text-muted-foreground'>
-                        Manage RustFS buckets behind s3.login.no and spaces.login.no.
+                        Login S3.
                     </p>
                 </div>
             </div>
 
-            <div className='grid shrink-0 gap-3 md:grid-cols-2 xl:grid-cols-4'>
+            <div className='grid shrink-0 gap-3 md:grid-cols-2 xl:grid-cols-5'>
                 <Summary icon={<Cloud />} label='Buckets' value={String(buckets.length)} />
                 <Summary icon={<Boxes />} label='Objects' value={String(totalObjects)} />
                 <Summary icon={<HardDrive />} label='Total size' value={formatBytes(totalSize)} />
                 <Summary icon={<RefreshCcw />} label='Status' value={loading ? 'Working' : 'Ready'} />
-            </div>
-
-            <div className={`${panelClass} shrink-0`}>
-                <div className='flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between'>
-                    <div className='flex min-w-0 items-center gap-2 text-sm text-login-100'>
+                <div className='rounded-3xl border border-white/5 bg-login-50/5 p-3'>
+                    <div className='mb-2 flex min-w-0 items-center gap-2 text-xs text-login-100'>
                         {loading && <LoaderCircle className='h-4 w-4 shrink-0 animate-spin text-orange-300' />}
                         <span className='truncate'>{status}</span>
                     </div>
-                    <div className='flex flex-wrap gap-2'>
-                        <button className={secondaryButtonClass} onClick={() => void loadBuckets()}>
+                    <div className='grid grid-cols-[auto_minmax(0,1fr)_auto_auto] gap-2'>
+                        <button
+                            className='rounded-lg border border-white/10 bg-login-50/5 px-2 py-2 text-xs hover:bg-login-50/10'
+                            onClick={() => void loadBuckets()}
+                        >
                             Refresh
                         </button>
                         <input
-                            className={inputClass}
+                            className='min-w-0 rounded-lg border border-white/10 bg-black/20 px-2 py-2 text-xs outline-none'
                             placeholder='new-bucket'
                             value={newBucket}
                             onChange={(event) => setNewBucket(normalizeBucketName(event.target.value))}
                         />
                         <button
-                            className={`${primaryButtonClass} disabled:cursor-not-allowed disabled:opacity-45`}
+                            className={`
+                                rounded-lg bg-orange-500/80 px-2 py-2 text-xs
+                                font-semibold text-white hover:bg-orange-500
+                                disabled:cursor-not-allowed disabled:opacity-45
+                            `}
                             disabled={loading || !canCreateBucket}
                             title={canCreateBucket ? 'Create bucket' : 'Enter a valid bucket name first'}
                             onClick={() => void createBucket()}
                         >
-                            <FolderPlus className='mr-1 inline h-4 w-4' />
+                            <FolderPlus className='mr-1 inline h-3.5 w-3.5' />
                             Create
                         </button>
-                        <button className={dangerButtonClass} onClick={() => void deleteSelectedBucket()}>
-                            Delete bucket
+                        <button
+                            className='rounded-lg border border-red-500/25 bg-red-500/10 px-2 py-2 text-xs text-red-100 hover:bg-red-500/15'
+                            onClick={() => void deleteSelectedBucket()}
+                        >
+                            Delete
                         </button>
                     </div>
                 </div>
@@ -388,7 +395,7 @@ export default function S3PageClient() {
                                 </span>
                             </div>
                             <div className='min-h-0 flex-1 overflow-auto'>
-                                <table className='w-full min-w-[46rem] text-left text-sm'>
+                                <table className='w-full min-w-184 text-left text-sm'>
                                     <thead className='sticky top-0 z-10 bg-login-950 text-xs text-muted-foreground'>
                                         <tr>
                                             <th className='py-2 pr-3'>Name</th>
