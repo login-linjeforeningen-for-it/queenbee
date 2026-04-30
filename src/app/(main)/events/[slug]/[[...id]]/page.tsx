@@ -4,6 +4,8 @@ import getEvent from '@utils/api/workerbee/events/getEvent'
 import { createEvent, updateEvent } from '@components/form/actions/events'
 import { notFound } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Page({ params }: { params: Promise<{ slug: string; id?: string[] }> }) {
     const { id, slug } = await params
 
