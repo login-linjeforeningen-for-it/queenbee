@@ -37,7 +37,9 @@ async function apiRequest({ service, method, path, options, data }: APIRequestPr
         btg: 'tekkom-bot'
     } : baseHeaders
 
-    const timeoutMs = service === 'beekeeper'
+    const timeoutMs = service === 'workerbee' && method === 'POST' && path.startsWith('images/')
+        ? 60000
+        : service === 'beekeeper'
         ? (path.startsWith('docker/logs') || path.startsWith('vulnerabilities'))
             ? 30000
             : (path.startsWith('backup') || path.startsWith('docker/') || path === 'docker' || path === 'db')

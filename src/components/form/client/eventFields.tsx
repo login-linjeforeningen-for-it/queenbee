@@ -207,22 +207,49 @@ export default function EventFields({
     }
 
     async function handleFile(file: File): Promise<void> {
-        const result = await postImage('events', file)
-        if (typeof result === 'string') {
-            toast.error(result)
-        } else {
-            toast.success('Image uploaded successfully')
+        toast.info(`Uploading ${file.name}...`, 6000)
+
+        try {
+            const result = await postImage('events', file)
+            if (typeof result === 'string') {
+                toast.error(`Image upload failed: ${result}`, 8000)
+                return
+            }
+
+            toast.success(`Uploaded ${result.name}. It is now available in both image selectors.`, 8000)
             const existingImage = images.find(img => img.value === result.name)
             if (!existingImage) {
-                setImages([
-                    ...images,
-                    {
-                        label: result.name,
-                        value: result.name,
-                        image: `${config.url.cdn}/${result.image}`,
-                    }
+                const uploadedImage = {
+                    label: result.name,
+                    value: result.name,
+                    image: `${config.url.cdn}/${result.image}`,
+                }
+
+                setImages((currentImages) => [
+                    ...currentImages,
+                    uploadedImage
                 ])
+
+                setFormValues((currentValues) => ({
+                    ...currentValues,
+                    image_banner: currentValues.image_banner || result.name,
+                    image_small: currentValues.image_small || result.name,
+                }))
+            } else {
+                setImages((currentImages) => currentImages.map((image) =>
+                    image.value === result.name
+                        ? {
+                            ...image,
+                            image: `${config.url.cdn}/${result.image}`,
+                        }
+                        : image
+                ))
             }
+        } catch (error) {
+            toast.error(
+                `Image upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                8000
+            )
         }
 
     }
