@@ -1,21 +1,12 @@
-import { NextResponse } from 'next/server'
-import { deleteBucket } from '@utils/s3/client'
-import { requireTekkomS3Access } from '@utils/s3/auth'
+import { workerbeeS3Proxy } from '@utils/s3/workerbee'
 
 type Context = {
     params: Promise<{ bucket: string }>
 }
 export async function DELETE(_: Request, context: Context) {
-    const access = await requireTekkomS3Access()
-    if (!access.ok) {
-        return NextResponse.json({ error: access.message }, { status: access.status })
-    }
-
-    try {
-        const { bucket } = await context.params
-        await deleteBucket(decodeURIComponent(bucket))
-        return NextResponse.json({ ok: true })
-    } catch (error) {
-        return NextResponse.json({ error: error instanceof Error ? error.message : 'Failed to delete bucket.' }, { status: 500 })
-    }
+    const { bucket } = await context.params
+    return workerbeeS3Proxy({
+        method: 'DELETE',
+        path: `buckets/${encodeURIComponent(decodeURIComponent(bucket))}`,
+    })
 }

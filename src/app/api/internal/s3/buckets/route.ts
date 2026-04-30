@@ -1,26 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createBucket, listBuckets } from '@utils/s3/client'
-import { requireTekkomS3Access } from '@utils/s3/auth'
+import { workerbeeS3Proxy } from '@utils/s3/workerbee'
 
 export async function GET() {
-    const access = await requireTekkomS3Access()
-    if (!access.ok) {
-        return NextResponse.json({ error: access.message }, { status: access.status })
-    }
-
-    try {
-        return NextResponse.json({ buckets: await listBuckets() })
-    } catch (error) {
-        return NextResponse.json({ error: error instanceof Error ? error.message : 'Failed to list buckets.' }, { status: 500 })
-    }
+    return workerbeeS3Proxy({ path: 'buckets' })
 }
 
 export async function POST(req: NextRequest) {
-    const access = await requireTekkomS3Access()
-    if (!access.ok) {
-        return NextResponse.json({ error: access.message }, { status: access.status })
-    }
-
     try {
         const { bucket } = await req.json()
         if (!isValidBucketName(bucket)) {
@@ -29,8 +14,12 @@ export async function POST(req: NextRequest) {
             }, { status: 400 })
         }
 
-        await createBucket(bucket)
-        return NextResponse.json({ ok: true })
+        return workerbeeS3Proxy({
+            method: 'POST',
+            path: 'buckets',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ bucket }),
+        })
     } catch (error) {
         return NextResponse.json({ error: error instanceof Error ? error.message : 'Failed to create bucket.' }, { status: 500 })
     }
