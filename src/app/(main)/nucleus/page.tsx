@@ -352,8 +352,7 @@ export default function page() {
                     <Input
                         name='screen'
                         type='text'
-                        label='Screen'
-                        required
+                        label='Screen (optional)'
                         className=''
                         onChange={(e) =>
                             setFormValues({ ...formValues, screen: e.target.value })
