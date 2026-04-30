@@ -66,6 +66,7 @@ async function apiRequest({ service, method, path, options, data }: APIRequestPr
         method,
         headers,
         ...options,
+        cache: 'no-store' as RequestCache,
         signal: controller.signal,
         body: data ? isFormData ? data : JSON.stringify(data) : undefined
     }
