@@ -281,8 +281,8 @@ export default function page() {
     }
 
     return (
-        <div className='flex h-full w-full gap-4'>
-            <div className='w-120'>
+        <div className='grid h-full w-full gap-4 xl:grid-cols-[minmax(320px,420px)_minmax(300px,1fr)_minmax(300px,1fr)]'>
+            <div className='min-w-0'>
                 <div className='mb-8'>
                     <h1 className='text-2xl font-bold tracking-tight text-foreground'>
                         Nucleus
@@ -308,7 +308,7 @@ export default function page() {
                         const formData = new FormData(e.currentTarget)
                         handleSend(formData)
                     }}
-                    className='flex flex-col max-w-md'
+                    className='flex max-w-md flex-col'
                 >
                     <Input
                         name='title'
@@ -373,7 +373,7 @@ export default function page() {
                         value={formValues.scheduledAt || ''}
                     />
                     {formValues.title.length > 0 && (
-                        <div className='block lg:hidden relative h-22 w-full z-200'>
+                        <div className='relative z-200 mb-4 h-22 w-full xl:hidden'>
                             <Preview
                                 small={true}
                                 title={formValues.title}
@@ -381,6 +381,9 @@ export default function page() {
                             />
                         </div>
                     )}
+                    <div className='mb-4 hidden xl:block'>
+                        <Preview title={formValues.title} description={formValues.description} />
+                    </div>
                     <div className='grid md:flex! items-center justify-between gap-2'>
                         <div className='flex justify-between gap-2'>
                             <Button
@@ -412,16 +415,17 @@ export default function page() {
                         </div>
                     </div>
                 </form>
-                <div className='mt-4 block lg:hidden'>
+                <div className='mt-4 xl:hidden'>
                     <ScheduledNotifications />
                 </div>
-                <div className='mt-4 block lg:hidden'>
+                <div className='mt-4 xl:hidden'>
                     <RecentNotifications />
                 </div>
             </div>
-            <div className='hidden lg:grid w-104 gap-4'>
-                <Preview title={formValues.title} description={formValues.description} />
+            <div className='hidden min-w-0 xl:block'>
                 <ScheduledNotifications />
+            </div>
+            <div className='hidden min-w-0 xl:block'>
                 <RecentNotifications />
             </div>
         </div>
