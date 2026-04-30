@@ -3,9 +3,12 @@
 import { ChangeEvent, ReactNode, useEffect, useMemo, useState } from 'react'
 import {
     ArrowDownToLine,
+    ArrowUp,
     Boxes,
     Cloud,
     Copy,
+    File as FileIcon,
+    Folder,
     FolderPlus,
     HardDrive,
     LoaderCircle,
@@ -32,6 +35,22 @@ type ObjectSummary = {
     etag: string | null
     storageClass: string | null
 }
+
+type FolderEntry = {
+    type: 'folder'
+    name: string
+    key: string
+    objectCount: number
+    sizeBytes: number
+}
+
+type FileEntry = {
+    type: 'file'
+    name: string
+    object: ObjectSummary
+}
+
+type BrowserEntry = FolderEntry | FileEntry
 
 const panelClass = 'rounded-3xl border border-white/5 bg-login-50/5 p-4'
 const inputClass = 'rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm outline-none'
@@ -78,6 +97,11 @@ export default function S3PageClient() {
             || object.etag?.toLowerCase().includes(q)
         )
     }, [objects, search])
+    const browserEntries = useMemo(
+        () => buildBrowserEntries(filteredObjects, prefix, Boolean(search.trim())),
+        [filteredObjects, prefix, search]
+    )
+    const canCreateBucket = isValidBucketName(newBucket)
 
     async function loadBuckets() {
         setLoading(true)
@@ -116,15 +140,23 @@ export default function S3PageClient() {
     }
 
     async function createBucket() {
-        if (!newBucket.trim()) return
+        const bucket = newBucket.trim()
+        if (!isValidBucketName(bucket)) {
+            setStatus('Bucket names must be 3-63 lowercase characters, numbers, dots, or hyphens.')
+            return
+        }
+
         setLoading(true)
         try {
             await api('/api/internal/s3/buckets', {
                 method: 'POST',
-                body: JSON.stringify({ bucket: newBucket.trim() })
+                body: JSON.stringify({ bucket })
             })
             setNewBucket('')
             await loadBuckets()
+            setSelectedBucket(bucket)
+            setTargetBucket(bucket)
+            setStatus(`Created ${bucket}`)
         } catch (error) {
             setStatus(error instanceof Error ? error.message : 'Failed to create bucket')
         } finally {
@@ -138,6 +170,8 @@ export default function S3PageClient() {
         try {
             await api(`/api/internal/s3/buckets/${encodeURIComponent(selectedBucket)}`, { method: 'DELETE' })
             setSelectedBucket('')
+            setPrefix('')
+            setSearch('')
             await loadBuckets()
         } catch (error) {
             setStatus(error instanceof Error ? error.message : 'Failed to delete bucket')
@@ -212,7 +246,7 @@ export default function S3PageClient() {
         const file = event.target.files?.[0] || null
         setUploadFile(file)
         if (file && !uploadKey) {
-            setUploadKey(file.name)
+            setUploadKey(`${prefix}${file.name}`)
         }
     }
 
@@ -221,231 +255,328 @@ export default function S3PageClient() {
         : '#'
 
     return (
-        <div className='h-full overflow-y-auto'>
-            <div className='flex w-full flex-col gap-6 pb-4'>
-                <div className='flex flex-col gap-2'>
+        <div className='flex h-[calc(100vh-2rem)] min-h-0 w-full flex-col gap-4 overflow-hidden pb-2'>
+            <div className='shrink-0'>
+                <div className='flex flex-col gap-1'>
                     <h1 className='text-xl font-semibold'>S3 Storage</h1>
-                    <p className='text-sm text-muted-foreground'>Manage RustFS buckets behind s3.login.no and spaces.login.no.</p>
+                    <p className='text-sm text-muted-foreground'>
+                        Manage RustFS buckets behind s3.login.no and spaces.login.no.
+                    </p>
                 </div>
+            </div>
 
-                <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-4'>
-                    <Summary icon={<Cloud />} label='Buckets' value={String(buckets.length)} />
-                    <Summary icon={<Boxes />} label='Objects' value={String(totalObjects)} />
-                    <Summary icon={<HardDrive />} label='Total size' value={formatBytes(totalSize)} />
-                    <Summary icon={<RefreshCcw />} label='Status' value={loading ? 'Working' : 'Ready'} />
+            <div className='grid shrink-0 gap-3 md:grid-cols-2 xl:grid-cols-4'>
+                <Summary icon={<Cloud />} label='Buckets' value={String(buckets.length)} />
+                <Summary icon={<Boxes />} label='Objects' value={String(totalObjects)} />
+                <Summary icon={<HardDrive />} label='Total size' value={formatBytes(totalSize)} />
+                <Summary icon={<RefreshCcw />} label='Status' value={loading ? 'Working' : 'Ready'} />
+            </div>
+
+            <div className={`${panelClass} shrink-0`}>
+                <div className='flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between'>
+                    <div className='flex min-w-0 items-center gap-2 text-sm text-login-100'>
+                        {loading && <LoaderCircle className='h-4 w-4 shrink-0 animate-spin text-orange-300' />}
+                        <span className='truncate'>{status}</span>
+                    </div>
+                    <div className='flex flex-wrap gap-2'>
+                        <button className={secondaryButtonClass} onClick={() => void loadBuckets()}>
+                            Refresh
+                        </button>
+                        <input
+                            className={inputClass}
+                            placeholder='new-bucket'
+                            value={newBucket}
+                            onChange={(event) => setNewBucket(normalizeBucketName(event.target.value))}
+                        />
+                        <button
+                            className={`${primaryButtonClass} disabled:cursor-not-allowed disabled:opacity-45`}
+                            disabled={loading || !canCreateBucket}
+                            title={canCreateBucket ? 'Create bucket' : 'Enter a valid bucket name first'}
+                            onClick={() => void createBucket()}
+                        >
+                            <FolderPlus className='mr-1 inline h-4 w-4' />
+                            Create
+                        </button>
+                        <button className={dangerButtonClass} onClick={() => void deleteSelectedBucket()}>
+                            Delete bucket
+                        </button>
+                    </div>
                 </div>
+            </div>
 
-                <div className={panelClass}>
-                    <div className='flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between'>
-                        <div className='flex items-center gap-2 text-sm text-login-100'>
-                            {loading && <LoaderCircle className='h-4 w-4 animate-spin text-orange-300' />}
-                            <span>{status}</span>
-                        </div>
-                        <div className='flex flex-wrap gap-2'>
-                            <button className={secondaryButtonClass} onClick={() => void loadBuckets()}>
-                                Refresh
+            <div className='grid min-h-0 flex-1 gap-4 overflow-hidden xl:grid-cols-[22rem_minmax(0,1fr)]'>
+                <aside className={`${panelClass} flex min-h-0 flex-col overflow-hidden`}>
+                    <div className='mb-3 flex items-center justify-between'>
+                        <h2 className='font-semibold'>Buckets</h2>
+                        <span className='text-xs text-muted-foreground'>{buckets.length}</span>
+                    </div>
+                    <div className='flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pr-1'>
+                        {buckets.map((bucket) => (
+                            <button
+                                key={bucket.name}
+                                className={`rounded-2xl border p-3 text-left transition ${
+                                    selectedBucket === bucket.name
+                                        ? 'border-orange-400/40 bg-orange-500/10'
+                                        : 'border-white/5 bg-black/10 hover:bg-login-50/5'
+                                }`}
+                                onClick={() => {
+                                    setSelectedBucket(bucket.name)
+                                    setTargetBucket(bucket.name)
+                                    setPrefix('')
+                                    setSearch('')
+                                }}
+                            >
+                                <div className='font-semibold text-white'>{bucket.name}</div>
+                                <div className='mt-1 flex justify-between text-xs text-muted-foreground'>
+                                    <span>{bucket.objectCount} objects</span>
+                                    <span>{bucket.sizeLabel}</span>
+                                </div>
                             </button>
+                        ))}
+                    </div>
+                </aside>
+
+                <main className='flex min-h-0 min-w-0 flex-col gap-4 overflow-hidden'>
+                    <div className={`${panelClass} shrink-0`}>
+                        <div className='grid gap-3 lg:grid-cols-[1fr_1fr_auto]'>
+                            <label className='flex items-center gap-2 rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm'>
+                                <Search className='h-4 w-4 text-muted-foreground' />
+                                <input
+                                    className='w-full bg-transparent outline-none'
+                                    placeholder='Search objects'
+                                    value={search}
+                                    onChange={(event) => setSearch(event.target.value)}
+                                />
+                            </label>
                             <input
                                 className={inputClass}
-                                placeholder='new-bucket'
-                                value={newBucket}
-                                onChange={(event) => setNewBucket(event.target.value)}
+                                placeholder='Prefix filter'
+                                value={prefix}
+                                onChange={(event) => setPrefix(cleanPrefix(event.target.value))}
                             />
-                            <button className={primaryButtonClass} onClick={() => void createBucket()}>
-                                <FolderPlus className='mr-1 inline h-4 w-4' />
-                                Create
-                            </button>
-                            <button className={dangerButtonClass} onClick={() => void deleteSelectedBucket()}>
-                                Delete bucket
+                            <button className={secondaryButtonClass} onClick={() => void loadObjects()}>
+                                List objects
                             </button>
                         </div>
                     </div>
-                </div>
 
-                <div className='grid min-h-[34rem] gap-4 xl:grid-cols-[22rem_minmax(0,1fr)]'>
-                    <aside className={panelClass}>
-                        <div className='mb-3 flex items-center justify-between'>
-                            <h2 className='font-semibold'>Buckets</h2>
-                            <span className='text-xs text-muted-foreground'>{buckets.length}</span>
-                        </div>
-                        <div className='flex max-h-[32rem] flex-col gap-2 overflow-y-auto pr-1'>
-                            {buckets.map((bucket) => (
-                                <button
-                                    key={bucket.name}
-                                    className={`rounded-2xl border p-3 text-left transition ${
-                                        selectedBucket === bucket.name
-                                            ? 'border-orange-400/40 bg-orange-500/10'
-                                            : 'border-white/5 bg-black/10 hover:bg-login-50/5'
-                                    }`}
-                                    onClick={() => {
-                                        setSelectedBucket(bucket.name)
-                                        setTargetBucket(bucket.name)
-                                    }}
-                                >
-                                    <div className='font-semibold text-white'>{bucket.name}</div>
-                                    <div className='mt-1 flex justify-between text-xs text-muted-foreground'>
-                                        <span>{bucket.objectCount} objects</span>
-                                        <span>{bucket.sizeLabel}</span>
-                                    </div>
-                                </button>
-                            ))}
-                        </div>
-                    </aside>
-
-                    <main className='flex min-w-0 flex-col gap-4'>
-                        <div className={panelClass}>
-                            <div className='grid gap-3 lg:grid-cols-[1fr_1fr_auto]'>
-                                <label className='flex items-center gap-2 rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm'>
-                                    <Search className='h-4 w-4 text-muted-foreground' />
-                                    <input
-                                        className='w-full bg-transparent outline-none'
-                                        placeholder='Search objects'
-                                        value={search}
-                                        onChange={(event) => setSearch(event.target.value)}
-                                    />
-                                </label>
-                                <input
-                                    className={inputClass}
-                                    placeholder='Prefix filter'
-                                    value={prefix}
-                                    onChange={(event) => setPrefix(event.target.value)}
-                                />
-                                <button className={secondaryButtonClass} onClick={() => void loadObjects()}>
-                                    List objects
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className='grid gap-4 xl:grid-cols-[minmax(0,1fr)_22rem]'>
-                            <section className={panelClass}>
-                                <div className='mb-3 flex items-center justify-between'>
+                    <div className='grid min-h-0 flex-1 gap-4 overflow-hidden xl:grid-cols-[minmax(0,1fr)_22rem]'>
+                        <section className={`${panelClass} flex min-h-0 flex-col overflow-hidden`}>
+                            <div className='mb-3 flex flex-wrap items-center justify-between gap-3'>
+                                <div className='min-w-0'>
                                     <h2 className='font-semibold'>{selectedBucket || 'Select a bucket'}</h2>
-                                    <span className='text-xs text-muted-foreground'>{filteredObjects.length} objects</span>
-                                </div>
-                                <div className='max-h-[30rem] overflow-y-auto'>
-                                    <table className='w-full text-left text-sm'>
-                                        <thead className='sticky top-0 bg-login-950 text-xs text-muted-foreground'>
-                                            <tr>
-                                                <th className='py-2 pr-3'>Key</th>
-                                                <th className='py-2 pr-3'>Size</th>
-                                                <th className='py-2 pr-3'>Modified</th>
-                                                <th className='py-2'>Class</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {filteredObjects.map((object) => (
-                                                <tr
-                                                    key={object.key}
-                                                    className={`cursor-pointer border-t border-white/5 ${
-                                                        selectedKey === object.key ? 'bg-orange-500/10' : 'hover:bg-login-50/5'
-                                                    }`}
-                                                    onClick={() => {
-                                                        setSelectedKey(object.key)
-                                                        setTargetBucket(selectedBucket)
-                                                        setTargetKey(object.key)
-                                                    }}
-                                                >
-                                                    <td className='max-w-[28rem] truncate py-2 pr-3 font-mono text-xs text-white'>
-                                                        {object.key}
-                                                    </td>
-                                                    <td className='py-2 pr-3 text-muted-foreground'>{object.sizeLabel}</td>
-                                                    <td className='py-2 pr-3 text-muted-foreground'>
-                                                        {formatDateTime(object.lastModified)}
-                                                    </td>
-                                                    <td className='py-2 text-muted-foreground'>{object.storageClass || 'standard'}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </section>
-
-                            <aside className='flex flex-col gap-4'>
-                                <Panel title='Upload'>
-                                    <input
-                                        className={`${inputClass} w-full`}
-                                        type='file'
-                                        onChange={onFileChange}
-                                    />
-                                    <input
-                                        className={`${inputClass} w-full`}
-                                        placeholder='Object key'
-                                        value={uploadKey}
-                                        onChange={(event) => setUploadKey(event.target.value)}
-                                    />
-                                    <button className={`${primaryButtonClass} w-full`} onClick={() => void uploadSelectedFile()}>
-                                        <Upload className='mr-1 inline h-4 w-4' />
-                                        Upload
-                                    </button>
-                                </Panel>
-
-                                <Panel title='Selected object'>
-                                    {selectedObject ? (
-                                        <>
-                                            <div className='break-all rounded-lg bg-black/20 p-3 font-mono text-xs text-white'>
-                                                {selectedObject.key}
-                                            </div>
-                                            <div className='grid grid-cols-2 gap-2 text-xs text-muted-foreground'>
-                                                <span>Size</span><span className='text-right text-white'>{selectedObject.sizeLabel}</span>
-                                                <span>Modified</span>
-                                                <span className='text-right text-white'>
-                                                    {formatDate(selectedObject.lastModified)}
-                                                </span>
-                                            </div>
-                                            <a className={`${secondaryButtonClass} text-center`} href={downloadHref}>
-                                                <ArrowDownToLine className='mr-1 inline h-4 w-4' />
-                                                Download
-                                            </a>
-                                            <button className={dangerButtonClass} onClick={() => void deleteSelectedObject()}>
-                                                <Trash2 className='mr-1 inline h-4 w-4' />
-                                                Delete
+                                    <div className='mt-1 flex min-w-0 flex-wrap items-center gap-2 text-xs text-muted-foreground'>
+                                        <button
+                                            className='rounded-md border border-white/10 px-2 py-1 hover:bg-login-50/5'
+                                            onClick={() => setPrefix('')}
+                                        >
+                                            root
+                                        </button>
+                                        {prefixSegments(prefix).map((segment) => (
+                                            <button
+                                                key={segment.path}
+                                                className='rounded-md border border-white/10 px-2 py-1 hover:bg-login-50/5'
+                                                onClick={() => setPrefix(segment.path)}
+                                            >
+                                                {segment.name}
                                             </button>
-                                        </>
-                                    ) : (
-                                        <p className='text-sm text-muted-foreground'>
-                                            Select an object to inspect, download, move, copy, or delete it.
-                                        </p>
-                                    )}
-                                </Panel>
-
-                                <Panel title={copyMode ? 'Copy object' : 'Move object'}>
-                                    <select
-                                        className={`${inputClass} w-full`}
-                                        value={targetBucket}
-                                        onChange={(event) => setTargetBucket(event.target.value)}
-                                    >
-                                        <option value=''>Target bucket</option>
-                                        {buckets.map(bucket => (
-                                            <option key={bucket.name} value={bucket.name}>{bucket.name}</option>
                                         ))}
-                                    </select>
+                                    </div>
+                                </div>
+                                <span className='text-xs text-muted-foreground'>
+                                    {browserEntries.length} visible · {filteredObjects.length} objects
+                                </span>
+                            </div>
+                            <div className='min-h-0 flex-1 overflow-auto'>
+                                <table className='w-full min-w-[46rem] text-left text-sm'>
+                                    <thead className='sticky top-0 z-10 bg-login-950 text-xs text-muted-foreground'>
+                                        <tr>
+                                            <th className='py-2 pr-3'>Name</th>
+                                            <th className='py-2 pr-3'>Size</th>
+                                            <th className='py-2 pr-3'>Modified</th>
+                                            <th className='py-2'>Class</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {prefix && !search && (
+                                            <BrowserRow
+                                                entry={{
+                                                    type: 'folder',
+                                                    name: '..',
+                                                    key: parentPrefix(prefix),
+                                                    objectCount: 0,
+                                                    sizeBytes: 0
+                                                }}
+                                                selectedKey={selectedKey}
+                                                onOpenFolder={setPrefix}
+                                                onSelectObject={selectObject}
+                                            />
+                                        )}
+                                        {browserEntries.map((entry) => (
+                                            <BrowserRow
+                                                key={entry.type === 'folder' ? entry.key : entry.object.key}
+                                                entry={entry}
+                                                selectedKey={selectedKey}
+                                                onOpenFolder={setPrefix}
+                                                onSelectObject={selectObject}
+                                            />
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <aside className='flex min-h-0 flex-col gap-4 overflow-y-auto pr-1'>
+                            <Panel title='Upload'>
+                                <input
+                                    className={`${inputClass} w-full`}
+                                    type='file'
+                                    onChange={onFileChange}
+                                />
+                                <input
+                                    className={`${inputClass} w-full`}
+                                    placeholder='Object key'
+                                    value={uploadKey}
+                                    onChange={(event) => setUploadKey(event.target.value)}
+                                />
+                                <button className={`${primaryButtonClass} w-full`} onClick={() => void uploadSelectedFile()}>
+                                    <Upload className='mr-1 inline h-4 w-4' />
+                                    Upload
+                                </button>
+                            </Panel>
+
+                            <Panel title='Selected object'>
+                                {selectedObject ? (
+                                    <>
+                                        <div className='break-all rounded-lg bg-black/20 p-3 font-mono text-xs text-white'>
+                                            {selectedObject.key}
+                                        </div>
+                                        <div className='grid grid-cols-2 gap-2 text-xs text-muted-foreground'>
+                                            <span>Size</span><span className='text-right text-white'>{selectedObject.sizeLabel}</span>
+                                            <span>Modified</span>
+                                            <span className='text-right text-white'>
+                                                {formatDate(selectedObject.lastModified)}
+                                            </span>
+                                        </div>
+                                        <a className={`${secondaryButtonClass} text-center`} href={downloadHref}>
+                                            <ArrowDownToLine className='mr-1 inline h-4 w-4' />
+                                            Download
+                                        </a>
+                                        <button className={dangerButtonClass} onClick={() => void deleteSelectedObject()}>
+                                            <Trash2 className='mr-1 inline h-4 w-4' />
+                                            Delete
+                                        </button>
+                                    </>
+                                ) : (
+                                    <p className='text-sm text-muted-foreground'>
+                                        Select an object to inspect, download, move, copy, or delete it.
+                                    </p>
+                                )}
+                            </Panel>
+
+                            <Panel title={copyMode ? 'Copy object' : 'Move object'}>
+                                <select
+                                    className={`${inputClass} w-full`}
+                                    value={targetBucket}
+                                    onChange={(event) => setTargetBucket(event.target.value)}
+                                >
+                                    <option value=''>Target bucket</option>
+                                    {buckets.map(bucket => (
+                                        <option key={bucket.name} value={bucket.name}>{bucket.name}</option>
+                                    ))}
+                                </select>
+                                <input
+                                    className={`${inputClass} w-full`}
+                                    placeholder='Target key'
+                                    value={targetKey}
+                                    onChange={(event) => setTargetKey(event.target.value)}
+                                />
+                                <label className='flex items-center gap-2 text-sm text-muted-foreground'>
                                     <input
-                                        className={`${inputClass} w-full`}
-                                        placeholder='Target key'
-                                        value={targetKey}
-                                        onChange={(event) => setTargetKey(event.target.value)}
+                                        type='checkbox'
+                                        checked={copyMode}
+                                        onChange={(event) => setCopyMode(event.target.checked)}
                                     />
-                                    <label className='flex items-center gap-2 text-sm text-muted-foreground'>
-                                        <input
-                                            type='checkbox'
-                                            checked={copyMode}
-                                            onChange={(event) => setCopyMode(event.target.checked)}
-                                        />
-                                        Copy instead of move
-                                    </label>
-                                    <button className={`${primaryButtonClass} w-full`} onClick={() => void moveSelectedObject()}>
-                                        {copyMode
-                                            ? <Copy className='mr-1 inline h-4 w-4' />
-                                            : <MoveRight className='mr-1 inline h-4 w-4' />}
-                                        {copyMode ? 'Copy' : 'Move'}
-                                    </button>
-                                </Panel>
-                            </aside>
-                        </div>
-                    </main>
-                </div>
+                                    Copy instead of move
+                                </label>
+                                <button className={`${primaryButtonClass} w-full`} onClick={() => void moveSelectedObject()}>
+                                    {copyMode
+                                        ? <Copy className='mr-1 inline h-4 w-4' />
+                                        : <MoveRight className='mr-1 inline h-4 w-4' />}
+                                    {copyMode ? 'Copy' : 'Move'}
+                                </button>
+                            </Panel>
+                        </aside>
+                    </div>
+                </main>
             </div>
         </div>
+    )
+
+    function selectObject(object: ObjectSummary) {
+        setSelectedKey(object.key)
+        setTargetBucket(selectedBucket)
+        setTargetKey(object.key)
+    }
+}
+
+function BrowserRow({
+    entry,
+    selectedKey,
+    onOpenFolder,
+    onSelectObject
+}: {
+    entry: BrowserEntry
+    selectedKey: string
+    onOpenFolder: (prefix: string) => void
+    onSelectObject: (object: ObjectSummary) => void
+}) {
+    if (entry.type === 'folder') {
+        const isParent = entry.name === '..'
+
+        return (
+            <tr
+                className='cursor-pointer border-t border-white/5 hover:bg-login-50/5'
+                onClick={() => onOpenFolder(entry.key)}
+            >
+                <td className='py-2 pr-3'>
+                    <div className='flex min-w-0 items-center gap-2 text-white'>
+                        {isParent
+                            ? <ArrowUp className='h-4 w-4 text-orange-300' />
+                            : <Folder className='h-4 w-4 text-orange-300' />}
+                        <span className='truncate font-mono text-xs'>{entry.name}</span>
+                    </div>
+                </td>
+                <td className='py-2 pr-3 text-muted-foreground'>
+                    {isParent ? '' : formatBytes(entry.sizeBytes)}
+                </td>
+                <td className='py-2 pr-3 text-muted-foreground'>
+                    {isParent ? '' : `${entry.objectCount} objects`}
+                </td>
+                <td className='py-2 text-muted-foreground'>folder</td>
+            </tr>
+        )
+    }
+
+    const object = entry.object
+
+    return (
+        <tr
+            className={`cursor-pointer border-t border-white/5 ${
+                selectedKey === object.key ? 'bg-orange-500/10' : 'hover:bg-login-50/5'
+            }`}
+            onClick={() => onSelectObject(object)}
+        >
+            <td className='py-2 pr-3'>
+                <div className='flex min-w-0 items-center gap-2 text-white'>
+                    <FileIcon className='h-4 w-4 shrink-0 text-login-100' />
+                    <span className='truncate font-mono text-xs'>{entry.name}</span>
+                </div>
+            </td>
+            <td className='py-2 pr-3 text-muted-foreground'>{object.sizeLabel}</td>
+            <td className='py-2 pr-3 text-muted-foreground'>{formatDateTime(object.lastModified)}</td>
+            <td className='py-2 text-muted-foreground'>{object.storageClass || 'standard'}</td>
+        </tr>
     )
 }
 
@@ -468,6 +599,77 @@ function Panel({ title, children }: { title: string, children: ReactNode }) {
             {children}
         </div>
     )
+}
+
+function buildBrowserEntries(objects: ObjectSummary[], prefix: string, flatten: boolean): BrowserEntry[] {
+    if (flatten) {
+        return objects.map((object) => ({
+            type: 'file',
+            name: object.key,
+            object
+        }))
+    }
+
+    const folders = new Map<string, FolderEntry>()
+    const files: FileEntry[] = []
+
+    objects.forEach((object) => {
+        const relativeKey = object.key.slice(prefix.length)
+        if (!relativeKey) {
+            return
+        }
+
+        const [firstSegment, ...rest] = relativeKey.split('/')
+        if (rest.length) {
+            const folderKey = `${prefix}${firstSegment}/`
+            const existing = folders.get(folderKey)
+            folders.set(folderKey, {
+                type: 'folder',
+                name: firstSegment,
+                key: folderKey,
+                objectCount: (existing?.objectCount || 0) + 1,
+                sizeBytes: (existing?.sizeBytes || 0) + object.sizeBytes
+            })
+            return
+        }
+
+        files.push({
+            type: 'file',
+            name: firstSegment,
+            object
+        })
+    })
+
+    return [
+        ...Array.from(folders.values()).sort((a, b) => a.name.localeCompare(b.name)),
+        ...files.sort((a, b) => a.name.localeCompare(b.name))
+    ]
+}
+
+function prefixSegments(prefix: string) {
+    const names = prefix.split('/').filter(Boolean)
+    return names.map((name, index) => ({
+        name,
+        path: `${names.slice(0, index + 1).join('/')}/`
+    }))
+}
+
+function parentPrefix(prefix: string) {
+    const names = prefix.split('/').filter(Boolean)
+    return names.length > 1 ? `${names.slice(0, -1).join('/')}/` : ''
+}
+
+function cleanPrefix(value: string) {
+    const cleaned = value.replace(/^\/+/, '')
+    return cleaned && !cleaned.endsWith('/') ? `${cleaned}/` : cleaned
+}
+
+function normalizeBucketName(value: string) {
+    return value.toLowerCase().replace(/[^a-z0-9.-]/g, '')
+}
+
+function isValidBucketName(value: string) {
+    return /^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$/.test(value)
 }
 
 async function api<T = unknown>(url: string, init?: RequestInit): Promise<T> {
