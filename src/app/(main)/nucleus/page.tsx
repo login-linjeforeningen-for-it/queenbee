@@ -281,7 +281,7 @@ export default function page() {
     }
 
     return (
-        <div className='grid h-full w-full gap-4 xl:grid-cols-[minmax(320px,420px)_minmax(300px,1fr)_minmax(300px,1fr)]'>
+        <div className='grid h-full w-full grid-cols-1 gap-4 xl:grid-cols-3'>
             <div className='min-w-0'>
                 <div className='mb-8'>
                     <h1 className='text-2xl font-bold tracking-tight text-foreground'>
@@ -372,16 +372,7 @@ export default function page() {
                         }
                         value={formValues.scheduledAt || ''}
                     />
-                    {formValues.title.length > 0 && (
-                        <div className='relative z-200 mb-4 h-22 w-full xl:hidden'>
-                            <Preview
-                                small={true}
-                                title={formValues.title}
-                                description={formValues.description}
-                            />
-                        </div>
-                    )}
-                    <div className='mb-4 hidden xl:block'>
+                    <div className='mb-4'>
                         <Preview title={formValues.title} description={formValues.description} />
                     </div>
                     <div className='grid md:flex! items-center justify-between gap-2'>
@@ -415,17 +406,11 @@ export default function page() {
                         </div>
                     </div>
                 </form>
-                <div className='mt-4 xl:hidden'>
-                    <ScheduledNotifications />
-                </div>
-                <div className='mt-4 xl:hidden'>
-                    <RecentNotifications />
-                </div>
             </div>
-            <div className='hidden min-w-0 xl:block'>
+            <div className='min-w-0'>
                 <ScheduledNotifications />
             </div>
-            <div className='hidden min-w-0 xl:block'>
+            <div className='min-w-0'>
                 <RecentNotifications />
             </div>
         </div>
