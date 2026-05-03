@@ -81,7 +81,7 @@ export default function NewNotification({ display, setAddingNotification, setRef
                         type='text'
                         value={webhook}
                         onChange={(e) => setWebhook(e.target.value)}
-                        placeholder='discord.com/webhooks/abc/def'
+                        placeholder='https://discord.com/api/webhooks/id/secret'
                         required
                     />
                     {(!webhook.startsWith('https://') || webhook.includes('https://.') || !(webhook.includes('.com') || webhook.includes('.no')))
