@@ -5,7 +5,6 @@ import Search from '@components/inputs/search'
 import BackupAllButton from '@components/internal/backupAllButton'
 import Table from '@components/table/table'
 import prettyDate from '@utils/date/prettyDate'
-import formatNextBackup from '@utils/date/formatNextBackup'
 import getBackupFiles from '@utils/api/internal/backups/getFiles'
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
@@ -128,11 +127,10 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                 </div>
             ),
             lastBackup: backup.lastBackup ? prettyDate(backup.lastBackup) : 'Never',
-            nextBackup: formatNextBackup(backup.nextBackup)
         }
     })
 
-    const headers = ['name', 'status', 'lastBackup', 'nextBackup', 'dbSize', 'totalStorage']
+    const headers = ['name', 'status', 'lastBackup', 'totalStorage']
 
     return (
         <div className='h-full overflow-hidden flex flex-col'>
