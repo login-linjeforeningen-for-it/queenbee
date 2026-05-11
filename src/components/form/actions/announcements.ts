@@ -55,8 +55,13 @@ export async function createAnnouncement(_: FormState, formData: FormData): Prom
 export async function updateAnnouncement(_: FormState, formData: FormData): Promise<PutFormState> {
     try {
         const announcementProps = await extractAnnouncementProps<PutAnnouncementPropsUnparsed>(formData)
+        const id = Number(formData.get('id'))
 
-        const response = await putAnnouncement({ ...announcementProps, roles: announcementProps.roles?.split(' ') || [] })
+        if (isNaN(id)) {
+            throw new Error('No id provided.')
+        }
+
+        const response = await putAnnouncement({ ...announcementProps, id, roles: announcementProps.roles?.split(' ') || [] })
         return response
     } catch (error) {
         return error instanceof Error ? error.message : 'Unknown error'
