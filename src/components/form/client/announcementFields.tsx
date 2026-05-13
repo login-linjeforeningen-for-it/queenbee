@@ -108,7 +108,7 @@ export default function AnnouncementFields({
         } else if (parts.length === 6) {
             const regex = /^[\d*,/-]+$/
             const first5 = parts.slice(0, 5).every(part => regex.test(part))
-            const sixth = /^\/(\d+)$/.test(parts[5])
+            const sixth = /^\*?\/(\d+)$/.test(parts[5])
             return first5 && sixth
         }
         return false
