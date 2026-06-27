@@ -1,55 +1,85 @@
-# 🐝 QueenBee
+<div align="center">
 
-QueenBee is the administrative heart of the bee ecosystem. It serves as a powerful Content Management System (CMS) for [BeeHive](https://login.no) and monitoring and managment tool for our services and systems. This application ties together various APIs and services to provide a seamless experience, like [BeeKeeper](https://beekeeper.login.no), [WorkerBee](https://workerbee.login.no), [TekKom-Bot](https://bot.login.no) and [Internal](https://internal.login.no) API.
+<img src="https://s3.login.no/beehive/img/logo/logo-white-small.svg" alt="Login logo" width="80" height="80" />
 
-## 🛠️ Tech Stack
+<h1>QueenBee</h1>
 
-- **Framework**: [NextJS](https://nextjs.org/) (App Router)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind](https://tailwindcss.com/)
-- **Icons**: [Lucide React](https://lucide.dev/)
+<p>
+  <img src="https://img.shields.io/badge/TypeScript-fd8738?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Bun-fd8738?style=flat-square&logo=bun&logoColor=white" alt="Bun" />
+  <img src="https://img.shields.io/badge/Next.js-fd8738?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-fd8738?style=flat-square&logo=react&logoColor=white" alt="React" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-fd8738?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/Docker-fd8738?style=flat-square&logo=docker&logoColor=white" alt="Docker" />
+  <img src="https://img.shields.io/badge/Authentik-fd8738?style=flat-square&logo=authentik&logoColor=white" alt="Authentik" />
+</p>
 
-## 🏁 Getting Started
+</div>
 
-### Installation
+---
 
-1. Clone the repository:
+QueenBee is the admin interface for [Login](https://login.no). It gives the organization a single place to manage Beehive content such as events, jobs, and announcements, while also providing internal tooling for monitoring infrastructure, inspecting traffic, and managing services.
 
-2. Install dependencies:
+The application connects to several internal APIs including Workerbee, Beekeeper, TekKom-Bot, and the Internal API, and uses Authentik for authentication.
+
+## Features
+
+- **Log in via Authentik** (OAuth2)
+- **CMS** for events, jobs, announcements, albums, organizations, locations, and more
+- **Internal tooling** for monitoring, traffic, logs, load balancing, S3, and vulnerability tracking
+- **Integrates with** Workerbee, Beekeeper, TekKom-Bot, and the Internal API
+
+## Getting Started
+
+1. **Configure environment**
+
+   Create a `.env` file in the repo root. See [Configuration](#configuration) below or grab the values from 1Password.
+
+2. **Start**
+
+   ```bash
+   docker compose up --build
+   ```
+
+   | Service  | URL                   |
+   |----------|-----------------------|
+   | QueenBee | http://localhost:8000 |
+
+   For local development without Docker:
 
    ```bash
    bun install
+   bun run dev
    ```
 
-3. Set up environment variables:
-   Create and edit `.env` and fill in the required secrets.
+   | Service  | URL                   |
+   |----------|-----------------------|
+   | QueenBee | http://localhost:3000 |
 
-### Starting the Development Server
+## Configuration
 
-Run the development server:
+All variables go in the root `.env` file.
 
-```bash
-bun run dev
-```
+| Name                            | Default                             | Notes                                |
+|---------------------------------|-------------------------------------|--------------------------------------|
+| `AUTHENTIK_URL`                 | `https://authentik.login.no`        | Base URL for your Authentik instance |
+| `AUTHENTIK_CLIENT_ID`           |                                     | OAuth2 client ID from Authentik      |
+| `AUTHENTIK_CLIENT_SECRET`       |                                     | OAuth2 client secret from Authentik  |
+| `AUTHENTIK_API_TOKEN`           |                                     | Authentik API token                  |
+| `WORKERBEE_API_URL`             | `https://workerbee.login.no/api/v2` | Workerbee API base URL               |
+| `BEEKEEPER_API_URL`             | `https://beekeeper.login.no/api`    | Beekeeper API base URL               |
+| `BEEKEEPER_WSS_API_URL`         | `wss://beekeeper.login.no/api`      | Beekeeper WebSocket API URL          |
+| `NEXT_PUBLIC_BEEKEEPER_API_URL` | `https://beekeeper.login.no/api`    | Beekeeper API URL (client-side)      |
+| `TEKKOM_BOT_API_URL`            | `https://bot.login.no/api`          | TekKom-Bot API base URL              |
+| `APP_API_URL`                   | `https://app.login.no/api`          | Internal app API base URL            |
+| `CDN_URL`                       | `https://s3.login.no/beehive`       | CDN base URL for media assets        |
+| `GIT_URL`                       | `https://gitlab.login.no`           | GitLab instance URL                  |
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Structure
 
-## 🐳 Docker Setup
-
-You can run QueenBee using Docker:
-
-```bash
-docker compose up --build
-```
-
-The application will be available at `http://localhost:8000`.
-
-## 📂 Project Structure
-
-- `public/`: Static assets.
-- `src/app/`: Next.js App Router pages and layouts.
-  - `(main)/`: Core CMS features (events, jobs, etc.).
-  - `internal/`: Monitoring and system tools.
-- `src/components/`: React components.
-- `src/utils/`: Helper functions.
-- `src/hooks/`: Custom React hooks.
+- `src/app/(main)/` - CMS pages (events, jobs, announcements, albums, organizations, etc.)
+- `src/app/internal/` - Internal tooling (monitoring, traffic, logs, load balancing, S3, etc.)
+- `src/app/api/` - API routes for authentication
+- `src/components/` - React components
+- `src/utils/` - Helper functions
+- `src/hooks/` - Custom React hooks
