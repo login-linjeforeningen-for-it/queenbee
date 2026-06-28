@@ -2,7 +2,7 @@ import smallDate from '@utils/date/smallDate'
 import { barOutlineColor } from '@utils/status/barColor'
 import CertificateStatus from './certificateStatus'
 import CertificateDetails from './certificateDetails'
-import { Button } from 'uibee/components'
+import { Button, Card } from 'uibee/components'
 import { Edit } from 'lucide-react'
 
 type ServiceStatusProps = {
@@ -16,7 +16,7 @@ export default function ServiceStatus({ service, onEdit }: ServiceStatusProps) {
     }
 
     return (
-        <div className='flex flex-col gap-4 bg-login-50/5 p-4 rounded-xl border border-white/5'>
+        <Card className='flex flex-col gap-4 p-4'>
             <div className='flex w-full justify-between items-center'>
                 <h2 className='text-xl font-semibold'>{service.name}</h2>
                 <div className='flex items-center gap-3'>
@@ -87,6 +87,6 @@ export default function ServiceStatus({ service, onEdit }: ServiceStatusProps) {
                     </tbody>
                 </table>
             </div>
-        </div>
+        </Card>
     )
 }

@@ -9,9 +9,9 @@ import {
     Server,
     TimerReset,
 } from 'lucide-react'
+import { Card, StatCard } from 'uibee/components'
 import formatBytes from '@utils/db/formatBytes'
 import formatTimestamp from '@utils/db/formatTimestamp'
-import SummaryCard from '@components/db/summaryCard'
 import QueryWindowGrid from '@components/db/queryWindowGrid'
 import QueryCard from '@components/db/queryCard'
 import ClusterCard from '@components/db/clusterCard'
@@ -76,47 +76,27 @@ export default function PageClient({ overview }: PageClientProps) {
                 </div>
 
                 <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-4'>
-                    <SummaryCard
-                        icon={<Server className='h-4 w-4 text-cyan-400' />}
-                        label='Database clusters'
-                        value={String(sortedOverview.clusterCount)}
-                        tone='bg-cyan-500/10'
-                    />
-                    <SummaryCard
-                        icon={<Database className='h-4 w-4 text-emerald-400' />}
-                        label='Databases discovered'
-                        value={String(sortedOverview.databaseCount)}
-                        tone='bg-emerald-500/10'
-                    />
-                    <SummaryCard
-                        icon={<HardDrive className='h-4 w-4 text-orange-400' />}
-                        label='Total storage footprint'
-                        value={formatBytes(sortedOverview.totalSizeBytes)}
-                        tone='bg-orange-500/10'
-                    />
-                    <SummaryCard
-                        icon={<Activity className='h-4 w-4 text-violet-400' />}
-                        label='Active queries'
-                        value={String(sortedOverview.activeQueries)}
-                        tone='bg-violet-500/10'
-                    />
+                    <StatCard icon={Server} label='Database clusters' value={String(sortedOverview.clusterCount)} tone='blue' />
+                    <StatCard icon={Database} label='Databases discovered' value={String(sortedOverview.databaseCount)} tone='emerald' />
+                    <StatCard icon={HardDrive} label='Total storage footprint' value={formatBytes(sortedOverview.totalSizeBytes)} tone='orange' />
+                    <StatCard icon={Activity} label='Active queries' value={String(sortedOverview.activeQueries)} tone='violet' />
                 </div>
 
                 <div className='grid gap-4 xl:grid-cols-[1.2fr_0.8fr]'>
-                    <div className='rounded-3xl border border-white/5 bg-login-50/5 p-5'>
+                    <Card className='p-5'>
                         <div className='mb-4 flex items-center gap-2'>
                             <TimerReset className='h-4 w-4 text-cyan-400' />
-                            <h2 className='text-sm font-semibold text-white'>Average active query runtime</h2>
+                            <h2 className='text-sm font-semibold text-login-50'>Average active query runtime</h2>
                         </div>
                         <QueryWindowGrid averageQuerySeconds={sortedOverview.averageQuerySeconds} />
-                    </div>
-                    <div className='rounded-3xl border border-white/5 bg-login-50/5 p-5'>
+                    </Card>
+                    <Card className='p-5'>
                         <div className='mb-4 flex items-center gap-2'>
-                            <Layers3 className='h-4 w-4 text-orange-400' />
-                            <h2 className='text-sm font-semibold text-white'>Longest running query overall</h2>
+                            <Layers3 className='h-4 w-4 text-login' />
+                            <h2 className='text-sm font-semibold text-login-50'>Longest running query overall</h2>
                         </div>
                         <QueryCard query={sortedOverview.longestQuery} />
-                    </div>
+                    </Card>
                 </div>
 
                 <div className='flex flex-col gap-4'>

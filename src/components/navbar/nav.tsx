@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { Button } from 'uibee/components'
 import { getCookie } from 'utilbee/utils'
 import { Menu, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
@@ -48,19 +49,15 @@ export default function Nav() {
 
             <div className='flex gap-1 items-center'>
                 <div className='absolute z-100 w-full left-0 top-(--h-navbar)'>
-                    {sidebar && (<Sidebar mobile={true} />)}
+                    {sidebar && (<Sidebar mobile={true} initialHasToken={true} />)}
                 </div>
                 {token ? (
                     <>
-                        <button
-                            className={`
-                                flex items-center justify-center p-2 rounded-md
-                                hover:bg-login-50/10 size-12 transition-colors
-                            `}
+                        <Button
+                            variant='secondary'
+                            icon={sidebar ? <X /> : <Menu />}
                             onClick={() => setSidebar(prev => !prev)}
-                        >
-                            {sidebar ? <X /> : <Menu />}
-                        </button>
+                        />
                     </>
                 ) : <></>}
             </div>

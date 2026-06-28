@@ -149,13 +149,11 @@ export default function UploadPopup({ file, handleFileAction, onCloseAction, sho
 
                 <div className='flex items-center justify-between px-6 pt-6 pb-2'>
                     <h1 className='text-xl font-bold'>Upload Preview</h1>
-                    <button
+                    <Button
+                        variant='secondary'
+                        icon={<X className='w-5 h-5' />}
                         onClick={onCloseAction}
-                        className='transition-colors rounded-lg hover:bg-login-50/5 p-2 select-none text-login-400 hover:text-white'
-                        aria-label='Close'
-                    >
-                        <X className='w-5 h-5' />
-                    </button>
+                    />
                 </div>
 
                 <div className='p-6 space-y-6'>

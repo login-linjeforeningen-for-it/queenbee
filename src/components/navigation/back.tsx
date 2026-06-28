@@ -2,21 +2,17 @@
 
 import { ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { Button } from 'uibee/components'
 
 export default function BackButton({pushURL}: {pushURL?: string}) {
     const router = useRouter()
     return (
-        <button
+        <Button
             type='button'
-            aria-label='Go back'
+            icon={<ArrowLeft className='size-4.5' />}
+            text='Back'
+            variant='secondary'
             onClick={() => pushURL ? router.push(pushURL) : router.back()}
-            className={`
-                inline-flex items-center gap-2 rounded-lg p-1 px-4
-                cursor-pointer hover:text-login bg-login-50/5 w-fit
-            `}
-        >
-            <ArrowLeft className='size-4.5' />
-            <span>Back</span>
-        </button>
+        />
     )
 }

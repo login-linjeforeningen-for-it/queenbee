@@ -1,4 +1,5 @@
 import type { ImageVulnerabilityReport } from '@utils/api/internal/vulnerabilities/get'
+import { Card } from 'uibee/components'
 import ImageDetails from './imageDetails'
 import ImageSummary from './imageSummary'
 
@@ -12,9 +13,9 @@ export default function ImageCard({
     onToggle: () => void
 }) {
     return (
-        <section className='w-full bg-login-50/5 border border-white/5 rounded-xl px-5 py-4'>
+        <Card className='w-full px-5 py-4'>
             <ImageSummary image={image} isExpanded={isExpanded} onToggle={onToggle} />
             {isExpanded ? <ImageDetails image={image} /> : null}
-        </section>
+        </Card>
     )
 }

@@ -30,7 +30,7 @@ import {
 import { hexagons7 } from '@lucide/lab'
 import { getCookie } from 'utilbee/utils'
 import SidebarLayout, { SidebarItem } from './sidebarLayout'
-import PulseDot from '@components/pulse/pulse'
+import { PulseDot } from 'uibee/components'
 import getDocker from '@utils/api/internal/system/getDocker'
 
 type SidebarProps = {
@@ -175,7 +175,7 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
             name: 'Services',
             path: '/internal/services',
             image: <Server className='w-6' />,
-            status: <PulseDot status={docker?.status} />
+            status: <PulseDot variant={docker?.status === 'available' ? 'online' : docker?.status === 'unavailable' ? 'offline' : 'unknown'} />
         },
         {
             name: 'Traffic',

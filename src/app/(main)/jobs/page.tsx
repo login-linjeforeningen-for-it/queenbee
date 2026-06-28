@@ -1,5 +1,4 @@
-import Alert from '@components/alert/alert'
-import Search from '@components/inputs/search'
+import { Alert, SearchInput } from 'uibee/components'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import HistoricalSwitch from '@components/inputs/historical'
@@ -49,7 +48,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     <HistoricalSwitch name='historical' label='Historical' />
                 </div>
                 <div className='flex items-center justify-between py-3'>
-                    <Search />
+                    <SearchInput />
                     <Button
                         text='New job'
                         icon='+'

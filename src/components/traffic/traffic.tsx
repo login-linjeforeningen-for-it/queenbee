@@ -1,7 +1,7 @@
 'use client'
 
 import { Activity, Clock, Globe, ShieldAlert, Cpu, Monitor } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import { Card, StatCard } from 'uibee/components'
 import statusClasses from './statusClasses'
 import RequestsOverTimeChart from './requestsOverTimeChart'
 import CombinedMetrics from './combinedMetrics'
@@ -129,21 +129,9 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
                     {recs.length > 0 && <hr className='border-white/5' />}
 
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-                        <StatCard
-                            title='Total Requests'
-                            value={totalRequests.toLocaleString()}
-                            icon={Globe}
-                        />
-                        <StatCard
-                            title='Avg Response'
-                            value={avgRequestTime ? `${avgRequestTime}ms` : '—'}
-                            icon={Clock}
-                        />
-                        <StatCard
-                            title='Error Rate'
-                            value={errorRate ? `${errorRate}%` : '—'}
-                            icon={ShieldAlert}
-                        />
+                        <StatCard label='Total Requests' value={totalRequests.toLocaleString()} icon={Globe} />
+                        <StatCard label='Avg Response' value={avgRequestTime ? `${avgRequestTime}ms` : '—'} icon={Clock} />
+                        <StatCard label='Error Rate' value={errorRate ? `${errorRate}%` : '—'} icon={ShieldAlert} />
                     </div>
 
                     <div className='flex justify-between items-center -my-2'>
@@ -182,8 +170,8 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
                             }
                             if (isChart) {
                                 return (
-                                    <div
-                                        className='bg-login-50/5 p-4 rounded-xl border border-white/5 min-h-50 flex flex-col'
+                                    <Card
+                                        className='p-4 min-h-50 flex flex-col'
                                         key={title as string}
                                     >
                                         <div className='flex items-center justify-between mb-4'>
@@ -195,7 +183,7 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
                                         <div className='flex-1'>
                                             <RequestsOverTimeChart data={data as { key: string; count: number }[]} />
                                         </div>
-                                    </div>
+                                    </Card>
                                 )
                             }
                             const set = data as TrafficEntry[]
@@ -205,8 +193,8 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
                             const Icon = isBrowserOrOS ? Monitor : Cpu
 
                             return (
-                                <div
-                                    className='bg-login-50/5 p-4 rounded-xl border border-white/5 min-h-50'
+                                <Card
+                                    className='p-4 min-h-50'
                                     key={typeof title === 'string' ? title : title[0]}
                                 >
                                     <div className='flex items-center justify-between mb-4'>
@@ -225,7 +213,7 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
                                             />
                                         ))}
                                     </div>
-                                </div>
+                                </Card>
                             )
                         })}
                     </div>
@@ -235,26 +223,3 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
     )
 }
 
-function StatCard({
-    title,
-    value,
-    icon: Icon
-}: {
-    title: string
-    value: string | number
-    icon: LucideIcon
-}) {
-    return (
-        <div className='group rounded-xl border border-white/5 bg-login-50/5 p-4 transition-colors hover:bg-login-50/10'>
-            <div className='flex items-center gap-3 mb-3'>
-                <div className='rounded-full bg-login-50/5 p-2 transition-transform group-hover:scale-110'>
-                    <Icon className='h-4 w-4 stroke-login' strokeWidth={2.3} />
-                </div>
-                <span className='text-sm font-medium text-muted-foreground capitalize'>{title}</span>
-            </div>
-            <div className='text-2xl font-bold tracking-tight text-login-50' title={String(value)}>
-                {value}
-            </div>
-        </div>
-    )
-}

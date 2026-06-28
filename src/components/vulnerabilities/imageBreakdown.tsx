@@ -1,6 +1,6 @@
 import type { ImageVulnerabilityReport } from '@utils/api/internal/vulnerabilities/get'
+import { SeverityPill } from 'uibee/components'
 import { severityOrder } from './constants'
-import InlineSeverityBadge from './inlineSeverityBadge'
 
 export default function ImageBreakdown({ image }: { image: ImageVulnerabilityReport }) {
     return (
@@ -18,20 +18,17 @@ export default function ImageBreakdown({ image }: { image: ImageVulnerabilityRep
                             </div>
                             <div className='flex flex-wrap items-center gap-1.5'>
                                 <div
-                                    className={`
-                                        text-[10px] font-bold uppercase 
-                                        tracking-wider text-white shrink-0
-                                        border border-white/10 bg-white/5
-                                        px-2 py-0.5 rounded-full
-                                    `}
+                                    className='text-[10px] font-bold uppercase tracking-wider text-white shrink-0
+                                        border border-white/10 bg-white/5 px-2 py-0.5 rounded-full'
                                 >
                                     {group.total} Total
                                 </div>
                                 {severityOrder.map((severity) => (
-                                    <InlineSeverityBadge
+                                    <SeverityPill
                                         key={`${group.source}-${severity}`}
                                         severity={severity}
                                         count={group.severity[severity]}
+                                        compact
                                     />
                                 ))}
                             </div>

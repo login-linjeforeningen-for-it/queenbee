@@ -1,13 +1,14 @@
 import { Bot } from 'lucide-react'
+import { Card } from 'uibee/components'
 
 export default function GPT_EmptyState() {
     return (
-        <div className='w-full rounded-2xl border border-white/5 bg-login-50/5 px-6 py-10 text-center'>
+        <Card className='w-full px-6 py-10 text-center'>
             <div className='mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-login-50/5 text-login'>
                 <Bot className='h-6 w-6' />
             </div>
             <h2 className='mt-4 font-semibold text-login-50'>No GPTs connected</h2>
             <p className='mt-2 text-sm text-muted-foreground'>The dashboard will populate automatically when a client joins the room.</p>
-        </div>
+        </Card>
     )
 }

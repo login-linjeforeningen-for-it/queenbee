@@ -1,4 +1,5 @@
-import { Eye, Sparkles, Wifi, WifiOff } from 'lucide-react'
+import { Bot, Eye, Sparkles, Wifi, WifiOff } from 'lucide-react'
+import { StatCard } from 'uibee/components'
 
 export default function GPT_Header({
     isConnected,
@@ -10,46 +11,21 @@ export default function GPT_Header({
     clients: number
 }) {
     return (
-        <div className='w-full'>
-            <div className='flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between'>
-                <div>
-                    <h1 className='text-lg font-semibold text-login-50'>AI (Login GPT)</h1>
-                    <p className='max-w-2xl text-sm text-muted-foreground'>Live metrics from connected inference clients.</p>
-                </div>
-                <div className='grid gap-3 sm:grid-cols-3 min-w-200'>
-                    <GPT_HeaderCard label='Clients' value={String(clients)} icon={<Sparkles className='h-4 w-4 stroke-login' />} />
-                    <GPT_HeaderCard label='Viewers' value={String(participants)} icon={<Eye className='h-4 w-4' />} />
-                    <GPT_ConnectionCard isConnected={isConnected} />
-                </div>
+        <div className='w-full space-y-4'>
+            <div>
+                <h1 className='text-lg font-semibold text-login-50'>AI (Login GPT)</h1>
+                <p className='text-sm text-login-200'>Live metrics from connected inference clients.</p>
             </div>
-        </div>
-    )
-}
-
-function GPT_HeaderCard({ label, value, icon }: { label: string, value: string, icon: React.ReactNode }) {
-    return (
-        <div className='rounded-xl border border-white/5 bg-login-50/5 p-4'>
-            <div className='flex items-center justify-between text-login-200/80'>
-                <span className='text-xs font-medium uppercase tracking-[0.18em]'>{label}</span>
-                {icon}
-            </div>
-            <div className='mt-3 text-3xl font-semibold text-login-50'>{value}</div>
-        </div>
-    )
-}
-
-function GPT_ConnectionCard({ isConnected }: { isConnected: boolean }) {
-    return (
-        <div className='rounded-xl border border-white/5 bg-login-50/5 p-4'>
-            <div className='flex items-center justify-between text-login-200/80'>
-                <span className='text-xs font-medium uppercase tracking-[0.18em]'>Connection</span>
-                {isConnected ? <Wifi className='h-4 w-4 text-emerald-400' /> : <WifiOff className='h-4 w-4 text-red-400' />}
-            </div>
-            <div
-                className={`mt-3 text-sm font-semibold uppercase tracking-[0.18em]
-                    ${isConnected ? 'text-emerald-400' : 'text-red-400'}`}
-            >
-                {isConnected ? 'Connected' : 'Reconnecting'}
+            <div className='grid w-full gap-3 grid-cols-2 md:grid-cols-4'>
+                <StatCard icon={Sparkles} tone='orange' label='Clients' value={String(clients)} />
+                <StatCard icon={Eye} label='Viewers' value={String(participants)} />
+                <StatCard icon={Bot} label='Active clients' value={String(clients)} />
+                <StatCard
+                    icon={isConnected ? Wifi : WifiOff}
+                    tone={isConnected ? 'emerald' : 'rose'}
+                    label='Connection'
+                    value={isConnected ? 'Connected' : 'Reconnecting'}
+                />
             </div>
         </div>
     )

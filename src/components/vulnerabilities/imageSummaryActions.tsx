@@ -2,7 +2,7 @@ import type { ImageVulnerabilityReport } from '@utils/api/internal/vulnerabiliti
 import { ChevronDown } from 'lucide-react'
 import { severityOrder } from './constants'
 import MiniStat from './miniStat'
-import { SeverityPill } from 'uibee/components'
+import { Button, SeverityPill } from 'uibee/components'
 
 export default function ImageSummaryActions({
     image,
@@ -24,19 +24,14 @@ export default function ImageSummaryActions({
                     compact
                 />
             ))}
-            <button
-                type='button'
+            <Button
+                variant='secondary'
+                icon={<ChevronDown className={`h-5 w-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />}
                 onClick={(event) => {
                     event.stopPropagation()
                     onToggle()
                 }}
-                aria-expanded={isExpanded}
-                aria-label={isExpanded ? `Collapse ${image.image}` : `Expand ${image.image}`}
-                className='flex h-8 w-8 shrink-0 items-center justify-center rounded-full
-                    bg-transparent text-login-100 transition hover:bg-login-50/10'
-            >
-                <ChevronDown className={`h-5 w-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
-            </button>
+            />
         </div>
     )
 }

@@ -1,13 +1,11 @@
-import Alert from '@components/alert/alert'
-import Search from '@components/inputs/search'
+import { Alert, Button, SearchInput } from 'uibee/components'
 import Table from '@components/table/table'
-import Option from '@components/locationOption/serviceOption'
 import Pagination from '@components/table/pagination'
 import formatAlert from '@components/alert/formatAlert'
 import deleteHoney from '@utils/api/workerbee/honey/deleteHoney'
 import getHoneyList from '@utils/api/workerbee/honey/getList'
 import getHoneyServices from '@utils/api/workerbee/honey/getServices'
-import { Button } from 'uibee/components'
+import HoneyTabs from './tabs'
 
 const headers = [
     'id',
@@ -50,16 +48,8 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
             <div className='flex-none'>
                 <h1 className='font-semibold text-lg'>Honey</h1>
                 <div className='flex items-center justify-between py-3'>
-                    <Search />
-                    <div className='flex gap-4'>
-                        {services.map(service => (
-                            <Option
-                                key={service}
-                                value={service}
-                                active={activeType}
-                            />
-                        ))}
-                    </div>
+                    <SearchInput />
+                    <HoneyTabs services={services} activeType={activeType} />
                     <Button
                         text='New honey'
                         icon='+'

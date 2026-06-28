@@ -1,3 +1,5 @@
+import { Card } from 'uibee/components'
+
 export default function Statistics({ services }: { services: Service[] }) {
     let up = 0
     let down = 0
@@ -22,7 +24,7 @@ export default function Statistics({ services }: { services: Service[] }) {
             if (pendingFailed < service.maxConsecutiveFailures) {
                 pending++
             } else {
-                down ++
+                down++
             }
         } else {
             down++
@@ -31,22 +33,22 @@ export default function Statistics({ services }: { services: Service[] }) {
 
     return (
         <div className='grid grid-cols-2 lg:grid-cols-4 gap-4'>
-            <div className='rounded-xl border border-white/5 bg-login-50/5 p-4 flex flex-col items-center justify-center gap-1'>
-                <h1 className='text-sm font-medium text-muted-foreground uppercase tracking-wider'>Up</h1>
+            <Card className='p-4 flex flex-col items-center justify-center gap-1'>
+                <h1 className='text-sm font-medium text-login-200 uppercase tracking-wider'>Up</h1>
                 <h1 className='text-2xl font-bold text-emerald-500'>{up}</h1>
-            </div>
-            <div className='rounded-xl border border-white/5 bg-login-50/5 p-4 flex flex-col items-center justify-center gap-1'>
-                <h1 className='text-sm font-medium text-muted-foreground uppercase tracking-wider'>Down</h1>
+            </Card>
+            <Card className='p-4 flex flex-col items-center justify-center gap-1'>
+                <h1 className='text-sm font-medium text-login-200 uppercase tracking-wider'>Down</h1>
                 <h1 className='text-2xl font-bold text-red-500'>{down}</h1>
-            </div>
-            <div className='rounded-xl border border-white/5 bg-login-50/5 p-4 flex flex-col items-center justify-center gap-1'>
-                <h1 className='text-sm font-medium text-muted-foreground uppercase tracking-wider'>Maintenance</h1>
-                <h1 className='text-2xl font-bold text-purple-500'>{maintenance}</h1>
-            </div>
-            <div className='rounded-xl border border-white/5 bg-login-50/5 p-4 flex flex-col items-center justify-center gap-1'>
-                <h1 className='text-sm font-medium text-muted-foreground uppercase tracking-wider'>Pending</h1>
-                <h1 className='text-2xl font-bold text-login-500'>{pending}</h1>
-            </div>
+            </Card>
+            <Card className='p-4 flex flex-col items-center justify-center gap-1'>
+                <h1 className='text-sm font-medium text-login-200 uppercase tracking-wider'>Maintenance</h1>
+                <h1 className='text-2xl font-bold text-violet-500'>{maintenance}</h1>
+            </Card>
+            <Card className='p-4 flex flex-col items-center justify-center gap-1'>
+                <h1 className='text-sm font-medium text-login-200 uppercase tracking-wider'>Pending</h1>
+                <h1 className='text-2xl font-bold text-login'>{pending}</h1>
+            </Card>
         </div>
     )
 }

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Clock3, Database, SearchCode } from 'lucide-react'
+import { Card } from 'uibee/components'
 import formatBytes from '@utils/db/formatBytes'
 import getStatusTone from '@utils/db/getStatusTone'
 import ExpandButton from '@components/db/expandButton'
@@ -14,7 +15,7 @@ export default function ClusterCard({ cluster }: { cluster: DatabaseOverviewClus
     const databaseLabel = cluster.databaseCount === 1 ? 'database' : 'databases'
 
     return (
-        <section className='w-full rounded-xl border border-white/5 bg-login-50/5 px-5 py-4'>
+        <Card className='w-full px-5 py-4'>
             <div className='flex items-center gap-3'>
                 <div
                     role='button'
@@ -30,12 +31,12 @@ export default function ClusterCard({ cluster }: { cluster: DatabaseOverviewClus
                     aria-label={expanded ? `Collapse ${cluster.name}` : `Expand ${cluster.name}`}
                     className='flex min-w-0 flex-1 cursor-pointer items-center gap-4'
                 >
-                    <div className='rounded-full bg-login-50/5 p-3'>
+                    <div className='rounded-full bg-login-600 p-3'>
                         <Database className='h-5 w-5 stroke-login' />
                     </div>
                     <div className='min-w-0 flex-1'>
                         <div className='flex flex-wrap items-center gap-2'>
-                            <h2 className='truncate text-lg font-semibold text-white'>{cluster.name}</h2>
+                            <h2 className='truncate text-lg font-semibold text-login-50'>{cluster.name}</h2>
                             <span
                                 className={`rounded-full border px-2 py-1 text-[11px] font-semibold
                                     uppercase tracking-[0.14em] ${getStatusTone(cluster.status)}`}
@@ -43,7 +44,7 @@ export default function ClusterCard({ cluster }: { cluster: DatabaseOverviewClus
                                 {cluster.status}
                             </span>
                         </div>
-                        <div className='mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground'>
+                        <div className='mt-2 flex flex-wrap gap-2 text-xs text-login-200'>
                             <span>{cluster.project || 'No compose project'}</span>
                             <span>{cluster.databaseCount} {databaseLabel}</span>
                             <span>{formatBytes(cluster.totalSizeBytes)}</span>
@@ -67,47 +68,47 @@ export default function ClusterCard({ cluster }: { cluster: DatabaseOverviewClus
                     ) : null}
 
                     <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-4'>
-                        <div className='rounded-2xl border border-white/6 bg-login-950/40 p-4'>
-                            <div className='text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground'>
+                        <Card className='p-4'>
+                            <div className='text-[11px] font-semibold uppercase tracking-[0.18em] text-login-200'>
                                 Current connections
                             </div>
-                            <div className='mt-2 text-xl font-semibold text-white'>{cluster.currentConnections}</div>
-                        </div>
-                        <div className='rounded-2xl border border-white/6 bg-login-950/40 p-4'>
-                            <div className='text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground'>
+                            <div className='mt-2 text-xl font-semibold text-login-50'>{cluster.currentConnections}</div>
+                        </Card>
+                        <Card className='p-4'>
+                            <div className='text-[11px] font-semibold uppercase tracking-[0.18em] text-login-200'>
                                 Active queries
                             </div>
-                            <div className='mt-2 text-xl font-semibold text-white'>{cluster.activeQueries}</div>
-                        </div>
-                        <div className='rounded-2xl border border-white/6 bg-login-950/40 p-4'>
-                            <div className='text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground'>
+                            <div className='mt-2 text-xl font-semibold text-login-50'>{cluster.activeQueries}</div>
+                        </Card>
+                        <Card className='p-4'>
+                            <div className='text-[11px] font-semibold uppercase tracking-[0.18em] text-login-200'>
                                 Databases
                             </div>
-                            <div className='mt-2 text-xl font-semibold text-white'>{cluster.databaseCount}</div>
-                        </div>
-                        <div className='rounded-2xl border border-white/6 bg-login-950/40 p-4'>
-                            <div className='text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground'>
+                            <div className='mt-2 text-xl font-semibold text-login-50'>{cluster.databaseCount}</div>
+                        </Card>
+                        <Card className='p-4'>
+                            <div className='text-[11px] font-semibold uppercase tracking-[0.18em] text-login-200'>
                                 Storage footprint
                             </div>
-                            <div className='mt-2 text-xl font-semibold text-white'>{formatBytes(cluster.totalSizeBytes)}</div>
-                        </div>
+                            <div className='mt-2 text-xl font-semibold text-login-50'>{formatBytes(cluster.totalSizeBytes)}</div>
+                        </Card>
                     </div>
 
-                    <div className='rounded-2xl border border-white/6 bg-login-950/40 p-4'>
+                    <Card className='p-4'>
                         <div className='mb-3 flex items-center gap-2'>
-                            <SearchCode className='h-4 w-4 text-orange-400' />
-                            <h3 className='text-sm font-semibold text-white'>Longest running query</h3>
+                            <SearchCode className='h-4 w-4 text-login' />
+                            <h3 className='text-sm font-semibold text-login-50'>Longest running query</h3>
                         </div>
                         <QueryCard query={cluster.longestQuery} />
-                    </div>
+                    </Card>
 
-                    <div className='rounded-2xl border border-white/6 bg-login-950/40 p-4'>
+                    <Card className='p-4'>
                         <div className='mb-3 flex items-center gap-2'>
                             <Clock3 className='h-4 w-4 text-cyan-400' />
-                            <h3 className='text-sm font-semibold text-white'>Average active query runtime</h3>
+                            <h3 className='text-sm font-semibold text-login-50'>Average active query runtime</h3>
                         </div>
                         <QueryWindowGrid averageQuerySeconds={cluster.averageQuerySeconds} />
-                    </div>
+                    </Card>
 
                     <div className='flex flex-col gap-4'>
                         {cluster.databases.map((database) => (
@@ -120,6 +121,6 @@ export default function ClusterCard({ cluster }: { cluster: DatabaseOverviewClus
                     </div>
                 </div>
             ) : null}
-        </section>
+        </Card>
     )
 }

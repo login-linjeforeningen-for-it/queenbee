@@ -1,7 +1,6 @@
 'use client'
 
-import Alert from '@components/alert/alert'
-import Search from '@components/inputs/search'
+import { Alert, Button, SearchInput } from 'uibee/components'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import getDocker from '@utils/api/internal/system/getDocker'
@@ -195,45 +194,28 @@ function ActionButtons({
 
     return (
         <div onClick={(e) => e.stopPropagation()} className='flex items-center gap-2 justify-end select-none'>
-            {!deployment?.autoDeployEnabled && <button
+            {!deployment?.autoDeployEnabled && <Button
                 type='button'
-                className={`
-                    px-3 py-1.5 rounded flex items-center gap-2
-                    justify-center cursor-pointer bg-login-500 group text-xs font-semibold
-                    disabled:cursor-not-allowed disabled:opacity-60
-                `}
                 onClick={handleUpdate}
                 disabled={!deployment || runState?.status === 'deploying'}
-            >
-                {runState?.status === 'deploying'
+                icon={runState?.status === 'deploying'
                     ? <LoaderCircle className='h-4 w-4 animate-spin stroke-amber-300' />
-                    : <ArrowUpCircle
-                        className={`h-4 w-4 ${deployment?.updateAvailable
-                            ? 'stroke-amber-400'
-                            : 'group-hover:stroke-green-500'}`}
-                    />}
-                <span>
-                    {runState?.status === 'deploying'
-                        ? 'Deploying...'
-                        : runState?.status === 'success'
-                            ? 'Redeployed'
-                            : runState?.status === 'error'
-                                ? 'Retry deploy'
-                                : deployment?.updateAvailable
-                                    ? 'Deploy update'
-                                    : 'Redeploy'}
-                </span>
-            </button>}
-            <button
+                    : <ArrowUpCircle className={`h-4 w-4 ${deployment?.updateAvailable ? 'stroke-amber-400' : ''}`} />}
+                text={runState?.status === 'deploying'
+                    ? 'Deploying...'
+                    : runState?.status === 'success'
+                        ? 'Redeployed'
+                        : runState?.status === 'error'
+                            ? 'Retry deploy'
+                            : deployment?.updateAvailable
+                                ? 'Deploy update'
+                                : 'Redeploy'}
+            />}
+            <Button
                 type='button'
-                className={`
-                    px-3 py-1.5 rounded bg-login-500 flex items-center
-                    justify-center cursor-pointer group select-none
-                `}
+                icon={<RefreshCcw className='w-4 h-4' />}
                 onClick={handleRefresh}
-            >
-                <RefreshCcw className='w-4 h-4 group-hover:stroke-green-500' />
-            </button>
+            />
             <button
                 type='button'
                 className={`
@@ -483,7 +465,7 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
                     </div>
                 </div>
                 <div className='flex w-full justify-between items-center py-2'>
-                    <Search />
+                    <SearchInput />
                 </div>
             </div>
             {docker.error ? (

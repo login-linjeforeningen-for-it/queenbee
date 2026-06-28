@@ -69,13 +69,11 @@ export default function TestClientPopup({
                             {client.name} • conversation {conversationId}
                         </p>
                     </div>
-                    <button
-                        type='button'
+                    <Button
+                        variant='secondary'
+                        icon={<X className='h-5 w-5' />}
                         onClick={onClose}
-                        className='rounded-full p-2 text-login-200 transition-colors hover:bg-login-50/5 hover:text-login-50'
-                    >
-                        <X className='h-5 w-5' />
-                    </button>
+                    />
                 </div>
 
                 <div className='grid flex-1 min-h-0 lg:grid-cols-[minmax(0,1fr)_19rem]'>
@@ -83,8 +81,8 @@ export default function TestClientPopup({
                         <div ref={scrollerRef} className='flex-1 space-y-4 overflow-y-auto p-6'>
                             {!messages.length ? (
                                 <div
-                                    className='flex h-full min-h-56 items-center justify-center rounded-2xl
-                                        border border-dashed border-white/5 bg-login-50/5 p-6 text-center'
+                                    className='flex h-full min-h-56 items-center justify-center rounded-xl
+                                        border border-dashed border-login-500/30 bg-login-500/50 p-6 text-center'
                                 >
                                     <div>
                                         <div
@@ -108,10 +106,10 @@ export default function TestClientPopup({
                                         key={message.id}
                                         className={`max-w-3xl rounded-2xl border px-4 py-3 ${
                                             message.role === 'user'
-                                                ? 'ml-auto border-white/5 bg-login-50/10 text-login-50'
+                                                ? 'ml-auto border-login-500/30 bg-login-500/50 text-login-50'
                                                 : message.error
                                                     ? 'border-red-500/20 bg-red-500/10 text-red-100'
-                                                    : 'border-white/5 bg-login-50/5 text-login-50'
+                                                    : 'border-login-500/30 bg-login-500/50 text-login-50'
                                         }`}
                                     >
                                         <div className='mb-2 text-[10px] uppercase tracking-[0.18em] text-login-200'>
@@ -174,8 +172,8 @@ export default function TestClientPopup({
 function StatCard({ title, value, error = false }: { title: string, value: string, error?: boolean }) {
     return (
         <div
-            className={`rounded-2xl border p-3 ${
-                error ? 'border-red-500/20 bg-red-500/10' : 'border-white/5 bg-login-50/5'
+            className={`rounded-xl border p-3 ${
+                error ? 'border-red-500/20 bg-red-500/10' : 'border-login-500/30 bg-login-500/50'
             }`}
         >
             <div className='text-[10px] uppercase tracking-[0.18em] text-login-200'>{title}</div>

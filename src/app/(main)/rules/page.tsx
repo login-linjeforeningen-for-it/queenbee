@@ -1,5 +1,4 @@
-import Alert from '@components/alert/alert'
-import Search from '@components/inputs/search'
+import { Alert, SearchInput } from 'uibee/components'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import formatAlert from '@components/alert/formatAlert'
@@ -42,7 +41,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
             <div className='flex-none'>
                 <h1 className='font-semibold text-lg'>Rules</h1>
                 <div className='flex items-center justify-between py-3'>
-                    <Search />
+                    <SearchInput />
                     <Button
                         text='New rule'
                         icon='+'

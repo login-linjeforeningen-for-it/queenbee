@@ -14,7 +14,7 @@ import {
     Upload,
 } from 'lucide-react'
 import { Button, Input, Select, Switch } from 'uibee/components'
-import { GlassCard, MonoBlock, StatCard } from '@/uibee'
+import { Card, MonoBlock, StatCard } from '@/uibee'
 import BrowserRow from './browserRow'
 import { cleanPrefix, formatBytes, formatDate, isValidBucketName, normalizeBucketName, parentPrefix, prefixSegments } from './helpers'
 import type { BrowserEntry, BucketSummary, ObjectSummary } from './types'
@@ -78,7 +78,7 @@ export function TopBar({
             <StatCard icon={Boxes} label='Objects' tone='emerald' value={String(totalObjects)} />
             <StatCard icon={HardDrive} label='Total size' tone='violet' value={formatBytes(totalSize)} />
             <StatCard icon={RefreshCcw} label='Status' tone='blue' value={loading ? 'Working' : 'Ready'} />
-            <GlassCard className='p-4'>
+            <Card className='p-4'>
                 <div className='mb-3 flex min-w-0 items-center gap-2 text-xs text-muted-foreground'>
                     {loading ? <LoaderCircle className='h-4 w-4 shrink-0 animate-spin text-orange-300' /> : null}
                     <span className='truncate'>{status}</span>
@@ -112,7 +112,7 @@ export function TopBar({
                         onClick={() => void onDeleteBucket()}
                     />
                 </div>
-            </GlassCard>
+            </Card>
         </div>
     )
 }
@@ -127,7 +127,7 @@ export function BucketList({
     onSelect: (bucket: BucketSummary) => void
 }) {
     return (
-        <GlassCard className='flex min-h-0 flex-col overflow-hidden p-4'>
+        <Card className='flex min-h-0 flex-col overflow-hidden p-4'>
             <div className='mb-3 flex items-center justify-between'>
                 <h2 className='font-semibold'>Buckets</h2>
                 <span className='text-xs text-muted-foreground'>{buckets.length}</span>
@@ -151,7 +151,7 @@ export function BucketList({
                     </button>
                 ))}
             </div>
-        </GlassCard>
+        </Card>
     )
 }
 
@@ -169,7 +169,7 @@ export function ObjectFilters({
     onRefresh: () => Promise<void>
 }) {
     return (
-        <GlassCard className='shrink-0 p-4'>
+        <Card className='shrink-0 p-4'>
             <div className='grid gap-3 lg:grid-cols-[1fr_1fr_auto]'>
                 <Input
                     name='objectSearch'
@@ -192,7 +192,7 @@ export function ObjectFilters({
                     onClick={() => void onRefresh()}
                 />
             </div>
-        </GlassCard>
+        </Card>
     )
 }
 
@@ -216,7 +216,7 @@ export function ObjectTable({
     onSelectObject: (object: ObjectSummary) => void
 }) {
     return (
-        <GlassCard className='flex min-h-0 flex-col overflow-hidden p-4'>
+        <Card className='flex min-h-0 flex-col overflow-hidden p-4'>
             <div className='mb-3 flex flex-wrap items-center justify-between gap-3'>
                 <div className='min-w-0'>
                     <h2 className='font-semibold'>{selectedBucket || 'Select a bucket'}</h2>
@@ -255,7 +255,7 @@ export function ObjectTable({
                     </tbody>
                 </table>
             </div>
-        </GlassCard>
+        </Card>
     )
 }
 
@@ -298,7 +298,7 @@ function UploadCard({
     onUploadKeyChange,
 }: ObjectActionProps) {
     return (
-        <GlassCard className='flex flex-col gap-3 p-4'>
+        <Card className='flex flex-col gap-3 p-4'>
             <h2 className='font-semibold text-white'>Upload</h2>
             <Input name='objectFile' type='file' onChange={onFileChange} />
             <Input
@@ -314,7 +314,7 @@ function UploadCard({
                 disabled={loading || !selectedBucket || !uploadFile}
                 onClick={() => void onUpload()}
             />
-        </GlassCard>
+        </Card>
     )
 }
 
@@ -324,7 +324,7 @@ function SelectedObjectCard({ selectedBucket, selectedKey, selectedObject, onDel
         : '#'
 
     return (
-        <GlassCard className='flex flex-col gap-3 p-4'>
+        <Card className='flex flex-col gap-3 p-4'>
             <h2 className='font-semibold text-white'>Selected object</h2>
             {selectedObject ? (
                 <>
@@ -352,7 +352,7 @@ function SelectedObjectCard({ selectedBucket, selectedKey, selectedObject, onDel
             ) : (
                 <p className='text-sm text-muted-foreground'>Select an object to inspect, download, move, copy, or delete it.</p>
             )}
-        </GlassCard>
+        </Card>
     )
 }
 
@@ -370,7 +370,7 @@ function MoveObjectCard({
     onTargetKeyChange,
 }: ObjectActionProps) {
     return (
-        <GlassCard className='flex flex-col gap-3 p-4'>
+        <Card className='flex flex-col gap-3 p-4'>
             <h2 className='font-semibold text-white'>{copyMode ? 'Copy object' : 'Move object'}</h2>
             <Select
                 name='targetBucket'
@@ -398,6 +398,6 @@ function MoveObjectCard({
                 disabled={loading || !selectedBucket || !selectedKey || !targetBucket || !targetKey.trim()}
                 onClick={() => void onMoveObject()}
             />
-        </GlassCard>
+        </Card>
     )
 }

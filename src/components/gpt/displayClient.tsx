@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { ChevronDown, ChevronUp, Cpu, Gauge, HardDrive, MemoryStick, MessageSquareText } from 'lucide-react'
-import { Button } from 'uibee/components'
+import { Button, Card } from 'uibee/components'
 import CPU from './cpu'
 import GPU from './gpu'
 import RAM from './ram'
@@ -25,15 +25,12 @@ export default function DisplayClient({
     }
 
     return (
-        <div
-            className='w-full rounded-2xl border border-white/5 bg-login-50/5
-                p-4 text-left transition-colors hover:bg-login-50/10'
-        >
+        <Card className='w-full p-4'>
             <div className='flex flex-col gap-4'>
                 <div className='flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between'>
                     <div>
                         <h3 className='text-lg font-semibold text-login-50'>{client.name}</h3>
-                        <p className='text-sm text-muted-foreground'>
+                        <p className='text-sm text-login-200'>
                             {client.ram.length} RAM, {client.cpu.length} CPU, {client.gpu.length} GPU sensors
                         </p>
                     </div>
@@ -46,17 +43,14 @@ export default function DisplayClient({
                             value={`${client.model.tps.toFixed(1)}`}
                             icon={<Gauge className='h-3.5 w-3.5' />}
                         />
-                        <button
-                            type='button'
+                        <Button
+                            variant='secondary'
+                            icon={open ? <ChevronUp className='h-4 w-4' /> : <ChevronDown className='h-4 w-4' />}
                             onClick={() => setOpen(prev => !prev)}
-                            className='flex h-9 w-9 items-center justify-center rounded-full text-login-200
-                                transition-colors hover:bg-login-50/5 hover:text-login-50'
-                        >
-                            {open ? <ChevronUp className='h-4 w-4' /> : <ChevronDown className='h-4 w-4' />}
-                        </button>
+                        />
                     </div>
                 </div>
-                <div className='grid gap-3 border-t border-white/5 pt-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-center'>
+                <div className='grid gap-3 border-t border-login-500/25 pt-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-center'>
                     <div className='grid gap-3 sm:grid-cols-2 xl:grid-cols-4'>
                         <ModelStat title='Current tokens' value={client.model.currentTokens.toString()} />
                         <ModelStat title='Max tokens' value={client.model.maxTokens.toString()} />
@@ -76,13 +70,13 @@ export default function DisplayClient({
                 </div>
                 {open ? <Open client={client} /> : null}
             </div>
-        </div>
+        </Card>
     )
 }
 
 function Open({ client }: { client: GPT_Client }) {
     return (
-        <div className='grid gap-4 border-t border-white/5 pt-4 lg:grid-cols-3'>
+        <div className='grid gap-4 border-t border-login-500/25 pt-4 lg:grid-cols-3'>
             <MetricSection
                 title='RAM'
                 icon={<MemoryStick className='h-4 w-4' />}
@@ -104,23 +98,23 @@ function Open({ client }: { client: GPT_Client }) {
 
 function MetricSection({ title, icon, items }: { title: string, icon: ReactNode, items: ReactNode[] }) {
     return (
-        <div className='rounded-xl border border-white/5 bg-login-50/5 p-4'>
-            <div className='mb-3 flex items-center gap-2 text-login-200/80'>
+        <Card className='p-4'>
+            <div className='mb-3 flex items-center gap-2 text-login-200'>
                 {icon}
                 <h4 className='text-sm font-semibold uppercase tracking-[0.18em]'>{title}</h4>
             </div>
             <div className='space-y-2'>
-                {items.length ? items : <p className='text-sm text-muted-foreground'>No metrics reported.</p>}
+                {items.length ? items : <p className='text-sm text-login-200'>No metrics reported.</p>}
             </div>
-        </div>
+        </Card>
     )
 }
 
 function StatPill({ label, value, icon }: { label: string, value: string, icon: ReactNode }) {
     return (
         <span
-            className='inline-flex items-center gap-2 rounded-full border border-white/5
-                bg-login-50/5 px-3 py-1 text-sm font-semibold text-login-50'
+            className='inline-flex items-center gap-2 rounded-full border border-login-500/30
+                bg-login-600 px-3 py-1 text-sm font-semibold text-login-50'
         >
             {icon}
             <span className='text-[10px] uppercase tracking-[0.18em] text-login-200'>{label}</span>
@@ -139,10 +133,10 @@ function ModelStat({ title, value, highlight }: { title: string, value: string, 
                 : 'text-login-50'
 
     return (
-        <div className='rounded-xl border border-white/5 bg-login-50/5 px-3 py-2'>
+        <Card className='px-3 py-2'>
             <div className='text-[10px] uppercase tracking-[0.18em] text-login-200'>{title}</div>
             <div className={`mt-1 text-sm font-semibold ${highlightClass}`}>{value}</div>
-        </div>
+        </Card>
     )
 }
 

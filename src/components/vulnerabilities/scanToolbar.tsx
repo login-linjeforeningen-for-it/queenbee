@@ -1,4 +1,4 @@
-import Search from '@components/inputs/search'
+import { SearchInput } from 'uibee/components'
 import type { GetVulnerabilities } from '@utils/api/internal/vulnerabilities/get'
 import type { PageClientProps, VulnerabilityPageState } from './types'
 import RunScanButton from './runScanButton'
@@ -25,10 +25,9 @@ export default function ScanToolbar(props: Props) {
 
     return (
         <div className='flex items-center justify-between gap-3 py-3'>
-            <Search
-                className='-mb-5'
-                innerClassname='w-full min-w-80 max-w-[28rem]'
-            />
+            <div className='-mb-5 min-w-80 max-w-[28rem]'>
+                <SearchInput />
+            </div>
             <div className='flex shrink-0 items-center gap-2'>
                 <div className='mr-2 hidden text-sm text-muted-foreground lg:block'>
                     Showing {props.sorting.images.length} of {props.data?.images.length || 0} images

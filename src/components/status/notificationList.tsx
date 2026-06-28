@@ -4,7 +4,7 @@ import postNotification from '@utils/fetch/status/postNotification'
 import putNotification from '@utils/fetch/status/putNotification'
 import { Save, Trash, X, Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Button, Input } from 'uibee/components'
+import { Button, Card, Input } from 'uibee/components'
 
 export default function NotificationList({ notifications: serverNotifications }: { notifications: ServiceNotification[] }) {
     const [notifications, setNotifications] = useState(serverNotifications)
@@ -212,15 +212,15 @@ export default function NotificationList({ notifications: serverNotifications }:
     }
 
     return (
-        <div className='flex flex-col gap-4 bg-login-50/5 p-4 rounded-xl border border-white/5'>
+        <Card className='flex flex-col gap-4 p-4'>
             <div className='flex justify-between items-center'>
                 <h2 className='text-xl font-semibold'>Notifications</h2>
                 <Button onClick={handleAdd} icon={<Plus className='w-4 h-4' />} text='Add notification' />
             </div>
 
-            <div className='overflow-x-auto rounded-lg border border-white/5'>
+            <div className='overflow-x-auto rounded-lg border border-login-500/30'>
                 <table className='w-full text-sm text-left'>
-                    <thead className='text-xs text-muted-foreground uppercase bg-black/20'>
+                    <thead className='text-xs text-login-200 uppercase bg-login-900/60'>
                         <tr>
                             <th className='px-4 py-3 font-medium'>ID</th>
                             <th className='px-4 py-3 font-medium'>Name</th>
@@ -228,22 +228,22 @@ export default function NotificationList({ notifications: serverNotifications }:
                             <th className='px-4 py-3 font-medium'>Webhook</th>
                         </tr>
                     </thead>
-                    <tbody className='divide-y divide-white/5'>
+                    <tbody className='divide-y divide-login-500/20'>
                         {notifications.map((notification) => (
                             <tr
                                 key={notification.id}
                                 onClick={() => handleEdit(notification)}
-                                className='hover:bg-white/5 cursor-pointer transition-colors'
+                                className='hover:bg-login-700/40 cursor-pointer transition-colors'
                             >
-                                <td className='px-4 py-3'>{notification.id}</td>
-                                <td className='px-4 py-3 font-medium text-foreground'>{notification.name}</td>
-                                <td className='px-4 py-3 text-muted-foreground'>{notification.message}</td>
-                                <td className='px-4 py-3 text-muted-foreground break-all max-w-xs'>{notification.webhook}</td>
+                                <td className='px-4 py-3 text-login-200'>{notification.id}</td>
+                                <td className='px-4 py-3 font-medium text-login-50'>{notification.name}</td>
+                                <td className='px-4 py-3 text-login-200'>{notification.message}</td>
+                                <td className='px-4 py-3 text-login-200 break-all max-w-xs'>{notification.webhook}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-        </div>
+        </Card>
     )
 }

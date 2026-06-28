@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { AlertTriangle, ChevronDown, RefreshCcw, ServerCrash, TerminalSquare } from 'lucide-react'
-import { Toggle } from 'uibee/components'
+import { Button, Card, Toggle } from 'uibee/components'
 import { parseLogsHash } from '@utils/logsNavigation'
 
 type LogEntry = {
@@ -308,58 +308,58 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
     return (
         <div className='flex h-full flex-col overflow-hidden'>
             <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-4'>
-                <div className='rounded-xl border border-white/5 bg-login-50/5 p-4'>
+                <Card className='p-4'>
                     <div className='mb-3 flex items-center gap-3'>
                         <div className='rounded-lg bg-red-500/10 p-2'>
                             <AlertTriangle className='h-4 w-4 text-red-400' />
                         </div>
-                        <span className='text-sm font-medium text-muted-foreground'>
+                        <span className='text-sm font-medium text-login-200'>
                             {level === 'error' ? 'Error entries' : 'Log entries'}
                         </span>
                     </div>
                     <div className='truncate text-lg font-semibold text-login-50'>{summary.totalEntries}</div>
-                    <div className='mt-2 text-xs text-muted-foreground'>
+                    <div className='mt-2 text-xs text-login-200'>
                         {level === 'error' ? 'Focused on recent error logs only' : 'Showing recent log activity across sources'}
                     </div>
-                </div>
-                <div className='rounded-xl border border-white/5 bg-login-50/5 p-4'>
+                </Card>
+                <Card className='p-4'>
                     <div className='mb-3 flex items-center gap-3'>
                         <div className='rounded-lg bg-login/10 p-2'>
                             <TerminalSquare className='h-4 w-4 text-login' />
                         </div>
-                        <span className='text-sm font-medium text-muted-foreground'>Server</span>
+                        <span className='text-sm font-medium text-login-200'>Server</span>
                     </div>
                     <div className='truncate text-lg font-semibold text-login-50' title={data.server}>{data.server}</div>
-                    <div className='mt-2 text-xs text-muted-foreground'>Updated {formatRelativeTime(data.checkedAt)}</div>
-                </div>
-                <div className='rounded-xl border border-white/5 bg-login-50/5 p-4'>
+                    <div className='mt-2 text-xs text-login-200'>Updated {formatRelativeTime(data.checkedAt)}</div>
+                </Card>
+                <Card className='p-4'>
                     <div className='mb-3 flex items-center gap-3'>
                         <div className='rounded-lg bg-amber-500/10 p-2'>
                             <ServerCrash className='h-4 w-4 text-amber-400' />
                         </div>
-                        <span className='text-sm font-medium text-muted-foreground'>Noisiest service</span>
+                        <span className='text-sm font-medium text-login-200'>Noisiest service</span>
                     </div>
                     <div className='truncate text-lg font-semibold text-login-50' title={summary.topService?.service || 'Quiet'}>
                         {summary.topService?.service || 'Quiet'}
                     </div>
-                    <div className='mt-2 text-xs text-muted-foreground'>
+                    <div className='mt-2 text-xs text-login-200'>
                         {summary.topService ? `${summary.topService.matchedLines} matching lines` : 'No recent matches'}
                     </div>
-                </div>
-                <div className='rounded-xl border border-white/5 bg-login-50/5 p-4'>
+                </Card>
+                <Card className='p-4'>
                     <div className='mb-3 flex items-center gap-3'>
                         <div className='rounded-lg bg-violet-500/10 p-2'>
                             <ServerCrash className='h-4 w-4 text-violet-400' />
                         </div>
-                        <span className='text-sm font-medium text-muted-foreground'>Extra sources</span>
+                        <span className='text-sm font-medium text-login-200'>Extra sources</span>
                     </div>
                     <div className='truncate text-lg font-semibold text-login-50'>
                         {summary.hostSources}
                     </div>
-                    <div className='mt-2 text-xs text-muted-foreground'>
+                    <div className='mt-2 text-xs text-login-200'>
                         Host, journal, deploy, and shell sources mixed into the stream
                     </div>
-                </div>
+                </Card>
             </div>
 
             <div className='flex items-center justify-between gap-3 py-3'>
@@ -406,17 +406,12 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                         <input type='checkbox' checked={live} onChange={() => setLive(prev => !prev)} />
                         Live refresh
                     </label>
-                    <button
+                    <Button
                         type='button'
+                        text='Refresh'
+                        icon={<RefreshCcw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />}
                         onClick={() => void refresh()}
-                        className={`
-                            inline-flex h-10 cursor-pointer items-center gap-2 rounded-xl bg-login px-3
-                            text-sm font-medium text-black
-                        `}
-                    >
-                        <RefreshCcw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-                        Refresh
-                    </button>
+                    />
                 </div>
             </div>
             {error ? <p className='mb-3 rounded-xl border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-200'>{error}</p> : null}
@@ -424,18 +419,18 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
             <div className='flex-1 overflow-y-auto'>
                 <div className='grid gap-4'>
                     {groupedServices.length === 0 ? (
-                        <div className='rounded-xl border border-white/5 bg-login-50/5 p-6 text-sm text-login-100'>
+                        <Card className='p-6 text-sm text-login-100'>
                             {level === 'error' ? 'No matching error logs right now.' : 'No matching logs right now.'}
-                        </div>
+                        </Card>
                     ) : null}
 
                     {groupedServices.map((group) => {
                         const expanded = isExpanded(group.service)
 
                         return (
-                            <section
+                            <Card
                                 key={group.service}
-                                className='rounded-xl border border-white/5 bg-login-50/5 px-5 py-4'
+                                className='px-5 py-4'
                             >
                                 <div
                                     role='button'
@@ -469,17 +464,14 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                                         `}>
                                             {group.matchedLines}
                                         </div>
-                                        <button
-                                            type='button'
+                                        <Button
+                                            variant='secondary'
+                                            icon={<ChevronDown className={`h-4.5 w-4.5 transition-transform ${expanded ? 'rotate-180' : ''}`} />}
                                             onClick={(event) => {
                                                 event.stopPropagation()
                                                 toggleContainer(group.service)
                                             }}
-                                            className='flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full
-                                                text-login-100 transition hover:bg-login-50/10'
-                                        >
-                                            <ChevronDown className={`h-4.5 w-4.5 transition-transform ${expanded ? 'rotate-180' : ''}`} />
-                                        </button>
+                                        />
                                     </div>
                                 </div>
 
@@ -544,7 +536,7 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                                         </div>
                                     </div>
                                 ) : null}
-                            </section>
+                            </Card>
                         )
                     })}
                 </div>

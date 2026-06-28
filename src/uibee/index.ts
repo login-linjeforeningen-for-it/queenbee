@@ -1,1 +1,1 @@
-export { GlassCard, IconBubble, MonoBlock, StatCard } from './card'
+export { Card, IconBubble, MonoBlock, StatCard } from './card'

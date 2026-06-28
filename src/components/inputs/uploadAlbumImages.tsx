@@ -1,6 +1,6 @@
 'use client'
 
-import { Input } from 'uibee/components'
+import { Button, Input } from 'uibee/components'
 import getShareURLs from '@utils/api/workerbee/albums/getShareURLs'
 import compressAlbums from '@utils/api/workerbee/albums/compressAlbums'
 import { toast } from 'uibee/components'
@@ -38,14 +38,10 @@ export default function UploadAlbumImages({ albumId }: { albumId: number }) {
                     onChange={(e) => setFiles(e.target.files ? Array.from(e.target.files) : [])}
                 />
             </div>
-            <button
+            <Button
                 type='button'
                 disabled={isUploading}
-                className={`
-                    flex flex-row gap-2 select-none cursor-pointer bg-login/90 
-                    hover:bg-login/80 rounded-md text-nowrap items-center
-                    disabled:cursor-not-allowed disabled:opacity-50
-                `}
+                icon={isUploading ? <Loader className='animate-spin size-6' /> : <Upload className='size-6' />}
                 onClick={async () => {
                     setIsUploading(true)
 
@@ -79,9 +75,7 @@ export default function UploadAlbumImages({ albumId }: { albumId: number }) {
                         setIsUploading(false)
                     }
                 }}
-            >
-                {isUploading ? <Loader className='animate-spin size-10 p-2' /> : <Upload className='size-10 p-2' />}
-            </button>
+            />
         </div>
     )
 }

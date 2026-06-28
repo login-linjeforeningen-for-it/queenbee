@@ -1,7 +1,6 @@
 import getBackups from '@utils/api/internal/backups/getBackups'
-import Alert from '@components/alert/alert'
+import { Alert, SearchInput } from 'uibee/components'
 import formatAlert from '@components/alert/formatAlert'
-import Search from '@components/inputs/search'
 import BackupAllButton from '@components/internal/backupAllButton'
 import Table from '@components/table/table'
 import prettyDate from '@utils/date/prettyDate'
@@ -137,7 +136,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
             <div className='flex-none'>
                 <h1 className='font-semibold text-lg'>Backup Management</h1>
                 <div className='flex items-center justify-between py-3'>
-                    <Search />
+                    <SearchInput />
                     <div className='flex gap-2'>
                         <BackupAllButton />
                     </div>

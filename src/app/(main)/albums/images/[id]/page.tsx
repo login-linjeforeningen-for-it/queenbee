@@ -1,5 +1,5 @@
 import Album from '@components/album/album'
-import Search from '@components/inputs/search'
+import { SearchInput } from 'uibee/components'
 import UploadAlbumImages from '@components/inputs/uploadAlbumImages'
 import BackButton from '@components/navigation/back'
 import Pagination from '@components/table/pagination'
@@ -34,7 +34,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                         </h1>
                     </div>
                     <div className='flex justify-between items-center pb-10'>
-                        <Search className='w-fit' />
+                        <SearchInput />
                         <UploadAlbumImages albumId={album.id} />
                     </div>
                     {album.images &&

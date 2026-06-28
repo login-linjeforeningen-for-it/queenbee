@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Bar from './bar'
+import { Card } from 'uibee/components'
 
 export default function CombinedMetrics({ title, data, total }: {
     title: string[],
@@ -10,7 +11,7 @@ export default function CombinedMetrics({ title, data, total }: {
     const currentData = data[index]
 
     return (
-        <div className='bg-login-50/5 p-4 rounded-xl border border-white/5 min-h-50 flex flex-col'>
+        <Card className='p-4 min-h-50 flex flex-col'>
             <div className='flex justify-between items-center mb-4'>
                 <div className='flex bg-white/5 p-0.5 rounded-lg border border-white/5'>
                     {title.map((t, i) => (
@@ -38,6 +39,6 @@ export default function CombinedMetrics({ title, data, total }: {
                         total={total} />
                 ))}
             </div>
-        </div>
+        </Card>
     )
 }

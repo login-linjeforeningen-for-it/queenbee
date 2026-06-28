@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { Globe, RefreshCcw, ShieldCheck, TriangleAlert } from 'lucide-react'
+import { Button, Card, StatCard } from 'uibee/components'
 
 type Site = {
     id: number
@@ -83,47 +84,21 @@ export default function LoadBalancingClient({ initialSites }: { initialSites: Si
     return (
         <div className='flex h-full flex-col gap-4 overflow-hidden'>
             <div className='grid gap-4 md:grid-cols-3'>
-                <div className='rounded-2xl border border-white/10 bg-login-50/5 p-4'>
-                    <div className='flex items-center gap-2 text-login-200'>
-                        <ShieldCheck className='h-4 w-4 text-emerald-400' />
-                        Primary site
-                    </div>
-                    <div className='mt-3 text-xl font-semibold text-login-50'>{summary.primary?.name || 'Unset'}</div>
-                    <div className='mt-1 text-xs text-login-200'>{summary.primary?.ip || 'No primary target configured'}</div>
-                </div>
-                <div className='rounded-2xl border border-white/10 bg-login-50/5 p-4'>
-                    <div className='flex items-center gap-2 text-login-200'>
-                        <Globe className='h-4 w-4 text-login' />
-                        Healthy targets
-                    </div>
-                    <div className='mt-3 text-3xl font-semibold text-login-50'>{summary.operational}</div>
-                    <div className='mt-1 text-xs text-login-200'>Operational and not in maintenance</div>
-                </div>
-                <div className='rounded-2xl border border-white/10 bg-login-50/5 p-4'>
-                    <div className='flex items-center gap-2 text-login-200'>
-                        <TriangleAlert className='h-4 w-4 text-amber-400' />
-                        Failover mode
-                    </div>
-                    <div className='mt-3 text-xl font-semibold text-login-50'>
-                        {summary.operational > 1 ? 'Redundant' : 'At risk'}
-                    </div>
-                    <div className='mt-1 text-xs text-login-200'>Use switch-primary to move traffic cleanly</div>
-                </div>
+                <StatCard icon={ShieldCheck} tone='emerald' label='Primary site' value={summary.primary?.name || 'Unset'} />
+                <StatCard icon={Globe} tone='blue' label='Healthy targets' value={String(summary.operational)} />
+                <StatCard icon={TriangleAlert} tone='amber' label='Failover mode' value={summary.operational > 1 ? 'Redundant' : 'At risk'} />
             </div>
 
-            <div className='flex items-center justify-between rounded-2xl border border-white/5 bg-login-50/5 p-4'>
+            <Card className='flex items-center justify-between p-4'>
                 <p className='text-sm text-muted-foreground'>
                     Automatic polling keeps the overview fresh while the backend owns the actual failover state.
                 </p>
-                <button
-                    type='button'
+                <Button
+                    text='Refresh'
+                    icon={<RefreshCcw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />}
                     onClick={() => void refresh()}
-                    className='inline-flex cursor-pointer items-center gap-2 rounded-xl bg-login px-3 py-2 text-sm font-medium text-black'
-                >
-                    <RefreshCcw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-                    Refresh
-                </button>
-            </div>
+                />
+            </Card>
 
             {error && (
                 <div className='rounded-2xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-200'>
@@ -133,7 +108,7 @@ export default function LoadBalancingClient({ initialSites }: { initialSites: Si
 
             <div className='grid gap-4'>
                 {sites.map(site => (
-                    <section key={site.id} className='rounded-2xl border border-white/10 bg-login-900/55 p-4'>
+                    <Card key={site.id} className='p-4'>
                         <div className='flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
                             <div>
                                 <div className='flex flex-wrap items-center gap-2'>
@@ -167,22 +142,16 @@ export default function LoadBalancingClient({ initialSites }: { initialSites: Si
                                 {site.note && <p className='mt-3 text-sm text-login-100'>{site.note}</p>}
                             </div>
                             <div className='flex items-center gap-3'>
-                                <button
+                                <Button
                                     type='button'
+                                    variant='secondary'
                                     disabled={site.primary || switchingId === site.id}
                                     onClick={() => void switchPrimary(site.id)}
-                                    className={`
-                                        inline-flex cursor-pointer items-center
-                                        gap-2 rounded-xl border border-white/10
-                                        px-3 py-2 text-sm font-medium text-login-50
-                                        disabled:cursor-not-allowed disabled:opacity-50
-                                    `}
-                                >
-                                    {switchingId === site.id ? 'Switching...' : site.primary ? 'Serving traffic' : 'Make primary'}
-                                </button>
+                                    text={switchingId === site.id ? 'Switching...' : site.primary ? 'Serving traffic' : 'Make primary'}
+                                />
                             </div>
                         </div>
-                    </section>
+                    </Card>
                 ))}
             </div>
         </div>

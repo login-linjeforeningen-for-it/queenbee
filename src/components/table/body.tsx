@@ -3,7 +3,7 @@ import { BoxesIcon, ChevronDown, Edit, EllipsisVertical, X } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState, useRef, RefObject, useEffect } from 'react'
 import React from 'react'
-import useClickOutside from '@hooks/useClickOutside'
+import { useClickOutside } from 'uibee/hooks'
 import Menu, { MenuButton } from './menu'
 
 type BodyProps = {
