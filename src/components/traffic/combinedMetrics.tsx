@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Bar from './bar'
-import { Card } from 'uibee/components'
+import { Card, Toggle } from 'uibee/components'
 
 export default function CombinedMetrics({ title, data, total }: {
     title: string[],
@@ -13,22 +13,12 @@ export default function CombinedMetrics({ title, data, total }: {
     return (
         <Card className='p-4 min-h-50 flex flex-col'>
             <div className='flex justify-between items-center mb-4'>
-                <div className='flex bg-white/5 p-0.5 rounded-lg border border-white/5'>
-                    {title.map((t, i) => (
-                        <button
-                            key={t}
-                            onClick={() => setIndex(i)}
-                            className={`
-                                px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all
-                                ${index === i
-                            ? 'bg-white/10 text-white shadow-sm'
-                            : 'text-login-200 hover:text-login-100 hover:bg-white/5'}
-                            `}
-                        >
-                            {t}
-                        </button>
-                    ))}
-                </div>
+                <Toggle
+                    value={index}
+                    onChange={(next) => setIndex(next as number)}
+                    left={{ value: 0, text: title[0] }}
+                    right={{ value: 1, text: title[1] }}
+                />
             </div>
             <div className='space-y-2'>
                 {currentData.map((entry) => (

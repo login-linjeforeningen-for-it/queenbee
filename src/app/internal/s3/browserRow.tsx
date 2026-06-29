@@ -25,9 +25,9 @@ export default function BrowserRow({
                         <span className='truncate font-mono text-xs'>{entry.name}</span>
                     </div>
                 </td>
-                <td className='py-2 pr-3 text-muted-foreground'>{isParent ? '' : formatBytes(entry.sizeBytes)}</td>
-                <td className='py-2 pr-3 text-muted-foreground'>{isParent ? '' : `${entry.objectCount} objects`}</td>
-                <td className='py-2 text-muted-foreground'>folder</td>
+                <td className='py-2 pr-3 text-login-300'>{isParent ? '' : formatBytes(entry.sizeBytes)}</td>
+                <td className='py-2 pr-3 text-login-300'>{isParent ? '' : `${entry.objectCount} objects`}</td>
+                <td className='py-2 text-login-300'>folder</td>
             </tr>
         )
     }
@@ -45,9 +45,9 @@ export default function BrowserRow({
                     <span className='truncate font-mono text-xs'>{entry.name}</span>
                 </div>
             </td>
-            <td className='py-2 pr-3 text-muted-foreground'>{entry.object.sizeLabel}</td>
-            <td className='py-2 pr-3 text-muted-foreground'>{formatDateTime(entry.object.lastModified)}</td>
-            <td className='py-2 text-muted-foreground'>{entry.object.storageClass || 'standard'}</td>
+            <td className='py-2 pr-3 text-login-300'>{entry.object.sizeLabel}</td>
+            <td className='py-2 pr-3 text-login-300'>{formatDateTime(entry.object.lastModified)}</td>
+            <td className='py-2 text-login-300'>{entry.object.storageClass || 'standard'}</td>
         </tr>
     )
 }

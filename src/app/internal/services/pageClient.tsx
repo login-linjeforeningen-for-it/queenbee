@@ -1,13 +1,13 @@
 'use client'
 
-import { Alert, Button, SearchInput } from 'uibee/components'
+import { Alert, Button, SearchInput, Select } from 'uibee/components'
 import Table from '@components/table/table'
 import Pagination from '@components/table/pagination'
 import getDocker from '@utils/api/internal/system/getDocker'
 import Conveyer from '@components/update/conveyer'
 import ConveyerStopped from '@components/update/conveyerStopped'
 import { ArrowUpCircle, FishingHook, LoaderCircle, RefreshCcw } from 'lucide-react'
-import { ChangeEvent, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
 type PageClientProps = {
@@ -435,33 +435,21 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
         return () => clearTimeout(timeoutId)
     }, [deploymentRuns])
 
-    function handleAutoRefresh(e: ChangeEvent<HTMLSelectElement>) {
-        const selectedOption = refreshOptions.find(opt => opt.label === e.target.value)
-        if (selectedOption) {
-            setAutoRefresh(selectedOption.value)
-        }
-    }
-
     return (
         <div className='h-full overflow-hidden flex flex-col'>
             <div className='flex-none'>
-                <div className='flex w-full justify-between'>
+                <div className='flex w-full justify-between items-start'>
                     <div className='flex gap-2 items-center'>
                         <h1 className='font-semibold text-lg'>Services</h1>
                     </div>
-                    <div className='flex items-center gap-2'>
-                        <h1 className='font-semibold text-sm'>Autorefresh</h1>
-                        <select
-                            className='text-white/80 rounded-md py-1 px-2 outline-none'
-                            value={refreshOptions.find(opt => opt.value === autoRefresh)?.label || '3s'}
-                            onChange={handleAutoRefresh}
-                        >
-                            {refreshOptions.map(option => (
-                                <option key={option.label} value={option.label}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
+                    <div className='flex items-center gap-2 -mb-4'>
+                        <Select
+                            name='autorefresh'
+                            value={String(autoRefresh)}
+                            onChange={(val) => setAutoRefresh(Number(val))}
+                            options={refreshOptions.map(opt => ({ value: String(opt.value), label: opt.label }))}
+                            placeholder='Refresh'
+                        />
                     </div>
                 </div>
                 <div className='flex w-full justify-between items-center py-2'>

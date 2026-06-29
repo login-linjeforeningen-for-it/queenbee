@@ -44,7 +44,7 @@ export function PageHeader() {
     return (
         <div className='shrink-0'>
             <h1 className='text-xl font-semibold'>S3 Storage</h1>
-            <p className='mt-1 text-sm text-muted-foreground'>Browse buckets, upload files, and manage objects.</p>
+            <p className='mt-1 text-sm text-login-300'>Browse buckets, upload files, and manage objects.</p>
         </div>
     )
 }
@@ -79,7 +79,7 @@ export function TopBar({
             <StatCard icon={HardDrive} label='Total size' tone='violet' value={formatBytes(totalSize)} />
             <StatCard icon={RefreshCcw} label='Status' tone='blue' value={loading ? 'Working' : 'Ready'} />
             <Card className='p-4'>
-                <div className='mb-3 flex min-w-0 items-center gap-2 text-xs text-muted-foreground'>
+                <div className='mb-3 flex min-w-0 items-center gap-2 text-xs text-login-300'>
                     {loading ? <LoaderCircle className='h-4 w-4 shrink-0 animate-spin text-orange-300' /> : null}
                     <span className='truncate'>{status}</span>
                 </div>
@@ -130,7 +130,7 @@ export function BucketList({
         <Card className='flex min-h-0 flex-col overflow-hidden p-4'>
             <div className='mb-3 flex items-center justify-between'>
                 <h2 className='font-semibold'>Buckets</h2>
-                <span className='text-xs text-muted-foreground'>{buckets.length}</span>
+                <span className='text-xs text-login-300'>{buckets.length}</span>
             </div>
             <div className='flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pr-1'>
                 {buckets.map((bucket) => (
@@ -144,7 +144,7 @@ export function BucketList({
                         onClick={() => onSelect(bucket)}
                     >
                         <div className='font-semibold text-white'>{bucket.name}</div>
-                        <div className='mt-1 flex justify-between text-xs text-muted-foreground'>
+                        <div className='mt-1 flex justify-between text-xs text-login-300'>
                             <span>{bucket.objectCount} objects</span>
                             <span>{bucket.sizeLabel}</span>
                         </div>
@@ -222,11 +222,11 @@ export function ObjectTable({
                     <h2 className='font-semibold'>{selectedBucket || 'Select a bucket'}</h2>
                     <Breadcrumb prefix={prefix} onOpenFolder={onOpenFolder} />
                 </div>
-                <span className='text-xs text-muted-foreground'>{entries.length} visible · {filteredCount} objects</span>
+                <span className='text-xs text-login-300'>{entries.length} visible · {filteredCount} objects</span>
             </div>
             <div className='min-h-0 flex-1 overflow-auto'>
                 <table className='w-full min-w-184 text-left text-sm'>
-                    <thead className='sticky top-0 z-10 bg-login-950 text-xs text-muted-foreground'>
+                    <thead className='sticky top-0 z-10 bg-login-950 text-xs text-login-300'>
                         <tr>
                             <th className='py-2 pr-3'>Name</th>
                             <th className='py-2 pr-3'>Size</th>
@@ -271,7 +271,7 @@ export function ObjectActions(props: ObjectActionProps) {
 
 function Breadcrumb({ prefix, onOpenFolder }: { prefix: string, onOpenFolder: (prefix: string) => void }) {
     return (
-        <div className='mt-1 flex min-w-0 flex-wrap items-center gap-2 text-xs text-muted-foreground'>
+        <div className='mt-1 flex min-w-0 flex-wrap items-center gap-2 text-xs text-login-300'>
             <button className='rounded-md border border-white/10 px-2 py-1 hover:bg-login-50/5' onClick={() => onOpenFolder('')}>
                 root
             </button>
@@ -329,7 +329,7 @@ function SelectedObjectCard({ selectedBucket, selectedKey, selectedObject, onDel
             {selectedObject ? (
                 <>
                     <MonoBlock>{selectedObject.key}</MonoBlock>
-                    <div className='grid grid-cols-2 gap-2 text-xs text-muted-foreground'>
+                    <div className='grid grid-cols-2 gap-2 text-xs text-login-300'>
                         <span>Size</span><span className='text-right text-white'>{selectedObject.sizeLabel}</span>
                         <span>Modified</span><span className='text-right text-white'>{formatDate(selectedObject.lastModified)}</span>
                     </div>
@@ -350,7 +350,7 @@ function SelectedObjectCard({ selectedBucket, selectedKey, selectedObject, onDel
                     />
                 </>
             ) : (
-                <p className='text-sm text-muted-foreground'>Select an object to inspect, download, move, copy, or delete it.</p>
+                <p className='text-sm text-login-300'>Select an object to inspect, download, move, copy, or delete it.</p>
             )}
         </Card>
     )

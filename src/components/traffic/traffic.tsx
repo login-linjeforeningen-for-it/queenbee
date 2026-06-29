@@ -109,12 +109,12 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
                                     <Marquee
                                         text={r.domain}
                                         className='w-full max-w-28'
-                                        innerClassName='text-sm text-muted-foreground opacity-70'
+                                        innerClassName='text-sm text-login-300 opacity-70'
                                     />
                                 </div>
                             ),
                             iso: (
-                                <span className='text-xs font-bold text-muted-foreground opacity-70 uppercase tracking-widest'>
+                                <span className='text-xs font-bold text-login-300 opacity-70 uppercase tracking-widest'>
                                     {r.country_iso || '??'}
                                 </span>
                             )
@@ -128,7 +128,7 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
                 <div className='flex flex-col gap-6 pt-2'>
                     {recs.length > 0 && <hr className='border-white/5' />}
 
-                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
                         <StatCard label='Total Requests' value={totalRequests.toLocaleString()} icon={Globe} />
                         <StatCard label='Avg Response' value={avgRequestTime ? `${avgRequestTime}ms` : '—'} icon={Clock} />
                         <StatCard label='Error Rate' value={errorRate ? `${errorRate}%` : '—'} icon={ShieldAlert} />

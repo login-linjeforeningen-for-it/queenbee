@@ -169,7 +169,11 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
         {
             name: 'Monitoring',
             path: '/internal/monitoring',
-            image: <Activity className='w-6' />
+            image: <Activity className='w-6' />,
+            items: [
+                { name: 'Services', path: '/internal/monitoring' },
+                { name: 'Notifications', path: '/internal/monitoring/notifications' },
+            ]
         },
         {
             name: 'Services',

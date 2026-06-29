@@ -1,36 +1,31 @@
 'use client'
 
-import EditService from '@components/status/editService'
-import NewService from '@components/status/newService'
+import ServiceForm from '@components/status/serviceForm'
+import BackButton from '@components/navigation/back'
 import NewTag from '@components/status/newTag'
-import NotificationList from '@components/status/notificationList'
 import ServiceListHeader from '@components/status/serviceListHeader'
 import ServiceStatus from '@components/status/serviceStatus'
 import Statistics from '@components/status/statistics'
 import getNotifications from '@utils/api/beekeeper/services/getNotifications'
 import getServices from '@utils/api/beekeeper/services/getServices'
 import getTags from '@utils/api/beekeeper/services/getTags'
-import { TriangleAlert, Plus, Activity, Edit, X, Columns, Square } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Button, Toggle } from 'uibee/components'
+import { Button } from 'uibee/components'
 import Table from '@components/table/table'
 import Marquee from '@components/shared/marquee'
 import barColor from '@utils/status/barColor'
-import { setCookie } from 'utilbee'
 
 export default function PageClient({
     services: serverServices,
     notifications: serverNotifications,
     tags: serverTags,
-    compressed: serverCompressed
-}: { services: Service[], notifications: ServiceNotification[], tags: Tag[], compressed: boolean }) {
+}: { services: Service[], notifications: ServiceNotification[], tags: Tag[] }) {
     const [services, setServices] = useState<Service[]>(serverServices)
     const [notifications, setNotifications] = useState<ServiceNotification[]>(serverNotifications)
-    const [service, setService] = useState<Service | null>(null)
     const [tags, setTags] = useState<{ id: string, name: string }[]>(serverTags)
     const [input, setInput] = useState('')
     const [stateFilter, setStateFilter] = useState<string[] | null>(null)
-    const [activeFilter, setActiveFilter] = useState<boolean | null>(null)
     const [addingTag, setAddingTag] = useState(false)
     const [selectedTags, setSelectedTags] = useState<string[]>([])
     const [selected, setSelected] = useState<Service | null>(null)
@@ -39,37 +34,23 @@ export default function PageClient({
     const [refresh, setRefresh] = useState(false)
     const [refreshTags, setRefreshTags] = useState(false)
     const [refreshNotifications, setRefreshNotifications] = useState(false)
-    const [viewNotifications, setViewNotifications] = useState(false)
-    const [compressed, setCompressed] = useState(serverCompressed)
 
     function addNewService() {
         setAdding(true)
         setEditing(null)
-        setService(null)
-        setViewNotifications(false)
-    }
-
-    function handleViewNotifications() {
-        setAdding(false)
-        setEditing(null)
-        setSelected(null)
-        setViewNotifications(true)
     }
 
     function dashboard() {
         setAdding(false)
         setEditing(null)
         setSelected(null)
-        setViewNotifications(false)
     }
 
     useEffect(() => {
         if (refresh) {
             (async () => {
                 const response = await getServices()
-                if (Array.isArray(response)) {
-                    setServices(response)
-                }
+                if (Array.isArray(response)) setServices(response)
             })()
         }
     }, [refresh])
@@ -77,11 +58,8 @@ export default function PageClient({
     useEffect(() => {
         const interval = setInterval(async () => {
             const response = await getServices()
-            if (Array.isArray(response)) {
-                setServices(response)
-            }
+            if (Array.isArray(response)) setServices(response)
         }, 30000)
-
         return () => clearInterval(interval)
     }, [])
 
@@ -89,9 +67,7 @@ export default function PageClient({
         if (refreshTags) {
             (async () => {
                 const response = await getTags()
-                if (Array.isArray(response)) {
-                    setTags(response)
-                }
+                if (Array.isArray(response)) setTags(response)
             })()
         }
     }, [refreshTags])
@@ -100,16 +76,13 @@ export default function PageClient({
         if (refreshNotifications) {
             (async () => {
                 const response = await getNotifications()
-                if (Array.isArray(response)) {
-                    setNotifications(response)
-                }
+                if (Array.isArray(response)) setNotifications(response)
             })()
         }
     }, [refreshNotifications])
 
     const filteredServices = services.filter(item => {
         if (input && !item.name.toLowerCase().includes(input.toLowerCase())) return false
-        if (activeFilter !== null && item.enabled !== activeFilter) return false
 
         let status: 'up' | 'down' | 'maintenance' | 'pending' | null
         if (item.bars.length) {
@@ -159,7 +132,7 @@ export default function PageClient({
             ),
             history: (
                 <div className='flex gap-1 h-6 items-center'>
-                    {item.bars.slice((compressed ? 5 : 0), item.bars.length).map((bar, index) => {
+                    {item.bars.slice(5, item.bars.length).map((bar, index) => {
                         let barStat: 'up' | 'down' | 'maintenance' | 'pending' | null
                         if (item.enabled && bar.status) barStat = 'up'
                         else if (item.enabled && !bar.status && bar.expectedDown) barStat = 'maintenance'
@@ -175,42 +148,13 @@ export default function PageClient({
             ),
             uptime: <span className='font-mono'>{Number(item.uptime).toFixed(0)}%</span>,
             tags: item.tags.map(t => t.name).join(', ') || '-',
-            actions: (
-                <div className='flex gap-2 justify-end' onClick={(e) => { e.stopPropagation(); e.preventDefault() }}>
-                    <button
-                        type='button'
-                        onClick={() => setSelected(item)}
-                        className='p-1.5 hover:bg-white/10 rounded-lg transition-colors group'
-                    >
-                        <Activity className='w-4 h-4 text-muted-foreground group-hover:text-login-200' />
-                    </button>
-                    <button
-                        type='button'
-                        onClick={() => setEditing(item)}
-                        className='p-1.5 hover:bg-white/10 rounded-lg transition-colors group'>
-                        <Edit className='w-4 h-4 text-muted-foreground group-hover:text-login-200' />
-                    </button>
-                </div>
-            )
         }
     })
-
-    function handleToggle() {
-        setCompressed((prev) => {
-            if (prev) {
-                setSelected(null)
-            }
-
-            setCookie('monitoringCompressed', prev ? 'false' : 'true')
-            return !prev
-        })
-    }
 
     function openServiceStatus(id: string) {
         const nextSelected = services.find((item) => String(item.id) === id) || null
         setAdding(false)
         setEditing(null)
-        setViewNotifications(false)
         setSelected(nextSelected)
     }
 
@@ -223,47 +167,29 @@ export default function PageClient({
                     setRefresh={setRefreshTags}
                 />
 
-                {(adding || editing || (selected && !compressed) || viewNotifications) ? (
+                {(adding || editing) ? (
                     <div className='flex-1 overflow-y-auto w-full'>
                         <div className='flex flex-col gap-4 md:px-16 md:py-4'>
-                            <div className='flex justify-start w-full'>
-                                <Button
-                                    text='Back to list'
-                                    icon={<X className='w-4 h-4' />}
-                                    variant='secondary'
-                                    onClick={dashboard}
-                                />
-                            </div>
+                            <BackButton onClick={dashboard} />
                             {adding && (
-                                <NewService
+                                <ServiceForm
+                                    mode='create'
                                     services={services}
-                                    service={service}
-                                    setService={setService}
                                     notifications={notifications}
                                     setRefresh={setRefresh}
                                     setAdding={setAdding}
                                     setSelected={setSelected}
-                                    setRefreshNotifications={setRefreshNotifications}
                                 />
                             )}
                             {editing && (
-                                <EditService
+                                <ServiceForm
+                                    mode='edit'
+                                    service={editing}
                                     notifications={notifications}
                                     setRefresh={setRefresh}
-                                    setRefreshNotifications={setRefreshNotifications}
-                                    service={editing}
                                     setEditing={setEditing}
                                     setSelected={setSelected}
                                 />
-                            )}
-                            {selected && !editing && !compressed && (
-                                <ServiceStatus
-                                    service={services.find((s) => s.name === selected?.name)}
-                                    onEdit={setEditing}
-                                />
-                            )}
-                            {viewNotifications && (
-                                <NotificationList notifications={notifications} />
                             )}
                         </div>
                     </div>
@@ -277,18 +203,6 @@ export default function PageClient({
                                         bg-transparent p-2 pt-2.5 pr-2.5'
                                 >
                                     <Button text='Add new service' icon={<Plus className='w-4 h-4' />} onClick={addNewService} />
-                                    <Button
-                                        text='Notifications'
-                                        variant='secondary'
-                                        icon={<TriangleAlert className='w-4 h-4' />}
-                                        onClick={handleViewNotifications}
-                                    />
-                                    <Toggle
-                                        value={compressed}
-                                        onChange={handleToggle}
-                                        left={{ value: true, icon: <Columns className='h-4.5 w-4.5' />, label: 'Compressed' }}
-                                        right={{ value: false, icon: <Square className='h-4.5 w-4.5' />, label: 'Single View' }}
-                                    />
                                 </div>
                             </div>
                         </div>
@@ -297,8 +211,6 @@ export default function PageClient({
                         <ServiceListHeader
                             stateFilter={stateFilter}
                             setStateFilter={setStateFilter}
-                            activeFilter={activeFilter}
-                            setActiveFilter={setActiveFilter}
                             tags={tags}
                             setAddingTag={setAddingTag}
                             setSelectedTags={setSelectedTags}
@@ -310,7 +222,7 @@ export default function PageClient({
                         <div className='flex-1 flex flex-col min-h-10 overflow-hidden'>
                             <Table
                                 list={tableList}
-                                headers={['name', 'status', 'history', 'uptime', 'tags', 'actions']}
+                                headers={['name', 'status', 'history', 'uptime', 'tags']}
                                 hideMenu={true}
                                 onRowClick={openServiceStatus}
                             />
@@ -318,7 +230,7 @@ export default function PageClient({
                     </>
                 )}
             </div>
-            {compressed && !editing && !adding && (
+            {!editing && !adding && (
                 <div className='w-2/3 h-full max-h-full overflow-auto'>
                     <ServiceStatus
                         service={!selected ? services[0] : services.find((s) => s.name === selected?.name)}

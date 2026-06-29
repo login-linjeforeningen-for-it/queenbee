@@ -65,7 +65,7 @@ export default function TestClientPopup({
                 <div className='flex items-center justify-between border-b border-login-100/10 px-6 py-4'>
                     <div>
                         <h2 className='text-xl font-semibold text-login-50'>Test client</h2>
-                        <p className='text-sm text-muted-foreground'>
+                        <p className='text-sm text-login-300'>
                             {client.name} • conversation {conversationId}
                         </p>
                     </div>
@@ -94,7 +94,7 @@ export default function TestClientPopup({
                                         <h3 className='mt-4 font-semibold text-login-50'>
                                             Start a test conversation
                                         </h3>
-                                        <p className='mt-2 text-sm text-muted-foreground'>
+                                        <p className='mt-2 text-sm text-login-300'>
                                             Send a prompt to verify this client responds and watch
                                             the token metrics update while it generates.
                                         </p>

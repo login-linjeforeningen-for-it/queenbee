@@ -6,7 +6,7 @@ type InternalInfoProps = {
 }
 
 export default function InternalInfo({ information }: InternalInfoProps) {
-    const primary = 'text-xs text-muted-foreground uppercase font-semibold'
+    const primary = 'text-xs text-login-300 uppercase font-semibold'
     const secondary = 'text-sm font-medium'
 
     return (

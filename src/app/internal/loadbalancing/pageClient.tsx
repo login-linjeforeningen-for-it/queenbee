@@ -83,14 +83,14 @@ export default function LoadBalancingClient({ initialSites }: { initialSites: Si
 
     return (
         <div className='flex h-full flex-col gap-4 overflow-hidden'>
-            <div className='grid gap-4 md:grid-cols-3'>
+            <div className='grid gap-3 md:grid-cols-3'>
                 <StatCard icon={ShieldCheck} tone='emerald' label='Primary site' value={summary.primary?.name || 'Unset'} />
                 <StatCard icon={Globe} tone='blue' label='Healthy targets' value={String(summary.operational)} />
                 <StatCard icon={TriangleAlert} tone='amber' label='Failover mode' value={summary.operational > 1 ? 'Redundant' : 'At risk'} />
             </div>
 
             <Card className='flex items-center justify-between p-4'>
-                <p className='text-sm text-muted-foreground'>
+                <p className='text-sm text-login-300'>
                     Automatic polling keeps the overview fresh while the backend owns the actual failover state.
                 </p>
                 <Button

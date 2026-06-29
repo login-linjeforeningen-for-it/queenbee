@@ -1,5 +1,6 @@
 import daysTillCertificateExpiry from '@utils/fetch/status/daysTillCertificateExpiry'
 import { CheckCircle, CircleAlert } from 'lucide-react'
+import { LeftBarPanel } from 'uibee/components'
 
 export default function CertificateStatus({ service }: { service: Service }) {
     if (!service.certificate) {
@@ -7,32 +8,29 @@ export default function CertificateStatus({ service }: { service: Service }) {
     }
 
     const soonToExpire = daysTillCertificateExpiry(service.certificate as Certificate) < 30
-    const baseStyle = 'cursor-pointer text-sm outline rounded-lg px-2 items-center flex gap-2 select-none'
 
     if (service.certificate.valid) {
         return (
-            <button className={`
-                    bg-green-500/50 hover:bg-green-500/70 ${baseStyle}
-                    outline-green-500/90 hover:outline-green-500
-            `}>
-                <CheckCircle className='stroke-green-500 w-5' /> Valid Certificate
-            </button>
+            <LeftBarPanel color='border-l-green-500' className='flex items-center gap-2 px-2.5 py-1.5 text-sm text-green-300'>
+                <CheckCircle className='w-4 h-4 stroke-green-400' />
+                <span>Valid Certificate</span>
+            </LeftBarPanel>
         )
     }
 
     if (soonToExpire) {
         return (
-            <button className={`
-                bg-red-500/50 hover:bg-red-500/70 ${baseStyle}
-                outline-red-500/90 hover:outline-red-500
-            `}><CircleAlert className='stroke-red-500 w-5' /> Certificate expires in less than a month</button>
+            <LeftBarPanel color='border-l-red-500' className='flex items-center gap-2 px-2.5 py-1.5 text-sm text-red-300'>
+                <CircleAlert className='w-4 h-4 stroke-red-400' />
+                <span>Expires in under 30 days</span>
+            </LeftBarPanel>
         )
     }
 
     return (
-        <button className={`
-            bg-red-500/50 hover:bg-red-500/70 ${baseStyle}
-            outline-red-500/90 hover:outline-red-500
-        `}><CircleAlert className='stroke-red-500 w-5' /> Invalid Certificate</button>
+        <LeftBarPanel color='border-l-red-500' className='flex items-center gap-2 px-2.5 py-1.5 text-sm text-red-300'>
+            <CircleAlert className='w-4 h-4 stroke-red-400' />
+            <span>Invalid Certificate</span>
+        </LeftBarPanel>
     )
 }

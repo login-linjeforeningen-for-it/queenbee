@@ -1,9 +1,10 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { AlertTriangle, ChevronDown, RefreshCcw, ServerCrash, TerminalSquare } from 'lucide-react'
-import { Button, Card, Toggle } from 'uibee/components'
+import { Activity, AlertTriangle, Layers3, RefreshCcw, Search, ServerCrash, TerminalSquare } from 'lucide-react'
+import { Button, Card, Input, LeftBarPanel, Select, StatCard, Toggle } from 'uibee/components'
 import { parseLogsHash } from '@utils/logsNavigation'
+import ExpandableCard from '@components/shared/expandableCard'
 
 type LogEntry = {
     fingerprint: string
@@ -52,52 +53,54 @@ const DEFAULT_TAIL = 200
 const EMPTY_LOGS_PAYLOAD: LogsPayload = {
     server: 'Loading...',
     checkedAt: '',
-    filters: {
-        level: DEFAULT_LOG_LEVEL,
-        tail: DEFAULT_TAIL,
-    },
+    filters: { level: DEFAULT_LOG_LEVEL, tail: DEFAULT_TAIL },
     totalContainers: 0,
     containers: [],
 }
 
 function formatRelativeTime(timestamp: string | null) {
-    if (!timestamp) {
-        return 'Unknown'
-    }
-
+    if (!timestamp) return 'Unknown'
     const parsed = new Date(timestamp)
-    if (Number.isNaN(parsed.getTime())) {
-        return 'Unknown'
-    }
-
+    if (Number.isNaN(parsed.getTime())) return 'Unknown'
     const diffMs = Date.now() - parsed.getTime()
     const seconds = Math.max(0, Math.floor(diffMs / 1000))
-    if (seconds < 60) {
-        return `${seconds}s ago`
-    }
-
+    if (seconds < 60) return `${seconds}s ago`
     const minutes = Math.floor(seconds / 60)
     const restSeconds = seconds % 60
-    if (minutes < 60) {
-        return restSeconds ? `${minutes}m ${restSeconds}s ago` : `${minutes}m ago`
-    }
-
+    if (minutes < 60) return restSeconds ? `${minutes}m ${restSeconds}s ago` : `${minutes}m ago`
     const hours = Math.floor(minutes / 60)
     const restMinutes = minutes % 60
     return restMinutes ? `${hours}h ${restMinutes}m ago` : `${hours}h ago`
 }
 
 function getTimestampMs(timestamp: string | null) {
-    if (!timestamp) {
-        return 0
-    }
-
+    if (!timestamp) return 0
     const parsed = new Date(timestamp).getTime()
     return Number.isNaN(parsed) ? 0 : parsed
 }
 
 function getLatestEntryTimestamp(entries: LogEntry[]) {
     return entries.reduce((latest, entry) => Math.max(latest, getTimestampMs(entry.timestamp)), 0)
+}
+
+function getSourceTone(sourceType: LogContainer['sourceType']) {
+    switch (sourceType) {
+        case 'deployment': return 'border-cyan-500/20 bg-cyan-500/10 text-cyan-200'
+        case 'journal': return 'border-violet-500/20 bg-violet-500/10 text-violet-200'
+        case 'file': return 'border-emerald-500/20 bg-emerald-500/10 text-emerald-200'
+        case 'history': return 'border-amber-500/20 bg-amber-500/10 text-amber-200'
+        default: return 'border-login-100/10 bg-login-50/5 text-login-100'
+    }
+}
+
+function formatSourceType(sourceType: LogContainer['sourceType']) {
+    switch (sourceType) {
+        case 'deployment': return 'Deploy'
+        case 'journal': return 'Journal'
+        case 'file': return 'File'
+        case 'history': return 'History'
+        default: return 'Container'
+    }
 }
 
 export default function LogsPageClient({ initialData }: { initialData?: LogsPayload }) {
@@ -116,46 +119,37 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
     )
 
     const serviceOptions = useMemo(() =>
-        Array.from(new Set(data.containers.map(container => container.service))).sort((a, b) => a.localeCompare(b))
+        Array.from(new Set(data.containers.map(c => c.service))).sort((a, b) => a.localeCompare(b))
     , [data.containers])
 
     const groupedServices = useMemo<ServiceGroup[]>(() => {
         const groups = new Map<string, ServiceGroup>()
-
         data.containers.forEach((container) => {
-            const normalizedContainer = {
+            const normalized = {
                 ...container,
-                entries: [...container.entries].sort((left, right) =>
-                    getTimestampMs(right.timestamp) - getTimestampMs(left.timestamp)
-                )
+                entries: [...container.entries].sort((l, r) => getTimestampMs(r.timestamp) - getTimestampMs(l.timestamp)),
             }
             const existing = groups.get(container.service)
             if (existing) {
-                existing.sources.push(normalizedContainer)
-                existing.matchedLines += normalizedContainer.matchedLines
+                existing.sources.push(normalized)
+                existing.matchedLines += normalized.matchedLines
                 return
             }
-
-            groups.set(normalizedContainer.service, {
-                service: normalizedContainer.service,
-                matchedLines: normalizedContainer.matchedLines,
-                sources: [normalizedContainer],
-            })
+            groups.set(normalized.service, { service: normalized.service, matchedLines: normalized.matchedLines, sources: [normalized] })
         })
-
         return Array.from(groups.values())
-            .sort((left, right) =>
-                Math.max(...right.sources.map((source) => getLatestEntryTimestamp(source.entries)))
-                - Math.max(...left.sources.map((source) => getLatestEntryTimestamp(source.entries)))
-                || right.matchedLines - left.matchedLines
-                || left.service.localeCompare(right.service)
+            .sort((l, r) =>
+                Math.max(...r.sources.map(s => getLatestEntryTimestamp(s.entries)))
+                - Math.max(...l.sources.map(s => getLatestEntryTimestamp(s.entries)))
+                || r.matchedLines - l.matchedLines
+                || l.service.localeCompare(r.service)
             )
             .map(group => ({
                 ...group,
-                sources: group.sources.sort((left, right) =>
-                    getLatestEntryTimestamp(right.entries) - getLatestEntryTimestamp(left.entries)
-                    || right.matchedLines - left.matchedLines
-                    || left.name.localeCompare(right.name)
+                sources: group.sources.sort((l, r) =>
+                    getLatestEntryTimestamp(r.entries) - getLatestEntryTimestamp(l.entries)
+                    || r.matchedLines - l.matchedLines
+                    || l.name.localeCompare(r.name)
                 ),
             }))
     }, [data.containers])
@@ -172,39 +166,19 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
     }
 
     function toggleContainer(serviceName: string) {
-        setExpandedServices((prev) => ({
-            ...prev,
-            [serviceName]: !prev[serviceName],
-        }))
+        setExpandedServices(prev => ({ ...prev, [serviceName]: !prev[serviceName] }))
     }
 
     async function refresh(nextService = service, nextSearch = search, nextLevel = level) {
         setLoading(true)
         setError(null)
-
         try {
-            const params = new URLSearchParams({
-                level: nextLevel,
-                tail: '200',
-            })
-
-            if (nextService.trim()) {
-                params.set('service', nextService.trim())
-            }
-
-            if (nextSearch.trim()) {
-                params.set('search', nextSearch.trim())
-            }
-
-            const response = await fetch(`/api/internal/logs?${params.toString()}`, {
-                cache: 'no-store'
-            })
-
+            const params = new URLSearchParams({ level: nextLevel, tail: '200' })
+            if (nextService.trim()) params.set('service', nextService.trim())
+            if (nextSearch.trim()) params.set('search', nextSearch.trim())
+            const response = await fetch(`/api/internal/logs?${params.toString()}`, { cache: 'no-store' })
             const payload = await response.json()
-            if (!response.ok) {
-                throw new Error(payload.error || 'Failed to load logs')
-            }
-
+            if (!response.ok) throw new Error(payload.error || 'Failed to load logs')
             setData(payload)
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to load logs')
@@ -214,329 +188,197 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
     }
 
     useEffect(() => {
-        if (initialData) {
-            return
-        }
-
+        if (initialData) return
         void refresh('', '', DEFAULT_LOG_LEVEL)
     }, [])
 
     useEffect(() => {
-        if (!live) {
-            return
-        }
-
-        const timer = setInterval(() => {
-            void refresh()
-        }, 5000)
-
+        if (!live) return
+        const timer = setInterval(() => { void refresh() }, 5000)
         return () => clearInterval(timer)
     }, [live, service, search, level])
 
     useEffect(() => {
-        if (typeof window === 'undefined') {
-            return
-        }
-
-        const updateHashTarget = () => {
-            setHashTarget(parseLogsHash(window.location.hash))
-        }
-
+        if (typeof window === 'undefined') return
+        const updateHashTarget = () => setHashTarget(parseLogsHash(window.location.hash))
         updateHashTarget()
         window.addEventListener('hashchange', updateHashTarget)
         return () => window.removeEventListener('hashchange', updateHashTarget)
     }, [])
 
     useEffect(() => {
-        if (!hashTarget) {
-            return
-        }
-
-        const targetSource = data.containers.find(container => container.id === hashTarget.sourceId)
-        if (!targetSource) {
-            return
-        }
-
-        setExpandedServices(prev => ({
-            ...prev,
-            [targetSource.service]: true,
-        }))
-
+        if (!hashTarget) return
+        const targetSource = data.containers.find(c => c.id === hashTarget.sourceId)
+        if (!targetSource) return
+        setExpandedServices(prev => ({ ...prev, [targetSource.service]: true }))
         const targetElementId = hashTarget.entryFingerprint
             ? `log-entry-${targetSource.id}-${hashTarget.entryFingerprint}`
             : `log-source-${targetSource.id}`
-
         const timer = window.setTimeout(() => {
-            const targetElement = document.getElementById(targetElementId)
-                || document.getElementById(`log-source-${targetSource.id}`)
-            targetElement?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+            const el = document.getElementById(targetElementId) || document.getElementById(`log-source-${targetSource.id}`)
+            el?.scrollIntoView({ block: 'center', behavior: 'smooth' })
         }, 80)
-
         return () => window.clearTimeout(timer)
     }, [data.containers, hashTarget])
 
-    function getSourceTone(sourceType: LogContainer['sourceType']) {
-        switch (sourceType) {
-            case 'deployment':
-                return 'border-cyan-500/20 bg-cyan-500/10 text-cyan-200'
-            case 'journal':
-                return 'border-violet-500/20 bg-violet-500/10 text-violet-200'
-            case 'file':
-                return 'border-emerald-500/20 bg-emerald-500/10 text-emerald-200'
-            case 'history':
-                return 'border-amber-500/20 bg-amber-500/10 text-amber-200'
-            default:
-                return 'border-login-100/10 bg-login-50/5 text-login-100'
-        }
-    }
-
-    function formatSourceType(sourceType: LogContainer['sourceType']) {
-        switch (sourceType) {
-            case 'deployment':
-                return 'Deploy'
-            case 'journal':
-                return 'Journal'
-            case 'file':
-                return 'File'
-            case 'history':
-                return 'History'
-            default:
-                return 'Container'
-        }
-    }
-
     return (
         <div className='flex h-full flex-col overflow-hidden'>
-            <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-4'>
-                <Card className='p-4'>
-                    <div className='mb-3 flex items-center gap-3'>
-                        <div className='rounded-lg bg-red-500/10 p-2'>
-                            <AlertTriangle className='h-4 w-4 text-red-400' />
-                        </div>
-                        <span className='text-sm font-medium text-login-200'>
-                            {level === 'error' ? 'Error entries' : 'Log entries'}
-                        </span>
-                    </div>
-                    <div className='truncate text-lg font-semibold text-login-50'>{summary.totalEntries}</div>
-                    <div className='mt-2 text-xs text-login-200'>
-                        {level === 'error' ? 'Focused on recent error logs only' : 'Showing recent log activity across sources'}
-                    </div>
-                </Card>
-                <Card className='p-4'>
-                    <div className='mb-3 flex items-center gap-3'>
-                        <div className='rounded-lg bg-login/10 p-2'>
-                            <TerminalSquare className='h-4 w-4 text-login' />
-                        </div>
-                        <span className='text-sm font-medium text-login-200'>Server</span>
-                    </div>
-                    <div className='truncate text-lg font-semibold text-login-50' title={data.server}>{data.server}</div>
-                    <div className='mt-2 text-xs text-login-200'>Updated {formatRelativeTime(data.checkedAt)}</div>
-                </Card>
-                <Card className='p-4'>
-                    <div className='mb-3 flex items-center gap-3'>
-                        <div className='rounded-lg bg-amber-500/10 p-2'>
-                            <ServerCrash className='h-4 w-4 text-amber-400' />
-                        </div>
-                        <span className='text-sm font-medium text-login-200'>Noisiest service</span>
-                    </div>
-                    <div className='truncate text-lg font-semibold text-login-50' title={summary.topService?.service || 'Quiet'}>
-                        {summary.topService?.service || 'Quiet'}
-                    </div>
-                    <div className='mt-2 text-xs text-login-200'>
-                        {summary.topService ? `${summary.topService.matchedLines} matching lines` : 'No recent matches'}
-                    </div>
-                </Card>
-                <Card className='p-4'>
-                    <div className='mb-3 flex items-center gap-3'>
-                        <div className='rounded-lg bg-violet-500/10 p-2'>
-                            <ServerCrash className='h-4 w-4 text-violet-400' />
-                        </div>
-                        <span className='text-sm font-medium text-login-200'>Extra sources</span>
-                    </div>
-                    <div className='truncate text-lg font-semibold text-login-50'>
-                        {summary.hostSources}
-                    </div>
-                    <div className='mt-2 text-xs text-login-200'>
-                        Host, journal, deploy, and shell sources mixed into the stream
-                    </div>
-                </Card>
+            <div className='flex-none grid gap-3 md:grid-cols-2 xl:grid-cols-4'>
+                <StatCard
+                    label={level === 'error' ? 'Error entries' : 'Log entries'}
+                    value={String(summary.totalEntries)}
+                    icon={AlertTriangle}
+                    tone='rose'
+                />
+                <StatCard
+                    label='Server'
+                    value={data.server}
+                    icon={TerminalSquare}
+                    tone='orange'
+                />
+                <StatCard
+                    label='Noisiest service'
+                    value={summary.topService?.service || 'Quiet'}
+                    icon={ServerCrash}
+                    tone='amber'
+                />
+                <StatCard
+                    label='Extra sources'
+                    value={String(summary.hostSources)}
+                    icon={Layers3}
+                    tone='violet'
+                />
             </div>
 
-            <div className='flex items-center justify-between gap-3 py-3'>
-                <div className='flex flex-wrap items-center gap-3 xl:flex-nowrap'>
-                    <select
-                        value={service}
-                        onChange={(event) => {
-                            const nextService = event.target.value
-                            setService(nextService)
-                            void refresh(nextService, search, level)
+            <div className='flex-none flex flex-wrap items-center gap-3 py-3'>
+                <div className='w-56 shrink-0 -mb-4'>
+                    <Select
+                        name='service'
+                        value={service || null}
+                        onChange={(value) => {
+                            const next = value ? String(value) : ''
+                            setService(next)
+                            void refresh(next, search, level)
                         }}
-                        className='h-10 min-w-56 cursor-pointer rounded-xl border border-white/10
-                            bg-login-50/5 px-3 text-sm text-login-50 outline-none'
-                    >
-                        <option value=''>All services</option>
-                        {serviceOptions.map((option) => (
-                            <option key={option} value={option}>{option}</option>
-                        ))}
-                    </select>
-                    <input
-                        value={search}
-                        onChange={(event) => setSearch(event.target.value)}
-                        placeholder='Search log text'
-                        className='h-10 min-w-72 flex-1 rounded-xl border border-white/10
-                            bg-login-50/5 px-3 text-sm text-login-50 outline-none'
-                    />
-                    <Toggle
-                        value={level}
-                        onChange={(next) => {
-                            const nextLevel = next as LogLevel
-                            setLevel(nextLevel)
-                            void refresh(service, search, nextLevel)
-                        }}
-                        left={{ value: 'error', text: 'Errors' }}
-                        right={{ value: 'all', text: 'All logs' }}
-                    />
-                    <Toggle
-                        value={viewMode}
-                        onChange={(next) => setViewMode(next as ViewMode)}
-                        left={{ value: 'compact', text: 'Compact' }}
-                        right={{ value: 'expanded', text: 'Expanded' }}
-                    />
-                    <label className='flex cursor-pointer items-center gap-2 text-sm text-login-100'>
-                        <input type='checkbox' checked={live} onChange={() => setLive(prev => !prev)} />
-                        Live refresh
-                    </label>
-                    <Button
-                        type='button'
-                        text='Refresh'
-                        icon={<RefreshCcw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />}
-                        onClick={() => void refresh()}
+                        options={serviceOptions.map(s => ({ value: s, label: s }))}
+                        placeholder='All services'
                     />
                 </div>
+                <div className='min-w-64 flex-1 -mb-4'>
+                    <Input
+                        name='search'
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        onKeyDown={(e) => { if (e.key === 'Enter') void refresh(service, search, level) }}
+                        placeholder='Search log text'
+                        icon={<Search className='w-5 h-5' />}
+                    />
+                </div>
+                <Toggle
+                    value={level}
+                    onChange={(next) => {
+                        const nextLevel = next as LogLevel
+                        setLevel(nextLevel)
+                        void refresh(service, search, nextLevel)
+                    }}
+                    left={{ value: 'error', text: 'Errors' }}
+                    right={{ value: 'all', text: 'All logs' }}
+                />
+                <Toggle
+                    value={viewMode}
+                    onChange={(next) => setViewMode(next as ViewMode)}
+                    left={{ value: 'compact', text: 'Compact' }}
+                    right={{ value: 'expanded', text: 'Expanded' }}
+                />
+                <Toggle
+                    value={live}
+                    onChange={(next) => setLive(next as boolean)}
+                    left={{ value: false, text: 'Static' }}
+                    right={{ value: true, text: 'Live' }}
+                />
+                <Button
+                    type='button'
+                    text='Refresh'
+                    icon={<RefreshCcw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />}
+                    onClick={() => void refresh()}
+                />
             </div>
-            {error ? <p className='mb-3 rounded-xl border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-200'>{error}</p> : null}
+
+            {error && (
+                <div className='flex-none mb-3 rounded-2xl border border-red-500/20 bg-red-500/8 p-5 text-sm text-red-300'>
+                    {error}
+                </div>
+            )}
 
             <div className='flex-1 overflow-y-auto'>
-                <div className='grid gap-4'>
-                    {groupedServices.length === 0 ? (
-                        <Card className='p-6 text-sm text-login-100'>
+                <div className='flex flex-col gap-3'>
+                    {groupedServices.length === 0 && (
+                        <div className='rounded-lg border border-dashed border-white/8 p-3 text-xs text-login-300'>
                             {level === 'error' ? 'No matching error logs right now.' : 'No matching logs right now.'}
-                        </Card>
-                    ) : null}
+                        </div>
+                    )}
 
                     {groupedServices.map((group) => {
                         const expanded = isExpanded(group.service)
+                        const subtitle = `${group.matchedLines} ${level === 'error' ? 'error' : 'matching'} lines · ${group.sources.length} ${group.sources.length === 1 ? 'source' : 'sources'}`
 
                         return (
-                            <Card
+                            <ExpandableCard
                                 key={group.service}
-                                className='px-5 py-4'
+                                icon={Activity}
+                                iconTone='orange'
+                                title={group.service}
+                                subtitle={subtitle}
+                                trailing={
+                                    <LeftBarPanel color='border-l-red-500' className='flex items-center gap-2.5 px-2.5 py-1.5'>
+                                        <span className='text-sm font-bold text-login-50'>{group.matchedLines}</span>
+                                        <span className='text-[10px] font-semibold uppercase tracking-[0.15em] text-login-300'>
+                                            {level === 'error' ? 'Errors' : 'Lines'}
+                                        </span>
+                                    </LeftBarPanel>
+                                }
+                                isExpanded={expanded}
+                                onToggle={() => toggleContainer(group.service)}
                             >
-                                <div
-                                    role='button'
-                                    tabIndex={0}
-                                    onClick={() => toggleContainer(group.service)}
-                                    onKeyDown={(event) => {
-                                        if (event.key === 'Enter' || event.key === ' ') {
-                                            event.preventDefault()
-                                            toggleContainer(group.service)
-                                        }
-                                    }}
-                                    aria-expanded={expanded}
-                                    aria-label={expanded ? `Collapse ${group.service}` : `Expand ${group.service}`}
-                                    className='flex cursor-pointer flex-wrap items-center justify-between gap-3'
-                                >
-                                    <div>
-                                        <div className='flex flex-wrap items-center gap-2'>
-                                            <h2 className='text-base font-semibold text-login-50'>{group.service}</h2>
-                                            <span className='text-xs text-muted-foreground'>
-                                                {group.sources.length} {group.sources.length === 1 ? 'source' : 'sources'}
-                                            </span>
-                                        </div>
-                                        <p className='mt-1 text-xs text-muted-foreground'>
-                                            {group.matchedLines} error lines
-                                        </p>
-                                    </div>
-                                    <div className='flex items-center gap-3'>
-                                        <div className={`
-                                            rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1
-                                            text-xs font-semibold text-red-300
-                                        `}>
-                                            {group.matchedLines}
-                                        </div>
-                                        <Button
-                                            variant='secondary'
-                                            icon={<ChevronDown className={`h-4.5 w-4.5 transition-transform ${expanded ? 'rotate-180' : ''}`} />}
-                                            onClick={(event) => {
-                                                event.stopPropagation()
-                                                toggleContainer(group.service)
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-
-                                {expanded ? (
-                                    <div className='mt-4 border-t border-white/5 pt-4'>
-                                        <div className='grid gap-4'>
-                                            {group.sources.map((container) => (
-                                                <div
-                                                    key={container.id}
-                                                    id={`log-source-${container.id}`}
-                                                    className='overflow-hidden rounded-xl border border-white/5 bg-login-950/30'
-                                                >
-                                                    <div className={`
-                                                        flex flex-wrap items-center 
-                                                        justify-between gap-3 border-b
-                                                        border-white/5 px-4 py-3
-                                                    `}>
-                                                        <div>
-                                                            <div className='flex flex-wrap items-center gap-2'>
-                                                                <div className='text-sm font-semibold text-login-50'>
-                                                                    {container.name}
-                                                                </div>
-                                                                <span className={`
-                                                                    rounded-full border px-2 py-1 text-[10px] font-semibold
-                                                                    uppercase tracking-[0.14em] ${getSourceTone(container.sourceType)}
-                                                                `}>
-                                                                    {formatSourceType(container.sourceType)}
-                                                                </span>
-                                                            </div>
-                                                            <div className={`
-                                                                mt-1 flex flex-wrap items-center gap-2
-                                                                text-xs text-muted-foreground
-                                                            `}>
-                                                                <span>{container.status}</span>
-                                                                <span>{container.matchedLines} matching lines</span>
-                                                                <span>{container.service}</span>
-                                                            </div>
-                                                        </div>
+                                <div className='flex flex-col gap-3'>
+                                    {group.sources.map((container) => (
+                                        <Card key={container.id} className='overflow-hidden'>
+                                            <div
+                                                id={`log-source-${container.id}`}
+                                                className='flex flex-wrap items-center gap-3 border-b border-white/5 px-4 py-3'
+                                            >
+                                                <div className='min-w-0 flex-1'>
+                                                    <div className='flex flex-wrap items-center gap-2'>
+                                                        <span className='font-semibold text-login-50'>{container.name}</span>
+                                                        <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${getSourceTone(container.sourceType)}`}>
+                                                            {formatSourceType(container.sourceType)}
+                                                        </span>
                                                     </div>
-                                                    <div className='max-h-112 overflow-y-auto px-4 py-3 font-mono text-xs'>
-                                                        {container.entries.map((entry, index) => (
-                                                            <div
-                                                                key={`${container.id}-${index}`}
-                                                                id={`log-entry-${container.id}-${entry.fingerprint}`}
-                                                                className={`
-                                                                    grid grid-cols-[max-content_1fr]
-                                                                    gap-3 border-b border-white/5
-                                                                    py-2 last:border-b-0
-                                                                `}
-                                                            >
-                                                                <span className='text-login-200/70'>
-                                                                    {entry.timestamp ? formatRelativeTime(entry.timestamp) : entry.level}
-                                                                </span>
-                                                                <span className={entry.isError ? 'text-red-200' : 'text-login-50'}>
-                                                                    {entry.message}
-                                                                </span>
-                                                            </div>
-                                                        ))}
+                                                    <div className='mt-0.5 text-xs text-login-300'>
+                                                        {container.status} &middot; {container.matchedLines} matching lines
                                                     </div>
                                                 </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ) : null}
-                            </Card>
+                                            </div>
+                                            <div className='max-h-112 overflow-y-auto px-4 py-3 font-mono text-xs'>
+                                                {container.entries.map((entry, index) => (
+                                                    <div
+                                                        key={`${container.id}-${index}`}
+                                                        id={`log-entry-${container.id}-${entry.fingerprint}`}
+                                                        className='grid grid-cols-[max-content_1fr] gap-3 border-b border-white/5 py-2 last:border-b-0'
+                                                    >
+                                                        <span className='text-login-300'>
+                                                            {entry.timestamp ? formatRelativeTime(entry.timestamp) : entry.level}
+                                                        </span>
+                                                        <span className={entry.isError ? 'text-red-200' : 'text-login-50'}>
+                                                            {entry.message}
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </Card>
+                                    ))}
+                                </div>
+                            </ExpandableCard>
                         )
                     })}
                 </div>

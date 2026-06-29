@@ -1,7 +1,7 @@
 import type { GetVulnerabilities } from '@utils/api/internal/vulnerabilities/get'
 import type { ScanNotice } from './types'
 import { CircleAlert, Container, Layers3, LoaderCircle, ShieldAlert, ShieldCheck } from 'lucide-react'
-import { Card, IconBubble, StatCard } from 'uibee/components'
+import { IconBubble, StatCard } from 'uibee/components'
 import { formatEta } from './helpers'
 
 export default function SummaryGrid({
@@ -29,9 +29,9 @@ export default function SummaryGrid({
             <div className='flex flex-row justify-between'>
                 <h1 className='font-semibold text-lg'>Vulnerabilities</h1>
             </div>
-            <div className='mt-4 grid md:grid-cols-2 lg:grid-cols-4 gap-4'>
+            <div className='mt-4 grid md:grid-cols-2 lg:grid-cols-4 gap-3'>
                 <StatCard label='Images' value={String(data?.imageCount || 0)} icon={Container} tone='blue' />
-                <Card className='p-4'>
+                <div className='rounded-xl bg-login-50/5 p-4'>
                     <div className='flex items-center gap-3 mb-3'>
                         <IconBubble icon={statusIcon} tone={statusTone} />
                         <span className='text-sm font-medium text-login-200 capitalize'>Status</span>
@@ -67,7 +67,7 @@ export default function SummaryGrid({
                             {notice.message}
                         </div>
                     )}
-                </Card>
+                </div>
                 <StatCard
                     label='Last scan'
                     value={scanStatus.finishedAt

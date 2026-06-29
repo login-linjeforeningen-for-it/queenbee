@@ -8,7 +8,7 @@ export default function GPT_EmptyState() {
                 <Bot className='h-6 w-6' />
             </div>
             <h2 className='mt-4 font-semibold text-login-50'>No GPTs connected</h2>
-            <p className='mt-2 text-sm text-muted-foreground'>The dashboard will populate automatically when a client joins the room.</p>
+            <p className='mt-2 text-sm text-login-300'>The dashboard will populate automatically when a client joins the room.</p>
         </Card>
     )
 }

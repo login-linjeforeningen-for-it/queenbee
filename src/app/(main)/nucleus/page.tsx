@@ -292,7 +292,7 @@ export default function page() {
                     <h1 className='text-2xl font-bold tracking-tight text-foreground'>
                         Nucleus
                     </h1>
-                    <p className='text-muted-foreground text-base mt-1'>
+                    <p className='text-login-300 text-base mt-1'>
                         Send a notification to the Login App
                     </p>
                 </div>

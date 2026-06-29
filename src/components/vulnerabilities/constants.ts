@@ -17,3 +17,11 @@ export const severityClasses: Record<SeverityLevel, string> = {
     low: 'bg-sky-500/10 text-sky-300',
     unknown: 'bg-login-50/5 text-login-200',
 }
+
+export const severityBarClasses: Record<SeverityLevel, string> = {
+    critical: 'border-l-red-500',
+    high: 'border-l-orange-500',
+    medium: 'border-l-amber-500',
+    low: 'border-l-green-500',
+    unknown: 'border-l-login-400',
+}

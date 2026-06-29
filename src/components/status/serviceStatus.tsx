@@ -35,7 +35,7 @@ export default function ServiceStatus({ service, onEdit }: ServiceStatusProps) {
 
             <div className='overflow-x-auto rounded-lg border border-white/5'>
                 <table className='w-full text-sm text-left'>
-                    <thead className='text-xs text-muted-foreground uppercase bg-black/20'>
+                    <thead className='text-xs text-login-300 uppercase bg-black/20'>
                         <tr>
                             <th className='px-4 py-3 font-medium w-1/4'>Name</th>
                             <th className='px-4 py-3 font-medium w-1/6'>Status</th>
@@ -69,7 +69,7 @@ export default function ServiceStatus({ service, onEdit }: ServiceStatusProps) {
 
                             return (
                                 <tr key={index} className='hover:bg-white/5 transition-colors'>
-                                    <td className='px-4 py-3 font-medium text-foreground truncate max-w-xs'>{service.name}</td>
+                                    <td className='px-4 py-3 font-medium text-login-50 truncate max-w-xs'>{service.name}</td>
                                     <td className='px-4 py-3'>
                                         <span className={`
                                             inline-flex items-center justify-center
@@ -79,8 +79,8 @@ export default function ServiceStatus({ service, onEdit }: ServiceStatusProps) {
                                             {status}
                                         </span>
                                     </td>
-                                    <td className='px-4 py-3 text-muted-foreground'>{smallDate(bar.timestamp)}</td>
-                                    <td className='px-4 py-3 text-muted-foreground wrap-break-word'>{bar.note}</td>
+                                    <td className='px-4 py-3 text-login-300'>{smallDate(bar.timestamp)}</td>
+                                    <td className='px-4 py-3 text-login-300 wrap-break-word'>{bar.note}</td>
                                 </tr>
                             )
                         })}

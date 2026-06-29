@@ -58,7 +58,7 @@ export default function MultiSelect({
                 className={`
                     flex cursor-pointer items-center justify-between gap-2
                     rounded bg-login-50/5 px-2 py-[9.75px] min-w-fit select-none
-                    outline outline-white/10 hover:bg-login-50/15 mt-px
+                    outline outline-white/10 hover:bg-login-50/15
                 `}
             >
                 <div className='flex flex-wrap gap-1'>

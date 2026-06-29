@@ -25,11 +25,11 @@ export default function ScanToolbar(props: Props) {
 
     return (
         <div className='flex items-center justify-between gap-3 py-3'>
-            <div className='-mb-5 min-w-80 max-w-[28rem]'>
+            <div className='min-w-80 max-w-[28rem]'>
                 <SearchInput />
             </div>
             <div className='flex shrink-0 items-center gap-2'>
-                <div className='mr-2 hidden text-sm text-muted-foreground lg:block'>
+                <div className='mr-2 hidden text-sm text-login-300 lg:block'>
                     Showing {props.sorting.images.length} of {props.data?.images.length || 0} images
                 </div>
                 <Toggle

@@ -22,7 +22,7 @@ export default function ImageFindings({ image }: { image: ImageVulnerabilityRepo
     }, [image.image])
 
     return (
-        <div className='flex flex-col h-80'>
+        <div className='flex flex-col'>
             <div className='flex items-center justify-between gap-3 mb-2'>
                 <h3 className='text-xs font-semibold uppercase tracking-[0.15em] text-login-200'>
                     Vulnerability Details

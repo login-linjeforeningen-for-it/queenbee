@@ -1,19 +1,10 @@
 'use client'
 
 import { useMemo } from 'react'
-import {
-    Activity,
-    Database,
-    HardDrive,
-    Layers3,
-    Server,
-    TimerReset,
-} from 'lucide-react'
-import { Card, StatCard } from 'uibee/components'
+import { Activity, Database, HardDrive, Server } from 'lucide-react'
+import { StatCard } from 'uibee/components'
 import formatBytes from '@utils/db/formatBytes'
 import formatTimestamp from '@utils/db/formatTimestamp'
-import QueryWindowGrid from '@components/db/queryWindowGrid'
-import QueryCard from '@components/db/queryCard'
 import ClusterCard from '@components/db/clusterCard'
 
 type PageClientProps = {
@@ -58,7 +49,7 @@ export default function PageClient({ overview }: PageClientProps) {
     if (typeof sortedOverview === 'string') {
         return (
             <div className='flex h-full items-center justify-center'>
-                <div className='max-w-xl rounded-3xl border border-red-500/18 bg-red-500/9 p-5 text-sm text-red-200'>
+                <div className='max-w-xl rounded-2xl border border-red-500/20 bg-red-500/8 p-5 text-sm text-red-300'>
                     {sortedOverview}
                 </div>
             </div>
@@ -67,39 +58,20 @@ export default function PageClient({ overview }: PageClientProps) {
 
     return (
         <div className='h-full overflow-y-auto'>
-            <div className='flex w-full flex-col gap-6 pb-4'>
-                <div className='flex flex-col gap-2'>
-                    <h1 className='text-xl font-semibold'>Database Overview</h1>
-                    <div className='text-xs uppercase tracking-[0.18em] text-muted-foreground'>
-                        Snapshot taken {formatTimestamp(sortedOverview.generatedAt)}
-                    </div>
+            <div className='flex flex-col gap-5 pb-4'>
+                <div className='flex items-center justify-between gap-4'>
+                    <h1 className='font-semibold text-lg'>Databases</h1>
+                    <span className='text-xs text-login-300'>{formatTimestamp(sortedOverview.generatedAt)}</span>
                 </div>
 
-                <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-4'>
-                    <StatCard icon={Server} label='Database clusters' value={String(sortedOverview.clusterCount)} tone='blue' />
-                    <StatCard icon={Database} label='Databases discovered' value={String(sortedOverview.databaseCount)} tone='emerald' />
-                    <StatCard icon={HardDrive} label='Total storage footprint' value={formatBytes(sortedOverview.totalSizeBytes)} tone='orange' />
+                <div className='grid gap-3 md:grid-cols-2 xl:grid-cols-4'>
+                    <StatCard icon={Server} label='Clusters' value={String(sortedOverview.clusterCount)} tone='blue' />
+                    <StatCard icon={Database} label='Databases' value={String(sortedOverview.databaseCount)} tone='emerald' />
+                    <StatCard icon={HardDrive} label='Storage' value={formatBytes(sortedOverview.totalSizeBytes)} tone='orange' />
                     <StatCard icon={Activity} label='Active queries' value={String(sortedOverview.activeQueries)} tone='violet' />
                 </div>
 
-                <div className='grid gap-4 xl:grid-cols-[1.2fr_0.8fr]'>
-                    <Card className='p-5'>
-                        <div className='mb-4 flex items-center gap-2'>
-                            <TimerReset className='h-4 w-4 text-cyan-400' />
-                            <h2 className='text-sm font-semibold text-login-50'>Average active query runtime</h2>
-                        </div>
-                        <QueryWindowGrid averageQuerySeconds={sortedOverview.averageQuerySeconds} />
-                    </Card>
-                    <Card className='p-5'>
-                        <div className='mb-4 flex items-center gap-2'>
-                            <Layers3 className='h-4 w-4 text-login' />
-                            <h2 className='text-sm font-semibold text-login-50'>Longest running query overall</h2>
-                        </div>
-                        <QueryCard query={sortedOverview.longestQuery} />
-                    </Card>
-                </div>
-
-                <div className='flex flex-col gap-4'>
+                <div className='flex flex-col gap-2'>
                     {sortedOverview.clusters.map((cluster) => (
                         <ClusterCard key={cluster.id} cluster={cluster} />
                     ))}
