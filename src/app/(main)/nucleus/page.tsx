@@ -3,13 +3,12 @@ import sendNotificationClient from '@utils/notification/sendNotificationClient'
 import { useEffect, useRef, useState } from 'react'
 import { CalendarClock, File, Flag, RefreshCcw, Send, SendHorizontal, Trash2 } from 'lucide-react'
 import Preview from '@components/preview/preview'
-import { Button, Input } from 'uibee/components'
+import { Button, Input, toast } from 'uibee/components'
 import normalizeScreenPayload from '@components/nucleus/normalizeScreenPayload'
 import setExample from '@components/nucleus/example'
 
 export default function page() {
     const formRef = useRef<HTMLFormElement>(null)
-    const [result, setResult] = useState<SendResponseClient | null>()
     const [history, setHistory] = useState<AppNotificationHistoryEntry[]>([])
     const [scheduled, setScheduled] = useState<ScheduledAppNotificationEntry[]>([])
     const [loadingHistory, setLoadingHistory] = useState(false)
@@ -38,25 +37,16 @@ export default function page() {
         })
 
         if (topic === 'example') {
-            setResult({
-                message: 'Example values should not be sent!',
-                status: 500,
-            })
-
-            setTimeout(() => {
-                setResult(null)
-            }, 2000)
-
+            toast.error('Example values should not be sent!')
             return
         }
 
         if (response) {
-            setResult(response)
             if (response.status === 200) {
+                toast.success(response.message)
                 await loadHistory()
-                setTimeout(() => {
-                    setResult(null)
-                }, 2000)
+            } else {
+                toast.error(response.message)
             }
         }
     }
@@ -113,10 +103,7 @@ export default function page() {
         const parsedDate = new Date(scheduledAt)
 
         if (!scheduledAt || Number.isNaN(parsedDate.getTime())) {
-            setResult({
-                status: 500,
-                message: 'Choose a valid date and time before scheduling.',
-            })
+            toast.error('Choose a valid date and time before scheduling.')
             return
         }
 
@@ -134,17 +121,11 @@ export default function page() {
 
         if (!response.ok) {
             const payload = await response.json().catch(() => ({ error: 'Failed to schedule notification' }))
-            setResult({
-                status: 500,
-                message: `Schedule failed: ${JSON.stringify(payload.error)}`,
-            })
+            toast.error(`Schedule failed: ${JSON.stringify(payload.error)}`)
             return
         }
 
-        setResult({
-            status: 200,
-            message: 'Notification scheduled!',
-        })
+        toast.success('Notification scheduled!')
         await loadScheduled()
     }
 
@@ -173,8 +154,9 @@ export default function page() {
     }
 
     const listPanelClass = [
-        'flex h-full max-h-[calc(100vh-7rem)] min-h-0 flex-col overflow-hidden',
-        'rounded-2xl border border-login-100/10 bg-login-900/55 p-4',
+        'flex flex-col overflow-hidden',
+        'xl:h-full xl:max-h-[calc(100vh-7rem)] xl:min-h-0',
+        'rounded-2xl border border-white/5 bg-login-50/5 p-4',
     ].join(' ')
 
     function RecentNotifications() {
@@ -183,39 +165,39 @@ export default function page() {
                 <div className='mb-4 flex items-center justify-between'>
                     <div className='flex items-center gap-2'>
                         <Flag className='h-4 w-4 text-login' />
-                        <h2 className='text-sm font-semibold text-white'>Recent notifications</h2>
+                        <h2 className='text-sm font-semibold text-login-50'>Recent notifications</h2>
                     </div>
                     <button
                         type='button'
                         onClick={() => void loadHistory()}
-                        className='flex cursor-pointer items-center gap-2 text-xs text-login-200'
+                        className='flex cursor-pointer items-center gap-1.5 text-xs text-login-300 transition-colors hover:text-login-50'
                     >
-                        <RefreshCcw className={`h-4 w-4 ${loadingHistory ? 'animate-spin' : ''}`} />
+                        <RefreshCcw className={`h-3.5 w-3.5 ${loadingHistory ? 'animate-spin' : ''}`} />
                         Refresh
                     </button>
                 </div>
 
-                <div className='grid min-h-0 flex-1 gap-3 overflow-y-auto pr-1'>
+                <div className='grid min-h-0 flex-1 gap-2 overflow-y-auto pr-1'>
                     {history.map((item) => (
                         <div
                             key={item.id}
-                            className='rounded-xl border border-login-100/10 bg-black/10 p-3'
+                            className='rounded-xl border border-white/5 bg-login-50/5 p-3'
                         >
                             <div className='flex items-start justify-between gap-3'>
                                 <div>
-                                    <div className='text-sm font-semibold text-white'>{item.title}</div>
-                                    <div className='mt-1 text-xs text-login-200'>{item.body}</div>
-                                    <div className='mt-2 text-[11px] uppercase tracking-[0.18em] text-login-200'>
+                                    <div className='text-sm font-semibold text-login-50'>{item.title}</div>
+                                    <div className='mt-1 text-xs text-login-300'>{item.body}</div>
+                                    <div className='mt-2 text-[11px] uppercase tracking-[0.18em] text-login-300'>
                                         {item.topic} · delivered {item.delivered} · failed {item.failed}
                                     </div>
                                 </div>
                                 <button
                                     type='button'
                                     onClick={() => void handleResend(item.id)}
-                                    className='flex cursor-pointer items-center gap-1 text-xs text-login'
+                                    className='flex shrink-0 cursor-pointer items-center gap-1 text-xs text-login transition-colors hover:text-login-300'
                                 >
                                     {resendingId === item.id ? 'Sending' : 'Resend'}
-                                    <SendHorizontal className='h-4 w-4' />
+                                    <SendHorizontal className='h-3.5 w-3.5' />
                                 </button>
                             </div>
                         </div>
@@ -231,48 +213,48 @@ export default function page() {
                 <div className='mb-4 flex items-center justify-between'>
                     <div className='flex items-center gap-2'>
                         <CalendarClock className='h-4 w-4 text-login' />
-                        <h2 className='text-sm font-semibold text-white'>Scheduled notifications</h2>
+                        <h2 className='text-sm font-semibold text-login-50'>Scheduled notifications</h2>
                     </div>
                     <button
                         type='button'
                         onClick={() => void loadScheduled()}
-                        className='flex cursor-pointer items-center gap-2 text-xs text-login-200'
+                        className='flex cursor-pointer items-center gap-1.5 text-xs text-login-300 transition-colors hover:text-login-50'
                     >
-                        <RefreshCcw className={`h-4 w-4 ${loadingScheduled ? 'animate-spin' : ''}`} />
+                        <RefreshCcw className={`h-3.5 w-3.5 ${loadingScheduled ? 'animate-spin' : ''}`} />
                         Refresh
                     </button>
                 </div>
 
-                <div className='grid min-h-0 flex-1 gap-3 overflow-y-auto pr-1'>
+                <div className='grid min-h-0 flex-1 gap-2 overflow-y-auto pr-1'>
                     {scheduled.map((item) => (
-                        <div key={item.id} className='rounded-xl border border-login-100/10 bg-black/10 p-3'>
+                        <div key={item.id} className='rounded-xl border border-white/5 bg-login-50/5 p-3'>
                             <div className='flex items-start justify-between gap-3'>
                                 <div>
-                                    <div className='text-sm font-semibold text-white'>{item.title}</div>
-                                    <div className='mt-1 text-xs text-login-200'>{item.body}</div>
-                                    <div className='mt-2 text-[11px] uppercase tracking-[0.18em] text-login-200'>
+                                    <div className='text-sm font-semibold text-login-50'>{item.title}</div>
+                                    <div className='mt-1 text-xs text-login-300'>{item.body}</div>
+                                    <div className='mt-2 text-[11px] uppercase tracking-[0.18em] text-login-300'>
                                         {item.topic} · {item.status} · {new Date(item.scheduledAt).toLocaleString()}
                                     </div>
                                     {item.lastError && (
                                         <div className='mt-2 text-xs text-red-300'>{item.lastError}</div>
                                     )}
                                 </div>
-                                <div className='flex items-center gap-2'>
+                                <div className='flex shrink-0 items-center gap-3'>
                                     <button
                                         type='button'
                                         onClick={() => void handleSendScheduledNow(item.id)}
-                                        className='flex cursor-pointer items-center gap-1 text-xs text-login'
+                                        className='flex cursor-pointer items-center gap-1 text-xs text-login transition-colors hover:text-login-300'
                                     >
-                                        <SendHorizontal className='h-4 w-4' />
+                                        <SendHorizontal className='h-3.5 w-3.5' />
                                         {sendingScheduledId === item.id ? 'Sending' : 'Send now'}
                                     </button>
                                     {item.status !== 'cancelled' && item.status !== 'sent' && (
                                         <button
                                             type='button'
                                             onClick={() => void handleDeleteScheduled(item.id)}
-                                            className='flex cursor-pointer items-center gap-1 text-xs text-red-300'
+                                            className='flex cursor-pointer items-center gap-1 text-xs text-red-400 transition-colors hover:text-red-300'
                                         >
-                                            <Trash2 className='h-4 w-4' />
+                                            <Trash2 className='h-3.5 w-3.5' />
                                             {deletingScheduledId === item.id ? 'Canceling' : 'Cancel'}
                                         </button>
                                     )}
@@ -286,27 +268,13 @@ export default function page() {
     }
 
     return (
-        <div className='grid h-full min-h-0 w-full grid-cols-1 gap-4 overflow-hidden xl:grid-cols-3'>
-            <div className='min-w-0'>
-                <div className='mb-8'>
-                    <h1 className='text-2xl font-bold tracking-tight text-foreground'>
-                        Nucleus
-                    </h1>
-                    <p className='text-login-300 text-base mt-1'>
-                        Send a notification to the Login App
-                    </p>
+        <div className='grid w-full grid-cols-1 gap-4 xl:grid-cols-3 xl:h-full xl:min-h-0 xl:overflow-hidden'>
+            <div className='min-w-0 xl:min-h-0 xl:overflow-y-auto'>
+                <div className='mb-6'>
+                    <h1 className='font-semibold text-lg text-login-50'>Nucleus</h1>
+                    <p className='mt-0.5 text-xs text-login-300'>Send a notification to the Login App</p>
                 </div>
-                {result?.status && (
-                    <div
-                        className={`
-                            rounded-md text-center mb-4 py-2 font-medium
-                            ${result.status === 200 ? 'bg-green-500' : 'bg-red-500'}
-                        `}
-                    >
-                        {result?.message}
-                    </div>
-                )}
-                <form
+<form
                     ref={formRef}
                     onSubmit={(e) => {
                         e.preventDefault()
@@ -357,14 +325,14 @@ export default function page() {
                     <Input
                         name='screen'
                         type='text'
-                        label='Screen (optional)'
+                        label='Screen'
                         className=''
                         onChange={(e) =>
                             setFormValues({ ...formValues, screen: e.target.value })
                         }
                         value={formValues.screen || ''}
                     />
-                    <p className='-mt-2 mb-2 text-xs text-login-200'>
+                    <p className='-mt-2 mb-2 text-xs text-login-300'>
                         Use `event:123`, `ad:456`, `ai`, `admin`, `login`, or `notifications`.
                     </p>
                     <Input
@@ -412,10 +380,10 @@ export default function page() {
                     </div>
                 </form>
             </div>
-            <div className='min-h-0 min-w-0'>
+            <div className='min-w-0 xl:min-h-0'>
                 <ScheduledNotifications />
             </div>
-            <div className='min-h-0 min-w-0'>
+            <div className='min-w-0 xl:min-h-0'>
                 <RecentNotifications />
             </div>
         </div>

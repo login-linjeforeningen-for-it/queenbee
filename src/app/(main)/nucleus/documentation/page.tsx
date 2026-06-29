@@ -1,8 +1,4 @@
-'use client'
-
-import { ArrowLeft } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { Button } from 'uibee/components'
+import BackButton from '@components/navigation/back'
 import Examples from './examples'
 
 const text = {
@@ -17,55 +13,47 @@ const text = {
 }
 
 export default function Page() {
-    const router = useRouter()
     return (
-        <div
-            className='h-(--h-pageInfo) w-full flex flex-col items-center'>
-            <div className='w-full px-16 py-4'>
-                <div className='flex flex-col gap-4'>
-                    <Button icon={<ArrowLeft className='w-5' />} text='Back' onClick={() => router.back()} />
-                    <h1 className='font-semibold text-2xl capitalize pb-6'>
-                        Documentation
-                    </h1>
-                </div>
-                <article className='max-w-none bg-login-50/5 rounded-lg p-6 md:p-10 transition-all'>
-                    <h2 className='text-primary font-extrabold mt-0'>{text.title}</h2>
-                    <p className='leading-relaxed'>
-                        {text.descriptionBefore}
-                        <code className='bg-login-800 px-1 py-0.5 rounded text-sm'>@everyone</code>
-                        {text.descriptionAfter}
-                    </p>
-                    <h3 className='mt-8 mb-2 text-lg font-semibold'>Topics</h3>
-                    <ul className='grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-1 list-disc pl-5'>
-                        <li>TEKKOM</li>
-                        <li>SOCIAL</li>
-                        <li>CTF</li>
-                        <li>KARRIEREDAG</li>
-                        <li>FADDERUKA</li>
-                        <li>BEDPRES</li>
-                        <li>LOGIN</li>
-                        <li>ANNET</li>
-                    </ul>
-                    <h3 className='mt-8 mb-2 text-lg font-semibold'>Intervaller</h3>
-                    <p className='mb-4'>
-                        <span className='inline-block bg-login-800 px-2 py-1 rounded text-sm font-mono'>
-                            {text.intervals}
-                        </span>
-                    </p>
-                    <h3 className='mt-8 mb-2 text-lg font-semibold'>Språk (prefix)</h3>
-                    <p className='mb-4'>
-                        <code className='bg-login-800 px-1 py-0.5 rounded text-sm'>
-                            n
-                        </code> (norsk),
-                        <code className='bg-login-800 px-1 py-0.5 rounded text-sm'>
-                            e
-                        </code>
-                        (engelsk)
-                    </p>
-                    <h3 className='mt-8 mb-2 text-lg font-semibold'>Ads (prefix etter språk)</h3>
-                    <p className='mb-4'><code className='bg-login-800 px-1 py-0.5 rounded text-sm'>a</code></p>
-                    <Examples />
-                </article>
+        <div className='flex flex-col gap-4'>
+            <div className='flex flex-col gap-3'>
+                <BackButton pushURL='/nucleus' />
+                <h1 className='font-semibold text-lg text-login-50'>Documentation</h1>
+            </div>
+            <div className='max-w-2xl rounded-2xl border border-white/5 bg-login-50/5 p-6'>
+                <h2 className='mb-3 font-semibold text-login-50'>{text.title}</h2>
+                <p className='text-sm leading-relaxed text-login-50'>
+                    {text.descriptionBefore}
+                    <code className='rounded bg-black/30 px-1 py-0.5 text-xs text-login-50'>@everyone</code>
+                    {text.descriptionAfter}
+                </p>
+
+                <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-300'>Topics</h3>
+                <ul className='grid list-disc grid-cols-2 gap-x-6 gap-y-1 pl-5 text-sm text-login-50 sm:grid-cols-4'>
+                    <li>TEKKOM</li>
+                    <li>SOCIAL</li>
+                    <li>CTF</li>
+                    <li>KARRIEREDAG</li>
+                    <li>FADDERUKA</li>
+                    <li>BEDPRES</li>
+                    <li>LOGIN</li>
+                    <li>ANNET</li>
+                </ul>
+
+                <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-300'>Intervaller</h3>
+                <code className='inline-block rounded bg-black/30 px-2 py-1 text-xs font-mono text-login-50'>
+                    {text.intervals}
+                </code>
+
+                <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-300'>Språk (prefix)</h3>
+                <p className='text-sm text-login-50'>
+                    <code className='rounded bg-black/30 px-1 py-0.5 text-xs text-login-50'>n</code> norsk &nbsp;
+                    <code className='rounded bg-black/30 px-1 py-0.5 text-xs text-login-50'>e</code> engelsk
+                </p>
+
+                <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-300'>Ads (prefix etter språk)</h3>
+                <code className='rounded bg-black/30 px-1 py-0.5 text-xs text-login-50'>a</code>
+
+                <Examples />
             </div>
         </div>
     )
