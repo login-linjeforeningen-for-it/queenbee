@@ -95,7 +95,7 @@ function getDeploymentLines(deployment: DeploymentStatus, runState?: DeploymentR
         const autoStamp = formatRelativeDate(deployment.lastAutoDeployAt)
         lines.push({
             text: autoStamp ? `Auto ${autoStamp}` : 'Auto enabled',
-            tone: 'text-white/60'
+            tone: 'text-login-300'
         })
         return lines
     }
@@ -103,7 +103,7 @@ function getDeploymentLines(deployment: DeploymentStatus, runState?: DeploymentR
     if (deployment.lastDeploymentAt) {
         lines.push({
             text: `Deploy ${formatRelativeDate(deployment.lastDeploymentAt)}`,
-            tone: 'text-white/60'
+            tone: 'text-login-300'
         })
     }
 
@@ -142,7 +142,7 @@ function DeploymentMeta({
     const lines = getDeploymentLines(deployment, runState)
 
     return (
-        <div className='flex min-h-10 items-center justify-end gap-2 rounded-xl border border-white/10 bg-white/3 px-3 text-right'>
+        <div className='flex min-h-10 items-center justify-end gap-2 rounded-xl border border-white/5 bg-login-50/5 px-3 text-right'>
             {!deployment.autoDeployEnabled && deployment.updateAvailable && (
                 <span className='rounded-md border border-amber-500/30 bg-amber-500/10 px-2 py-1 text-[10px] font-semibold text-amber-300'>
                     {deployment.behindCount}
@@ -229,14 +229,14 @@ function ActionButtons({
                 <div className='group cursor-pointer'>
                     {deployment?.autoDeployEnabled ? <Conveyer
                         className='cursor-pointer w-8 h-8'
-                        wheels='rounded-lg stroke stroke-login-200 stroke-3'
-                        belt='stroke-login-200'
-                        containers='stroke-login-200 group-hover:hidden'
-                        middleContainer='stroke-green-500 group-hover:stroke-login-200'
+                        wheels='rounded-lg stroke stroke-login-300 stroke-3'
+                        belt='stroke-login-300'
+                        containers='stroke-login-300 group-hover:hidden'
+                        middleContainer='stroke-green-500 group-hover:stroke-login-300'
                     /> : <ConveyerStopped
                         className='cursor-pointer w-8 h-8'
-                        wheels='rounded-lg stroke stroke-login-200 stroke-3'
-                        belt='stroke-login-200'
+                        wheels='rounded-lg stroke stroke-login-300 stroke-3'
+                        belt='stroke-login-300'
                         cross='#ff0000aa'
                     />}
                 </div>
@@ -350,8 +350,8 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
 
     const tableList = filteredContainers.map(container => ({
         system_table_id: container.id,
-        id: <span className='font-mono text-xs text-login-200'>{container.id.substring(0, 12)}</span>,
-        name: <span className='font-medium text-white'>{container.name}</span>,
+        id: <span className='font-mono text-xs text-login-300'>{container.id.substring(0, 12)}</span>,
+        name: <span className='font-medium text-login-50'>{container.name}</span>,
         status: (
             <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
                 container.status.toLowerCase().includes('up')
@@ -438,11 +438,12 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
     return (
         <div className='h-full overflow-hidden flex flex-col'>
             <div className='flex-none'>
-                <div className='flex w-full justify-between items-start'>
-                    <div className='flex gap-2 items-center'>
-                        <h1 className='font-semibold text-lg'>Services</h1>
+                <h1 className='font-semibold text-lg'>Services</h1>
+                <div className='flex w-full items-center gap-2 py-2'>
+                    <div className='flex-1 -mb-5'>
+                        <SearchInput />
                     </div>
-                    <div className='flex items-center gap-2 -mb-4'>
+                    <div className='w-40 shrink-0 -mb-5'>
                         <Select
                             name='autorefresh'
                             value={String(autoRefresh)}
@@ -451,9 +452,6 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
                             placeholder='Refresh'
                         />
                     </div>
-                </div>
-                <div className='flex w-full justify-between items-center py-2'>
-                    <SearchInput />
                 </div>
             </div>
             {docker.error ? (

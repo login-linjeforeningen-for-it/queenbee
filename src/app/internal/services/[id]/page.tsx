@@ -14,7 +14,7 @@ export default async function page({ params }: PageProps) {
         return (
             <div className='flex h-full w-full items-center justify-center'>
                 <div
-                    className='w-full max-w-2xl rounded-2xl border border-login-100/10 bg-login-900/50
+                    className='w-full max-w-2xl rounded-2xl border border-white/5 bg-login-900/50
                         px-6 py-10 text-center shadow-[0_20px_60px_rgba(0,0,0,0.25)]'
                 >
                     <div
@@ -24,7 +24,7 @@ export default async function page({ params }: PageProps) {
                         <ServerCrash className='h-7 w-7' />
                     </div>
                     <h1 className='mt-4 font-semibold text-lg text-login-50'>Failed to load container</h1>
-                    <p className='mt-2 text-sm text-login-100'>
+                    <p className='mt-2 text-sm text-login-300'>
                         We couldn&apos;t fetch the details for <span className='font-mono text-login-50'>{id}</span>.
                     </p>
                     <div
