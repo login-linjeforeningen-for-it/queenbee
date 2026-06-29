@@ -1,14 +1,24 @@
 'use client'
 
 import { ChangeEvent, useEffect, useMemo, useState } from 'react'
-import { toast } from 'uibee/components'
-import api from './api'
-import { BucketList, ObjectActions, ObjectFilters, ObjectTable, PageHeader, TopBar } from './components'
-import {
-    buildBrowserEntries,
-    isValidBucketName,
-} from './helpers'
+import { Boxes, Cloud, HardDrive, RefreshCcw } from 'lucide-react'
+import { StatCard, toast } from 'uibee/components'
+import { BucketList, ObjectBrowser } from './components'
+import { buildBrowserEntries, formatBytes, isValidBucketName } from './helpers'
 import type { BucketSummary, ObjectSummary } from './types'
+
+async function api<T = unknown>(url: string, init?: RequestInit): Promise<T> {
+    const headers = init?.body instanceof FormData ? init.headers : {
+        'Content-Type': 'application/json',
+        ...(init?.headers || {})
+    }
+    const response = await fetch(url, { ...init, headers, cache: 'no-store' })
+    if (!response.ok) {
+        const data = await response.json().catch(() => null)
+        throw new Error(data?.error || `Request failed with ${response.status}`)
+    }
+    return response.json()
+}
 
 export default function S3PageClient() {
     const [buckets, setBuckets] = useState<BucketSummary[]>([])
@@ -24,7 +34,8 @@ export default function S3PageClient() {
     const [targetKey, setTargetKey] = useState('')
     const [copyMode, setCopyMode] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [status, setStatus] = useState('Loading S3 buckets')
+    const [uploadOpen, setUploadOpen] = useState(false)
+    const [moveOpen, setMoveOpen] = useState(false)
 
     useEffect(() => {
         void loadBuckets()
@@ -34,15 +45,15 @@ export default function S3PageClient() {
         if (selectedBucket) void loadObjects(selectedBucket, prefix)
     }, [selectedBucket, prefix])
 
-    const selectedObject = objects.find(object => object.key === selectedKey)
-    const totalObjects = buckets.reduce((sum, bucket) => sum + bucket.objectCount, 0)
-    const totalSize = buckets.reduce((sum, bucket) => sum + bucket.sizeBytes, 0)
+    const selectedObject = objects.find(o => o.key === selectedKey)
+    const totalObjects = buckets.reduce((sum, b) => sum + b.objectCount, 0)
+    const totalSize = buckets.reduce((sum, b) => sum + b.sizeBytes, 0)
     const filteredObjects = useMemo(() => filterObjects(objects, search), [objects, search])
     const browserEntries = useMemo(
         () => buildBrowserEntries(filteredObjects, prefix, Boolean(search.trim())),
-        [filteredObjects, prefix, search]
+        [filteredObjects, prefix, search],
     )
-    const selectedBucketOptions = buckets.map(bucket => ({ label: bucket.name, value: bucket.name }))
+    const bucketOptions = buckets.map(b => ({ label: b.name, value: b.name }))
 
     async function loadBuckets() {
         await withLoading(async () => {
@@ -51,7 +62,6 @@ export default function S3PageClient() {
             setBuckets(data.buckets)
             setSelectedBucket(nextBucket)
             if (nextBucket) await loadObjects(nextBucket, prefix)
-            setStatus(data.buckets.length ? `Loaded ${data.buckets.length} buckets` : 'No buckets found')
         }, 'Failed to load S3 buckets')
     }
 
@@ -62,25 +72,25 @@ export default function S3PageClient() {
             if (nextPrefix) params.set('prefix', nextPrefix)
             const data = await api<{ objects: ObjectSummary[] }>(`/api/internal/s3/objects?${params}`)
             setObjects(data.objects)
-            setSelectedKey(current => data.objects.some(object => object.key === current) ? current : data.objects[0]?.key || '')
-            setStatus(`Loaded ${data.objects.length} objects from ${bucket}`)
+            setSelectedKey(current =>
+                current && data.objects.some(o => o.key === current) ? current : '',
+            )
         }, 'Failed to load S3 objects', () => setObjects([]))
     }
 
     async function createBucket() {
         const bucket = newBucket.trim()
         if (!isValidBucketName(bucket)) {
-            setStatus('Bucket names must be 3-63 lowercase characters, numbers, dots, or hyphens.')
+            toast.error('Bucket names must be 3-63 lowercase characters, numbers, dots, or hyphens.')
             return
         }
-
         await withLoading(async () => {
             await api('/api/internal/s3/buckets', { method: 'POST', body: JSON.stringify({ bucket }) })
             setNewBucket('')
             setSelectedBucket(bucket)
             setTargetBucket(bucket)
             await loadBuckets()
-            notice(`Created ${bucket}`)
+            toast.success(`Created ${bucket}`)
         }, 'Failed to create bucket')
     }
 
@@ -92,7 +102,7 @@ export default function S3PageClient() {
             setPrefix('')
             setSearch('')
             await loadBuckets()
-            notice(`Deleted ${selectedBucket}`)
+            toast.success(`Deleted ${selectedBucket}`)
         }, 'Failed to delete bucket')
     }
 
@@ -103,13 +113,13 @@ export default function S3PageClient() {
         form.set('bucket', selectedBucket)
         form.set('key', key)
         form.set('file', uploadFile)
-
         await withLoading(async () => {
             await api('/api/internal/s3/objects', { method: 'POST', body: form })
             setUploadFile(null)
             setUploadKey('')
+            setUploadOpen(false)
             await Promise.all([loadObjects(), loadBuckets()])
-            notice(`Uploaded ${key}`)
+            toast.success(`Uploaded ${key}`)
         }, 'Failed to upload object')
     }
 
@@ -123,11 +133,12 @@ export default function S3PageClient() {
                     sourceKey: selectedKey,
                     targetBucket,
                     targetKey: targetKey.trim(),
-                    mode: copyMode ? 'copy' : 'move'
-                })
+                    mode: copyMode ? 'copy' : 'move',
+                }),
             })
             await Promise.all([loadObjects(), loadBuckets()])
-            notice(`${copyMode ? 'Copied' : 'Moved'} ${selectedKey}`)
+            setMoveOpen(false)
+            toast.success(`${copyMode ? 'Copied' : 'Moved'} ${selectedKey}`)
         }, 'Failed to move object')
     }
 
@@ -137,7 +148,7 @@ export default function S3PageClient() {
             const params = new URLSearchParams({ bucket: selectedBucket, key: selectedKey })
             await api(`/api/internal/s3/objects?${params}`, { method: 'DELETE' })
             await Promise.all([loadObjects(), loadBuckets()])
-            notice(`Deleted ${selectedKey}`)
+            toast.success(`Deleted ${selectedKey}`)
         }, 'Failed to delete object')
     }
 
@@ -148,16 +159,10 @@ export default function S3PageClient() {
         } catch (error) {
             onError?.()
             const message = error instanceof Error ? error.message : fallback
-            setStatus(message)
             toast.error(message)
         } finally {
             setLoading(false)
         }
-    }
-
-    function notice(message: string) {
-        setStatus(message)
-        toast.success(message)
     }
 
     function onFileChange(event: ChangeEvent<HTMLInputElement>) {
@@ -173,25 +178,29 @@ export default function S3PageClient() {
     }
 
     return (
-        <div className='flex h-[calc(100vh-2rem)] min-h-0 w-full flex-col gap-4 overflow-hidden pb-2'>
-            <PageHeader />
-            <TopBar
-                buckets={buckets}
-                loading={loading}
-                newBucket={newBucket}
-                status={status}
-                totalObjects={totalObjects}
-                totalSize={totalSize}
-                onCreateBucket={createBucket}
-                onDeleteBucket={deleteSelectedBucket}
-                onRefresh={loadBuckets}
-                onNewBucketChange={setNewBucket}
-            />
+        <div className='flex h-full min-h-0 w-full flex-col gap-3 overflow-hidden'>
+            <h1 className='shrink-0 text-lg font-semibold text-login-50'>S3 Storage</h1>
+            <div className='grid shrink-0 grid-cols-4 gap-3'>
+                <StatCard icon={Cloud} label='Buckets' tone='amber' value={String(buckets.length)} />
+                <StatCard icon={Boxes} label='Objects' tone='emerald' value={String(totalObjects)} />
+                <StatCard icon={HardDrive} label='Total size' tone='violet' value={formatBytes(totalSize)} />
+                <StatCard
+                    icon={RefreshCcw}
+                    label='Status'
+                    tone='blue'
+                    value={loading ? 'Working…' : 'Ready'}
+                />
+            </div>
 
-            <div className='grid min-h-0 flex-1 gap-4 overflow-hidden xl:grid-cols-[20rem_minmax(0,1fr)]'>
+            <div className='grid min-h-0 flex-1 gap-3 overflow-hidden xl:grid-cols-[20rem_minmax(0,1fr)]'>
                 <BucketList
                     buckets={buckets}
+                    loading={loading}
+                    newBucket={newBucket}
                     selectedBucket={selectedBucket}
+                    onCreateBucket={createBucket}
+                    onDeleteBucket={deleteSelectedBucket}
+                    onNewBucketChange={setNewBucket}
                     onSelect={(bucket) => {
                         setSelectedBucket(bucket.name)
                         setTargetBucket(bucket.name)
@@ -199,47 +208,42 @@ export default function S3PageClient() {
                         setSearch('')
                     }}
                 />
-                <main className='grid min-h-0 min-w-0 gap-4 overflow-hidden xl:grid-cols-[minmax(0,1fr)_21rem]'>
-                    <div className='flex min-h-0 min-w-0 flex-col gap-4 overflow-hidden'>
-                        <ObjectFilters
-                            prefix={prefix}
-                            search={search}
-                            onPrefixChange={setPrefix}
-                            onSearchChange={setSearch}
-                            onRefresh={loadObjects}
-                        />
-                        <ObjectTable
-                            entries={browserEntries}
-                            filteredCount={filteredObjects.length}
-                            prefix={prefix}
-                            search={search}
-                            selectedBucket={selectedBucket}
-                            selectedKey={selectedKey}
-                            onOpenFolder={setPrefix}
-                            onSelectObject={selectObject}
-                        />
-                    </div>
-                    <ObjectActions
-                        buckets={selectedBucketOptions}
-                        copyMode={copyMode}
-                        loading={loading}
-                        selectedBucket={selectedBucket}
-                        selectedKey={selectedKey}
-                        selectedObject={selectedObject}
-                        targetBucket={targetBucket}
-                        targetKey={targetKey}
-                        uploadKey={uploadKey}
-                        uploadFile={uploadFile}
-                        onCopyModeChange={setCopyMode}
-                        onDeleteObject={deleteSelectedObject}
-                        onFileChange={onFileChange}
-                        onMoveObject={moveSelectedObject}
-                        onTargetBucketChange={setTargetBucket}
-                        onTargetKeyChange={setTargetKey}
-                        onUpload={uploadSelectedFile}
-                        onUploadKeyChange={setUploadKey}
-                    />
-                </main>
+                <ObjectBrowser
+                    bucketOptions={bucketOptions}
+                    entries={browserEntries}
+                    filteredCount={filteredObjects.length}
+                    loading={loading}
+                    prefix={prefix}
+                    search={search}
+                    selectedBucket={selectedBucket}
+                    selectedKey={selectedKey}
+                    selectedObject={selectedObject}
+                    onDeleteObject={deleteSelectedObject}
+                    onOpenFolder={setPrefix}
+                    onRefresh={loadObjects}
+                    onSearchChange={setSearch}
+                    onSelectObject={selectObject}
+                    upload={{
+                        uploadOpen,
+                        uploadFile,
+                        uploadKey,
+                        onFileChange,
+                        onUpload: uploadSelectedFile,
+                        onUploadKeyChange: setUploadKey,
+                        onUploadOpenChange: setUploadOpen,
+                    }}
+                    move={{
+                        moveOpen,
+                        targetBucket,
+                        targetKey,
+                        copyMode,
+                        onMoveObject: moveSelectedObject,
+                        onMoveOpenChange: setMoveOpen,
+                        onCopyModeChange: setCopyMode,
+                        onTargetBucketChange: setTargetBucket,
+                        onTargetKeyChange: setTargetKey,
+                    }}
+                />
             </div>
         </div>
     )
@@ -248,9 +252,10 @@ export default function S3PageClient() {
 function filterObjects(objects: ObjectSummary[], search: string) {
     const q = search.trim().toLowerCase()
     if (!q) return objects
-    return objects.filter(object =>
-        object.key.toLowerCase().includes(q)
-        || object.storageClass?.toLowerCase().includes(q)
-        || object.etag?.toLowerCase().includes(q)
+    return objects.filter(
+        o =>
+            o.key.toLowerCase().includes(q) ||
+            o.storageClass?.toLowerCase().includes(q) ||
+            o.etag?.toLowerCase().includes(q),
     )
 }
