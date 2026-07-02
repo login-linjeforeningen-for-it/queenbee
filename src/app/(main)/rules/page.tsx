@@ -1,7 +1,5 @@
-import { Alert, SearchInput } from 'uibee/components'
-import Table from '@components/table/table'
-import Pagination from '@components/table/pagination'
-import formatAlert from '@components/alert/formatAlert'
+import { SearchInput } from 'uibee/components'
+import ManagedTable from '@components/table/managedTable'
 import deleteRule from '@utils/api/workerbee/rules/deleteRule'
 import getRules from '@utils/api/workerbee/rules/getRules'
 import { Button } from 'uibee/components'
@@ -11,11 +9,11 @@ async function deleteAction(id: string) {
     await deleteRule(Number(id))
 }
 
-const headers = [
-    'id',
-    'name_no',
-    'name_en',
-    'updated_at'
+const columns = [
+    { key: 'id' },
+    { key: 'name_no' },
+    { key: 'name_en' },
+    { key: 'updated_at' },
 ]
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
@@ -36,6 +34,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         sort
     })
 
+    const data = typeof rules !== 'string' && Array.isArray(rules.rules) ? rules.rules : []
+    const totalRows = typeof rules !== 'string' && Array.isArray(rules.rules) ? rules.total_count : 0
+
     return (
         <div className='h-full overflow-hidden flex flex-col'>
             <div className='flex-none'>
@@ -49,25 +50,16 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     />
                 </div>
             </div>
-            {typeof rules === 'string' || !Array.isArray(rules.rules) || rules.rules.length < 1
-                ? (
-                    <div className='w-full h-full flex items-center justify-center'>
-                        <Alert>
-                            {formatAlert(rules, 'No rules found')}
-                        </Alert>
-                    </div>
-                ) : (
-                    <div className='flex-1 flex flex-col overflow-hidden'>
-                        <Table
-                            list={rules.rules}
-                            headers={headers}
-                            deleteAction={deleteAction}
-                            redirectPath='/rules/update'
-                        />
-                        <Pagination pageSize={limit} totalRows={rules.total_count} />
-                    </div>
-                )
-            }
+            <div className='flex-1 flex flex-col overflow-hidden'>
+                <ManagedTable
+                    data={data as Record<string, unknown>[]}
+                    columns={columns}
+                    deleteAction={deleteAction}
+                    redirectPath='/rules/update'
+                    totalRows={totalRows}
+                    pageSize={limit}
+                />
+            </div>
         </div>
     )
 }

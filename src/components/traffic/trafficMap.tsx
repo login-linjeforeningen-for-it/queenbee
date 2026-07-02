@@ -278,11 +278,11 @@ export default function TrafficMap({
                         label='Tracked Requests'
                         value={String(countryEntries.reduce((sum, item) => sum + item.count, 0))}
                     />
-                    <StatCard icon={<Zap className='h-4 w-4' />} label='Top Country' value={countryEntries[0]?.iso || '—'} />
+                    <StatCard icon={<Zap className='h-4 w-4' />} label='Top Country' value={countryEntries[0]?.iso || '-'} />
                     <StatCard
                         icon={<Clock3 className='h-4 w-4' />}
                         label='Avg Request Time'
-                        value={initialMetrics ? `${Math.round(initialMetrics.avg_request_time || 0)}ms` : '—'}
+                        value={initialMetrics ? `${Math.round(initialMetrics.avg_request_time || 0)}ms` : '-'}
                     />
                 </div>
 
@@ -474,14 +474,14 @@ export default function TrafficMap({
                                 bg-login-900/60 px-3 py-2'
                         >
                             <span>Live share</span>
-                            <span className='font-semibold text-login-50'>{selectedShare ? `${selectedShare}%` : '—'}</span>
+                            <span className='font-semibold text-login-50'>{selectedShare ? `${selectedShare}%` : '-'}</span>
                         </div>
                         <div
                             className='flex items-center justify-between rounded-xl border border-login-100/10
                                 bg-login-900/60 px-3 py-2'
                         >
                             <span>Hotspot rank</span>
-                            <span className='font-semibold text-login-50'>{selectedRank || '—'}</span>
+                            <span className='font-semibold text-login-50'>{selectedRank || '-'}</span>
                         </div>
                         <div className='grid gap-2 sm:grid-cols-2'>
                             <div
@@ -501,7 +501,7 @@ export default function TrafficMap({
                                     <span className='text-xs font-medium uppercase tracking-[0.18em]'>Oslo Distance</span>
                                 </div>
                                 <div className='text-sm font-semibold text-login-50'>
-                                    {selectedCoords ? `${haversineKilometers(selectedCoords, NORWAY)} km` : '—'}
+                                    {selectedCoords ? `${haversineKilometers(selectedCoords, NORWAY)} km` : '-'}
                                 </div>
                             </div>
                         </div>

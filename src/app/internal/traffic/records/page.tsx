@@ -1,5 +1,4 @@
 import TrafficDashboard from '@components/traffic/traffic'
-import Pagination from '@components/table/pagination'
 import getTrafficRecords from '@utils/api/beekeeper/traffic/records'
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
@@ -14,15 +13,12 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     const totalCount = typeof records === 'object' && 'total' in records ? records.total : 0
 
     return (
-        <div className='flex flex-col gap-4'>
-            <div className='flex flex-row justify-between flex-none'>
+        <div className='h-full overflow-hidden flex flex-col gap-4'>
+            <div className='flex-none'>
                 <h1 className='font-semibold text-lg text-login-50'>Recent Traffic</h1>
             </div>
-            <div className='flex-1'>
-                <TrafficDashboard records={records} />
-            </div>
-            <div className='pt-4'>
-                <Pagination pageSize={limit} totalRows={totalCount} />
+            <div className='flex-1 flex flex-col overflow-hidden'>
+                <TrafficDashboard records={records} totalRows={totalCount} pageSize={limit} />
             </div>
         </div>
     )

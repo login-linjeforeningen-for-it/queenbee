@@ -1,7 +1,5 @@
-import { Alert, SearchInput } from 'uibee/components'
-import Table from '@components/table/table'
-import Pagination from '@components/table/pagination'
-import formatAlert from '@components/alert/formatAlert'
+import { SearchInput } from 'uibee/components'
+import ManagedTable from '@components/table/managedTable'
 import deleteAlert from '@utils/api/workerbee/alerts/deleteAlert'
 import getAlerts from '@utils/api/workerbee/alerts/getAlerts'
 import { Button } from 'uibee/components'
@@ -11,11 +9,11 @@ async function deleteAction(id: string) {
     await deleteAlert(Number(id))
 }
 
-const headers = [
-    'id',
-    'title_en',
-    'service',
-    'page'
+const columns = [
+    { key: 'id' },
+    { key: 'title_en' },
+    { key: 'service' },
+    { key: 'page' },
 ]
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
@@ -36,6 +34,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         sort
     })
 
+    const data = typeof alerts !== 'string' && Array.isArray(alerts.alerts) ? alerts.alerts : []
+    const totalRows = typeof alerts !== 'string' && Array.isArray(alerts.alerts) ? alerts.total_count : 0
+
     return (
         <div className='h-full overflow-hidden flex flex-col'>
             <div className='flex-none'>
@@ -47,24 +48,15 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     </div>
                 </div>
             </div>
-            { typeof alerts === 'string' || !Array.isArray(alerts.alerts) || alerts.alerts.length < 1
-                ? (
-                    <div className='w-full h-full flex items-center justify-center'>
-                        <Alert>
-                            {formatAlert(alerts, 'No alerts found')}
-                        </Alert>
-                    </div>
-                ) : (
-                    <div className='flex-1 flex flex-col overflow-hidden'>
-                        <Table
-                            list={alerts.alerts}
-                            headers={headers}
-                            deleteAction={deleteAction}
-                        />
-                        <Pagination pageSize={limit} totalRows={alerts.total_count} />
-                    </div>
-                )
-            }
+            <div className='flex-1 flex flex-col overflow-hidden'>
+                <ManagedTable
+                    data={data as Record<string, unknown>[]}
+                    columns={columns}
+                    deleteAction={deleteAction}
+                    totalRows={totalRows}
+                    pageSize={limit}
+                />
+            </div>
         </div>
     )
 }

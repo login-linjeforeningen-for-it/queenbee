@@ -186,7 +186,6 @@ export default function ServiceForm(props: ServiceFormProps) {
             </h1>
 
             <form onSubmit={handleSubmit} className='flex flex-col gap-6 mt-6'>
-                {/* Name + Type */}
                 <div className='grid grid-cols-2 gap-x-8'>
                     <Input
                         name='name'
@@ -226,7 +225,7 @@ export default function ServiceForm(props: ServiceFormProps) {
                     </div>
                 </div>
 
-                {/* POST: copy webhook URL (edit only — create shows it post-submit via WebhookConfirm) */}
+                {/* POST: copy webhook URL (edit only, create shows it post-submit via WebhookConfirm) */}
                 {isEdit && form.type === 'post' && (
                     <div>
                         <div className='mb-1 text-[10px] font-semibold uppercase tracking-wider text-login-300'>
@@ -242,7 +241,6 @@ export default function ServiceForm(props: ServiceFormProps) {
                     </div>
                 )}
 
-                {/* URL + Interval */}
                 <div className='grid grid-cols-2 gap-x-8'>
                     <div>
                         <Input
@@ -270,7 +268,6 @@ export default function ServiceForm(props: ServiceFormProps) {
                     />
                 </div>
 
-                {/* User Agent + Max Failures */}
                 <div className='grid grid-cols-2 gap-x-8'>
                     <Input
                         name='userAgent'
@@ -290,7 +287,6 @@ export default function ServiceForm(props: ServiceFormProps) {
                     />
                 </div>
 
-                {/* Note */}
                 <Textarea
                     name='note'
                     label='Note'
@@ -298,7 +294,6 @@ export default function ServiceForm(props: ServiceFormProps) {
                     onChange={(e) => updateField('note', e.target.value)}
                 />
 
-                {/* Options */}
                 <div>
                     <div className='mb-3 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-login-300'>
                         <SlidersHorizontal className='h-3.5 w-3.5' />
@@ -311,7 +306,6 @@ export default function ServiceForm(props: ServiceFormProps) {
                     </div>
                 </div>
 
-                {/* Notification */}
                 <div>
                     <div className='mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-login-300'>
                         <Bell className='h-3.5 w-3.5' />
@@ -333,7 +327,7 @@ export default function ServiceForm(props: ServiceFormProps) {
                     </div>
                     {!notifications.length && (
                         <p className='mt-2 text-xs text-red-300'>
-                            No notifications set up — no alert will be sent if this goes down.{' '}
+                            No notifications set up, no alert will be sent if this goes down.{' '}
                             <Link href='/internal/monitoring/notifications/create' className='text-login-400 hover:text-login-300'>
                                 Add one
                             </Link>.

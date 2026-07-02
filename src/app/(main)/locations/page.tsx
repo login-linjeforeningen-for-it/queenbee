@@ -1,36 +1,9 @@
-import { Alert, SearchInput } from 'uibee/components'
-import Table from '@components/table/table'
-import Pagination from '@components/table/pagination'
-import formatAlert from '@components/alert/formatAlert'
+import { SearchInput } from 'uibee/components'
+import ManagedTable from '@components/table/managedTable'
 import deleteLocation from '@utils/api/workerbee/locations/deleteLocation'
 import getLocations from '@utils/api/workerbee/locations/getLocations'
 import { cookies } from 'next/headers'
 import { Button } from 'uibee/components'
-
-const AddressHeaders = [
-    'id',
-    'name_en',
-    'address_street',
-    'address_postcode',
-    'city_name',
-    'updated_at',
-]
-
-const MazemapHeaders = [
-    'id',
-    'name_en',
-    'mazemap_campus_id',
-    'mazemap_poi_id',
-    'updated_at',
-]
-
-const CoordinateHeaders = [
-    'id',
-    'name_en',
-    'coordinate_lat',
-    'coordinate_long',
-    'updated_at',
-]
 
 enum Location {
     Address = 'address',
@@ -50,6 +23,38 @@ async function deleteAction(id: string) {
     'use server'
     await deleteLocation(Number(id))
 }
+
+const AddressColumns = [
+    { key: 'id' },
+    { key: 'name_en' },
+    { key: 'address_street' },
+    { key: 'address_postcode' },
+    { key: 'city_name' },
+    { key: 'updated_at' },
+]
+
+const MazemapColumns = [
+    { key: 'id' },
+    { key: 'name_en' },
+    { key: 'mazemap_campus_id' },
+    { key: 'mazemap_poi_id' },
+    { key: 'updated_at' },
+]
+
+const CoordinateColumns = [
+    { key: 'id' },
+    { key: 'name_en' },
+    { key: 'coordinate_lat' },
+    { key: 'coordinate_long' },
+    { key: 'updated_at' },
+]
+
+const DigitalColumns = [
+    { key: 'id' },
+    { key: 'name_no' },
+    { key: 'url' },
+    { key: 'updated_at' },
+]
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
     const cookieStore = await cookies()
@@ -79,6 +84,15 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         sort
     })
 
+    const data = typeof locations !== 'string' && Array.isArray(locations.locations) ? locations.locations : []
+    const totalRows = typeof locations !== 'string' && Array.isArray(locations.locations) ? locations.total_count : 0
+    const columnMap = {
+        [Location.Address]: AddressColumns,
+        [Location.Mazemap]: MazemapColumns,
+        [Location.Coordinate]: CoordinateColumns,
+        [Location.Digital]: DigitalColumns,
+    }
+
     return (
         <div className='h-full overflow-hidden flex flex-col'>
             <div className='flex-none'>
@@ -92,49 +106,16 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     />
                 </div>
             </div>
-            {typeof locations === 'string' || !Array.isArray(locations.locations) || locations.locations.length < 1 ? (
-                <div className='w-full h-full flex items-center justify-center'>
-                    <Alert>
-                        {formatAlert(locations, 'No locations found')}
-                    </Alert>
-                </div>
-            ) : (
-                <div className='flex-1 flex flex-col overflow-hidden'>
-                    {activeType === Location.Address && (
-                        <Table
-                            list={locations.locations}
-                            headers={AddressHeaders}
-                            deleteAction={deleteAction}
-                            redirectPath='/locations/update'
-                        />
-                    )}
-                    {activeType === Location.Mazemap && (
-                        <Table
-                            list={locations.locations}
-                            headers={MazemapHeaders}
-                            deleteAction={deleteAction}
-                            redirectPath='/locations/update'
-                        />
-                    )}
-                    {activeType === Location.Coordinate && (
-                        <Table
-                            list={locations.locations}
-                            headers={CoordinateHeaders}
-                            deleteAction={deleteAction}
-                            redirectPath='/locations/update'
-                        />
-                    )}
-                    {activeType === Location.Digital && (
-                        <Table
-                            list={locations.locations}
-                            headers={['id', 'name_no', 'url', 'updated_at']}
-                            deleteAction={deleteAction}
-                            redirectPath='/locations/update'
-                        />
-                    )}
-                    <Pagination pageSize={limit} totalRows={locations.total_count} />
-                </div>
-            )}
+            <div className='flex-1 flex flex-col overflow-hidden'>
+                <ManagedTable
+                    data={data as Record<string, unknown>[]}
+                    columns={columnMap[activeType]}
+                    deleteAction={deleteAction}
+                    redirectPath='/locations/update'
+                    totalRows={totalRows}
+                    pageSize={limit}
+                />
+            </div>
         </div>
     )
 }

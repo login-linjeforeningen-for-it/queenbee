@@ -22,8 +22,6 @@ export default async function Home() {
         additions = additions.map((addition) => ({...addition, updated_at: formatDate(addition.updated_at)}))
     }
 
-    // const data = await getApplicationMetrics()
-
     return (
         <div className='flex flex-col lg:h-full lg:overflow-hidden'>
             <h1 className='font-semibold text-lg'>Dashboard</h1>

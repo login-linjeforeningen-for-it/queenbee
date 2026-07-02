@@ -1,19 +1,16 @@
-import { Alert, SearchInput } from 'uibee/components'
-import Table from '@components/table/table'
-import Pagination from '@components/table/pagination'
+import { SearchInput } from 'uibee/components'
+import ManagedTable from '@components/table/managedTable'
 import HistoricalSwitch from '@components/inputs/historical'
-import formatAlert from '@components/alert/formatAlert'
 import { Button } from 'uibee/components'
 import deleteEvent from '@utils/api/workerbee/events/deleteEvent'
 import getEvents from '@utils/api/workerbee/events/getEvents'
 
-const headers = [
-    'id',
-    'name_no',
-    'name_en',
-    'time_start',
-    'updated_at'
-
+const columns = [
+    { key: 'id' },
+    { key: 'name_no' },
+    { key: 'name_en' },
+    { key: 'time_start' },
+    { key: 'updated_at' },
 ]
 
 async function deleteAction(id: string) {
@@ -41,6 +38,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         historical
     })
 
+    const data = typeof events !== 'string' && Array.isArray(events.events) ? events.events : []
+    const totalRows = typeof events !== 'string' && Array.isArray(events.events) ? events.total_count : 0
+
     return (
         <div className='h-full overflow-hidden flex flex-col'>
             <div className='flex-none'>
@@ -57,25 +57,16 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     />
                 </div>
             </div>
-            { typeof events === 'string' || !Array.isArray(events.events) || events.events.length < 1
-                ? (
-                    <div className='w-full h-full flex items-center justify-center'>
-                        <Alert>
-                            {formatAlert(events, 'No events found')}
-                        </Alert>
-                    </div>
-                ) : (
-                    <div className='flex-1 flex flex-col overflow-hidden'>
-                        <Table
-                            list={events.events}
-                            headers={headers}
-                            deleteAction={deleteAction}
-                            redirectPath='/events/update'
-                        />
-                        <Pagination pageSize={limit} totalRows={events.total_count} />
-                    </div>
-                )
-            }
+            <div className='flex-1 flex flex-col overflow-hidden'>
+                <ManagedTable
+                    data={data as Record<string, unknown>[]}
+                    columns={columns}
+                    deleteAction={deleteAction}
+                    redirectPath='/events/update'
+                    totalRows={totalRows}
+                    pageSize={limit}
+                />
+            </div>
         </div>
     )
 }

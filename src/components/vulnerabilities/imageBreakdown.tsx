@@ -1,7 +1,7 @@
 import type { ImageVulnerabilityReport } from '@utils/api/internal/vulnerabilities/get'
 import { Layers } from 'lucide-react'
 import { LeftBarPanel, SeverityPill } from 'uibee/components'
-import { severityOrder } from './constants'
+import { severityOrder } from './types'
 
 export default function ImageBreakdown({ image }: { image: ImageVulnerabilityReport }) {
     return (

@@ -1,7 +1,5 @@
-import { Alert, SearchInput } from 'uibee/components'
-import Table from '@components/table/table'
-import Pagination from '@components/table/pagination'
-import formatAlert from '@components/alert/formatAlert'
+import { SearchInput } from 'uibee/components'
+import ManagedTable from '@components/table/managedTable'
 import getAlbums from '@utils/api/workerbee/albums/getAlbums'
 import deleteAlbum from '@utils/api/workerbee/albums/deleteAlbum'
 import { Button } from 'uibee/components'
@@ -11,11 +9,11 @@ async function deleteAction(id: string) {
     await deleteAlbum(Number(id))
 }
 
-const headers = [
-    'id',
-    'name_no',
-    'year',
-    'created_at'
+const columns = [
+    { key: 'id' },
+    { key: 'name_no' },
+    { key: 'year' },
+    { key: 'created_at' },
 ]
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
@@ -36,6 +34,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         sort
     })
 
+    const data = typeof albums !== 'string' && Array.isArray(albums.albums) ? albums.albums : []
+    const totalRows = typeof albums !== 'string' && Array.isArray(albums.albums) ? albums.total_count : 0
+
     return (
         <div className='h-full overflow-hidden flex flex-col'>
             <div className='flex-none'>
@@ -45,25 +46,16 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     <Button text='New album' icon='+' path='albums/create' />
                 </div>
             </div>
-            { typeof albums === 'string' || !Array.isArray(albums.albums) || albums.albums.length < 1
-                ? (
-                    <div className='w-full h-full flex items-center justify-center'>
-                        <Alert>
-                            {formatAlert(albums, 'No albums found')}
-                        </Alert>
-                    </div>
-                ) : (
-                    <div className='flex-1 flex flex-col overflow-hidden'>
-                        <Table
-                            list={albums.albums}
-                            headers={headers}
-                            deleteAction={deleteAction}
-                            redirectPath='/albums/update'
-                        />
-                        <Pagination pageSize={limit} totalRows={albums.total_count} />
-                    </div>
-                )
-            }
+            <div className='flex-1 flex flex-col overflow-hidden'>
+                <ManagedTable
+                    data={data as Record<string, unknown>[]}
+                    columns={columns}
+                    deleteAction={deleteAction}
+                    redirectPath='/albums/update'
+                    totalRows={totalRows}
+                    pageSize={limit}
+                />
+            </div>
         </div>
     )
 }

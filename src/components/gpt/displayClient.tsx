@@ -4,9 +4,7 @@ import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { ChevronDown, ChevronUp, Cpu, Gauge, HardDrive, MemoryStick, MessageSquareText } from 'lucide-react'
 import { Button, Card } from 'uibee/components'
-import CPU from './cpu'
-import GPU from './gpu'
-import RAM from './ram'
+import ResourceRow from './resourceRow'
 import Metric from './metric'
 
 export default function DisplayClient({
@@ -80,17 +78,17 @@ function Open({ client }: { client: GPT_Client }) {
             <MetricSection
                 title='RAM'
                 icon={<MemoryStick className='h-4 w-4' />}
-                items={client.ram.map((ram, id) => <RAM key={`${ram.name}-${id}`} ram={ram} />)}
+                items={client.ram.map((ram, id) => <ResourceRow key={`${ram.name}-${id}`} name={ram.name} load={ram.load} />)}
             />
             <MetricSection
                 title='CPU'
                 icon={<Cpu className='h-4 w-4' />}
-                items={client.cpu.map((cpu, id) => <CPU key={`${cpu.name}-${id}`} cpu={cpu} />)}
+                items={client.cpu.map((cpu, id) => <ResourceRow key={`${cpu.name}-${id}`} name={cpu.name} load={cpu.load} />)}
             />
             <MetricSection
                 title='GPU'
                 icon={<HardDrive className='h-4 w-4' />}
-                items={client.gpu.map((gpu, id) => <GPU key={`${gpu.name}-${id}`} gpu={gpu} />)}
+                items={client.gpu.map((gpu, id) => <ResourceRow key={`${gpu.name}-${id}`} name={gpu.name} load={gpu.load} />)}
             />
         </div>
     )

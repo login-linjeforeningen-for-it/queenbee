@@ -1,4 +1,4 @@
-import InternalStats from '@components/internal/statistics'
+import InternalStats from '@components/internal/internalStats'
 import SystemStats from '@components/internal/systemStats'
 import getInternalDashboard from '@utils/api/beekeeper/dashboard/get'
 

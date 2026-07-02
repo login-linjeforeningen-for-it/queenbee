@@ -1,42 +1,40 @@
 'use client'
 
-import { useState, useMemo } from 'react'
-import { ChevronUp, ChevronDown } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { Table, type SortState } from 'uibee/components'
 import formatBytes from '@utils/db/formatBytes'
 
-type SortKey = 'table' | 'rows' | 'tableBytes' | 'indexBytes' | 'totalBytes'
-type SortDir = 'asc' | 'desc'
-
-const COLUMNS: { key: SortKey; label: string }[] = [
-    { key: 'table', label: 'Table' },
-    { key: 'rows', label: 'Rows' },
-    { key: 'tableBytes', label: 'Table data' },
-    { key: 'indexBytes', label: 'Indexes' },
-    { key: 'totalBytes', label: 'Total' },
-]
-
 export default function TableList({ database }: { database: DatabaseOverviewItem }) {
-    const [sortKey, setSortKey] = useState<SortKey>('totalBytes')
-    const [sortDir, setSortDir] = useState<SortDir>('desc')
+    const [sort, setSort] = useState<SortState>({ column: 'totalBytes', order: 'desc' })
 
-    function handleSort(key: SortKey) {
-        if (key === sortKey) {
-            setSortDir(d => d === 'asc' ? 'desc' : 'asc')
-        } else {
-            setSortKey(key)
-            setSortDir('desc')
-        }
-    }
-
-    const sorted = useMemo(() => {
-        return [...database.tables].sort((a, b) => {
-            const av = sortKey === 'table' ? `${a.schema}.${a.name}` : sortKey === 'rows' ? a.estimatedRows : a[sortKey]
-            const bv = sortKey === 'table' ? `${b.schema}.${b.name}` : sortKey === 'rows' ? b.estimatedRows : b[sortKey]
-            if (av < bv) return sortDir === 'asc' ? -1 : 1
-            if (av > bv) return sortDir === 'asc' ? 1 : -1
+    const rows = useMemo(() => {
+        const { column, order } = sort
+        const sorted = [...database.tables].sort((a, b) => {
+            let av: string | number
+            let bv: string | number
+            if (column === 'table') {
+                av = `${a.schema}.${a.name}`
+                bv = `${b.schema}.${b.name}`
+            } else if (column === 'rows') {
+                av = a.estimatedRows
+                bv = b.estimatedRows
+            } else {
+                av = a[column as 'tableBytes' | 'indexBytes' | 'totalBytes']
+                bv = b[column as 'tableBytes' | 'indexBytes' | 'totalBytes']
+            }
+            if (av < bv) return order === 'asc' ? -1 : 1
+            if (av > bv) return order === 'asc' ? 1 : -1
             return 0
         })
-    }, [database.tables, sortKey, sortDir])
+
+        return sorted.map(t => ({
+            table: `${t.schema}.${t.name}`,
+            rows: t.estimatedRows.toLocaleString('nb-NO'),
+            tableBytes: formatBytes(t.tableBytes),
+            indexBytes: formatBytes(t.indexBytes),
+            totalBytes: formatBytes(t.totalBytes),
+        }))
+    }, [database.tables, sort])
 
     if (!database.tables.length) {
         return (
@@ -47,49 +45,23 @@ export default function TableList({ database }: { database: DatabaseOverviewItem
     }
 
     return (
-        <div className='overflow-x-auto rounded-lg border border-white/6'>
-            <table className='min-w-full text-sm'>
-                <thead>
-                    <tr className='border-b border-white/6 bg-login-950/60'>
-                        {COLUMNS.map(col => (
-                            <th
-                                key={col.key}
-                                className='px-4 py-2.5 text-left'
-                            >
-                                <button
-                                    type='button'
-                                    onClick={() => handleSort(col.key)}
-                                    className='flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-login-300 transition-colors hover:text-login-100'
-                                >
-                                    {col.label}
-                                    {sortKey === col.key ? (
-                                        sortDir === 'asc'
-                                            ? <ChevronUp className='h-3 w-3' />
-                                            : <ChevronDown className='h-3 w-3' />
-                                    ) : (
-                                        <ChevronUp className='h-3 w-3 opacity-20' />
-                                    )}
-                                </button>
-                            </th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody className='divide-y divide-white/4'>
-                    {sorted.map(t => (
-                        <tr key={`${t.schema}-${t.name}`} className='transition-colors hover:bg-login-50/3'>
-                            <td className='px-4 py-2.5 font-medium text-login-100'>
-                                <span className='text-login-400'>{t.schema}.</span>{t.name}
-                            </td>
-                            <td className='px-4 py-2.5 tabular-nums text-login-200'>
-                                {t.estimatedRows.toLocaleString('nb-NO')}
-                            </td>
-                            <td className='px-4 py-2.5 tabular-nums text-login-200'>{formatBytes(t.tableBytes)}</td>
-                            <td className='px-4 py-2.5 tabular-nums text-login-200'>{formatBytes(t.indexBytes)}</td>
-                            <td className='px-4 py-2.5 tabular-nums text-login-200'>{formatBytes(t.totalBytes)}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+        <Table
+            data={rows}
+            idKey='table'
+            columns={[
+                { key: 'table', label: 'Table', sortable: true, render: (v) => {
+                    const full = v as string
+                    const dot = full.lastIndexOf('.')
+                    return <><span className='text-login-400'>{full.substring(0, dot)}.</span>{full.substring(dot + 1)}</>
+                }},
+                { key: 'rows', label: 'Rows', sortable: true },
+                { key: 'tableBytes', label: 'Table data', sortable: true },
+                { key: 'indexBytes', label: 'Indexes', sortable: true },
+                { key: 'totalBytes', label: 'Total', sortable: true },
+            ]}
+            sort={sort}
+            onSort={setSort}
+            hidePagination
+        />
     )
 }

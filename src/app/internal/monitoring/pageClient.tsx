@@ -12,7 +12,7 @@ import getTags from '@utils/api/beekeeper/services/getTags'
 import { Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Button } from 'uibee/components'
-import Table from '@components/table/table'
+import ManagedTable from '@components/table/managedTable'
 import Marquee from '@components/shared/marquee'
 import barColor from '@utils/status/barColor'
 
@@ -111,25 +111,8 @@ export default function PageClient({
 
         return {
             system_table_id: item.id,
-            name: (
-                <div className='block w-36 max-w-36 min-w-0 overflow-hidden' title={item.name}>
-                    <Marquee
-                        text={item.name}
-                        className='w-full max-w-36'
-                        innerClassName='font-medium text-white'
-                    />
-                </div>
-            ),
-            status: (
-                <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
-                    status === 'up' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-                        status === 'maintenance' ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' :
-                            status === 'pending' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
-                                'bg-red-500/10 text-red-400 border-red-500/20'
-                }`}>
-                    {status}
-                </span>
-            ),
+            name: item.name,
+            status,
             history: (
                 <div className='flex gap-1 h-6 items-center'>
                     {item.bars.slice(5, item.bars.length).map((bar, index) => {
@@ -146,7 +129,7 @@ export default function PageClient({
                     }).toReversed()}
                 </div>
             ),
-            uptime: <span className='font-mono'>{Number(item.uptime).toFixed(0)}%</span>,
+            uptime: `${Number(item.uptime).toFixed(0)}%`,
             tags: item.tags.map(t => t.name).join(', ') || '-',
         }
     })
@@ -220,11 +203,23 @@ export default function PageClient({
                         />
 
                         <div className='flex-1 flex flex-col min-h-10 overflow-hidden'>
-                            <Table
-                                list={tableList}
-                                headers={['name', 'status', 'history', 'uptime', 'tags']}
-                                hideMenu={true}
+                            <ManagedTable
+                                data={tableList as unknown as Record<string, unknown>[]}
+                                columns={[
+                                    { key: 'name', render: (v) => (
+                                        <div className='block w-36 max-w-36 min-w-0 overflow-hidden' title={v as string}>
+                                            <Marquee text={v as string} className='w-full max-w-36' innerClassName='font-medium text-white' />
+                                        </div>
+                                    )},
+                                    { key: 'status', highlight: { up: 'green', down: 'red', maintenance: 'purple', pending: 'yellow' } },
+                                    { key: 'history' },
+                                    { key: 'uptime' },
+                                    { key: 'tags' },
+                                ]}
+                                rawKeys={['history']}
+                                idKey='system_table_id'
                                 onRowClick={openServiceStatus}
+                                hidePagination
                             />
                         </div>
                     </>

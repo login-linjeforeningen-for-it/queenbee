@@ -3,9 +3,9 @@
 import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import { Boxes, Cloud, HardDrive, RefreshCcw } from 'lucide-react'
 import { StatCard, toast } from 'uibee/components'
-import { BucketList, ObjectBrowser } from './components'
-import { buildBrowserEntries, formatBytes, isValidBucketName } from './helpers'
-import type { BucketSummary, ObjectSummary } from './types'
+import { BucketList, ObjectBrowser } from '@components/s3/components'
+import { buildBrowserEntries, formatBytes, isValidBucketName } from '@components/s3/helpers'
+import type { BucketSummary, ObjectSummary } from '@components/s3/types'
 
 async function api<T = unknown>(url: string, init?: RequestInit): Promise<T> {
     const headers = init?.body instanceof FormData ? init.headers : {

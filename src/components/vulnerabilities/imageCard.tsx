@@ -2,8 +2,9 @@ import type { ImageVulnerabilityReport } from '@utils/api/internal/vulnerabiliti
 import { Container } from 'lucide-react'
 import { SeverityPill } from 'uibee/components'
 import ExpandableCard from '@components/shared/expandableCard'
-import ImageDetails from './imageDetails'
-import { severityOrder } from './constants'
+import ImageBreakdown from './imageBreakdown'
+import ImageFindings from './imageFindings'
+import { severityOrder } from './types'
 
 export default function ImageCard({
     image,
@@ -41,7 +42,10 @@ export default function ImageCard({
             isExpanded={isExpanded}
             onToggle={onToggle}
         >
-            <ImageDetails image={image} />
+            <div className='grid gap-4 xl:grid-cols-[0.85fr_1.15fr]'>
+                <ImageBreakdown image={image} />
+                <ImageFindings image={image} />
+            </div>
         </ExpandableCard>
     )
 }

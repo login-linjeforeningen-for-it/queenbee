@@ -55,7 +55,7 @@ export default function DatabaseCard({ database }: { database: DatabaseOverviewI
                         <Stat label='Tables' value={String(database.tableCount)} />
                         <Stat label='Connections' value={String(database.currentConnections)} />
                         <Stat label='Active queries' value={String(database.activeQueries)} />
-                        <Stat label='Largest table' value={database.largestTable || '—'} />
+                        <Stat label='Largest table' value={database.largestTable || '-'} />
                         <Stat label='Longest query' value={formatDuration(database.longestQuerySeconds)} />
                     </div>
 

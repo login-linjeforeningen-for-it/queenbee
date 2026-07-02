@@ -37,7 +37,6 @@ export default function CertificateDetails({ service }: { service: Service }) {
                         ? <CircleAlert className='stroke-yellow-500 w-5' /> : <CheckCircle className='stroke-green-500 w-5' />}
                 </div>
 
-                {/* Certificate details */}
                 <div className='grid grid-cols-2 gap-y-3 gap-x-6'>
                     <div>
                         <h2 className='text-login-50 text-sm'>Subject CN</h2>

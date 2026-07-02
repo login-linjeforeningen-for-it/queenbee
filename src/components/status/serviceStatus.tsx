@@ -1,9 +1,9 @@
 import smallDate from '@utils/date/smallDate'
-import { barOutlineColor } from '@utils/status/barColor'
 import CertificateStatus from './certificateStatus'
 import CertificateDetails from './certificateDetails'
 import { Button, Card } from 'uibee/components'
 import { Edit } from 'lucide-react'
+import ManagedTable from '@components/table/managedTable'
 
 type ServiceStatusProps = {
     service?: Service
@@ -33,60 +33,33 @@ export default function ServiceStatus({ service, onEdit }: ServiceStatusProps) {
             </div>
             <CertificateDetails service={service} />
 
-            <div className='overflow-x-auto rounded-lg border border-white/5'>
-                <table className='w-full text-sm text-left'>
-                    <thead className='text-xs text-login-300 uppercase bg-black/20'>
-                        <tr>
-                            <th className='px-4 py-3 font-medium w-1/4'>Name</th>
-                            <th className='px-4 py-3 font-medium w-1/6'>Status</th>
-                            <th className='px-4 py-3 font-medium w-1/4'>Time</th>
-                            <th className='px-4 py-3 font-medium'>Message</th>
-                        </tr>
-                    </thead>
-                    <tbody className='divide-y divide-white/5'>
-                        {service.bars.map((bar, index) => {
-                            let status: 'up' | 'down' | 'maintenance' | 'pending' | null
-                            if (service.enabled && bar.status) {
-                                status = 'up'
-                            } else if (service.enabled && !bar.status && bar.expectedDown) {
-                                status = 'maintenance'
-                            } else if (service.enabled && !bar.status && service.maxConsecutiveFailures > 0) {
-                                let pendingFailed = 0
-                                for (let i = 0; i < Math.min(service.maxConsecutiveFailures, service.bars.length); i++) {
-                                    if (!service.bars[i].status) {
-                                        pendingFailed++
-                                    }
-                                }
-
-                                if (pendingFailed < service.maxConsecutiveFailures) {
-                                    status = 'pending'
-                                } else {
-                                    status = 'down'
-                                }
-                            } else {
-                                status = 'down'
-                            }
-
-                            return (
-                                <tr key={index} className='hover:bg-white/5 transition-colors'>
-                                    <td className='px-4 py-3 font-medium text-login-50 truncate max-w-xs'>{service.name}</td>
-                                    <td className='px-4 py-3'>
-                                        <span className={`
-                                            inline-flex items-center justify-center
-                                            text-xs outline px-2 rounded-md py-0.5 font-medium
-                                            ${barOutlineColor(bar, service.maxConsecutiveFailures, status)}
-                                            `}>
-                                            {status}
-                                        </span>
-                                    </td>
-                                    <td className='px-4 py-3 text-login-300'>{smallDate(bar.timestamp)}</td>
-                                    <td className='px-4 py-3 text-login-300 wrap-break-word'>{bar.note}</td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
-            </div>
+            <ManagedTable
+                data={service.bars.map((bar, index) => {
+                    let status: 'up' | 'down' | 'maintenance' | 'pending'
+                    if (service.enabled && bar.status) {
+                        status = 'up'
+                    } else if (service.enabled && !bar.status && bar.expectedDown) {
+                        status = 'maintenance'
+                    } else if (service.enabled && !bar.status && service.maxConsecutiveFailures > 0) {
+                        let pendingFailed = 0
+                        for (let i = 0; i < Math.min(service.maxConsecutiveFailures, service.bars.length); i++) {
+                            if (!service.bars[i].status) pendingFailed++
+                        }
+                        status = pendingFailed < service.maxConsecutiveFailures ? 'pending' : 'down'
+                    } else {
+                        status = 'down'
+                    }
+                    return { _id: String(index), name: service.name, status, time: smallDate(bar.timestamp), message: bar.note }
+                }) as unknown as Record<string, unknown>[]}
+                columns={[
+                    { key: 'name' },
+                    { key: 'status', highlight: { up: 'green', down: 'red', maintenance: 'purple', pending: 'yellow' } },
+                    { key: 'time' },
+                    { key: 'message' },
+                ]}
+                idKey='_id'
+                hidePagination
+            />
         </Card>
     )
 }

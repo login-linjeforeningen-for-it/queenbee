@@ -1,16 +1,14 @@
-import { Alert, SearchInput } from 'uibee/components'
-import Table from '@components/table/table'
-import Pagination from '@components/table/pagination'
-import formatAlert from '@components/alert/formatAlert'
+import { SearchInput } from 'uibee/components'
+import ManagedTable from '@components/table/managedTable'
 import deleteOrganization from '@utils/api/workerbee/organizations/deleteOrganization'
 import getOrganizations from '@utils/api/workerbee/organizations/getOrganizations'
 import { Button } from 'uibee/components'
 
-const headers = [
-    'id',
-    'name_en',
-    'name_no',
-    'updated_at'
+const columns = [
+    { key: 'id' },
+    { key: 'name_en' },
+    { key: 'name_no' },
+    { key: 'updated_at' },
 ]
 
 async function deleteAction(id: string) {
@@ -36,6 +34,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         sort
     })
 
+    const data = typeof organizations !== 'string' && Array.isArray(organizations.organizations) ? organizations.organizations : []
+    const totalRows = typeof organizations !== 'string' && Array.isArray(organizations.organizations) ? organizations.total_count : 0
+
     return (
         <div className='h-full overflow-hidden flex flex-col'>
             <div className='flex-none'>
@@ -49,25 +50,16 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     />
                 </div>
             </div>
-            { typeof organizations === 'string' || !Array.isArray(organizations.organizations) || organizations.organizations.length < 1
-                ? (
-                    <div className='w-full h-full flex items-center justify-center'>
-                        <Alert>
-                            {formatAlert(organizations, 'No organizations found')}
-                        </Alert>
-                    </div>
-                ) : (
-                    <div className='flex-1 flex flex-col overflow-hidden'>
-                        <Table
-                            list={organizations.organizations}
-                            headers={headers}
-                            deleteAction={deleteAction}
-                            redirectPath='/organizations/update'
-                        />
-                        <Pagination pageSize={limit} totalRows={organizations.total_count} />
-                    </div>
-                )
-            }
+            <div className='flex-1 flex flex-col overflow-hidden'>
+                <ManagedTable
+                    data={data as Record<string, unknown>[]}
+                    columns={columns}
+                    deleteAction={deleteAction}
+                    redirectPath='/organizations/update'
+                    totalRows={totalRows}
+                    pageSize={limit}
+                />
+            </div>
         </div>
     )
 }

@@ -1,12 +1,11 @@
-import { Alert, SearchInput } from 'uibee/components'
-import Table from '@components/table/table'
-import Pagination from '@components/table/pagination'
-import formatAlert from '@components/alert/formatAlert'
+import { SearchInput } from 'uibee/components'
+import ManagedTable from '@components/table/managedTable'
 import deleteAnnouncement from '@utils/api/bot/announcements/deleteAnnouncement'
 import getAnnouncements from '@utils/api/bot/announcements/getAnnouncements'
 import getRoles from '@utils/api/bot/announcements/getRoles'
 import getChannels from '@utils/api/bot/announcements/getChannels'
 import { Button } from 'uibee/components'
+import { RoleRenderer } from '@components/preview/discordRole'
 
 const announcementList = [
     'id',
@@ -92,30 +91,30 @@ function Sort({ tempSort, channels, roles, limit }: {
         announcement.channel = channels?.find((c) => c.value === announcement.channel)?.label
     })
 
-    if (
-        typeof tempSort === 'string' ||
-        !Array.isArray(announcements) ||
-        announcements.length < 1
-    ) {
-        return (
-            <div className='w-full h-full flex items-center justify-center'>
-                <Alert>
-                    {formatAlert(tempSort, 'No announcements found')}
-                </Alert>
-            </div>
-        )
-    }
+    const processedAnnouncements = announcements.map(a => ({
+        ...a,
+        roles: roles.length
+            ? (
+                <div className='flex flex-wrap gap-1'>
+                    {(a.roles as unknown as string[]).map((roleId, idx) => (
+                        <RoleRenderer key={idx} roleId={roleId} roles={roles} />
+                    ))}
+                </div>
+            )
+            : a.roles
+    }))
 
     return (
         <div className='flex-1 flex flex-col overflow-hidden'>
-            <Table
-                list={announcements}
-                headers={announcementList}
+            <ManagedTable
+                data={processedAnnouncements as unknown as Record<string, unknown>[]}
+                columns={announcementList.map(key => ({ key }))}
+                rawKeys={['roles']}
                 deleteAction={deleteAction}
-                roles={roles}
                 redirectPath='/announcements/update'
+                totalRows={Number(totalCount)}
+                pageSize={limit}
             />
-            <Pagination pageSize={limit} totalRows={Number(totalCount)} />
         </div>
     )
 }

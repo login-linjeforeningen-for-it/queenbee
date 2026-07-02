@@ -2,11 +2,10 @@
 
 import { Activity, Clock, Globe, ShieldAlert, Cpu, Monitor } from 'lucide-react'
 import { Card, StatCard } from 'uibee/components'
-import statusClasses from './statusClasses'
 import RequestsOverTimeChart from './requestsOverTimeChart'
 import CombinedMetrics from './combinedMetrics'
 import Bar from './bar'
-import Table from '@components/table/table'
+import ManagedTable from '@components/table/managedTable'
 import Marquee from '@components/shared/marquee'
 import DomainSelector from './domainSelector'
 import { TrafficMetricsProps, TrafficRecordsProps, TrafficRecord, TrafficEntry } from '@utils/api/beekeeper/traffic/types'
@@ -16,9 +15,11 @@ type TrafficDashboardProps = {
     records?: TrafficRecordsProps | string
     selectedDomain?: string
     domainOptions?: string[]
+    totalRows?: number
+    pageSize?: number
 }
 
-export default function TrafficDashboard({ metrics, records, selectedDomain, domainOptions = [] }: TrafficDashboardProps) {
+export default function TrafficDashboard({ metrics, records, selectedDomain, domainOptions = [], totalRows, pageSize }: TrafficDashboardProps) {
     const m = typeof metrics === 'object' && metrics !== null ? (metrics as TrafficMetricsProps) : undefined
 
     const totalRequests = Number(m?.total_requests) || 0
@@ -60,11 +61,6 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
         return d.toLocaleDateString('nb-NO', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
     }
 
-    const getDurationColor = (ms: number) => {
-        if (ms < 200) return 'text-emerald-400'
-        if (ms < 800) return 'text-amber-400'
-        return 'text-rose-400'
-    }
 
     return (
         <div className='flex flex-col flex-1 gap-6 min-h-0'>
@@ -76,50 +72,38 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
 
             {recs && recs.length > 0 && (
                 <div className='flex-1 flex flex-col min-h-0 w-full max-w-full overflow-hidden'>
-                    <Table
-                        headers={['timestamp', 'status', 'duration', 'method', 'path', 'domain', 'iso']}
-                        list={recs.map(r => ({
-                            timestamp: (
-                                <span className='text-sm tabular-nums text-login-50 font-semibold'>
-                                    {formatTime(r.timestamp)}
-                                </span>
-                            ),
-                            status: (
-                                <span className={`px-2 py-0.5 rounded text-sm font-bold border ${statusClasses(r.status)}`}>
-                                    {r.status}
-                                </span>
-                            ),
-                            duration: (
-                                <span className={`tabular-nums text-sm font-bold ${getDurationColor(r.request_time)}`}>
-                                    {r.request_time}ms
-                                </span>
-                            ),
-                            method: <span className='text-sm font-bold text-login-50 uppercase'>{r.method}</span>,
-                            path: (
-                                <div className='block w-40 max-w-40 min-w-0 overflow-hidden' title={r.path}>
-                                    <Marquee
-                                        text={r.path}
-                                        className='w-full max-w-40'
-                                        innerClassName='text-sm font-medium text-login-50'
-                                    />
+                    <ManagedTable
+                        data={recs.map(r => ({
+                            _ts: r.timestamp,
+                            timestamp: formatTime(r.timestamp),
+                            status: r.status >= 500 ? '5xx' : r.status >= 400 ? '4xx' : r.status >= 300 ? '3xx' : '2xx',
+                            duration: r.request_time < 200 ? 'fast' : r.request_time < 800 ? 'slow' : 'critical',
+                            method: r.method.toUpperCase(),
+                            path: r.path,
+                            domain: r.domain,
+                            iso: r.country_iso || '??',
+                        })) as unknown as Record<string, unknown>[]}
+                        columns={[
+                            { key: 'timestamp' },
+                            { key: 'status', highlight: { '2xx': 'green', '3xx': 'blue', '4xx': 'yellow', '5xx': 'red' } },
+                            { key: 'duration', highlight: { fast: 'green', slow: 'yellow', critical: 'red' } },
+                            { key: 'method' },
+                            { key: 'path', render: (v) => (
+                                <div className='block w-40 max-w-40 min-w-0 overflow-hidden' title={v as string}>
+                                    <Marquee text={v as string} className='w-full max-w-40' innerClassName='text-sm font-medium text-login-50' />
                                 </div>
-                            ),
-                            domain: (
-                                <div className='block w-28 max-w-28 min-w-0 overflow-hidden' title={r.domain}>
-                                    <Marquee
-                                        text={r.domain}
-                                        className='w-full max-w-28'
-                                        innerClassName='text-sm text-login-300 opacity-70'
-                                    />
+                            )},
+                            { key: 'domain', render: (v) => (
+                                <div className='block w-28 max-w-28 min-w-0 overflow-hidden' title={v as string}>
+                                    <Marquee text={v as string} className='w-full max-w-28' innerClassName='text-sm text-login-300 opacity-70' />
                                 </div>
-                            ),
-                            iso: (
-                                <span className='text-xs font-bold text-login-300 opacity-70 uppercase tracking-widest'>
-                                    {r.country_iso || '??'}
-                                </span>
-                            )
-                        }))}
-                        hideMenu
+                            )},
+                            { key: 'iso' },
+                        ]}
+                        idKey='_ts'
+                        totalRows={totalRows}
+                        pageSize={pageSize}
+                        hidePagination={!totalRows || !pageSize}
                     />
                 </div>
             )}
@@ -130,8 +114,8 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
 
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
                         <StatCard label='Total Requests' value={totalRequests.toLocaleString()} icon={Globe} />
-                        <StatCard label='Avg Response' value={avgRequestTime ? `${avgRequestTime}ms` : '—'} icon={Clock} />
-                        <StatCard label='Error Rate' value={errorRate ? `${errorRate}%` : '—'} icon={ShieldAlert} />
+                        <StatCard label='Avg Response' value={avgRequestTime ? `${avgRequestTime}ms` : '-'} icon={Clock} />
+                        <StatCard label='Error Rate' value={errorRate ? `${errorRate}%` : '-'} icon={ShieldAlert} />
                     </div>
 
                     <div className='flex justify-between items-center -my-2'>

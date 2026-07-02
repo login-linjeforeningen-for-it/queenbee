@@ -1,8 +1,7 @@
 'use client'
 
 import { Alert, Button, SearchInput, Select } from 'uibee/components'
-import Table from '@components/table/table'
-import Pagination from '@components/table/pagination'
+import ManagedTable from '@components/table/managedTable'
 import getDocker from '@utils/api/internal/system/getDocker'
 import Conveyer from '@components/update/conveyer'
 import ConveyerStopped from '@components/update/conveyerStopped'
@@ -14,13 +13,6 @@ type PageClientProps = {
     docker: Docker
     deleteAction: (id: string) => Promise<void>
 }
-const headers = [
-    'id',
-    'name',
-    'status',
-    'actions'
-]
-
 const refreshOptions = [
     { label: 'Off', value: 0 },
     { label: '1s', value: 1000 },
@@ -252,7 +244,7 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
     const [deploymentRuns, setDeploymentRuns] = useState<Record<string, DeploymentRunState>>({})
     const searchParams = useSearchParams()
     const query = searchParams?.get('q')?.toLowerCase() ?? ''
-    const limit = 25
+
 
     const containers = useMemo(() => (
         docker?.containers?.map(container => {
@@ -350,17 +342,9 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
 
     const tableList = filteredContainers.map(container => ({
         system_table_id: container.id,
-        id: <span className='font-mono text-xs text-login-300'>{container.id.substring(0, 12)}</span>,
-        name: <span className='font-medium text-login-50'>{container.name}</span>,
-        status: (
-            <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
-                container.status.toLowerCase().includes('up')
-                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                    : 'bg-red-500/10 text-red-400 border-red-500/20'
-            }`}>
-                {container.status}
-            </span>
-        ),
+        id: container.id.substring(0, 12),
+        name: container.name,
+        status: container.status.toLowerCase().includes('up') ? 'running' : 'stopped',
         actions: (
             <div className='flex items-center justify-end gap-2'>
                 <DeploymentMeta
@@ -468,14 +452,14 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
                 </div>
             ) : (
                 <div className='flex-1 flex flex-col overflow-hidden pt-2 gap-2'>
-                    <Table
-                        list={tableList}
-                        headers={headers}
-                        deleteAction={deleteAction}
-                        hideMenu={true}
+                    <ManagedTable
+                        data={tableList as unknown as Record<string, unknown>[]}
+                        columns={[{key:'id'}, {key:'name'}, {key:'status', highlight: { running: 'green', stopped: 'red' }}, {key:'actions'}]}
+                        rawKeys={['actions']}
+                        idKey='system_table_id'
                         redirectPath='/internal/services'
+                        hidePagination
                     />
-                    <Pagination pageSize={limit} totalRows={docker.count} />
                 </div>
             )}
         </div>

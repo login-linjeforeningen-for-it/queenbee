@@ -1,13 +1,11 @@
-import { SearchInput } from 'uibee/components'
+import { Button, SearchInput, Toggle } from 'uibee/components'
 import type { GetVulnerabilities } from '@utils/api/internal/vulnerabilities/get'
 import type { PageClientProps, VulnerabilityPageState } from './types'
-import RunScanButton from './runScanButton'
 import type useExpandedImages from './useExpandedImages'
 import useRunScan from './useRunScan'
 import type useScanNotice from './useScanNotice'
 import type useSortedImages from './useSortedImages'
-import { Toggle } from 'uibee/components'
-import { LayoutGrid, Rows3 } from 'lucide-react'
+import { LayoutGrid, LoaderCircle, Play, Rows3 } from 'lucide-react'
 
 type Props = Pick<PageClientProps, 'runScanAction'> & {
     data: GetVulnerabilities | null
@@ -56,10 +54,14 @@ export default function ScanToolbar(props: Props) {
                         label: 'Expanded vulnerability cards',
                     }}
                 />
-                <RunScanButton
-                    disabled={props.scanStatus.isRunning || props.isRefreshing}
-                    isRunning={props.scanStatus.isRunning}
+                <Button
+                    className='mr-0.5 py-4.5'
                     onClick={handleRunScan}
+                    disabled={props.scanStatus.isRunning || props.isRefreshing}
+                    text={props.scanStatus.isRunning ? 'Scanning…' : 'Run scan'}
+                    icon={(props.scanStatus.isRunning || props.isRefreshing)
+                        ? <LoaderCircle className='h-4 w-4 animate-spin' />
+                        : <Play className='h-4 w-4' />}
                 />
             </div>
         </div>

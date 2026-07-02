@@ -135,7 +135,6 @@ export default function page({ data }: { data: DockerContainer }) {
                     <BackButton pushURL='/internal/services' />
                 </div>
 
-                {/* 1. Overview */}
                 <Section
                     title={`Container ${container.name}`}
                     subtitle='Detailed runtime, resource, networking, and log information for this service container.'
@@ -157,7 +156,6 @@ export default function page({ data }: { data: DockerContainer }) {
                     </div>
                 </Section>
 
-                {/* 2. Runtime | Related Containers */}
                 <div className='grid gap-4 xl:grid-cols-[1.2fr_0.8fr]'>
                     <Section
                         title='Runtime Overview'
@@ -197,7 +195,6 @@ export default function page({ data }: { data: DockerContainer }) {
                     </Section>
                 </div>
 
-                {/* 3. Configuration | Environment */}
                 <div className='grid gap-4 xl:grid-cols-2'>
                     <Section
                         title='Configuration'
@@ -224,7 +221,6 @@ export default function page({ data }: { data: DockerContainer }) {
                     </Section>
                 </div>
 
-                {/* 4. Networking | Recent Logs */}
                 <div className='grid gap-4 xl:grid-cols-2'>
                     <Section
                         title='Networking'
@@ -248,7 +244,6 @@ export default function page({ data }: { data: DockerContainer }) {
                     </Section>
                 </div>
 
-                {/* 5. Commands */}
                 <Section
                     title='Commands'
                     subtitle='Startup command, entrypoint, and port bindings.'

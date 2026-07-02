@@ -13,13 +13,10 @@ export default function Conveyer({ className, wheels, belt, containers, middleCo
 
     return (
         <svg className={`w-16 h-8 p-[1.2px] ${className}`} id='conveyer' viewBox='0 0 256.23 103.04'>
-            {/* belt */}
             <rect fill='none' className={style} x='2' y='74.55' width='252.23' height='26.49' rx='10' ry='10' />
-            {/* containers */}
             <rect fill='none' className={containerStyle} x='17.42' y='2' width='60' height='60' rx='8' ry='8' />
             <rect fill='none' className={middleContainerStyle} x='98.12' y='2' width='60' height='60' rx='8' ry='8' />
             <rect fill='none' className={containerStyle} x='178.81' y='2' width='60' height='60' rx='8' ry='8' />
-            {/* belt */}
             <circle fill='none' className={`stroke stroke-[3px] ${wheels}`} cx='142.46' cy='87.8' r='5' />
             <circle fill='none' className={`stroke stroke-[3px] ${wheels}`} cx='171.13' cy='87.8' r='5' />
             <circle fill='none' className={`stroke stroke-[3px] ${wheels}`} cx='199.81' cy='87.8' r='5' />
@@ -28,7 +25,6 @@ export default function Conveyer({ className, wheels, belt, containers, middleCo
             <circle fill='none' className={`stroke stroke-[3px] ${wheels}`} cx='56.42' cy='87.8' r='5' />
             <circle fill='none' className={`stroke stroke-[3px] ${wheels}`} cx='85.1' cy='87.8' r='5' />
             <circle fill='none' className={`stroke stroke-[3px] ${wheels}`} cx='113.78' cy='87.8' r='5' />
-            {/* cross */}
             <rect
                 className='stroke stroke-2 hidden group-hover:block'
                 fill='red'

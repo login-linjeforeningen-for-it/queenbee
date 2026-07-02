@@ -1,16 +1,14 @@
-import { Alert, Button, SearchInput } from 'uibee/components'
-import Table from '@components/table/table'
-import Pagination from '@components/table/pagination'
-import formatAlert from '@components/alert/formatAlert'
+import { Button, SearchInput } from 'uibee/components'
+import ManagedTable from '@components/table/managedTable'
 import deleteHoney from '@utils/api/workerbee/honey/deleteHoney'
 import getHoneyList from '@utils/api/workerbee/honey/getList'
 import getHoneyServices from '@utils/api/workerbee/honey/getServices'
 import HoneyTabs from './tabs'
 
-const headers = [
-    'id',
-    'language',
-    'page'
+const columns = [
+    { key: 'id' },
+    { key: 'language' },
+    { key: 'page' },
 ]
 
 async function deleteAction(id: string) {
@@ -43,6 +41,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         ? servicesResult
         : []
 
+    const data = typeof honey !== 'string' && Array.isArray(honey.honeys) ? honey.honeys : []
+    const totalRows = typeof honey !== 'string' && Array.isArray(honey.honeys) ? honey.total_count : 0
+
     return (
         <div className='h-full overflow-hidden flex flex-col'>
             <div className='flex-none'>
@@ -57,23 +58,16 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
                     />
                 </div>
             </div>
-            {typeof honey === 'string' || !Array.isArray(honey.honeys) || honey.honeys.length < 1 ? (
-                <div className='w-full h-full flex items-center justify-center'>
-                    <Alert>
-                        {formatAlert(honey, 'No honey found')}
-                    </Alert>
-                </div>
-            ) : (
-                <div className='flex-1 flex flex-col overflow-hidden'>
-                    <Table
-                        list={honey.honeys}
-                        headers={headers}
-                        deleteAction={deleteAction}
-                        redirectPath='/honey/update'
-                    />
-                    <Pagination pageSize={limit} totalRows={honey.total_count} />
-                </div>
-            )}
+            <div className='flex-1 flex flex-col overflow-hidden'>
+                <ManagedTable
+                    data={data as Record<string, unknown>[]}
+                    columns={columns}
+                    deleteAction={deleteAction}
+                    redirectPath='/honey/update'
+                    totalRows={totalRows}
+                    pageSize={limit}
+                />
+            </div>
         </div>
     )
 }

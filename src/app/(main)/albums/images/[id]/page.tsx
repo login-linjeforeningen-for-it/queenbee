@@ -2,7 +2,7 @@ import Album from '@components/album/album'
 import { SearchInput } from 'uibee/components'
 import UploadAlbumImages from '@components/inputs/uploadAlbumImages'
 import BackButton from '@components/navigation/back'
-import Pagination from '@components/table/pagination'
+import { Pagination } from 'uibee/components'
 import deleteAlbumImage from '@utils/api/workerbee/albums/deleteAlbumImage'
 import getAlbum from '@utils/api/workerbee/albums/getAlbum'
 import putCoverImage from '@utils/api/workerbee/albums/putCoverImage'
@@ -49,6 +49,8 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                         <Pagination
                             totalRows={album.images.length}
                             pageSize={pageSize}
+                            variant='modern'
+                            urlState
                         />
                     }
                 </div>

@@ -52,7 +52,6 @@ export default function MultiSelect({
 
     return (
         <div ref={containerRef} className='relative w-fit'>
-            {/* Control */}
             <div
                 onClick={() => setOpen((o) => !o)}
                 className={`
@@ -107,7 +106,6 @@ export default function MultiSelect({
                 </div>
             </div>
 
-            {/* Dropdown */}
             {open && options.length > 0 && (
                 <div
                     className={`

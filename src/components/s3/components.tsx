@@ -30,7 +30,6 @@ import {
 } from './helpers'
 import type { BrowserEntry, BucketSummary, ObjectSummary } from './types'
 
-// ─── BucketList ──────────────────────────────────────────────────────────────
 
 export function BucketList({
     buckets,
@@ -122,7 +121,6 @@ export function BucketList({
     )
 }
 
-// ─── ObjectBrowser ────────────────────────────────────────────────────────────
 
 type UploadProps = {
     uploadFile: File | null
@@ -190,7 +188,6 @@ export function ObjectBrowser({
 
     return (
         <Card className='flex min-h-0 flex-col overflow-hidden'>
-            {/* ── Toolbar ── */}
             <div className='shrink-0 border-b border-white/5 px-4 py-3'>
                 <div className='flex items-center gap-3'>
                     <div className='min-w-0 flex-1'>
@@ -224,7 +221,6 @@ export function ObjectBrowser({
                 </div>
             </div>
 
-            {/* ── Upload panel ── */}
             {uploadOpen && (
                 <div className='shrink-0 border-b border-white/5 bg-login-50/5 px-4 py-3'>
                     <div className='flex flex-wrap items-center gap-3'>
@@ -254,7 +250,6 @@ export function ObjectBrowser({
                 </div>
             )}
 
-            {/* ── Selected object bar ── */}
             {selectedObject && (
                 <div className='shrink-0 border-b border-white/5 bg-login-50/5 px-4 py-3'>
                     <div className='flex flex-wrap items-center gap-3'>
@@ -326,7 +321,6 @@ export function ObjectBrowser({
                 </div>
             )}
 
-            {/* ── Object table ── */}
             <div className='min-h-0 flex-1 overflow-auto px-4 pb-4'>
                 {!selectedBucket ? (
                     <div className='pt-4'>
@@ -376,7 +370,6 @@ export function ObjectBrowser({
                 )}
             </div>
 
-            {/* ── Footer count ── */}
             {selectedBucket && (
                 <div className='shrink-0 border-t border-white/5 px-4 py-2 text-xs text-login-300'>
                     {entries.length} visible · {filteredCount} objects
@@ -385,8 +378,6 @@ export function ObjectBrowser({
         </Card>
     )
 }
-
-// ─── Breadcrumb ───────────────────────────────────────────────────────────────
 
 function Breadcrumb({ prefix, onOpenFolder }: { prefix: string; onOpenFolder: (prefix: string) => void }) {
     return (
@@ -411,8 +402,6 @@ function Breadcrumb({ prefix, onOpenFolder }: { prefix: string; onOpenFolder: (p
         </div>
     )
 }
-
-// ─── ObjectRow ────────────────────────────────────────────────────────────────
 
 function ObjectRow({
     entry,

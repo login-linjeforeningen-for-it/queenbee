@@ -55,7 +55,7 @@ export default function ClusterCard({ cluster }: { cluster: DatabaseOverviewClus
                             <Stat label='Tables' value={String(solo.tableCount)} />
                             <Stat label='Connections' value={String(solo.currentConnections)} />
                             <Stat label='Active queries' value={String(solo.activeQueries)} />
-                            <Stat label='Largest table' value={solo.largestTable || '—'} />
+                            <Stat label='Largest table' value={solo.largestTable || '-'} />
                             <Stat label='Longest query' value={formatDuration(solo.longestQuerySeconds)} />
                         </div>
 

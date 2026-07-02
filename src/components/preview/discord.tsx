@@ -69,7 +69,6 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
 
     return (
         <div className='bg-[#2b2b2b] rounded-md p-4 text-foreground font-sans shadow-lg'>
-            {/* Channel Name */}
             <p className='text-[#72767d] text-sm mb-2'># {channelName}</p>
 
             <div
@@ -90,7 +89,6 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
                         quality={100}
                     />
                 </div>
-                {/* Message Bubble */}
                 <div className='flex flex-col'>
                     <div className='flex gap-2'>
                         <span className='font-semibold text-blue-400 text-sm'>
@@ -106,7 +104,6 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
                             Yesterday at 15:13
                         </span>
                     </div>
-                    {/* Optional Embed */}
                     {embed ? (
                         <div className='mt-1'>
                             {ping && (
@@ -185,12 +182,10 @@ function formatColor(color: string) {
     const normalized = color.trim().toLowerCase()
     if (!color.trim().length) return 'white'
 
-    // Checks if it's a valid CSS color name
     const s = new Option().style
     s.color = normalized
     if (s.color) return normalized
 
-    // Otherwise, treat as hex
     if (!normalized.startsWith('#')) return `#${normalized}`
     return normalized
 }
