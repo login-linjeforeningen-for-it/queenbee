@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { ViewTransition } from 'react'
 import 'uibee/styles'
 import { cookies } from 'next/headers'
 import Nav from '@/components/navbar/nav'
@@ -29,7 +30,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                     </div>
                     <main className='flex-1 h-full bg-login-800 overflow-hidden relative'>
                         <div className='relative p-4 pt-10! w-full h-full bg-login-800 overflow-scroll'>
-                            {children}
+                            <ViewTransition>
+                                {children}
+                            </ViewTransition>
                         </div>
                     </main>
                 </div>

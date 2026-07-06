@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
         serverActions: {
             bodySizeLimit: '50mb',
         },
+        viewTransition: true,
     },
     images: {
         qualities: [25, 50, 75, 100],

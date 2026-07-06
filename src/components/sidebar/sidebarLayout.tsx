@@ -27,6 +27,10 @@ type SidebarLayoutProps = {
     initialExpanded?: boolean
 }
 
+const ITEM_HEIGHT = 48
+const GAP = 4
+const SUB_STRIDE = 40
+
 export default function SidebarLayout({ items, bottomAction, mobile = false, initialExpanded = true }: SidebarLayoutProps) {
     const [expanded, setExpanded] = useState(initialExpanded)
 
@@ -38,6 +42,16 @@ export default function SidebarLayout({ items, bottomAction, mobile = false, ini
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const fullPath = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '')
+
+    function isItemActive(value: SidebarItem) {
+        return pathname === value.path || !!(value.items && value.items.some(i => i.path.includes('?')
+            ? fullPath.startsWith(i.path)
+            : pathname.startsWith(i.path)))
+    }
+    const activeIndex = items.findIndex(isItemActive)
+    const activeOffset = items
+        .slice(0, Math.max(activeIndex, 0))
+        .reduce((acc, v) => acc + ITEM_HEIGHT + (v.items ? GAP : 0) + GAP, 0)
 
     return (
         <aside
@@ -89,20 +103,29 @@ export default function SidebarLayout({ items, bottomAction, mobile = false, ini
 
             {mobile && <div className='h-4' />}
 
-            <div className='flex-1 flex flex-col gap-1 px-3 overflow-y-auto overflow-x-hidden no-scrollbar'>
+            <div className='relative flex-1 flex flex-col gap-1 px-3 overflow-y-auto overflow-x-hidden no-scrollbar'>
+                {activeIndex >= 0 && (
+                    <span
+                        aria-hidden
+                        className='absolute top-0 left-3 right-3 h-12 rounded-lg bg-login-800 transition-transform duration-300 ease-in-out'
+                        style={{ transform: `translateY(${activeOffset}px)` }}
+                    />
+                )}
                 {items.map((value, index) => {
-                    const isActive = pathname === value.path || (value.items && value.items.some(i => i.path.includes('?')
-                        ? fullPath.startsWith(i.path) :
-                        pathname.startsWith(i.path))
-                    )
+                    const isActive = isItemActive(value)
+                    const activeSubIndex = value.items
+                        ? value.items.findIndex(i => i.path.includes('?') ? fullPath.startsWith(i.path) : pathname === i.path)
+                        : -1
                     return (
                         <div key={index} className='flex flex-col gap-1'>
                             <Link
                                 href={value.path}
                                 className={`
                                     flex items-center p-3 rounded-lg overflow-hidden
-                                    transition-all duration-200 group relative
-                                    ${isActive ? 'bg-login-800 text-login' : 'hover:bg-login-800/50 text-login-200 hover:text-login-100'}
+                                    transition-all duration-200 group relative z-10
+                                    ${isActive
+                            ? 'text-login'
+                            : 'hover:bg-login-800/50 text-login-200 hover:text-login-100'}
                                 `}
                                 title={!expanded ? value.name : ''}
                             >
@@ -132,10 +155,18 @@ export default function SidebarLayout({ items, bottomAction, mobile = false, ini
                             </Link>
                             {value.items && (
                                 <div className={`
-                                    flex flex-col gap-1 ml-6 border-l border-login-800 pl-2 overflow-hidden
+                                    relative flex flex-col gap-1 ml-6 border-l border-login-800 pl-2 overflow-hidden
                                     transition-all duration-300 ease-in-out
                                     ${expanded && isActive ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
                                 `}>
+                                    {activeSubIndex >= 0 && (
+                                        <span
+                                            aria-hidden
+                                            className='absolute top-0 left-2 right-0 h-9 rounded-lg bg-login-800/50
+                                                transition-transform duration-300 ease-in-out'
+                                            style={{ transform: `translateY(${activeSubIndex * SUB_STRIDE}px)` }}
+                                        />
+                                    )}
                                     {value.items.map((subItem, subIndex) => {
                                         const isSubActive = subItem.path.includes('?')
                                             ? fullPath.startsWith(subItem.path)
@@ -145,9 +176,9 @@ export default function SidebarLayout({ items, bottomAction, mobile = false, ini
                                                 key={`${index}-${subIndex}`}
                                                 href={subItem.path}
                                                 className={`
-                                                    p-2 rounded-lg text-sm transition-all duration-200
+                                                    relative z-10 p-2 rounded-lg text-sm transition-all duration-200
                                                     ${isSubActive
-                                                ? 'text-login bg-login-800/50'
+                                                ? 'text-login'
                                                 : 'text-login-300 hover:text-login-100 hover:bg-login-800/30'
                                             }
                                                 `}
