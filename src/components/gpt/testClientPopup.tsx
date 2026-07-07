@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { Bot, Send, X } from 'lucide-react'
-import { Button } from 'uibee/components'
+import { Button, EmptyState } from 'uibee/components'
 
 type TestClientPopupProps = {
     client: GPT_Client
@@ -82,23 +82,15 @@ export default function TestClientPopup({
                             {!messages.length ? (
                                 <div
                                     className='flex h-full min-h-56 items-center justify-center rounded-xl
-                                        border border-dashed border-login-500/30 bg-login-500/50 p-6 text-center'
+                                        border border-dashed border-login-500/30 bg-login-500/50 p-6'
                                 >
-                                    <div>
-                                        <div
-                                            className='mx-auto flex h-12 w-12 items-center justify-center
-                                                rounded-full bg-login/10 text-login'
-                                        >
-                                            <Bot className='h-6 w-6' />
-                                        </div>
-                                        <h3 className='mt-4 font-semibold text-login-50'>
-                                            Start a test conversation
-                                        </h3>
-                                        <p className='mt-2 text-sm text-login-300'>
-                                            Send a prompt to verify this client responds and watch
-                                            the token metrics update while it generates.
-                                        </p>
-                                    </div>
+                                    <EmptyState
+                                        icon={Bot}
+                                        title='Start a test conversation'
+                                        description='Send a prompt to verify this client responds and watch
+                                            the token metrics update while it generates.'
+                                        className='py-0'
+                                    />
                                 </div>
                             ) : (
                                 messages.map((message) => (

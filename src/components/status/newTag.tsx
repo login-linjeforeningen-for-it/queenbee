@@ -1,7 +1,7 @@
 import postTag from '@utils/fetch/status/postTag'
 import { X } from 'lucide-react'
 import { Dispatch, SetStateAction, useState } from 'react'
-import { Button, Input } from 'uibee/components'
+import { Button, Input, Modal } from 'uibee/components'
 
 type NewTagProps = {
     display: boolean
@@ -33,22 +33,12 @@ export default function NewTag({ display, setAddingTag, setRefresh }: NewTagProp
         }
     }
 
-    if (!display) {
-        return
-    }
-
     return (
-        <div
-            onClick={(e) => { e.stopPropagation(); setAddingTag(false) }}
-            className='fixed inset-0 bg-black/50 flex items-center justify-center z-50'
-        >
+        <Modal isOpen={display} onClose={() => setAddingTag(false)} title='New Tag'>
             <form
-                onClick={(e) => e.stopPropagation()}
                 onSubmit={handleSubmit}
-                className='bg-login-50/5 backdrop-blur-md rounded-xl p-6 w-full max-w-md grid gap-4'
+                className='grid gap-4'
             >
-                <h1 className='text-2xl font-semibold text-center'>New Tag</h1>
-
                 <div className='grid gap-1'>
                     <Input
                         name='name'
@@ -83,6 +73,6 @@ export default function NewTag({ display, setAddingTag, setRefresh }: NewTagProp
                     <Button type='submit' text='Create' icon='+' />
                 </div>
             </form>
-        </div>
+        </Modal>
     )
 }

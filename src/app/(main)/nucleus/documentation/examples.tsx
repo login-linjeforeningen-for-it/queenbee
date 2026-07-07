@@ -1,3 +1,5 @@
+import { Code } from 'uibee/components'
+
 const examples = [
     {
         text: 'Varsling med tittel "Overskrift" og innhold "Innholdet i varslingen" til TekKom på norsk:',
@@ -37,9 +39,9 @@ export default function Examples() {
                 {examples.map((example, i) => (
                     <li key={i} className='rounded-xl border border-white/5 bg-login-50/5 p-3'>
                         <p className='text-sm text-login-50'>{example.text}</p>
-                        <code className='mt-2 block rounded-lg bg-black/30 px-3 py-2 text-xs font-mono text-login-50'>
+                        <Code className='mt-2 block rounded-lg px-3 py-2'>
                             {example.description}
-                        </code>
+                        </Code>
                     </li>
                 ))}
             </ul>

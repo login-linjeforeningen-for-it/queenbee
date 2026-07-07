@@ -1,7 +1,7 @@
 'use client'
 
 import { X } from 'lucide-react'
-import { Button, Input, Range } from 'uibee/components'
+import { Button, Input, Modal, Range } from 'uibee/components'
 import { useState, useRef, useEffect, MouseEvent, ChangeEvent } from 'react'
 
 
@@ -141,80 +141,13 @@ export default function UploadPopup({ file, handleFileAction, onCloseAction, sho
     }
 
     return (
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4'>
-            <div className='bg-login-800 rounded-xl border border-login-500/40
-                relative shadow-2xl w-full max-w-lg flex flex-col overflow-hidden'
-            >
-                <div className='absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-login via-login to-login/80 rounded-t-xl' />
-
-                <div className='flex items-center justify-between px-6 pt-6 pb-2'>
-                    <h1 className='text-xl font-bold'>Upload Preview</h1>
-                    <Button
-                        variant='secondary'
-                        icon={<X className='w-5 h-5' />}
-                        onClick={onCloseAction}
-                    />
-                </div>
-
-                <div className='p-6 space-y-6'>
-                    <div className='flex justify-center bg-login-900/20 py-6 rounded-lg border border-login-500/20 border-dashed'>
-                        <div
-                            className='relative w-83 aspect-5/2 rounded-md overflow-hidden mx-auto cursor-move touch-none'
-                            ref={containerRef}
-                            onMouseDown={handleMouseDown}
-                            onMouseMove={handleMouseMove}
-                            onMouseUp={handleMouseUp}
-                            onMouseLeave={handleMouseUp}
-                        >
-                            {imageSrc && (
-                                <img
-                                    ref={imgRef}
-                                    src={imageSrc}
-                                    alt='Preview'
-                                    className='max-w-none origin-top-left pointer-events-none select-none'
-                                    style={{
-                                        transform: `translate3d(${position.x}px, ${position.y}px, 0) scale(${scale})`,
-                                        width: 'auto',
-                                        height: 'auto'
-                                    }}
-                                    onLoad={handleImageLoad}
-                                    draggable={false}
-                                />
-                            )}
-                            {showTag &&
-                                <div className='absolute top-2 left-2 flex w-fit h-fit justify-center rounded
-                                    min-w-14 min-h-14 py-1 px-2 backdrop-blur-sm bg-black/50 pointer-events-none'>
-                                    <div className='w-fit'>
-                                        <div className='text-center w-max mx-auto text-white text-xl leading-7'>14</div>
-                                        <div className='text-center text-white text-base leading-5 -translate-y-0.5'>Apr</div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
-
-                    <div className='space-y-4'>
-                        <Range
-                            name='imageZoom'
-                            label='Zoom'
-                            min={minScale}
-                            max={minScale * 3}
-                            step={0.001}
-                            value={scale}
-                            onChange={handleZoom}
-                            showValue={false}
-                        />
-                        <Input
-                            name='fileName'
-                            label='File name'
-                            value={fileName}
-                            onChange={(e) => setFileName(e.target.value)}
-                            placeholder='Enter file name'
-                        />
-                    </div>
-                </div>
-
-                <div className='flex justify-end gap-3 px-6 py-4 bg-login-900/20 border-t border-login-500/40'>
+        <Modal
+            isOpen
+            onClose={onCloseAction}
+            title='Upload Preview'
+            size='lg'
+            footer={
+                <div className='flex justify-end gap-3'>
                     <Button
                         icon={<X className='w-4 h-4' />}
                         variant='secondary'
@@ -227,7 +160,65 @@ export default function UploadPopup({ file, handleFileAction, onCloseAction, sho
                         onClick={handleUpload}
                     />
                 </div>
+            }
+        >
+            <div className='space-y-6'>
+                <div className='flex justify-center bg-login-900/20 py-6 rounded-lg border border-login-500/20 border-dashed'>
+                    <div
+                        className='relative w-83 aspect-5/2 rounded-md overflow-hidden mx-auto cursor-move touch-none'
+                        ref={containerRef}
+                        onMouseDown={handleMouseDown}
+                        onMouseMove={handleMouseMove}
+                        onMouseUp={handleMouseUp}
+                        onMouseLeave={handleMouseUp}
+                    >
+                        {imageSrc && (
+                            <img
+                                ref={imgRef}
+                                src={imageSrc}
+                                alt='Preview'
+                                className='max-w-none origin-top-left pointer-events-none select-none'
+                                style={{
+                                    transform: `translate3d(${position.x}px, ${position.y}px, 0) scale(${scale})`,
+                                    width: 'auto',
+                                    height: 'auto'
+                                }}
+                                onLoad={handleImageLoad}
+                                draggable={false}
+                            />
+                        )}
+                        {showTag &&
+                            <div className='absolute top-2 left-2 flex w-fit h-fit justify-center rounded
+                                min-w-14 min-h-14 py-1 px-2 backdrop-blur-sm bg-black/50 pointer-events-none'>
+                                <div className='w-fit'>
+                                    <div className='text-center w-max mx-auto text-white text-xl leading-7'>14</div>
+                                    <div className='text-center text-white text-base leading-5 -translate-y-0.5'>Apr</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div className='space-y-4'>
+                    <Range
+                        name='imageZoom'
+                        label='Zoom'
+                        min={minScale}
+                        max={minScale * 3}
+                        step={0.001}
+                        value={scale}
+                        onChange={handleZoom}
+                        showValue={false}
+                    />
+                    <Input
+                        name='fileName'
+                        label='File name'
+                        value={fileName}
+                        onChange={(e) => setFileName(e.target.value)}
+                        placeholder='Enter file name'
+                    />
+                </div>
             </div>
-        </div>
+        </Modal>
     )
 }

@@ -1,7 +1,6 @@
 import type { ImageVulnerabilityReport } from '@utils/api/internal/vulnerabilities/get'
 import { Container } from 'lucide-react'
-import { SeverityPill } from 'uibee/components'
-import ExpandableCard from '@components/shared/expandableCard'
+import { ExpandableCard, SeverityPill } from 'uibee/components'
 import ImageBreakdown from './imageBreakdown'
 import ImageFindings from './imageFindings'
 import { severityOrder } from './types'

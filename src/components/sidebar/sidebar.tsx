@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import {
@@ -12,6 +13,7 @@ import {
     Icon,
     Images,
     LayoutDashboard,
+    LogOut,
     MapPin,
     Megaphone,
     Smartphone,
@@ -25,13 +27,19 @@ import {
     Waypoints,
     ShieldOff,
     ShieldAlert,
-    Bot
+    Bot,
+    type LucideProps
 } from 'lucide-react'
 import { hexagons7 } from '@lucide/lab'
-import { getCookie } from 'utilbee/utils'
-import SidebarLayout, { SidebarItem } from './sidebarLayout'
-import { PulseDot } from 'uibee/components'
+import { getCookie, setCookie } from 'utilbee/utils'
+import { PulseDot, Sidebar as SidebarLayout, type SidebarItem } from 'uibee/components'
+import SidebarVersion from './sidebarVersion'
 import getDocker from '@utils/api/internal/system/getDocker'
+import config from '@config'
+
+function Hexagons7(props: LucideProps) {
+    return <Icon iconNode={hexagons7} {...props} />
+}
 
 type SidebarProps = {
     mobile?: boolean
@@ -71,37 +79,37 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
         {
             name: 'Dashboard',
             path: '/dashboard',
-            image: <LayoutDashboard className='w-6' />,
+            icon: LayoutDashboard,
         },
         {
             name: 'Announcements',
             path: '/announcements',
-            image: <Megaphone className='w-6' />,
+            icon: Megaphone,
         },
         {
             name: 'Albums',
             path: '/albums',
-            image: <Images className='w-6' />,
+            icon: Images,
         },
         {
             name: 'Events',
             path: '/events',
-            image: <Calendar className='w-6' />,
+            icon: Calendar,
         },
         {
             name: 'Honey',
             path: '/honey',
-            image: <Icon iconNode={hexagons7} className='w-6' />,
+            icon: Hexagons7,
         },
         {
             name: 'Jobs',
             path: '/jobs',
-            image: <BriefcaseBusiness className='w-6' />,
+            icon: BriefcaseBusiness,
         },
         {
             name: 'Locations',
             path: '/locations?type=address',
-            image: <MapPin className='w-6' />,
+            icon: MapPin,
             items: [
                 { name: 'Address', path: '/locations?type=address' },
                 { name: 'Coordinate', path: '/locations?type=coordinate' },
@@ -112,17 +120,17 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
         {
             name: 'Nucleus',
             path: '/nucleus',
-            image: <Smartphone className='w-6' />,
+            icon: Smartphone,
         },
         {
             name: 'Organizations',
             path: '/organizations',
-            image: <Building2 className='w-6' />,
+            icon: Building2,
         },
         {
             name: 'Rules',
             path: '/rules',
-            image: <Gavel className='w-6' />,
+            icon: Gavel,
         },
     ]
 
@@ -130,22 +138,22 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
         {
             name: 'Dashboard',
             path: '/internal',
-            image: <LayoutDashboard className='w-6' />
+            icon: LayoutDashboard
         },
         {
             name: 'AI',
             path: '/internal/ai',
-            image: <Bot className='w-6' />,
+            icon: Bot,
         },
         {
             name: 'Alerts',
             path: '/internal/alerts',
-            image: <TriangleAlert className='w-6' />,
+            icon: TriangleAlert,
         },
         {
             name: 'Databases',
             path: '/internal/db',
-            image: <Database className='w-6' />,
+            icon: Database,
             items: [
                 { name: 'Overview', path: '/internal/db' },
                 { name: 'Backup', path: '/internal/db/backups' },
@@ -154,22 +162,22 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
         {
             name: 'S3',
             path: '/internal/s3',
-            image: <Cloud className='w-6' />,
+            icon: Cloud,
         },
         {
             name: 'Load Balancing',
             path: '/internal/loadbalancing',
-            image: <Scale className='w-6' />,
+            icon: Scale,
         },
         {
             name: 'Logs',
             path: '/internal/logs',
-            image: <Logs className='w-6' />,
+            icon: Logs,
         },
         {
             name: 'Monitoring',
             path: '/internal/monitoring',
-            image: <Activity className='w-6' />,
+            icon: Activity,
             items: [
                 { name: 'Services', path: '/internal/monitoring' },
                 { name: 'Notifications', path: '/internal/monitoring/notifications' },
@@ -178,13 +186,15 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
         {
             name: 'Services',
             path: '/internal/services',
-            image: <Server className='w-6' />,
-            status: <PulseDot variant={docker?.status === 'available' ? 'online' : docker?.status === 'unavailable' ? 'offline' : 'unknown'} />
+            icon: Server,
+            status: <PulseDot variant={
+                docker?.status === 'available' ? 'online' : docker?.status === 'unavailable' ? 'offline' : 'unknown'
+            } />
         },
         {
             name: 'Traffic',
             path: '/internal/traffic',
-            image: <Waypoints className='w-6' />,
+            icon: Waypoints,
             items: [
                 { name: 'Metrics', path: '/internal/traffic' },
                 { name: 'Records', path: '/internal/traffic/records' },
@@ -194,7 +204,7 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
         {
             name: 'Vulnerabilities',
             path: '/internal/vulnerabilities',
-            image: <ShieldAlert className='w-6' />
+            icon: ShieldAlert
         }
     ]
 
@@ -203,33 +213,91 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
             items={isInternal ? internalPaths : mainPaths}
             mobile={mobile}
             initialExpanded={initialExpanded}
+            onExpandedChange={(next) => setCookie('sidebar_expanded', String(next))}
+            className={mobile ? 'h-[calc(100vh-var(--h-navbar))]' : ''}
+            header={(expanded) => (
+                <>
+                    <div className='relative h-8 w-8 min-w-8'>
+                        <Image
+                            src='/images/queenbee-logo.png'
+                            alt='QueenBee'
+                            fill
+                            className='object-contain'
+                            priority
+                        />
+                    </div>
+                    <span className={`
+                        font-bold text-lg tracking-wide text-login-50 whitespace-nowrap
+                        overflow-hidden transition-all duration-300
+                        ${expanded ? 'opacity-100 max-w-48' : 'opacity-0 max-w-0'}
+                    `}>
+                        QueenBee
+                    </span>
+                </>
+            )}
             bottomAction={(expanded) => (
-                groups && groups.includes('TekKom') ? (
-                    <Link
-                        href={isInternal ? '/dashboard' : '/internal'}
+                <div className='flex flex-col gap-2'>
+                    {groups && groups.includes('TekKom') && (
+                        <Link
+                            href={isInternal ? '/dashboard' : '/internal'}
+                            className={`
+                                flex items-center p-3 rounded-lg w-full overflow-hidden
+                                hover:bg-login-800 text-login-200 hover:text-login-100
+                                transition-colors group
+                            `}
+                            title={!expanded ? (isInternal ? 'Dashboard' : 'Internal') : ''}
+                        >
+                            <div className={`
+                                min-w-6 w-6 flex items-center justify-center transition-all duration-300
+                                ${expanded ? '' : 'translate-x-1'}
+                            `}>
+                                {isInternal ? <ShieldOff className='w-6 min-w-6' /> : <Shield className='w-6 min-w-6' />}
+                            </div>
+                            <span
+                                className={`
+                                    whitespace-nowrap overflow-hidden transition-all duration-300
+                                    ${expanded ? 'opacity-100 max-w-48 ml-3' : 'opacity-0 max-w-0 ml-0'}
+                                `}
+                            >
+                                {isInternal ? 'Dashboard' : 'Internal'}
+                            </span>
+                        </Link>
+                    )}
+
+                    <button
+                        onClick={() => window.location.href = config.authPath.logout}
                         className={`
-                        flex items-center p-3 rounded-lg w-full overflow-hidden
-                        hover:bg-login-800 text-login-200 hover:text-login-100
-                        transition-colors group
-                    `}
-                        title={!expanded ? (isInternal ? 'Dashboard' : 'Internal') : ''}
+                            flex items-center p-3 rounded-lg w-full overflow-hidden
+                            hover:bg-red-500/10 text-login-200 hover:text-red-400
+                            transition-colors group
+                        `}
+                        title={!expanded ? 'Logout' : ''}
                     >
                         <div className={`
                             min-w-6 w-6 flex items-center justify-center transition-all duration-300
                             ${expanded ? '' : 'translate-x-1'}
                         `}>
-                            {isInternal ? <ShieldOff className='w-6 min-w-6' /> : <Shield className='w-6 min-w-6' />}
+                            <LogOut className='w-6 min-w-6' />
                         </div>
                         <span
                             className={`
-                            whitespace-nowrap overflow-hidden transition-all duration-300
-                            ${expanded ? 'opacity-100 max-w-48 ml-3' : 'opacity-0 max-w-0 ml-0'}
-                        `}
+                                whitespace-nowrap overflow-hidden transition-all duration-300
+                                ${expanded ? 'opacity-100 max-w-48 ml-3' : 'opacity-0 max-w-0 ml-0'}
+                            `}
                         >
-                            {isInternal ? 'Dashboard' : 'Internal'}
+                            Logout
                         </span>
-                    </Link>
-                ) : <></>
+                    </button>
+
+                    <div
+                        className={`
+                            transition-all duration-300 ease-in-out overflow-hidden
+                            ${expanded ? 'max-h-20 opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'}
+                        `}
+                    >
+                        <SidebarVersion />
+                    </div>
+                </div>
             )}
         />
     )

@@ -1,4 +1,5 @@
 import BackButton from '@components/navigation/back'
+import { Code } from 'uibee/components'
 import Examples from './examples'
 
 const text = {
@@ -23,7 +24,7 @@ export default function Page() {
                 <h2 className='mb-3 font-semibold text-login-50'>{text.title}</h2>
                 <p className='text-sm leading-relaxed text-login-50'>
                     {text.descriptionBefore}
-                    <code className='rounded bg-black/30 px-1 py-0.5 text-xs text-login-50'>@everyone</code>
+                    <Code>@everyone</Code>
                     {text.descriptionAfter}
                 </p>
 
@@ -40,18 +41,16 @@ export default function Page() {
                 </ul>
 
                 <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-300'>Intervaller</h3>
-                <code className='inline-block rounded bg-black/30 px-2 py-1 text-xs font-mono text-login-50'>
-                    {text.intervals}
-                </code>
+                <Code className='inline-block'>{text.intervals}</Code>
 
                 <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-300'>Språk (prefix)</h3>
                 <p className='text-sm text-login-50'>
-                    <code className='rounded bg-black/30 px-1 py-0.5 text-xs text-login-50'>n</code> norsk &nbsp;
-                    <code className='rounded bg-black/30 px-1 py-0.5 text-xs text-login-50'>e</code> engelsk
+                    <Code>n</Code> norsk &nbsp;
+                    <Code>e</Code> engelsk
                 </p>
 
                 <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-300'>Ads (prefix etter språk)</h3>
-                <code className='rounded bg-black/30 px-1 py-0.5 text-xs text-login-50'>a</code>
+                <Code>a</Code>
 
                 <Examples />
             </div>

@@ -2,9 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { Activity, AlertTriangle, Layers3, RefreshCcw, Search, ServerCrash, TerminalSquare } from 'lucide-react'
-import { Button, Card, Input, LeftBarPanel, Select, StatCard, Toggle } from 'uibee/components'
+import { Button, Card, ExpandableCard, Input, LeftBarPanel, Select, StatCard, Toggle } from 'uibee/components'
 import { parseLogsHash } from '@utils/logsNavigation'
-import ExpandableCard from '@components/shared/expandableCard'
 
 type LogEntry = {
     fingerprint: string

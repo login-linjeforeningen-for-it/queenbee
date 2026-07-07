@@ -1,7 +1,6 @@
 import { Plus, Search } from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
 import { Button, Input, MultiSelect } from 'uibee/components'
-import CustomMultiSelect from './multiSelect'
 
 type ServiceListHeaderProps = {
     stateFilter: string[] | null
@@ -51,12 +50,15 @@ export default function ServiceListHeader({
                     />
                 </div>
                 <div className='flex items-center gap-2'>
-                    <CustomMultiSelect
-                        options={tags.map((tag) => ({ label: tag.name, value: tag.name }))}
-                        value={selectedTags}
-                        onChange={setSelectedTags}
-                        placeholder='Tags'
-                    />
+                    <div className='-mb-5'>
+                        <MultiSelect
+                            name='tags'
+                            options={tags.map((tag) => ({ label: tag.name, value: tag.name }))}
+                            value={selectedTags}
+                            onChange={setSelectedTags}
+                            placeholder='Tags'
+                        />
+                    </div>
                     <Button
                         variant='secondary'
                         icon={<Plus className='h-4 w-4' />}

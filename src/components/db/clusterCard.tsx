@@ -2,13 +2,12 @@
 
 import { useState } from 'react'
 import { ChevronRight, Database, SearchCode, Table2 } from 'lucide-react'
-import { PulseDot } from 'uibee/components'
+import { ExpandableCard } from 'uibee/components'
 import formatBytes from '@utils/db/formatBytes'
 import formatDuration from '@utils/db/formatDuration'
 import QueryCard from '@components/db/queryCard'
 import DatabaseCard from '@components/db/databaseCard'
 import TableList from '@components/db/tableList'
-import ExpandableCard from '@components/shared/expandableCard'
 
 function Stat({ label, value }: { label: string; value: string }) {
     return (
