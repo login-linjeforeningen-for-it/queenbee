@@ -26,7 +26,7 @@ export default async function Home() {
         <div className='flex flex-col lg:h-full lg:overflow-hidden'>
             <h1 className='font-semibold text-lg'>Dashboard</h1>
             <TotalStats stats={stats} />
-            <div className='lg:flex flex-1 gap-4 overflow-hidden lg:overflow-visible'>
+            <div className='lg:flex flex-1 gap-4 overflow-hidden'>
                 {typeof additions !== 'object' || additions && <StatisticsNewAdditions additions={additions} />}
                 <div className='flex flex-col w-full max-w-4xl justify-between lg:h-full'>
                     {typeof categories !== 'object' || categories && <StatisticsCategories categories={categories} />}

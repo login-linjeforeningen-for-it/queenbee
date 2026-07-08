@@ -3,7 +3,15 @@ import { CheckCircle, CircleAlert } from 'lucide-react'
 
 export default function CertificateDetails({ service }: { service: Service }) {
     if (!service.certificate) {
-        return
+        return (
+            <div className='rounded-lg w-full bg-login-50/5 p-2'>
+                <div className='flex justify-between'>
+                    <h1 className='font-semibold'>Certificate</h1>
+                    <CircleAlert className='stroke-red-500 w-5' />
+                </div>
+                <p className='text-login-200 text-sm mt-1'>Not configured</p>
+            </div>
+        )
     }
 
     const boxStyle = 'rounded-lg w-full bg-login-50/5 p-2'
@@ -26,15 +34,20 @@ export default function CertificateDetails({ service }: { service: Service }) {
         )
     }
 
-    const daysTillExpiry = daysTillCertificateExpiry(service.certificate)
+    const cert = service.certificate
+    const selfSigned = cert.issuer.cn === cert.subjectCN
+    const daysTillExpiry = daysTillCertificateExpiry(cert)
 
     return (
         <div>
             <div className={boxStyle}>
                 <div className='flex justify-between'>
                     <h1 className='font-semibold'>Certificate</h1>
-                    {daysTillExpiry < 30
-                        ? <CircleAlert className='stroke-yellow-500 w-5' /> : <CheckCircle className='stroke-green-500 w-5' />}
+                    {selfSigned
+                        ? <CircleAlert className='stroke-orange-500 w-5' />
+                        : daysTillExpiry < 30
+                            ? <CircleAlert className='stroke-yellow-500 w-5' />
+                            : <CheckCircle className='stroke-green-500 w-5' />}
                 </div>
 
                 <div className='grid grid-cols-2 gap-y-3 gap-x-6'>

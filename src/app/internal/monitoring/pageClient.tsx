@@ -9,7 +9,7 @@ import Statistics from '@components/status/statistics'
 import getNotifications from '@utils/api/beekeeper/services/getNotifications'
 import getServices from '@utils/api/beekeeper/services/getServices'
 import getTags from '@utils/api/beekeeper/services/getTags'
-import { Plus } from 'lucide-react'
+import { Plus, ShieldAlert, ShieldCheck, ShieldX } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Button } from 'uibee/components'
 import ManagedTable from '@components/table/managedTable'
@@ -86,7 +86,7 @@ export default function PageClient({
 
         let status: 'up' | 'down' | 'maintenance' | 'pending' | null
         if (item.bars.length) {
-            const lastBar = item.bars[item.bars.length - 1]
+            const lastBar = item.bars[0]
             status = lastBar.status ? 'up' : lastBar.expectedDown ? 'maintenance' : item.maxConsecutiveFailures > 0 ? 'pending' : 'down'
         } else {
             status = 'down'
@@ -103,7 +103,7 @@ export default function PageClient({
     const tableList = filteredServices.map(item => {
         let status: 'up' | 'down' | 'maintenance' | 'pending' | null
         if (item.bars.length) {
-            const lastBar = item.bars[item.bars.length - 1]
+            const lastBar = item.bars[0]
             status = lastBar.status ? 'up' : lastBar.expectedDown ? 'maintenance' : item.maxConsecutiveFailures > 0 ? 'pending' : 'down'
         } else {
             status = 'down'
@@ -113,6 +113,14 @@ export default function PageClient({
             system_table_id: item.id,
             name: item.name,
             status,
+            cert: (() => {
+                const c = item.certificate
+                if (!c) return <ShieldX className='w-4 h-4 stroke-red-400' />
+                if (!c.valid) return <ShieldX className='w-4 h-4 stroke-red-400' />
+                const vc = c as Certificate
+                if (vc.issuer.cn === vc.subjectCN) return <ShieldAlert className='w-4 h-4 stroke-orange-400' />
+                return <ShieldCheck className='w-4 h-4 stroke-green-400' />
+            })(),
             history: (
                 <div className='flex gap-1 h-6 items-center'>
                     {item.bars.slice(5, item.bars.length).map((bar, index) => {
@@ -212,11 +220,12 @@ export default function PageClient({
                                         </div>
                                     )},
                                     { key: 'status', highlight: { up: 'green', down: 'red', maintenance: 'purple', pending: 'yellow' } },
+                                    { key: 'cert' },
                                     { key: 'history' },
                                     { key: 'uptime' },
                                     { key: 'tags' },
                                 ]}
-                                rawKeys={['history']}
+                                rawKeys={['history', 'cert']}
                                 idKey='system_table_id'
                                 onRowClick={openServiceStatus}
                                 hidePagination
