@@ -194,7 +194,8 @@ export default function page() {
                                 <button
                                     type='button'
                                     onClick={() => void handleResend(item.id)}
-                                    className='flex shrink-0 cursor-pointer items-center gap-1 text-xs text-login transition-colors hover:text-login-300'
+                                    className='flex shrink-0 cursor-pointer items-center gap-1 text-xs
+                                        text-login transition-colors hover:text-login-300'
                                 >
                                     {resendingId === item.id ? 'Sending' : 'Resend'}
                                     <SendHorizontal className='h-3.5 w-3.5' />
@@ -243,7 +244,8 @@ export default function page() {
                                     <button
                                         type='button'
                                         onClick={() => void handleSendScheduledNow(item.id)}
-                                        className='flex cursor-pointer items-center gap-1 text-xs text-login transition-colors hover:text-login-300'
+                                        className='flex cursor-pointer items-center gap-1 text-xs
+                                            text-login transition-colors hover:text-login-300'
                                     >
                                         <SendHorizontal className='h-3.5 w-3.5' />
                                         {sendingScheduledId === item.id ? 'Sending' : 'Send now'}
@@ -252,7 +254,8 @@ export default function page() {
                                         <button
                                             type='button'
                                             onClick={() => void handleDeleteScheduled(item.id)}
-                                            className='flex cursor-pointer items-center gap-1 text-xs text-red-400 transition-colors hover:text-red-300'
+                                            className='flex cursor-pointer items-center gap-1 text-xs
+                                                text-red-400 transition-colors hover:text-red-300'
                                         >
                                             <Trash2 className='h-3.5 w-3.5' />
                                             {deletingScheduledId === item.id ? 'Canceling' : 'Cancel'}
@@ -274,7 +277,7 @@ export default function page() {
                     <h1 className='font-semibold text-lg text-login-50'>Nucleus</h1>
                     <p className='mt-0.5 text-xs text-login-300'>Send a notification to the Login App</p>
                 </div>
-<form
+                <form
                     ref={formRef}
                     onSubmit={(e) => {
                         e.preventDefault()

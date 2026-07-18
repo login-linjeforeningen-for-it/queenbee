@@ -24,7 +24,8 @@ export default function ClusterCard({ cluster }: { cluster: DatabaseOverviewClus
 
     const solo = cluster.databases.length === 1 ? cluster.databases[0] : null
 
-    const subtitle = `${cluster.project || 'No project'} · ${cluster.databaseCount} ${cluster.databaseCount === 1 ? 'database' : 'databases'} · ${formatBytes(cluster.totalSizeBytes)}`
+    const dbWord = cluster.databaseCount === 1 ? 'database' : 'databases'
+    const subtitle = `${cluster.project || 'No project'} · ${cluster.databaseCount} ${dbWord} · ${formatBytes(cluster.totalSizeBytes)}`
 
     return (
         <ExpandableCard
@@ -60,7 +61,8 @@ export default function ClusterCard({ cluster }: { cluster: DatabaseOverviewClus
 
                         {cluster.longestQuery && (
                             <div>
-                                <div className='mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-login-300'>
+                                <div className='mb-2 flex items-center gap-1.5 text-xs
+                                    font-semibold uppercase tracking-wider text-login-300'>
                                     <SearchCode className='h-3.5 w-3.5' />
                                     Longest running query
                                 </div>
@@ -73,11 +75,13 @@ export default function ClusterCard({ cluster }: { cluster: DatabaseOverviewClus
                                 <button
                                     type='button'
                                     onClick={() => setShowTables(prev => !prev)}
-                                    className='flex w-full items-center gap-3 rounded-md bg-login-500 px-3 py-2 text-sm font-medium text-login-50 transition-all duration-150 hover:bg-login-400'
+                                    className='flex w-full items-center gap-3 rounded-md bg-login-500 px-3 py-2
+                                        text-sm font-medium text-login-50 transition-all duration-150 hover:bg-login-400'
                                 >
                                     <Table2 className='h-4 w-4 shrink-0 text-login-200' />
                                     <span className='flex-1 text-left'>Table breakdown</span>
-                                    <ChevronRight className={`h-4 w-4 shrink-0 text-login-200 transition-transform duration-150 ${showTables ? 'rotate-90' : ''}`} />
+                                    <ChevronRight className={`h-4 w-4 shrink-0 text-login-200
+                                        transition-transform duration-150 ${showTables ? 'rotate-90' : ''}`} />
                                 </button>
                                 {showTables && <div className='mt-2'><TableList database={solo} /></div>}
                             </div>
@@ -94,7 +98,8 @@ export default function ClusterCard({ cluster }: { cluster: DatabaseOverviewClus
 
                         {cluster.longestQuery && (
                             <div>
-                                <div className='mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-login-300'>
+                                <div className='mb-2 flex items-center gap-1.5 text-xs
+                                    font-semibold uppercase tracking-wider text-login-300'>
                                     <SearchCode className='h-3.5 w-3.5' />
                                     Longest running query
                                 </div>

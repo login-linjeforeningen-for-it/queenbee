@@ -233,7 +233,8 @@ export default function ServiceForm(props: ServiceFormProps) {
                         </div>
                         <div
                             onClick={() => { setCopy(true); navigator.clipboard.writeText(copyText) }}
-                            className='flex cursor-pointer items-center gap-2 rounded bg-login-50/5 px-3 py-2 text-sm text-login-50 hover:bg-login-50/10'
+                            className='flex cursor-pointer items-center gap-2 rounded bg-login-50/5
+                                px-3 py-2 text-sm text-login-50 hover:bg-login-50/10'
                         >
                             <Copy className={`w-4 h-4 shrink-0 ${copy ? 'stroke-green-400' : 'text-login-300'}`} />
                             <span className='font-mono text-xs break-all'>{copyText}</span>
@@ -300,9 +301,12 @@ export default function ServiceForm(props: ServiceFormProps) {
                         Options
                     </div>
                     <div className='space-y-2'>
-                        <Switch name='expectedDown' label='Expected down' checked={form.expectedDown} onChange={(e) => updateField('expectedDown', e.target.checked)} switchOnly />
-                        <Switch name='upsideDown' label='Upside down' checked={form.upsideDown} onChange={(e) => updateField('upsideDown', e.target.checked)} switchOnly />
-                        <Switch name='enabled' label='Enabled' checked={form.enabled} onChange={(e) => updateField('enabled', e.target.checked)} switchOnly />
+                        <Switch name='expectedDown' label='Expected down' checked={form.expectedDown}
+                            onChange={(e) => updateField('expectedDown', e.target.checked)} switchOnly />
+                        <Switch name='upsideDown' label='Upside down' checked={form.upsideDown}
+                            onChange={(e) => updateField('upsideDown', e.target.checked)} switchOnly />
+                        <Switch name='enabled' label='Enabled' checked={form.enabled}
+                            onChange={(e) => updateField('enabled', e.target.checked)} switchOnly />
                     </div>
                 </div>
 

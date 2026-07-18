@@ -38,7 +38,11 @@ export default function ManagedTable({
             <>
                 <MenuButton icon={<Edit />} text='Edit' onClick={() => router.push(`${pathname}/update/${id}`)} />
                 <MenuButton icon={<BoxesIcon />} text='Duplicate' onClick={() => router.push(`${pathname}/create/${id}`)} />
-                <MenuButton icon={<X />} text='Delete' onClick={async () => { await deleteAction(id); router.refresh() }} className='text-red-400' />
+                <MenuButton
+                    icon={<X />} text='Delete'
+                    onClick={async () => { await deleteAction(id); router.refresh() }}
+                    className='text-red-400'
+                />
             </>
         )
         : undefined

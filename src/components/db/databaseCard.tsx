@@ -38,7 +38,8 @@ export default function DatabaseCard({ database }: { database: DatabaseOverviewI
                 <div className='min-w-0 flex-1'>
                     <span className='text-sm font-medium text-login-100'>{database.name}</span>
                     <div className='mt-0.5 text-xs text-login-300'>
-                        {formatBytes(database.sizeBytes)} &middot; {database.tableCount} tables &middot; {database.currentConnections} connections
+                        {formatBytes(database.sizeBytes)} &middot; {database.tableCount} tables
+                        &middot; {database.currentConnections} connections
                     </div>
                 </div>
                 <Button
@@ -64,11 +65,13 @@ export default function DatabaseCard({ database }: { database: DatabaseOverviewI
                             <button
                                 type='button'
                                 onClick={() => setShowTables(prev => !prev)}
-                                className='flex w-full items-center gap-3 rounded-md bg-login-500 px-3 py-2 text-sm font-medium text-login-50 transition-all duration-150 hover:bg-login-400'
+                                className='flex w-full items-center gap-3 rounded-md bg-login-500 px-3 py-2
+                                    text-sm font-medium text-login-50 transition-all duration-150 hover:bg-login-400'
                             >
                                 <Table2 className='h-4 w-4 shrink-0 text-login-200' />
                                 <span className='flex-1 text-left'>Table breakdown</span>
-                                <ChevronRight className={`h-4 w-4 shrink-0 text-login-200 transition-transform duration-150 ${showTables ? 'rotate-90' : ''}`} />
+                                <ChevronRight className={`h-4 w-4 shrink-0 text-login-200
+                                    transition-transform duration-150 ${showTables ? 'rotate-90' : ''}`} />
                             </button>
                             {showTables && <div className='mt-2'><TableList database={database} /></div>}
                         </div>

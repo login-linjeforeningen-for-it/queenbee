@@ -14,8 +14,10 @@ const examples = [
         description: '/notify title:Title of event to go to social topic description:Notification content topic:eSOCIAL'
     },
     {
-        text: 'Varsling med tittel "Overskrift" og innhold "Innholdet i varslingen" til alle som ønsker varslinger for event 19 i tillegg til å bli redirecta til eventet:',
-        description: '/notify title:Overskrift description:Innholdet i varslingen topic:n19 screen:19'
+        text: 'Varsling med tittel "Overskrift" og innhold "Innholdet i varslingen" til alle som ønsker'
+            + ' varslinger for event 19 i tillegg til å bli redirecta til eventet:',
+        description: '/notify title:Overskrift description:Innholdet i varslingen '
+            + 'topic:n19 screen:19'
     },
     {
         text: 'Varsling med tittel "Overskrift" og innhold "Innholdet i varslingen" til alle som ønsker varslinger for jobbannonse 2:',

@@ -319,7 +319,9 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
 
                     {groupedServices.map((group) => {
                         const expanded = isExpanded(group.service)
-                        const subtitle = `${group.matchedLines} ${level === 'error' ? 'error' : 'matching'} lines · ${group.sources.length} ${group.sources.length === 1 ? 'source' : 'sources'}`
+                        const lineWord = level === 'error' ? 'error' : 'matching'
+                        const sourceWord = group.sources.length === 1 ? 'source' : 'sources'
+                        const subtitle = `${group.matchedLines} ${lineWord} lines · ${group.sources.length} ${sourceWord}`
 
                         return (
                             <ExpandableCard
@@ -349,7 +351,8 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                                                 <div className='min-w-0 flex-1'>
                                                     <div className='flex flex-wrap items-center gap-2'>
                                                         <span className='font-semibold text-login-50'>{container.name}</span>
-                                                        <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${getSourceTone(container.sourceType)}`}>
+                                                        <span className={`rounded-full border px-2 py-0.5 text-[10px]
+                                                            font-semibold uppercase tracking-wider ${getSourceTone(container.sourceType)}`}>
                                                             {formatSourceType(container.sourceType)}
                                                         </span>
                                                     </div>
@@ -363,7 +366,8 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                                                     <div
                                                         key={`${container.id}-${index}`}
                                                         id={`log-entry-${container.id}-${entry.fingerprint}`}
-                                                        className='grid grid-cols-[max-content_1fr] gap-3 border-b border-white/5 py-2 last:border-b-0'
+                                                        className='grid grid-cols-[max-content_1fr] gap-3
+                                                            border-b border-white/5 py-2 last:border-b-0'
                                                     >
                                                         <span className='text-login-300'>
                                                             {entry.timestamp ? formatRelativeTime(entry.timestamp) : entry.level}

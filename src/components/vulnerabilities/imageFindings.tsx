@@ -10,7 +10,7 @@ const PAGE_SIZE = 3
 export default function ImageFindings({ image }: { image: ImageVulnerabilityReport }) {
     const [page, setPage] = useState(1)
     const detailNotes = image.scannerResults.filter((result) => result.summaryOnly && result.note)
-const visibleFindings = useMemo(() => {
+    const visibleFindings = useMemo(() => {
         const startIndex = (page - 1) * PAGE_SIZE
         return image.vulnerabilities.slice(startIndex, startIndex + PAGE_SIZE)
     }, [image.vulnerabilities, page])

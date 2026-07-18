@@ -6,7 +6,6 @@ import {
     Copy,
     FileText,
     FolderPlus,
-    LoaderCircle,
     MoveRight,
     RefreshCcw,
     Search,
@@ -18,7 +17,7 @@ import {
     Folder,
 } from 'lucide-react'
 import { Button, Card, Input, Select, Toggle } from 'uibee/components'
-import { MonoBlock } from '@/uibee'
+
 import {
     formatBytes,
     formatDate,
@@ -174,7 +173,10 @@ export function ObjectBrowser({
     selectedKey,
     selectedObject,
     upload: { uploadFile, uploadKey, uploadOpen, onFileChange, onUpload, onUploadKeyChange, onUploadOpenChange },
-    move: { moveOpen, targetBucket, targetKey, copyMode, onMoveObject, onMoveOpenChange, onCopyModeChange, onTargetBucketChange, onTargetKeyChange },
+    move: {
+        moveOpen, targetBucket, targetKey, copyMode,
+        onMoveObject, onMoveOpenChange, onCopyModeChange, onTargetBucketChange, onTargetKeyChange,
+    },
     onDeleteObject,
     onOpenFolder,
     onRefresh,
@@ -262,7 +264,9 @@ export function ObjectBrowser({
                         </div>
                         <a
                             href={downloadHref}
-                            className='flex h-9 cursor-pointer select-none items-center justify-center gap-2 rounded-xl border border-white/5 bg-login-50/5 px-4 text-sm font-medium text-login-50 transition-colors hover:bg-login-50/10'
+                            className='flex h-9 cursor-pointer select-none items-center justify-center gap-2
+                                rounded-xl border border-white/5 bg-login-50/5 px-4 text-sm font-medium
+                                text-login-50 transition-colors hover:bg-login-50/10'
                         >
                             <ArrowDownToLine className='h-4 w-4' />
                             Download
@@ -393,7 +397,8 @@ function Breadcrumb({ prefix, onOpenFolder }: { prefix: string; onOpenFolder: (p
                 <button
                     key={segment.path}
                     type='button'
-                    className='rounded-md border border-white/5 bg-login-50/5 px-2 py-0.5 text-login-300 transition-colors hover:bg-login-50/10'
+                    className='rounded-md border border-white/5 bg-login-50/5 px-2 py-0.5
+                        text-login-300 transition-colors hover:bg-login-50/10'
                     onClick={() => onOpenFolder(segment.path)}
                 >
                     {segment.name}

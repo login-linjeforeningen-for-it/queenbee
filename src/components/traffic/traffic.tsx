@@ -19,7 +19,9 @@ type TrafficDashboardProps = {
     pageSize?: number
 }
 
-export default function TrafficDashboard({ metrics, records, selectedDomain, domainOptions = [], totalRows, pageSize }: TrafficDashboardProps) {
+export default function TrafficDashboard({
+    metrics, records, selectedDomain, domainOptions = [], totalRows, pageSize,
+}: TrafficDashboardProps) {
     const m = typeof metrics === 'object' && metrics !== null ? (metrics as TrafficMetricsProps) : undefined
 
     const totalRequests = Number(m?.total_requests) || 0
@@ -90,12 +92,14 @@ export default function TrafficDashboard({ metrics, records, selectedDomain, dom
                             { key: 'method' },
                             { key: 'path', render: (v) => (
                                 <div className='block w-40 max-w-40 min-w-0 overflow-hidden' title={v as string}>
-                                    <Marquee text={v as string} className='w-full max-w-40' innerClassName='text-sm font-medium text-login-50' />
+                                    <Marquee text={v as string} className='w-full max-w-40'
+                                        innerClassName='text-sm font-medium text-login-50' />
                                 </div>
                             )},
                             { key: 'domain', render: (v) => (
                                 <div className='block w-28 max-w-28 min-w-0 overflow-hidden' title={v as string}>
-                                    <Marquee text={v as string} className='w-full max-w-28' innerClassName='text-sm text-login-300 opacity-70' />
+                                    <Marquee text={v as string} className='w-full max-w-28'
+                                        innerClassName='text-sm text-login-300 opacity-70' />
                                 </div>
                             )},
                             { key: 'iso' },

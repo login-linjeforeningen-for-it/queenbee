@@ -8,7 +8,8 @@
     "build": "bun --bun next build",
     "start": "bun --bun next start",
     "lint": "eslint ./src",
-    "lint:fix": "eslint ./src --fix"
+    "lint:fix": "eslint ./src --fix",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@lucide/lab": "^0.1.2",
@@ -17,7 +18,7 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "uibee": "^3.3.0",
-    "utilbee": "^1.4.7"
+    "utilbee": "^1.4.9"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

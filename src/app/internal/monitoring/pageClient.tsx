@@ -33,7 +33,7 @@ export default function PageClient({
     const [editing, setEditing] = useState<Service | null>(null)
     const [refresh, setRefresh] = useState(false)
     const [refreshTags, setRefreshTags] = useState(false)
-    const [refreshNotifications, setRefreshNotifications] = useState(false)
+    const [refreshNotifications, _setRefreshNotifications] = useState(false)
 
     function addNewService() {
         setAdding(true)
@@ -216,7 +216,11 @@ export default function PageClient({
                                 columns={[
                                     { key: 'name', render: (v) => (
                                         <div className='block w-36 max-w-36 min-w-0 overflow-hidden' title={v as string}>
-                                            <Marquee text={v as string} className='w-full max-w-36' innerClassName='font-medium text-white' />
+                                            <Marquee
+                                                text={v as string}
+                                                className='w-full max-w-36'
+                                                innerClassName='font-medium text-white'
+                                            />
                                         </div>
                                     )},
                                     { key: 'status', highlight: { up: 'green', down: 'red', maintenance: 'purple', pending: 'yellow' } },

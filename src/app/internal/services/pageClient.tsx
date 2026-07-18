@@ -237,7 +237,7 @@ function ActionButtons({
     )
 }
 
-export default function PageClient({ docker: dockerServer, deleteAction }: PageClientProps) {
+export default function PageClient({ docker: dockerServer, deleteAction: _deleteAction }: PageClientProps) {
     const [docker, setDocker] = useState(dockerServer)
     const [autoRefresh, setAutoRefresh] = useState(10000)
     const [autoDeployOverrides, setAutoDeployOverrides] = useState<Record<string, boolean>>({})
@@ -454,7 +454,11 @@ export default function PageClient({ docker: dockerServer, deleteAction }: PageC
                 <div className='flex-1 flex flex-col overflow-hidden pt-2 gap-2'>
                     <ManagedTable
                         data={tableList as unknown as Record<string, unknown>[]}
-                        columns={[{key:'id'}, {key:'name'}, {key:'status', highlight: { running: 'green', stopped: 'red' }}, {key:'actions'}]}
+                        columns={[
+                            { key: 'id' }, { key: 'name' },
+                            { key: 'status', highlight: { running: 'green', stopped: 'red' } },
+                            { key: 'actions' },
+                        ]}
                         rawKeys={['actions']}
                         idKey='system_table_id'
                         redirectPath='/internal/services'

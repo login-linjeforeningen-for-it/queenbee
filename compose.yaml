@@ -1,34 +1,34 @@
 services:
-  queenbee:
-    container_name: queenbee
-    image: queenbee
-    restart: always
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8000:3000"
-    env_file:
-      - .env
-    environment:
-      - TZ=Europe/Oslo
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/ || exit 1"]
-      interval: 30s
-      timeout: 5s
-      start_period: 15s
-      retries: 3
-    networks:
-      - workerbee_default
-      - beekeeper_default
-      - tekkom_bot_default
-    mem_limit: 1g
-    cpus: "2.0"
+    queenbee:
+        container_name: queenbee
+        image: queenbee
+        restart: always
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "8000:3000"
+        env_file:
+            - .env
+        environment:
+            - TZ=Europe/Oslo
+        healthcheck:
+            test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/ || exit 1"]
+            interval: 30s
+            timeout: 5s
+            start_period: 15s
+            retries: 3
+        networks:
+            - workerbee_default
+            - beekeeper_default
+            - tekkom_bot_default
+        mem_limit: 1g
+        cpus: "2.0"
 
 networks:
-  workerbee_default:
-    external: true
-  beekeeper_default:
-    external: true
-  tekkom_bot_default:
-    external: true
+    workerbee_default:
+        external: true
+    beekeeper_default:
+        external: true
+    tekkom_bot_default:
+        external: true
