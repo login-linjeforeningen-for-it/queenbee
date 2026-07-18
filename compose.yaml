@@ -12,6 +12,12 @@ services:
       - .env
     environment:
       - TZ=Europe/Oslo
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
     networks:
       - workerbee_default
       - beekeeper_default

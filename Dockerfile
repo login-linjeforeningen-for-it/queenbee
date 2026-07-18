@@ -20,8 +20,9 @@ COPY --from=builder --chown=app:app /app/.next/static ./.next/static
 COPY --from=builder --chown=app:app /app/public ./public
 
 RUN chown app:app /app
+USER app
 
 ENV HOSTNAME=0.0.0.0
 EXPOSE 3000
 
-CMD ["sh", "-lc", "bun server.js"]
+CMD ["bun", "server.js"]
