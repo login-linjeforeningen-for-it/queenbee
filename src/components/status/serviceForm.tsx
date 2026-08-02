@@ -164,7 +164,7 @@ export default function ServiceForm(props: ServiceFormProps) {
                 expectedDown: response.expectedDown,
                 upsideDown: response.upsideDown,
                 interval: response.interval,
-                notification: String(response.notification),
+                notification: response.notification == null ? null : String(response.notification),
                 userAgent: response.userAgent,
                 maxConsecutiveFailures: Number(response.maxConsecutiveFailures) || 0,
                 note: response.note,
@@ -325,7 +325,7 @@ export default function ServiceForm(props: ServiceFormProps) {
                             onChange={(val) => updateField('notification', val as string)}
                             options={[
                                 { value: '', label: 'None' },
-                                ...notifications.map((n) => ({ value: n.id, label: n.name })),
+                                ...notifications.map((n) => ({ value: String(n.id), label: n.name })),
                             ]}
                         />
                     </div>
