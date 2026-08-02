@@ -31,8 +31,7 @@ export default function ServiceStatus({ service, onEdit }: ServiceStatusProps) {
                     ) : null}
                 </div>
             </div>
-            <div className='grid gap-4 lg:grid-cols-2'>
-                <CertificateDetails service={service} />
+            <div className='flex flex-col gap-4'>
                 <div className='rounded-lg w-full bg-login-50/5 p-2'>
                     <div className='flex justify-between items-center'>
                         <h1 className='font-semibold'>Notification policy</h1>
@@ -63,6 +62,7 @@ export default function ServiceStatus({ service, onEdit }: ServiceStatusProps) {
                         <p className='text-login-200 text-sm mt-3'>No notification policy configured.</p>
                     )}
                 </div>
+                <CertificateDetails service={service} />
             </div>
 
             <ManagedTable
