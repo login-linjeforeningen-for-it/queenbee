@@ -1131,6 +1131,7 @@ declare global {
         name: string
         enabled: boolean
         notification: number | null
+        notificationPolicy?: ServiceNotification | null
         maxConsecutiveFailures: number
         port: number | null
         tags: { id: number; name: string }[]
@@ -1181,6 +1182,7 @@ declare global {
         name: string
         enabled: boolean
         notification: number | null
+        notificationPolicy?: ServiceNotification | null
         port: number | null
         tags: { id: number; name: string }[]
         bars: Bar[]

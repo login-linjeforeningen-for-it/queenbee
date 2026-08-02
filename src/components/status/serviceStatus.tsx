@@ -31,7 +31,39 @@ export default function ServiceStatus({ service, onEdit }: ServiceStatusProps) {
                     ) : null}
                 </div>
             </div>
-            <CertificateDetails service={service} />
+            <div className='grid gap-4 lg:grid-cols-2'>
+                <CertificateDetails service={service} />
+                <div className='rounded-lg w-full bg-login-50/5 p-2'>
+                    <div className='flex justify-between items-center'>
+                        <h1 className='font-semibold'>Notification policy</h1>
+                        {onEdit ? (
+                            <button type='button' className='text-sm text-login-200 hover:text-login-50' onClick={() => onEdit(service)}>
+                                Edit
+                            </button>
+                        ) : null}
+                    </div>
+                    {service.notificationPolicy ? (
+                        <div className='grid gap-3 mt-3'>
+                            <div>
+                                <h2 className='text-login-50 text-sm'>Name</h2>
+                                <p className='text-login-200 text-sm'>{service.notificationPolicy.name}</p>
+                            </div>
+                            <div>
+                                <h2 className='text-login-50 text-sm'>Message</h2>
+                                <p className='text-login-200 text-sm wrap-break-word'>
+                                    {service.notificationPolicy.message || 'No custom message'}
+                                </p>
+                            </div>
+                            <div>
+                                <h2 className='text-login-50 text-sm'>Webhook</h2>
+                                <p className='text-login-200 text-sm wrap-break-word'>{service.notificationPolicy.webhook}</p>
+                            </div>
+                        </div>
+                    ) : (
+                        <p className='text-login-200 text-sm mt-3'>No notification policy configured.</p>
+                    )}
+                </div>
+            </div>
 
             <ManagedTable
                 data={service.bars.map((bar, index) => {
