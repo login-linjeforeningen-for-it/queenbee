@@ -1193,7 +1193,7 @@ declare global {
         interval: number
         note: string
         maxConsecutiveFailures: number
-        certificate: Certificate | InvalidCertificate
+        certificate?: Certificate | InvalidCertificate
     }
 
     type MonitoredServiceType = 'fetch' | 'post' | 'tcp'
