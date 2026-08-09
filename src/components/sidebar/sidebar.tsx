@@ -16,6 +16,7 @@ import {
     LogOut,
     MapPin,
     Megaphone,
+    Network,
     Smartphone,
     Shield,
     Activity,
@@ -263,6 +264,31 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
                             </span>
                         </Link>
                     )}
+
+                    <Link
+                        href='/org-chart'
+                        className={`
+                            flex items-center p-3 rounded-lg w-full overflow-hidden
+                            hover:bg-login-800 text-login-200 hover:text-login-100
+                            transition-colors group
+                        `}
+                        title={!expanded ? 'Org Chart' : ''}
+                    >
+                        <div className={`
+                            min-w-6 w-6 flex items-center justify-center transition-all duration-300
+                            ${expanded ? '' : 'translate-x-1'}
+                        `}>
+                            <Network className='w-6 min-w-6' />
+                        </div>
+                        <span
+                            className={`
+                                whitespace-nowrap overflow-hidden transition-all duration-300
+                                ${expanded ? 'opacity-100 max-w-48 ml-3' : 'opacity-0 max-w-0 ml-0'}
+                            `}
+                        >
+                            Org Chart
+                        </span>
+                    </Link>
 
                     <button
                         onClick={() => window.location.href = config.authPath.logout}
