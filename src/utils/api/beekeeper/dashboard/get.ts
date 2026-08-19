@@ -9,38 +9,7 @@ export default async function getInternalDashboard(): Promise<InternalDashboard>
     })
 
     const dashboard = normalizeDashboard(typeof data === 'string' ? null : data)
-    const [docker, databaseOverview, traffic] = await Promise.all([
-        getWrapper({ path: 'docker', service: 'beekeeper' }),
-        getWrapper({ path: 'db', service: 'beekeeper' }),
-        getWrapper({ path: `traffic/metrics?${getTodayQuery()}`, service: 'beekeeper' }),
-    ])
-
-    if (typeof docker !== 'string') {
-        dashboard.runtime.docker = normalizeDocker(docker)
-        dashboard.information.system.containers = dashboard.runtime.docker.count
-    }
-
-    if (typeof databaseOverview !== 'string' && isRecord(databaseOverview)) {
-        dashboard.runtime.databaseOverview = databaseOverview as GetDatabaseOverview
-        dashboard.statistics.databases = toNumber(databaseOverview.databaseCount, dashboard.statistics.databases)
-    }
-
-    if (typeof traffic !== 'string' && isRecord(traffic)) {
-        dashboard.statistics.requestsToday = toNumber(traffic.total_requests, dashboard.statistics.requestsToday)
-    }
-
     return dashboard
-}
-
-function getTodayQuery() {
-    const now = new Date()
-    const start = new Date(now)
-    start.setHours(0, 0, 0, 0)
-
-    const query = new URLSearchParams()
-    query.set('time_start', start.toISOString())
-    query.set('time_end', now.toISOString())
-    return query.toString()
 }
 
 function normalizeDashboard(data: unknown): InternalDashboard {
