@@ -2,10 +2,8 @@
 
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import Image from 'next/image'
-import { renderToString } from 'react-dom/server'
 import { useEffect, useState } from 'react'
 import { Markdown } from './markdown'
-import { RoleRenderer } from './discordRole'
 
 export default function DiscordPreview({ channels, roles }: { channels: Channel[], roles: Role[] }) {
     const [titleNo, setTitleNo] = useState('')
@@ -213,12 +211,8 @@ function format(text: string, roles: Role[]): string {
             result += text.slice(lastIndex, start)
         }
 
-        const spanElement = RoleRenderer({ roleId, roles })
-        if (spanElement) {
-            result += renderToString(spanElement)
-        } else {
-            result += match[0]
-        }
+        const role = roles.find((item) => item.value === roleId)
+        result += role ? `@${role.label}` : match[0]
 
         lastIndex = regex.lastIndex
     }
