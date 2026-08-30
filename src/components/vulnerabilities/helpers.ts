@@ -31,6 +31,24 @@ export function impactScore(image: ImageVulnerabilityReport) {
     return image.severity.critical * 1000 + image.severity.high * 100 + image.severity.medium * 10 + image.severity.low
 }
 
+export function getScoutUpdateNotice(images: ImageVulnerabilityReport[]) {
+    for (const image of images) {
+        const text = image.scannerResults.find(result => result.note)?.note
+            || image.scanError?.split('\n').find(line => line.includes('New version'))
+        if (text) return text.trim()
+    }
+    return null
+}
+
+export function getDisplayScanError(scanError: string | null) {
+    if (!scanError) return null
+    const lines = scanError.split('\n').map(line => line.trim()).filter(Boolean)
+    const realError = lines.filter(line => !line.includes('New version')
+        && !/^\.\.\./.test(line)
+        && !/^✓/.test(line))
+    return realError.length ? realError.join(' ') : null
+}
+
 function formatDuration(totalSeconds: number) {
     const minutes = Math.floor(totalSeconds / 60)
     const seconds = totalSeconds % 60

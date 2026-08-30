@@ -5,7 +5,8 @@ import type useExpandedImages from './useExpandedImages'
 import useRunScan from './useRunScan'
 import type useScanNotice from './useScanNotice'
 import type useSortedImages from './useSortedImages'
-import { LayoutGrid, LoaderCircle, Play, Rows3 } from 'lucide-react'
+import { getScoutUpdateNotice } from './helpers'
+import { ExternalLink, LayoutGrid, LoaderCircle, Play, Rows3 } from 'lucide-react'
 
 type Props = Pick<PageClientProps, 'runScanAction'> & {
     data: GetVulnerabilities | null
@@ -30,6 +31,14 @@ export default function ScanToolbar(props: Props) {
                 <div className='mr-2 hidden text-sm text-login-300 lg:block'>
                     Showing {props.sorting.images.length} of {props.data?.images.length || 0} images
                 </div>
+                {props.data && getScoutUpdateNotice(props.data.images) && (
+                    <div className='flex h-10 max-w-72 items-center gap-1.5 rounded-xl border border-login-100/10
+                        bg-login-50/5 px-3 text-xs text-login-300'
+                    title={getScoutUpdateNotice(props.data.images) || undefined}>
+                        <ExternalLink className='h-3.5 w-3.5 shrink-0 text-login-200' />
+                        <span className='truncate'>{getScoutUpdateNotice(props.data.images)}</span>
+                    </div>
+                )}
                 <Toggle
                     value={props.sorting.sortMode}
                     onChange={props.sorting.setSortMode}

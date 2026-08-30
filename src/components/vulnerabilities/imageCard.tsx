@@ -3,6 +3,7 @@ import { Container } from 'lucide-react'
 import { ExpandableCard, SeverityPill } from 'uibee/components'
 import ImageBreakdown from './imageBreakdown'
 import ImageFindings from './imageFindings'
+import { getDisplayScanError } from './helpers'
 import { severityOrder } from './types'
 
 export default function ImageCard({
@@ -14,8 +15,9 @@ export default function ImageCard({
     isExpanded: boolean
     onToggle: () => void
 }) {
-    const subtitle = image.scanError
-        ? <span className='text-rose-300'>{image.scanError}</span>
+    const scanError = getDisplayScanError(image.scanError)
+    const subtitle = scanError
+        ? <span className='text-rose-300'>{scanError}</span>
         : `${image.totalVulnerabilities} findings · ${new Date(image.scannedAt).toLocaleString('nb-NO')}`
 
     const trailing = (
