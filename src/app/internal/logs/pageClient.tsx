@@ -394,7 +394,8 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                                                             </div>
                                                             {entry.raw !== entry.message && (
                                                                 <details className='mt-1 text-login-300'>
-                                                                    <summary className='cursor-pointer select-none text-[10px] uppercase tracking-wide'>
+                                                                    <summary className='cursor-pointer select-none text-[10px]
+                                                                        uppercase tracking-wide'>
                                                                         Raw details
                                                                     </summary>
                                                                     <pre className='mt-1 max-w-full overflow-x-auto whitespace-pre-wrap
