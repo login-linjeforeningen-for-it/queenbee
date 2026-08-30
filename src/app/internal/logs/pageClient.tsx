@@ -72,6 +72,13 @@ function formatRelativeTime(timestamp: string | null) {
     return restMinutes ? `${hours}h ${restMinutes}m ago` : `${hours}h ago`
 }
 
+function formatExactTime(timestamp: string | null) {
+    if (!timestamp) return 'Timestamp unavailable'
+    const parsed = new Date(timestamp)
+    if (Number.isNaN(parsed.getTime())) return timestamp
+    return parsed.toISOString().replace('T', ' ').replace('Z', ' UTC')
+}
+
 function getTimestampMs(timestamp: string | null) {
     if (!timestamp) return 0
     const parsed = new Date(timestamp).getTime()
@@ -369,12 +376,30 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                                                         className='grid grid-cols-[max-content_1fr] gap-3
                                                             border-b border-white/5 py-2 last:border-b-0'
                                                     >
-                                                        <span className='text-login-300'>
-                                                            {entry.timestamp ? formatRelativeTime(entry.timestamp) : entry.level}
-                                                        </span>
-                                                        <span className={entry.isError ? 'text-red-200' : 'text-login-50'}>
-                                                            {entry.message}
-                                                        </span>
+                                                        <time
+                                                            dateTime={entry.timestamp || undefined}
+                                                            title={formatExactTime(entry.timestamp)}
+                                                            className='text-login-300'
+                                                        >
+                                                            {entry.timestamp
+                                                                ? `${formatExactTime(entry.timestamp)} · ${formatRelativeTime(entry.timestamp)}`
+                                                                : 'Timestamp unavailable'}
+                                                        </time>
+                                                        <div className='min-w-0'>
+                                                            <div className={entry.isError ? 'text-red-200' : 'text-login-50'}>
+                                                                {entry.message}
+                                                            </div>
+                                                            {entry.raw !== entry.message && (
+                                                                <details className='mt-1 text-login-300'>
+                                                                    <summary className='cursor-pointer select-none text-[10px] uppercase tracking-wide'>
+                                                                        Raw details
+                                                                    </summary>
+                                                                    <pre className='mt-1 max-w-full overflow-x-auto whitespace-pre-wrap break-words text-[11px] text-login-200'>
+                                                                        {entry.raw}
+                                                                    </pre>
+                                                                </details>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 ))}
                                             </div>
