@@ -228,7 +228,7 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
     }, [data.containers, hashTarget])
 
     return (
-        <div className='flex h-full flex-col overflow-hidden'>
+        <div className='flex min-h-full flex-col'>
             <div className='flex-none grid gap-3 md:grid-cols-2 xl:grid-cols-4'>
                 <StatCard
                     label={level === 'error' ? 'Error entries' : 'Log entries'}
