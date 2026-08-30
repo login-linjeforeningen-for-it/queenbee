@@ -382,7 +382,10 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                                                             className='text-login-300'
                                                         >
                                                             {entry.timestamp
-                                                                ? `${formatExactTime(entry.timestamp)} · ${formatRelativeTime(entry.timestamp)}`
+                                                                ? [
+                                                                    formatExactTime(entry.timestamp),
+                                                                    formatRelativeTime(entry.timestamp),
+                                                                ].join(' · ')
                                                                 : 'Timestamp unavailable'}
                                                         </time>
                                                         <div className='min-w-0'>
@@ -394,7 +397,8 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                                                                     <summary className='cursor-pointer select-none text-[10px] uppercase tracking-wide'>
                                                                         Raw details
                                                                     </summary>
-                                                                    <pre className='mt-1 max-w-full overflow-x-auto whitespace-pre-wrap break-words text-[11px] text-login-200'>
+                                                                    <pre className='mt-1 max-w-full overflow-x-auto whitespace-pre-wrap
+                                                                        break-words text-[11px] text-login-200'>
                                                                         {entry.raw}
                                                                     </pre>
                                                                 </details>
