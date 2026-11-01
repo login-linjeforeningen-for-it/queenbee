@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
     images: {
         qualities: [25, 50, 75, 100],
         remotePatterns: [
-            { protocol: 'https', hostname: 's3.login.no', pathname: '/beehive/**' },
+            { protocol: 'https', hostname: 'tekkom-beehive.s3.de.io.cloud.ovh.net', pathname: '/**' },
         ],
     },
     output: 'standalone'
