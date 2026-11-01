@@ -1,7 +1,6 @@
-import { SearchInput } from 'uibee/components'
+import ListPage, { listResult } from '@components/table/listPage'
 import ManagedTable from '@components/table/managedTable'
 import HistoricalSwitch from '@components/inputs/historical'
-import { Button } from 'uibee/components'
 import deleteEvent from '@utils/api/workerbee/events/deleteEvent'
 import getEvents from '@utils/api/workerbee/events/getEvents'
 
@@ -15,7 +14,7 @@ const columns = [
 
 async function deleteAction(id: string) {
     'use server'
-    await deleteEvent(Number(id))
+    return await deleteEvent(Number(id))
 }
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
@@ -38,35 +37,24 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         historical
     })
 
-    const data = typeof events !== 'string' && Array.isArray(events.events) ? events.events : []
-    const totalRows = typeof events !== 'string' && Array.isArray(events.events) ? events.total_count : 0
+    const { data, totalRows, error } = listResult(events, 'events')
 
     return (
-        <div className='h-full overflow-hidden flex flex-col'>
-            <div className='flex-none'>
-                <div className='flex flex-row justify-between'>
-                    <h1 className='font-semibold text-lg'>Events</h1>
-                    <HistoricalSwitch name='historical' label='Historical' />
-                </div>
-                <div className='flex items-center justify-between py-3 gap-2'>
-                    <SearchInput />
-                    <Button
-                        text='New event'
-                        icon='+'
-                        path='events/create'
-                    />
-                </div>
-            </div>
-            <div className='flex-1 flex flex-col overflow-hidden'>
-                <ManagedTable
-                    data={data as Record<string, unknown>[]}
-                    columns={columns}
-                    deleteAction={deleteAction}
-                    redirectPath='/events/update'
-                    totalRows={totalRows}
-                    pageSize={limit}
-                />
-            </div>
-        </div>
+        <ListPage
+            title='Events'
+            aside={<HistoricalSwitch name='historical' label='Historical' />}
+            createText='New event'
+            createPath='events/create'
+        >
+            <ManagedTable
+                error={error}
+                data={data}
+                columns={columns}
+                deleteAction={deleteAction}
+                redirectPath='/events/update'
+                totalRows={totalRows}
+                pageSize={limit}
+            />
+        </ListPage>
     )
 }

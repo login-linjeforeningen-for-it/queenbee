@@ -16,16 +16,16 @@ export default function HistoricalSwitch({
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
-    const [value, setValue] = useState(searchParams?.get('historical') === 'true')
+    const [value, setValue] = useState(searchParams?.get(name) === 'true')
 
     function handleChange(newValue: boolean) {
         setValue(newValue)
         const params = new URLSearchParams(searchParams.toString())
 
         if (newValue) {
-            params.set('historical', 'true')
+            params.set(name, 'true')
         } else {
-            params.delete('historical')
+            params.delete(name)
         }
 
         params.set('page', '1')
@@ -39,7 +39,8 @@ export default function HistoricalSwitch({
             checked={value}
             onChange={(e) => handleChange(e.target.checked)}
             switchOnly
-            className='flex-row! w-fit!'
+            reserveError={false}
+            className='flex-row items-center gap-2 [&>div]:mb-0'
         />
     )
 }

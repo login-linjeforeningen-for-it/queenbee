@@ -24,8 +24,8 @@ export default function ServiceListHeader({
     setInput
 }: ServiceListHeaderProps) {
     return (
-        <div className='flex justify-between w-full items-center'>
-            <div className='-mb-5 w-fit'>
+        <div className='flex flex-wrap justify-between w-full items-center gap-x-4 gap-y-2'>
+            <div className='-mb-5 w-full sm:w-64!'>
                 <Input
                     name='search'
                     placeholder='Search..'

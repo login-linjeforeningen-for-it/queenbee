@@ -18,5 +18,5 @@ export default function formatDate(dateString: string) {
         return `${diffDays} days ago`
     }
 
-    return date.toLocaleDateString()
+    return date.toLocaleDateString('nb-NO')
 }

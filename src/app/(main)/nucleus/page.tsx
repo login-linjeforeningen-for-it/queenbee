@@ -3,9 +3,13 @@ import sendNotificationClient from '@utils/notification/sendNotificationClient'
 import { useEffect, useRef, useState } from 'react'
 import { CalendarClock, File, Flag, RefreshCcw, Send, SendHorizontal, Trash2 } from 'lucide-react'
 import Preview from '@components/preview/preview'
-import { Button, Input, toast } from 'uibee/components'
+import { Button, ConfirmPopup, Input, toast } from 'uibee/components'
 import normalizeScreenPayload from '@components/nucleus/normalizeScreenPayload'
 import setExample from '@components/nucleus/example'
+
+const SENDS_TO_TOPIC = 'This pushes to every phone subscribed to the topic.'
+
+type PendingConfirm = { header: string, description: string, confirmText: string, run: () => Promise<void> }
 
 export default function page() {
     const formRef = useRef<HTMLFormElement>(null)
@@ -16,6 +20,7 @@ export default function page() {
     const [resendingId, setResendingId] = useState<string | null>(null)
     const [sendingScheduledId, setSendingScheduledId] = useState<string | null>(null)
     const [deletingScheduledId, setDeletingScheduledId] = useState<string | null>(null)
+    const [pendingConfirm, setPendingConfirm] = useState<PendingConfirm | null>(null)
     const [formValues, setFormValues] = useState({
         title: '' as string,
         description: '' as string,
@@ -29,17 +34,18 @@ export default function page() {
         const description = formData.get('description') as string
         const topic = formData.get('topic') as string
         const screen = formData.get('screen') as string
+
+        if (topic === 'example') {
+            toast.error('Example values should not be sent!')
+            return
+        }
+
         const response = await sendNotificationClient({
             title,
             description,
             screen,
             topic,
         })
-
-        if (topic === 'example') {
-            toast.error('Example values should not be sent!')
-            return
-        }
 
         if (response) {
             if (response.status === 200) {
@@ -86,9 +92,12 @@ export default function page() {
         setResendingId(id)
         try {
             const response = await fetch(`/api/notification/resend/${id}`, { method: 'POST' })
-            if (response.ok) {
-                await loadHistory()
+            if (!response.ok) {
+                toast.error('Resend failed. Try again.')
+                return
             }
+            toast.success('Notification resent')
+            await loadHistory()
         } finally {
             setResendingId(null)
         }
@@ -133,9 +142,12 @@ export default function page() {
         setSendingScheduledId(id)
         try {
             const response = await fetch(`/api/notification/scheduled/${id}/send`, { method: 'POST' })
-            if (response.ok) {
-                await Promise.all([loadScheduled(), loadHistory()])
+            if (!response.ok) {
+                toast.error('Sending failed. Try again.')
+                return
             }
+            toast.success('Notification sent')
+            await Promise.all([loadScheduled(), loadHistory()])
         } finally {
             setSendingScheduledId(null)
         }
@@ -145,9 +157,12 @@ export default function page() {
         setDeletingScheduledId(id)
         try {
             const response = await fetch(`/api/notification/scheduled/${id}`, { method: 'DELETE' })
-            if (response.ok) {
-                await loadScheduled()
+            if (!response.ok) {
+                toast.error('Cancelling failed. Try again.')
+                return
             }
+            toast.success('Scheduled notification cancelled')
+            await loadScheduled()
         } finally {
             setDeletingScheduledId(null)
         }
@@ -170,7 +185,7 @@ export default function page() {
                     <button
                         type='button'
                         onClick={() => void loadHistory()}
-                        className='flex cursor-pointer items-center gap-1.5 text-xs text-login-300 transition-colors hover:text-login-50'
+                        className='flex cursor-pointer items-center gap-1.5 text-xs text-login-200 transition-colors hover:text-login-50'
                     >
                         <RefreshCcw className={`h-3.5 w-3.5 ${loadingHistory ? 'animate-spin' : ''}`} />
                         Refresh
@@ -178,6 +193,9 @@ export default function page() {
                 </div>
 
                 <div className='grid min-h-0 flex-1 gap-2 overflow-y-auto pr-1'>
+                    {history.length === 0 && (
+                        <p className='text-sm text-login-200'>{loadingHistory ? 'Loading…' : 'No notifications sent yet.'}</p>
+                    )}
                     {history.map((item) => (
                         <div
                             key={item.id}
@@ -186,18 +204,24 @@ export default function page() {
                             <div className='flex items-start justify-between gap-3'>
                                 <div>
                                     <div className='text-sm font-semibold text-login-50'>{item.title}</div>
-                                    <div className='mt-1 text-xs text-login-300'>{item.body}</div>
-                                    <div className='mt-2 text-[11px] uppercase tracking-[0.18em] text-login-300'>
+                                    <div className='mt-1 text-xs text-login-200'>{item.body}</div>
+                                    <div className='mt-2 text-xs text-login-200'>
                                         {item.topic} · delivered {item.delivered} · failed {item.failed}
                                     </div>
                                 </div>
                                 <button
                                     type='button'
-                                    onClick={() => void handleResend(item.id)}
+                                    onClick={() => setPendingConfirm({
+                                        header: `Resend '${item.title}' to ${item.topic}?`,
+                                        description: SENDS_TO_TOPIC,
+                                        confirmText: 'Resend',
+                                        run: () => handleResend(item.id),
+                                    })}
+                                    disabled={resendingId === item.id}
                                     className='flex shrink-0 cursor-pointer items-center gap-1 text-xs
-                                        text-login transition-colors hover:text-login-300'
+                                        text-login transition-colors hover:text-login-200'
                                 >
-                                    {resendingId === item.id ? 'Sending' : 'Resend'}
+                                    {resendingId === item.id ? 'Sending…' : 'Resend'}
                                     <SendHorizontal className='h-3.5 w-3.5' />
                                 </button>
                             </div>
@@ -219,7 +243,7 @@ export default function page() {
                     <button
                         type='button'
                         onClick={() => void loadScheduled()}
-                        className='flex cursor-pointer items-center gap-1.5 text-xs text-login-300 transition-colors hover:text-login-50'
+                        className='flex cursor-pointer items-center gap-1.5 text-xs text-login-200 transition-colors hover:text-login-50'
                     >
                         <RefreshCcw className={`h-3.5 w-3.5 ${loadingScheduled ? 'animate-spin' : ''}`} />
                         Refresh
@@ -227,13 +251,18 @@ export default function page() {
                 </div>
 
                 <div className='grid min-h-0 flex-1 gap-2 overflow-y-auto pr-1'>
+                    {scheduled.length === 0 && (
+                        <p className='text-sm text-login-200'>
+                            {loadingScheduled ? 'Loading…' : 'Nothing scheduled. Pick a date under "Schedule for" and press Schedule.'}
+                        </p>
+                    )}
                     {scheduled.map((item) => (
                         <div key={item.id} className='rounded-xl border border-white/5 bg-login-50/5 p-3'>
                             <div className='flex items-start justify-between gap-3'>
                                 <div>
                                     <div className='text-sm font-semibold text-login-50'>{item.title}</div>
-                                    <div className='mt-1 text-xs text-login-300'>{item.body}</div>
-                                    <div className='mt-2 text-[11px] uppercase tracking-[0.18em] text-login-300'>
+                                    <div className='mt-1 text-xs text-login-200'>{item.body}</div>
+                                    <div className='mt-2 text-xs text-login-200'>
                                         {item.topic} · {item.status} · {new Date(item.scheduledAt).toLocaleString()}
                                     </div>
                                     {item.lastError && (
@@ -243,22 +272,34 @@ export default function page() {
                                 <div className='flex shrink-0 items-center gap-3'>
                                     <button
                                         type='button'
-                                        onClick={() => void handleSendScheduledNow(item.id)}
+                                        onClick={() => setPendingConfirm({
+                                            header: `Send '${item.title}' to ${item.topic} now?`,
+                                            description: SENDS_TO_TOPIC,
+                                            confirmText: 'Send now',
+                                            run: () => handleSendScheduledNow(item.id),
+                                        })}
+                                        disabled={sendingScheduledId === item.id}
                                         className='flex cursor-pointer items-center gap-1 text-xs
-                                            text-login transition-colors hover:text-login-300'
+                                            text-login transition-colors hover:text-login-200'
                                     >
                                         <SendHorizontal className='h-3.5 w-3.5' />
-                                        {sendingScheduledId === item.id ? 'Sending' : 'Send now'}
+                                        {sendingScheduledId === item.id ? 'Sending…' : 'Send now'}
                                     </button>
                                     {item.status !== 'cancelled' && item.status !== 'sent' && (
                                         <button
                                             type='button'
-                                            onClick={() => void handleDeleteScheduled(item.id)}
+                                            onClick={() => setPendingConfirm({
+                                                header: `Cancel '${item.title}'?`,
+                                                description: 'It will not be sent.',
+                                                confirmText: 'Cancel notification',
+                                                run: () => handleDeleteScheduled(item.id),
+                                            })}
+                                            disabled={deletingScheduledId === item.id}
                                             className='flex cursor-pointer items-center gap-1 text-xs
                                                 text-red-400 transition-colors hover:text-red-300'
                                         >
                                             <Trash2 className='h-3.5 w-3.5' />
-                                            {deletingScheduledId === item.id ? 'Canceling' : 'Cancel'}
+                                            {deletingScheduledId === item.id ? 'Cancelling…' : 'Cancel'}
                                         </button>
                                     )}
                                 </div>
@@ -273,9 +314,9 @@ export default function page() {
     return (
         <div className='grid w-full grid-cols-1 gap-4 xl:grid-cols-3 xl:h-full xl:min-h-0 xl:overflow-hidden'>
             <div className='min-w-0 xl:min-h-0 xl:overflow-y-auto'>
-                <div className='mb-6'>
-                    <h1 className='font-semibold text-lg text-login-50'>Nucleus</h1>
-                    <p className='mt-0.5 text-xs text-login-300'>Send a notification to the Login App</p>
+                <div className='mb-4'>
+                    <h1 className='flex min-h-9 items-center font-semibold text-lg'>Nucleus</h1>
+                    <p className='text-sm text-login-200'>Send a notification to the Login App</p>
                 </div>
                 <form
                     ref={formRef}
@@ -329,15 +370,13 @@ export default function page() {
                         name='screen'
                         type='text'
                         label='Screen'
+                        description='Use event:123, ad:456, ai, admin, login or notifications.'
                         className=''
                         onChange={(e) =>
                             setFormValues({ ...formValues, screen: e.target.value })
                         }
                         value={formValues.screen || ''}
                     />
-                    <p className='-mt-2 mb-2 text-xs text-login-300'>
-                        Use `event:123`, `ad:456`, `ai`, `admin`, `login`, or `notifications`.
-                    </p>
                     <Input
                         name='scheduledAt'
                         type='datetime-local'
@@ -351,7 +390,7 @@ export default function page() {
                     <div className='mb-4'>
                         <Preview title={formValues.title} description={formValues.description} />
                     </div>
-                    <div className='grid md:flex! items-center justify-between gap-2'>
+                    <div className='flex flex-wrap items-center justify-between gap-2'>
                         <div className='flex justify-between gap-2'>
                             <Button
                                 variant='secondary'
@@ -384,11 +423,22 @@ export default function page() {
                 </form>
             </div>
             <div className='min-w-0 xl:min-h-0'>
-                <ScheduledNotifications />
+                {ScheduledNotifications()}
             </div>
             <div className='min-w-0 xl:min-h-0'>
-                <RecentNotifications />
+                {RecentNotifications()}
             </div>
+            <ConfirmPopup
+                isOpen={pendingConfirm !== null}
+                header={pendingConfirm?.header ?? ''}
+                description={pendingConfirm?.description}
+                confirmText={pendingConfirm?.confirmText}
+                onConfirm={() => {
+                    void pendingConfirm?.run()
+                    setPendingConfirm(null)
+                }}
+                onCancel={() => setPendingConfirm(null)}
+            />
         </div>
     )
 }

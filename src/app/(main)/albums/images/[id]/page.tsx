@@ -26,17 +26,13 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         const album = await getAlbum(Number(id))
         if (typeof album !== 'string') {
             return (
-                <div className='flex flex-col h-full'>
-                    <div className='flex flex-col gap-4'>
-                        <BackButton pushURL={`/albums/update/${album.id}`} />
-                        <h1 className='text-lg font-bold mb-4'>
-                            Album: {album.name_en}
-                        </h1>
-                    </div>
-                    <div className='flex justify-between items-center pb-10'>
-                        <SearchInput />
-                        <UploadAlbumImages albumId={album.id} />
-                    </div>
+                <div className='flex flex-col gap-4 pb-8'>
+                    <BackButton pushURL={`/albums/update/${album.id}`} />
+                    <h1 className='flex h-9 items-center font-semibold text-lg'>
+                        Album: {album.name_en}
+                    </h1>
+                    <UploadAlbumImages albumId={album.id} />
+                    <SearchInput />
                     {album.images &&
                         <Album
                             album={album}

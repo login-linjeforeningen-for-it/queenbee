@@ -89,7 +89,7 @@ export default function EventFields({
     type: 'create' | 'update'
 }) {
     const [images, setImages] = useState<Option[]>(defaultImages)
-    const [lastFetchedSignupSlug, setLastFetchedSignupSlug] = useState<string | null>(null)
+    const [lastFetchedSignupSlug, setLastFetchedSignupSlug] = useState(() => parseFormsLoginSlug(defaultValues?.link_signup))
     const latestSignupRequest = useRef(0)
     const [formValues, setFormValues] = useState({
         name_no: defaultValues?.name_no || '',
@@ -265,19 +265,20 @@ export default function EventFields({
     const locationNameNo = formValues.location ? `**Hvor:** ${locations.find(loc => loc.value === formValues.location)?.nameNo}\n` : ''
     const locationNameEn = formValues.location ? `**Where:** ${locations.find(loc => loc.value === formValues.location)?.nameEn}\n` : ''
 
+    const timeRange = [formValues.start_time, formValues.end_time].filter(Boolean).join(' - ')
     const timeInfoNo = formValues.start_date && formValues.end_date ?
-        `**Når:** ${formatDate(formValues.start_date)} kl. ${formValues.start_time} - ${formValues.end_time}` +
+        `**Når:** ${formatDate(formValues.start_date)}${timeRange ? ` kl. ${timeRange}` : ''}` +
         `${formValues.end_date === formValues.start_date ? '' : ` (${formatDate(formValues.end_date)})`}\n` : ''
     const timeInfoEn = formValues.start_date && formValues.end_date ?
-        `**When:** ${formatDate(formValues.start_date)} at ${formValues.start_time} - ${formValues.end_time}` +
+        `**When:** ${formatDate(formValues.start_date)}${timeRange ? ` at ${timeRange}` : ''}` +
         `${formValues.end_date === formValues.start_date ? '' : ` (${formatDate(formValues.end_date)})`}\n` : ''
 
     const announcementDescriptionNo = `${formValues.description_no}\n\n${locationNameNo}${timeInfoNo}`
     const announcementDescriptionEn = `${formValues.description_en}\n\n${locationNameEn}${timeInfoEn}`
 
     return (
-        <div className='md:grid md:grid-cols-2 gap-x-8 md:pt-4 relative'>
-            <div className='absolute grid md:flex! flex-row gap-4 w-full justify-end -mt-13'>
+        <div className='lg:grid lg:grid-cols-2 gap-x-8'>
+            <div className='absolute top-0 right-0'>
                 <Button
                     variant='secondary'
                     text='Example'
@@ -416,7 +417,7 @@ export default function EventFields({
                     }
                 />
             </div>
-            <div className='flex flex-col sm:grid! sm:grid-cols-2 gap-x-4'>
+            <div className='flex flex-col sm:grid sm:grid-cols-2 gap-x-4'>
                 <Select
                     name='time_type'
                     label='Time Type'
@@ -601,7 +602,7 @@ export default function EventFields({
             </div>
             {type === 'create' &&
                 <>
-                    <h1 className='text-xl pt-10 pb-4 col-span-2'>Repeat</h1>
+                    <h2 className='font-semibold pt-10 pb-4 col-span-2'>Repeat</h2>
                     <Select
                         name='repeat_type'
                         options={[
@@ -635,7 +636,7 @@ export default function EventFields({
                     }
                 </>
             }
-            <h1 className='text-xl pt-10 pb-4 col-span-2'>Signup</h1>
+            <h2 className='font-semibold pt-10 pb-4 col-span-2'>Signup</h2>
             <Input
                 name='link_signup'
                 type='text'
@@ -648,7 +649,7 @@ export default function EventFields({
                 onBlur={retrySignupFetch}
                 required={shouldRequireSignupLink}
             />
-            <div className='flex flex-col sm:flex-row! gap-x-4'>
+            <div className='flex flex-col sm:flex-row gap-x-4'>
                 <Input
                     type='date'
                     name='release_date'
@@ -686,7 +687,7 @@ export default function EventFields({
                     capacity: Number(e.target.value),
                 })}
             />
-            <div className='flex flex-col sm:flex-row! gap-x-4'>
+            <div className='flex flex-col sm:flex-row gap-x-4'>
                 <Input
                     type='date'
                     name='deadline_date'
@@ -714,7 +715,7 @@ export default function EventFields({
                     required={shouldRequireSignupFields}
                 />
             </div>
-            <h1 className='text-xl pt-10 pb-4 col-span-2'>Image</h1>
+            <h2 className='font-semibold pt-10 pb-4 col-span-2'>Image</h2>
             <Upload
                 handleFile={handleFile}
                 showTag={true}
@@ -745,7 +746,7 @@ export default function EventFields({
                 }
                 className='col-span-2'
             />
-            <h1 className='text-xl pt-10 pb-4 col-span-2'>Social Links</h1>
+            <h2 className='font-semibold pt-10 pb-4 col-span-2'>Social Links</h2>
             <Input
                 name='link_facebook'
                 type='text'

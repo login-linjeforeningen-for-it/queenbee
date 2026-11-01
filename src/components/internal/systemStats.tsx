@@ -36,6 +36,7 @@ export default function SystemStats({ initialDashboard }: SystemStatsProps) {
 
         const intervalId = setInterval(async () => {
             const updatedDashboard = await getInternalDashboard()
+            if (updatedDashboard.error) return
             setMetrics(updatedDashboard.runtime.metrics)
             setDocker(updatedDashboard.runtime.docker)
         }, autoRefresh)
@@ -53,7 +54,7 @@ export default function SystemStats({ initialDashboard }: SystemStatsProps) {
     return (
         <div className='flex flex-col gap-4'>
             <div className='flex items-center justify-between'>
-                <h2 className='text-xl font-semibold'>System Resources</h2>
+                <h2 className='font-semibold text-lg'>System Resources</h2>
                 <Card className='flex items-center gap-3 p-1'>
                     <span className='px-2 text-xs font-medium text-login-200 uppercase'>Auto-refresh</span>
                     <select

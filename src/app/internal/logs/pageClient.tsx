@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { Activity, AlertTriangle, Layers3, RefreshCcw, Search, ServerCrash, TerminalSquare } from 'lucide-react'
-import { Button, Card, ExpandableCard, Input, LeftBarPanel, Select, StatCard, Toggle } from 'uibee/components'
+import { Alert, Button, Card, ExpandableCard, Input, LeftBarPanel, Select, StatCard, Toggle } from 'uibee/components'
 import { parseLogsHash } from '@utils/logsNavigation'
 
 type LogEntry = {
@@ -229,7 +229,7 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
 
     return (
         <div className='flex min-h-full flex-col'>
-            <div className='flex-none grid gap-3 md:grid-cols-2 xl:grid-cols-4'>
+            <div className='flex-none grid gap-3 grid-cols-2 xl:grid-cols-4'>
                 <StatCard
                     label={level === 'error' ? 'Error entries' : 'Log entries'}
                     value={String(summary.totalEntries)}
@@ -238,7 +238,7 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                 />
                 <StatCard
                     label='Server'
-                    value={data.server}
+                    value={error && !data.checkedAt ? 'Unavailable' : data.server}
                     icon={TerminalSquare}
                     tone='orange'
                 />
@@ -310,15 +310,11 @@ export default function LogsPageClient({ initialData }: { initialData?: LogsPayl
                 />
             </div>
 
-            {error && (
-                <div className='flex-none mb-3 rounded-2xl border border-red-500/20 bg-red-500/8 p-5 text-sm text-red-300'>
-                    {error}
-                </div>
-            )}
+            {error && <Alert className='flex-none mb-3'>{error}</Alert>}
 
             <div className='flex-1 overflow-y-auto'>
                 <div className='flex flex-col gap-3'>
-                    {groupedServices.length === 0 && (
+                    {!error && groupedServices.length === 0 && (
                         <div className='rounded-lg border border-dashed border-white/8 p-3 text-xs text-login-300'>
                             {level === 'error' ? 'No matching error logs right now.' : 'No matching logs right now.'}
                         </div>

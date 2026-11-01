@@ -260,6 +260,7 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
                             src='/images/queenbee-logo.png'
                             alt='QueenBee'
                             fill
+                            sizes='32px'
                             className='object-contain'
                             priority
                         />

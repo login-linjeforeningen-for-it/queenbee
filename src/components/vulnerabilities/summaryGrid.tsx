@@ -29,7 +29,7 @@ export default function SummaryGrid({
             <div className='flex flex-row justify-between'>
                 <h1 className='font-semibold text-lg'>Vulnerabilities</h1>
             </div>
-            <div className='mt-4 grid md:grid-cols-2 lg:grid-cols-4 gap-3'>
+            <div className='mt-4 grid grid-cols-2 lg:grid-cols-4 gap-3'>
                 <StatCard label='Images' value={String(data?.imageCount || 0)} icon={Container} tone='blue' />
                 <div className='rounded-xl bg-login-50/5 p-4'>
                     <div className='flex items-center gap-3 mb-3'>

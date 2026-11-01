@@ -7,10 +7,11 @@ export function RoleRenderer({roleId, roles}: {roleId: string, roles: Role[]}): 
     return (
         <span
             style={{
-                color: role.color,
+                color: `color-mix(in srgb, ${role.color} 70%, white)`,
                 backgroundColor: `${role.color}26`,
                 padding: '0.2rem',
-                borderRadius: '0.375rem'
+                borderRadius: '0.375rem',
+                whiteSpace: 'nowrap',
             }}
         >
             @{role.label}

@@ -1,12 +1,11 @@
-import { SearchInput } from 'uibee/components'
+import ListPage, { listResult } from '@components/table/listPage'
 import ManagedTable from '@components/table/managedTable'
 import deleteRule from '@utils/api/workerbee/rules/deleteRule'
 import getRules from '@utils/api/workerbee/rules/getRules'
-import { Button } from 'uibee/components'
 
 async function deleteAction(id: string) {
     'use server'
-    await deleteRule(Number(id))
+    return await deleteRule(Number(id))
 }
 
 const columns = [
@@ -34,32 +33,23 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         sort
     })
 
-    const data = typeof rules !== 'string' && Array.isArray(rules.rules) ? rules.rules : []
-    const totalRows = typeof rules !== 'string' && Array.isArray(rules.rules) ? rules.total_count : 0
+    const { data, totalRows, error } = listResult(rules, 'rules')
 
     return (
-        <div className='h-full overflow-hidden flex flex-col'>
-            <div className='flex-none'>
-                <h1 className='font-semibold text-lg'>Rules</h1>
-                <div className='flex items-center justify-between py-3'>
-                    <SearchInput />
-                    <Button
-                        text='New rule'
-                        icon='+'
-                        path='rules/create'
-                    />
-                </div>
-            </div>
-            <div className='flex-1 flex flex-col overflow-hidden'>
-                <ManagedTable
-                    data={data as Record<string, unknown>[]}
-                    columns={columns}
-                    deleteAction={deleteAction}
-                    redirectPath='/rules/update'
-                    totalRows={totalRows}
-                    pageSize={limit}
-                />
-            </div>
-        </div>
+        <ListPage
+            title='Rules'
+            createText='New rule'
+            createPath='rules/create'
+        >
+            <ManagedTable
+                error={error}
+                data={data}
+                columns={columns}
+                deleteAction={deleteAction}
+                redirectPath='/rules/update'
+                totalRows={totalRows}
+                pageSize={limit}
+            />
+        </ListPage>
     )
 }

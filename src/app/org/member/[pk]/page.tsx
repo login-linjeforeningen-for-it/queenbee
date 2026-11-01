@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: Promise<{ pk: string }>
     if (!profile) notFound()
 
     return (
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col gap-6 pb-8'>
             <MemberProfile profile={profile} authentikUrl={config.url.authentik} />
             {!profile.isService && (
                 <MembershipPanel pk={profile.pk} name={profile.name} groups={profile.groups} />

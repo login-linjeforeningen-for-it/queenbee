@@ -84,6 +84,7 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
                         alt='TekKom Discord Logo'
                         className='rounded-full object-cover'
                         fill
+                        sizes='48px'
                         quality={100}
                     />
                 </div>

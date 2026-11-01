@@ -3,22 +3,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from 'uibee/components'
-import { getCookie } from 'utilbee/utils'
 import { Menu, X } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import Sidebar from '@components/sidebar/sidebar'
 
 export default function Nav() {
-    const [token, setToken] = useState<string | undefined>(undefined)
-    const [sidebar, setSidebar] = useState(false)
-
-    useEffect(() => {
-        setToken(getCookie('access_token') || undefined)
-    }, [])
-
-    if (!token) {
-        return null
-    }
+    const pathname = usePathname()
+    const [openOn, setOpenOn] = useState<string | null>(null)
+    const open = openOn === pathname
 
     return (
         <nav
@@ -29,11 +22,11 @@ export default function Nav() {
         >
             <div className='flex gap-4 h-full items-center'>
                 <Link
-                    href={token ? '/dashboard' : '/'}
+                    href='/dashboard'
                     className='relative h-10 w-10 aspect-square hover:opacity-80 transition-opacity'
                 >
                     <Image
-                        alt='Logo'
+                        alt='QueenBee dashboard'
                         src='/images/queenbee-logo.png'
                         fill={true}
                         quality={100}
@@ -42,24 +35,21 @@ export default function Nav() {
                         className='object-contain'
                     />
                 </Link>
-                <h1 className='font-bold text-lg tracking-wide text-login-50'>
+                <span className='font-bold text-lg tracking-wide text-login-50'>
                     QueenBee
-                </h1>
+                </span>
             </div>
 
             <div className='flex gap-1 items-center'>
                 <div className='absolute z-100 w-full left-0 top-(--h-navbar)'>
-                    {sidebar && (<Sidebar mobile={true} initialHasToken={true} />)}
+                    {open && (<Sidebar mobile={true} initialHasToken={true} />)}
                 </div>
-                {token ? (
-                    <>
-                        <Button
-                            variant='secondary'
-                            icon={sidebar ? <X /> : <Menu />}
-                            onClick={() => setSidebar(prev => !prev)}
-                        />
-                    </>
-                ) : <></>}
+                <Button
+                    variant='secondary'
+                    icon={open ? <X /> : <Menu />}
+                    label={open ? 'Close menu' : 'Open menu'}
+                    onClick={() => setOpenOn(open ? null : pathname)}
+                />
             </div>
         </nav>
     )

@@ -36,7 +36,7 @@ export default function CustomForm({
 
     useEffect(() => {
         if (typeof state !== 'string' && state !== null) {
-            toast.success(`${name} ${type}d successfully!`)
+            toast.success(`${name[0].toUpperCase()}${name.slice(1)} ${type}d`)
             const basePath = pathname.split('/').slice(0, 2).join('/')
             router.push( state?.id && customRedirect ? `${basePath}/${customRedirect}/${state.id}` : basePath )
         } else if (typeof state === 'string') {
@@ -49,7 +49,7 @@ export default function CustomForm({
             action={action}
             className={`group ${submitPressed ? 'submitPressed' : ''}`}
         >
-            <div className='flex flex-col gap-12'>
+            <div className='flex flex-col gap-6'>
                 <div>
                     {type === 'update' && id != null && (
                         <input type='hidden' name='id' value={String(id)} />
@@ -60,7 +60,7 @@ export default function CustomForm({
                 <Button
                     type='submit'
                     icon={<Save className='w-5' />}
-                    text={`${type} ${name}`}
+                    text={pending ? 'Saving…' : `${type === 'create' ? 'Create' : 'Update'} ${name}`}
                     onClick={() => {
                         setSubmitPressed(true)
                         setSubmitCount(prev => prev + 1)

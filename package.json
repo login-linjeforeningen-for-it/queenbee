@@ -17,7 +17,7 @@
     "next": "^16.4.3",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "uibee": "^3.3.3",
+    "uibee": "^3.4.0",
     "utilbee": "^1.4.9"
   },
   "devDependencies": {

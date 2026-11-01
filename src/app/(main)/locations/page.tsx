@@ -1,9 +1,8 @@
-import { SearchInput } from 'uibee/components'
+import ListPage, { listResult } from '@components/table/listPage'
 import ManagedTable from '@components/table/managedTable'
 import deleteLocation from '@utils/api/workerbee/locations/deleteLocation'
 import getLocations from '@utils/api/workerbee/locations/getLocations'
 import { cookies } from 'next/headers'
-import { Button } from 'uibee/components'
 
 enum Location {
     Address = 'address',
@@ -21,7 +20,7 @@ enum LocationAPI {
 
 async function deleteAction(id: string) {
     'use server'
-    await deleteLocation(Number(id))
+    return await deleteLocation(Number(id))
 }
 
 const AddressColumns = [
@@ -84,8 +83,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         sort
     })
 
-    const data = typeof locations !== 'string' && Array.isArray(locations.locations) ? locations.locations : []
-    const totalRows = typeof locations !== 'string' && Array.isArray(locations.locations) ? locations.total_count : 0
+    const { data, totalRows, error } = listResult(locations, 'locations')
     const columnMap = {
         [Location.Address]: AddressColumns,
         [Location.Mazemap]: MazemapColumns,
@@ -94,28 +92,20 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
     }
 
     return (
-        <div className='h-full overflow-hidden flex flex-col'>
-            <div className='flex-none'>
-                <h1 className='font-semibold text-lg capitalize'>Locations - {activeType}</h1>
-                <div className='grid md:flex! items-center justify-between py-3 gap-2'>
-                    <SearchInput />
-                    <Button
-                        text='New location'
-                        icon='+'
-                        path='locations/create'
-                    />
-                </div>
-            </div>
-            <div className='flex-1 flex flex-col overflow-hidden'>
-                <ManagedTable
-                    data={data as Record<string, unknown>[]}
-                    columns={columnMap[activeType]}
-                    deleteAction={deleteAction}
-                    redirectPath='/locations/update'
-                    totalRows={totalRows}
-                    pageSize={limit}
-                />
-            </div>
-        </div>
+        <ListPage
+            title={<>Locations - <span className='capitalize'>{activeType}</span></>}
+            createText='New location'
+            createPath='locations/create'
+        >
+            <ManagedTable
+                error={error}
+                data={data}
+                columns={columnMap[activeType]}
+                deleteAction={deleteAction}
+                redirectPath='/locations/update'
+                totalRows={totalRows}
+                pageSize={limit}
+            />
+        </ListPage>
     )
 }

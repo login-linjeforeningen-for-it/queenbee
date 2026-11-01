@@ -28,7 +28,7 @@ export default function Page() {
                     {text.descriptionAfter}
                 </p>
 
-                <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-300'>Topics</h3>
+                <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-200'>Topics</h3>
                 <ul className='grid list-disc grid-cols-2 gap-x-6 gap-y-1 pl-5 text-sm text-login-50 sm:grid-cols-4'>
                     <li>TEKKOM</li>
                     <li>SOCIAL</li>
@@ -40,16 +40,16 @@ export default function Page() {
                     <li>ANNET</li>
                 </ul>
 
-                <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-300'>Intervaller</h3>
+                <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-200'>Intervaller</h3>
                 <Code className='inline-block'>{text.intervals}</Code>
 
-                <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-300'>Språk (prefix)</h3>
+                <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-200'>Språk (prefix)</h3>
                 <p className='text-sm text-login-50'>
                     <Code>n</Code> norsk &nbsp;
                     <Code>e</Code> engelsk
                 </p>
 
-                <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-300'>Ads (prefix etter språk)</h3>
+                <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-200'>Ads (prefix etter språk)</h3>
                 <Code>a</Code>
 
                 <Examples />

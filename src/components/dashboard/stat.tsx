@@ -13,8 +13,8 @@ type StatProps = {
 
 export default function Stat({ text, link, count, item }: StatProps) {
     return (
-        <Link href={`/${link || text}`}>
-            <StatCard icon={item} label={text} value={String(count)} />
+        <Link href={`/${link || text}`} className='rounded-xl transition hover:brightness-125'>
+            <StatCard icon={item} label={text.charAt(0).toUpperCase() + text.slice(1)} value={String(count)} />
         </Link>
     )
 }

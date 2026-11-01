@@ -8,8 +8,11 @@ export default async function getInternalDashboard(): Promise<InternalDashboard>
         service: 'beekeeper'
     })
 
-    const dashboard = normalizeDashboard(typeof data === 'string' ? null : data)
-    return dashboard
+    if (typeof data === 'string') {
+        return { ...normalizeDashboard(null), error: data }
+    }
+
+    return normalizeDashboard(data)
 }
 
 function normalizeDashboard(data: unknown): InternalDashboard {

@@ -19,8 +19,8 @@ export default function HoneyFields({ defaultValues }: { defaultValues?: GetHone
     }
 
     return (
-        <div className='grid grid-cols-1 pt-10 relative'>
-            <div className='absolute flex flex-row gap-4 w-full justify-end -mt-13'>
+        <div className='grid grid-cols-1'>
+            <div className='absolute top-0 right-0'>
                 <Button
                     variant='secondary'
                     text='Example'

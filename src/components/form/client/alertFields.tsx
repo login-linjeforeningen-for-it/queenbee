@@ -18,8 +18,8 @@ export default function AlertFields({ defaultValues }: { defaultValues?: GetAler
     }
 
     return (
-        <div className='grid grid-cols-2 gap-x-8 pt-10 relative'>
-            <div className='absolute flex flex-row gap-4 w-full justify-end -mt-13'>
+        <div className='grid lg:grid-cols-2 gap-x-8'>
+            <div className='absolute top-0 right-0'>
                 <Button
                     variant='secondary'
                     text='Example'

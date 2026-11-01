@@ -21,15 +21,17 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     return (
         <html test-id='root' lang='en' className={`${theme} h-full`}>
             <body className='bg-login-700 h-full flex flex-col'>
-                <header className='h-(--h-navbar) md:hidden!'>
-                    <Nav />
-                </header>
+                {hasToken && (
+                    <header className='h-(--h-navbar) lg:hidden'>
+                        <Nav />
+                    </header>
+                )}
                 <div className='flex flex-1 overflow-hidden'>
-                    <div className='hidden md:block! h-full shrink-0'>
+                    <div className='hidden lg:block h-full shrink-0'>
                         <Sidebar  initialHasToken={hasToken} initialExpanded={sidebarExpanded} />
                     </div>
                     <main className='flex-1 h-full bg-login-800 overflow-hidden relative'>
-                        <div className='relative p-4 pt-10! w-full h-full bg-login-800 overflow-scroll'>
+                        <div className='relative p-4 pt-10 w-full h-full bg-login-800 overflow-auto'>
                             <ViewTransition>
                                 {children}
                             </ViewTransition>

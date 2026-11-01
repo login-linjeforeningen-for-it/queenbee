@@ -7,7 +7,13 @@ import getChannels from '@utils/api/bot/announcements/getChannels'
 import config from '@config'
 
 export default async function JobForm({ defaultValues }: { defaultValues?: GetJobProps }) {
-    const organizationsResponse = await getAllOrganizations()
+    const [organizationsResponse, jobTypesResponse, imagesResponse, rolesResponse, channelsResponse] = await Promise.all([
+        getAllOrganizations(),
+        getTypes(),
+        getImages('jobs'),
+        getRoles(),
+        getChannels(),
+    ])
     const organizations = typeof organizationsResponse !== 'string' ? organizationsResponse : []
     const organizationsOptions = Array.isArray(organizations)
         ? organizations.map((organization) => ({
@@ -17,7 +23,6 @@ export default async function JobForm({ defaultValues }: { defaultValues?: GetJo
         }))
         : []
 
-    const jobTypesResponse = await getTypes()
     const jobTypes = typeof jobTypesResponse !== 'string' ? jobTypesResponse.job_types : []
     const jobTypesOptions = Array.isArray(jobTypes)
         ? jobTypes.map((type) => ({
@@ -27,7 +32,6 @@ export default async function JobForm({ defaultValues }: { defaultValues?: GetJo
         }))
         : []
 
-    const imagesResponse = await getImages('jobs')
     const images = Array.isArray(imagesResponse)
         ? imagesResponse.map((image) => ({
             label: image,
@@ -36,12 +40,10 @@ export default async function JobForm({ defaultValues }: { defaultValues?: GetJo
         }))
         : []
 
-    const rolesResponse = await getRoles()
     const roles = Array.isArray(rolesResponse)
         ? rolesResponse.map((role) => ({ label: role.name, value: role.id, color: role.color }))
         : []
 
-    const channelsResponse = await getChannels()
     const channels = Array.isArray(channelsResponse)
         ? channelsResponse.map((channel) => ({ label: channel.name, value: channel.id }))
         : []

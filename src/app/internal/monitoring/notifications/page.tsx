@@ -5,7 +5,7 @@ import { Button } from 'uibee/components'
 
 async function deleteAction(id: string) {
     'use server'
-    await deleteNotification(Number(id))
+    return await deleteNotification(Number(id))
 }
 
 const columns = [
@@ -31,6 +31,7 @@ export default async function Page() {
 
             <div className='flex-1 flex flex-col overflow-hidden'>
                 <ManagedTable
+                    error={typeof result === 'string' ? result : undefined}
                     data={notifications as unknown as Record<string, unknown>[]}
                     columns={columns}
                     idKey='id'

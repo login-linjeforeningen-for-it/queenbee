@@ -1,12 +1,11 @@
-import { SearchInput } from 'uibee/components'
+import ListPage, { listResult } from '@components/table/listPage'
 import ManagedTable from '@components/table/managedTable'
 import getAlbums from '@utils/api/workerbee/albums/getAlbums'
 import deleteAlbum from '@utils/api/workerbee/albums/deleteAlbum'
-import { Button } from 'uibee/components'
 
 async function deleteAction(id: string) {
     'use server'
-    await deleteAlbum(Number(id))
+    return await deleteAlbum(Number(id))
 }
 
 const columns = [
@@ -34,28 +33,23 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         sort
     })
 
-    const data = typeof albums !== 'string' && Array.isArray(albums.albums) ? albums.albums : []
-    const totalRows = typeof albums !== 'string' && Array.isArray(albums.albums) ? albums.total_count : 0
+    const { data, totalRows, error } = listResult(albums, 'albums')
 
     return (
-        <div className='h-full overflow-hidden flex flex-col'>
-            <div className='flex-none'>
-                <h1 className='font-semibold text-lg'>Albums</h1>
-                <div className='flex items-center justify-between py-3'>
-                    <SearchInput />
-                    <Button text='New album' icon='+' path='albums/create' />
-                </div>
-            </div>
-            <div className='flex-1 flex flex-col overflow-hidden'>
-                <ManagedTable
-                    data={data as Record<string, unknown>[]}
-                    columns={columns}
-                    deleteAction={deleteAction}
-                    redirectPath='/albums/update'
-                    totalRows={totalRows}
-                    pageSize={limit}
-                />
-            </div>
-        </div>
+        <ListPage
+            title='Albums'
+            createText='New album'
+            createPath='albums/create'
+        >
+            <ManagedTable
+                error={error}
+                data={data}
+                columns={columns}
+                deleteAction={deleteAction}
+                redirectPath='/albums/update'
+                totalRows={totalRows}
+                pageSize={limit}
+            />
+        </ListPage>
     )
 }

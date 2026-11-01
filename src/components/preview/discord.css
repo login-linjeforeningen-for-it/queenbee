@@ -23,3 +23,6 @@
     font-weight: bold;
 }
 
+.markdown-preview p {
+    white-space: pre-line;
+}

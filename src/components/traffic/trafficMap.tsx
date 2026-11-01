@@ -250,7 +250,7 @@ export default function TrafficMap({
             >
                 <div className='flex flex-wrap items-center justify-between gap-3 border-b border-login-100/10 px-5 py-4'>
                     <div>
-                        <h1 className='text-xl font-semibold text-login-50'>Live Traffic Map</h1>
+                        <h1 className='font-semibold text-lg'>Live Traffic Map</h1>
                         <p className='mt-1 text-sm text-login-100'>
                             Zoomable global view of recent request hotspots, live ingress pulses, and top traffic signals.
                         </p>

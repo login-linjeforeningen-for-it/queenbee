@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { Upload } from 'lucide-react'
 import { Button, Input, Textarea, Select } from 'uibee/components'
 
@@ -29,8 +28,8 @@ export default function AlbumFields({
     }
 
     return (
-        <div className='grid md:grid-cols-2 gap-x-8 pt-10 relative'>
-            <div className='absolute grid md:flex! flex-row gap-4 w-full justify-end -mt-13'>
+        <div className='grid lg:grid-cols-2 gap-x-8'>
+            <div className='absolute top-0 right-0'>
                 <Button
                     variant='secondary'
                     text='Example'
@@ -113,14 +112,11 @@ export default function AlbumFields({
                     })
                 }}
             />
-            {type === 'update' &&
-                <Link
-                    href={`/albums/images/${defaultValues?.id}`}
-                    className='flex flex-row w-fit gap-2 items-center mt-6 py-2 px-2 bg-login-500 rounded-md'
-                >
-                    <Upload className='w-5' />
-                    Update Images
-                </Link>}
+            {type === 'update' && (
+                <div className='lg:col-span-2'>
+                    <Button variant='secondary' icon={<Upload />} text='Manage images' path={`/albums/images/${defaultValues?.id}`} />
+                </div>
+            )}
         </div>
     )
 }

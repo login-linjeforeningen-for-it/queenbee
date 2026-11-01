@@ -1,12 +1,11 @@
-import { SearchInput } from 'uibee/components'
+import ListPage, { listResult } from '@components/table/listPage'
 import ManagedTable from '@components/table/managedTable'
 import deleteAlert from '@utils/api/workerbee/alerts/deleteAlert'
 import getAlerts from '@utils/api/workerbee/alerts/getAlerts'
-import { Button } from 'uibee/components'
 
 async function deleteAction(id: string) {
     'use server'
-    await deleteAlert(Number(id))
+    return await deleteAlert(Number(id))
 }
 
 const columns = [
@@ -34,29 +33,22 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         sort
     })
 
-    const data = typeof alerts !== 'string' && Array.isArray(alerts.alerts) ? alerts.alerts : []
-    const totalRows = typeof alerts !== 'string' && Array.isArray(alerts.alerts) ? alerts.total_count : 0
+    const { data, totalRows, error } = listResult(alerts, 'alerts')
 
     return (
-        <div className='h-full overflow-hidden flex flex-col'>
-            <div className='flex-none'>
-                <h1 className='font-semibold text-lg'>Alerts</h1>
-                <div className='flex items-center justify-between py-3'>
-                    <SearchInput />
-                    <div className='flex flex-row gap-4'>
-                        <Button text='New alert' icon='+' path='alerts/create' />
-                    </div>
-                </div>
-            </div>
-            <div className='flex-1 flex flex-col overflow-hidden'>
-                <ManagedTable
-                    data={data as Record<string, unknown>[]}
-                    columns={columns}
-                    deleteAction={deleteAction}
-                    totalRows={totalRows}
-                    pageSize={limit}
-                />
-            </div>
-        </div>
+        <ListPage
+            title='Alerts'
+            createText='New alert'
+            createPath='alerts/create'
+        >
+            <ManagedTable
+                error={error}
+                data={data}
+                columns={columns}
+                deleteAction={deleteAction}
+                totalRows={totalRows}
+                pageSize={limit}
+            />
+        </ListPage>
     )
 }

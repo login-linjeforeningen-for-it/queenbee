@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@source '../../node_modules/uibee/dist';
 
 @theme {
     --breakpoint-xs: 30rem;
@@ -55,7 +56,7 @@
     --color-login-500: #323232;
     --color-login-400: #424242;
     --color-login-300: #5e5e5e;
-    --color-login-200: #6b6b6b;
+    --color-login-200: #8a8a8a;
     --color-login-100: #b0b0b0;
     --color-login-50: #ededed;
 }
@@ -128,3 +129,6 @@ button:not(:disabled) {
         transform: translateX(0);
     }
 }
+
+.dark { color-scheme: dark; }
+.light { color-scheme: light; }

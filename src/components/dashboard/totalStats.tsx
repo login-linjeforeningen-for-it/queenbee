@@ -5,7 +5,7 @@ import Stat from './stat'
 
 export default function TotalStats({ stats }: { stats: DashboardTotalStats }) {
     return (
-        <div className='mt-4 grid md:grid-cols-2 lg:grid-cols-6 gap-4'>
+        <div className='mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'>
             <Stat text='events' count={stats.events} item={Calendar} />
             <Stat text='jobs' count={stats.jobs} item={BriefcaseBusiness} />
             <Stat text='announcements' count={stats.announcements} item={Megaphone} />

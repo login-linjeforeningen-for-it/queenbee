@@ -12,7 +12,7 @@ export default function Preview({ title, description, small }: PreviewProps) {
 
     return (
         <div className='relative h-88 overflow-hidden rounded-2xl border border-white/5 bg-login-50/5 p-4'>
-            <p className={`relative z-100 text-xs font-semibold uppercase tracking-wider text-login-300 ${small ? 'mb-2' : ''}`}>
+            <p className={`relative z-100 text-xs font-semibold uppercase tracking-wider text-login-200 ${small ? 'mb-2' : ''}`}>
                 Preview
             </p>
             {hasContent ? (
@@ -22,7 +22,7 @@ export default function Preview({ title, description, small }: PreviewProps) {
                     small={small}
                 />
             ) : (
-                <div className='mt-4 rounded-lg border border-dashed border-white/8 p-3 text-xs text-login-300'>
+                <div className='mt-4 rounded-lg border border-dashed border-white/8 p-3 text-xs text-login-200'>
                     Fill in a title to preview the notification.
                 </div>
             )}
@@ -31,6 +31,7 @@ export default function Preview({ title, description, small }: PreviewProps) {
                     alt='Logo'
                     src='/images/iphone-events.png'
                     fill={true}
+                    sizes='448px'
                     quality={100}
                     className='object-contain'
                 />

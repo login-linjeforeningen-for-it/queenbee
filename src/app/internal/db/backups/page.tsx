@@ -108,7 +108,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         <div className='h-full overflow-hidden flex flex-col'>
             <div className='flex-none'>
                 <h1 className='font-semibold text-lg'>Backup Management</h1>
-                <div className='flex items-center justify-between py-3'>
+                <div className='flex items-start justify-between py-3 gap-2'>
                     <SearchInput />
                     <div className='flex gap-2'>
                         <BackupAllButton />
@@ -118,6 +118,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
 
             <div className='flex-1 overflow-y-auto min-h-0'>
                 <ManagedTable
+                    error={typeof list === 'string' ? list : undefined}
                     data={backups as unknown as Record<string, unknown>[]}
                     columns={columns}
                     rawKeys={['name']}

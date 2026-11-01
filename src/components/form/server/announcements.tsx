@@ -8,8 +8,10 @@ export default async function AnnouncementForm({
 }: {
     defaultValues?: GetAnnouncementProps
 }) {
-    const rolesResponse = await getRoles()
-    const channelsResponse = await getChannels()
+    const [rolesResponse, channelsResponse] = await Promise.all([
+        getRoles(),
+        getChannels(),
+    ])
     const roles = Array.isArray(rolesResponse)
         ? rolesResponse.map((role) => ({ label: role.name, value: role.id, color: role.color }))
         : []
@@ -18,7 +20,7 @@ export default async function AnnouncementForm({
         : []
 
     return (
-        <div className='grid grid-cols-2 gap-4'>
+        <div className='grid lg:grid-cols-2 gap-8'>
             <AnnouncementFields
                 channels={channels}
                 roles={roles}

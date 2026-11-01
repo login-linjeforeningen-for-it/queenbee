@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Input } from 'uibee/components'
+import { Button, FileInput } from 'uibee/components'
 import getShareURLs from '@utils/api/workerbee/albums/getShareURLs'
 import compressAlbums from '@utils/api/workerbee/albums/compressAlbums'
 import { toast } from 'uibee/components'
@@ -27,21 +27,21 @@ export default function UploadAlbumImages({ albumId }: { albumId: number }) {
     const [isUploading, setIsUploading] = useState(false)
 
     return (
-        <div className='flex flex-row items-center gap-4 w-md'>
-            <div>
-                <label>Images</label>
-                <Input
-                    key={inputKey}
-                    name='images'
-                    type='file'
-                    multiple
-                    onChange={(e) => setFiles(e.target.files ? Array.from(e.target.files) : [])}
-                />
-            </div>
+        <div className='flex flex-col gap-3 sm:flex-row sm:items-end'>
+            <FileInput
+                key={inputKey}
+                name='images'
+                label='Add images'
+                accept='image/*'
+                multiple
+                onChange={setFiles}
+                className='flex-1'
+            />
             <Button
                 type='button'
-                disabled={isUploading}
-                icon={isUploading ? <Loader className='animate-spin size-6' /> : <Upload className='size-6' />}
+                disabled={isUploading || files.length === 0}
+                text={isUploading ? 'Uploading…' : `Upload${files.length ? ` ${files.length}` : ''}`}
+                icon={isUploading ? <Loader className='animate-spin' /> : <Upload />}
                 onClick={async () => {
                     setIsUploading(true)
 
@@ -60,7 +60,9 @@ export default function UploadAlbumImages({ albumId }: { albumId: number }) {
 
                         const uploadPromises = files.map((file, i) => uploadImages(file, shareUrls[i]))
                         const results = await Promise.allSettled(uploadPromises)
-                        const failedUploads = results.filter(result => result.status === 'rejected').map((_result, i) => files[i].name)
+                        const failedUploads = files
+                            .filter((_, i) => { const r = results[i]; return r.status === 'rejected' || !r.value.ok })
+                            .map(file => file.name)
                         if (failedUploads.length > 0) {
                             toast.error(`Failed to upload: ${failedUploads.join(', ')}`)
                             return

@@ -357,7 +357,7 @@ function NodeCard({ node, left, top, selected, crownSet, onSelect }: {
             </div>
 
             {unit.members.length === 0 ? (
-                <span className='text-xs text-login-300'>No active members</span>
+                <span className='text-xs text-login-200'>No active members</span>
             ) : (
                 <div className='flex flex-col'>
                     {unit.members.map(member => (
@@ -403,7 +403,7 @@ function MemberPanel({ node, crownSet, onClose }: {
                         <span className='text-[10px] font-semibold uppercase tracking-wider text-login'>{label}</span>
                     )}
                     <span className='font-semibold text-login-50'>{title}</span>
-                    <span className='text-xs text-login-300'>{node.unit.members.length} active members</span>
+                    <span className='text-xs text-login-200'>{node.unit.members.length} active members</span>
                 </div>
                 <button
                     type='button'
@@ -415,7 +415,7 @@ function MemberPanel({ node, crownSet, onClose }: {
                 </button>
             </div>
             <div className='flex flex-col gap-1 overflow-y-auto p-2'>
-                {members.length === 0 && <span className='p-2 text-sm text-login-300'>No active members.</span>}
+                {members.length === 0 && <span className='p-2 text-sm text-login-200'>No active members.</span>}
                 {members.map(member => (
                     <Link
                         key={member.pk}
@@ -433,9 +433,9 @@ function MemberPanel({ node, crownSet, onClose }: {
                                 {member.name}
                                 {crownSet.has(member.pk) && <Crown className='h-3 w-3 shrink-0 text-login' fill='currentColor' />}
                             </span>
-                            <span className='truncate text-xs text-login-300'>{member.email || member.username}</span>
+                            <span className='truncate text-xs text-login-200'>{member.email || member.username}</span>
                         </div>
-                        <ChevronRight className='ml-auto h-3.5 w-3.5 shrink-0 text-login-300 group-hover:text-login-100' />
+                        <ChevronRight className='ml-auto h-3.5 w-3.5 shrink-0 text-login-200 group-hover:text-login-100' />
                     </Link>
                 ))}
             </div>

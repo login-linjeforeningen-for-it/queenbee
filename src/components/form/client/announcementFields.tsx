@@ -115,8 +115,8 @@ export default function AnnouncementFields({
     }
 
     return (
-        <div className='flex flex-col relative'>
-            {!nested && <div className='absolute flex flex-row gap-4 w-full justify-end -mt-13'>
+        <div className='flex flex-col'>
+            {!nested && <div className='absolute top-0 right-0'>
                 <Button
                     variant='secondary'
                     text='Example'
@@ -124,7 +124,7 @@ export default function AnnouncementFields({
                     onClick={example}
                 />
             </div>}
-            <div className={titleNo || titleEn ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-4'}>
+            <div className={titleNo || titleEn ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-x-4'}>
                 <Input
                     name='announcement_title_no'
                     type='text'
@@ -151,7 +151,7 @@ export default function AnnouncementFields({
                 />
             </div>
 
-            <div className={descriptionNo || descriptionEn ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-4'}>
+            <div className={descriptionNo || descriptionEn ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-x-4'}>
                 <Textarea
                     name='announcement_description_no'
                     label='Description (Norwegian)'

@@ -64,7 +64,7 @@ function firstFailure(results: MembershipResult[]): string[] {
 }
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
-    return <span className='text-[10px] font-semibold uppercase tracking-wider text-login-300'>{children}</span>
+    return <span className='text-sm font-medium text-login-50'>{children}</span>
 }
 
 function Stepper({ step, labels }: { step: number, labels: string[] }) {
@@ -78,7 +78,7 @@ function Stepper({ step, labels }: { step: number, labels: string[] }) {
                     `}>
                         {index + 1}
                     </span>
-                    <span className={`text-xs ${index === step ? 'text-login-50' : 'text-login-300'}`}>{label}</span>
+                    <span className={`text-xs ${index === step ? 'text-login-50' : 'text-login-200'}`}>{label}</span>
                     {index < labels.length - 1 && <span className='h-px w-5 bg-login-600' />}
                 </div>
             ))}
@@ -129,7 +129,7 @@ function ChipSection({ label, groups, empty, hint, busy, onRemove }: {
         <div className='flex flex-col gap-2'>
             <FieldLabel>{label}</FieldLabel>
             {groups.length === 0 ? (
-                <span className='text-sm text-login-300'>{empty}</span>
+                <span className='text-sm text-login-200'>{empty}</span>
             ) : (
                 <div className='flex flex-wrap gap-1.5'>
                     {groups.map(group => (
@@ -137,7 +137,7 @@ function ChipSection({ label, groups, empty, hint, busy, onRemove }: {
                     ))}
                 </div>
             )}
-            <span className='text-xs text-login-400'>{hint}</span>
+            <span className='text-xs text-login-200'>{hint}</span>
         </div>
     )
 }
@@ -192,7 +192,7 @@ function ExternalChecklist({ flow, checked, onToggle }: {
                             <IconBubble icon={item.icon} tone={isChecked ? 'orange' : 'slate'} size='sm' />
                             <span className='flex min-w-0 flex-1 flex-col'>
                                 <span className='text-sm font-medium text-login-50'>{item.label}</span>
-                                <span className='text-xs text-login-300'>
+                                <span className='text-xs text-login-200'>
                                     {flow === 'onboard' ? item.add : item.remove}
                                 </span>
                             </span>
@@ -201,7 +201,7 @@ function ExternalChecklist({ flow, checked, onToggle }: {
                     )
                 })}
             </div>
-            <span className='text-xs text-login-400'>Tick every item to continue.</span>
+            <span className='text-xs text-login-200'>Tick every item to continue.</span>
         </div>
     )
 }
@@ -379,9 +379,9 @@ export default function MembershipPanel({ pk, name, groups }: MembershipPanelPro
     const hasSomethingToAdd = availableCommittees.length > 0 || availableRoles.length > 0
 
     return (
-        <Card className='flex flex-col gap-5 p-5'>
+        <Card className='flex flex-col gap-5 p-4'>
             <div className='flex flex-wrap items-center justify-between gap-2'>
-                <span className='text-xs font-semibold uppercase tracking-wider text-login-300'>Membership</span>
+                <h2 className='font-semibold text-lg'>Membership</h2>
                 {membership.size === 0 ? (
                     <Button
                         text='Onboard'
@@ -442,7 +442,7 @@ export default function MembershipPanel({ pk, name, groups }: MembershipPanelPro
                     <div className='flex flex-col gap-4'>
                         <SelectGroup label='Committees' options={availableCommittees} selected={selected} onToggle={toggleSelected} />
                         <SelectGroup label='Roles' options={availableRoles} selected={selected} onToggle={toggleSelected} />
-                        <span className='text-xs text-login-400'>Aktiv is added automatically with any committee.</span>
+                        <span className='text-xs text-login-200'>Aktiv is added automatically with any committee.</span>
                     </div>,
                     <ExternalChecklist flow='onboard' checked={checklist} onToggle={toggleChecklist} />,
                     <div className='flex flex-col gap-3'>

@@ -181,7 +181,7 @@ export default function ServiceForm(props: ServiceFormProps) {
 
     return (
         <div className='w-full'>
-            <h1 className='font-semibold text-lg md:text-2xl text-login-50'>
+            <h1 className='font-semibold text-lg'>
                 {isEdit ? `Edit ${service!.name}` : 'New service'}
             </h1>
 

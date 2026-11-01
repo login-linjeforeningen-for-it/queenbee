@@ -33,7 +33,7 @@ export default function StatisticsCategories({ categories }: { categories: GetSt
 
     return (
         <div className='w-full flex flex-col pt-6 h-full'>
-            <h2 className='font-semibold text-lg pb-4 mx-auto'>Event Categories</h2>
+            <h2 className='font-semibold text-lg pb-4'>Event Categories</h2>
             <div className='flex flex-col h-full items-center justify-center w-full bg-login-50/5 rounded-md'>
                 <svg width='400' height='400' viewBox='0 0 300 300'>
                     {isEmpty ? (
@@ -76,7 +76,7 @@ export default function StatisticsCategories({ categories }: { categories: GetSt
                     <div className='flex flex-wrap justify-center mt-4 pb-4'>
                         {slices.map((slice, i) => (
                             <div key={i} className='flex items-center mr-4 mb-2'>
-                                <div className='w-4 h-4 rounded' style={{ backgroundColor: slice.color }}></div>
+                                <div className='w-4 h-4 rounded ring-1 ring-white/20' style={{ backgroundColor: slice.color }}></div>
                                 <span className='ml-2 text-sm text-white'>{slice.label} ({slice.count})</span>
                             </div>
                         ))}

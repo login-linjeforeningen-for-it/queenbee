@@ -1,18 +1,8 @@
 'use client'
 
 import CustomForm from './form'
-import {
-    Children,
-    cloneElement,
-    isValidElement,
-    ReactElement
-} from 'react'
+import type { ReactNode } from 'react'
 import BackButton from '@components/navigation/back'
-
-type ChildProps = {
-    preview: boolean
-    defaultValues?: object
-}
 
 type FormWrapperProps = {
     name: FormName
@@ -21,7 +11,7 @@ type FormWrapperProps = {
     id?: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formAction: (prevState: any, formData: FormData) => any | Promise<any>
-    children: ReactElement<ChildProps> | ReactElement<ChildProps>[]
+    children: ReactNode
     customRedirect?: string
 }
 
@@ -36,15 +26,12 @@ export default function FormWrapper({
 }: FormWrapperProps) {
 
     return (
-        <div className='h-(--h-pageInfo) w-full flex flex-col items-center'>
-            <div className='w-full md:px-16 md:py-4'>
-                <div className='flex flex-col gap-4'>
-                    <BackButton pushURL={path ? `/${path}` : undefined} />
-                    <h1 className='font-semibold text-lg md:text-2xl capitalize'>
-                        {type} {name}
-                    </h1>
-                </div>
-                <div className='flex flex-col gap-4 mt-4' />
+        <div className='w-full flex flex-col gap-4 pb-8'>
+            <BackButton pushURL={path ? `/${path}` : undefined} />
+            <div className='relative flex flex-col gap-4'>
+                <h1 className='flex h-9 items-center pr-32 font-semibold text-lg capitalize'>
+                    {type} {name}
+                </h1>
                 <CustomForm
                     name={name}
                     type={type}
@@ -52,13 +39,7 @@ export default function FormWrapper({
                     formAction={formAction}
                     customRedirect={customRedirect}
                 >
-                    {Children.map(children, child => {
-                        if (isValidElement(child)) {
-                            return cloneElement(child)
-                        }
-
-                        return child
-                    })}
+                    {children}
                 </CustomForm>
             </div>
         </div>

@@ -17,6 +17,7 @@ export default async function Page() {
             services={services}
             notifications={notifications}
             tags={tags}
+            error={typeof serverServices === 'string' ? serverServices : undefined}
         />
     )
 }

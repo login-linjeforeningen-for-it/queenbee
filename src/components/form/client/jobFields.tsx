@@ -80,8 +80,8 @@ export default function JobFields({
         applicationTypeEn}${citiesEn}${deadlineEn}${applicationEn}`
 
     return (
-        <div className='grid grid-cols-2 gap-x-8 pt-10 relative'>
-            <div className='absolute flex flex-row gap-4 w-full justify-end -mt-13'>
+        <div className='grid lg:grid-cols-2 gap-x-8'>
+            <div className='absolute top-0 right-0'>
                 <Button
                     variant='secondary'
                     text='Example'
@@ -308,7 +308,7 @@ export default function JobFields({
                     required
                 />
             </div>
-            <h1 className='text-xl pt-10 pb-4 col-span-2'>Application</h1>
+            <h2 className='font-semibold pt-10 pb-4 col-span-2'>Application</h2>
             <Input
                 name='application_url'
                 type='text'
@@ -323,7 +323,7 @@ export default function JobFields({
                 className='col-span-2'
                 required
             />
-            <h1 className='text-xl pt-10 pb-4 col-span-2'>Image</h1>
+            <h2 className='font-semibold pt-10 pb-4 col-span-2'>Image</h2>
             <Upload
                 handleFile={async function (file: File): Promise<void> {
                     const result = await postImage('jobs', file)

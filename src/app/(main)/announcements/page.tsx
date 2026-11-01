@@ -1,10 +1,9 @@
-import { SearchInput } from 'uibee/components'
 import ManagedTable from '@components/table/managedTable'
 import deleteAnnouncement from '@utils/api/bot/announcements/deleteAnnouncement'
 import getAnnouncements from '@utils/api/bot/announcements/getAnnouncements'
 import getRoles from '@utils/api/bot/announcements/getRoles'
 import getChannels from '@utils/api/bot/announcements/getChannels'
-import { Button } from 'uibee/components'
+import ListPage from '@components/table/listPage'
 import { RoleRenderer } from '@components/preview/discordRole'
 
 const announcementList = [
@@ -22,7 +21,7 @@ const announcementList = [
 
 async function deleteAction(id: string) {
     'use server'
-    await deleteAnnouncement(Number(id))
+    return await deleteAnnouncement(Number(id))
 }
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
@@ -35,15 +34,11 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         ? filters.order
         : 'asc'
 
-    const list = await getAnnouncements({
-        search,
-        offset,
-        limit,
-        orderBy,
-        sort
-    })
-    const rolesResponse = await getRoles()
-    const channelsResponse = await getChannels()
+    const [list, rolesResponse, channelsResponse] = await Promise.all([
+        getAnnouncements({ search, offset, limit, orderBy, sort }),
+        getRoles(),
+        getChannels(),
+    ])
     const channels = Array.isArray(channelsResponse)
         ? channelsResponse.map((channel) => ({ label: channel.name, value: channel.id }))
         : []
@@ -52,20 +47,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
         : []
 
     return (
-        <div className='h-full overflow-hidden flex flex-col'>
-            <div className='flex-none'>
-                <h1 className='font-semibold text-lg'>Announcements</h1>
-                <div className='flex items-center justify-between py-3 gap-2'>
-                    <SearchInput />
-                    <Button
-                        text='New announcement'
-                        icon='+'
-                        path='announcements/create'
-                    />
-                </div>
-            </div>
+        <ListPage title='Announcements' createText='New announcement' createPath='announcements/create'>
             <Sort tempSort={list} channels={channels} roles={roles} limit={limit} />
-        </div>
+        </ListPage>
     )
 }
 
@@ -108,9 +92,10 @@ function Sort({ tempSort, channels, roles, limit }: {
         <div className='flex-1 flex flex-col overflow-hidden'>
             <ManagedTable
                 data={processedAnnouncements as unknown as Record<string, unknown>[]}
-                columns={announcementList.map(key => ({ key }))}
+                columns={announcementList.map(key => key === 'title' ? { key, truncate: true, width: '20rem' } : { key })}
                 rawKeys={['roles']}
                 deleteAction={deleteAction}
+                error={typeof tempSort === 'string' ? tempSort : undefined}
                 redirectPath='/announcements/update'
                 totalRows={Number(totalCount)}
                 pageSize={limit}

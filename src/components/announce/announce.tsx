@@ -38,7 +38,7 @@ export default function Announce({ channels, roles, formData }: AnnounceProps) {
                         <h1 className='text-2xl font-bold select-none text-login-200'>
                             Announce
                         </h1>
-                        <h1 className='text-login-300 self-center mt-[1.2]'>
+                        <h1 className='text-login-200 self-center mt-[1.2]'>
                             Announcements can currently not be edited from this page.
                         </h1>
                     </div>
@@ -67,7 +67,7 @@ export default function Announce({ channels, roles, formData }: AnnounceProps) {
                     checked={enabled}
                     onChange={() => setEnabled((prev) => !prev)}
                     switchOnly
-                    className='self-center w-fit!'
+                    className='self-center w-fit'
                     disabled={!channels.length || !roles.length}
                 />
             </div>

@@ -17,7 +17,27 @@ type EventFormsInputsProps = {
 }
 
 export default async function EventForm({ defaultValues, type }: EventFormsInputsProps){
-    const imagesResponse = await getImages('events')
+    const [
+        imagesResponse,
+        categoriesResponse,
+        organizationsResponse,
+        rulesResponse,
+        locationsResponse,
+        audiencesResponse,
+        timeTypes,
+        rolesResponse,
+        channelsResponse,
+    ] = await Promise.all([
+        getImages('events'),
+        getCategories(),
+        getAllOrganizations(),
+        getAllRules(),
+        getAllLocations(),
+        getAudiences(),
+        getTimeTypes(),
+        getRoles(),
+        getChannels(),
+    ])
     const images = Array.isArray(imagesResponse)
         ? imagesResponse.map((image) => ({
             label: image,
@@ -26,7 +46,6 @@ export default async function EventForm({ defaultValues, type }: EventFormsInput
         }))
         : []
 
-    const categoriesResponse = await getCategories()
     const categories = typeof categoriesResponse !== 'string' ? categoriesResponse.categories : []
 
     const categoriesOptions = Array.isArray(categories)
@@ -37,7 +56,6 @@ export default async function EventForm({ defaultValues, type }: EventFormsInput
         }))
         : []
 
-    const organizationsResponse = await getAllOrganizations()
     const organizations = typeof organizationsResponse !== 'string' ? organizationsResponse : []
 
     const organizationsOptions = Array.isArray(organizations)
@@ -47,7 +65,6 @@ export default async function EventForm({ defaultValues, type }: EventFormsInput
         }))
         : []
 
-    const rulesResponse = await getAllRules()
     const rules = typeof rulesResponse !== 'string' ? rulesResponse : []
 
     const rulesOptions = Array.isArray(rules)
@@ -57,7 +74,6 @@ export default async function EventForm({ defaultValues, type }: EventFormsInput
         }))
         : []
 
-    const locationsResponse = await getAllLocations()
     const locations = typeof locationsResponse !== 'string' ? locationsResponse : []
     const locationsOptions = Array.isArray(locations)
         ? locations.map((location) => ({
@@ -68,7 +84,6 @@ export default async function EventForm({ defaultValues, type }: EventFormsInput
         }))
         : []
 
-    const audiencesResponse = await getAudiences()
     const audiences = typeof audiencesResponse !== 'string' ? audiencesResponse.audiences : []
     const audiencesOptions = Array.isArray(audiences)
         ? audiences.map((audience) => ({
@@ -77,7 +92,6 @@ export default async function EventForm({ defaultValues, type }: EventFormsInput
         }))
         : []
 
-    const timeTypes = await getTimeTypes()
     const timeTypesOptions = Array.isArray(timeTypes)
         ? timeTypes.map((type) => ({
             label: type,
@@ -85,12 +99,10 @@ export default async function EventForm({ defaultValues, type }: EventFormsInput
         }))
         : []
 
-    const rolesResponse = await getRoles()
     const roles = Array.isArray(rolesResponse)
         ? rolesResponse.map((role) => ({ label: role.name, value: role.id, color: role.color }))
         : []
 
-    const channelsResponse = await getChannels()
     const channels = Array.isArray(channelsResponse)
         ? channelsResponse.map((channel) => ({ label: channel.name, value: channel.id }))
         : []

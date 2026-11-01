@@ -1,7 +1,7 @@
 'use client'
 
 import { Activity, Clock, Globe, ShieldAlert, Cpu, Monitor } from 'lucide-react'
-import { Card, StatCard } from 'uibee/components'
+import { Alert, Card, StatCard } from 'uibee/components'
 import RequestsOverTimeChart from './requestsOverTimeChart'
 import CombinedMetrics from './combinedMetrics'
 import Bar from './bar'
@@ -72,7 +72,9 @@ export default function TrafficDashboard({
                 </div>
             )}
 
-            {recs && recs.length > 0 && (
+            {typeof metrics === 'string' && <Alert>{metrics}</Alert>}
+
+            {records !== undefined && (
                 <div className='flex-1 flex flex-col min-h-0 w-full max-w-full overflow-hidden'>
                     <ManagedTable
                         data={recs.map(r => ({
@@ -105,6 +107,7 @@ export default function TrafficDashboard({
                             { key: 'iso' },
                         ]}
                         idKey='_ts'
+                        error={typeof records === 'string' ? records : undefined}
                         totalRows={totalRows}
                         pageSize={pageSize}
                         hidePagination={!totalRows || !pageSize}

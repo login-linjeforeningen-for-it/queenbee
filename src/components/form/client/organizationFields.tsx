@@ -28,8 +28,8 @@ export default function OrganizationFields({ defaultValues, defaultImages }: {
     }
 
     return (
-        <div className='grid grid-cols-2 gap-x-8 pt-10 relative'>
-            <div className='absolute flex flex-row gap-4 w-full justify-end -mt-1'>
+        <div className='grid lg:grid-cols-2 gap-x-8'>
+            <div className='absolute top-0 right-0'>
                 <Button
                     variant='secondary'
                     text='Example'
@@ -89,7 +89,7 @@ export default function OrganizationFields({ defaultValues, defaultImages }: {
                 }
                 required
             />
-            <h1 className='text-xl pt-10 pb-4 col-span-2'>Social Links</h1>
+            <h2 className='font-semibold pt-10 pb-4 col-span-2'>Social Links</h2>
             <Input
                 name='link_homepage'
                 type='text'
@@ -143,7 +143,7 @@ export default function OrganizationFields({ defaultValues, defaultImages }: {
                 }
                 className='col-span-2'
             />
-            <h1 className='text-xl pt-10 pb-4 col-span-2'>Logo</h1>
+            <h2 className='font-semibold pt-10 pb-4 col-span-2'>Logo</h2>
             <Upload
                 handleFile={async function (file: File): Promise<void> {
                     const result = await postImage('organizations', file)

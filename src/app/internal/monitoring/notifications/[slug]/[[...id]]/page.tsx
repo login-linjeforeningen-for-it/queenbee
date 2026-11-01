@@ -36,7 +36,7 @@ function NotificationPage({ title, children }: { title: string; children: React.
             <div className='w-full md:px-16 md:py-4'>
                 <div className='flex flex-col gap-4'>
                     <BackButton pushURL='/internal/monitoring/notifications' />
-                    <h1 className='font-semibold text-lg md:text-2xl'>{title}</h1>
+                    <h1 className='font-semibold text-lg'>{title}</h1>
                 </div>
                 {children}
             </div>

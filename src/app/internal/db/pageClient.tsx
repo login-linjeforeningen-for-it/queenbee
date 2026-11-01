@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react'
 import { Activity, Database, HardDrive, Server } from 'lucide-react'
-import { StatCard } from 'uibee/components'
+import { Alert, StatCard } from 'uibee/components'
 import formatBytes from '@utils/db/formatBytes'
 import formatTimestamp from '@utils/db/formatTimestamp'
 import ClusterCard from '@components/db/clusterCard'
@@ -48,10 +48,9 @@ export default function PageClient({ overview }: PageClientProps) {
 
     if (typeof sortedOverview === 'string') {
         return (
-            <div className='flex h-full items-center justify-center'>
-                <div className='max-w-xl rounded-2xl border border-red-500/20 bg-red-500/8 p-5 text-sm text-red-300'>
-                    {sortedOverview}
-                </div>
+            <div className='flex flex-col gap-5'>
+                <h1 className='font-semibold text-lg'>Databases</h1>
+                <Alert>{sortedOverview}</Alert>
             </div>
         )
     }
@@ -64,7 +63,7 @@ export default function PageClient({ overview }: PageClientProps) {
                     <span className='text-xs text-login-300'>{formatTimestamp(sortedOverview.generatedAt)}</span>
                 </div>
 
-                <div className='grid gap-3 md:grid-cols-2 xl:grid-cols-4'>
+                <div className='grid gap-3 grid-cols-2 xl:grid-cols-4'>
                     <StatCard icon={Server} label='Clusters' value={String(sortedOverview.clusterCount)} tone='blue' />
                     <StatCard icon={Database} label='Databases' value={String(sortedOverview.databaseCount)} tone='emerald' />
                     <StatCard icon={HardDrive} label='Storage' value={formatBytes(sortedOverview.totalSizeBytes)} tone='orange' />

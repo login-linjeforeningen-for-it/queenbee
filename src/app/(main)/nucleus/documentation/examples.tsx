@@ -36,7 +36,7 @@ const examples = [
 export default function Examples() {
     return (
         <>
-            <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-300'>Eksempler</h3>
+            <h3 className='mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-login-200'>Eksempler</h3>
             <ul className='space-y-2 list-none pl-0'>
                 {examples.map((example, i) => (
                     <li key={i} className='rounded-xl border border-white/5 bg-login-50/5 p-3'>

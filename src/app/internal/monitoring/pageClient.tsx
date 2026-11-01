@@ -6,24 +6,28 @@ import NewTag from '@components/status/newTag'
 import ServiceListHeader from '@components/status/serviceListHeader'
 import ServiceStatus from '@components/status/serviceStatus'
 import Statistics from '@components/status/statistics'
-import getNotifications from '@utils/api/beekeeper/services/getNotifications'
 import getServices from '@utils/api/beekeeper/services/getServices'
 import getTags from '@utils/api/beekeeper/services/getTags'
 import { Plus, ShieldAlert, ShieldCheck, ShieldX } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Button } from 'uibee/components'
+import { Alert, Button } from 'uibee/components'
 import ManagedTable from '@components/table/managedTable'
 import Marquee from '@components/shared/marquee'
-import barColor from '@utils/status/barColor'
+import barColor, { barStatus } from '@utils/status/barColor'
+
+function currentStatus(item: Service) {
+    return item.bars[0] ? barStatus(item.bars[0], item.maxConsecutiveFailures) : 'down'
+}
 
 export default function PageClient({
     services: serverServices,
-    notifications: serverNotifications,
+    notifications,
     tags: serverTags,
-}: { services: Service[], notifications: ServiceNotification[], tags: Tag[] }) {
+    error,
+}: { services: Service[], notifications: ServiceNotification[], tags: Tag[], error?: string }) {
     const [services, setServices] = useState<Service[]>(serverServices)
-    const [notifications, setNotifications] = useState<ServiceNotification[]>(serverNotifications)
     const [tags, setTags] = useState<{ id: string, name: string }[]>(serverTags)
+    const [loadError, setLoadError] = useState(error)
     const [input, setInput] = useState('')
     const [stateFilter, setStateFilter] = useState<string[] | null>(null)
     const [addingTag, setAddingTag] = useState(false)
@@ -33,7 +37,6 @@ export default function PageClient({
     const [editing, setEditing] = useState<Service | null>(null)
     const [refresh, setRefresh] = useState(false)
     const [refreshTags, setRefreshTags] = useState(false)
-    const [refreshNotifications, _setRefreshNotifications] = useState(false)
 
     function addNewService() {
         setAdding(true)
@@ -50,7 +53,10 @@ export default function PageClient({
         if (refresh) {
             (async () => {
                 const response = await getServices()
-                if (Array.isArray(response)) setServices(response)
+                if (Array.isArray(response)) {
+                    setServices(response)
+                    setLoadError(undefined)
+                }
             })()
         }
     }, [refresh])
@@ -58,7 +64,10 @@ export default function PageClient({
     useEffect(() => {
         const interval = setInterval(async () => {
             const response = await getServices()
-            if (Array.isArray(response)) setServices(response)
+            if (Array.isArray(response)) {
+                setServices(response)
+                setLoadError(undefined)
+            }
         }, 30000)
         return () => clearInterval(interval)
     }, [])
@@ -72,27 +81,9 @@ export default function PageClient({
         }
     }, [refreshTags])
 
-    useEffect(() => {
-        if (refreshNotifications) {
-            (async () => {
-                const response = await getNotifications()
-                if (Array.isArray(response)) setNotifications(response)
-            })()
-        }
-    }, [refreshNotifications])
-
     const filteredServices = services.filter(item => {
         if (input && !item.name.toLowerCase().includes(input.toLowerCase())) return false
-
-        let status: 'up' | 'down' | 'maintenance' | 'pending' | null
-        if (item.bars.length) {
-            const lastBar = item.bars[0]
-            status = lastBar.status ? 'up' : lastBar.expectedDown ? 'maintenance' : item.maxConsecutiveFailures > 0 ? 'pending' : 'down'
-        } else {
-            status = 'down'
-        }
-
-        if (stateFilter !== null && (!status || !stateFilter.includes(status))) return false
+        if (stateFilter !== null && !stateFilter.includes(currentStatus(item))) return false
         if (selectedTags.length) {
             if (!selectedTags.some(tf => item.tags.some(it => it.name === tf))) return false
         }
@@ -101,18 +92,10 @@ export default function PageClient({
     })
 
     const tableList = filteredServices.map(item => {
-        let status: 'up' | 'down' | 'maintenance' | 'pending' | null
-        if (item.bars.length) {
-            const lastBar = item.bars[0]
-            status = lastBar.status ? 'up' : lastBar.expectedDown ? 'maintenance' : item.maxConsecutiveFailures > 0 ? 'pending' : 'down'
-        } else {
-            status = 'down'
-        }
-
         return {
             system_table_id: item.id,
             name: item.name,
-            status,
+            status: currentStatus(item),
             cert: (() => {
                 const c = item.certificate
                 if (!c) return <ShieldX className='w-4 h-4 stroke-red-400' />
@@ -150,8 +133,8 @@ export default function PageClient({
     }
 
     return (
-        <div className='h-full overflow-hidden flex gap-4 relative'>
-            <div className='h-full overflow-hidden flex flex-col gap-4 relative w-full'>
+        <div className='h-full overflow-y-auto lg:overflow-hidden! flex flex-col lg:flex-row! gap-4 relative'>
+            <div className='lg:h-full lg:overflow-hidden flex flex-col gap-4 relative w-full'>
                 <NewTag
                     display={addingTag}
                     setAddingTag={setAddingTag}
@@ -187,17 +170,13 @@ export default function PageClient({
                 ) : (
                     <>
                         <div className='flex-none'>
-                            <div className='flex w-full justify-between items-start md:items-center'>
-                                <h1 className='text-lg font-semibold text-login-50'>Monitoring</h1>
-                                <div
-                                    className='flex flex-wrap items-center gap-4 rounded-2xl border border-white/5
-                                        bg-transparent p-2 pt-2.5 pr-2.5'
-                                >
-                                    <Button text='Add new service' icon={<Plus className='w-4 h-4' />} onClick={addNewService} />
-                                </div>
+                            <div className='flex w-full justify-between items-center gap-4'>
+                                <h1 className='font-semibold text-lg'>Monitoring</h1>
+                                <Button text='Add service' icon={<Plus className='w-4 h-4' />} onClick={addNewService} />
                             </div>
                         </div>
 
+                        {loadError && <Alert>{loadError}</Alert>}
                         <Statistics services={services} />
                         <ServiceListHeader
                             stateFilter={stateFilter}
@@ -210,7 +189,7 @@ export default function PageClient({
                             setInput={setInput}
                         />
 
-                        <div className='flex-1 flex flex-col min-h-10 overflow-hidden'>
+                        <div className='flex-1 flex flex-col min-h-64 overflow-hidden'>
                             <ManagedTable
                                 data={tableList as unknown as Record<string, unknown>[]}
                                 columns={[
@@ -238,8 +217,8 @@ export default function PageClient({
                     </>
                 )}
             </div>
-            {!editing && !adding && (
-                <div className='w-2/3 h-full max-h-full overflow-auto'>
+            {!editing && !adding && services.length > 0 && (
+                <div className='lg:w-2/3 shrink-0 lg:shrink! lg:h-full lg:overflow-auto'>
                     <ServiceStatus
                         service={!selected ? services[0] : services.find((s) => s.name === selected?.name)}
                         onEdit={setEditing}

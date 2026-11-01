@@ -748,17 +748,6 @@ declare global {
         username: string
     }
 
-    type LocalLog = {
-        context: string
-        namespace: string
-        id: string
-        name: string
-        event: string
-        status: ServiceStatus
-        command: string
-        timestamp: string
-    }
-
     type GlobalLog = {
         id: string
         name: string
@@ -1042,6 +1031,7 @@ declare global {
         statistics: InternalDashboardStatistics
         information: InternalDashboardInformation
         runtime: InternalDashboardRuntime
+        error?: string
     }
 
     type InternalDashboardStatistics = {
