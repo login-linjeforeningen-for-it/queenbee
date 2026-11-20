@@ -18,12 +18,12 @@ import {
     MapPin,
     Megaphone,
     Network,
-    Smartphone,
     Shield,
     Activity,
     Database,
     Logs,
     TriangleAlert,
+    Tv,
     Waypoints,
     ShieldAlert,
     type LucideIcon,
@@ -153,11 +153,6 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
             ]
         },
         {
-            name: 'Nucleus',
-            path: '/nucleus',
-            icon: Smartphone,
-        },
-        {
             name: 'Organizations',
             path: '/organizations',
             icon: Building2,
@@ -166,6 +161,11 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
             name: 'Rules',
             path: '/rules',
             icon: Gavel,
+        },
+        {
+            name: 'TV',
+            path: '/tv',
+            icon: Tv,
         },
     ]
 
