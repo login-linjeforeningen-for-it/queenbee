@@ -1,13 +1,15 @@
 import { revalidatePath } from 'next/cache'
-import { Tv } from 'lucide-react'
-import { Alert, Badge, Button, Card, PulseDot } from 'uibee/components'
+import { Alert } from 'uibee/components'
 import config from '@config'
+import AssetCard from '@components/tv/assetCard'
 
 type Asset = {
     asset_id: string
     name: string
     is_enabled: boolean
     is_active: boolean
+    uri: string
+    mimetype: string
 }
 
 async function anthias(path: string, init?: RequestInit) {
@@ -34,6 +36,25 @@ async function show(formData: FormData) {
     revalidatePath('/tv')
 }
 
+async function edit(formData: FormData) {
+    'use server'
+    const id = formData.get('id')
+    const assets: Asset[] = await anthias('')
+    const asset = assets.find(asset => asset.asset_id === id)
+    if (!asset) throw new Error('Unknown asset')
+    const name = String(formData.get('name')).trim()
+    if (!name) throw new Error('Name is required')
+    const changes: Partial<Asset> = { name }
+    // ponytail: only webpage URLs are editable; image/video uri is a file path on the Pi
+    if (asset.mimetype === 'webpage') {
+        const uri = new URL(String(formData.get('uri')))
+        if (uri.protocol !== 'http:' && uri.protocol !== 'https:') throw new Error('URL must be http(s)')
+        changes.uri = uri.href
+    }
+    await anthias(`/${asset.asset_id}`, { method: 'PATCH', body: JSON.stringify(changes) })
+    revalidatePath('/tv')
+}
+
 export default async function Page() {
     let assets: Asset[] = []
     let error = ''
@@ -48,19 +69,7 @@ export default async function Page() {
             <h1 className='flex min-h-9 items-center font-semibold text-lg'>TV</h1>
             {error && <Alert>Could not reach the TV. {error}</Alert>}
             <div className='flex flex-col gap-2 max-w-2xl'>
-                {assets.map(asset => (
-                    <Card key={asset.asset_id} className='p-4'>
-                        <form action={show} className='flex items-center gap-3'>
-                            <input type='hidden' name='id' value={asset.asset_id} />
-                            <PulseDot variant={asset.is_active ? 'online' : asset.is_enabled ? 'warning' : 'offline'} />
-                            <span className='flex-1 font-semibold truncate'>{asset.name}</span>
-                            {asset.is_enabled && !asset.is_active && <Badge text='Outside schedule' variant='warning' />}
-                            {asset.is_enabled
-                                ? <Badge text='Live' variant='success' />
-                                : <Button type='submit' text='Show' variant='secondary' icon={<Tv className='h-4 w-4' />} />}
-                        </form>
-                    </Card>
-                ))}
+                {assets.map(asset => <AssetCard key={asset.asset_id} asset={asset} show={show} edit={edit} />)}
             </div>
         </div>
     )
