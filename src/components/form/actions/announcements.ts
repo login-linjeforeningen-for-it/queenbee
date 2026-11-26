@@ -2,7 +2,7 @@
 
 import postAnnouncement from '@utils/api/bot/announcements/postAnnouncement'
 import putAnnouncement from '@utils/api/bot/announcements/putAnnouncement'
-import { getOptionalBoolean, getOptionalDateTime, getOptionalString, getRequiredString } from '@utils/validate'
+import { getOptionalBoolean, getOptionalDateTime, getOptionalNumber, getOptionalString, getRequiredString } from '@utils/validate'
 
 type FormState =
     | null
@@ -21,10 +21,14 @@ export async function extractAnnouncementProps<T extends Unparsed>(formData: For
     const description_no = getOptionalString(formData, 'announcement_description_no')
     const description_en = getOptionalString(formData, 'announcement_description_en')
 
-    if (!title_no && !title_en) throw new Error('Title is required')
-    if (!description_no && !description_en) throw new Error('Description is required')
+    const event_id = getOptionalNumber(formData, 'announcement_event_id')
+    const eventLinked = formData.get('announcement_event_linked') === 'true' || !!event_id
+
+    if (!eventLinked && !title_no && !title_en) throw new Error('Title is required')
+    if (!eventLinked && !description_no && !description_en) throw new Error('Description is required')
 
     return {
+        event_id,
         title:          [title_no, title_en].filter((t) => t !== null) as string[],
         description:    [description_no, description_en].filter((t) => t !== null) as string[],
         channel:        getRequiredString(formData, 'announcement_channel'),

@@ -67,9 +67,19 @@ export async function createEvent(_: PostFormState, formData: FormData): Promise
         }
 
         const response = await postEvent(eventProps, repeat_type, repeat_until)
+        const created = typeof response === 'object' ? response as { id?: number, created_ids?: number[] } : {}
+        const eventIds = created.created_ids?.length ? created.created_ids : created.id ? [created.id] : []
+        const daysBetween = repeat_type === 'biweekly' ? 14 : 7
 
         if (isAnnouncementEnabled && announcementProps !== undefined) {
-            await postAnnouncement({ ...announcementProps, roles: announcementProps.roles?.split(' ') || [] })
+            for (const [i, eventId] of eventIds.entries()) {
+                await postAnnouncement({
+                    ...announcementProps,
+                    event_id: eventId,
+                    time: addDays(announcementProps.time, i * daysBetween),
+                    roles: announcementProps.roles?.split(' ') || []
+                })
+            }
         }
 
         return response
@@ -84,8 +94,20 @@ export async function updateEvent(_: PutFormState, formData: FormData): Promise<
         const id = Number(formData.get('id'))
 
         const response = await putEvent(id, eventProps)
+        if (typeof response === 'object' && await isEnabled(formData)) {
+            const announcementProps = await extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
+            await postAnnouncement({ ...announcementProps, event_id: id, roles: announcementProps.roles?.split(' ') || [] })
+        }
+
         return response
     } catch (error) {
         return error instanceof Error ? error.message : 'Unknown error'
     }
+}
+
+function addDays(dateTime: string | null, days: number) {
+    if (!dateTime || !days) return dateTime
+    const [date, time] = dateTime.split('T')
+    const [y, m, d] = date.split('-').map(Number)
+    return `${new Date(Date.UTC(y, m - 1, d + days)).toISOString().slice(0, 10)}T${time}`
 }

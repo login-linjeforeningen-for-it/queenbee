@@ -4,8 +4,16 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { Markdown } from './markdown'
+import DiscordCardPreview from './card'
 
-export default function DiscordPreview({ channels, roles }: { channels: Channel[], roles: Role[] }) {
+type DiscordPreviewProps = {
+    channels: Channel[]
+    roles: Role[]
+    event?: Record<string, unknown> | null
+    eventId?: number | null
+}
+
+export default function DiscordPreview({ channels, roles, event, eventId }: DiscordPreviewProps) {
     const [titleNo, setTitleNo] = useState('')
     const [titleEn, setTitleEn] = useState('')
     const [descriptionNo, setDescriptionNo] = useState('')
@@ -14,7 +22,6 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
     const [Roles, setRoles] = useState([] as string[])
     const [embed, setEmbed] = useState(true)
     const [color, setColor] = useState('')
-    const formattedColor = formatColor(color)
 
     useEffect(() => {
         setTitleNo(localStorage.getItem('title_no') || '')
@@ -48,22 +55,29 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
         }
     }, [])
 
+    const channelName = channels?.find((c) => c.value === channel)?.label
+    const selectedRoles = Roles.filter(Boolean)
+
+    if (event || eventId) {
+        return <DiscordCardPreview channelName={channelName} roles={roles} input={{ roles: selectedRoles, event, event_id: eventId }} />
+    }
+
     if (!titleNo && !titleEn) {
         return <></>
     }
 
-    const channelName = channels?.find((c) => c.value === channel)?.label
-    let roleColor = '#fd8738'
-    const roleNames = Roles.map((role) => {
-        const match = roles?.find((r) => r.value === role)
-        if (match !== undefined) {
-            roleColor = match.color
-            return `@${match.label}`
-        }
+    if (embed) {
+        return (
+            <DiscordCardPreview
+                channelName={channelName}
+                roles={roles}
+                input={{ roles: selectedRoles, color, title: [titleNo, titleEn], description: [descriptionNo, descriptionEn] }}
+            />
+        )
+    }
 
-        return undefined
-    }).join(' ')
-    const ping = Roles.length > 0 && Roles[0].length > 0
+    const roleNames = selectedRoles.map((role) => roles?.find((r) => r.value === role)?.label).filter(Boolean).map(name => `@${name}`)
+    const ping = roleNames.length > 0
 
     return (
         <div className='bg-[#2b2b2b] rounded-md p-4 text-foreground font-sans shadow-lg'>
@@ -103,60 +117,8 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
                             Yesterday at 15:13
                         </span>
                     </div>
-                    {embed ? (
-                        <div className='mt-1'>
-                            {ping && (
-                                <Ping color={roleColor} names={roleNames} />
-                            )}
-                            {(titleNo || descriptionNo) && (
-                                <div
-                                    className='p-3 mt-2 rounded-lg'
-                                    style={{
-                                        backgroundColor: '#2f3136',
-                                        borderLeft: embed ? `4px solid ${formattedColor}` : 'none',
-                                        borderTop: 'none',
-                                        borderRight: '12px solid #00000000',
-                                        borderBottom: 'none'
-                                    }}
-                                >
-                                    {titleNo && (
-                                        <div className='max-w-100 wrap-break-word overflow-hidden'>
-                                            <Markdown className='font-semibold text-foreground' markdown={format(titleNo, roles)} />
-                                        </div>
-                                    )}
-                                    {descriptionNo && (
-                                        <div className='max-w-100 wrap-break-word overflow-hidden -mb-1 text-[#dcddde]'>
-                                            <Markdown markdown={format(descriptionNo, roles)} />
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-
-                            {(titleEn || descriptionEn) && (
-                                <div
-                                    className='p-3 mt-2 rounded-lg'
-                                    style={{
-                                        backgroundColor: '#2f3136',
-                                        borderLeft: embed ? `4px solid ${formattedColor}` : 'none',
-                                        borderTop: 'none',
-                                        borderRight: '12px solid #00000000',
-                                        borderBottom: 'none'
-                                    }}
-                                >
-                                    {titleEn && (
-                                        <div className='max-w-100 wrap-break-word overflow-hidden'>
-                                            <Markdown className='font-semibold text-foreground' markdown={format(titleEn, roles)} />
-                                        </div>
-                                    )}
-                                    {descriptionEn && (
-                                        <div className='max-w-100 wrap-break-word overflow-hidden -mb-1 text-[#dcddde]'>
-                                            <Markdown markdown={format(descriptionEn, roles)} />
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-                        </div>
-                    ) : <div className='grid'>
+                    <div className='grid'>
+                        {ping && <span className='text-[#c9cdfb]'>{roleNames.join(' ')}</span>}
                         {titleNo && <span className='font-semibold text-foreground'>
                             <Markdown markdown={format(titleNo, roles)} />
                         </span>}
@@ -170,57 +132,16 @@ export default function DiscordPreview({ channels, roles }: { channels: Channel[
                         {descriptionEn && <span className='text-[#dcddde] max-w-100 wrap-break-word overflow-hidden'>
                             <Markdown markdown={format(descriptionEn, roles)} />
                         </span>}
-                    </div>}
+                    </div>
                 </div>
             </div>
         </div>
     )
 }
 
-function formatColor(color: string) {
-    const normalized = color.trim().toLowerCase()
-    if (!color.trim().length) return 'white'
-
-    const s = new Option().style
-    s.color = normalized
-    if (s.color) return normalized
-
-    if (!normalized.startsWith('#')) return `#${normalized}`
-    return normalized
-}
-
-function Ping({ color, names }: { color: string, names: string }) {
-    return (
-        <p
-            style={{ color: color, backgroundColor: `${color}26` }}
-            className='text-foreground w-fit rounded-sm px-1'>{names}
-        </p>
-    )
-}
-
 function format(text: string, roles: Role[]): string {
-    const regex = /<@&(\d+)>/g
-    let lastIndex = 0
-    let match: RegExpExecArray | null
-    let result = ''
-
-    while ((match = regex.exec(text)) !== null) {
-        const roleId = match[1]
-        const start = match.index
-
-        if (start > lastIndex) {
-            result += text.slice(lastIndex, start)
-        }
-
-        const role = roles.find((item) => item.value === roleId)
-        result += role ? `@${role.label}` : match[0]
-
-        lastIndex = regex.lastIndex
-    }
-
-    if (lastIndex < text.length) {
-        result += text.slice(lastIndex)
-    }
-
-    return result
+    return text.replace(/<@&(\d+)>/g, (match, id) => {
+        const role = roles.find((item) => item.value === id)
+        return role ? `@${role.label}` : match
+    })
 }

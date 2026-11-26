@@ -26,7 +26,7 @@ export default async function AnnouncementForm({
                 roles={roles}
                 defaultValues={defaultValues}
             />
-            <DiscordPreview channels={channels} roles={roles} />
+            <DiscordPreview channels={channels} roles={roles} eventId={defaultValues?.event_id} />
         </div>
     )
 }

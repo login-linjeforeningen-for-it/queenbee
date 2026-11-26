@@ -1,13 +1,13 @@
 import AnnouncementFields from '@components/form/client/announcementFields'
 import DiscordPreview from '@components/preview/discord'
-import { MessageSquareWarning } from 'lucide-react'
-import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Switch } from 'uibee/components'
 
 type AnnounceProps = {
     channels: Channel[]
     roles: Role[]
+    event?: Record<string, unknown>
+    eventId?: number
     formData?: {
         titleNo?: string
         titleEn?: string
@@ -19,80 +19,39 @@ type AnnounceProps = {
     }
 }
 
-export default function Announce({ channels, roles, formData }: AnnounceProps) {
-    const [enabled, setEnabled] = useState<boolean>(!!channels.length && !!roles.length)
-    const pathname = usePathname()
-    const isUpdate = pathname.includes('update/')
-
-    useEffect(() => {
-        if (isUpdate) {
-            setEnabled(false)
-        }
-    }, [isUpdate])
-
-    if (isUpdate) {
-        return (
-            <div className='col-span-2 space-apart bg-login-50/5 rounded-lg p-2 px-4 cursor-not-allowed mt-10'>
-                <div className='flex justify-between'>
-                    <div className='flex gap-2'>
-                        <h1 className='text-2xl font-bold select-none text-login-200'>
-                            Announce
-                        </h1>
-                        <h1 className='text-login-200 self-center mt-[1.2]'>
-                            Announcements can currently not be edited from this page.
-                        </h1>
-                    </div>
-                </div>
-            </div>
-        )
-    }
+export default function Announce({ channels, roles, event, eventId, formData }: AnnounceProps) {
+    const available = !!channels.length && !!roles.length
+    const [enabled, setEnabled] = useState<boolean>(!eventId && available)
 
     return (
-        <div
-            onClick={() => {
-                if (!channels.length || !roles.length) return
-                setEnabled(!enabled)
-            }}
-            className='col-span-2 space-apart bg-login-50/5 rounded-lg p-2 px-4 mt-10 select-none'
-        >
-            <div className='flex justify-between'>
-                <h1 className={
-                    'text-2xl font-bold select-none '
-                    + `${enabled ? 'text-foreground' : 'text-login-200'}`
-                }>
-                    Announce
-                </h1>
+        <>
+            <div className='col-span-2 flex items-center gap-4 pt-10 pb-4'>
+                <h2 className='font-semibold'>Discord</h2>
                 <Switch
                     name='announcement_enabled'
                     checked={enabled}
                     onChange={() => setEnabled((prev) => !prev)}
                     switchOnly
-                    className='self-center w-fit'
-                    disabled={!channels.length || !roles.length}
+                    reserveError={false}
+                    className='w-fit!'
+                    disabled={!available}
                 />
             </div>
-            {!channels.length ? (
-                <div className='w-full space-y-4 mt-2 select-none' onClick={(e) => e.stopPropagation()}>
-                    <div className='w-full h-0.5 bg-login-400 rounded-lg' />
-                    <div className='flex gap-2 w-full rounded-lg p-2 bg-red-900'>
-                        <MessageSquareWarning />
-                        <h1 className='font-semibold'>Fail to connect to API</h1>
-                    </div>
-                </div>
-            ) : enabled && (
-                <div className='w-full space-y-4 mt-2 select-none' onClick={(e) => e.stopPropagation()}>
-                    <div className='w-full h-0.5 bg-login-400 rounded-lg' />
-                    <div className='grid grid-cols-2 gap-4'>
-                        <AnnouncementFields
-                            channels={channels}
-                            roles={roles}
-                            nested={true}
-                            formData={formData}
-                        />
-                        <DiscordPreview channels={channels} roles={roles} />
-                    </div>
+            {!available && <p className='col-span-2 text-sm text-red-400'>Could not reach the bot API.</p>}
+            {enabled && available && (
+                <div className='col-span-2 grid lg:grid-cols-2 gap-x-8 gap-y-4'>
+                    <AnnouncementFields
+                        channels={channels}
+                        roles={roles}
+                        nested={true}
+                        eventLinked={!!event}
+                        formData={formData}
+                    />
+                    <DiscordPreview channels={channels} roles={roles} event={event} />
+                    {event && <input type='hidden' name='announcement_event_linked' value='true' />}
+                    {eventId && <input type='hidden' name='announcement_event_id' value={eventId} />}
                 </div>
             )}
-        </div>
+        </>
     )
 }

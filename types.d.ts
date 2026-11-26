@@ -255,6 +255,7 @@ declare global {
         color: string
         interval: string
         time: string | null
+        event_id?: number | null
     }
 
     type PostAnnouncementProps = {
@@ -266,6 +267,7 @@ declare global {
         color: string
         interval: string
         time: string | null
+        event_id?: number | null
         active: true
     }
 
@@ -278,6 +280,7 @@ declare global {
         color: string
         interval: string
         time: string | null
+        event_id?: number | null
         active: true
     }
 

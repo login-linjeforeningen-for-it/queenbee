@@ -80,7 +80,7 @@ function Sort({ tempSort, channels, roles, limit }: {
         roles: roles.length
             ? (
                 <div className='flex flex-wrap gap-1'>
-                    {(a.roles as unknown as string[]).map((roleId, idx) => (
+                    {((a.roles ?? []) as unknown as string[]).map((roleId, idx) => (
                         <RoleRenderer key={idx} roleId={roleId} roles={roles} />
                     ))}
                 </div>

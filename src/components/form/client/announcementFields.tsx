@@ -9,12 +9,14 @@ export default function AnnouncementFields({
     roles,
     defaultValues,
     nested,
+    eventLinked,
     formData
 }: {
     channels: Option[]
     roles: Option[]
     defaultValues?: GetAnnouncementProps
     nested?: boolean
+    eventLinked?: boolean
     formData?: {
         titleNo?: string
         titleEn?: string
@@ -26,6 +28,7 @@ export default function AnnouncementFields({
     }
 }) {
     const { titleNo, titleEn, descriptionNo, descriptionEn, publishDate, publishTime, color } = formData || {}
+    const linked = eventLinked || !!defaultValues?.event_id
 
     const [formValues, setFormValues] = useState({
         title_no: titleNo || defaultValues?.title?.[0] || '',
@@ -124,7 +127,7 @@ export default function AnnouncementFields({
                     onClick={example}
                 />
             </div>}
-            <div className={titleNo || titleEn ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-x-4'}>
+            <div className={titleNo || titleEn || linked ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-x-4'}>
                 <Input
                     name='announcement_title_no'
                     type='text'
@@ -151,7 +154,7 @@ export default function AnnouncementFields({
                 />
             </div>
 
-            <div className={descriptionNo || descriptionEn ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-x-4'}>
+            <div className={descriptionNo || descriptionEn || linked ? 'hidden' : 'grid grid-cols-1 md:grid-cols-2 gap-x-4'}>
                 <Textarea
                     name='announcement_description_no'
                     label='Description (Norwegian)'
@@ -205,30 +208,35 @@ export default function AnnouncementFields({
                 }
                 className='col-span-2'
             />
-            <Switch
-                name='announcement_embed'
-                label='Embed'
-                checked={formValues.embed || false}
-                onChange={(e) =>
-                    setFormValues({
-                        ...formValues,
-                        embed: e.target.checked,
-                    })
-                }
-            />
-            <Input
-                name='announcement_color'
-                type='color'
-                label='Embed color'
-                value={formValues.color}
-                onChange={(e) =>
-                    setFormValues({
-                        ...formValues,
-                        color: e.target.value,
-                    })
-                }
-            />
-            <Input
+            {linked ? <>
+                <input type='hidden' name='announcement_embed' value='on' />
+                {defaultValues?.event_id && <input type='hidden' name='announcement_event_id' value={defaultValues.event_id} />}
+            </> : <>
+                <Switch
+                    name='announcement_embed'
+                    label='Card layout (off = plain text)'
+                    checked={formValues.embed || false}
+                    onChange={(e) =>
+                        setFormValues({
+                            ...formValues,
+                            embed: e.target.checked,
+                        })
+                    }
+                />
+                <Input
+                    name='announcement_color'
+                    type='color'
+                    label='Card color'
+                    value={formValues.color}
+                    onChange={(e) =>
+                        setFormValues({
+                            ...formValues,
+                            color: e.target.value,
+                        })
+                    }
+                />
+            </>}
+            {!linked && <Input
                 name='announcement_interval'
                 type='text'
                 label='Interval (Cron)'
@@ -246,11 +254,11 @@ export default function AnnouncementFields({
                     }
                 }}
                 error={intervalError || undefined}
-            />
+            />}
             <div className={publishDate ? 'hidden' : ''}>
                 <Input
                     name='announcement_publish_date'
-                    label='Publish Date'
+                    label='Send date'
                     type='date'
                     value={formValues.time.split('T')[0]}
                     onChange={(e) => {
@@ -268,7 +276,7 @@ export default function AnnouncementFields({
             <div className={publishTime ? 'hidden' : ''}>
                 <Input
                     name='announcement_publish_time'
-                    label='Publish Time'
+                    label='Send time'
                     type='time'
                     value={toLocalTimeString(formValues.time)}
                     onChange={(e) => {

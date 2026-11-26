@@ -254,27 +254,29 @@ export default function EventFields({
 
     }
 
-    function formatDate(dateString: string) {
-        const d = new Date(dateString)
-        const day = d.getDate().toString().padStart(2, '0')
-        const month = (d.getMonth() + 1).toString().padStart(2, '0')
-        const year = d.getFullYear()
-        return `${day}.${month}.${year}`
+    const location = locations.find(loc => loc.value === formValues.location)
+    const dateTime = (date?: string, time?: string) => date ? `${date}T${time || '00:00'}:00` : null
+    const previewEvent = {
+        id: defaultValues?.id,
+        name_no: formValues.name_no || formValues.name_en || 'Navn på arrangement',
+        name_en: formValues.name_en,
+        description_no: formValues.description_no,
+        description_en: formValues.description_en,
+        informational_no: formValues.informational_no,
+        time_type: formValues.time_type,
+        time_start: dateTime(formValues.start_date, formValues.start_time) ?? new Date().toISOString().slice(0, 19),
+        time_end: dateTime(formValues.end_date || formValues.start_date, formValues.end_time) ?? new Date().toISOString().slice(0, 19),
+        time_signup_release: dateTime(formValues.release_date, formValues.release_time),
+        time_signup_deadline: dateTime(formValues.deadline_date, formValues.deadline_time),
+        link_signup: formValues.link_signup,
+        link_discord: formValues.link_discord,
+        link_stream: formValues.link_stream,
+        image_banner: formValues.image_banner,
+        capacity: formValues.capacity,
+        category: { color: categories.find(category => category.value === formValues.category)?.color },
+        location: location ? { name_no: location.nameNo, name_en: location.nameEn } : null,
+        organization: { name_no: organizations.find(org => org.value === formValues.organization)?.label },
     }
-
-    const locationNameNo = formValues.location ? `**Hvor:** ${locations.find(loc => loc.value === formValues.location)?.nameNo}\n` : ''
-    const locationNameEn = formValues.location ? `**Where:** ${locations.find(loc => loc.value === formValues.location)?.nameEn}\n` : ''
-
-    const timeRange = [formValues.start_time, formValues.end_time].filter(Boolean).join(' - ')
-    const timeInfoNo = formValues.start_date && formValues.end_date ?
-        `**Når:** ${formatDate(formValues.start_date)}${timeRange ? ` kl. ${timeRange}` : ''}` +
-        `${formValues.end_date === formValues.start_date ? '' : ` (${formatDate(formValues.end_date)})`}\n` : ''
-    const timeInfoEn = formValues.start_date && formValues.end_date ?
-        `**When:** ${formatDate(formValues.start_date)}${timeRange ? ` at ${timeRange}` : ''}` +
-        `${formValues.end_date === formValues.start_date ? '' : ` (${formatDate(formValues.end_date)})`}\n` : ''
-
-    const announcementDescriptionNo = `${formValues.description_no}\n\n${locationNameNo}${timeInfoNo}`
-    const announcementDescriptionEn = `${formValues.description_en}\n\n${locationNameEn}${timeInfoEn}`
 
     return (
         <div className='lg:grid lg:grid-cols-2 gap-x-8'>
@@ -720,77 +722,73 @@ export default function EventFields({
                 handleFile={handleFile}
                 showTag={true}
             />
-            <Select
-                name='image_banner'
-                label='Banner Image'
-                options={images}
-                value={formValues.image_banner || ''}
-                onChange={(value) =>
-                    setFormValues({
-                        ...formValues,
-                        image_banner: value as string,
-                    })
-                }
-                className='col-span-2'
-            />
-            <Select
-                name='image_small'
-                label='Small Image'
-                options={images}
-                value={formValues.image_small || ''}
-                onChange={(value) =>
-                    setFormValues({
-                        ...formValues,
-                        image_small: value as string,
-                    })
-                }
-                className='col-span-2'
-            />
+            <div className='col-span-2 grid md:grid-cols-2 gap-x-4'>
+                <Select
+                    name='image_banner'
+                    label='Banner Image'
+                    options={images}
+                    value={formValues.image_banner || ''}
+                    onChange={(value) =>
+                        setFormValues({
+                            ...formValues,
+                            image_banner: value as string,
+                        })
+                    }
+                />
+                <Select
+                    name='image_small'
+                    label='Small Image'
+                    options={images}
+                    value={formValues.image_small || ''}
+                    onChange={(value) =>
+                        setFormValues({
+                            ...formValues,
+                            image_small: value as string,
+                        })
+                    }
+                />
+            </div>
             <h2 className='font-semibold pt-10 pb-4 col-span-2'>Social Links</h2>
-            <Input
-                name='link_facebook'
-                type='text'
-                label='Facebook Link'
-                value={formValues.link_facebook ?? ''}
-                onChange={(e) => setFormValues({
-                    ...formValues,
-                    link_facebook: e.target.value,
-                })}
-                className='col-span-2'
-            />
-            <Input
-                name='link_discord'
-                type='text'
-                label='Discord Link'
-                value={formValues.link_discord ?? ''}
-                onChange={(e) => setFormValues({
-                    ...formValues,
-                    link_discord: e.target.value,
-                })}
-                className='col-span-2'
-            />
-            <Input
-                name='link_stream'
-                type='text'
-                label='Stream Link'
-                value={formValues.link_stream ?? ''}
-                onChange={(e) => setFormValues({
-                    ...formValues,
-                    link_stream: e.target.value,
-                })}
-                className='col-span-2'
-            />
+            <div className='col-span-2 grid md:grid-cols-3 gap-x-4'>
+                <Input
+                    name='link_facebook'
+                    type='text'
+                    label='Facebook Link'
+                    value={formValues.link_facebook ?? ''}
+                    onChange={(e) => setFormValues({
+                        ...formValues,
+                        link_facebook: e.target.value,
+                    })}
+                />
+                <Input
+                    name='link_discord'
+                    type='text'
+                    label='Discord Link'
+                    value={formValues.link_discord ?? ''}
+                    onChange={(e) => setFormValues({
+                        ...formValues,
+                        link_discord: e.target.value,
+                    })}
+                />
+                <Input
+                    name='link_stream'
+                    type='text'
+                    label='Stream Link'
+                    value={formValues.link_stream ?? ''}
+                    onChange={(e) => setFormValues({
+                        ...formValues,
+                        link_stream: e.target.value,
+                    })}
+                />
+            </div>
             <Announce
                 channels={channels}
                 roles={roles}
+                event={previewEvent}
+                eventId={type === 'update' ? defaultValues?.id : undefined}
                 formData={{
-                    titleNo: formValues.name_no,
-                    titleEn: formValues.name_en,
-                    descriptionNo: announcementDescriptionNo,
-                    descriptionEn: announcementDescriptionEn,
                     publishDate: formValues.publish_date,
-                    publishTime: formValues.publish_time,
-                    color: categories.find(category => category.value === formValues.category)?.color || undefined,
+                    publishTime: formValues.publish_time || '00:00',
                 }}
             />
         </div>
