@@ -44,6 +44,19 @@ export default function AnnouncementFields({
     })
 
     const [intervalError, setIntervalError] = useState<string | null>(null)
+    const [sendTouched, setSendTouched] = useState(false)
+    const publishValue = publishDate && publishTime ? `${publishDate}T${publishTime}` : null
+
+    function setSendTime(time: string, cleared: boolean) {
+        if (cleared && publishValue) {
+            setSendTouched(false)
+            setFormValues((prev) => ({ ...prev, time: publishValue }))
+            return
+        }
+
+        setSendTouched(true)
+        setFormValues((prev) => ({ ...prev, time }))
+    }
 
     useEffect(() => {
         if (titleNo || descriptionNo) {
@@ -58,13 +71,13 @@ export default function AnnouncementFields({
     }, [titleNo, titleEn, descriptionNo, descriptionEn])
 
     useEffect(() => {
-        if (publishDate && publishTime) {
+        if (publishDate && publishTime && !sendTouched) {
             setFormValues((prev) => ({
                 ...prev,
                 time: `${publishDate}T${publishTime}`,
             }))
         }
-    }, [publishDate, publishTime])
+    }, [publishDate, publishTime, sendTouched])
 
     useEffect(() => {
         if (color) {
@@ -255,10 +268,10 @@ export default function AnnouncementFields({
                 }}
                 error={intervalError || undefined}
             />}
-            <div className={publishDate ? 'hidden' : ''}>
+            <div className={publishDate && !linked ? 'hidden' : ''}>
                 <Input
                     name='announcement_publish_date'
-                    label='Send date'
+                    label={linked && !sendTouched ? 'Send date (same as publish)' : 'Send date'}
                     type='date'
                     value={formValues.time.split('T')[0]}
                     onChange={(e) => {
@@ -266,17 +279,14 @@ export default function AnnouncementFields({
                         const time =
                             toLocalTimeString(formValues.time) ??
                             '00:00'
-                        setFormValues({
-                            ...formValues,
-                            time: `${date}T${time}`,
-                        })
+                        setSendTime(`${date}T${time}`, !date)
                     }}
                 />
             </div>
-            <div className={publishTime ? 'hidden' : ''}>
+            <div className={publishTime && !linked ? 'hidden' : ''}>
                 <Input
                     name='announcement_publish_time'
-                    label='Send time'
+                    label={linked && !sendTouched ? 'Send time (same as publish)' : 'Send time'}
                     type='time'
                     value={toLocalTimeString(formValues.time)}
                     onChange={(e) => {
@@ -284,10 +294,7 @@ export default function AnnouncementFields({
                         const date =
                             formValues.time.split('T')[0] ??
                             new Date().toISOString().split('T')[0]
-                        setFormValues({
-                            ...formValues,
-                            time: `${date}T${time}`,
-                        })
+                        setSendTime(`${date}T${time}`, !time)
                     }}
                 />
             </div>

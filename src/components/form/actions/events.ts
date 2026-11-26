@@ -76,7 +76,7 @@ export async function createEvent(_: PostFormState, formData: FormData): Promise
                 await postAnnouncement({
                     ...announcementProps,
                     event_id: eventId,
-                    time: addDays(announcementProps.time, i * daysBetween),
+                    time: addDays(announcementProps.time ?? eventProps.time_publish, i * daysBetween),
                     roles: announcementProps.roles?.split(' ') || []
                 })
             }
@@ -96,7 +96,12 @@ export async function updateEvent(_: PutFormState, formData: FormData): Promise<
         const response = await putEvent(id, eventProps)
         if (typeof response === 'object' && await isEnabled(formData)) {
             const announcementProps = await extractAnnouncementProps<PostAnnouncementPropsUnparsed>(formData)
-            await postAnnouncement({ ...announcementProps, event_id: id, roles: announcementProps.roles?.split(' ') || [] })
+            await postAnnouncement({
+                ...announcementProps,
+                event_id: id,
+                time: announcementProps.time ?? eventProps.time_publish,
+                roles: announcementProps.roles?.split(' ') || []
+            })
         }
 
         return response
